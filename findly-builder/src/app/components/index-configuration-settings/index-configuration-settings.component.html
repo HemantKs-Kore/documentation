@@ -30,13 +30,13 @@
                 </div>
              <!-- List of Languages starts  -->
                 <perfect-scrollbar class="table_body_content">
-                    <div *ngFor="let list of addedlanguageList;let i = index" class="table_body row m-0">
+                    <div *ngFor="let list of supportedLanguages;let i = index" class="table_body row m-0">
                                 <div class="col-8 title text-left p-0">  {{list.language}} </div>
                                 <div class="col-1 title text-left p-0"> {{list.code}}  </div>
                                 <div class="col-1">
                                     <div class="action_links text-right">
                                         <!-- <span class="action_link-icon"> <i class="si-pencil-edit"  (click)="editLanguages(i)"></i> </span> -->
-                                        <span class="action_link-icon ml-3"> <i class="si-delete1" (click)="deleteLanguage(i)"></i> </span>
+                                        <span class="action_link-icon ml-3"> <i class="si-delete1" (click)="deleteLanguage(list)"></i> </span>
                                     </div>
                                 </div>
                     </div>
@@ -102,7 +102,7 @@
     <div class="modal-footer">
         <div class="modal-footer-with-selected-count">
             <div class="slected-count">
-                <span class="slected-count-num">{{addedlanguageList.length}}</span> / <span class="slected-count-num">{{languageList.length}}</span> 
+                <span class="slected-count-num">{{supportedLanguages.length}}</span> / <span class="slected-count-num">{{languageList.length}}</span> 
                 {{"index_Settings_selected" | translate}}
             </div>
             <div>

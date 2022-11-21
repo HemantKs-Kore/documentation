@@ -1369,8 +1369,12 @@ export class EndPointsService {
 
     //Api request for seedDAta of Languages Available 
     this.serviceList['get.indexAvailableLanguages'] = {
-      endpoint:  'http://localhost/searchassistapi/findly/seed_data?languages=true' ,
+      endpoint:  this.API_SERVER_URL +'/findly/seed_data?languages=true',
       method: 'get'
+    }
+    this.serviceList['put.indexLanguages'] = {
+      endpoint:  this.API_SERVER_URL +'/findly/stream/:streamId/indexPipeline/:indexPipelineId/settings',
+      method: 'put'
     }
     //Apis for Weights module
 

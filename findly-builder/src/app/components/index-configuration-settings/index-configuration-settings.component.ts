@@ -6,6 +6,7 @@ import { NotificationService } from '@kore.services/notification.service';
 import { AppSelectionService } from '@kore.services/app.selection.service';
 import { WorkflowService } from '@kore.services/workflow.service';
 import { Subscription } from 'rxjs';
+import { ValueConverter } from '@angular/compiler/src/render3/view/template';
 
 
 
@@ -24,37 +25,17 @@ export class IndexConfigurationSettingsComponent implements OnInit {
   queryPipelineId;
   searchLanguages:any = '';
   selectedApp;
+  serachIndexId;
   seedData;
   saveLanguages:boolean = false
   configurationsSubscription : Subscription;
-  addedlanguageList:any = [];
+  supportedLanguages:any = [];
   listOfLanguages:any = [];
   listLanguages:any = [{
     language: "English",
     code: "en"
     }]
-  languageList:any = [
-    {
-      language:'English',
-      code:'en',
-      selected:false
-    },
-    {
-      language:'Korean',
-      code:'ko',
-      selected:false
-    },
-    {
-      language:'Japanese',
-      code:'ja',
-      selected:false
-    },
-    {
-      language:'German',
-      code:'ge',
-      selected:false
-    },
-  ];
+  languageList:any = [];
 
 
   @ViewChild('addLangModalPop') addLangModalPop: KRModalComponent;
@@ -70,10 +51,15 @@ export class IndexConfigurationSettingsComponent implements OnInit {
   ngOnInit(): void {
       this.getAvilableLanguages();
       this.selectedApp = this.workflowService.selectedApp();
-      this.configurationsSubscription = this.appSelectionService.queryConfigSelected.subscribe(res => {
+      this.serachIndexId = this.selectedApp.searchIndexes[0]._id;
       this.indexPipelineId = this.workflowService.selectedIndexPipeline();
       this.queryPipelineId = this.workflowService.selectedQueryPipeline() ? this.workflowService.selectedQueryPipeline()._id : ''
-    })
+      this.supportedLanguages = this.workflowService?.supportedLanguages?.values;
+      this.configurationsSubscription = this.appSelectionService.queryConfigSelected.subscribe(res => {
+        this.indexPipelineId = this.workflowService.selectedIndexPipeline();
+        this.queryPipelineId = this.workflowService.selectedQueryPipeline() ? this.workflowService.selectedQueryPipeline()._id : ''
+        this.supportedLanguages = this.workflowService.supportedLanguages.values;
+      })
   }
   
 // toaster message 
@@ -90,6 +76,13 @@ export class IndexConfigurationSettingsComponent implements OnInit {
 // open pop for add and edit 
   openModalPopup() {
     this.addLangModalPopRef = this.addLangModalPop.open();
+    this.supportedLanguages.forEach(element => {
+      this.languageList.forEach(lang => {
+        if(element.code == lang.code){
+          lang.selected = true;
+        } 
+      }); 
+    });
   }
 
 // close pop for add and edit 
@@ -103,13 +96,13 @@ export class IndexConfigurationSettingsComponent implements OnInit {
     let  url = 'get.indexAvailableLanguages'
     this.service.invoke(url).subscribe(
       res => {
-      console.log(res)
+       this.languageList = res.languages;
       },
       errRes => {
         if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
           this.notificationService.notify(errRes.error.errors[0].msg, 'error');
         } else {
-          this.notificationService.notify('Failed To Add Language', 'error');
+          this.notificationService.notify('Failed To Get Available Languages', 'error');
         }
       }
     );
@@ -117,7 +110,7 @@ export class IndexConfigurationSettingsComponent implements OnInit {
 
   // clearing the seedData
   clearCheckbox(){
-    let arr = [...this.addedlanguageList]
+    let arr = [...this.supportedLanguages]
     let dumyArr = []
     arr.forEach(arrElement => {
       dumyArr.push(arrElement.code)
@@ -136,61 +129,77 @@ export class IndexConfigurationSettingsComponent implements OnInit {
   }
   //add or edit Language
   saveLanguage(){
-        this.saveLanguages = true;
-        if(this.saveLanguages){
-          this.addedlanguageList = []
-          this.languageList.forEach(element => {
-          if(element.selected) this.addedlanguageList.push(element);
-        });
-          this.notificationService.notify('Language Saved Successfully', 'success');
-      }
-        // let queryParams = {
-        //   streamId:this.selectedApp._id,
-        //   indexPipelineId:this.indexPipelineId
-        // }
-        // let payload = {
-        //   languages: {
-        //   enable: true ,
-        //   values: this.addedlanguageList
+        // this.languageList.forEach((element,index) => {
+        //   if(!element.selected){
+        //     this.languageList.splice(index,1)
         //   }
-        //   }
-        // let  url = 'put.indexLanguages'
-        // this.service.invoke(url, queryParams, payload).subscribe(
-        //   res => {
-        //     if(res && this.saveLanguages){
-        //       this.addedlanguageList = []
-        //       this.languageList.forEach(element => {
-        //       if(element.selected) this.addedlanguageList.push(element);
-        //     });
-        //       this.notificationService.notify('Language Saved Successfully', 'success');
-        //   }
-        //   },
-        //   errRes => {
-        //     if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
-        //       this.notificationService.notify(errRes.error.errors[0].msg, 'error');
-        //     } else {
-        //       this.notificationService.notify('Failed To Add Language', 'error');
-        //     }
-        //   }
-        // );
+        // });
+        //this.saveLanguages = true;
+        let queryParams = {
+          streamId:this.selectedApp._id,
+          indexPipelineId:this.indexPipelineId
+        }
+        let payload = {
+            language: {
+              enable: true ,
+              values: this.languageList
+            }
+        }
+        let  url = 'put.indexLanguages'
+        this.service.invoke(url, queryParams, payload).subscribe(
+          res => {
+            this.getIndexPipeline()
+            this.notificationService.notify('Language Saved Successfully', 'success');
+          },
+          errRes => {
+            if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
+              this.notificationService.notify(errRes.error.errors[0].msg, 'error');
+            } else {
+              this.notificationService.notify('Failed To Add Language', 'error');
+            }
+          }
+        );
     this.closeModalPopup();
   }
   //delete language
   deleteLanguage(index){
-    this.addedlanguageList.splice(index,1);
-    this.addedlanguageList.forEach(element => {
-      this.languageList.forEach(data => {
-        if(element.code == data.code){
-          data.selected = true
-        }
-        else{
-          data.selected = false
-        }
-      });
-    });
+   // this.supportedLanguages.splice(index,1);
+    // this.supportedLanguages.forEach(element => {
+    //   this.languageList.forEach(data => {
+    //     if(element.code == data.code){
+    //       data.selected = true
+    //     }
+    //     else{
+    //       data.selected = false
+    //     }
+    //   });
+    // });
     this.saveLanguage()
   }
-
+  //Use a better Apporch so that we can restrict this call for IndexPipline - use Observable
+  getIndexPipeline() {
+    const header: any = {
+      'x-timezone-offset': '-330'
+    };
+    const quaryparms: any = {
+      searchIndexId: this.serachIndexId,
+      offset: 0,
+      limit: 100
+    };
+    this.service.invoke('get.indexPipeline', quaryparms, header).subscribe(res => {
+      res.forEach(element => {
+        if(element._id == this.indexPipelineId){
+          this.supportedLanguages = element.settings.language.values; 
+        }
+      });
+    }, errRes => {
+      if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
+        this.notificationService.notify(errRes.error.errors[0].msg, 'error');
+      } else {
+        this.notificationService.notify('Failed ', 'error');
+      }
+    });
+  }
   ngOnDestroy() {
     this.configurationsSubscription ? this.configurationsSubscription.unsubscribe() : false;
   }
