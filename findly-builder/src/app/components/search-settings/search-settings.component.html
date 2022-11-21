@@ -27,49 +27,46 @@
 
         <!--Presentable component-->
         <ng-container *ngSwitchCase="'presentable'">
-          <app-presentable></app-presentable>
-          <app-list-fields></app-list-fields>
+          <app-presentable [presentabledata]="pipeline.settings.presentable" [selectedcomponent]="selectedComponent"></app-presentable>
         </ng-container>
 
-        <!--Presentable component-->
+        <!--highlight component-->
         <ng-container *ngSwitchCase="'highlighting'">
           <perfect-scrollbar class="page-common-scroll">
-            <app-highlighting></app-highlighting>
-            <app-list-fields></app-list-fields>
+            <app-highlighting [highlightdata]="pipeline.settings.highlight" [selectedcomponent]="selectedComponent"></app-highlighting>
           </perfect-scrollbar>
         </ng-container>
 
-        <!--Presentable component-->
+        <!--Spell correct component-->
         <ng-container *ngSwitchCase="'spell_correction'">
           <perfect-scrollbar class="page-common-scroll">
-            <app-spell-correction></app-spell-correction>
-            <app-list-fields></app-list-fields>
+            <app-spell-correction [spellcorrectdata]="pipeline.settings.spellCorrect" [selectedcomponent]="selectedComponent"></app-spell-correction>
           </perfect-scrollbar>
         </ng-container>
 
-        <!--Presentable component-->
+        <!--search_settings_Snippets_Component component-->
         <ng-container *ngSwitchCase="'snippets'">
           Snippets Component
         </ng-container>
 
-        <!--Presentable component-->
+        <!--search-relevance component-->
         <ng-container *ngSwitchCase="'search_relevance'">
           <perfect-scrollbar class="page-common-scroll">
             <app-search-relevance></app-search-relevance>
           </perfect-scrollbar>
         </ng-container>
 
-        <!--Presentable component-->
+         <!--synonyms component-->
         <ng-container *ngSwitchCase="'synonyms'">
           <app-synonyms></app-synonyms>
         </ng-container>
 
-        <!--Presentable component-->
+         <!--stop-words component-->
         <ng-container *ngSwitchCase="'stop_words'">
           <app-stop-words></app-stop-words>
         </ng-container>
 
-        <!--Presentable component-->
+         <!--bot_actions component-->
         <ng-container *ngSwitchCase="'bot_actions'">
           <div class="bot-actions-block">
             <div class="widget-header-block">
@@ -110,13 +107,13 @@
           </div>
         </ng-container>
 
-        <!--Presentable component-->
+        <!--small_talk component-->
         <ng-container *ngSwitchCase="'small_talk'">
           <!-- Small talk Component -->
           <app-small-talk></app-small-talk>
         </ng-container>
 
-        <!--Presentable component-->
+         <!--custom_configurations component-->
         <ng-container *ngSwitchCase="'custom_configurations'">
           Custom Configuration
         </ng-container>
