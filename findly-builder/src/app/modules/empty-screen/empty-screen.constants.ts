@@ -49,7 +49,13 @@ export const EMPTY_SCREEN = {
   MANAGE: {
     IMG_NAME: 'no-content.svg',
     TITLE_SEARCH_CHANNELS: 'No search results found',
-    DESC_SEARCH_CHANNELS: 'We couldn’t find the channel you are looking for'
+    DESC_SEARCH_CHANNELS: 'We couldn’t find the channel you are looking for',
   },
-
+  MANAGE_CREDENTIALS: {
+    IMG_NAME: 'credentials.svg',
+    TITLE: 'You haven’t configured any credentials yet!',
+    DESC: 'Rule is powerful tool to personalize and fine-tune search results. SearchAssist allows you to define rules based on Search , Page and User-contexts. Rules can also be used for merchandising and promotions.',
+    TITLE_SEARCH: 'No search results found',
+    DESC_SEARCH: 'We couldn’t find the credentials you are looking for'
+  }
 };
