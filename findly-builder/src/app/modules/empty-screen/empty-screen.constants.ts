@@ -67,5 +67,12 @@ export const EMPTY_SCREEN = {
     IMG_NAME: 'search-insight.svg',
     TITLE: 'No invoice log available',
     DESC: 'After subscribing to any of the plans offered, your invoices will appear here'
+  },
+  MANAGE_USAGE_LOGS: {
+    IMG_NAME: 'contract-message.svg',
+    TITLE: 'No usage log available',
+    DESC: 'After subscribing to any of the plans offered, your invoices will appear here',
+    TITLE_SEARCH: 'No results found',
+    DESC_SEARCH: 'You have no listed Teams! Let’s change it...'
   }
 };
