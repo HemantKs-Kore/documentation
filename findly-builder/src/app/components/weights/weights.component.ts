@@ -33,6 +33,7 @@ export class WeightsComponent implements OnInit, OnDestroy
   sliderMax = 10;
   currentEditIndex: any = -1
   fields: any = [];
+  weightsList = [];
   field_name:string;
   searchModel;
   deleteFlag;
@@ -40,6 +41,7 @@ export class WeightsComponent implements OnInit, OnDestroy
   search_FieldName: any = '';
   searching;
   searchField;
+  payloadObj = {};
   searchImgSrc: any = 'assets/icons/search_gray.svg';
   searchFocusIn = false;
   componentType: string = 'configure';
@@ -88,7 +90,7 @@ export class WeightsComponent implements OnInit, OnDestroy
       this.queryPipelineId = this.workflowService.selectedQueryPipeline() ? this.workflowService.selectedQueryPipeline()._id : this.selectedApp.searchIndexes[0].queryPipelineId;
       if (this.queryPipelineId)
       {
-        this.getWeights();
+        this.getListOfweigts();
       }
     }
 
@@ -124,25 +126,18 @@ export class WeightsComponent implements OnInit, OnDestroy
       this.errorToaster(errRes, 'Failed to get fields');
     })
   }
-  prepereWeights()
-  {
-    this.weights = [];
-    if (this.pipeline.weights)
-    {
-      this.pipeline.weights.forEach((element, i) =>
-      {
-        const name = (element.name || '').replace(/[^\w]/gi, '')
+  prepereWeights(){
+    this.weightsList = []
+    if (this.weights){
+      this.weights.forEach((element, i) => {
+        const name = (element.fieldName || '').replace(/[^\w]/gi, '')
         const obj = {
-          name: element.name,
-          desc: element.desc,
-          isField: element.isField,
-          fieldId: element.fieldId,
-          showFieldWarning: element.showFieldWarning,
-          sliderObj: new RangeSlider(0, 10, 1, element.value, name + i,'',true)
+          fieldName: element.fieldName,
+          fieldDataType: element.fieldDataType,
+          fieldId: element._id,
+          sliderObj: new RangeSlider(0, 10, 1,element.weight.value, name + i,'',true)
         }
-        this.weights.push(obj);
-        // console.log("weight noe ", this.weights);
-
+        this.weightsList.push(obj);
       });
     }
     this.loadingContent = false;
@@ -201,23 +196,26 @@ export class WeightsComponent implements OnInit, OnDestroy
         }
       })
   }
-  getWeights()
-  {
+  getWeights(){
     const quaryparms: any = {
-      searchIndexID: this.serachIndexId,
+      streamId: this.selectedApp._id,
       queryPipelineId: this.queryPipelineId,
-      indexPipelineId: this.workflowService.selectedIndexPipeline() || ''
+      indexPipelineId: this.workflowService.selectedIndexPipeline() || '',
+      pageNo: 1,
+      // pageNo: this.pageNumber,
+      noOfRecords: 10,
+      // noOfRecords: this.numberofweigths,
+      isSelected : true
     };
-    this.service.invoke('get.queryPipeline', quaryparms).subscribe(res =>
+    this.service.invoke('get.weightsList', quaryparms).subscribe(res =>
     {
-      this.pipeline = res.pipeline || {};
+      this.weights = res.data || {};
       this.prepereWeights();
       if (!this.inlineManual.checkVisibility('WEIGHTS'))
       {
         this.inlineManual.openHelp('WEIGHTS')
         this.inlineManual.visited('WEIGHTS')
       }
-      // this.mixpanel.postEvent('Enter Weights',{});
     }, errRes =>
     {
       this.loadingContent = false;
@@ -232,8 +230,7 @@ export class WeightsComponent implements OnInit, OnDestroy
     }
     if(weight.sliderObj.default != val){
       weight.sliderObj.default = val;
-      this.sliderChange();
-      this.updatedSliderValue(weight);
+      this.sliderChange(weight);
     }
   }
   editWeight(weight, index)
@@ -354,47 +351,50 @@ export class WeightsComponent implements OnInit, OnDestroy
       this.notificationService.notify('Enter the required fields to proceed', 'error');
     }
   }
-  getWeightsPayload(weights)
+  getWeightsPayload(weight)
   {
     const tempweights = [];
-    weights.forEach(weight =>
-    {
       const obj = {
-        name: weight.name,
+        fieldName: weight.fieldName,
+        fieldDataType: weight.fieldDataType ,
+        fieldId: weight._id,
         value: weight.sliderObj.default,
-        desc: weight.desc,
-        isField: weight.isField,
-        fieldId: weight.fieldId
       }
       tempweights.push(obj);
-    });
     return tempweights
   }
-  sliderChange(){
+  sliderChange(weight){
    if(this.sliderOpen){
     return
    }
    else {
-    const weights = JSON.parse(JSON.stringify(this.weights));
-    this.addOrUpddate(weights,null,'edit');
+    // const weights = JSON.parse(JSON.stringify(this.weights));
+    this.addOrUpddate(weight,null,'edit');
    }
   }
-  addOrUpddate(weights, dialogRef?, type?)
+  addOrUpddate(weight, dialogRef?, type?)
   {
-    weights = weights || this.weights;
+    // weights = weights || this.weightsList;
     const quaryparms: any = {
-      searchIndexId: this.serachIndexId,
+      streamId: this.selectedApp._id,
       queryPipelineId: this.queryPipelineId,
-      indexPipelineId: this.workflowService.selectedIndexPipeline() || ''
+      indexPipelineId: this.workflowService.selectedIndexPipeline() || '',
+      fieldId:weight.fieldId
     };
-    this.pipeline.weights = this.getWeightsPayload(weights);
-    const payload: any = {
-      pipeline: this.pipeline
+    if(type != 'delete'){
+      this.payloadObj  = {
+        weight:{
+          value:weight.sliderObj.default
+        }
+      }
     }
-    this.service.invoke('put.queryPipeline', quaryparms, payload).subscribe(res =>
+    else {
+      this.payloadObj = { }  
+    }
+    const payload = this.payloadObj
+    this.weightsList.push(this.getWeightsPayload(weight));
+    this.service.invoke('put.updateWeight', quaryparms,payload).subscribe(res =>
     {
-      this.currentEditIndex = -1;
-      this.pipeline = res.pipeline || {};
       this.prepereWeights();
       if (type == 'add')
       {
@@ -447,8 +447,8 @@ export class WeightsComponent implements OnInit, OnDestroy
       {
         if (result === 'yes')
         {
-          this.weights.splice(index, 1);
-          this.addOrUpddate(this.weights, dialogRef, 'delete');
+          this.weightsList.splice(index, 1);
+          this.addOrUpddate(record, dialogRef, 'delete');
           dialogRef.close();
         } else if (result === 'no')
         {
@@ -482,16 +482,19 @@ export class WeightsComponent implements OnInit, OnDestroy
   //getting List of Weigths 
   getListOfweigts(){
     const quaryparms: any = {
-      searchIndexID: this.serachIndexId,
+      streamId: this.selectedApp._id,
       queryPipelineId: this.queryPipelineId,
       indexPipelineId: this.workflowService.selectedIndexPipeline() || '',
-      pageNo: this.pageNumber,
-      noOfRecords: this.numberofweigths,
-      isSelected : this.selected
+      pageNo: 1,
+      // pageNo: this.pageNumber,
+      noOfRecords: 10,
+      // noOfRecords: this.numberofweigths,
+      isSelected : true
     };
     this.service.invoke('get.weightsList', quaryparms).subscribe(res =>
       {
-        this.pipeline = res || {}; // list of the weights from the responce
+        this.weights = res.data || {}; // list of the weights from the responce
+        // this.loadingContent = false;
         this.prepereWeights();
       }, errRes =>
       {
