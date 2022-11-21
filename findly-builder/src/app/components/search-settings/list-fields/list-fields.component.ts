@@ -18,6 +18,7 @@ export class ListFieldsComponent implements OnInit {
   @Input() tablefieldvalues;
   @Input() popupfieldvalues;
   @Output() emitRecord = new EventEmitter();
+  @Output() sort=new EventEmitter();
   constructor(
     public dialog: MatDialog
   ) { }
@@ -29,11 +30,96 @@ export class ListFieldsComponent implements OnInit {
   fieldsAr:any = []
   filteredFieldsArr = [];
   modal_open:boolean=false;
+  selectedSort = 'fieldName';
+  componenttype;
+  checksort='asc'
+  isAsc = true;
 
   ngOnInit(): void {
     this.modal_open=false;
     console.log(this.tablefieldvalues);
     console.log(this.popupfieldvalues);
+  }
+  //**Sort icon visibility */
+  getSortIconVisibility(sortingField: string, type: string,component: string) {
+    if(component=="datatable"){
+        switch (this.selectedSort) {
+          case "fieldName": {
+            if (this.selectedSort == sortingField) {
+              if (this.isAsc == false && type == 'down') {
+                return "display-block";
+              }
+              if (this.isAsc == true && type == 'up') {
+                return "display-block";
+              }
+              return "display-none"
+            }
+          }
+          case "fieldDataType": {
+            if (this.selectedSort == sortingField) {
+              if (this.isAsc == false && type == 'down') {
+                return "display-block";
+              }
+              if (this.isAsc == true && type == 'up') {
+                return "display-block";
+              }
+              return "display-none"
+            }
+          }
+        }
+      }
+      else{
+        switch (this.selectedSort) {
+          case "fieldName": {
+            if (this.selectedSort == sortingField) {
+              if (this.isAsc == false && type == 'down') {
+                return "display-block";
+              }
+              if (this.isAsc == true && type == 'up') {
+                return "display-block";
+              }
+              return "display-none"
+            }
+          }
+          case "fieldDataType": {
+            if (this.selectedSort == sortingField) {
+              if (this.isAsc == false && type == 'down') {
+                return "display-block";
+              }
+              if (this.isAsc == true && type == 'up') {
+                return "display-block";
+              }
+              return "display-none"
+            }
+          }
+        }
+      }
+    }
+  sortByApi(sort,component){
+    this.selectedSort = sort;
+    this.componenttype=component
+    if (this.selectedSort !== sort) {
+      this.isAsc = true;
+    } else {
+      this.isAsc = !this.isAsc;
+    }
+    var naviagtionArrow ='';
+    //var checkSortValue= 1;
+    if(this.isAsc){
+      naviagtionArrow= 'up';
+      this.checksort='asc'
+    }
+    else{
+      naviagtionArrow ='down';
+      //checkSortValue = -1;
+      this.checksort='desc'
+    }
+    this.sort.emit({
+      componenttype:this.componenttype,
+      fieldname :this.selectedSort,
+      type : this.checksort
+    });
+    //this.fieldsFilter(null,null,null,null,sort,checkSortValue,naviagtionArrow)
   }
   /** On Perfect Scroll Event Y end */
   onYReachEnd(event){

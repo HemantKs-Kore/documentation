@@ -1318,7 +1318,7 @@ export class EndPointsService {
     //add presentable elements
     this.serviceList['add.presentableFields'] = {
       endpoint: this.API_SERVER_URL +'/findly/stream/:streamId/indexPipeline/:indexPipelineId/queryPipeline/:queryPipelineId/presentable',
-      method: 'PUT'
+      method: 'put'
     }
     //delete Presentable elements
     this.serviceList['delete.presentableFields'] = {
@@ -1337,7 +1337,7 @@ export class EndPointsService {
     //Add Highlight Fields
     this.serviceList['add.highlightFields'] = {
       endpoint: this.API_SERVER_URL +'/findly/stream/:streamId/indexPipeline/:indexPipelineId/queryPipeline/:queryPipelineId/highlights',
-      method: 'PUT'
+      method: 'put'
     }
 
     //delete Highlight Fields
@@ -1357,7 +1357,7 @@ export class EndPointsService {
     //add spell-correct Fields
     this.serviceList['add.spellcorrectFields'] = {
       endpoint: this.API_SERVER_URL +'/findly/stream/:streamId/indexPipeline/:indexPipelineId/queryPipeline/:queryPipelineId/spell-correct',
-      method: 'PUT'
+      method: 'put'
     }
 
      //delete Spell_correct Fields

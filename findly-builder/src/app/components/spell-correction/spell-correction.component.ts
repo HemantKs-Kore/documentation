@@ -47,12 +47,16 @@ export class SpellCorrectionComponent implements OnInit {
     this.serachIndexId = this.selectedApp.searchIndexes[0]._id;
     this.indexPipelineId = this.workflowService.selectedIndexPipeline();
     this.queryPipelineId = this.workflowService.selectedQueryPipeline() ? this.workflowService.selectedQueryPipeline()._id : '';
-    this.getSpellcorrect(false);
+    this.getAllspellcorrectFields()
     this.querySubscription = this.appSelectionService.queryConfigSelected.subscribe(res => {
       this.indexPipelineId = this.workflowService.selectedIndexPipeline();
       this.queryPipelineId = this.workflowService.selectedQueryPipeline() ? this.workflowService.selectedQueryPipeline()._id : ''
-    this.getSpellcorrect(false);
+      this.getAllspellcorrectFields()
    })
+  }
+  getAllspellcorrectFields(){
+    this.getSpellcorrect(true);
+    this.getSpellcorrect(false);
   }
 
   getSpellcorrect(isSelected?){
@@ -70,13 +74,29 @@ export class SpellCorrectionComponent implements OnInit {
     };
     this.service.invoke('get.spellcorrectFields', quaryparms).subscribe(res => {
       this.allspellCorrect = res.data;
-      this.allspellCorrect.forEach(element => {
-        if(element.spellCorrect.value){
-          this.spellcorrect.push(element)
-        }else{
-          this.nonspellcorrect.push(element)
-        }
-      });
+      if(isSelected){
+        this.spellcorrect=[];
+        this.allspellCorrect.forEach(element => {
+          if(element.presentable.value){
+            this.spellcorrect.push(element)
+          }
+        });
+      }
+      else{
+        this.nonspellcorrect=[];
+        this.allspellCorrect.forEach(element => {
+          if(!element.presentable.value){
+            this.nonspellcorrect.push(element)
+          }
+        });
+      } 
+      // this.allspellCorrect.forEach(element => {
+      //   if(element.spellCorrect.value){
+      //     this.spellcorrect.push(element)
+      //   }else{
+      //     this.nonspellcorrect.push(element)
+      //   }
+      // });
     }, errRes => {
       this.notificationService.notify("Failed to get Spellcorrect fields",'error');
     });
@@ -113,7 +133,7 @@ export class SpellCorrectionComponent implements OnInit {
  removeRecord(deleteData){
   const quaryparms: any = deleteData.quaryparms;
   this.service.invoke(deleteData.url, quaryparms).subscribe(res => {
-   this.getSpellcorrect();
+   this.getAllspellcorrectFields();
   }, errRes => {
     this.notificationService.notify("Failed to remove Fields",'error');
   });
@@ -121,7 +141,7 @@ export class SpellCorrectionComponent implements OnInit {
   /** Add to Prescentable */
  addRecords(addData){
   this.service.invoke(addData.url,addData.quaryparms,addData.payload).subscribe(res => {
-    this.getSpellcorrect();
+    this.getAllspellcorrectFields();
     this.notificationService.notify("Field added succesfully",'success');
   }, errRes => {
     this.notificationService.notify("Failed to add Fields",'error');
