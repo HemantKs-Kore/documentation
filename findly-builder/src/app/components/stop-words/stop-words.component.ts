@@ -37,7 +37,6 @@ export class StopWordsComponent implements OnInit, OnDestroy {
   pipeline;
   stopWordsIntiType = 'default'
   createFromScratch;
-  showAddStopWordsContainer: boolean = false;
   subscription: Subscription;
   componentType: string = 'configure';
   submitted: boolean = false;

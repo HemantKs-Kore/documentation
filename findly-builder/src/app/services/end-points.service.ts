@@ -95,6 +95,10 @@ export class EndPointsService {
       endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/train',
       method: 'post'
     };
+    this.serviceList['stopTrain.app'] = {
+      endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/train/stopTrain/:jobId',
+      method: 'put'
+    };
     this.serviceList['get.extracted.pags'] = {
       //endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/content/source/:sourceType/:webDomainId/:contentType?limit=:limit&skip=:skip',
       endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/extract/sources/:webDomainId/content/list?skip=:skip&limit=:limit',
@@ -1361,6 +1365,34 @@ export class EndPointsService {
       endpoint: this.API_SERVER_URL +'/findly/stream/:streamId/indexPipeline/:indexPipelineId/queryPipeline/:queryPipelineId/spell-correct/field/:fieldId',
       method: 'delete'
     }   
+    //Apis for Index settings module 
 
+    //Api request for seedDAta of Languages Available 
+    this.serviceList['get.indexAvailableLanguages'] = {
+      endpoint:  this.API_SERVER_URL +'/findly/seed_data?languages=true',
+      method: 'get'
+    }
+    this.serviceList['put.indexLanguages'] = {
+      endpoint:  this.API_SERVER_URL +'/findly/stream/:streamId/indexPipeline/:indexPipelineId/settings',
+      method: 'put'
+    }
+    //Apis for Weights module
+
+    //API request for getting List of Weights starts
+    this.serviceList['get.weightsList'] = {
+      endpoint: this.API_SERVER_URL +'/findly/stream/:streamId/indexPipeline/:indexPipelineId/queryPipeline/:queryPipelineId/weights?page=:pageNo&limit=:noOfRecords&isSelected=:isSelected',
+      method: 'get'
+    }
+    //API request for updating  Weight
+    this.serviceList['put.updateWeight'] = {
+      endpoint: this.API_SERVER_URL +'/findly/stream/:streamId/indexPipeline/:indexPipelineId/queryPipeline/:queryPipelineId/weights/:fieldId',
+      method: 'put'
+    }
+    //API request for delete  Weight
+    this.serviceList['delete.updateWeight'] = {
+      endpoint: this.API_SERVER_URL +'/findly/stream/:streamId/indexPipeline/:indexPipelineId/queryPipeline/:queryPipelineId/weights/:fieldId',
+      method: 'delete'
+    }
+    //API request for getting List of Weights ends
  }
 }

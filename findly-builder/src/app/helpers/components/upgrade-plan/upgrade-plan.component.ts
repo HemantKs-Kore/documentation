@@ -28,6 +28,8 @@ export class UpgradePlanComponent implements OnInit, OnDestroy {
   contactusSuccessModelPopRef: any;
   changePlanModelPopRef: any;
   confirmUpgradeModelPopRef: any;
+  freePlanUpgradeModelPopRef: any;
+
   validations:boolean = false;
   countriesList:any = []
   search_country = '';
@@ -35,8 +37,8 @@ export class UpgradePlanComponent implements OnInit, OnDestroy {
   termPlan = "Monthly";
   featureTypes: any = [];
   frequentFAQs: any = [];
-  totalPlansData: any;
-  filterPlansData: any;
+  totalPlansData: Array<any>=[];
+  filterPlansData: Array<any>=[];
   showPlanDetails: string = '';
   orderConfirmData: any;
   selectedPlan: any = {};
@@ -72,6 +74,7 @@ export class UpgradePlanComponent implements OnInit, OnDestroy {
   enterpriseForm: any = { name: '', email: '', message: '', phone: '' , company:'',country:''};
   @Input() componentType: string;
   @Output() upgradedEvent = new EventEmitter();
+
   constructor(public dialog: MatDialog,
     private service: ServiceInvokerService,
     private appSelectionService: AppSelectionService,
@@ -81,6 +84,7 @@ export class UpgradePlanComponent implements OnInit, OnDestroy {
     public sanitizer: DomSanitizer,
     private notificationService: NotificationService,
     public localstore: LocalStoreService) { }
+
   @ViewChild('addOverageModel') addOverageModel: KRModalComponent;
   @ViewChild('changePlanModel') changePlanModel: KRModalComponent;
   @ViewChild('choosePlanModel') choosePlanModel: KRModalComponent;
@@ -90,34 +94,40 @@ export class UpgradePlanComponent implements OnInit, OnDestroy {
   @Output() updateBanner = new EventEmitter<{}>();
   @Output() plansData = new EventEmitter<''>();
   @ViewChild(PerfectScrollbarComponent) public directiveScroll: PerfectScrollbarComponent;
+  @ViewChild('freePlanUpgradeModel') freePlanUpgradeModel: KRModalComponent;
+
   ngOnInit(): void {
     this.getAllPlans();
     this.countriesList = this.constantsService.countriesList;
     this.selectedApp = this.workflowService?.selectedApp();
     this.serachIndexId = this.selectedApp?.searchIndexes[0]?._id;
+    this.typeOfPlan();
     this.currentSubsciptionData = this.appSelectionService.currentSubscription.subscribe(res => {
       this.selectedPlan = res?.subscription;
+      const billingUnit = (this.selectedPlan?.billingUnit)?(this.selectedPlan?.billingUnit):'Monthly';
+      this.typeOfPlan(billingUnit);
     });
   }
+
   clearcontent() {
     if ($('#searchBoxId') && $('#searchBoxId').length) {
       $('#searchBoxId')[0].value = "";
       this.search_country = '';
     }
   }
+
   //get plans api
   getAllPlans() {   
-
     this.service.invoke('get.pricingPlans').subscribe(res => {
       this.featureTypes = res?.featureTypes;
       this.frequentFAQs = res?.FAQS;
       this.totalPlansData = res?.plans?.sort((a, b) => { return a.displayOrder - b.displayOrder });
-      this.typeOfPlan("Monthly");
       this.totalPlansData.forEach(data => {
         let dat = Object.values(data.featureAccess);
         data = Object.assign(data, { "featureData": dat });
       });
       this.plansData.emit();
+      this.typeOfPlan();
     }, errRes => {
       if (localStorage.jStorage) {
         if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
@@ -128,6 +138,7 @@ export class UpgradePlanComponent implements OnInit, OnDestroy {
       }
     });
   }
+
   errorToaster(errRes, message) {
     if (errRes && errRes.error && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0].msg) {
       this.notificationService.notify(errRes.error.errors[0].msg, 'error');
@@ -137,6 +148,7 @@ export class UpgradePlanComponent implements OnInit, OnDestroy {
       this.notificationService.notify('Somthing went worng', 'error');
     }
   }
+
   //open popup based on input parameter
   openSelectedPopup(type) {
     if (type === 'choose_plan') {
@@ -152,12 +164,17 @@ export class UpgradePlanComponent implements OnInit, OnDestroy {
     else if (type === 'add_overage') {
       this.overageModal('open');
     }
+    else if(type==='free_upgrade'){
+      this.freePlanUpgradeModelPopRef = this.freePlanUpgradeModel.open();
+    }
   }
+
   //close popup based on input parameter
   closeSelectedPopup(type) {
     if (type === 'choose_plan') {
-      this.termPlan = 'Monthly';
-      this.typeOfPlan("Monthly");
+      const billingUnit = (this.selectedPlan?.billingUnit)?(this.selectedPlan?.billingUnit):'Monthly';
+      this.termPlan = billingUnit;
+      this.typeOfPlan(billingUnit);
       if (this.choosePlanModalPopRef?.close) this.choosePlanModalPopRef.close();
     }
     else if (type === 'payment_gateway') {
@@ -169,7 +186,11 @@ export class UpgradePlanComponent implements OnInit, OnDestroy {
         this.upgradedEvent.emit();
       }
     }
+    else if(type==='free_upgrade'){
+      if(this.freePlanUpgradeModelPopRef?.close) this.freePlanUpgradeModelPopRef.close();
+    }
   }
+
   //close or open confirmUpgradeModel
   closeConfirmUpgradeModal(type,data?){
    if(type==='open'){
@@ -185,12 +206,14 @@ export class UpgradePlanComponent implements OnInit, OnDestroy {
     } 
    }
   }
+
   //hide spinner in payment page
   showHideSpinner() {
     setTimeout(() => {
       this.showLoader = false;
     }, 1500)
   }
+
   //open payment gateway popup
   openPaymentGateway() {
     this.selectedPaymentPage = 'payment_iframe';
@@ -223,11 +246,14 @@ export class UpgradePlanComponent implements OnInit, OnDestroy {
       this.errorToaster(errRes, 'failed');
     });
   }
+
+  //status call using poling method
   poling() {
     this.paymentStatusInterval = setInterval(() => {
       this.getPayementStatus();
     }, 3000)
   }
+
   //payment status api
   getPayementStatus() {
     const queryParams = {
@@ -261,12 +287,14 @@ export class UpgradePlanComponent implements OnInit, OnDestroy {
       this.errorToaster(errRes, 'failed to payment status');
     });
   }
+
   //open contact us popup
-  contactusModel(type) {
+  contactusModel(type,plan?) {
     if (type === 'open') {
       const userInfo = this.localstore.getAuthInfo();
       this.enterpriseForm.name = userInfo.currentAccount.userInfo.fName;
       this.enterpriseForm.email = userInfo.currentAccount.userInfo.emailId;
+      this.enterpriseForm.message = (plan?.billingUnit&&plan?.name!=='Enterprise')?`${plan?.name} Plan(${plan?.billingUnit}) -`:(plan?.name+' Plan -');
       this.contactusModelPopRef = this.contactUsModel.open();
     }
     else if (type === 'close') {
@@ -276,6 +304,7 @@ export class UpgradePlanComponent implements OnInit, OnDestroy {
       this.clearcontent();
     }
   }
+
   //open or close excess modal popup
   openExcessDataPopup(type) {
     if (type === 'open') {
@@ -285,6 +314,7 @@ export class UpgradePlanComponent implements OnInit, OnDestroy {
       if (this.changePlanModelPopRef?.close) this.changePlanModelPopRef.close();
     }
   }
+
   //submitEnterpriseRequest method
   submitEnterpriseRequest() {
     this.btnLoader = true;
@@ -321,7 +351,7 @@ export class UpgradePlanComponent implements OnInit, OnDestroy {
       }
       else if (res.status === 'processing' && res.type === 'upgrade') {
         this.invoiceOrderId = res.transactionId;
-        this.getPayementStatus();
+        this.poling();
       }
       else if (res.status === 'failed' && res.code === 'ERR_FAILED_ACCESS_EXCEEDED') {
         this.featuresExceededUsage = res?.featuresExceededUsage;
@@ -341,6 +371,7 @@ export class UpgradePlanComponent implements OnInit, OnDestroy {
       this.errorToaster(errRes, errRes?.error?.errors[0].code);
     };
   }
+
   //close payment gateway popup
   closePaymentGatewayPopup() {
     if (this.paymentGatewayModelPopRef && this.paymentGatewayModelPopRef.close) {
@@ -350,45 +381,52 @@ export class UpgradePlanComponent implements OnInit, OnDestroy {
       this.paymentGatewayModelPopRef.close();
     }
   }
+
   //select type plan like monthly or yearly
-  typeOfPlan(type) {
+  typeOfPlan(type?) {
+    const billingUnit = (type)?type:(this.selectedPlan?.billingUnit||'Monthly');
     this.filterPlansData = [];
-    this.termPlan = type;
-    for (let data of this.totalPlansData) {
-      if (data?.billingUnit == type || data?.planId === 'fp_free') {
-        this.filterPlansData.push(data);
+    this.termPlan = billingUnit;
+    if(this.totalPlansData.length>0){
+      for (let data of this.totalPlansData) {
+        if (data?.billingUnit == billingUnit || data?.planId === 'fp_free') {
+          this.filterPlansData.push(data);
+        }
       }
-    }
-    let listData = [...this.totalPlansData];
-    this.listPlanFeaturesData = [];
-    let listDataMonthlyFeature = [];
-    listData.forEach(data => {
-      Object.keys(data.featureAccess);
-      Object.values(data.featureAccess);
-      Object.entries(data.featureAccess);
-      /** Pick only the Month Plans */
-      if (data.planId == this.plansIdList.free || data.type == this.plansIdList.standardMonth || data.type == this.plansIdList.enterpriceMonth) {
-        listDataMonthlyFeature.push(Object.entries(data.featureAccess))
-      }
-    })
-    for (let i = 1; i <= listDataMonthlyFeature.length; i++) {
-      if (listDataMonthlyFeature[i]) {
-        for (let j = 0; j < listDataMonthlyFeature[i].length; j++) {
-          if (listDataMonthlyFeature[i][j]) {
-            if (listDataMonthlyFeature[i][j][0] == listDataMonthlyFeature[0][j][0]) { //comapre 3 records with 1st record's Key
-              listDataMonthlyFeature[0][j].push(listDataMonthlyFeature[i][j][1])       // push the values array in 1st record
+      let listData = [...this.totalPlansData];
+      this.listPlanFeaturesData = [];
+      let listDataMonthlyFeature = [];
+      listData.forEach(data => {
+        Object.keys(data.featureAccess);
+        Object.values(data.featureAccess);
+        Object.entries(data.featureAccess);
+        /** Pick only the Month Plans */
+        if (data.planId == this.plansIdList.free || data.type == this.plansIdList.standardMonth || data.type == this.plansIdList.enterpriceMonth) {
+          listDataMonthlyFeature.push(Object.entries(data.featureAccess))
+        }
+      })
+      for (let i = 1; i <= listDataMonthlyFeature.length; i++) {
+        if (listDataMonthlyFeature[i]) {
+          for (let j = 0; j < listDataMonthlyFeature[i].length; j++) {
+            if (listDataMonthlyFeature[i][j]) {
+              if (listDataMonthlyFeature[i][j][0] == listDataMonthlyFeature[0][j][0]) { //comapre 3 records with 1st record's Key
+                listDataMonthlyFeature[0][j].push(listDataMonthlyFeature[i][j][1])       // push the values array in 1st record
+              }
             }
           }
         }
       }
+      this.listPlanFeaturesData = listDataMonthlyFeature;
     }
-    this.listPlanFeaturesData = listDataMonthlyFeature;
   }
+
   //based on choosePlanType in order confirm popup
   choosePlanType(type) {
     let data = this.totalPlansData.filter(plan => plan.name == this.orderConfirmData.name && plan.billingUnit == type);
     this.orderConfirmData = data[0];
+    console.log("this.orderConfirmData",this.orderConfirmData);
   }
+
   //open | close add overage modal
   overageModal(type) {
     if (type === 'open') {
@@ -409,6 +447,7 @@ export class UpgradePlanComponent implements OnInit, OnDestroy {
       if (this.addOverageModalPopRef?.close) this.addOverageModalPopRef.close();
     }
   }
+
   //add overage api
   buyOverage() {
     this.btnLoader = true;
@@ -454,6 +493,14 @@ export class UpgradePlanComponent implements OnInit, OnDestroy {
       this.errorToaster(errRes, 'Downloading Invoice failed');
     });
   }
+
+  //open upgrade plan modal
+  freePlanUpgrade(){
+    this.closeSelectedPopup('free_upgrade');
+    this.openSelectedPopup('choose_plan');
+  }
+
+  //clear all subscriptions in below lifecycle
   ngOnDestroy() {
     this.currentSubsciptionData ? this.currentSubsciptionData.unsubscribe() : false;
   }

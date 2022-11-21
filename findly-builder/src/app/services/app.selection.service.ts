@@ -59,7 +59,7 @@ export class AppSelectionService {
     subject.subscribe(res => {
       this.indexList = res || [];
       if (this.indexList) {
-        //this.workflowService.appQueryPipelines(res);
+        //this.workflowService.getSettings(this.indexList[0].settings);
         let indexPipeline: any = [];
         if (setindex && setindex._id) {
           indexPipeline = _.filter(res, (pipeLine) => {
@@ -172,6 +172,7 @@ export class AppSelectionService {
   }
   selectIndexConfig(config) {
     this.workflowService.selectedIndexPipeline(config._id)
+    this.workflowService.getSettings(config.settings); // check For All Cases.
   }
   selectQueryConfig(config) {
     this.res_length = this.queryList.length;
