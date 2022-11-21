@@ -358,6 +358,10 @@
   content: "\e90a";
   color: #0d6efd;
 }
+.si-instructions-black:before {
+  content: "\e90a";
+  color: #202124;
+}
 .si-delete:before {
   content: "\e90b";
   color: #fff;

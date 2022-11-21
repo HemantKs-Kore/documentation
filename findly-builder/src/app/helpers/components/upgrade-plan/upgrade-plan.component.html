@@ -34,34 +34,34 @@
             <div class="plan-upgrade-block">
               <!-- latest code wrt new prod -->
               <div *ngIf="appSelectionService?.env_dep_type!=='prod'">
-                <button class="btn" [ngClass]="{'current-paln':plan?.name===selectedPlan?.planName}" *ngIf="(plan?.name|lowercase)==='free'" (click)="(plan?.name===selectedPlan?.planName)?null:(selectedPlan?.planName==='Enterprise')?contactusModel('open'):closeConfirmUpgradeModal('open',plan)" placement="right" [ngbTooltip]="(selectedPlan?.planName==='Enterprise')?'Please contact us for any changes in plan':''" [container]='"body"' tooltipClass="metrics_tooltips m-0">{{(plan?.name===selectedPlan?.planName)?'Current Plan':(selectedPlan?.planName==='Enterprise')?'Talk to us':'Choose Plan'}}</button>
-                <button class="btn" [ngClass]="{'current-paln':(plan?.name===selectedPlan?.planName&&selectedPlan?.billingUnit===plan?.billingUnit)}" *ngIf="(plan?.name|lowercase)==='standard'" (click)="((plan?.name===selectedPlan?.planName&&selectedPlan?.billingUnit===termPlan))?null:(selectedPlan?.billingUnit==='Monthly'&&selectedPlan?.planName!=='Enterprise')?closeConfirmUpgradeModal('open',plan):(selectedPlan?.billingUnit==='Yearly'||selectedPlan?.planName==='Enterprise')?contactusModel('open'):[openSelectedPopup('payment_gateway'),orderConfirmData=plan]">{{(plan?.name===selectedPlan?.planName&&selectedPlan?.billingUnit===termPlan)?'Current Plan':(selectedPlan?.billingUnit==='Yearly'||selectedPlan?.planName==='Enterprise')?'Talk to us':'Choose Plan'}}<span class="d-none"><i class="si-right-arrow-large"></i></span></button>
-                <button class="btn" [ngClass]="{'current-paln':plan?.name===selectedPlan?.planName}" *ngIf="['unlimited','enterprise'].includes(plan?.name|lowercase)" (click)="plan?.name===selectedPlan?.planName?null:contactusModel('open')" placement="left" [ngbTooltip]="(plan?.name!==selectedPlan?.planName)?'Please contact us for any changes in plan':''" [container]='"body"' tooltipClass="metrics_tooltips m-0">{{(plan?.name===selectedPlan?.planName)?'Current Plan':'Talk to us'}}</button>
+                <button class="btn" [ngClass]="{'current-paln':plan?.name===selectedPlan?.planName}" *ngIf="(plan?.name|lowercase)==='free'" (click)="(plan?.name===selectedPlan?.planName)?null:(['Enterprise','Standard'].includes(selectedPlan?.planName))?contactusModel('open',plan):closeConfirmUpgradeModal('open',plan)" placement="right" [ngbTooltip]="(selectedPlan?.planName==='Enterprise')?'Please contact us for any changes in plan':''" [container]='"body"' tooltipClass="metrics_tooltips m-0">{{(plan?.name===selectedPlan?.planName)?'Current Plan':(['Enterprise','Standard'].includes(selectedPlan?.planName))?'Talk to us':'Choose Plan'}}</button>
+                <button class="btn" [ngClass]="{'current-paln':(plan?.name===selectedPlan?.planName&&selectedPlan?.billingUnit===plan?.billingUnit)}" *ngIf="(plan?.name|lowercase)==='standard'" (click)="((plan?.name===selectedPlan?.planName&&selectedPlan?.billingUnit===termPlan))?null:(selectedPlan?.billingUnit==='Monthly'&&selectedPlan?.planName!=='Enterprise')?closeConfirmUpgradeModal('open',plan):(selectedPlan?.billingUnit==='Yearly'||selectedPlan?.planName==='Enterprise')?contactusModel('open',plan):[openSelectedPopup('payment_gateway'),orderConfirmData=plan]">{{(plan?.name===selectedPlan?.planName&&selectedPlan?.billingUnit===termPlan)?'Current Plan':(selectedPlan?.billingUnit==='Yearly'||selectedPlan?.planName==='Enterprise')?'Talk to us':'Choose Plan'}}<span class="d-none"><i class="si-right-arrow-large"></i></span></button>
+                <button class="btn" [ngClass]="{'current-paln':plan?.name===selectedPlan?.planName}" *ngIf="['unlimited','enterprise'].includes(plan?.name|lowercase)" (click)="plan?.name===selectedPlan?.planName?null:contactusModel('open',plan)" placement="left" [ngbTooltip]="(plan?.name!==selectedPlan?.planName)?'Please contact us for any changes in plan':''" [container]='"body"' tooltipClass="metrics_tooltips m-0">{{(plan?.name===selectedPlan?.planName)?'Current Plan':'Talk to us'}}</button>
              </div>
               <!-- old code wrt old prod -->              
               <div *ngIf="appSelectionService?.env_dep_type==='prod'">
-               <button class="btn" [ngClass]="{'current-paln':plan?.name===selectedPlan?.planName}" *ngIf="(plan?.name|lowercase)==='free'" (click)="(plan?.name===selectedPlan?.planName)?null:contactusModel('open')" placement="right" [ngbTooltip]="(selectedPlan?.planName==='Enterprise')?'Please contact us to downgrade to standard subscription':''" [container]='"body"' tooltipClass="metrics_tooltips m-0">{{(plan?.name===selectedPlan?.planName)?'Current Plan':'Talk to us'}}</button>
-               <button class="btn" [ngClass]="{'current-paln':(plan?.name===selectedPlan?.planName&&selectedPlan?.billingUnit===plan?.billingUnit)}" *ngIf="(plan?.name|lowercase)==='standard'" (click)="((plan?.name===selectedPlan?.planName&&selectedPlan?.billingUnit===termPlan))?null:contactusModel('open')">{{(plan?.name===selectedPlan?.planName&&selectedPlan?.billingUnit===termPlan)?'Current Plan':'Talk to us'}}<span class="d-none"><i class="si-right-arrow-large"></i></span></button>
-               <button class="btn" [ngClass]="{'current-paln':plan?.name===selectedPlan?.planName}" *ngIf="['unlimited','enterprise'].includes(plan?.name|lowercase)" (click)="plan?.name===selectedPlan?.planName?null:contactusModel('open')">{{(plan?.name===selectedPlan?.planName)?'Current Plan':'Talk to us'}}</button>
+               <button class="btn" [ngClass]="{'current-paln':plan?.name===selectedPlan?.planName}" *ngIf="(plan?.name|lowercase)==='free'" (click)="(plan?.name===selectedPlan?.planName)?null:contactusModel('open',plan)" placement="right" [ngbTooltip]="(selectedPlan?.planName==='Enterprise')?'Please contact us to downgrade to standard subscription':''" [container]='"body"' tooltipClass="metrics_tooltips m-0">{{(plan?.name===selectedPlan?.planName)?'Current Plan':'Talk to us'}}</button>
+               <button class="btn" [ngClass]="{'current-paln':(plan?.name===selectedPlan?.planName&&selectedPlan?.billingUnit===plan?.billingUnit)}" *ngIf="(plan?.name|lowercase)==='standard'" (click)="((plan?.name===selectedPlan?.planName&&selectedPlan?.billingUnit===termPlan))?null:contactusModel('open',plan)">{{(plan?.name===selectedPlan?.planName&&selectedPlan?.billingUnit===termPlan)?'Current Plan':'Talk to us'}}<span class="d-none"><i class="si-right-arrow-large"></i></span></button>
+               <button class="btn" [ngClass]="{'current-paln':plan?.name===selectedPlan?.planName}" *ngIf="['unlimited','enterprise'].includes(plan?.name|lowercase)" (click)="plan?.name===selectedPlan?.planName?null:contactusModel('open',plan)">{{(plan?.name===selectedPlan?.planName)?'Current Plan':'Talk to us'}}</button>
               </div> 
             </div>
             <div class="plan-features-block">
-              <perfect-scrollbar class="paln-overflow-scroll">
-                <div class="plan-feature-desc" [ngClass]="{'font-weight-bold':['standard','free'].includes(plan?.name|lowercase)}"><span class="icon-si"><i class="si-green-check"></i></span>{{['unlimited','enterprise'].includes(plan?.name|lowercase)?plan?.featureAccess?.ingestDocs?.displayText:plan?.featureAccess?.ingestDocs?.fullDisplayText}} <span class="plan-records" *ngIf="['standard','free'].includes(plan?.name|lowercase)">Records</span> </div>
-                <div class="plan-feature-desc" [ngClass]="{'font-weight-bold':['standard','free'].includes(plan?.name|lowercase)}"><span class="icon-si"><i class="si-green-check"></i></span> {{['unlimited','enterprise'].includes(plan?.name|lowercase)?plan?.featureAccess?.searchQueries?.displayText:plan?.featureAccess?.searchQueries?.fullDisplayText}} <span class="plan-records" *ngIf="['standard','free'].includes(plan?.name|lowercase)">Queries/Month</span> </div>
+              <!-- <perfect-scrollbar class="paln-overflow-scroll"> -->
+                <div class="plan-feature-desc" [ngClass]="{'font-weight-bold':['standard','free'].includes(plan?.name|lowercase)}"><span class="icon-si"><i class="si-green-check"></i></span>{{['unlimited','enterprise'].includes(plan?.name|lowercase)?plan?.featureAccess?.ingestDocs?.displayText:plan?.featureAccess?.ingestDocs?.fullDisplayText}} <span class="plan-records" *ngIf="['standard','free'].includes(plan?.name|lowercase)">Documents</span> </div>
+                <div class="plan-feature-desc" [ngClass]="{'font-weight-bold':['standard','free'].includes(plan?.name|lowercase)}"><span class="icon-si"><i class="si-green-check"></i></span> {{['unlimited','enterprise'].includes(plan?.name|lowercase)?plan?.featureAccess?.searchQueries?.displayText:plan?.featureAccess?.searchQueries?.fullDisplayText}} <span class="plan-records" *ngIf="['standard','free'].includes(plan?.name|lowercase)">Queries{{plan?.billingUnit&&'/'+plan?.billingUnit}}</span> </div>
                 <div class="plan-sub-features">
                   <div class="plan-sub-feature-hding" *ngIf="(plan?.name|lowercase)==='free'"><strong>{{"plan_free" | translate}}</strong> {{"plan_includes" | translate}}</div>
                   <div class="plan-sub-feature-hding" *ngIf="['standard','enterprise','unlimited'].includes(plan?.name|lowercase)">{{"plan_everything" | translate}}<strong>{{(plan?.name|lowercase)==='standard'?'Free':'Standard'}}</strong>{{"plan_plus" | translate}}</div>
-                  <ng-container *ngFor="let feature of plan?.featureData|slice:0:((plan?.name|lowercase)==='free'?featureLimit:(plan?.featureData?.length))">
+                  <ng-container *ngFor="let feature of plan?.featureData">
                     <div class="plan-feature-desc" *ngIf="feature?.displayOnBanner"><span class="icon-si"><i class="si-green-check"></i></span> {{(feature?.name)}} </div>
                   </ng-container>
-                  <div class="show-more" (click)="featureLimit=(plan?.featureData?.length);" [ngClass]="{'d-none':(featureLimit!==8||(plan?.name|lowercase)!=='free')}"><span class="icon-si"><i class="si-ellipsis-horizontal"></i></span>{{"plan_show" | translate}}<span class="show-more-count">{{"plan_10" | translate}}</span>{{"plan_more_feature" | translate}}</div>
+                  <!-- <div class="show-more" (click)="featureLimit=(plan?.featureData?.length);" [ngClass]="{'d-none':(featureLimit!==8||(plan?.name|lowercase)!=='free')}"><span class="icon-si"><i class="si-ellipsis-horizontal"></i></span>{{"plan_show" | translate}}<span class="show-more-count">{{"plan_10" | translate}}</span>{{"plan_more_feature" | translate}}</div> -->
                   <div class="plan-sub-feature-hding"><strong>{{(plan?.name|lowercase)==='free'?'Self-Service Support':'Support'}}</strong></div>
                   <div class="plan-feature-desc" *ngIf="(plan?.name|lowercase)==='free'"><span class="icon-si"><i class="si-green-check"></i></span>{{"plan_koreAi_community" | translate}}</div>
                   <div class="plan-feature-desc" *ngIf="(plan?.name|lowercase)==='free'"><span class="icon-si"><i class="si-green-check"></i></span>{{"plan_koreAi_academay" | translate}}</div>
                   <div class="plan-feature-desc" *ngIf="['standard','enterprise','unlimited'].includes(plan?.name|lowercase)"><span class="icon-si"><i class="si-green-check"></i></span>{{plan?.name}}{{"plan_support_upgrade_option" | translate}}</div>
                 </div>
-              </perfect-scrollbar>
+              <!-- </perfect-scrollbar> -->
             </div>
           </div>
         </div>
@@ -83,7 +83,7 @@
             <div class="plan-table-header">{{feature}}</div>
             <div class="row plan-table-body border-btm pad-10-0" *ngFor="let plan of listPlanFeaturesData[0]" [ngClass]="{'d-none':feature!==(plan[1]?.featureType)}">
               <div class="col col-lg-3">
-                <div><span class="border-btm-dasshed">{{plan[1].name}}</span></div>
+                <div><span class="border-btm-dasshed">{{plan[1].desc}}</span></div>
               </div>
               <div class="col col-lg-3">
                 <div *ngIf="plan[1]?.fullDisplayText&&plan[1]?.fullDisplayText!=='-'"><span>{{plan[1]?.fullDisplayText}}</span></div>
@@ -476,5 +476,44 @@
   <div class="modal-footer text-right">
     <button class="kr-sg-button-primary btn_lg" (click)="downgradePlan()" [disabled]="btnLoader"><span class="loader-spin-inside-btn" *ngIf="btnLoader"></span>{{"plan_submit" | translate}}</button>
     <button class="kr-sg-button-secondary btn_lg" (click)="closeConfirmUpgradeModal('close')">{{"sa_cancel" | translate}}</button>
+  </div>
+</kr-modal>
+
+<!--Upgrade modal wrt free Plan-->
+<kr-modal modalType="above-modal-drop" modalClass="modal_popups_ revert-cancellation-popup above-modal-drop-class upgrade-now-plan-modal-popup" #freePlanUpgradeModel>
+  <div class="user-avthar-power">
+    <img src="assets/images\pricing-plan\full-power-plan/fully-upgrade-plan-power.svg" />
+  </div>
+  <div class="modalbody p-0">
+    <div class="modal-close" (click)="closeSelectedPopup('free_upgrade')"><i class="si-close"></i></div>
+    <div class="bg-svg">
+      <img src="assets/images/pricing-plan/full-power-plan/fully-upgrade-plan-bg.svg" />
+    </div>
+    <div class="upgrade-now-plan">
+      
+      <div class="u-n-p-header">Unlock the full power of SearchAssist</div>
+      <div class="u-n-p-desc">File Upload feature is not available in Free Plan. Upgrade now to access File Upload and many more powerful features</div>
+      <div class="plan-features-block">
+        <div class="plan-feature-desc">
+          <span class="icon-si"><i class="si-green-check"></i></span> Access All Connectors
+        </div>
+        <div class="plan-feature-desc">
+          <span class="icon-si"><i class="si-green-check"></i></span> Train using AI - Powered Workbench Stages
+        </div>
+        <div class="plan-feature-desc">
+          <span class="icon-si"><i class="si-green-check"></i></span> Deliver AI - Powered Recommendations
+        </div>
+        <div class="and-more">and more...</div>
+      </div>
+      <div class="upgrade-now-btn-block" (click)="freePlanUpgrade()">
+        <div class="upgrade-now-btn">
+          <div class="btn-iocn">
+            <i class="si-publish"></i>
+          </div>
+          <div class="btn-txt">Upgrade Now</div>
+        </div>
+      </div>
+    </div>
+    
   </div>
 </kr-modal>

@@ -1470,7 +1470,7 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
   //create or cancel entity
   createTag(isPopup, isEdit) {
     const annotatorArray = this.nlpAnnotatorObj.annotator;
-    this.nlpAnnotatorObj = { showEntityPopup: isPopup, isEditPage: isEdit, entities: { entityId: '', entityName: '', entityType: 'index_field', fieldId: '', field_name: '', isEditable: false }, annotator: annotatorArray };
+    this.nlpAnnotatorObj = { showEntityPopup: isPopup, isEditPage: isEdit, entities: { entityId: '', entityName: '', entityType: 'index_field', fieldId: '', field_name: '', isEditable: false }, annotator: annotatorArray, Legends:this.nlpAnnotatorObj.Legends };
   }
   //based on entity type show modal height
   setModalHeight(type) {
@@ -1597,20 +1597,32 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
   }
 
   //delete entity
-  deleteEntity(index, id) {
-    const quaryparms: any = {
-      sidx: this.serachIndexId,
-      queryPipelineId: this.queryPipelineId,
-      fip: this.workflowService.selectedIndexPipeline() || ''
-    };
-    const payload = { entityIds: [id] };
-    this.service.invoke('delete.entities', quaryparms, payload).subscribe(res => {
-      if (res) {
-        this.sys_entities.splice(index, 1);
-      }
-    }, errRes => {
-      this.errorToaster(errRes, 'Failed to get entities');
-    });
+  deleteEntity(event,index, entity) {
+    event.stopImmediatePropagation();
+    if(!this.validateEntityLengend(entity)){
+      const quaryparms: any = {
+        sidx: this.serachIndexId,
+        queryPipelineId: this.queryPipelineId,
+        fip: this.workflowService.selectedIndexPipeline() || ''
+      };
+      const payload = { entityIds: [entity?._id] };
+      this.service.invoke('delete.entities', quaryparms, payload).subscribe(res => {
+        if (res) {
+          this.sys_entities.splice(index, 1);
+        }
+      }, errRes => {
+        this.errorToaster(errRes, 'Failed to get entities');
+      });
+    }
+    else{
+      this.errorToaster('error', 'Entity mapped in sentence,Please unmap to continue delete');
+    }
+  }
+
+  //validate entity exist in legends
+  validateEntityLengend(entity){
+    const isExist = (this.nlpAnnotatorObj.Legends.length>0)?this.nlpAnnotatorObj.Legends.some(item=>item.name===entity?.entityName):false;
+    return isExist;
   }
 
   //create color sentence while click on edit

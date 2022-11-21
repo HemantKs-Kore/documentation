@@ -98,7 +98,7 @@
                 </div>
               </div>
 
-              <button class="btn btn-add-overage" [ngClass]="{'d-none':['free','unlimited','enterprise'].includes(currentSubscriptionPlan?.subscription?.planName|lowercase)}" *ngIf="currentSubscriptionPlan?.overages.length===0; else overageUsage" (click)="selectModal('add_overage')"><span class="pr-2"><i class="si-grow-up-arrow"></i></span>{{"plan_add_overage" | translate}}</button>              
+              <button class="btn btn-add-overage" [ngClass]="{'d-none':['free','standard','unlimited','enterprise'].includes(currentSubscriptionPlan?.subscription?.planName|lowercase)}" *ngIf="currentSubscriptionPlan?.overages.length===0; else overageUsage" (click)="selectModal('add_overage')"><span class="pr-2"><i class="si-grow-up-arrow"></i></span>{{"plan_add_overage" | translate}}</button>              
               <ng-template #overageUsage>
               <div class="tile-plan-utilization plan-overview">
                 <div class="plan-current-and-overage">
@@ -254,14 +254,14 @@
             </div>
             <div class="plan-features-block">
               <perfect-scrollbar class="paln-overflow-scroll">
-                <div class="plan-feature-desc" [ngClass]="{'font-weight-bold':['standard','free'].includes(plan?.name|lowercase)}"><span class="icon-si"><i class="si-green-check"></i></span>{{['unlimited','enterprise'].includes(plan?.name|lowercase)?plan?.featureAccess?.ingestDocs?.displayText:plan?.featureAccess?.ingestDocs?.fullDisplayText}} <span class="plan-records" *ngIf="['standard','free'].includes(plan?.name|lowercase)">{{"plan_records" | translate}}</span> </div>
-                <div class="plan-feature-desc" [ngClass]="{'font-weight-bold':['standard','free'].includes(plan?.name|lowercase)}"><span class="icon-si"><i class="si-green-check"></i></span> {{['unlimited','enterprise'].includes(plan?.name|lowercase)?plan?.featureAccess?.searchQueries?.displayText:plan?.featureAccess?.searchQueries?.fullDisplayText}} <span class="plan-records" *ngIf="['standard','free'].includes(plan?.name|lowercase)">{{"plan_queries_month" | translate}}</span> </div>
+                <div class="plan-feature-desc" [ngClass]="{'font-weight-bold':['standard','free'].includes(plan?.name|lowercase)}"><span class="icon-si"><i class="si-green-check"></i></span>{{['unlimited','enterprise'].includes(plan?.name|lowercase)?plan?.featureAccess?.ingestDocs?.displayText:plan?.featureAccess?.ingestDocs?.fullDisplayText}} <span class="plan-records" *ngIf="['standard','free'].includes(plan?.name|lowercase)">{{"plan_documents" | translate}}</span> </div>
+                <div class="plan-feature-desc" [ngClass]="{'font-weight-bold':['standard','free'].includes(plan?.name|lowercase)}"><span class="icon-si"><i class="si-green-check"></i></span> {{['unlimited','enterprise'].includes(plan?.name|lowercase)?plan?.featureAccess?.searchQueries?.displayText:plan?.featureAccess?.searchQueries?.fullDisplayText}} <span class="plan-records" *ngIf="['standard','free'].includes(plan?.name|lowercase)">{{"plan_queries_month" | translate}}{{currentSubscriptionPlan?.subscription?.billingUnit&&'/'+currentSubscriptionPlan?.subscription?.billingUnit}}</span> </div>
                 <div class="plan-sub-features">
                   <div class="plan-sub-feature-hding">{{"plan_feaure_includes" | translate}}</div>
-                  <ng-container *ngFor="let feature of plan?.featureData|slice:0:featureLimit">
+                  <ng-container *ngFor="let feature of plan?.featureData">
                     <div class="plan-feature-desc" *ngIf="feature?.displayOnBanner"><span class="icon-si"><i class="si-green-check"></i></span> {{(feature?.name)}} </div>
                   </ng-container>
-                  <div class="show-more" [ngClass]="{'d-none':(featureLimit!==6||['standard','enterprise','unlimited'].includes(currentSubscriptionPlan?.subscription?.planName|lowercase))}" (click)="featureLimit=(plan?.featureData?.length);"><span class="icon-si"><i class="si-ellipsis-horizontal"></i></span> Show 10  more features </div>
+                  <!-- <div class="show-more" [ngClass]="{'d-none':(featureLimit!==6||['standard','enterprise','unlimited'].includes(currentSubscriptionPlan?.subscription?.planName|lowercase))}" (click)="featureLimit=(plan?.featureData?.length);"><span class="icon-si"><i class="si-ellipsis-horizontal"></i></span> Show 10  more features </div> -->
                   <div class="plan-sub-feature-hding"><strong>{{(plan?.name|lowercase)==='free'?'Self-Service Support':'Support'}}</strong></div>
                   <div class="plan-feature-desc" *ngIf="(plan?.name|lowercase)==='free'"><span class="icon-si"><i class="si-green-check"></i></span>{{"plan_koreAi_community" | translate}}</div>
                   <div class="plan-feature-desc" *ngIf="(plan?.name|lowercase)==='free'"><span class="icon-si"><i class="si-green-check"></i></span>{{"plan_koreAi_academay" | translate}}</div>

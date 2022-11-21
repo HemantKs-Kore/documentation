@@ -812,7 +812,7 @@
                                     <div class="nlp-field-value">{{(entity?.entityType==='custom')?'':entity?.field_name}}</div>
                                     <div class="nlp-tag-actions">
                                         <span class="nlp-tag-edit" (click)="chooseEntity('add',entity)"><i class="si-pencil-edit"></i></span>
-                                        <span class="nlp-tag-delete" (click)="deleteEntity(i,entity?._id)"><i class="si-delete1"></i></span>
+                                        <span class="nlp-tag-delete" (click)="deleteEntity($event,i,entity)"><i class="si-delete1"></i></span>
                                     </div>
                                 </div>
                             </div>

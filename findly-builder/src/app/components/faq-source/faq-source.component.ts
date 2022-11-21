@@ -819,18 +819,28 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
 
       }
       let array = [];
-      this.extractedResources.map(extractedElement => {
-        this.statusMsgArr.map(statusElement => {
-          let obj = {};
-          if (extractedElement._id === statusElement.metadata.extractionSourceId) {
-            obj = { ...extractedElement, message: statusElement.message }
-            array.push(obj);
-          }
+      // this.extractedResources.map(extractedElement => {
+      //   this.statusMsgArr.map(statusElement => {
+      //     let obj = {};
+      //     if (extractedElement._id === statusElement.metadata.extractionSourceId) {
+      //       obj = { ...extractedElement, message: statusElement.message }
+      //       array.push(obj);
+      //     }
           // else{
           //   obj= extractedElement
           // }
-        })
-      });
+      //   })
+      // });
+    for(let i=0;i<this.extractedResources.length;i++){
+      let obj = {};
+      if(this.extractedResources[i].recentStatus){
+        obj = this.extractedResources[i]
+        array.push(obj)
+      }
+      else{
+            obj= this.extractedResources[i]
+        }
+    }
       this.extractedResources = array;
       this.filterResourcesBack = [...this.extractedResources];
       this.getDyanmicFilterData(searchValue, 'manageExract');
@@ -1394,7 +1404,7 @@ export class FaqSourceComponent implements OnInit, AfterViewInit, OnDestroy {
     this.pollingSubscriber = interval(5000).pipe(startWith(0)).subscribe(() => {
       this.service.invoke('get.job.status', quaryparms).subscribe(res => {
         this.updateSourceStatus(res);
-        this.statusMsgArr = res;
+        //this.statusMsgArr = res;
         // this.getJobStatusForMessages();
         const queuedJobs = _.filter(res, (source) => {
           return ((source.status === 'running') || (source.status === 'queued'));
