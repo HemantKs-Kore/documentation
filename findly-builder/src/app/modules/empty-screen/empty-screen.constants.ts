@@ -1,4 +1,9 @@
 export const EMPTY_SCREEN = {
+  SHARED_APP: {
+    IMG_NAME: 'application-dashboard.svg',
+    TITLE: 'You have no shared apps yet!',
+    DESC: 'Apps shared with you to collborate will be shown here'
+  },
   CONTENT: {
     IMG_NAME: 'no-content.svg',
     TITLE: 'You haven’t added any content data yet!',
