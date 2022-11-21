@@ -20,6 +20,341 @@
 //        padding-right: 10px
 //       }
 //   }
+
+.body-container{
+    padding: 0px 20px 0px 35px;
+        .landing-page-header{
+            padding: 35px 0px 15px 0px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            .widget-header-block{
+                .widget-header{
+                    font-weight: 500;
+                    font-size: 14px;
+                    line-height: 17px;
+                    color: #121314;
+                    padding-bottom: 10px;
+                }
+                .widget-desc{
+                    font-weight: 400;
+                    font-size: 12px;
+                    line-height: 15px;
+                    color: #777A80;
+                }
+            }
+            .landing-page-search{
+                .kr-sg-input-text{
+                    width: 215px;
+                    &.active{
+                        display: block;
+                        width: 215px;
+                    }
+                    .close-icon{
+                        position: absolute;
+                        right: 11px;
+                        top: 7px;
+                        cursor: pointer;
+                        .si-close{
+                            font-size: 10px;
+                            color: #202124;
+                        }
+                    }
+                    .input-search{
+                        border: 1px solid #E4E5E7;                            
+                        border-radius: 4px;
+                        padding-left: 36px;
+                        padding-right: 15px;
+                        font-size: 14px;
+                        &:focus{
+                            border: 1px solid #1372ff;
+                        }
+                        &::placeholder{
+                            color: #BDC1C6;
+                        }
+                    }
+                    .search-icon{
+                        left: 12px;
+                        top: 9px;
+                        position: absolute;
+                        color: #202124;
+                    }
+                }
+                .seach-block{
+                    color: #202124;
+                    font-style: normal;
+                    font-weight: 500;
+                    font-size: 12px;
+                    cursor: pointer;
+                    // margin-right: 30px;
+                    .in-search{
+                        margin-right: 7px;
+                        cursor: pointer;
+                        position: relative;
+                        top: 0px;
+                        .si-search{
+                            font-size: 14px;
+                            position: relative;
+                            top: 2px;
+                            right: 10px;
+                        }
+                    }
+                }
+            }
+        }
+
+        .panel-form-block{
+            padding: 5px 0px 5px 0px;
+            .panel-form-based-on-radio{
+                padding: 20px 0;
+                display: flex;
+                align-items: flex-start;
+                justify-content: space-around;
+                gap: 15px;
+                .form-search-synonym{
+                    // width: 27%;
+                    .kr-sg-input-text{
+                        .input-text{
+                            width: 200px;
+                        }
+                    }
+                }
+                .form-chip-set-synonym{
+                    // width: 63%;
+                    .tags{
+                        .chip-sys-data{
+                            .example-chip-list{
+                                .mat-form-field-wrapper{
+                                    .mat-form-field-flex{
+                                        .mat-form-field-infix{
+                                            mat-chip-list{
+                                                .mat-chip-list-wrapper{
+                                                    max-height: 74px;
+                                                    overflow-y: scroll;
+                                                    mat-chip{
+                                                        &.mat-chip{
+                                                            span{
+                                                                font-weight: 400;
+                                                                font-size: 14px;
+                                                                color: #202124;
+                                                            }
+                                                            mat-icon{
+                                                                .close-icon{
+                                                                    position: relative;
+                                                                    top: -4px;
+                                                                    left: 2px;
+                                                                    .si-close{
+                                                                        font-size: 10px;
+                                                                    }
+                                                                }
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+                .form-add-btn-synonym{
+                    .kr-sg-button-primary{
+                        height: 34px;
+                        .add-icon{
+                            padding-right: 12px;
+                            .si-add-plus{
+                                &::before{
+                                    color: #fff;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        .block-separate-line{
+            border-bottom: 1px solid #E3E4E6;
+          }
+
+          .presentable-table-block{
+         
+            // table css start from here
+            .index-config-lang-table{
+                padding: 15px 0px 25px 0px;
+                .table_data_content{
+                    padding: 0 0px;
+                    text-align: left;
+                    .table_header{
+                        padding: 15px 0px;
+                        border-bottom: 1px solid #E4E5E7;
+                        .title{
+                            padding: 0 0px;
+                            font-style: normal;
+                            font-weight: 500;
+                            font-size: 12px;
+                            line-height: 14px;
+                            text-transform: uppercase;
+                            color: #777A80;
+                            .filter-sort{
+                                .icon-up, .icon-down{
+                                    font-size: 8px;
+                                    color: #202124;
+                                    font-weight: 600;
+                                }
+                            }                
+                        }
+                        .col_{
+                            font-weight: 500;                       
+                            color: #9AA0A6;
+                            font-size: 12px;   
+                            cursor: pointer; 
+                            justify-content: center;          
+                        }
+                    }
+                    .table_body_content{
+                        height: calc(100vh - 395px);
+                        text-align: left;
+                        .table_body{
+                            padding: 15px 0px;
+                            box-shadow: inset 0px -1px 0px #E4E5E7;                        
+                            transition: 0.3s all ease-in;
+                            align-items: center;
+                            &:hover{
+                                background: #F8F9FA;
+                                .action_links{
+                                    visibility: visible;
+                                    .action_link-icon{
+                                        cursor: pointer;
+                                    }
+                                }
+                            }
+                            .table-row-view{
+                                padding-right: 20px;
+                                .synonym-view-data{
+                                    display: flex;
+                                    align-items: center;
+                                    .synonym-name{
+                                    min-width: 120px;
+                                    font-weight: 400;
+                                    font-size: 14px;
+                                    color: #121314;
+                                    }
+                                    .synonym-direction{
+                                        padding: 0 12px;
+                                    }
+                                    .synonym-type-list{
+                                        display: flex;
+                                        align-items: center;
+                                        flex-direction: revert;
+                                        flex-wrap: wrap;
+                                        .synonym-type-list-name{
+                                            background: #EFF0F1;
+                                            color: #202124;
+                                            font-weight: 400;
+                                            font-size: 14px;
+                                            border-radius: 2.5px;
+                                            padding: 6px 10px;
+                                            margin: 2px;
+                                            max-width: 120px;
+                                            overflow: hidden;
+                                            text-overflow: ellipsis;
+                                            white-space: nowrap;
+                                        }
+                                        .synonym-type-list-and-or{
+                                            font-weight: 400;
+                                            font-size: 10px;
+                                            line-height: 12px;
+                                            display: flex;
+                                            align-items: flex-end;
+                                            color: #777A80;
+                                            padding: 0 12px;
+                                        }
+                                    }
+                                }
+                            }
+                            .title{
+                                padding: 0px 0px 0px 0px;
+                                cursor: default;
+                                font-weight: 400;
+                                font-size: 12px;
+                                line-height: 15px;
+                                .Synonym-type-name{
+                                    // padding-left: 12px !important;
+                                }
+                                img{
+                                    cursor: pointer;
+                                }
+                            }
+                            .action_links{
+                                padding: 0px 0px 0px 10px;
+                                visibility: hidden;
+                                .action_link-icon{
+                                    margin-right: 5px;
+                                    &.link-delete{
+                                        color: #DD3646;
+                                        font-size: 12px;
+                                        font-weight: 500;
+                                        line-height: inherit;
+                                    }
+                                }
+                                .field-edit-mode{
+                                    font-size: 10px;
+                                    .action_link-icon{
+                                        margin-right: 5px;
+                                        .si-check{
+                                            &::before{
+                                                color: #0D6EFD;
+                                            }
+                                        }
+                                        .si-close{
+                                            color: #DD3646;
+                                        }
+                                        &.link-delete{
+                                            color: #DD3646;
+                                        }
+                                        &:last-child{
+                                            margin-right: 0px;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    .footer-simulate{
+                        text-align: right;
+                        margin: 30px 0;                    
+                    }
+                }
+            }
+        }
+     
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 .mainLoadingSpinner{
     position: absolute;
     top: 40%;
@@ -304,20 +639,57 @@
                 padding: 0;
                 border: 0;
                 background: #ffff;
+           
                 .mat-chip-list{
+                    .mat-chip-scroll{
+                        min-height: 34px;
+                        max-height: 74px;
+                        .ps{
+                            .ps-content{
+                                display: flex;
+                                flex-direction: row;
+                                flex-wrap: wrap;
+                                align-items: center;
+                            }
+                        }
+                    }
                     .mat-chip-list-wrapper{
-                        border-radius: 3px;
+                        border-radius: 4px;
                         border: solid 1px #BDC1C6;       
                         margin: 0;
                         font-family: Inter !important;
+
                         .mat-input-element{
                             margin: 0;
                             border: 0;
-                            height: 36px;
+                            height: 34px;
                             padding-left: 10px;
                             &:focus{   
                                 border: 0 !important;                             
                                 outline: 0 !important;
+                            }
+                        }
+                        mat-chip{
+                            &.mat-chip{
+                                span{
+                                    font-weight: 400;
+                                    font-size: 14px;
+                                    color: #202124;
+                                    max-width: 120px;
+                                    overflow: hidden;
+                                    text-overflow: ellipsis;
+                                    white-space: nowrap;
+                                }
+                                mat-icon{
+                                    .close-icon{
+                                        position: relative;
+                                        top: -3px;
+                                        left: 2px;
+                                        .si-close{
+                                            font-size: 10px;
+                                        }
+                                    }
+                                }
                             }
                         }
                         .mat-chip{

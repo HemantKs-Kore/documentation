@@ -12,7 +12,7 @@
       </div>
   
       <div class="landing-page-toggle">
-          <label class="kr-sg-toggle with-label" *ngIf="(stopwords && stopwords.length)">
+          <label class="kr-sg-toggle with-label" >
               <input type="checkbox" checked (change)="enableStopWords($event)" [(ngModel)]="enabled">
               <div class="slider">
                   <span class="no">Disable</span>
@@ -21,7 +21,7 @@
           </label>
       </div>
 
-      <div class="block-separate-line"></div>
+      <div class="block-separate-line" *ngIf="(stopwords && stopwords.length)"></div>
     </div>
 
     <!-- <div class="header-sec-stopwords">
@@ -39,7 +39,7 @@
       </div>     
     </div> -->
 
-    <div class="page-sub-headers">
+    <div class="page-sub-headers" *ngIf="(stopwords && stopwords.length)">
       <div class="page-sub-hding">Add Stopwords</div>
       <div class="page-sub-desc">Lorem Ipsum is a dummy text</div>
     </div>
@@ -67,8 +67,8 @@
           <div class="kr-sg-radiobutton">
             <input id="defaultStopWords" maxlength="60" value="default" name="defaultStopWords" [(ngModel)]="stopWordsIntiType" class="radio-custom" type="radio" checked>
             <label for="defaultStopWords" class="radio-custom-label">
-              <div class="label_heading">{{'stopWords_default_stop_words'| translate}}</div>
-              <div class="lable_dec">{{'stopWords_Eg. if,me, I, can, don’t, not, won’t, should, would, isn’t, may, am, etc...'| translate}}</div>
+              <div class="label_heading">{{'Add_defaults'| translate}}</div>
+              <div class="lable_dec">{{'Add_defaults_eg'| translate}}</div>
             </label>
           </div>
         </div>
@@ -83,10 +83,10 @@
         </div>
       </div>
       <div class="text-left">
-        <button class="kr-sg-button-primary btn_lg" (click)="createInit()">{{'stopWords_Continue' | translate}}</button>
+        <button class="kr-sg-button-primary btn_lg" (click)="createInit()">{{'Get_Started' | translate}}</button>
       </div>
       </div>  
-      <ng-container *ngIf="!(stopwords && stopwords.length) && !loadingContent && !createFromScratch">
+      <!-- <ng-container *ngIf="!(stopwords && stopwords.length) && !loadingContent && !createFromScratch">
         <div class="empty_screen_data">
           <perfect-scrollbar class="scoll-empty-screen" *ngIf="!showAddStopWordsContainer">
             <div class="empty-landing-screen">
@@ -106,7 +106,7 @@
             </div>
           </perfect-scrollbar>          
         </div>
-      </ng-container>               
+      </ng-container>                -->
       <ng-container>
       <div class="listingHeader row m-0" *ngIf="stopwords && stopwords.length">
         <div class="col-5 p-0" >
