@@ -190,32 +190,104 @@ export class SpellCorrectionComponent implements OnInit {
   closeContainer(){
     this.more_options=false;
   }
-  maxdecrementValue(){
-    this.max_threshold=this.max_threshold-1;
+  maxdecrementValue(max_val){
+    this.max_threshold=max_val-1;
     if(this.max_threshold < 0){
       this.max_threshold=0;
     }
-    if(this.max_threshold > 0){
+    if(this.max_threshold >= 0){
       const quaryparms:any={
         indexPipelineId:this.workflowService.selectedIndexPipeline(),
         queryPipelineId:this.workflowService.selectedQueryPipeline() ? this.workflowService.selectedQueryPipeline()._id : '',
         searchIndexId:this.serachIndexId
       }
-      
+      const payload:any={
+        settings: {
+          spellCorrect: {
+            maxTypoEdits:this. max_threshold
+        }
+      }
     }
+    this.service.invoke('put.queryPipeline', quaryparms,payload).subscribe(res => {
+      this.spellcorrectdata.maxTypoEdits=res.settings.spellCorrect.maxTypoEdits
+      this.notificationService.notify("updated successfully",'success');
+    }, errRes => {
+      this.notificationService.notify("Failed to update",'error');
+    });
+  }
     
   }
-  maxincrementValue(){
-    this.max_threshold=this.max_threshold+1;
-  }
-  mindecrementValue(){
-    this.min_threshold=this.min_threshold-1;
-    if(this.min_threshold < 0){
-      this.min_threshold=0;
+  maxincrementValue(max_val){
+    this.max_threshold=max_val+1;
+    if(this.max_threshold >= 0){
+      const quaryparms:any={
+        indexPipelineId:this.workflowService.selectedIndexPipeline(),
+        queryPipelineId:this.workflowService.selectedQueryPipeline() ? this.workflowService.selectedQueryPipeline()._id : '',
+        searchIndexId:this.serachIndexId
+      }
+      const payload:any={
+        settings: {
+          spellCorrect: {
+            maxTypoEdits:this.max_threshold
+        }
+      }
     }
+    this.service.invoke('put.queryPipeline', quaryparms,payload).subscribe(res => {
+      this.spellcorrectdata.maxTypoEdits=res.settings.spellCorrect.maxTypoEdits
+      this.notificationService.notify("updated successfully",'success');
+    }, errRes => {
+      this.notificationService.notify("Failed to update",'error');
+    });
+ }
   }
-  minincrementValue(){
-    this.min_threshold=this.min_threshold+1;
+  mindecrementValue(min_val){
+        this.min_threshold=min_val-1;
+        if(this.min_threshold < 0){
+          this.min_threshold=0;
+        }
+        if(this.min_threshold >= 0){
+          const quaryparms:any={
+            indexPipelineId:this.workflowService.selectedIndexPipeline(),
+            queryPipelineId:this.workflowService.selectedQueryPipeline() ? this.workflowService.selectedQueryPipeline()._id : '',
+            searchIndexId:this.serachIndexId
+          }
+          const payload:any={
+            settings: {
+              spellCorrect: {
+                minCharacterThreshold:this. min_threshold
+            }
+          }
+        }
+        this.service.invoke('put.queryPipeline', quaryparms,payload).subscribe(res => {
+          this.spellcorrectdata.minCharacterThreshold=res.settings.spellCorrect.minCharacterThreshold
+          this.notificationService.notify("updated successfully",'success');
+        }, errRes => {
+          this.notificationService.notify("Failed to update",'error');
+        });
+      }
+    }
+  minincrementValue(min_val){
+    this.min_threshold=min_val+1;
+      if(this.min_threshold >= 0){
+        const quaryparms:any={
+          indexPipelineId:this.workflowService.selectedIndexPipeline(),
+          queryPipelineId:this.workflowService.selectedQueryPipeline() ? this.workflowService.selectedQueryPipeline()._id : '',
+          searchIndexId:this.serachIndexId
+        }
+        const payload:any={
+          settings: {
+            spellCorrect: {
+              minCharacterThreshold:this. min_threshold
+          }
+        }
+      }
+      this.service.invoke('put.queryPipeline', quaryparms,payload).subscribe(res => {
+        this.spellcorrectdata.minCharacterThreshold=res.settings.spellCorrect.minCharacterThreshold
+        this.notificationService.notify("updated successfully",'success');
+      }, errRes => {
+        this.notificationService.notify("Failed to update",'error');
+      });
+   }
   }
   ngOnDestroy() {
     this.querySubscription ? this.querySubscription.unsubscribe() : false;
