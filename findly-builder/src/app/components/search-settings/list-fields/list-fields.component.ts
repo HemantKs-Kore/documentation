@@ -66,11 +66,16 @@ export class ListFieldsComponent implements OnInit {
     this.search_value=value
   }
   add(){
-    let record = [];
+    let record = {};
+    let arrayId=[]
     const filteredValues = this.popupfieldvalues.filter(item => item.isChecked);
     filteredValues.forEach(element => {
-      record.push(element._id)      
+      arrayId.push(element._id)      
     }); 
+    record={
+      "fieldIds":arrayId
+    }
+
     this.emitRecord.emit({
       record :record,
       type : 'add'
