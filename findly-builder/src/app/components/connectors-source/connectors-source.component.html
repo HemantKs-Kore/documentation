@@ -122,9 +122,15 @@
                                         <div class="sub-text">{{selectedConnector?.tag}}</div>
                                     </div>
                                 </div>
-                                <div class="header-configuration-data">
-                                    <div class="progress-indicators">
-                                        <div class="indicator-bg"  *ngFor="let item of addConnectorSteps" [ngClass]="{'active-indicator':item.isCompleted}"></div>
+                            </div>
+                            <perfect-scrollbar class="inside-scroll-bar">
+                            <div class="instruction-setup" *ngSwitchCase="'instructions'">
+                                <div class="header-configuration-data mt-0">
+                                    <div class="config-tab">
+                                        <div class="icon-config">
+                                            <i class="si-instructions-black"></i>
+                                        </div>
+                                        <div class="title">{{'connectors_introduction'|translate}}</div>
                                     </div>
                                 </div>
                                 <perfect-scrollbar class="inside-scroll-bar">
@@ -243,14 +249,12 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="authentication-sec" *ngSwitchCase="'authentication'">
-                                    <div class="desc-text">{{'connectors_upon_successful_authentication'|translate}}, {{selectedConnector?.connector_name}} {{'connectors_content_now_captured'|translate}} {{selectedConnector?.connector_name}} {{'connectors_will_synchronize_automatically'|translate}}.</div>
-                                    <div class="connector-brand">
-                                        <div class="c-img">
-                                            <img [src]="selectedConnector?.image">
-                                        </div>
-                                        <div class="c-content-sec">
-                                            <div class="title m-0">{{selectedConnector?.connector_name}}</div>
+                            </div>
+                            <div class="configuration-setup" *ngSwitchCase="'configurtion'">
+                                <div class="header-configuration-data mt-0">
+                                    <div class="config-tab">
+                                        <div class="icon-config">
+                                            <i class="si-instructions-black"></i>
                                         </div>
                                     </div>
                                 </div>

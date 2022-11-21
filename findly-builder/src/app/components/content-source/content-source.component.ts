@@ -24,6 +24,8 @@ import { OnboardingComponentComponent } from 'src/app/components/onboarding-comp
 import { SchedulerComponent } from '../../components/scheduler/scheduler.component';
 import { EMPTY_SCREEN } from 'src/app/modules/empty-screen/empty-screen.constants';
 declare var require: any;
+import { UpgradePlanComponent } from 'src/app/helpers/components/upgrade-plan/upgrade-plan.component';
+declare var require: any
 const FileSaver = require('file-saver');
 @Component({
   selector: 'app-content-source',
@@ -248,6 +250,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
   @ViewChild('addStructuredDataModalPop') addStructuredDataModalPop: KRModalComponent;
   @ViewChild(SliderComponentComponent) sliderComponent: SliderComponentComponent;
   @ViewChild('schedular') schedular: SchedulerComponent;
+  @ViewChild('plans') plans: UpgradePlanComponent;
   @ViewChild(OnboardingComponentComponent, { static: true }) onBoardingComponent: OnboardingComponentComponent;
   templateState = new Subject();
   loadingData: boolean = true;
@@ -315,7 +318,8 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
     this.executionLogStatus = true;
   }
   addNewContentSource(type) {
-    this.showSourceAddition = type;
+    const isFreePlan = (this.appSelectionService?.currentsubscriptionPlanDetails?.subscription?.planName==='Free')?true:false;
+    (isFreePlan&&type==='contentDoc')?this.plans?.openSelectedPopup('free_upgrade'):(this.showSourceAddition = type);
     if (type === 'contentWeb') {
       this.mixpanel.postEvent('Enter Crawl web domain', {});
     }
