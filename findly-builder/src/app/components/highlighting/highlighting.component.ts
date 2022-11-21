@@ -212,16 +212,31 @@ export class HighlightingComponent implements OnInit {
     const payload:any={
       settings: {
         highlight: {
-          enable: event.currentTarget.checked
+          synonymsHighlight: event.currentTarget.checked
       }
    }    
   }
   this.service.invoke('put.queryPipeline', quaryparms,payload).subscribe(res => {
-    this.highlightdata.enable=res.settings.highlight.enable
+    this.highlightdata.synonymsHighlight=res.settings.highlight.enable
     this.notificationService.notify("updated successfully",'success');
   }, errRes => {
     this.notificationService.notify("Failed to update",'error');
   });
+ }
+ else{
+      const payload:any={
+        settings: {
+          highlight: {
+            enable: event.currentTarget.checked
+        }
+    }    
+    }
+    this.service.invoke('put.queryPipeline', quaryparms,payload).subscribe(res => {
+      this.highlightdata.enable=res.settings.highlight.enable
+      this.notificationService.notify("updated successfully",'success');
+    }, errRes => {
+      this.notificationService.notify("Failed to update",'error');
+    });
  }
 }
   ngOnDestroy() {
