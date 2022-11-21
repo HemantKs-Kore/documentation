@@ -71,11 +71,22 @@ export class HighlightingComponent implements OnInit {
     this.getHighlightFields(true);
     this.getHighlightFields(false);
   }
-  getHighlightFields(isSelected?){
+   /**highlight sort */
+   highlightsort(sortobj){
+  console.log(sortobj);
+  if(sortobj.componenttype=="datatable"){
+    this.getHighlightFields(true,sortobj);
+  }
+  else{
+    this.getHighlightFields(false,sortobj);
+  }
+
+ }
+  getHighlightFields(isSelected?,sortobj?){
     const quaryparms: any = {
       isSelected:isSelected,
-      sortField: this.checksort,
-      orderType: this.selectedSort, //desc,
+      sortField: sortobj?.fieldname?.length>0?sortobj.fieldname:"fieldName",
+      orderType: sortobj?.type?.length>0?sortobj.type:'asc', //desc,
       indexPipelineId:this.indexPipelineId,
       streamId:this.selectedApp._id,
       queryPipelineId:this.queryPipelineId,

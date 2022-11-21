@@ -79,7 +79,7 @@
 
     <div class="block-separate-line"></div>
 
-    <app-list-fields [tablefieldvalues]="highlight" [popupfieldvalues]="nonhighlight" (emitRecord)="getrecord($event)"></app-list-fields>
+    <app-list-fields [tablefieldvalues]="highlight" [popupfieldvalues]="nonhighlight" (emitRecord)="getrecord($event)" (sort)="highlightsort($event)"></app-list-fields>
 
 </div>
 

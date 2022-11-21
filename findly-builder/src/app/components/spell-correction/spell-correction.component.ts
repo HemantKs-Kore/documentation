@@ -59,11 +59,23 @@ export class SpellCorrectionComponent implements OnInit {
     this.getSpellcorrect(false);
   }
 
-  getSpellcorrect(isSelected?){
+  spellcorrectsort(sortobj){
+    console.log(sortobj);
+    if(sortobj.componenttype=="datatable"){
+      this.getSpellcorrect(true,sortobj);
+    }
+    else{
+      this.getSpellcorrect(false,sortobj);
+    }
+  
+   }
+  
+
+  getSpellcorrect(isSelected?,sortobj?){
     const quaryparms: any = {
       isSelected:isSelected,
-      sortField: this.checksort,
-      orderType: this.selectedSort, //desc,
+      sortField: sortobj?.fieldname?.length>0?sortobj.fieldname:"fieldName",
+      orderType: sortobj?.type?.length>0?sortobj.type:'asc', //desc,
       indexPipelineId:this.indexPipelineId,
       streamId:this.selectedApp._id,
       queryPipelineId:this.queryPipelineId,
