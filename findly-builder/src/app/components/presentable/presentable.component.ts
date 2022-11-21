@@ -39,15 +39,17 @@ export class PresentableComponent implements OnInit {
     console.log(this.presentabledata);
     this.indexPipelineId = this.workflowService.selectedIndexPipeline();
     this.queryPipelineId = this.workflowService.selectedQueryPipeline() ? this.workflowService.selectedQueryPipeline()._id : '';
-    //this.getPresentableFields(true);
-    this.getPresentableFields(false)
+    this.getAllpresentableFields()
     this.querySubscription = this.appSelectionService.queryConfigSelected.subscribe(res => {
       this.indexPipelineId = this.workflowService.selectedIndexPipeline();
       this.queryPipelineId = this.workflowService.selectedQueryPipeline() ? this.workflowService.selectedQueryPipeline()._id : ''
-      //this.getPresentableFields(true);
-      this.getPresentableFields(false)
+      this.getAllpresentableFields()
    })
  }
+  getAllpresentableFields(){
+    this.getPresentableFields(true);
+    this.getPresentableFields(false);
+  }
  /** Emited Value for Operation (Add/Delete)  */
  getrecord(recordData : any){
   let record = recordData.record;
@@ -75,11 +77,22 @@ export class PresentableComponent implements OnInit {
    recordData.type == 'delete' ? this.removeRecord(deleteData) : this.addRecords(addData)
    
  }
+ /**presentable sort */
+ presentablesort(sortobj){
+  console.log(sortobj);
+  if(sortobj.componenttype=="datatable"){
+    this.getPresentableFields(true,sortobj);
+  }
+  else{
+    this.getPresentableFields(false,sortobj);
+  }
+
+ }
  /** remove fromPresentable */
  removeRecord(deleteData){
   const quaryparms: any = deleteData.quaryparms;
   this.service.invoke(deleteData.url, quaryparms).subscribe(res => {
-   this.getPresentableFields();
+    this.getAllpresentableFields();
   }, errRes => {
     this.notificationService.notify("Failed to remove Fields",'error');
   });
@@ -87,7 +100,7 @@ export class PresentableComponent implements OnInit {
   /** Add to Prescentable */
  addRecords(addData){
   this.service.invoke(addData.url,addData.quaryparms,addData.payload).subscribe(res => {
-   this.getPresentableFields();
+   this.getAllpresentableFields();
    this.notificationService.notify("Field added succesfully",'success');
   }, errRes => {
     this.notificationService.notify("Failed to add Fields",'error');
@@ -96,11 +109,11 @@ export class PresentableComponent implements OnInit {
  }
 
  //** get api for retrieving the presentable Fields */
- getPresentableFields(selected?){
+ getPresentableFields(selected?,sortobj?){
   const quaryparms: any = {
     isSelected:selected,
-    sortField: "fieldName",
-    orderType: this.selectedSort, //desc,
+    sortField: sortobj?.fieldname?.length>0?sortobj.fieldname:"fieldName",
+    orderType: sortobj?.type?.length>0?sortobj.type:'asc', //desc,
     indexPipelineId:this.indexPipelineId,
     streamId:this.selectedApp._id,
     queryPipelineId:this.queryPipelineId,
@@ -111,13 +124,29 @@ export class PresentableComponent implements OnInit {
   };
   this.service.invoke('get.presentableFields', quaryparms).subscribe(res => {
     this.allpresentableFields = res.data;
-    this.allpresentableFields.forEach(element => {
-      if(element.presentable.value){
-        this.presentable.push(element)
-      }else{
-        this.nonPresentable.push(element)
-      }
-    });
+    if(selected){
+      this.presentable=[];
+      this.allpresentableFields.forEach(element => {
+        if(element.presentable.value){
+          this.presentable.push(element)
+        }
+      });
+    }
+    else{
+      this.nonPresentable=[];
+      this.allpresentableFields.forEach(element => {
+        if(!element.presentable.value){
+          this.nonPresentable.push(element)
+        }
+      });
+    }    
+    // this.allpresentableFields.forEach(element => {
+    //   if(element.presentable.value){
+    //     this.presentable.push(element)
+    //   }else{
+    //     this.nonPresentable.push(element)
+    //   }
+    // });
   }, errRes => {
     this.notificationService.notify("Failed to get presentable fields",'error');
   });

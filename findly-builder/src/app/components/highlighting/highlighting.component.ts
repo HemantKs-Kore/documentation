@@ -60,18 +60,33 @@ export class HighlightingComponent implements OnInit {
     this.serachIndexId = this.selectedApp.searchIndexes[0]._id;
     this.indexPipelineId = this.workflowService.selectedIndexPipeline();
     this.queryPipelineId = this.workflowService.selectedQueryPipeline() ? this.workflowService.selectedQueryPipeline()._id : '';
-    this.getHighlightFields(false);
+    this.getAllHighlightFields()
     this.querySubscription = this.appSelectionService.queryConfigSelected.subscribe(res => {
       this.indexPipelineId = this.workflowService.selectedIndexPipeline();
       this.queryPipelineId = this.workflowService.selectedQueryPipeline() ? this.workflowService.selectedQueryPipeline()._id : ''
-      this.getHighlightFields(false);
+      this.getAllHighlightFields()
    })
   }
-  getHighlightFields(isSelected?){
+  getAllHighlightFields(){
+    this.getHighlightFields(true);
+    this.getHighlightFields(false);
+  }
+   /**highlight sort */
+   highlightsort(sortobj){
+  console.log(sortobj);
+  if(sortobj.componenttype=="datatable"){
+    this.getHighlightFields(true,sortobj);
+  }
+  else{
+    this.getHighlightFields(false,sortobj);
+  }
+
+ }
+  getHighlightFields(isSelected?,sortobj?){
     const quaryparms: any = {
       isSelected:isSelected,
-      sortField: this.checksort,
-      orderType: this.selectedSort, //desc,
+      sortField: sortobj?.fieldname?.length>0?sortobj.fieldname:"fieldName",
+      orderType: sortobj?.type?.length>0?sortobj.type:'asc', //desc,
       indexPipelineId:this.indexPipelineId,
       streamId:this.selectedApp._id,
       queryPipelineId:this.queryPipelineId,
@@ -82,13 +97,22 @@ export class HighlightingComponent implements OnInit {
     };
     this.service.invoke('get.highlightFields', quaryparms).subscribe(res => {
       this.allhighlightFields = res.data;
-      this.allhighlightFields.forEach(element => {
-        if(element.highlight.value){
-          this.highlight.push(element)
-        }else{
-          this.nonhighlight.push(element)
-        }
-      });
+      if(isSelected){
+        this.highlight=[];
+        this.allhighlightFields.forEach(element => {
+          if(element.presentable.value){
+            this.highlight.push(element)
+          }
+        });
+      }
+      else{
+        this.nonhighlight=[];
+        this.allhighlightFields.forEach(element => {
+          if(!element.presentable.value){
+            this.nonhighlight.push(element)
+          }
+        });
+      }
     }, errRes => {
       this.notificationService.notify("Failed to get highlight fields",'error');
     });
@@ -173,7 +197,7 @@ export class HighlightingComponent implements OnInit {
  removeRecord(deleteData){
   const quaryparms: any = deleteData.quaryparms;
   this.service.invoke(deleteData.url, quaryparms).subscribe(res => {
-   this.getHighlightFields();
+    this.getAllHighlightFields();
   }, errRes => {
     this.notificationService.notify("Failed to remove Fields",'error');
   });
@@ -181,7 +205,7 @@ export class HighlightingComponent implements OnInit {
   /** Add to Prescentable */
  addRecords(addData){
   this.service.invoke(addData.url,addData.quaryparms,addData.payload).subscribe(res => {
-    this.getHighlightFields();
+    this.getAllHighlightFields();
     this.notificationService.notify("Field added succesfully",'success');
   }, errRes => {
     this.notificationService.notify("Failed to add Fields",'error');
