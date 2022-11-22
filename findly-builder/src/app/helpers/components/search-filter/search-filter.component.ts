@@ -37,7 +37,9 @@ export class SearchFilterComponent implements OnInit {
     if (this.activeClose) {
       this.searchFields = '';
       this.activeClose = false;
+      this.filterFields(this.searchFields)
       //this.getFileds(this.searchFields)
+      
     }
     this.showSearch = !this.showSearch;
   }
