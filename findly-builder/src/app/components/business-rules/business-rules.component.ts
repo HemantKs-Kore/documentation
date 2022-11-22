@@ -141,8 +141,8 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
   entityDefaultColors: any = [{ type: 'system_defined', color: '#135423' }, { type: 'custom', color: '#803C25' }, { type: 'index_field', color: '#381472' }];
   entityFields = { startIndex: 0, endIndex: 0, entityId: '', word: '' };
   entityObj: any = { entities: [], sentence: '', colorSentence: '', isEditable: false, legends:[] };
-  inputSentence: any;
-  selectEditIndex: number = 0;
+  entityEditObj: any = { entities: [], sentence: '', colorSentence: '', isEditable: false, legends:[] };
+  selectEditIndex: number = null;
   nlpAnnotatorObj: any = { showEntityPopup: false, isEditPage: false, entities: { entityId: '', entityName: '', entityType: 'index_field', fieldId: '', field_name: '', isEditable: false }, searchEntity: '', annotator: [], Legends: [] };
   search_field:String='';
   filteredFields:Array<Object>=[];
@@ -271,7 +271,6 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
     this.nlpAnnotatorObj = { showEntityPopup: false, isEditPage: false, entities: { entityId: '', entityName: '', entityType: 'index_field', fieldId: '', field_name: '', isEditable: false }, searchEntity: '', annotator: [], Legends: [] };
     this.entityFields = { startIndex: 0, endIndex: 0, entityId: '', word: '' };
     this.entityObj = { entities: [], sentence: '', colorSentence: '', isEditable: false,legends:[] };
-    this.inputSentence = '';
   }
   setDataForEdit(ruleObj) {
     if (ruleObj && ruleObj.rules && ruleObj.rules.length) {
@@ -1305,80 +1304,67 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
     }
   }
 
+    //click on Entity to select
+    selectEntity(entity) {
+      this.entityFields.entityId = entity?._id;
+      this.saveEntity();
+      const sentence = this.updateColorSentence();
+      // const coloredSentence = this.sanitizer.bypassSecurityTrustHtml(sentence);
+      this.entityObj.colorSentence = sentence;
+      this.nlpAnnotatorObj.showEntityPopup = false;
+      this.getLegends();
+    }
+
+    //save entity or not 
+    saveEntity(){
+      let isPush = false;
+      let entityArray=(this.selectEditIndex)?this.nlpAnnotatorObj.annotator[this.selectEditIndex].entities:this.entityObj.entities;
+      if (entityArray.length > 0) {
+        for (let i = 0; i <= entityArray.length; i++) {
+          if (this.entityFields?.startIndex === entityArray[i]?.startIndex) {
+            entityArray[i].entityId = this.entityFields.entityId;
+            isPush = true;
+          }
+        }
+      }
+      if (isPush === false) entityArray.push(this.entityFields);
+      if(this.selectEditIndex){
+        this.nlpAnnotatorObj.annotator[this.selectEditIndex].entities = entityArray;
+      }
+      else{
+        this.entityObj.entities = entityArray;
+      }
+    }
+
   //detect text is deleting
   eventDeleted(event) {
     if (event?.keyCode === 8 || event?.keyCode === 46) {
       setTimeout(() => {
-        const id = (!this.entityObj.isEditable) ? 'contentText' : ('contentText' + this.selectEditIndex);
-        this.entityObj.sentence = document.getElementById(id).innerText;
         const sentence = this.updateColorSentence();
-        const coloredSentence = this.sanitizer.bypassSecurityTrustHtml(sentence);
-        if (!this.entityObj.isEditable) this.inputSentence = coloredSentence;
-        this.entityObj.colorSentence = coloredSentence;
+        // const coloredSentence = this.sanitizer.bypassSecurityTrustHtml(sentence);
+        this.entityObj.colorSentence = sentence;
         this.getLegends();
-        // this.setCursorPosition(id);
       }, 300)
     }
   }
 
-  // //set cursor position while removing text
-  // setCursorPosition(id) {
-  //   let node = document.getElementById(id);
-  //   node.focus();
-  //   const textNode = node.firstChild;
-  //   let range = document.createRange();
-  //   range.setStart(textNode, index);
-  //   range.setEnd(textNode, index);
-  //   let sel = window.getSelection();
-  //   sel.removeAllRanges();
-  //   sel.addRange(range);
-  // }
-
-
   //fetch index info from appSelectText directive
   getSelectedIndex(index) {
     this.entityFields = { startIndex: 0, endIndex: 0, entityId: '', word: '' };
+    
     this.entityFields.startIndex = index?.start;
     this.entityFields.endIndex = index?.end;
     this.entityFields.word = index?.text;
     this.nlpAnnotatorObj.showEntityPopup = true;
   }
 
-  getSelectedCursorIndex(index){
-    console.log("index",index);
-  }
-
-  //click on Entity to select
-  selectEntity(entity) {
-    const id = (!this.entityObj.isEditable) ? 'contentText' : ('contentText' + this.selectEditIndex);
-    this.entityObj.sentence = document.getElementById(id).innerText;
-    let isPush = false;
-    this.entityFields.entityId = entity?._id;
-    if (this.entityObj.entities.length > 0) {
-      for (let i = 0; i <= this.entityObj.entities.length; i++) {
-        if (this.entityFields?.startIndex === this.entityObj?.entities[i]?.startIndex) {
-          this.entityObj.entities[i].entityId = this.entityFields.entityId;
-          isPush = true;
-        }
-      }
-    }
-    if (isPush === false) this.entityObj.entities.push(this.entityFields);
-    this.inputSentence = '';
-    const sentence = this.updateColorSentence();
-    const coloredSentence = this.sanitizer.bypassSecurityTrustHtml(sentence);
-    if (!this.entityObj.isEditable) {
-      this.inputSentence = coloredSentence;
-    }
-    this.entityObj.colorSentence = coloredSentence;
-    this.nlpAnnotatorObj.showEntityPopup = false;
-    this.getLegends();
-  }
-
   //add color sentence to original sentence
   updateColorSentence() {
     let entityArray = [];
-    let total_entities: any = this.getUniqueListBy(this.entityObj.entities, 'startIndex');
-    total_entities = this.removeEntities(this.entityObj);
+    const orgSentence = (this.selectEditIndex)?this.nlpAnnotatorObj.annotator[this.selectEditIndex].sentence:this.entityObj.sentence;
+    const entityObj =   (this.selectEditIndex)? this.nlpAnnotatorObj.annotator[this.selectEditIndex]:this.entityObj;
+    let total_entities: any = this.getUniqueListBy(entityObj.entities, 'startIndex');
+    total_entities = this.removeEntities(entityObj);
     this.entityObj.entities = total_entities;
     if (total_entities.length > 0) {
       for (let i = 0; i < total_entities.length; i++) {
@@ -1387,17 +1373,16 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
         const endIndex = total_entities[i].endIndex;
         const entity = this.sys_entities.filter(item => item._id === total_entities[i].entityId);
         const applyColor = this.entityDefaultColors.filter(item => item.type === entity[0].entityType);
-        sentence = `<span contenteditable="false" style="font-weight:bold;color:${applyColor[0].color}">` + this.entityObj.sentence.substring(startIndex, endIndex) + '</span>'
+        sentence = `<span contenteditable="false" style="font-weight:bold;color:${applyColor[0].color}">` + orgSentence.substring(startIndex, endIndex) + '</span>'
         entityArray.push([startIndex, endIndex, sentence]);
       }
-      const sentence = this.getSentenceByEntity(entityArray, this.entityObj.sentence);
+      const sentence = this.getSentenceByEntity(entityArray, orgSentence);
       return sentence;
     }
     else {
       entityArray = [];
-      return this.entityObj.sentence;
+      return orgSentence;
     }
-
   }
 
   //remove entities if word not matched with sentence
@@ -1450,7 +1435,6 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
         $("#contentText")[0].style.borderColor='';
       }
       this.updateLegendAnnotators();
-      this.inputSentence = '';
       this.entityObj = { entities: [], sentence: '', colorSentence: '', isEditable: false,legends:[] };
       this.entityFields = { startIndex: 0, endIndex: 0, entityId: '', word: '' };
     }
@@ -1640,7 +1624,7 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
   editAnnotatorSentence(index, annotator) {
     annotator.isEditable = true;
     this.selectEditIndex = index;
-    this.entityObj = annotator;
+    this.entityEditObj = annotator;
     this.updateLegendAnnotators();
   }
 
