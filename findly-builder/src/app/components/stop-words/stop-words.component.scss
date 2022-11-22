@@ -161,10 +161,16 @@
         border-radius: 4px;
         padding: 10px 15px 10px 15px;
         margin: 0 30px;
+        &.stop-words-no-border{
+            border: 0px solid #E3E4E6;
+            border-radius: 4px;
+            padding: 25px 15px 0px 5px;
+            margin: 0 30px;
+        }
         .addStopWordsBlock{     
             margin-bottom: 8px;       
            .kr-sg-input-text{
-               width: 370px;
+               width: 285px;
                display: inline-block;
                .label-text{
                     margin-bottom: 12px;
@@ -271,11 +277,13 @@
             .kr-sg-input-search{
                 width: 215px;
                 position: relative;
+                margin-right: 10px;
                 .close-icon{
                     position: absolute;
                     right: 11px;
-                    top: 12px;
+                    top: 8px;
                     cursor: pointer;
+                    font-size: 10px;
                 }
                 .input-search{
                     border: 1px solid #E4E5E7;                            
@@ -290,9 +298,28 @@
                         color: #BDC1C6;
                     }
                 }
-            } 
+            }
+            .seach-block{
+                color: #202124;
+                font-style: normal;
+                font-weight: 500;
+                font-size: 14px;
+                cursor: pointer;
+                .in-search{
+                    margin-right: 7px;
+                    cursor: pointer;
+                    position: relative;
+                    top: 0px;
+                    .si-search{
+                        font-size: 14px;
+                        position: relative;
+                        top: 2px;
+                        right: 10px;
+                    }
+                }
+            }
             .searchBlock{   
-                margin-right: 20px;
+                margin-right: 15px;
                 cursor: pointer;
                 .label_txt{
                     font-weight: 400;
@@ -315,6 +342,38 @@
                     margin: 0 12px 0 0;
                 }
             }
+            .kr-sg-dropdowns{
+                &.exportdropdown {
+                    .dropdown {
+                        .dropdown-toggle{
+                            .elipse-span{
+                                display: flex;
+                                width: 20px;
+                                height: 20px;
+                                text-align: center;
+                                align-items: center;
+                                justify-content: center;
+                                &:hover{
+                                    background: #EFF0F1;
+                                    padding: 3px;
+                                    border-radius: 50px;
+                                }
+                            }
+                        }
+                    }
+                }
+                &.show{
+                    .dropdown {
+                        .dropdown-toggle{
+                            .elipse-span{
+                                background: #EFF0F1;
+                                padding: 3px;
+                                border-radius: 50px;
+                            }
+                        }
+                    }
+                }
+            }
         }
         .table-scroll-perfect-synonyms{
             height: calc(100vh - 455px);
@@ -334,6 +393,13 @@
                     .deleteTag{
                         margin: 0 5px 0 10px;
                         cursor: pointer;
+                        .span-close-icon{ 
+                            font-size: 8px;
+                            color: #5F6368;
+                            font-weight: 500;
+                            position: relative;
+                            top: 0px;
+                        }
                     }
                 }
             }
@@ -364,4 +430,24 @@
 		background-color: rgb(255, 255, 255);
 		border-color: rgb(221, 54, 70);
 	}
+}
+
+.dropdown{
+    .dropdown-menu{
+        &.faq-filter-add{
+            .restoreDefaults{
+                &.clear-all-btn{
+                    color: #DD3646;
+                    .li-icon-span{
+                        color: #DD3646;
+                    }
+                }
+                .li-icon-span{
+                    padding: 0 10px 0 0;
+                    color: #202124;
+                    font-size: 10px;
+                }
+            }
+        }
+    }
 }
