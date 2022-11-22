@@ -10,6 +10,7 @@ import { ActivatedRoute } from '@angular/router';
 import { AuthService } from '@kore.services/auth.service';
 import { ɵangular_packages_platform_browser_dynamic_platform_browser_dynamic_a } from '@angular/platform-browser-dynamic';
 import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
+import { EMPTY_SCREEN } from 'src/app/modules/empty-screen/empty-screen.constants';
 declare const $: any;
 @Component({
   selector: 'app-settings',
@@ -17,6 +18,7 @@ declare const $: any;
   styleUrls: ['./settings.component.scss']
 })
 export class SettingsComponent implements OnInit {
+  emptyScreen = EMPTY_SCREEN.MANAGE;
   slider = 0;
   refId = "";
   botID = '';

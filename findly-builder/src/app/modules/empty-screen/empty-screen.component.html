@@ -1,0 +1,15 @@
+<div class="empty-screen-wrapper">
+  <img src="assets/images/empty-screen/{{ imgName }}" alt="Empty Screen" />
+  <h2 class="empty-title">
+    {{ title }}
+  </h2>
+  <p class="desc-text" #ref>
+    <ng-content></ng-content>
+
+    <ng-container *ngIf="!ref.children.length">
+      {{ desc }}
+    </ng-container>
+  </p>
+
+  <ng-content select=".action-buttons"></ng-content>
+</div>

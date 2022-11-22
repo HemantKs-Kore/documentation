@@ -24,7 +24,15 @@
 
   <ng-container *ngIf="!linkedBotID && !loadingContent && !loading">
     <perfect-scrollbar class="empty-scroll">
-    <div  class="empty-landing-screen">
+      <app-empty-screen [title]="emptyScreen.TITLE" [desc]="emptyScreen.DESC" [imgName]="emptyScreen.IMG_NAME">
+        <div class="action-buttons">
+          <button class="kr-sg-button-primary btn_lg" (click)="openBotsModalElement()">
+            <i class="si-bot"></i>
+            {{'botAction_link_a_bot' | translate}}
+          </button>
+        </div>
+      </app-empty-screen>
+    <!-- <div  class="empty-landing-screen">
       <div class="img-block" *ngIf="!emptyItems"><img class="action_icon" (load)="imageLoad()" src="assets/images/botactions-empty.png"></div>
       <ng-container *ngIf="loadImageText" >
           <div class="empty-title">{{'botAction_bot_actions' | translate}}</div>
@@ -40,7 +48,7 @@
           <div class="desc-text">{{'botAction_your_search_query_doesnot_match_with_any_record' | translate}}</div>
       </ng-container>
 
-  </div>
+  </div> -->
   </perfect-scrollbar>
   </ng-container>
 
@@ -202,7 +210,7 @@
           </div>
         </div>
       </div>
-      <ng-container *ngIf="( linkedBotTasks && linkedBotTasks.length )">
+      <ng-container *ngIf="( linkedBotTasks && linkedBotTasks.length ); else noBotTasks">
         <perfect-scrollbar class="scroll-task-data">
           <div class="table-body-content-task">
             <div class="data-container-sec row col-12" [ngClass]="{'checked-item':selcectionObj.selectedItems[task._id]}" *ngFor="let task of linkedBotTasks  | filter: [ searchTasks, 'name']; let i = index;">
@@ -245,6 +253,10 @@
           </div>
         </perfect-scrollbar>  
       </ng-container>
+      <ng-template #noBotTasks>
+        <app-empty-screen [title]="emptyScreen.TITLE_SEARCH" [desc]="emptyScreen.DESC_SEARCH" [imgName]="emptyScreen.IMG_NAME">
+        </app-empty-screen>
+      </ng-template>
     </div>
   </ng-container>
 
