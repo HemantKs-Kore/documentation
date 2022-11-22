@@ -34,6 +34,7 @@ export class HighlightingComponent implements OnInit {
    isSearchable:boolean=true;
    page:number=0;
    limit:number=10;
+   searchValue='';
    allhighlightFields : any = [];
    highlight: any=[];
    nonhighlight: any=[];
@@ -82,6 +83,16 @@ export class HighlightingComponent implements OnInit {
   }
 
  }
+   //**highlight search function */
+   highlightsearch(obj){
+    this.searchValue=obj.searchvalue;
+    if(obj.componenttype=="datatable"){
+      this.getHighlightFields(true)
+    }  
+    else{
+      this.getHighlightFields(false);
+    }
+   }
   getHighlightFields(isSelected?,sortobj?){
     const quaryparms: any = {
       isSelected:isSelected,
@@ -93,7 +104,7 @@ export class HighlightingComponent implements OnInit {
       isSearchable:this.isSearchable,
       page:0,
       limit:this.limit,
-      searchKey:''
+      searchKey:this.searchValue?this.searchValue:''
     };
     this.service.invoke('get.highlightFields', quaryparms).subscribe(res => {
       this.allhighlightFields = res.data;

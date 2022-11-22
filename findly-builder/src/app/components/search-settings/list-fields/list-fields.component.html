@@ -7,7 +7,7 @@
                {{"fields_add_field" |translate}}</div>
         </div>
         <!-- Search -->
-        <app-search-filter (searchkey)="getsearchvalue($event)"></app-search-filter>
+        <app-search-filter (searchkey)="getsearchvalue($event,'datatable')"></app-search-filter>
         <!-- Search ends-->
         <!-- <div class="pt-search" id="pt-search">
             <div class="kr-sg-input-inline-search" id="inline-search">                               
@@ -49,7 +49,7 @@
             
             <!-- Table Records/Body -->
             <perfect-scrollbar class="table_body_content" id="sa_table_body_ps" (psYReachStart)="onYReachStart($event)" (psYReachEnd)="onYReachEnd($event)">
-                        <div class="table_body row m-0" *ngFor="let fields of tablefieldvalues | filter : [search_value, 'fieldName'];let i = index" >
+                        <div class="table_body row m-0" *ngFor="let fields of tablefieldvalues;let i = index" >
                      
                             <div class="col-5 title text-left text-truncate" title="">
                                 {{fields.fieldName}}
@@ -85,7 +85,7 @@
     <ng-container>
         
             <div class="modal-body">
-                <app-search-filter (searchkey)="getsearchvalue($event)"></app-search-filter>
+                <app-search-filter (searchkey)="getsearchvalue($event,'addFieldModalPop')"></app-search-filter>
                 <div class="index-config-lang-table" id="sa_index_config_lang_table">
                     <div class="table_data_content">
                         <div class="table_header row m-0" id="sa_table_data_content">
@@ -95,20 +95,20 @@
                             <div class="col_ col-6 title d-flex align-items-center justify-content-start p-0">
                                 <span class="d-flex align-items-center flex-column mr-2 filter-sort" id="sa_filter_sort" (click)="sortByApi('fieldName','addpopup')">
                                     <i class="si-chev-up icon-up" [ngClass]="getSortIconVisibility('fieldName', 'up','addpopup')" id="sa_icon_up_2"></i>
-                                    <i class="si-chev-down icon-down" [ngClass]="getSortIconVisibility('fieldName', 'up','addpopup')" id="sa_icon_up_3"></i>
+                                    <i class="si-chev-down icon-down" [ngClass]="getSortIconVisibility('fieldName', 'down','addpopup')" id="sa_icon_up_3"></i>
                                 </span>
                                 {{"search_settings_field_name_caps" |translate}}
                             </div>
                             <div class="col_ col-3 title d-flex align-items-center justify-content-start p-0" id="sa_title" >
                                 <span class="d-flex align-items-center flex-column mr-2 filter-sort" (click)="sortByApi('fieldDataType','addpopup')" id="filter-sort-1">
                                     <i class="si-chev-up icon-up" [ngClass]="getSortIconVisibility('fieldDataType', 'up','addpopup')" id="sa_icon_up_4"></i>
-                                    <i class="si-chev-down icon-down" [ngClass]="getSortIconVisibility('fieldDataType', 'up','addpopup')" id="sa_icon_up_5"></i>
+                                    <i class="si-chev-down icon-down" [ngClass]="getSortIconVisibility('fieldDataType', 'down','addpopup')" id="sa_icon_up_5"></i>
                                 </span>
                                 {{"search_settings_type" |translate}}
                             </div>
                         </div>
                         <perfect-scrollbar class="table_body_content" id="sa_table_body">
-                                    <div class="table_body row m-0" *ngFor="let fields of popupfieldvalues | filter : [search_value, 'fieldName'];let i = index" >
+                                    <div class="table_body row m-0" *ngFor="let fields of popupfieldvalues;let i = index" >
                                         <div class="col-3">
                                             <div class="kr-sg-checkbox" id="sa_checkbox" >
                                                 <input id="{{ fields._id }}"  class="checkbox-custom" type="checkbox" (click)="addRecord(fields,$event)">

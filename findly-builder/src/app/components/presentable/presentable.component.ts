@@ -22,6 +22,7 @@ export class PresentableComponent implements OnInit {
   page:number=0;
   limit:number=10;
   searchKey:any;
+  searchValue='';
   allpresentableFields : any = [];
   presentable = [];
   nonPresentable = [];
@@ -107,6 +108,16 @@ export class PresentableComponent implements OnInit {
   });
   // 
  }
+ //**Presentable search function */
+ presentablesearch(obj){
+  this.searchValue=obj.searchvalue;
+  if(obj.componenttype=="datatable"){
+    this.getPresentableFields(true)
+  }  
+  else{
+    this.getPresentableFields(false);
+  }
+ }
 
  //** get api for retrieving the presentable Fields */
  getPresentableFields(selected?,sortobj?){
@@ -120,7 +131,7 @@ export class PresentableComponent implements OnInit {
     isSearchable:this.isSearchable,
     page:0,
     limit:this.limit,
-    searchKey:''
+    searchKey:this.searchValue?this.searchValue:''
   };
   this.service.invoke('get.presentableFields', quaryparms).subscribe(res => {
     this.allpresentableFields = res.data;

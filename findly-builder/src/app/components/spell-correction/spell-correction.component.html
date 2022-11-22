@@ -74,6 +74,6 @@
 
     <div class="block-separate-line"></div>
 
-    <app-list-fields [tablefieldvalues]="spellcorrect" [popupfieldvalues]="nonspellcorrect" (emitRecord)="getrecord($event)"  (sort)="spellcorrectsort($event)"></app-list-fields>
+    <app-list-fields [tablefieldvalues]="spellcorrect" [popupfieldvalues]="nonspellcorrect" (emitRecord)="getrecord($event)"  (sort)="spellcorrectsort($event)" (searchModel)="spellcorrectsearch($event)"></app-list-fields>
 
 </div>

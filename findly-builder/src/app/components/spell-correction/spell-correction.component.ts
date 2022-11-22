@@ -29,6 +29,7 @@ export class SpellCorrectionComponent implements OnInit {
   nonspellcorrect:any=[];
   max_threshold:number=0;
   min_threshold:number=0;
+  searchValue='';
   serachIndexId
   @Input() spellcorrectdata;
   @Input() selectedcomponent
@@ -69,7 +70,17 @@ export class SpellCorrectionComponent implements OnInit {
     }
   
    }
-  
+   
+  //**spellcorrect search function */
+ spellcorrectsearch(obj){
+  this.searchValue=obj.searchvalue;
+  if(obj.componenttype=="datatable"){
+    this.getSpellcorrect(true)
+  }  
+  else{
+    this.getSpellcorrect(false);
+  }
+ }
 
   getSpellcorrect(isSelected?,sortobj?){
     const quaryparms: any = {
@@ -82,7 +93,7 @@ export class SpellCorrectionComponent implements OnInit {
       isSearchable:this.isSearchable,
       page:0,
       limit:this.limit,
-      searchKey:''
+      searchKey:this.searchValue?this.searchValue:''
     };
     this.service.invoke('get.spellcorrectFields', quaryparms).subscribe(res => {
       this.allspellCorrect = res.data;
@@ -210,7 +221,9 @@ export class SpellCorrectionComponent implements OnInit {
     }
     this.service.invoke('put.queryPipeline', quaryparms,payload).subscribe(res => {
       this.spellcorrectdata.maxTypoEdits=res.settings.spellCorrect.maxTypoEdits
+      if(this.max_threshold > 0){        
       this.notificationService.notify("updated successfully",'success');
+      }
     }, errRes => {
       this.notificationService.notify("Failed to update",'error');
     });
@@ -260,7 +273,9 @@ export class SpellCorrectionComponent implements OnInit {
         }
         this.service.invoke('put.queryPipeline', quaryparms,payload).subscribe(res => {
           this.spellcorrectdata.minCharacterThreshold=res.settings.spellCorrect.minCharacterThreshold
-          this.notificationService.notify("updated successfully",'success');
+          if(this.min_threshold > 0){
+            this.notificationService.notify("updated successfully",'success');
+          }
         }, errRes => {
           this.notificationService.notify("Failed to update",'error');
         });

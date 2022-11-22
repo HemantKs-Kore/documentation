@@ -19,6 +19,7 @@ export class ListFieldsComponent implements OnInit {
   @Input() popupfieldvalues;
   @Output() emitRecord = new EventEmitter();
   @Output() sort=new EventEmitter();
+  @Output() searchModel =new EventEmitter();
   constructor(
     public dialog: MatDialog
   ) { }
@@ -148,8 +149,14 @@ export class ListFieldsComponent implements OnInit {
     this.search_value = '';
   }
 
-  getsearchvalue(value){
-    this.search_value=value
+  getsearchvalue(value,component){
+    let component_type
+    this.search_value=value;
+    component_type=component
+    this.searchModel.emit({
+      componenttype:component_type,
+      searchvalue :this.search_value
+    });
   }
   add(){
     let record = {};
