@@ -1376,9 +1376,12 @@ export class EndPointsService {
       endpoint:  this.API_SERVER_URL +'/findly/stream/:streamId/indexPipeline/:indexPipelineId/settings',
       method: 'put'
     }
-    //Apis for Weights module
 
-    //API request for getting List of Weights starts
+    //Apis for Index settings module ends 
+
+    //Apis for Weights module starts
+
+    //API request for getting List of Weights 
     this.serviceList['get.weightsList'] = {
       endpoint: this.API_SERVER_URL +'/findly/stream/:streamId/indexPipeline/:indexPipelineId/queryPipeline/:queryPipelineId/weights?page=:pageNo&limit=:noOfRecords&isSelected=:isSelected',
       method: 'get'
@@ -1393,6 +1396,27 @@ export class EndPointsService {
       endpoint: this.API_SERVER_URL +'/findly/stream/:streamId/indexPipeline/:indexPipelineId/queryPipeline/:queryPipelineId/weights/:fieldId',
       method: 'delete'
     }
-    //API request for getting List of Weights ends
+
+    ////Apis for Weights module starts ends
+
+    //Apis for Stop Words module starts
+    
+    //Api for getting stopwords List
+    this.serviceList['get.stopWordsList'] = {
+      endpoint: this.API_SERVER_URL +'/findly/stream/:streamId/indexPipeline/:indexPipelineId/queryPipeline/:queryPipelineId/stopwords?languageCode=:code',
+      method: 'get'
+    }
+    //Api for Adding stopwords List
+    this.serviceList['put.createStopWords'] = {
+      endpoint: this.API_SERVER_URL +'/findly/stream/:streamId/indexPipeline/:indexPipelineId/queryPipeline/:queryPipelineId/stopwords',
+      method: 'put'
+    }
+    //Api for deleteing stopwords List
+    this.serviceList['delete.deleteStopWords'] = {
+      endpoint: this.API_SERVER_URL +'/findly/stream/:streamId/indexPipeline/:indexPipelineId/queryPipeline/:queryPipelineId/stopwords',
+      method: 'delete'
+    }
+
+    //Apis for Stop Words module ends
  }
 }
