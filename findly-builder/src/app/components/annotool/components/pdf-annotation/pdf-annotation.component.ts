@@ -994,7 +994,7 @@ function getAllElements(element, className, payload) {
   // PREV
   let prevResultText = [];
   var lp = $("." + className).length;
-  let prevEle = $(element).parent().prev().children();
+  let prevEle:any = $(element).parent().prev().children();
   if ($(prevEle).hasClass(className)) {
     for (let i = 0; i < lp; i++) {
       for (let j = prevEle.length; j > 0; j--) {
@@ -1016,7 +1016,7 @@ function getAllElements(element, className, payload) {
   }
   // NEXT
   var nextResultText = [];
-  let nextEle = $(element).parent().next().children();
+  let nextEle:any = $(element).parent().next().children();
   if ($(nextEle).hasClass(className)) {
     for (let i = 0; i < lp; i++) {
       for (let j = 0; j < nextEle.length; j++) {
@@ -1054,8 +1054,8 @@ function removeTextClass(className, element) {
   $(element).toggleClass('rangy');
   // PREV
   let lp = $("." + className).length;
-  let prevEle = $(element).parent().prev().children();
-  let nextEle = $(element).parent().next().children();
+  let prevEle:any = $(element).parent().prev().children();
+  let nextEle:any = $(element).parent().next().children();
   if ($(prevEle).hasClass(className)) {
     for (let i = 0; i < lp; i++) {
       for (let j = prevEle.length; j > 0; j--) {

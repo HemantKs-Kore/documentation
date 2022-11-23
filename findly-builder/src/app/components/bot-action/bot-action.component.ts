@@ -14,6 +14,7 @@ import { InlineManualService } from '@kore.services/inline-manual.service';
 import { PerfectScrollbarComponent } from 'ngx-perfect-scrollbar';
 import { OnboardingComponentComponent } from 'src/app/components/onboarding-component/onboarding-component.component';
 import { SliderComponentComponent } from 'src/app/shared/slider-component/slider-component.component';
+import { EMPTY_SCREEN } from 'src/app/modules/empty-screen/empty-screen.constants';
 declare const $: any;
 @Component({
   selector: 'app-bot-action',
@@ -21,6 +22,7 @@ declare const $: any;
   styleUrls: ['./bot-action.component.scss']
 })
 export class BotActionComponent implements OnInit {
+  emptyScreen = EMPTY_SCREEN.ACTIONS;
   enableBtnDisable = false;
   disableBtnDisable = false;
   loadingContent = true;
@@ -517,6 +519,7 @@ export class BotActionComponent implements OnInit {
       this.service.invoke('get.AssociatedBots', queryParams).subscribe(res => {
         // console.log("Stream API, response payload", res);
         this.associatedBots = [];
+        this.imageLoad();
         if (res.length > 0) {
           res.forEach(element => {
             if (element.type == "default" || element.type == "universalbot") {

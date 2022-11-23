@@ -14,7 +14,7 @@
                         <span>{{ 'header_overview' | translate }}</span>
                         <span routerLink="/summary" class="d-none"></span>
                     </div>
-                    <div class="headerMenuTab" [ngClass]="{'active' : menuItems?.sources?.includes(mainMenu)}" skipLocationChange routerLinkActive="active" (click)="analyticsClick('/content');closeUserMetaTagsSlider()">
+                    <div class="headerMenuTab" [ngClass]="{'active' : menuItems?.sources?.includes(mainMenu)}" skipLocationChange routerLinkActive="active" (click)="analyticsClick('/source');closeUserMetaTagsSlider()">
                         <span>{{ 'header_sources' | translate }}</span>
                         <span routerLink="/source" class="d-none"></span>
                         <span routerLink="/content" class="d-none"></span>

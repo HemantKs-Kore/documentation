@@ -1,10 +1,10 @@
 @font-face {
   font-family: 'searchassist-icons';
-  src:  url('fonts/searchassist-icons.eot?n5k9pd');
-  src:  url('fonts/searchassist-icons.eot?n5k9pd#iefix') format('embedded-opentype'),
-    url('fonts/searchassist-icons.ttf?n5k9pd') format('truetype'),
-    url('fonts/searchassist-icons.woff?n5k9pd') format('woff'),
-    url('fonts/searchassist-icons.svg?n5k9pd#searchassist-icons') format('svg');
+  src:  url('fonts/searchassist-icons.eot?lx29c6');
+  src:  url('fonts/searchassist-icons.eot?lx29c6#iefix') format('embedded-opentype'),
+    url('fonts/searchassist-icons.ttf?lx29c6') format('truetype'),
+    url('fonts/searchassist-icons.woff?lx29c6') format('woff'),
+    url('fonts/searchassist-icons.svg?lx29c6#searchassist-icons') format('svg');
   font-weight: normal;
   font-style: normal;
   font-display: block;
@@ -25,6 +25,33 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+.si-minus:before {
+  content: "\e96a";
+}
+.si-double-arrow-up:before {
+  content: "\e96b";
+}
+.si-double-arrow-down:before {
+  content: "\e96c";
+}
+.si-arrow-two-way:before {
+  content: "\e96d";
+}
+.si-union:before {
+  content: "\e965";
+}
+.si-bot:before {
+  content: "\e966";
+}
+.si-sort-down:before {
+  content: "\e967";
+}
+.si-upload:before {
+  content: "\e968";
+}
+.si-web:before {
+  content: "\e969";
+}
 .si-topic-guide-1:before {
   content: "\e912";
 }
@@ -40,7 +67,6 @@
 .si-train-multi-intent:before {
   content: "\e961";
 }
-
 .si-config-form:before {
   content: "\e95e";
 }
@@ -64,7 +90,6 @@
 }
 .si-play-large:before {
   content: "\e959";
-  color: #fff;
 }
 .si-star-filled:before {
   content: "\e95a";
@@ -134,7 +159,6 @@
 }
 .si-graph-filter:before {
   content: "\e927";
-  color: #9aa0a6;
 }
 .si-file-help .path1:before {
   content: "\e928";
@@ -222,15 +246,12 @@
 }
 .si-ellipsis-horizontal:before {
   content: "\e938";
-  color: #9ca3af;
 }
 .si-green-check:before {
   content: "\e939";
-  color: #22c55e;
 }
 .si-grow-up-arrow:before {
   content: "\e93a";
-  color: #0d6efd;
 }
 .si-plan-crown .path1:before {
   content: "\e93b";
@@ -238,7 +259,7 @@
 }
 .si-plan-crown .path2:before {
   content: "\e93c";
-  margin-left: -1em;
+  margin-left: -0.9619140625em;
   color: rgb(255, 152, 0);
 }
 .si-minus-circle-o:before {
@@ -255,22 +276,18 @@
 }
 .si-check-document:before {
   content: "\e941";
-  color: #93d3a2;
 }
 .si-Internet:before {
   content: "\e942";
-  color: #85b7fe;
 }
 .si-tc-filter:before {
   content: "\e943";
-  color: #0d6efd;
 }
 .si-grid-view:before {
   content: "\e944";
 }
 .si-re-cycle-square:before {
   content: "\e945";
-  color: #28a745;
 }
 .si-progress-indicator .path1:before {
   content: "\e946";
@@ -322,7 +339,6 @@
 }
 .si-back-arrow:before {
   content: "\e91b";
-  color: #e4e5e7;
 }
 .si-right-arrow-large:before {
   content: "\e91c";
@@ -335,47 +351,33 @@
 }
 .si-warning:before {
   content: "\e918";
-  color: #dd3646;
-}
-.si-key:before {
-  content: "\e912";
 }
 .si-eyeshow:before {
   content: "\e917";
 }
 .si-external-horizantal:before {
   content: "\e916";
-  color: #0d6efd;
 }
 .si-pencil-edit:before {
   content: "\e914";
 }
 .si-delete1:before {
   content: "\e915";
-  color: #dd3646;
 }
 .si-instructions:before {
   content: "\e90a";
-  color: #0d6efd;
-}
-.si-instructions-black:before {
-  content: "\e90a";
-  color: #202124;
 }
 .si-delete:before {
   content: "\e90b";
-  color: #fff;
 }
 .si-eye:before {
   content: "\e90c";
 }
 .si-info:before {
   content: "\e90d";
-  color: #07377f;
 }
 .si-external-link:before {
   content: "\e90e";
-  color: #0d6efd;
 }
 .si-lock:before {
   content: "\e90f";
@@ -385,47 +387,30 @@
 }
 .si-add-plus:before {
   content: "\e911";
-  color: #0d6efd;
-}
-.si-add-plus-green:before {
-  content: "\e911";
-  color: #28A745;
-}
-.si-add-plus-white:before {
-  content: "\e911";
-  color: white;
 }
 .si-settings:before {
   content: "\e913";
-  color: #fff;
 }
 .si-check:before {
   content: "\e909";
-  color: #28a745;
 }
 .si-check-round:before {
   content: "\e908";
-  color: #135423;
 }
 .si-help:before {
   content: "\e907";
-  color: #5f6368;
 }
 .si-externallink:before {
   content: "\e900";
-  color: #0d6efd;
 }
 .si-faq:before {
   content: "\e901";
-  color: #0D6EFD;
 }
 .si-home:before {
   content: "\e902";
-  color: #0D6EFD;
 }
 .si-list:before {
   content: "\e903";
-  color: #0D6EFD;
 }
 .si-search:before {
   content: "\e904";

@@ -9,6 +9,7 @@ import { ConfirmationDialogComponent } from 'src/app/helpers/components/confirma
 import * as moment from 'moment';
 import { MatDialog } from '@angular/material/dialog';
 import { AppSelectionService } from '@kore.services/app.selection.service';
+import { EMPTY_SCREEN } from 'src/app/modules/empty-screen/empty-screen.constants';
 
 declare const $: any;
 @Component({
@@ -17,6 +18,7 @@ declare const $: any;
   styleUrls: ['./credentials-list.component.scss']
 })
 export class CredentialsListComponent implements OnInit {
+  emptyScreen = EMPTY_SCREEN.MANAGE_CREDENTIALS;
   slider = 0;
   showError: boolean = false;
   selectedApp: any;
@@ -260,6 +262,7 @@ export class CredentialsListComponent implements OnInit {
         //this.getApiScopes();
         this.channnelConguired = res.apps;
         this.firstlistData = res.apps[0]
+        this.imageLoad();
                  // Scopes code for API Scopes initial //
         // Single Obj Api Scope
         // let resScopeList = [];
