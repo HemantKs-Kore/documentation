@@ -20,6 +20,7 @@ export class PresentableComponent implements OnInit {
   selectionflag:boolean=true;
   isSearchable:boolean=true;
   page:number=0;
+  max_pageno:any;
   limit:number=10;
   searchKey:any;
   searchValue='';
@@ -118,6 +119,11 @@ export class PresentableComponent implements OnInit {
     this.getPresentableFields(false);
   }
  }
+ //**presentable get page */
+ presentablepage(pageinfo){
+  this.page=pageinfo;
+  this.getPresentableFields(true)
+ }
 
  //** get api for retrieving the presentable Fields */
  getPresentableFields(selected?,sortobj?){
@@ -129,12 +135,13 @@ export class PresentableComponent implements OnInit {
     streamId:this.selectedApp._id,
     queryPipelineId:this.queryPipelineId,
     isSearchable:this.isSearchable,
-    page:0,
+    page:this.page?this.page:0,
     limit:this.limit,
     searchKey:this.searchValue?this.searchValue:''
   };
   this.service.invoke('get.presentableFields', quaryparms).subscribe(res => {
     this.allpresentableFields = res.data;
+    this.max_pageno=Number(Math.ceil(res.totalCount/10))-1;
     if(selected){
       this.presentable=[];
       this.allpresentableFields.forEach(element => {

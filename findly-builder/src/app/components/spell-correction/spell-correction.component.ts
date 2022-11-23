@@ -24,8 +24,10 @@ export class SpellCorrectionComponent implements OnInit {
   selectedSort:string='asc';
   isSearchable:boolean=true;
   limit:number=10;
+  page:number=0;
   allspellCorrect : any = [];
   spellcorrect: any=[];
+  max_pageno:any;
   nonspellcorrect:any=[];
   max_threshold:number=0;
   min_threshold:number=0;
@@ -82,6 +84,12 @@ export class SpellCorrectionComponent implements OnInit {
   }
  }
 
+  //**presentable get page */
+  spellcorrectpage(pageinfo){
+    this.page=pageinfo;
+    this.getSpellcorrect(true)
+   }
+
   getSpellcorrect(isSelected?,sortobj?){
     const quaryparms: any = {
       isSelected:isSelected,
@@ -91,12 +99,13 @@ export class SpellCorrectionComponent implements OnInit {
       streamId:this.selectedApp._id,
       queryPipelineId:this.queryPipelineId,
       isSearchable:this.isSearchable,
-      page:0,
+      page:this.page?this.page:0,
       limit:this.limit,
       searchKey:this.searchValue?this.searchValue:''
     };
     this.service.invoke('get.spellcorrectFields', quaryparms).subscribe(res => {
       this.allspellCorrect = res.data;
+      this.max_pageno=Number(Math.ceil(res.totalCount/10))-1;
       if(isSelected){
         this.spellcorrect=[];
         this.allspellCorrect.forEach(element => {

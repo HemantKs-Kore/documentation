@@ -34,6 +34,7 @@ export class HighlightingComponent implements OnInit {
    isSearchable:boolean=true;
    page:number=0;
    limit:number=10;
+   max_pageno:any;
    searchValue='';
    allhighlightFields : any = [];
    highlight: any=[];
@@ -93,6 +94,11 @@ export class HighlightingComponent implements OnInit {
       this.getHighlightFields(false);
     }
    }
+    //**highlight get page */
+ highlightpage(pageinfo){
+  this.page=pageinfo;
+  this.getHighlightFields(true)
+ }
   getHighlightFields(isSelected?,sortobj?){
     const quaryparms: any = {
       isSelected:isSelected,
@@ -102,12 +108,13 @@ export class HighlightingComponent implements OnInit {
       streamId:this.selectedApp._id,
       queryPipelineId:this.queryPipelineId,
       isSearchable:this.isSearchable,
-      page:0,
+      page:this.page?this.page:0,
       limit:this.limit,
       searchKey:this.searchValue?this.searchValue:''
     };
     this.service.invoke('get.highlightFields', quaryparms).subscribe(res => {
       this.allhighlightFields = res.data;
+      this.max_pageno=Number(Math.ceil(res.totalCount/10))-1;
       if(isSelected){
         this.highlight=[];
         this.allhighlightFields.forEach(element => {

@@ -73,7 +73,11 @@
     </div>
 
     <div class="block-separate-line"></div>
+    <div class="page-sub-header">
+            <div class="header-title">Fields for Spell Correction</div>
+            <div class="header-desc">Add fields against which the search query should be spell corrected</div>
+    </div>
 
-    <app-list-fields [tablefieldvalues]="spellcorrect" [popupfieldvalues]="nonspellcorrect" (emitRecord)="getrecord($event)"  (sort)="spellcorrectsort($event)" (searchModel)="spellcorrectsearch($event)"></app-list-fields>
+    <app-list-fields [tablefieldvalues]="spellcorrect" [popupfieldvalues]="nonspellcorrect" [maxpageno]="max_pageno" (emitRecord)="getrecord($event)"  (sort)="spellcorrectsort($event)" (searchModel)="spellcorrectsearch($event)" (pageno)="spellcorrectpage($event)"></app-list-fields>
 
 </div>
