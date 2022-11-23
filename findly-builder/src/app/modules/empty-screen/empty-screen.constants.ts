@@ -22,11 +22,13 @@ export const EMPTY_SCREEN = {
     DESC_NO_SOURCES: 'FQA Sources added will be shown here',
     TITLE_SEARCH: 'No search results found',
     DESC_SEARCH: 'We couldn’t find the FAQ sources you are looking for',
+    TITLE_SEARCH_SOURCES: 'No search results found',
+    DESC_SEARCH_SOURCES: 'We couldn’t find the FAQ you are looking for'
   },
   ACTIONS: {
     IMG_NAME: 'no-bot-actions.svg',
-    TITLE: 'No search results found',
-    DESC: 'We couldn’t find what you are looking for',
+    TITLE: 'Bot Actions',
+    DESC: 'Bot Actions are a list of tasks that are performed by the bots.<br /> SearchAssist allows you to link bots that can perform tasks for the search user.',
     TITLE_SEARCH: 'No search results found',
     DESC_SEARCH: 'We couldn’t find what you are looking for',
   },
