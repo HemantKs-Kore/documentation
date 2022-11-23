@@ -668,10 +668,11 @@ export class AppHeaderComponent implements OnInit {
     this.ref.detectChanges();
   }
   train() {
-    if(!this.training){
+    if (this.training) {
+      return;
+    }
       this.training = true;
       const self = this;
-      var url ;
       const selectedApp = this.workflowService.selectedApp();
       if (selectedApp && selectedApp.searchIndexes && selectedApp.searchIndexes.length) {
         const payload = {
@@ -689,17 +690,12 @@ export class AppHeaderComponent implements OnInit {
             this.trainingInitiated = true;
             // this.appSelectionService.updateTourConfig('indexing');
             this.poling();
-          }, 200)
+          }, 5000)
         }, errRes => {
           self.training = false;
           this.notificationService.notify('Failed to train the app', 'error');
         });
       }
-    }
-    else {
-      this.stopTrain();
-      this.notificationService.notify('Stoping Train Initiated', 'success');
-    }
   }
 // showing Stop button
 displayStopTrain(){
