@@ -3,13 +3,15 @@
   <h2 class="empty-title">
     {{ title }}
   </h2>
-  <p class="desc-text" #ref>
-    <ng-content></ng-content>
-
-    <ng-container *ngIf="!ref.children.length">
-      {{ desc }}
+  <div class="desc-text">
+    <ng-container *ngIf="desc; else contentPassed">
+      <div  [innerHTML]="desc">
+      </div>
     </ng-container>
-  </p>
+    <ng-template #contentPassed>
+      <ng-content></ng-content>
+    </ng-template>
+  </div>
 
   <ng-content select=".action-buttons"></ng-content>
 </div>
