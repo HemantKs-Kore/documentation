@@ -86,6 +86,9 @@ export class SpellCorrectionComponent implements OnInit {
 
   //**presentable get page */
   spellcorrectpage(pageinfo){
+    if(pageinfo<0){
+      pageinfo=0;
+    }
     this.page=pageinfo;
     this.getSpellcorrect(true)
    }

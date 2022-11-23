@@ -132,6 +132,9 @@ export class ListFieldsComponent implements OnInit {
   }
   /**increase page number and emit value */
   nextpage(){
+    if(this.page_number < 0){
+      this.page_number=0;
+    }
     this.page_number=this.page_number+1    
     if(this.page_number>=this.maxpageno){
       this.page_number=this.maxpageno;

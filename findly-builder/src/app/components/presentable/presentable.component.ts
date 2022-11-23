@@ -121,6 +121,9 @@ export class PresentableComponent implements OnInit {
  }
  //**presentable get page */
  presentablepage(pageinfo){
+  if(pageinfo<0){
+    pageinfo=0;
+  }
   this.page=pageinfo;
   this.getPresentableFields(true)
  }

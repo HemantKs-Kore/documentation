@@ -96,6 +96,9 @@ export class HighlightingComponent implements OnInit {
    }
     //**highlight get page */
  highlightpage(pageinfo){
+  if(pageinfo<0){
+    pageinfo=0;
+  }
   this.page=pageinfo;
   this.getHighlightFields(true)
  }
