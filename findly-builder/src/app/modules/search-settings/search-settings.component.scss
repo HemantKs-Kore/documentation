@@ -1,0 +1,175 @@
+.searchSettingsComponent{
+    .common_header{
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 17px 24px;
+        margin: 0px 0px 0px 0px;
+        background: #F8F9FA;
+        border-radius: 4px;
+        .title{               
+            font-weight: 500;
+            font-size: 18px;
+            line-height: 22px;
+            color: #000000;                            
+        }  
+}
+    .search-settings-main-block{
+        display: flex;
+        justify-content: space-between;
+        width: 100%;
+        background: #F8F9FA;
+        .search-settings-left{
+            width: 230px;
+            flex-shrink: 0;
+            padding: 0 0px 0 15px;
+            .search-settings-left-menu-scroll{
+                height: calc(100vh - 130px);
+                padding: 0 15px 0 0;
+            }
+            .side-menu-tab-btn{
+                background: #FFFFFF;
+                border-radius: 4px;
+                font-weight: 600;
+                font-size: 12px;
+                line-height: 15px;
+                color: #121314;
+                height: 40px;
+                margin: 5px 0px 5px 0px;
+                width: 100%;
+                text-align: left;
+                border-left: 4px solid #fff;
+                &:first-child{
+                    margin: 0px 0px 5px 0px;
+                }
+                &.btn-active{
+                    border-left: 4px solid #0D6EFD;
+                    color: #0D6EFD;
+                    box-shadow: 0px 1px 2px #bdc1c6;
+                }
+                &:hover{
+                    color: #0D6EFD;
+                }
+                &:focus{
+                    outline: none !important;
+                    box-shadow: none !important;
+                }
+            }
+        }
+        .search-settings-right{
+            width: 78%;
+            background: #fff;
+              .page-common-scroll{
+                    height: calc(100vh - 120px);
+                }
+
+                .bot-actions-block{
+                    padding: 0px 20px 0px 35px;
+                    .widget-header-block{
+                        padding: 35px 0px 15px 0px;
+                        &.second-header-block{
+                            padding: 25px 0px 15px 0px;
+                        }
+                        .widget-header{
+                            font-weight: 500;
+                            font-size: 14px;
+                            line-height: 17px;
+                            color: #121314;
+                            padding-bottom: 10px;
+                        }
+                        .widget-desc{
+                            font-weight: 400;
+                            font-size: 12px;
+                            line-height: 15px;
+                            color: #777A80;
+                        }
+                    }
+                
+                    .landing-page-toggle{
+                        padding: 0 20px 25px 0px;
+                        .kr-sg-toggle{
+                            input{
+                                &:not(:checked){
+                                    + .slider{
+                                        span{
+                                            &.no{
+                                                color: #202124;
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                            &.with-label{
+                                margin-left: 49px;
+                                .slider{
+                                    .no{
+                                        margin-left: -49px;
+                                    }
+                                }
+                            }
+                        }
+                      }
+            
+                      .block-separate-line{
+                        border-bottom: 1px solid #E3E4E6;
+                      }
+                }
+        }
+    }
+    
+}
+
+     // weights related css start from here
+     ::ng-deep app-weights{
+        .contentContainer{
+            .header-sec-stopwords{
+                background: #fff !important;
+                padding: 15px 20px 15px 40px !important;
+            }
+            .kr-sg-data-table{
+                .table-content{
+                    display: block !important;
+                    width: 100% !important;
+                    padding: 0 20px 0 40px !important;
+                    .scroll-table-allowRow{
+                        height: calc(100vh - 280px);
+                        padding: 0 0px !important;
+                        .content-body {
+                            .sliderContainer{
+                                .range-slider{
+                                    margin-right: 5px !important;
+                                    app-range-slider{
+                                        .custom-created-range-slider {
+                                            .single-slider{
+                                                margin-bottom: 0px !important;
+                                                width: 150px !important;
+                                                .countThreshold{
+                                                    width: 150px !important;
+                                                }
+                                                .slider-horizontal{
+                                                    width: 150px !important;
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                                .sliderVal{
+                                    font-size: 14px !important;
+                                    line-height: 22px;
+                                    font-weight: 700;
+                                    color: #202124;
+                                }
+                                .action_links{
+                                    .actions-links{
+                                        &:first-child{
+                                            padding-right: 10px !important;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }

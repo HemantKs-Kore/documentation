@@ -1,0 +1,28 @@
+<div class="searchSettingsComponent">
+    <!-- common main Header -->
+    <div class="common_header">
+      <div class="title">Search Settings
+        <span class="module-topic" tooltipClass="tooltip-global-" [container]="'body'" ngbTooltip='Topic Guide'
+          placement="right-center">
+          <i class="si-topic-guide-1"></i> <!-- Topic Guide yet to Impiment -->
+        </span>
+      </div>
+    </div>
+    <!-- common main Header end-->
+    <div class="search-settings-main-block">
+      <div class="search-settings-left">
+        <perfect-scrollbar class="search-settings-left-menu-scroll">
+          <ng-container *ngFor="let component of componentsArray">
+            <a [routerLink]="[component.value]" class="btn side-menu-tab-btn"
+              [ngClass]="{'btn-active':(selectedComponent===component.value)}">{{component.key}}</a><br />
+          </ng-container>
+        </perfect-scrollbar>
+      </div>
+      <div class="search-settings-right">
+        <router-outlet></router-outlet>
+        
+      </div>
+    </div>
+  
+  
+  </div>
