@@ -105,7 +105,6 @@ import { MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material/form-field';
 import { SearchInterfaceComponent } from './components/search-interface/search-interface.component';
 import { TeamManagementComponent } from './components/team-management/team-management.component';
 import { SearchExperienceComponent } from './components/search-experience/search-experience.component';
-import { UseronboardingJourneyComponent } from './helpers/components/useronboarding-journey/useronboarding-journey.component';
 import { ActionsComponent } from './components/actions/actions.component';
 import { SmallTalkComponent } from './components/small-talk/small-talk.component';
 import { PricingComponent } from './components/pricing/pricing.component';
@@ -132,6 +131,7 @@ import { SpellCorrectionComponent } from './components/spell-correction/spell-co
 import { SearchRelevanceComponent } from './components/search-relevance/search-relevance.component';
 import { ListFieldsComponent } from './components/search-settings/list-fields/list-fields.component';
 import { SearchFilterComponent } from './helpers/components/search-filter/search-filter.component';
+import { SearchSettingsSharedModule } from './modules/search-settings-shared/search-settings-shared.module';
 export function HttpLoaderFactory(httpClient: HttpClient) {
   return new TranslateHttpLoader(httpClient, 'assets/i18n/', '.json');
 }
@@ -205,7 +205,6 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
     StructuredDataStatusModalComponent,
     StatusDockerComponent,
     SearchExperienceComponent,
-    UseronboardingJourneyComponent,
     ActionsComponent,
     SmallTalkComponent,
     PricingComponent,
@@ -234,6 +233,7 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
     SearchFilterComponent,
   ],
   imports: [
+    SearchSettingsSharedModule,
     BrowserModule,
     FormsModule,
     MaterialModule,
