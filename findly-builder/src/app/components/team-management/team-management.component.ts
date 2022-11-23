@@ -57,6 +57,7 @@ export class TeamManagementComponent implements OnInit {
   autocomplete_text: string = '';
   resultFormatter: any;
   inputFormatter: any;
+  teamModalRef: any;
   @ViewChild('fruitInput') fruitInput: ElementRef<HTMLInputElement>;
   @ViewChild('auto') matAutocomplete: MatAutocomplete;
   @ViewChild('teamModalPouup') teamModalPouup: KRModalComponent;
