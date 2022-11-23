@@ -88,40 +88,9 @@ export class StopWordsComponent implements OnInit, OnDestroy {
   createInit() {
     if (this.stopWordsIntiType === 'default') {
       this.checkStopwords = true
-      this.notificationService.notify('Added Successfully', 'success')
-      // this.restore();
       this.createStopWords(true);
     } else {
       this.createFromScratch = true;
-    }
-  }
-  validate(event) {
-    if (!this.newStopWord) {
-      this.validation.spaceFound = false;
-      this.validation.duplicate = false;
-    }
-    if (this.newStopWord) {
-      if (this.newStopWord.indexOf(' ') >= 0) {
-        this.validation.spaceFound = true;
-      } else {
-        this.validation.spaceFound = false;
-      }
-      const stopwords = (this.newStopWord || '').split(',');
-      let duplicate = false
-      if (stopwords && stopwords.length) {
-        stopwords.forEach(element => {
-          _.map(this.stopwordsList, (stopword) => {
-            if (stopword === element) {
-              duplicate = true;
-            }
-          });
-        });
-      }
-      this.validation.duplicate = duplicate;
-    }
-    if (event.keyCode === 13) {
-      this.addStopWord(event);
-      // this.addStopWords(event);
     }
   }
   getStopWords() {
@@ -393,16 +362,6 @@ export class StopWordsComponent implements OnInit, OnDestroy {
     }
   }
 
-  validateAddStopWord() {
-    if (!this.newStopWord || !this.newStopWord.length) {
-      return false;
-    }
-    else {
-      this.submitted = false;
-      return true;
-    }
-  }
-
   addStopWord(event) {
     this.submitted = true;
     if (this.validateAddStopWord()) {
@@ -419,7 +378,9 @@ export class StopWordsComponent implements OnInit, OnDestroy {
     }
   }
 
+//-----------------------------(AUTHOR:BHARADWAJ)
 
+// GET LIST OF STOPWORDS (GET API CALL)
   getStopWordsList() {
     const quaryparms: any = {
       streamId: this.selectedApp._id,
@@ -429,31 +390,70 @@ export class StopWordsComponent implements OnInit, OnDestroy {
     };
     this.service.invoke('get.stopWordsList', quaryparms).subscribe(res => {
       if(res && res.stopWords){
-        this.stopwordsList = res.stopWords || {};
+        this.stopwordsList = res.stopWords || [];
       }
     }, errRes => {
       this.errorToaster(errRes, 'Failed to get stop words');
-      // this.loadingForStopWords = false;
     });
   }
-  addStopWords(event) {
+
+// VALIDATING NEWLY ADDED STOPWORD 
+  validateAddStopWord() {
+    if (!this.newStopWord || !this.newStopWord.length) {
+      return false;
+    }
+    else {
+      this.submitted = false;
+      return true;
+    }
+  }
+  validate(event) {
+    if (!this.newStopWord) {
+      this.validation.spaceFound = false;
+      this.validation.duplicate = false;
+    }
+    if (this.newStopWord) {
+      if (this.newStopWord.indexOf(' ') >= 0) {
+        this.validation.spaceFound = true;
+      } else {
+        this.validation.spaceFound = false;
+      }
+      const stopwords = (this.newStopWord || '').split(',');
+      let duplicate = false
+      if (stopwords && stopwords.length) {
+        stopwords.forEach(element => {
+          _.map(this.stopwordsList, (stopword) => {
+            if (stopword === element) {
+              duplicate = true;
+            }
+          });
+        });
+      }
+      this.validation.duplicate = duplicate;
+    }
+    if (event.keyCode === 13) {
+      // this.addStopWord(event);
+      this.addStopWords();
+    }
+  }
+  // SORT STOP WORDS
+  addStopWords() {
     this.submitted = true;
     if (this.validateAddStopWord()) {
       const stopwords = (this.newStopWord || '').split(',');
-      this.stopwordsList = _.uniq(this.stopwords.concat(stopwords)).sort();
-      this.stopwordsList = _.filter(this.stopwords, (stopword) => {
+      this.stopwordsList = _.uniq(this.stopwordsList.concat(stopwords)).sort();
+      this.stopwordsList = _.filter(this.stopwordsList, (stopword) => {
         return stopword !== '';
       })
-      // this.updateStopWords();
-      this.createStopWords(false,stopwords);
+      this.createStopWords(false,this.newStopWord);
       this.submitted = false;
     }
     else {
       this.notificationService.notify('Enter the required fields to proceed', 'error');
     }
   }
-
-  createStopWords(type,stopwordsArr?){    // type here is a boolean for to check for adding Default(true) or adding manually(false)
+  // CREATING AND UPDATING THE STOPWORDS (UPDATE API CALL) 
+  createStopWords(type,stopwordsArr?,reset?){   // type here is a boolean for to check for adding Default(true) or adding manually(false)
     const quaryparms: any = {
       streamId: this.selectedApp._id,
       queryPipelineId: this.queryPipelineId,
@@ -462,20 +462,21 @@ export class StopWordsComponent implements OnInit, OnDestroy {
     const payload: any = {
       languageCode: 'en',
       defaultStopwords:type,
-      resetStopwords:type,
+      resetStopwords:reset,         //reset is to have only default Stop Words
       stopwords: stopwordsArr
     };
-    if(type == true) delete payload.stopwords  // if adding default stopwords deleting stopwords array.
-    if(type == true) delete payload.resetStopwords  // if adding default stopwords deleting stopwords array.
-    this.service.invoke('put.createStopWords', quaryparms,payload).subscribe(res => {
-       type==true?this.stopwordsList = [...res.stopwords]:this.stopwordsList.push(stopwordsArr) // 
-      //  this.loadStopwords();
+    this.service.invoke('put.createStopWords',quaryparms,payload).subscribe(res => {
+       this.stopwordsList = [...res.stopwords] // updating Display Array
+       this.notificationService.notify('Stopwords Added Successfully', 'success');
     }, errRes => {
-      this.errorToaster(errRes, 'Failed to Add stop words');
+      if(type == true) this.notificationService.notify('Failed To Add Stopwords', 'success')
+      if(type == false) this.notificationService.notify('Failed To Add Stopword', 'success')   
     });
   }
-
+  // DELETING AND UPDATING THE STOPWORDS (DELETE API CALL)
   deleteStopWords(type,index?,word?){          //type here is boolean for deleting all(true) or single stop word(false)
+    let deleteStopWordsArr = [];
+    type==true?deleteStopWordsArr = [...this.stopwordsList]:deleteStopWordsArr=[word]
     const quaryparms: any = {
       streamId: this.selectedApp._id,
       queryPipelineId: this.queryPipelineId,
@@ -483,28 +484,29 @@ export class StopWordsComponent implements OnInit, OnDestroy {
     };
     const payload: any = {
       language: 'en',
-      stopwords:'',
+      stopwords:deleteStopWordsArr,
       deleteAll:type
     };
-    type==true? payload.stopwords = this.stopwordsList:payload.stopwords = [word];
-    this.service.invoke('delete.deleteStopWords').subscribe(res => {
+    this.service.invoke('delete.deleteStopWords',quaryparms,payload).subscribe(res => {
     if(type == false){
       this.stopwordsList.splice(index,1);
-      this.notificationService.notify(`${word} created successfully`, 'success')
+      this.notificationService.notify(`${word} Stop Word Deleted successfully`, 'success')
     }
     else {
       this.stopwordsList = [];
       this.notificationService.notify('All Stop words Deleted Successfully', 'success')
     }
   }, errRes => {
-    if(type == false){
-      this.errorToaster(errRes, `Failed to delete ${word}`);
-    }
-    else {
-      this.errorToaster(errRes, 'Failed to delete stop words');
-    }
+    if(type == false)this.errorToaster(errRes, `Failed to delete ${word}`);
+    if(type == true)this.errorToaster(errRes, `Failed to delete ${word}`);
    });
   }
+
+   removeDefaultStopWords(){
+    
+   }
+  // -----------------------------(AUTHOR:BHARADWAJ)
+
   ngOnDestroy() {
     this.subscription ? this.subscription.unsubscribe() : false;
   }

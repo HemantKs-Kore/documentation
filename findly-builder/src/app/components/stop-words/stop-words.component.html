@@ -44,13 +44,11 @@
       <div class="page-sub-desc">How would you like to start?</div>
     </div>
 
-    <div *ngIf="loadingContent1" class="stop-words-wrapper" [ngClass]="{'stop-words-no-border': !(stopwords && stopwords.length)}">
+    <div class="stop-words-wrapper" [ngClass]="{'stop-words-no-border': !(stopwords && stopwords.length)}">
       <app-useronboarding-journey [componentType]='componentType'></app-useronboarding-journey>
 
 
-     <div class="empty-stopwords" *ngIf="!(stopwords && stopwords.length) && !loadingContent && !createFromScratch">
-      <div class="main_heading">{{'Add_Stop_Words'| translate}}</div>
-      <div class="desc_info">{{'How_would_you_like_to_start'| translate}}</div>
+     <div class="empty-stopwords d-none" >
       <div class="radio-sec">
         <div class="radio_block">            
           <div class="kr-sg-radiobutton">
@@ -97,10 +95,10 @@
         </div>
       </ng-container>                -->
       <ng-container>
-      <div class="listingHeader row m-0" *ngIf="stopwords && stopwords.length">
+      <div class="listingHeader row m-0">
         <div class="col-7 p-0" >
           <!-- <div class="desc-info-text" *ngIf="searchStopwords">{{'Showing ' + getActiveSearch()  +' results for ‘'+ searchStopwords  +'’'}}</div> -->
-          <div class="m-0 row addStopWordsBlock" *ngIf="((stopwords && stopwords.length) && !loadingContent) || createFromScratch">
+          <div class="m-0 row addStopWordsBlock" >
             <!-- <div class="label_text col-12 p-0">{{'stopWords_add_stop_word'| translate}}</div> -->
             <div class="kr-sg-input-text">
                 <input [class.err-block]="((!newStopWord || !newStopWord.length) && submitted)" type="text" autocomplete="off" (keyup)="validate($event)" placeholder="Add Stopwords and Press Enter"  maxlength="60" class="input-text" [(ngModel)]="newStopWord">
@@ -109,7 +107,7 @@
                 <div class="error-msg" *ngIf="validation.spaceFound"><img class="pr-1" src="assets/icons/warning_escalation.svg">{{'stopWords_stop_word_should_not_have_space_in_between'| translate}}</div>
             </div>
             <div class="addStopWordsButton">
-                <button class="kr-sg-button-primary btn_lg" (click)="addStopWord()"><i class="si-add-plus"></i> {{'sa_add'| translate}}</button> <!-- [disabled]="validation.duplicate || validation.spaceFound || !newStopWord" -->
+                <button class="kr-sg-button-primary btn_lg" (click)="addStopWords()"><i class="si-add-plus"></i> {{'sa_add'| translate}}</button> <!-- [disabled]="validation.duplicate || validation.spaceFound || !newStopWord" -->
             </div>
          </div> 
         </div>         
@@ -145,17 +143,17 @@
                   </li> 
                   <li (click)='deleteAllStopWords(event)' >{{'sa_delete_all' | translate}}</li>   -->
 
-                  <li class="restoreDefaults">
+                  <li class="restoreDefaults" (click)="removeDefaultStopWords()">
                     <span class="li-icon-span"><i class="si-minus-circle-o"></i></span><span class="label_txt">Remove Default Stop Words</span>              
                   </li> 
                   <li class="restoreDefaults" (click)="restoreStopWords($event)">
                     <span class="li-icon-span"><i class="si-recall"></i></span><span class="label_txt">Reset to Default</span>              
                   </li> 
-                  <li class="restoreDefaults">
+                  <li class="restoreDefaults" (click)="createStopWords(true)">
                     <span class="li-icon-span"><i class="si-add-plus-square"></i></span><span class="label_txt">Add Default Stop Words</span>              
                   </li> 
                   
-                  <li class="restoreDefaults clear-all-btn" (click)='deleteAllStopWords(event)'>
+                  <li class="restoreDefaults clear-all-btn" (click)='deleteStopWords(true)'>
                     <span class="li-icon-span"><i class="si-close-red"></i></span><span class="label_txt">Clear All</span>              
                   </li> 
                   
@@ -172,7 +170,7 @@
             <span class="wordTag" *ngFor="let word of stopwordsList | filter: [searchStopwords] ; let index = index">
               <span class="word stopwordBlock" >{{word}}</span>
               <span class="deleteTag">
-                <span class="span-close-icon" (click)="deleteInfividualStopWords(index,$event,word,stopwords)">
+                <span class="span-close-icon" (click)="deleteStopWords(false,index,word)">
                   <i class="si-close"></i>
                 </span>
               </span>
