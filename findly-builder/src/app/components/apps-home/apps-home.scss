@@ -780,10 +780,7 @@
 }
 
 .empty_filter {
-    text-align: center;
     width: 100%;
-    padding: 10%;
-    white-space: break-spaces;
 }
 
 .onboarding-welcome-screen {
@@ -1441,7 +1438,7 @@
 .tooltip_disabled {
     visibility: hidden;
     position: absolute;
-    width: 700px;
+    width: 180px;
     color: #fff;
     padding: 10px 15px;
     z-index: 1;

@@ -40,44 +40,51 @@
         </div>
     </div>
     
-    <div class="body-sec" *ngIf="slider==0">
-        <div class="info-data">
-            <div class="img-block"><img src="assets/icons/Info_gray.svg"></div>
-            <div class="info-title">{{"settings_info_text" | translate}}
+    <ng-container *ngIf="(channels | filter: [ searchchannel , 'name']).length; else noChannels">
+        <div class="body-sec" *ngIf="slider==0">
+            <div class="info-data">
+                <div class="img-block"><img src="assets/icons/Info_gray.svg"></div>
+                <div class="info-title">{{"settings_info_text" | translate}}
+                </div>
             </div>
-        </div>
-        <div class="card_data row m-0">
-            <div class="card-content active" *ngFor=" let channel of channels | filter: [ searchchannel , 'name']" [ngClass]=" {'blur': !enableConfiguration }">
-                <div class="kr-sg-dropdowns w-auto exportdropdown" ngbDropdown [container]="'body'" [placement]="'bottom-right'" *ngIf="channel.enable && !delChannel">                                        
-                    <div class="dropdown dropdown-open">
-                        <button class="dropdown-toggle  p-0 border-0" ngbDropdownToggle><img src="assets/icons/elipse.svg"></button>                                            
-                        <ul class="dropdown-menu content-menu faq-filter-add p-0" ngbDropdownMenu> 
-                            <li (click)="(enableConfiguration = !enableConfiguration)? enableDisableCredential() : enableDisableCredential() ">{{enableConfiguration?'Disable':'Enable'}}</li>
-                            <!-- <li (click)="disableCredential()"><a (click)="enableConfiguration = !enableConfiguration"> Disable</a></li> 
-                            <li *ngIf="!enableConfiguration = enableConfiguration" (click)="configureCredential()"><a> Enable</a></li>  -->
-                            <!-- <li><a (click)="enableConfiguration = !enableConfiguration) ? disableCredential()">Enaable</a></li> -->
-                            <li  class="d-none"(click) = "deleteChannel()"><a>{{"settings_delete" | translate}} </a></li>               
-                        </ul>
+            <div class="card_data row m-0">
+                <div class="card-content active" *ngFor=" let channel of channels | filter: [ searchchannel , 'name']" [ngClass]=" {'blur': !enableConfiguration }">
+                    <div class="kr-sg-dropdowns w-auto exportdropdown" ngbDropdown [container]="'body'" [placement]="'bottom-right'" *ngIf="channel.enable && !delChannel">                                        
+                        <div class="dropdown dropdown-open">
+                            <button class="dropdown-toggle  p-0 border-0" ngbDropdownToggle><img src="assets/icons/elipse.svg"></button>                                            
+                            <ul class="dropdown-menu content-menu faq-filter-add p-0" ngbDropdownMenu> 
+                                <li (click)="(enableConfiguration = !enableConfiguration)? enableDisableCredential() : enableDisableCredential() ">{{enableConfiguration?'Disable':'Enable'}}</li>
+                                <!-- <li (click)="disableCredential()"><a (click)="enableConfiguration = !enableConfiguration"> Disable</a></li> 
+                                <li *ngIf="!enableConfiguration = enableConfiguration" (click)="configureCredential()"><a> Enable</a></li>  -->
+                                <!-- <li><a (click)="enableConfiguration = !enableConfiguration) ? disableCredential()">Enaable</a></li> -->
+                                <li  class="d-none"(click) = "deleteChannel()"><a>{{"settings_delete" | translate}} </a></li>               
+                            </ul>
+                        </div>
                     </div>
+                    <!-- <div class="dropdown kr-sg-overflow-menu" *ngIf="channel.enable">
+                        <div class="dropdown-toggle" id="menu1" data-toggle="dropdown" ><img class="action_icon" 
+                                src="assets/icons/elipse-black.svg"></div>
+                        <ul class="dropdown-menu" role="menu" aria-labelledby="menu1" ngbDropdownMenu>
+                            <li><a (click)="enableConfiguration = !enableConfiguration">{{enableConfiguration?'Disable':'Enable'}}</a></li>
+                            <li><a>Delete </a></li>
+                        </ul>
+                    </div> -->
+                    <div class="main" (click)="proceedChannel(channel)">
+                        <div class="img-block cursor-pointer"><img src="{{channel.icon}}" height="140"></div>
+                        <div class="main-title">{{channel.name}}</div>
+                        <div class="configuration" *ngIf="channel.enable && !delChannel">{{"settings_configured" | translate}}</div>
+                    </div>
+    
                 </div>
-                <!-- <div class="dropdown kr-sg-overflow-menu" *ngIf="channel.enable">
-                    <div class="dropdown-toggle" id="menu1" data-toggle="dropdown" ><img class="action_icon" 
-                            src="assets/icons/elipse-black.svg"></div>
-                    <ul class="dropdown-menu" role="menu" aria-labelledby="menu1" ngbDropdownMenu>
-                        <li><a (click)="enableConfiguration = !enableConfiguration">{{enableConfiguration?'Disable':'Enable'}}</a></li>
-                        <li><a>Delete </a></li>
-                    </ul>
-                </div> -->
-                <div class="main" (click)="proceedChannel(channel)">
-                    <div class="img-block cursor-pointer"><img src="{{channel.icon}}" height="140"></div>
-                    <div class="main-title">{{channel.name}}</div>
-                    <div class="configuration" *ngIf="channel.enable && !delChannel">{{"settings_configured" | translate}}</div>
-                </div>
-
+    
             </div>
-
         </div>
-    </div>
+    </ng-container>
+    <ng-template #noChannels>
+        <app-empty-screen [title]="emptyScreen.TITLE_SEARCH_CHANNELS" [desc]="emptyScreen.DESC_SEARCH_CHANNELS" [imgName]="emptyScreen.IMG_NAME">
+        </app-empty-screen>
+    </ng-template>
+
 
     <perfect-scrollbar class="stepjourney-scroll">
         <div class="body-sec">
@@ -462,7 +469,7 @@
                                                             <ng-container *ngFor="let domainUrl of webClientDetails.domains ;let i = index">
                                                                 <div class="input-url-box mb-2">
                                                                     <div class="kr-sg-input-text">
-                                                                        <input type="text" placeholder="sampleurl.com" class="input-text" [value]="domainUrl"  (focusout)="onFocusOutEvent($event)" [disabled]="i != (webClientDetails.domains.length-1)">
+                                                                        <input type="text" placeholder="sampleurl.com" class="input-text" [value]="domainUrl" (input)="onFocusOutEvent($event)" [disabled]="i != (webClientDetails.domains.length-1)">
                                                                     </div>
                                                                     <div class="actions-copy-ext">
                                                                         <div class="btn-ext-copy" ngbTooltip="{{'sa_delete' | translate}}" (click)="deleteDomain(i)">
@@ -473,7 +480,7 @@
                                                                 </div>
                                                             </ng-container>
                     
-                                                            <div class="add-domain" (click)="addNewDomain(domainUrl)">
+                                                            <div class="add-domain" [ngClass]="{'disable-class' : webClientDetails.domains[webClientDetails.domains.length-1] == ''  }" (click)="webClientDetails.domains[webClientDetails.domains.length-1] == ''?null:addNewDomain(domainUrl)">
                                                                 <img src="assets/icons/add_blue.svg" >
                                                                 <span>{{"settings_add_domains" | translate}}</span>
                                                             </div>

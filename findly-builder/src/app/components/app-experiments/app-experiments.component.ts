@@ -12,12 +12,14 @@ declare const $: any;
 import { ConfirmationDialogComponent } from 'src/app/helpers/components/confirmation-dialog/confirmation-dialog.component';
 import { Subscription } from 'rxjs';
 import { MixpanelServiceService } from '@kore.services/mixpanel-service.service';
+import { EMPTY_SCREEN } from 'src/app/modules/empty-screen/empty-screen.constants';
 @Component({
   selector: 'app-app-experiments',
   templateUrl: './app-experiments.component.html',
   styleUrls: ['./app-experiments.component.scss']
 })
 export class AppExperimentsComponent implements OnInit {
+  emptyScreen = EMPTY_SCREEN.ANALYTICS;
   addExperimentsRef: any;
   selectedApp: any;
   serachIndexId: any;
@@ -421,6 +423,8 @@ export class AppExperimentsComponent implements OnInit {
     this.service.invoke('get.experiment', quaryparms, header).subscribe(res => {
       const date1: any = new Date();
       this.exp_totalRecord = res.total;
+
+      this.imageLoaded();
       const result = res.experiments.map(data => {
         let hours = moment().diff(moment(data.end), 'hours');
         let days = moment().diff(moment(data.end), 'days');

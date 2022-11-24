@@ -32,7 +32,7 @@
             <i class="si-help info-icon" placement="right" [ngbTooltip]="('businessRules.contextual_rules_allow'| translate)" [container]='"body"' tooltipClass="metrics_tooltips m-0"></i>
             <div class="tab-name-text" [ngClass]="{'active-tab-rule':selcectionObj?.ruleType==='nlp'}" (click)="selectRuleType('nlp')"><span>{{"businessRules_nlp"| translate}} {{"businessRules_rules"| translate}}</span></div>
         </div>
-        <div class="right-contnet col-8 p-0 justify-content-end">
+        <div class="right-contnet col-8 p-0 justify-content-end" >
             <div class="kr-sg-input-search">
                 <input type="text" placeholder="Search" maxlength="60" id="inputSearch" class="input-search"
                     (keyup)="searchByRule()" [ngClass]="{'pl-33':!searchRules,'pl-2':searchRules}" autocomplete="off"
@@ -812,7 +812,7 @@
                                     <div class="nlp-field-value">{{(entity?.entityType==='custom')?'':entity?.field_name}}</div>
                                     <div class="nlp-tag-actions">
                                         <span class="nlp-tag-edit" (click)="chooseEntity('add',entity)"><i class="si-pencil-edit"></i></span>
-                                        <span class="nlp-tag-delete" (click)="deleteEntity(i,entity?._id)"><i class="si-delete1"></i></span>
+                                        <span class="nlp-tag-delete" (click)="deleteEntity($event,i,entity)"><i class="si-delete1"></i></span>
                                     </div>
                                 </div>
                             </div>

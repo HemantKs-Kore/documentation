@@ -31,7 +31,9 @@
     </div>
 
     <ng-container *ngIf="!invoices.length && !loading">
-        <div class="empty-invoice">
+        <app-empty-screen [title]="emptyScreen.TITLE" [desc]="emptyScreen.DESC" [imgName]="emptyScreen.IMG_NAME">
+        </app-empty-screen>
+        <!-- <div class="empty-invoice">
             <div class="img-block">
                 <img src="assets/icons/invoices/invoice-empty-log.png">
             </div>
@@ -40,7 +42,7 @@
                 <div><i class="si-warning"></i></div>
                 <div class="empty-warning-text">{{"invoices_after_subscribing_to_any_of_plans_desc" | translate}}</div>
             </div>
-        </div>
+        </div> -->
     </ng-container>
 
     <ng-container *ngIf="invoices.length && !loading">

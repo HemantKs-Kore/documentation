@@ -3,7 +3,7 @@
     <mat-spinner diameter="18" strokeWidth="2"></mat-spinner>
     <span class="please-wait-message">{{'Please Wait!' | translate}}</span>
   </div>
-  <ng-container *ngIf="!(resources && resources.length) && loadingContent1">
+  <ng-container *ngIf="!(resources && resources.length) && loadingContent1 && !searchSources">
     <app-useronboarding-journey [componentType]='componentType'></app-useronboarding-journey>
     <div class="title-content">{{"contentSource_content" | translate}}
       <span class="module-topic" tooltipClass="tooltip-global-" [container]="'body'" ngbTooltip="{{'contentSource_topic_guide' | translate}}" placement="right-center"(click)="openUserMetaTagsSlider()">
@@ -11,7 +11,19 @@
       </span>
     </div>    
     <perfect-scrollbar class="scoll-empty-screen">
-      <div class="empty-landing-screen">
+      <app-empty-screen [title]="emptyScreen.TITLE" [desc]="emptyScreen.DESC" [imgName]="emptyScreen.IMG_NAME">
+        <div class="action-buttons">
+          <button class="kr-sg-button-secondary btn_lg mr-2" (click)="addNewContentSource('contentWeb')">
+            <i class="si-web"></i>
+            {{ "contentSource_craw_web_domain" | translate }}
+          </button>
+          <button class="kr-sg-button-secondary btn_lg" (click)="addNewContentSource('contentDoc')">
+            <i class="si-upload"></i>
+            {{ "contentSource_upload_file" | translate }}
+          </button>
+        </div>
+      </app-empty-screen>
+      <!-- <div class="empty-landing-screen">
         <div class="img-block" *ngIf="!emptyItems"><img class="action_icon" (load)="imageLoad()"
             src="assets/images/contentmanag-empty.png"></div>
         <ng-container *ngIf="loadImageText">
@@ -33,11 +45,11 @@
         <ng-container *ngIf="noItems && emptySearchResults">
           <div class="desc-text">{{"contentSource_no_search_query" | translate}}</div>
         </ng-container>
-      </div>
+      </div> -->
     </perfect-scrollbar>
   </ng-container>
 
-  <div class="table-list-content" *ngIf="!loadingData">
+  <div class="table-list-content">
     <app-useronboarding-journey [componentType]='componentType'></app-useronboarding-journey>
     <div class="kr-sg-data-table with-checkbox">
       <div class="table-action-header">
@@ -79,8 +91,8 @@
           ngbTooltip="{{'contentSource_list' | translate}}"><img src="assets/icons/list-view.svg"></div>
         </div>
       </div>
-      <ng-container  *ngIf="resources && resources.length">
-        <section class="table-content" *ngIf="currentView === 'list'">
+      
+      <section class="table-content" *ngIf="currentView === 'list'">
           <header class="table-header">
             
             <div class="col_ col-3 d-flex align-items-center" (click)="sortByApi('name')">
@@ -142,220 +154,238 @@
           </div> 
           </header>
           <perfect-scrollbar class="table-scroll-perfect">
-            <ng-container *ngIf="sectionShow">
+            <ng-container *ngIf="(resources| filter: [ searchSources, 'name','title']).length && sectionShow;else noListContent">
               <div class="content-body" *ngFor="let source of resources| filter: [ searchSources, 'name','title'];let i = index"
-                (click)="openStatusSlider(source)"
-                [ngClass]="{'cursor-pointer':statusObj[source.recentStatus]?.name == 'Success' }">
+              (click)="openStatusSlider(source)"
+              [ngClass]="{'cursor-pointer':statusObj[source.recentStatus]?.name == 'Success' }">
 
-                <div class="col_ col-3">
-                    <div class="media-block">
-                      <div class="media-logo">
-                        <img *ngIf="source.extractionType == 'web'" src="assets/icons/content/latest-content-icons/blue-internet.svg">
-                        <img *ngIf="source.extractionType == 'file'" src="assets/icons/content/latest-content-icons/green-check-document.svg">
-                      </div>
-                      <div class="media-right">
-                        <div class="media-name text-truncate"  title="{{source.title || source.name}}">{{source.title || source.name}}</div>
-                        <!-- <span class="ml-2" *ngIf="source.advanceSettings">
-                          <img [title]="source.schedule_title" *ngIf="source.advanceSettings.scheduleOpt" class="search-icon" src="assets/icons/schedule_timer.svg">
-                       </span> -->
-                        <div class="media-time-stamp" (click)="$event.stopImmediatePropagation();openSchedular(true,source);" *ngIf="source.advanceSettings?.scheduleOpt"><span class="pr-1"><img src="assets/icons/content/latest-content-icons/blue-calendar.svg"></span>{{source.schedule_title}}</div>
-                        <!-- <div class="media-up-time-stamp" *ngIf="source.advanceSettings?.scheduleOpt"><span class="pr-1"><img src="assets/icons/content/latest-content-icons/gray-time.svg"></span>Upcoming schedule - Tommorow @ 10:30 AM</div> -->
-                      </div>
+              <div class="col_ col-3">
+                  <div class="media-block">
+                    <div class="media-logo">
+                      <img *ngIf="source.extractionType == 'web'" src="assets/icons/content/latest-content-icons/blue-internet.svg">
+                      <img *ngIf="source.extractionType == 'file'" src="assets/icons/content/latest-content-icons/green-check-document.svg">
                     </div>
-                </div>
-                <div class="col_ col-2" *ngIf="source?.advanceSettings">
-                  <span *ngIf="!source.advanceSettings.scheduleOpt">{{source?.jobInfo?.userDetails?.fullName ||
-                    source?.userDetails?.fullName}}</span>
-                  <span *ngIf="source.advanceSettings.scheduleOpt">{{source?.jobInfo?.userDetails?.fullName}}</span>
-                </div>
-
-                <div class="col_ col-2" *ngIf="!source.advanceSettings">
-                        <span>{{source?.userDetails?.fullName}}</span>
-                </div>
-              
-                <div class="col_ col-2">
-                  <span>{{source?.recentStatus==='configured'?'--':source?.numPages}}</span>
-                </div>
-                <div class="col_ col-4">
-                         <!-- Status==='success' -->
-                    <div class="media-block media-success" *ngIf="source.recentStatus === 'success'">
-                      <div class="media-logo"><img src="assets/icons/content/latest-content-icons/green-check-circle.svg"></div>
-                      <div class="media-right">
-                        <div class="media-name">{{'contentSource_successful'| translate}}
-                          <div class="media-up-time-stamp" *ngIf="source.schedule_createdOn">{{ source.schedule_createdOn }}<span class="pl-1"><img src="assets/icons/content/latest-content-icons/gray-time-change-logs.svg">{{source.schedule_duration}}</span></div>
-                        </div>
-                      </div>
+                    <div class="media-right">
+                      <div class="media-name text-truncate"  title="{{source.title || source.name}}">{{source.title || source.name}}</div>
+                      <!-- <span class="ml-2" *ngIf="source.advanceSettings">
+                        <img [title]="source.schedule_title" *ngIf="source.advanceSettings.scheduleOpt" class="search-icon" src="assets/icons/schedule_timer.svg">
+                    </span> -->
+                      <div class="media-time-stamp" (click)="$event.stopImmediatePropagation();openSchedular(true,source);" *ngIf="source.advanceSettings?.scheduleOpt"><span class="pr-1"><img src="assets/icons/content/latest-content-icons/blue-calendar.svg"></span>{{source.schedule_title}}</div>
+                      <!-- <div class="media-up-time-stamp" *ngIf="source.advanceSettings?.scheduleOpt"><span class="pr-1"><img src="assets/icons/content/latest-content-icons/gray-time.svg"></span>Upcoming schedule - Tommorow @ 10:30 AM</div> -->
                     </div>
-                         
-                    <!-- status==='configured' -->
-                    <div class="media-block media-success" *ngIf="statusObj[source.recentStatus]?.name == 'Validated'">
-                      <div class="media-right">
-                        <div class="media-name">{{'contentSource_validated'| translate}}</div>
-                      </div>
-                    </div>
-
-                    <!-- status==='stopped' -->
-                    <div class="media-block media-stopped" *ngIf="statusObj[source.recentStatus]?.name == 'Stopped'">
-                      <div class="media-right">
-                        <div class="media-name">{{'contentSource_stopped'| translate}}</div>
-                      </div>
-                    </div>
-
-                    <!-- status==='In progress' -->
-                    <div class="media-block media-inprogress" *ngIf="statusObj[source.recentStatus]?.name == 'In Progress'">
-                      <div class="media-logo"><img src="assets/icons/content/latest-content-icons/blue-loading.svg"></div>
-                      <div class="media-right">
-                        <div class="media-name">{{'contentSource_in-Progress'| translate}}</div>
-                        <!-- <div class="media-up-time-stamp">{{ source.schedule_createdOn }}; <span>{{source.schedule_duration}}</span></div> -->
-                      </div>
-                    </div>
-
-                    <!-- status==='falies' -->
-                    <div class="media-block media-failed" *ngIf="source.recentStatus === 'failed'">
-                      <div class="media-logo"><img src="assets/icons/content/latest-content-icons/red-warning-circle.svg"></div>
-                      <div class="media-right">
-                        <div class="media-name">{{'contentSource_failed'| translate}}</div>
-                        <div class="media-list" *ngIf="source?.isURLValid===false">
-                          <div class="media-list-header">{{'contentSource_following_may_be_the_reason_to_fail'| translate}}</div>
-                          <ul class="media-list-ul">
-                            <li *ngIf="source?.validations?.url?.validated===false">{{source?.validations?.url?.msg}}</li>
-                            <li *ngIf="!source?.validations?.networkConnectivity?.validated&&source?.validations?.networkConnectivity?.msg">{{source?.validations?.networkConnectivity?.msg}}</li>
-                          </ul>
-                          <!-- <div class="media-show-more">Show more</div> -->
-                        </div>
-                      </div>
-                    </div>
-
-                    <!-- status==='queue' -->
-                    <div class="media-block media-inQueue" *ngIf="statusObj[source.recentStatus]?.name == 'In-Queue'">
-                      <div class="media-logo"><img src="assets/icons/content/latest-content-icons/blue-progress-indicator.svg"></div>
-                      <div class="media-right">
-                        <div class="media-name">{{'contentSource_in-queue'| translate}}</div>
-                        <!-- <div class="media-up-time-stamp">1 out of 3</div> -->
-                      </div>
-                    </div>
-                </div>
-                
-                <!-- <div class="col_ col-2 pr-0">
-                  {{(source.extractionType == 'web' ? 'Web' :(source.extractionType == 'file'? 'File': '')) | titlecase }}
-                </div> -->
-               
-                <!-- <div class="col_ col-2">{{source.createdOn | dateFormatPipe: 'MM-DD-YYYY hh:mm A' }}</div> -->
-                <div class="col_ col-1 text-right p-0">
-                  <!-- <span class="actions-links re-crawl" *ngIf="source.extractionType == 'web' && statusObj[source.recentStatus]?.name != 'In Progress' &&  (['success'].includes(source.recentStatus)) || (source.recentStatus === 'failed'&&source?.validations?.url?.validated) || source.recentStatus === 'halted'"
-                  (click)="recrwal('source',source,$event)"><img class="action_icon" src="assets/icons/content/latest-content-icons/blue-return.svg" ngbTooltip='Crawl' container="body">
-                  </span> -->
-
-                  <!-- <span class="actions-links re-validate" *ngIf="source.extractionType == 'web' && (!source.isURLValid)"
-                  (click)="retryValidation(source,$event)">
-                    <img class="action_icon" src="assets/icons/content/latest-content-icons/green-validate.svg" ngbTooltip='Validate' container="body">
-                  </span> -->
-
-
-                  <span class="actions-links"
-                    *ngIf="source.extractionType == 'web' && ['Success','Stopped'].includes(statusObj[source.recentStatus]?.name) && (source.isURLValid)"
-                    (click)="recrwal('source',source,$event)"><img class="action_icon" src="assets/icons/refresh-table.svg" ngbTooltip="{{'contentSource_recrwal' | translate}}" container="body"></span>
-
-                  <span class="actions-links"
-                    *ngIf="source.extractionType == 'web' && source.recentStatus == 'configured'"
-                    (click)="jobOndemand(source,$event)"><img class="action_icon" src="assets/icons/refresh-table.svg"
-                      ngbTooltip='Crawl' container="body"></span>
-
-                  <!-- <span class="actions-links"*ngIf="source.extractionType == 'web' && (source.recentStatus === 'failed'&&!(source?.validations?.url?.validated))"
-                  (click)="retryValidation(source,$event)"><img class="action_icon" src="assets/icons/validate.svg"
-                      ngbTooltip='Revalidate' container="body"></span> -->
-
-                  <span class="actions-links"
-                    *ngIf="statusObj[source.recentStatus]?.name == 'In Progress'&&source.recentStatus != 'queued'"
-                    (click)="stopCrwaling(source,$event)"><img class="action_icon" src="assets/icons/content/stop.svg"
-                    ngbTooltip="{{'contentSource_stop' | translate}}"  container="body"></span>
-                      
-                  <span class="actions-links" (click)="deletePages('source',source,$event)"><img class="action_icon"
-                      src="assets/icons/delete-table.svg" ngbTooltip="{{'contentSource_delete' | translate}}" container="body"></span>
-                </div>
+                  </div>
               </div>
-            </ng-container>
-            <div style="margin-right: 10px;"> <app-record-pagination *ngIf="totalRecord > 10" [totalRecord]='totalRecord' [limitpage]='10' (pageChanged)="paginateContent($event)"></app-record-pagination></div>
-            <div class="empty">{{"contentSource_no_results_found" | translate}}</div>
-          </perfect-scrollbar>
-        </section>
+              <div class="col_ col-2" *ngIf="source?.advanceSettings">
+                <span *ngIf="!source.advanceSettings.scheduleOpt">{{source?.jobInfo?.userDetails?.fullName ||
+                  source?.userDetails?.fullName}}</span>
+                <span *ngIf="source.advanceSettings.scheduleOpt">{{source?.jobInfo?.userDetails?.fullName}}</span>
+              </div>
 
-        <ng-container *ngIf="currentView === 'grid'">
+              <div class="col_ col-2" *ngIf="!source.advanceSettings">
+                      <span>{{source?.userDetails?.fullName}}</span>
+              </div>
+            
+              <div class="col_ col-2">
+                <span>{{source?.recentStatus==='configured'?'--':source?.numPages}}</span>
+              </div>
+              <div class="col_ col-4">
+                      <!-- Status==='success' -->
+                  <div class="media-block media-success" *ngIf="source.recentStatus === 'success'">
+                    <div class="media-logo"><img src="assets/icons/content/latest-content-icons/green-check-circle.svg"></div>
+                    <div class="media-right">
+                      <div class="media-name">{{'contentSource_successful'| translate}}
+                        <div class="media-up-time-stamp" *ngIf="source.schedule_createdOn">{{ source.schedule_createdOn }}<span class="pl-1"><img src="assets/icons/content/latest-content-icons/gray-time-change-logs.svg">{{source.schedule_duration}}</span></div>
+                      </div>
+                    </div>
+                  </div>
+                      
+                  <!-- status==='configured' -->
+                  <div class="media-block media-success" *ngIf="statusObj[source.recentStatus]?.name == 'Validated'">
+                    <div class="media-right">
+                      <div class="media-name">{{'contentSource_validated'| translate}}</div>
+                    </div>
+                  </div>
+
+                  <!-- status==='stopped' -->
+                  <div class="media-block media-stopped" *ngIf="statusObj[source.recentStatus]?.name == 'Stopped'">
+                    <div class="media-right">
+                      <div class="media-name">{{'contentSource_stopped'| translate}}</div>
+                    </div>
+                  </div>
+
+                  <!-- status==='In progress' -->
+                  <div class="media-block media-inprogress" *ngIf="statusObj[source.recentStatus]?.name == 'In Progress'">
+                    <div class="media-logo"><img src="assets/icons/content/latest-content-icons/blue-loading.svg"></div>
+                    <div class="media-right">
+                      <div class="media-name">{{'contentSource_in-Progress'| translate}}</div>
+                      <!-- <div class="media-up-time-stamp">{{ source.schedule_createdOn }}; <span>{{source.schedule_duration}}</span></div> -->
+                    </div>
+                  </div>
+
+                  <!-- status==='falies' -->
+                  <div class="media-block media-failed" *ngIf="source.recentStatus === 'failed'">
+                    <div class="media-logo"><img src="assets/icons/content/latest-content-icons/red-warning-circle.svg"></div>
+                    <div class="media-right">
+                      <div class="media-name">{{'contentSource_failed'| translate}}</div>
+                      <div class="media-list" *ngIf="source?.isURLValid===false">
+                        <div class="media-list-header">{{'contentSource_following_may_be_the_reason_to_fail'| translate}}</div>
+                        <ul class="media-list-ul">
+                          <li *ngIf="source?.validations?.url?.validated===false">{{source?.validations?.url?.msg}}</li>
+                          <li *ngIf="!source?.validations?.networkConnectivity?.validated&&source?.validations?.networkConnectivity?.msg">{{source?.validations?.networkConnectivity?.msg}}</li>
+                        </ul>
+                        <!-- <div class="media-show-more">Show more</div> -->
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- status==='queue' -->
+                  <div class="media-block media-inQueue" *ngIf="statusObj[source.recentStatus]?.name == 'In-Queue'">
+                    <div class="media-logo"><img src="assets/icons/content/latest-content-icons/blue-progress-indicator.svg"></div>
+                    <div class="media-right">
+                      <div class="media-name">{{'contentSource_in-queue'| translate}}</div>
+                      <!-- <div class="media-up-time-stamp">1 out of 3</div> -->
+                    </div>
+                  </div>
+              </div>
+              
+              <!-- <div class="col_ col-2 pr-0">
+                {{(source.extractionType == 'web' ? 'Web' :(source.extractionType == 'file'? 'File': '')) | titlecase }}
+              </div> -->
+            
+              <!-- <div class="col_ col-2">{{source.createdOn | dateFormatPipe: 'MM-DD-YYYY hh:mm A' }}</div> -->
+              <div class="col_ col-1 text-right p-0">
+                <!-- <span class="actions-links re-crawl" *ngIf="source.extractionType == 'web' && statusObj[source.recentStatus]?.name != 'In Progress' &&  (['success'].includes(source.recentStatus)) || (source.recentStatus === 'failed'&&source?.validations?.url?.validated) || source.recentStatus === 'halted'"
+                (click)="recrwal('source',source,$event)"><img class="action_icon" src="assets/icons/content/latest-content-icons/blue-return.svg" ngbTooltip='Crawl' container="body">
+                </span> -->
+
+                <!-- <span class="actions-links re-validate" *ngIf="source.extractionType == 'web' && (!source.isURLValid)"
+                (click)="retryValidation(source,$event)">
+                  <img class="action_icon" src="assets/icons/content/latest-content-icons/green-validate.svg" ngbTooltip='Validate' container="body">
+                </span> -->
+
+
+                <span class="actions-links"
+                  *ngIf="source.extractionType == 'web' && ['Success','Stopped'].includes(statusObj[source.recentStatus]?.name) && (source.isURLValid)"
+                  (click)="recrwal('source',source,$event)"><img class="action_icon" src="assets/icons/refresh-table.svg" ngbTooltip="{{'contentSource_recrwal' | translate}}" container="body"></span>
+
+                <span class="actions-links"
+                  *ngIf="source.extractionType == 'web' && source.recentStatus == 'configured'"
+                  (click)="jobOndemand(source,$event)"><img class="action_icon" src="assets/icons/refresh-table.svg"
+                    ngbTooltip='Crawl' container="body"></span>
+
+                <!-- <span class="actions-links"*ngIf="source.extractionType == 'web' && (source.recentStatus === 'failed'&&!(source?.validations?.url?.validated))"
+                (click)="retryValidation(source,$event)"><img class="action_icon" src="assets/icons/validate.svg"
+                    ngbTooltip='Revalidate' container="body"></span> -->
+
+                <span class="actions-links"
+                  *ngIf="statusObj[source.recentStatus]?.name == 'In Progress'&&source.recentStatus != 'queued'"
+                  (click)="stopCrwaling(source,$event)"><img class="action_icon" src="assets/icons/content/stop.svg"
+                  ngbTooltip="{{'contentSource_stop' | translate}}"  container="body"></span>
+                    
+                <span class="actions-links" (click)="deletePages('source',source,$event)"><img class="action_icon"
+                    src="assets/icons/delete-table.svg" ngbTooltip="{{'contentSource_delete' | translate}}" container="body"></span>
+              </div>
+            </div>
+            </ng-container>
+            <ng-template #noListContent>
+              <app-empty-screen [title]="emptyScreen.TITLE_SEARCH" [desc]="emptyScreen.DESC_SEARCH" [imgName]="emptyScreen.IMG_NAME">
+              </app-empty-screen>
+            </ng-template>
+            <div style="margin-right: 10px;"> <app-record-pagination *ngIf="totalRecord > 10" [totalRecord]='totalRecord' [limitpage]='10' (pageChanged)="paginateContent($event)"></app-record-pagination></div>
+            <!-- <div class="empty">{{"contentSource_no_results_found" | translate}}</div> -->
+          </perfect-scrollbar>            
+
+
+        <ng-template #noListContent>
+          <app-empty-screen *ngIf="searchSources" [title]="emptyScreen.TITLE_SEARCH" [desc]="emptyScreen.DESC_SEARCH" [imgName]="emptyScreen.IMG_NAME">
+          </app-empty-screen>            
+        </ng-template>
+
+      </section>
+
+      <ng-container *ngIf="currentView === 'grid'">
           <perfect-scrollbar class="table-scroll-perfect list">
             <!-- New Design -->
-            <div class="row col-12 p-0 grid-data-sec">
-              <div class="col-4 grid-card" *ngFor="let source of resources | filter: [ searchSources , 'name']"
-                (click)="openStatusSlider(source)">
-                <div class="card_sec">
-                  <div class="titles-sec">
-                    <span class="name text-truncate" placement="top-center" container='body'
-                      ngbTooltip='{{source.title || source.name}}'>{{source.title || source.name}}</span><span
-                      class="type-data" [ngClass]="{'doc': (source.extractionType==='file')}">
-                      {{(source.extractionType == 'web' ? 'Web' :(source.extractionType == 'file'? 'Doc': '')) | uppercase
-                      }}</span>
-                  </div>
-                  <div class="row col-12 p-0 m-0 align-items-center justify-content-between">
-                    <div class="timestamp"
-                      *ngIf="statusObj[source.recentStatus]?.name == ('In Progress' || 'Queued'); else executed">Started -
-                      {{source.schedule_createdOn}}</div>
-                    <ng-template #executed>
-                      <div class="timestamp"> {{"contentSource_last_updated_on" | translate}} {{source.lMod |
-                        dateFormatPipe: 'D MMMM YYYY'}}</div>
-                    </ng-template>
-                    <div class="status text-right" *ngIf="statusObj[source.recentStatus]?.name == 'In Progress'">
-                      <!-- 21/02 changes made in line 359 as per api contract updating resourcesStatusObj[source.jobId].statusMessage to
-                    resourcesStatusObj[source.jobId].message -->
-                      <span class="img-block"><img src="assets/icons/ringLoading.svg" class="ml-2 inProgress"
-                          *ngIf="statusObj[source.recentStatus]?.name == 'In Progress'" placement="top" container='body'
-                          ngbTooltip="{{(resourcesStatusObj && resourcesStatusObj[source.jobId] && resourcesStatusObj[source.jobId].message)?resourcesStatusObj[source.jobId].message:statusObj[source.recentStatus]?.name}}"></span>
-                      <span *ngIf="statusObj[source.recentStatus]?.name == 'In Progress'"
-                        class="run-percentageDoneGrid">{{ (resourcesStatusObj && resourcesStatusObj[source.jobId] &&
-                        resourcesStatusObj[source.jobId].executionStats) ?
-                        resourcesStatusObj[source.jobId].executionStats.percentageDone : ''}} </span>
-                      <span class="status-title"> {{"contentSource_in_progress" | translate}}</span>
+            <ng-container  *ngIf="(resources | filter: [ searchSources , 'name']).length; else noGridContent">
+              <div class="row col-12 p-0 grid-data-sec">
+                <div class="col-4 grid-card" *ngFor="let source of resources | filter: [ searchSources , 'name']"
+                  (click)="openStatusSlider(source)">
+                  <div class="card_sec">
+                    <div class="titles-sec">
+                      <span class="name text-truncate" placement="top-center" container='body'
+                        ngbTooltip='{{source.title || source.name}}'>{{source.title || source.name}}</span><span
+                        class="type-data" [ngClass]="{'doc': (source.extractionType==='file')}">
+                        {{(source.extractionType == 'web' ? 'Web' :(source.extractionType == 'file'? 'Doc': '')) | uppercase
+                        }}</span>
                     </div>
-                    <div class="pages-count text-right">
-                      <!-- *ngIf="statusObj[source.recentStatus]?.name == 'Success' || statusObj[source.recentStatus].name == 'Stopped'" -->
-                      <span *ngIf="source.numPages">
-                        <span class="count">{{source.numPages}}</span>{{"contentSource_pages" | translate}}
-                      </span>
-                      <span *ngIf="!source.numPages">
-                        <span class="count"> -- </span>
-                      </span>
+                    <div class="row col-12 p-0 m-0 align-items-center justify-content-between">
+                      <div class="timestamp"
+                        *ngIf="statusObj[source.recentStatus]?.name == ('In Progress' || 'Queued'); else executed">Started -
+                        {{source.schedule_createdOn}}</div>
+                      <ng-template #executed>
+                        <div class="timestamp"> {{"contentSource_last_updated_on" | translate}} {{source.lMod |
+                          dateFormatPipe: 'D MMMM YYYY'}}</div>
+                      </ng-template>
+                      <div class="status text-right" *ngIf="statusObj[source.recentStatus]?.name == 'In Progress'">
+                        <!-- 21/02 changes made in line 359 as per api contract updating resourcesStatusObj[source.jobId].statusMessage to
+                      resourcesStatusObj[source.jobId].message -->
+                        <span class="img-block"><img src="assets/icons/ringLoading.svg" class="ml-2 inProgress"
+                            *ngIf="statusObj[source.recentStatus]?.name == 'In Progress'" placement="top" container='body'
+                            ngbTooltip="{{(resourcesStatusObj && resourcesStatusObj[source.jobId] && resourcesStatusObj[source.jobId].message)?resourcesStatusObj[source.jobId].message:statusObj[source.recentStatus]?.name}}"></span>
+                        <span *ngIf="statusObj[source.recentStatus]?.name == 'In Progress'"
+                          class="run-percentageDoneGrid">{{ (resourcesStatusObj && resourcesStatusObj[source.jobId] &&
+                          resourcesStatusObj[source.jobId].executionStats) ?
+                          resourcesStatusObj[source.jobId].executionStats.percentageDone : ''}} </span>
+                        <span class="status-title"> {{"contentSource_in_progress" | translate}}</span>
+                      </div>
+                      <div class="pages-count text-right">
+                        <!-- *ngIf="statusObj[source.recentStatus]?.name == 'Success' || statusObj[source.recentStatus].name == 'Stopped'" -->
+                        <span *ngIf="source.numPages">
+                          <span class="count">{{source.numPages}}</span>{{"contentSource_pages" | translate}}
+                        </span>
+                        <span *ngIf="!source.numPages">
+                          <span class="count"> -- </span>
+                        </span>
+                      </div>
+                      <div class="status text-right" *ngIf="statusObj[source.recentStatus]?.name == 'Failed'">
+                        <span class="img-block"><img src="assets/icons/content/failed-status.svg"></span>
+                        <span class="status-title failed">{{"contentSource_failed" | translate}}</span>
+                      </div>
                     </div>
-                    <div class="status text-right" *ngIf="statusObj[source.recentStatus]?.name == 'Failed'">
-                      <span class="img-block"><img src="assets/icons/content/failed-status.svg"></span>
-                      <span class="status-title failed">{{"contentSource_failed" | translate}}</span>
+                    <div class="delete-refresh">
+                      <img src="assets/icons/refresh-table.svg"
+                        *ngIf="source.extractionType == 'web' && statusObj[source.recentStatus]?.name != 'In Progress' &&  (['success'].includes(source.recentStatus)) || (source.recentStatus === 'failed'&&source?.validations?.url?.validated) || source.recentStatus === 'halted' "
+                        (click)="recrwal('source',source,$event)" ngbTooltip='Recrawl' container="body">
+                      <img src="assets/icons/refresh-table.svg"
+                        *ngIf="source.extractionType == 'web' && source.recentStatus == 'configured'"
+                        (click)="jobOndemand(source,$event)" ngbTooltip="{{'contentSource_crwal' | translate}}" container="body">
+                      <img src="assets/icons/validate.svg"
+                        *ngIf="source.extractionType == 'web' && (source.recentStatus === 'failed'&&!(source?.validations?.url?.validated))"
+                        (click)="retryValidation(source,$event)" ngbTooltip="{{'contentSource_revalidate' | translate}}" container="body">
+                      <img src="assets/icons/content/stop.svg"
+                        *ngIf="statusObj[source.recentStatus]?.name == 'In Progress'&&source.recentStatus != 'queued'"
+                        (click)="stopCrwaling(source,$event)" ngbTooltip="{{'contentSource_stop' | translate}}" container="body">
+                      <img src="assets/icons/content/delete.svg" (click)="deletePages('source',source,$event)"
+                      ngbTooltip="{{'contentSource_delete' | translate}}">
                     </div>
-                  </div>
-                  <div class="delete-refresh">
-                    <img src="assets/icons/refresh-table.svg"
-                      *ngIf="source.extractionType == 'web' && statusObj[source.recentStatus]?.name != 'In Progress' &&  (['success'].includes(source.recentStatus)) || (source.recentStatus === 'failed'&&source?.validations?.url?.validated) || source.recentStatus === 'halted' "
-                      (click)="recrwal('source',source,$event)" ngbTooltip='Recrawl' container="body">
-                    <img src="assets/icons/refresh-table.svg"
-                      *ngIf="source.extractionType == 'web' && source.recentStatus == 'configured'"
-                      (click)="jobOndemand(source,$event)" ngbTooltip="{{'contentSource_crwal' | translate}}" container="body">
-                    <img src="assets/icons/validate.svg"
-                      *ngIf="source.extractionType == 'web' && (source.recentStatus === 'failed'&&!(source?.validations?.url?.validated))"
-                      (click)="retryValidation(source,$event)" ngbTooltip="{{'contentSource_revalidate' | translate}}" container="body">
-                    <img src="assets/icons/content/stop.svg"
-                      *ngIf="statusObj[source.recentStatus]?.name == 'In Progress'&&source.recentStatus != 'queued'"
-                      (click)="stopCrwaling(source,$event)" ngbTooltip="{{'contentSource_stop' | translate}}" container="body">
-                    <img src="assets/icons/content/delete.svg" (click)="deletePages('source',source,$event)"
-                    ngbTooltip="{{'contentSource_delete' | translate}}">
                   </div>
                 </div>
+  
+  
               </div>
+            </ng-container>
 
-
-            </div>
+            <ng-template #noGridContent>
+              <app-empty-screen *ngIf="searchSources" [title]="emptyScreen.TITLE_SEARCH" [desc]="emptyScreen.DESC_SEARCH" [imgName]="emptyScreen.IMG_NAME">
+              </app-empty-screen>
+            </ng-template>
             <!-- New Design -->
             <div style="margin-right: 10px;"> <app-record-pagination *ngIf="totalRecord > 10" [totalRecord]='totalRecord' [limitpage]='10' (pageChanged)="paginateContent($event)"></app-record-pagination></div>
           </perfect-scrollbar>
-
         </ng-container>
 
-      </ng-container>
+
+
     </div>
   </div>
 
@@ -1125,12 +1155,15 @@
                 </div>
               </div>
             </div>
-            <div class="empty-page-data-container center-state" *ngIf="pagingData.length===0">
-              <img src="assets/icons/content/latest-content-icons/empty-pages.svg">
-              <div class="title">{{'contentSource_sorry_no_pages_available'| translate}}</div>
-              <div class="sub-title">{{'contentSource_please_crawl_web'| translate}}</div>
-              <div><button class="kr-sg-button-primary btn_lg float-none ml-2 mr-0" (click)="jobOndemand(selectedSource,$event)"><span class="si-Internet"></span>   {{'contentSource_craw_web_domain'| translate}}</button></div>
-            </div>
+            <app-empty-screen [title]="emptyScreen.TITLE_PAGES" [desc]="emptyScreen.DESC_PAGES"
+              [imgName]="emptyScreen.IMG_NAME_PAGES" *ngIf="!pagingData.length">
+              <div class="action-buttons">
+                <button class="kr-sg-button-primary btn_lg" (click)="jobOndemand(selectedSource, $event)">
+                  <i class="si-web"></i>
+                  {{ "contentSource_craw_web_domain" | translate }}
+                </button>
+              </div>
+            </app-empty-screen>
           </ng-container>
 
           <!-- Execution -->
@@ -1390,3 +1423,5 @@
 <app-scheduler #schedular [crwalObject]="scheduleObject" [schedule]="'get'" (scheduleData)="scheduleData($event)" (cronExpress)="cronExpress($event)">
 </app-scheduler>
 </ng-container>
+
+<app-upgrade-plan #plans></app-upgrade-plan>

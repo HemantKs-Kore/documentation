@@ -73,7 +73,7 @@
               <div class="kr-sg-input-text mb-4">
                 <div class="label-text">{{"contentSource_source_url" | translate}}</div>
                 <input type="text" autocomplete="off" name="url" (keyup)="urlChange()" (change)="urlChange()"
-                  [disabled]="fileObj.fileId || fileObj.fileName" placeholder="{{'contentsource_https' | translate}}"
+                  [disabled]="fileObj.fileId || fileObj.fileName" placeholder="{{'contentSource_https' | translate}}"
                   [(ngModel)]="newSourceObj.url" class="input-text">
               </div>
             </div>
@@ -87,7 +87,7 @@
               *ngIf="(selectedSourceType.sourceType==='faq') || (selectedSourceType.resourceType==='file')">
               <ul class="nav nav-tabs" *ngIf=" (selectedSourceType.id !='faqDoc')" role="tablist">
                 <li class="nav-item">
-                  <a class="nav-link active" data-toggle="tab" href="#fromfile" (click)="selectExtract('file')">{{"ContentSource_extract_from_file" | translate}}</a>
+                  <a class="nav-link active" data-toggle="tab" href="#fromfile" (click)="selectExtract('file')">{{"contentSource_extract_from_file" | translate}}</a>
                 </li>
                 <li class="nav-item ">
                   <a class="nav-link" data-toggle="tab" href="#fromurl" (click)="selectExtract('url')">{{"contentSource_extract_from_url" | translate}}</a>
@@ -124,7 +124,7 @@
                             *ngIf="(selectedSourceType.sourceType=='content' && selectedSourceType.resourceType =='file')"
                             type="file" id="sourceFileUploader" class="custom-file-input "
                             (change)="fileChangeListener($event)" aria-describedby="inputGroupFileAddon01"
-                            accept=".pdf,.doc,.ppt,.xlsx,.txt,.docx" multiple>
+                            accept=".pdf,.doc,.ppt,.xlsx,.txt,.docx,.jpeg,.jpg,.png" multiple>
                           <div class="imageDiv">
                             <img src="assets/images/source-icos/drog_frop.svg">
                           </div>
@@ -261,9 +261,9 @@
                   <div class="input-url-block">
                     <div class="kr-sg-input-text">
                       <div class="label-text">{{"contentSource_enter_url" | translate}}<sup class="field-mandatory">*</sup></div>
-                      <input type="text" id="extractUrl" placeholder="{{'contentsource_https' | translate}}" class="input-text" autocomplete="off"
+                      <input type="text" id="extractUrl" placeholder="{{'contentSource_https' | translate}}" class="input-text" autocomplete="off"
                         name="url" (keyup)="urlChange()" (change)="urlChange();inputChanged('extractURL')"
-                        [disabled]="fileObj.fileId || fileObj.fileName" placeholder="{{'contentsource_https' | translate}}"
+                        [disabled]="fileObj.fileId || fileObj.fileName" placeholder="{{'contentSource_https' | translate}}"
                         [(ngModel)]="newSourceObj.url" class="input-text">
                       <img id="infoWarning1" src="assets/icons/warning_escalation.svg" style="display: none;"
                         height="12" width="12" />
@@ -328,7 +328,7 @@
                   </div>
                   <div class="kr-sg-input-text mar-bot-15">
                     <div class="label-text">{{"contentSource_source_url" | translate}}<sup class="field-mandatory">*</sup></div>
-                    <input type="text" id="contentURL" autocomplete="off" name="url" placeholder="{{'contentsource_https' | translate}}" class="input-text" [(ngModel)]="newSourceObj.url">
+                    <input type="text" id="contentURL" autocomplete="off" name="url" placeholder="{{'contentSource_https' | translate}}" class="input-text" [(ngModel)]="newSourceObj.url">
                   </div>
                 </div>
                 <div class="details-right">
@@ -380,7 +380,7 @@
                   <div class="crawl-opt-inp">
                     <div class="kr-sg-input-text mar-bot-15">
                       <div class="label-text no-label">{{"contentSource_source_url" | translate}}</div>
-                      <input type="text" autocomplete="off" name="url" id="{{'contentAllowId'+i}}" placeholder="{{'contentsource_https' | translate}}" class="input-text" [(ngModel)]="allow.url">
+                      <input type="text" autocomplete="off" name="url" id="{{'contentAllowId'+i}}" placeholder="{{'contentSource_https' | translate}}" class="input-text" [(ngModel)]="allow.url">
                     </div>
                   </div>
                   <div class="crawl-opt-cls" *ngIf="allowURLArray.length>1">
@@ -539,7 +539,7 @@
                   <section class="table-content">
                       <header class="table-header">
                           <div class="col-4">{{"contentSource_field_key_caps" | translate}}</div> 
-                          <div class="col-4">{{"CONTENTSOURCE_FIELD_VALUE_CAPS" | translate}}</div>
+                          <div class="col-4">{{"contentSource_field_value_caps" | translate}}</div>
                           <!-- <div class="col-2"></div> -->
                           <div class="col-4">{{"contentSource_actions_caps" | translate}}</div>
                       </header>
@@ -609,7 +609,7 @@
                 <div class="kr-sg-data-table">
                   <section class="table-content" *ngIf="crwalObject.authorizationProfle.formFields.length>0">
                       <header class="table-header">
-                          <div class="col-3">{{"CONTENTSOURCE_FIELD_KEY_CAPS" | translate}}</div> 
+                          <div class="col-3">{{"contentSource_field_value_caps" | translate}}</div> 
                           <div class="col-2">{{"contentSource_field_type_caps" | translate}}</div>
                           <div class="col-3">{{"contentSource_field_value_caps" | translate}}</div>
                           <div class="col-2"></div>
@@ -739,9 +739,9 @@
                 <div class="kr-sg-data-table">
                   <section class="table-content" *ngIf="crwalObject?.authorizationProfle?.authorizationFields.length>0">
                       <header class="table-header">
-                          <div class="col-3">{{"CONTENTSOURCE_FIELD_KEY_CAPS" | translate}}</div> 
+                          <div class="col-3">{{"contentSource_field_value_caps" | translate}}</div> 
                           <div class="col-2">FILED TYPE</div>
-                          <div class="col-3">{{"CONTENTSOURCE_FIELD_VALUE_CAPS" | translate}}</div>
+                          <div class="col-3">{{"contentSource_field_value_caps" | translate}}</div>
                           <div class="col-2"></div>
                           <div class="col-2 text-right">{{"contentSource_actions_caps" | translate}}</div>
                       </header>
@@ -880,7 +880,7 @@
               <div class="col-4">
                 <div class="kr-sg-input-text">
                   <div class="label-text">{{"contentSource_test_value" | translate}}<sup class="field-mandatory">*</sup></div>
-                  <input id="contentTestValueId" [type]="(crwalObject.authorizationProfle.testType==='status_code')?'number':'text'" placeholder="{{'contentSource_test_value' | translate}" class="input-text" [ngClass]="{'maxUrlLimit-class':crwalObject.authorizationProfle.testType==='status_code'}" [(ngModel)]="crwalObject.authorizationProfle.testValue" autocomplete="off">
+                  <input id="contentTestValueId" [type]="(crwalObject.authorizationProfle.testType==='status_code')?'number':'text'" placeholder="{{'contentSource_test_value' | translate}}" class="input-text" [ngClass]="{'maxUrlLimit-class':crwalObject.authorizationProfle.testType==='status_code'}" [(ngModel)]="crwalObject.authorizationProfle.testValue" autocomplete="off">
                 </div>
               </div>
             </div>

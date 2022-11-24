@@ -11,12 +11,14 @@ import { OnboardingComponentComponent } from 'src/app/components/onboarding-comp
 import { SliderComponentComponent } from 'src/app/shared/slider-component/slider-component.component';
 import { Router } from '@angular/router';
 import { DELETE } from '@angular/cdk/keycodes';
+import { EMPTY_SCREEN } from 'src/app/modules/empty-screen/empty-screen.constants';
 @Component({
   selector: 'app-connectors-source',
   templateUrl: './connectors-source.component.html',
   styleUrls: ['./connectors-source.component.scss']
 })
 export class ConnectorsSourceComponent implements OnInit {
+  emptyScreen = EMPTY_SCREEN.CONNECTORS;
   Connectors = [
     {
       connector_name: "Confluence (Server)",
@@ -571,14 +573,19 @@ export class ConnectorsSourceComponent implements OnInit {
   //call jobs api wrt status
   checkJobStatus(){
     let jobInterval = setInterval(()=>{
-      this.appSelectionService.connectorSyncJobStatus(this.searchIndexId,this.connectorId).then((res:any)=>{
-        this.overViewData.jobs = res;
-        if(res&&res[0]?.status!=='INPROGRESS'){
+      if(this.connectorId){
+        this.appSelectionService.connectorSyncJobStatus(this.searchIndexId,this.connectorId).then((res:any)=>{
+          this.overViewData.jobs = res;
+          if(res&&res[0]?.status!=='INPROGRESS'){
+            clearInterval(jobInterval);
+            this.isSyncLoading = false;
+            this.getConnectorData();
+          }
+        })
+      }else{
           clearInterval(jobInterval);
           this.isSyncLoading = false;
-          this.getConnectorData();
-        }
-      })
+      }
     },3000)
   }
   

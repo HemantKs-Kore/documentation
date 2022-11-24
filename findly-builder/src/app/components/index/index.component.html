@@ -711,7 +711,7 @@
                         <button class="dropdown-toggle dropdown-input" id="dropdownBasic1" data-toggle="dropdown"
                           ngbDropdownAnchor (click)="clearcontentSrc()">
 
-                          {{map.source_field? map.source_field :"Choose feild"}}
+                          {{map.source_field? map.source_field :"Choose field"}}
 
                         </button>
                         <ul class="dropdown-menu content-menu faq-filter-add col-12 mw-100" style="overflow-y: hidden;"
@@ -731,11 +731,68 @@
                             </ng-container>
                           </perfect-scrollbar>
                         </ul>
-
-
                       </div>
                     </div>
                   </div>
+
+                  <div class="col-6 mb-2" *ngIf="selectedStage.type === 'snippet_extraction'">
+                    <div class="label-text">Source Title</div>
+                    <div class="kr-sg-dropdowns" ngbDropdown>
+                      <div class="dropdown dropdown-open">
+                        <button class="dropdown-toggle dropdown-input" id="dropdownBasic1" data-toggle="dropdown"
+                          ngbDropdownAnchor (click)="clearcontentSrcField2()">
+                          {{map.title_field? map.title_field:"Choose field"}}
+                        </button>
+                        <ul class="dropdown-menu content-menu faq-filter-add col-12 mw-100" style="overflow-y: hidden;"
+                          ngbDropdownMenu>
+                          <li class="search-box" ngbDropdownItem>
+                            <input id="searchBoxId3" autocomplete="off" type="text" placeholder="{{'sa_search' | translate}}"
+                              class="seach-input" autofocus [(ngModel)]="search_basic_fieldName3" />
+                          </li>
+                          <perfect-scrollbar class="scroll-search-field h-178">
+                            <ng-container>
+                              <li ngbDropdownItem
+                                *ngFor="let suggesition of fields | filter : [search_basic_fieldName3, 'fieldName']"
+                                (click)="map.title_field=suggesition.fieldName;addCondition('update',i,'field',suggesition._id,'config');"
+                                [ngClass]="{'highlight':map.title_field == suggesition.fieldName}">
+                                {{ suggesition.fieldName }}
+                              </li>
+                            </ng-container>
+                          </perfect-scrollbar>
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="col-6 mb-2" *ngIf="selectedStage.type === 'snippet_extraction'">
+                    <div class="label-text">Source URL</div>
+                    <div class="kr-sg-dropdowns" ngbDropdown>
+                      <div class="dropdown dropdown-open">
+                        <button class="dropdown-toggle dropdown-input" id="dropdownBasic1" data-toggle="dropdown"
+                          ngbDropdownAnchor (click)="clearcontentSrcURL()">
+                          {{map.url_field? map.url_field :"Choose field"}}
+                        </button>
+                        <ul class="dropdown-menu content-menu faq-filter-add col-12 mw-100" style="overflow-y: hidden;"
+                          ngbDropdownMenu>
+                          <li class="search-box" ngbDropdownItem>
+                            <input id="searchBoxId4" autocomplete="off" type="text" placeholder="{{'sa_search' | translate}}"
+                              class="seach-input" autofocus [(ngModel)]="search_basic_fieldName4" />
+                          </li>
+                          <perfect-scrollbar class="scroll-search-field h-178">
+                            <ng-container>
+                              <li ngbDropdownItem
+                                *ngFor="let suggesition of fields | filter : [search_basic_fieldName4, 'fieldName']"
+                                (click)="map.url_field=suggesition.fieldName;addCondition('update',i,'field',suggesition._id,'config');"
+                                [ngClass]="{'highlight':map.url_field == suggesition.fieldName}">
+                                {{ suggesition.fieldName }}
+                              </li>
+                            </ng-container>
+                          </perfect-scrollbar>
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+
 
                   <!-- adding d-none class to hide the Choose Model -->
                   <div class="kr-sg-dropdowns col-4 input-box d-none" *ngIf="selectedStage.type === 'semantic_meaning'">
@@ -918,8 +975,63 @@
                         </ng-container>
                       </perfect-scrollbar>
                     </ul>
+                  </div>
+                </div>
+              </div>
+              <div class="col-6 mb-2" *ngIf="selectedStage.type === 'snippet_extraction'">
+                <div class="label-text">Source Title</div>
+                <div class="kr-sg-dropdowns" ngbDropdown>
+                  <div class="dropdown dropdown-open">
+                    <button class="dropdown-toggle dropdown-input" id="dropdownBasic1entity" data-toggle="dropdown"
+                       ngbDropdownToggle (click)="clearcontentSrcField2()">
+                       {{newMappingObj[selectedStage.type].defaultValue.title_field?newMappingObj[selectedStage.type].defaultValue.title_field:"Choose field"}}
+                    </button>
+                    <ul class="dropdown-menu content-menu faq-filter-add  mw-100" style="overflow-y: hidden;"
+                      ngbDropdownMenu>
+                      <li class="search-box">
+                        <input id="searchBoxId3" autocomplete="off" type="text"
+                          placeholder="{{'sa_search' | translate}}" class="seach-input" [(ngModel)]="search_basic_fieldName3" autofocus />
+                      </li>
+                      <perfect-scrollbar class="scroll-search-field h-178">
+                        <ng-container>
+                          <li ngbDropdownItem
+                            *ngFor="let suggesition of fields | filter : [search_basic_fieldName3, 'fieldName']"
+                            (click)="newMappingObj[selectedStage.type].defaultValue.title_field = suggesition.fieldName"
+                            [ngClass]="{'highlight':newMappingObj[selectedStage.type].defaultValue.title_field== suggesition.fieldName}">
+                            {{ suggesition.fieldName }}
+                          </li>
+                        </ng-container>
+                      </perfect-scrollbar>
+                    </ul>
+                  </div>
+                </div>
+              </div>
 
-
+              <div class="col-6 mb-2" *ngIf="selectedStage.type === 'snippet_extraction'">
+                <div class="label-text">Source URL</div>
+                <div class="kr-sg-dropdowns" ngbDropdown>
+                  <div class="dropdown dropdown-open">
+                    <button class="dropdown-toggle dropdown-input" id="dropdownBasic1entity" data-toggle="dropdown"
+                       ngbDropdownToggle (click)="clearcontentSrcField2()">
+                       {{newMappingObj[selectedStage.type].defaultValue.url_field?newMappingObj[selectedStage.type].defaultValue.url_field:"Choose field"}}
+                    </button>
+                    <ul class="dropdown-menu content-menu faq-filter-add  mw-100" style="overflow-y: hidden;"
+                      ngbDropdownMenu>
+                      <li class="search-box">
+                        <input id="searchBoxId4" autocomplete="off" type="text"
+                          placeholder="{{'sa_search' | translate}}" class="seach-input" [(ngModel)]="search_basic_fieldName4" autofocus />
+                      </li>
+                      <perfect-scrollbar class="scroll-search-field h-178">
+                        <ng-container>
+                          <li ngbDropdownItem
+                            *ngFor="let suggesition of fields | filter : [search_basic_fieldName4, 'fieldName']"
+                            (click)="newMappingObj[selectedStage.type].defaultValue.url_field = suggesition.fieldName"
+                            [ngClass]="{'highlight':newMappingObj[selectedStage.type].defaultValue.url_field== suggesition.fieldName}">
+                            {{ suggesition.fieldName }}
+                          </li>
+                        </ng-container>
+                      </perfect-scrollbar>
+                    </ul>
                   </div>
                 </div>
               </div>

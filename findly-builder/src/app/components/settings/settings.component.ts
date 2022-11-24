@@ -10,6 +10,7 @@ import { ActivatedRoute } from '@angular/router';
 import { AuthService } from '@kore.services/auth.service';
 import { ɵangular_packages_platform_browser_dynamic_platform_browser_dynamic_a } from '@angular/platform-browser-dynamic';
 import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
+import { EMPTY_SCREEN } from 'src/app/modules/empty-screen/empty-screen.constants';
 declare const $: any;
 @Component({
   selector: 'app-settings',
@@ -17,6 +18,7 @@ declare const $: any;
   styleUrls: ['./settings.component.scss']
 })
 export class SettingsComponent implements OnInit {
+  emptyScreen = EMPTY_SCREEN.MANAGE;
   slider = 0;
   refId = "";
   botID = '';
@@ -266,7 +268,7 @@ export class SettingsComponent implements OnInit {
     this.service.invoke('get.embededSdk', queryParams).subscribe(
       res => {
         this.webClientDetails = res;
-        this.scriptTags =    res.cssTag +  res.scriptTag +  res.scriptTagInitilization ;
+        this.scriptTags =    res.scriptTag +  res.scriptTagInitilization ;
       },
       errRes => {
         if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
@@ -278,9 +280,10 @@ export class SettingsComponent implements OnInit {
     );
   }
   updateEmbededSdk(){
-    this.webClientDetails.domains.forEach(element => {
+    this.webClientDetails.domains.forEach((element, index) => {
       if(element == ""){
-        this.webClientDetails.domains.remove(element);
+      //  var index = this.webClientDetails.domains.indexOf(element);
+       this.webClientDetails.domains.splice(index,1)
       }
     });
       const queryParams = {
@@ -293,7 +296,7 @@ export class SettingsComponent implements OnInit {
       // payload.domains = this.webClientDetails.domains;
       this.service.invoke('post.updateEmbededSdk', queryParams ,payload).subscribe(
         res => {
-          console.log('API Triggered',res);
+          // console.log('API Triggered',res);
         },
         errRes => {
           if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
@@ -306,11 +309,10 @@ export class SettingsComponent implements OnInit {
     
   }
   onFocusOutEvent(event){
-  this.webClientDetails.domains[this.webClientDetails.domains.length - 1] = event.target.value;
+    this.webClientDetails.domains[this.webClientDetails.domains.length - 1] = event.target.value;
   }
   addNewDomain(){
-  this.webClientDetails.domains.push('')
-  
+  this.webClientDetails.domains.push('')  
   }
   deleteDomain(recordIndex){
     this.webClientDetails.domains.splice(recordIndex,1) 

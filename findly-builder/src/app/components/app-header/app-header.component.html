@@ -14,7 +14,7 @@
                         <span>{{ 'header_overview' | translate }}</span>
                         <span routerLink="/summary" class="d-none"></span>
                     </div>
-                    <div class="headerMenuTab" [ngClass]="{'active' : menuItems?.sources?.includes(mainMenu)}" skipLocationChange routerLinkActive="active" (click)="analyticsClick('/content');closeUserMetaTagsSlider()">
+                    <div class="headerMenuTab" [ngClass]="{'active' : menuItems?.sources?.includes(mainMenu)}" skipLocationChange routerLinkActive="active" (click)="analyticsClick('/source');closeUserMetaTagsSlider()">
                         <span>{{ 'header_sources' | translate }}</span>
                         <span routerLink="/source" class="d-none"></span>
                         <span routerLink="/content" class="d-none"></span>
@@ -84,7 +84,7 @@
                 <ng-template #rt let-r="result" let-t="term">
                     <ngb-highlight (click)="triggerRoute(null,r)" [result]="r.displayName" [term]="t"></ngb-highlight>
                 </ng-template>
-                <li class="nav-item autoSearchTools d-none">
+                <!-- <li class="nav-item autoSearchTools d-none">
                     <img src="assets/icons/sidemenu/search.svg" (click)="toggleSearch(true)"
                         [ngClass]="{'d-none': searchActive}">
                     <div class="kr-sg-input-search" [ngClass]="{'d-none': !searchActive}">
@@ -98,7 +98,7 @@
                         <img [src]="searchImgSrc" class="search-icon" *ngIf="!searchText">
                         <img class="close-icon" src="assets/icons/close_icon.svg" [ngClass]="{'pr-22':searchText}" (click)="focusoutSearch()">
                     </div>
-                </li>
+                </li> -->
                 <!-- <div class="text-right nav-item trainBlock d-none">
                     <button class="kr-sg-button-primary btn_lg" [disabled]='training' (click)="train()">{{(training)?'Training...':'Train'}}</button>
                 </div> -->
@@ -141,12 +141,31 @@
                       tooltipClass="test-icon-tooltip" class="kr-sg-button-secondary btn_lg rr-tour-test-btn"
                       id="test-btn-launch-sdk" (click)="openOrCloseSearchSDK()" [disabled]="isRouteDisabled"><span class="pr-1 align-middle"><i class="si-play-button"></i></span>{{ 'header_preview' | translate }}</button>
                 </li>
-
-                <li class="nav-item new-train-btn" (click)="isRouteDisabled?null:train()" ngbTooltip="{{ 'header_trainYourApp' | translate }}"  [ngClass]='{"active-train":training}'>
-                    <button class="kr-sg-button-secondary btn_lg"><span class="pr-1 align-middle"><i class="si-train-multi-intent"></i></span>{{ 'header_train' | translate }}</button>
-                  </li>
-                
-
+             <!-- New Code wrt to Stop Traing -->
+            <!-- <li class="nav-item new-train-btn" (mouseenter)="displayStopTrain()" (mouseleave)="displayStopTrainLeave()" (click)="isRouteDisabled?null:train()" [ngbTooltip]="training && showClose?'Stop Training The App':'Train Your APP'">
+                    <button  class="kr-sg-button-secondary btn_lg" [ngClass]='{"show-close":showClose && training}'>
+                        <span class="align-middle train-btn-icons">
+                            <span *ngIf="!training" >
+                                <i class="si-train-multi-intent"></i>
+                            </span>
+                            <span class="training-pending-icon" *ngIf="training && !showClose">
+                                <i class="si-recall"></i>
+                            </span>
+                            <span *ngIf="showClose && training">
+                                <i class="si-close icon-close"></i>
+                            </span>                                
+                        </span>
+                        <span class="pl-1">
+                            {{training && !showClose?"Train":training && showClose?" Stop" : "Train"}}
+                        </span>
+                    </button>
+            </li> -->
+             <!-- New Code wrt to Stop Traing -->
+            <!-- OLD Code should be remove after testing-->
+            <li class="nav-item new-train-btn" (click)="isRouteDisabled?null:train()" ngbTooltip="{{ 'header_trainYourApp' | translate }}"  [ngClass]='{"active-train":training}'>
+                <button class="kr-sg-button-secondary btn_lg"><span class="pr-1 align-middle"><i class="si-train-multi-intent"></i></span>{{ 'header_train' | translate }}</button>
+              </li>
+            <!-- OLD Code should be remove after testing-->
                 <!-- <li (click)="isRouteDisabled?null:train()" class="nav-item train-btn" ngbTooltip="{{ 'header_trainYourApp' | translate }}"
                     container='body' tooltipClass="train-icon-tooltip" [ngClass]='{"active-train":training}'>
                     <div class="loader-train"></div>
