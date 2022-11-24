@@ -176,19 +176,19 @@
                    // custom configurations css start from here
                    .cc-landing-page-block{
                     padding: 35px 20px 15px 35px;
-                    // .splitter-header{
-                    //     display: flex;
-                    //     align-items: center;
-                    //     justify-content: space-between;
-                    //     padding: 35px 0px 15px 0px;
-                    //     .add-field-link-btn{
-                    //         color: #9DA1A6;
-                    //         font-weight: 400;
-                    //         font-size: 14px;
-                    //         line-height: 20px;
-                    //         cursor: pointer;
-                    //     }
-                    // }
+                    .splitter-header{
+                        display: flex;
+                        align-items: center;
+                        justify-content: space-between;
+                        // padding: 35px 0px 15px 0px;
+                        .add-field-link-btn{
+                            color: #9DA1A6;
+                            font-weight: 400;
+                            font-size: 14px;
+                            line-height: 20px;
+                            cursor: pointer;
+                        }
+                    }
                     .widget-header-block{
                         .widget-header{
                             font-weight: 500;

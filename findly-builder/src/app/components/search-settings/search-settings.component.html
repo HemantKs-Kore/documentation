@@ -152,13 +152,18 @@
         <!--Presentable component-->
         <ng-container *ngSwitchCase="'custom_configurations'">
           <div class="cc-landing-page-block">
-            <div class="widget-header-block">
-              <div class="widget-header">Custom Configurations</div>
-              <div class="widget-desc">Add key-value pair in custom configuration to test out new features and capabilities</div>
+            <div class="splitter-header">
+              <div class="widget-header-block">
+                <div class="widget-header">Custom Configurations</div>
+                <div class="widget-desc">Add key-value pair in custom configuration to test out new features and capabilities</div>
+              </div>
+              <div class="add-field-link-btn"><span class="icon-add-span"><i class="si-add-plus icon-add"></i></span>
+                Add Field</div>
             </div>
+         
 
             <div class="cc-table-block">
-              <div class="cc-table-filter-block">
+              <!-- <div class="cc-table-filter-block">
                   <div class="cc-add">
                       <div class="add-field-link-btn" (click)="openModalPopup()"><span class="icon-add-span"><i class="si-add-plus icon-add"></i></span>
                           Add Field</div>
@@ -174,7 +179,7 @@
                           </span>                                   
                       </div>
                   </div>
-              </div>
+              </div> -->
           
               <!-- table start from here -->
               <div class="custom-config-table row m-0">
@@ -199,7 +204,29 @@
                           </div>
                       </div>
                       <perfect-scrollbar class="table_body_content custom-config-table-body">
-                                  <div class="table_body row m-0">
+                        <div class="table_body row m-0">
+                          <div class="col-5 title text-left text-truncate">
+                            <div class="kr-sg-input-text cc-input-text">
+                              <input type="text" placeholder="Enter Key Here" class="input-text">
+                          </div>
+                          </div>
+                          <div class="col-5 title text-left p-0">
+                            <div class="kr-sg-input-text cc-input-text">
+                              <input type="text" placeholder="Enter Value Here" class="input-text">
+                          </div>
+                          </div>
+                          <div class="col-2 p-0 text-left">
+                              <div class="action_links">
+                                <span class="action_link-icon">
+                                    <i class="si-pencil-edit mr-2"></i>
+                                </span>
+                                <span class="action_link-icon link-delete">
+                                  <i class="si-delete1"></i>
+                                </span>
+                              </div>
+                          </div>
+                        </div>
+                        <div class="table_body row m-0">
                                       <div class="col-5 title text-left text-truncate" title="">
                                           English
                                       </div>
@@ -216,29 +243,8 @@
                                           </span>
                                         </div>
                                       </div>
-                                  </div>
-                                  <div class="table_body row m-0">
-                                      <div class="col-5 title text-left text-truncate">
-                                        <div class="kr-sg-input-text cc-input-text">
-                                          <input type="text" placeholder="Enter Key Here" class="input-text">
-                                      </div>
-                                      </div>
-                                      <div class="col-5 title text-left p-0">
-                                        <div class="kr-sg-input-text cc-input-text">
-                                          <input type="text" placeholder="Enter Value Here" class="input-text">
-                                      </div>
-                                      </div>
-                                      <div class="col-2 p-0 text-left">
-                                          <div class="action_links">
-                                            <span class="action_link-icon">
-                                                <i class="si-pencil-edit mr-2"></i>
-                                            </span>
-                                            <span class="action_link-icon link-delete">
-                                              <i class="si-delete1"></i>
-                                            </span>
-                                          </div>
-                                      </div>
-                                  </div>
+                        </div>
+                                 
                       </perfect-scrollbar>
                   </div>
               </div>
