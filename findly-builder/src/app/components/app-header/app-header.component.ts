@@ -57,6 +57,7 @@ export class AppHeaderComponent implements OnInit {
   alphabetSeries: any = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z']
   training: boolean = false;
   fromCallFlow = '';
+  disableClearAll:boolean = false;
   showSwichAccountOption = false;
   searchActive = false;
   searchImgSrc: any = 'assets/icons/search_gray.svg';
@@ -667,12 +668,12 @@ export class AppHeaderComponent implements OnInit {
     this.fromCallFlow = '';
     this.ref.detectChanges();
   }
+  //FOR TRAINING 
   train() {
-    if (this.training) {
-      return;
-    }
+    if(!this.training){
       this.training = true;
       const self = this;
+      var url ;
       const selectedApp = this.workflowService.selectedApp();
       if (selectedApp && selectedApp.searchIndexes && selectedApp.searchIndexes.length) {
         const payload = {
@@ -690,30 +691,33 @@ export class AppHeaderComponent implements OnInit {
             this.trainingInitiated = true;
             // this.appSelectionService.updateTourConfig('indexing');
             this.poling();
-          }, 5000)
+          }, 200)
         }, errRes => {
           self.training = false;
           this.notificationService.notify('Failed to train the app', 'error');
         });
       }
+    }
+    else {
+      this.stopTrain();
+      this.notificationService.notify('Stoping Train Initiated', 'success');
+    }
   }
-// showing Stop button
-displayStopTrain(){
-  if(this.training){
-   this.countTrainAction = this.countTrainAction+1; 
-   this.countTrainAction>1?this.showClose=true:this.showClose=false;
+  //SHOWING STOP BUTTON 
+  displayStopTrain(){
+    if(this.training){
+    this.countTrainAction = this.countTrainAction+1; 
+    this.countTrainAction>1?this.showClose=true:this.showClose=false;
+    }
+    else {
+      this.countTrainAction = 0;
+    }
   }
-  else {
+  displayStopTrainLeave(){
     this.countTrainAction = 0;
+    this.displayStopTrain()
   }
-}
-displayStopTrainLeave(){
-  this.countTrainAction = 0;
-  this.displayStopTrain()
-}
-
-
-  //For stoping Train
+  //FOR STOPING TRAIN
   stopTrain(){
     this.training = false;
     const selectedApp = this.workflowService.selectedApp();
@@ -759,7 +763,7 @@ displayStopTrainLeave(){
   //     this.statusDockerLoading = false;
   //   }
   // }
-
+  
   poling(recordStatistics?, updateRecordsWithRead?) {
     if (this.pollingSubscriber) {
       this.pollingSubscriber.unsubscribe();
@@ -887,7 +891,7 @@ displayStopTrainLeave(){
           this.isAnyRecordInprogress = false;
           this.pollingSubscriber.unsubscribe();
         }
-
+        this.checkJObStatus(this.dockersList)
       }, errRes => {
         this.pollingSubscriber.unsubscribe();
         if (errRes && errRes.error && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0].msg) {
@@ -898,6 +902,18 @@ displayStopTrainLeave(){
       });
     }
     )
+  }
+  // CHECK FOR THE INPROGRESS JOB 
+  checkJObStatus(dockersList){
+    dockersList.forEach(element => {
+      if((element.status === 'IN_PROGRESS' || element.status === 'INPROGRESS' || element.status === 'in_progress' || element.status === 'inprogress'
+      || element.status === 'running' || element.status === 'RUNNING')){
+        this.disableClearAll = true;
+      }
+      else {
+        this.disableClearAll = false;
+      }
+    });
   }
 
   getStatusView(status, other?) {
@@ -918,7 +934,8 @@ displayStopTrainLeave(){
       }
       /**made code updates in line no 630 on 03/01 added new condition for FAILED,since FAILURE is updated to FAILED as per new api contract*/
       // else if (status === 'FAILURE') {
-        else if (status === 'FAILURE' || status === 'FAILED' || status === 'failed' || status === 'failure') {
+        else if (
+          status === 'FAILURE' || status === 'FAILED' || status === 'failed' || status === 'failure') {
           return 'Failed'
         }
     }
