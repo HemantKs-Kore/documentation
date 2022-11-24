@@ -7,6 +7,7 @@ import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
 import { NgbModule, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 
 
+
 @NgModule({
   declarations: [SearchSettingsComponent],
   imports: [

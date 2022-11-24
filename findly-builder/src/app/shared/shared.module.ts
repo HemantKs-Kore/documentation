@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { SliderComponentComponent } from './slider-component/slider-component.component';
-import { KRModalComponent } from './kr-modal/kr-modal.component';
+import { SearchSettingsSharedModule } from '../modules/search-settings-shared/search-settings-shared.module';
 
 const COMPONENTS = [
   SliderComponentComponent
@@ -10,14 +10,14 @@ const COMPONENTS = [
 @NgModule({
   declarations: [
     SliderComponentComponent,
-    KRModalComponent
   ],
   imports: [
-    CommonModule
+    CommonModule,
+    SearchSettingsSharedModule
   ],
   exports: [
     SliderComponentComponent,
-    KRModalComponent
+    
   ],
 })
 export class SharedModule { }
