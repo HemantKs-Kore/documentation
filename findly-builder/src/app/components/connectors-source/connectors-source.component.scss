@@ -1308,6 +1308,11 @@
     }
 }
 
+.content-settings-tab-data ::ng-deep .empty-screen-wrapper img {
+    width: 100px;
+    height: 100px;
+}
+
 .text-overflow {
     white-space: nowrap;
     overflow: hidden;

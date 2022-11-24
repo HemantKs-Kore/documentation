@@ -24,7 +24,15 @@
 
   <ng-container *ngIf="!linkedBotID && !loadingContent && !loading">
     <perfect-scrollbar class="empty-scroll">
-    <div  class="empty-landing-screen">
+      <app-empty-screen [title]="emptyScreen.TITLE" [desc]="emptyScreen.DESC" [imgName]="emptyScreen.IMG_NAME">
+        <div class="action-buttons">
+          <button class="kr-sg-button-primary btn_lg" (click)="openBotsModalElement()">
+            <i class="si-bot"></i>
+            {{'botAction_link_a_bot' | translate}}
+          </button>
+        </div>
+      </app-empty-screen>
+    <!-- <div  class="empty-landing-screen">
       <div class="img-block" *ngIf="!emptyItems"><img class="action_icon" (load)="imageLoad()" src="assets/images/botactions-empty.png"></div>
       <ng-container *ngIf="loadImageText" >
           <div class="empty-title">{{'botAction_bot_actions' | translate}}</div>
@@ -40,7 +48,7 @@
           <div class="desc-text">{{'botAction_your_search_query_doesnot_match_with_any_record' | translate}}</div>
       </ng-container>
 
-  </div>
+  </div> -->
   </perfect-scrollbar>
   </ng-container>
 
@@ -202,49 +210,51 @@
           </div>
         </div>
       </div>
-      <ng-container *ngIf="( linkedBotTasks && linkedBotTasks.length )">
-        <perfect-scrollbar class="scroll-task-data">
-          <div class="table-body-content-task">
-            <div class="data-container-sec row col-12" [ngClass]="{'checked-item':selcectionObj.selectedItems[task._id]}" *ngFor="let task of linkedBotTasks  | filter: [ searchTasks, 'name']; let i = index;">
-                <div class="checkbox-info-data col-4">
-                  <!-- <div class="kr-sg-checkbox checkbox-for-all m-0 p-0">
-                    <input  id="cx{{task._id}}" name="{{task._id}}" class="checkbox-custom selectEachTaskInput" (change)="checkUncheckTasks(task)" type="checkbox">
-                    <label for="cx{{task._id}}" class="checkbox-custom-label">
-                      <span class="selected-count"></span>
-                    </label>
-                  </div> -->
-                  <div class="content-sec">
-                      <div class="primary-title" >{{task.name}}</div>
-                      <div class="secondary-title">{{task.shortDesc || '--'}}</div>
-                  </div>
-                </div>
-                <div class="col-3 bot-icon-url"><img src="{{task.botIconUrl}}">{{task.botName}}</div>
-                <div class="col-5 task-type">{{task.type}} {{'botAction_task'| translate}}</div>
-                <!-- <div class="col-1 enable-title">{{task.taskStatus}}</div> -->
-                <!-- <div class="views-clicks-data col-4">
-                    <div class="clicks-view-info">
-                      <img src="assets/icons/actions/views.svg">{{task.noOfAppearences}}&nbsp; Views
-                    </div>
-                    <div class="clicks-view-info">
-                      <img src="assets/icons/actions/clicks.svg">{{task.noOfClicks}}&nbsp; Clicks
-                    </div>
-                    <div class="kr-sg-dropdowns add elipse-action-dropdown" ngbDropdown [container]="'body'" [placement]="'bottom-right'" [ngClass]="{'d-none':selcectionObj.selectedItems[task._id]}">                                        
-                      <div class="dropdown dropdown-open">
-                          <div class="linked-task-status-control" ngbDropdownToggle>
-                              <img src="assets/icons/elipse.svg">
-                          </div>                      
-                          <ul class="dropdown-menu content-menu faq-filter-add pt-0 pb-0" ngbDropdownMenu>                          
-                              <li *ngIf="task.taskStatus == 'Disabled'" (click)="enableTask(task._id)">Enable Task</li>
-                              <li *ngIf="task.taskStatus == 'Enabled'"  (click)="disableTask(task._id)">Disable Task</li>
-                          </ul>
-                      </div>
-                  </div> 
+      <perfect-scrollbar class="scroll-task-data">
+        <div class="table-body-content-task" *ngIf="( linkedBotTasks  | filter: [ searchTasks, 'name'] ).length; else noBotTasks">
+          <div class="data-container-sec row col-12" [ngClass]="{'checked-item':selcectionObj.selectedItems[task._id]}" *ngFor="let task of linkedBotTasks  | filter: [ searchTasks, 'name']; let i = index;">
+              <div class="checkbox-info-data col-4">
+                <!-- <div class="kr-sg-checkbox checkbox-for-all m-0 p-0">
+                  <input  id="cx{{task._id}}" name="{{task._id}}" class="checkbox-custom selectEachTaskInput" (change)="checkUncheckTasks(task)" type="checkbox">
+                  <label for="cx{{task._id}}" class="checkbox-custom-label">
+                    <span class="selected-count"></span>
+                  </label>
                 </div> -->
-            </div>
-           
+                <div class="content-sec">
+                    <div class="primary-title" >{{task.name}}</div>
+                    <div class="secondary-title">{{task.shortDesc || '--'}}</div>
+                </div>
+              </div>
+              <div class="col-3 bot-icon-url"><img src="{{task.botIconUrl}}">{{task.botName}}</div>
+              <div class="col-5 task-type">{{task.type}} {{'botAction_task'| translate}}</div>
+              <!-- <div class="col-1 enable-title">{{task.taskStatus}}</div> -->
+              <!-- <div class="views-clicks-data col-4">
+                  <div class="clicks-view-info">
+                    <img src="assets/icons/actions/views.svg">{{task.noOfAppearences}}&nbsp; Views
+                  </div>
+                  <div class="clicks-view-info">
+                    <img src="assets/icons/actions/clicks.svg">{{task.noOfClicks}}&nbsp; Clicks
+                  </div>
+                  <div class="kr-sg-dropdowns add elipse-action-dropdown" ngbDropdown [container]="'body'" [placement]="'bottom-right'" [ngClass]="{'d-none':selcectionObj.selectedItems[task._id]}">                                        
+                    <div class="dropdown dropdown-open">
+                        <div class="linked-task-status-control" ngbDropdownToggle>
+                            <img src="assets/icons/elipse.svg">
+                        </div>                      
+                        <ul class="dropdown-menu content-menu faq-filter-add pt-0 pb-0" ngbDropdownMenu>                          
+                            <li *ngIf="task.taskStatus == 'Disabled'" (click)="enableTask(task._id)">Enable Task</li>
+                            <li *ngIf="task.taskStatus == 'Enabled'"  (click)="disableTask(task._id)">Disable Task</li>
+                        </ul>
+                    </div>
+                </div> 
+              </div> -->
           </div>
-        </perfect-scrollbar>  
-      </ng-container>
+          
+        </div>
+        <ng-template #noBotTasks>
+          <app-empty-screen [title]="emptyScreen.TITLE_SEARCH" [desc]="emptyScreen.DESC_SEARCH" [imgName]="emptyScreen.IMG_NAME">
+          </app-empty-screen>
+        </ng-template>
+      </perfect-scrollbar>  
     </div>
   </ng-container>
 
