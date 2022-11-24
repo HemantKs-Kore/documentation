@@ -59,7 +59,7 @@ export class ConnectorsSourceComponent implements OnInit {
     {
       connector_name: "SharePoint",
       description: "Please complete configuration",
-      type: "sharePoint",
+      type: "sharepointOnline",
       image: "assets/icons/connectors/sharepoint.png",
       url: "https://microsoft.sharepoint.com/",
       doc_url: "https://learn.microsoft.com/en-us/sharepoint/dev/",
@@ -212,12 +212,12 @@ export class ConnectorsSourceComponent implements OnInit {
       this.configurationObj.name = res?.name;
       this.configurationObj.hostUrl = res?.configuration?.hostUrl;
       this.configurationObj.hostDomainName = res?.configuration?.hostDomainName;
-      this.configurationObj.tenantId = res?.configuration?.tenantId;
       this.configurationObj.clientId = res?.authDetails?.clientId;
       this.configurationObj.clientSecret = res?.authDetails?.clientSecret;
       this.configurationObj.isActive = res?.isActive;
       this.configurationObj.username = res?.authDetails?.username;
       this.configurationObj.password = res?.authDetails?.password;
+      this.configurationObj.tenantId = res?.authDetails?.tenantId;
       this.getConentData();      
     }, errRes => {
       this.errorToaster(errRes, 'Connectors API Failed');
@@ -386,10 +386,10 @@ export class ConnectorsSourceComponent implements OnInit {
       payload.authDetails.username = this.configurationObj.username;
       payload.authDetails.password = this.configurationObj.password;
     }
-    if (this.selectedConnector.type === 'sharePoint') {
-      payload.configuration.tenantId = this.configurationObj.tenantId;
+    if (this.selectedConnector.type === 'sharepointOnline') {
+      payload.authDetails.tenantId = this.configurationObj.tenantId;
     }
-    if (['zendesk','sharePoint'].includes(this.selectedConnector.type)) {
+    if (['zendesk','sharepointOnline'].includes(this.selectedConnector.type)) {
       delete payload.configuration.hostDomainName;   
     }
     this.service.invoke('post.connector', quaryparms, payload).subscribe(res => {
@@ -415,7 +415,7 @@ export class ConnectorsSourceComponent implements OnInit {
     this.service.invoke('post.authorizeConnector', quaryparms, payload).subscribe(res => {
       if (res) {
         this.isloadingBtn = false;
-        if (['confluenceCloud','zendesk','sharePoint'].includes(data?.type)) {
+        if (['confluenceCloud','zendesk','sharepointOnline'].includes(data?.type)) {
           window.open(res.url, '_self');
         }
         else {
@@ -501,10 +501,10 @@ export class ConnectorsSourceComponent implements OnInit {
       payload.authDetails.username = this.configurationObj.username;
       payload.authDetails.password = this.configurationObj.password;
     }
-    if (this.selectedConnector.type === 'sharePoint') {
-      payload.configuration.tenantId = this.configurationObj.tenantId;
+    if (this.selectedConnector.type === 'sharepointOnline') {
+      payload.authDetails.tenantId = this.configurationObj.tenantId;
     }
-    if (['zendesk','sharePoint'].includes(this.selectedConnector.type)) {
+    if (['zendesk','sharepointOnline'].includes(this.selectedConnector.type)) {
       delete  payload.configuration.hostDomainName
     }
     this.service.invoke('put.connector', quaryparms, payload).subscribe(res => {
