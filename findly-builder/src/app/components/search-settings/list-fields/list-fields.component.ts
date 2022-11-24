@@ -17,8 +17,12 @@ export class ListFieldsComponent implements OnInit {
   @ViewChild(PerfectScrollbarDirective) directiveRef?: PerfectScrollbarDirective;
   @Input() tablefieldvalues;
   @Input() popupfieldvalues;
+  @Input() maxpageno;
   @Output() emitRecord = new EventEmitter();
   @Output() sort=new EventEmitter();
+  @Output() searchModel =new EventEmitter();
+  @Output() pageno =new EventEmitter();
+   page_number=0;
   constructor(
     public dialog: MatDialog
   ) { }
@@ -124,10 +128,32 @@ export class ListFieldsComponent implements OnInit {
   /** On Perfect Scroll Event Y end */
   onYReachEnd(event){
     this.perfectScroll.directiveRef.scrollTo(25,50,500)
+    this.nextpage()
+  }
+  /**increase page number and emit value */
+  nextpage(){
+    if(this.page_number < 0){
+      this.page_number=0;
+    }
+    this.page_number=this.page_number+1    
+    if(this.page_number>=this.maxpageno){
+      this.page_number=this.maxpageno;
+    }
+    this.pageno.emit(this.page_number)
+
   }
   /** On Perfect Scroll Event Y end */
   onYReachStart(event){
     this.perfectScroll.directiveRef.scrollTo(5,50,500)
+    this.previouspage()
+  }
+  /**reduce the page number and emit value*/
+  previouspage(){
+    this.page_number=this.page_number-1
+    if(this.page_number < 0){
+      this.page_number=0;
+    }
+    this.pageno.emit(this.page_number)
   }
   openModalPopup() {
     this.addFieldModalPopRef = this.addFieldModalPop.open();
@@ -148,8 +174,14 @@ export class ListFieldsComponent implements OnInit {
     this.search_value = '';
   }
 
-  getsearchvalue(value){
-    this.search_value=value
+  getsearchvalue(value,component){
+    let component_type
+    this.search_value=value;
+    component_type=component
+    this.searchModel.emit({
+      componenttype:component_type,
+      searchvalue :this.search_value
+    });
   }
   add(){
     let record = {};

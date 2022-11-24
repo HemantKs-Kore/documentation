@@ -20,6 +20,22 @@
     // .page-common-scroll{
     //     height: calc(100vh - 120px);
     // }
+    .page-sub-header{
+        .header-title{
+            padding-bottom: 5px;
+            padding-top:20px;
+            color: #121314;
+            font-size: 14px;
+            font-weight: 500;
+            line-height: 17px;
+        }
+        .header-desc{
+            color: #777A80;
+            font-size: 12px;
+            font-weight: 400;
+            line-height: 17px;
+        }
+    }
   .highlighting-toggle{
     padding: 0 0 10px 0;
     .kr-sg-toggle{
