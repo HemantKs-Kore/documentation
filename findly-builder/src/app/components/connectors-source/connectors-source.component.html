@@ -211,9 +211,14 @@
                                                     <input type="text" placeholder="Enter HostURL here" class="input-text" [(ngModel)]="configurationObj.hostUrl">
                                                     <!-- <i class="si-eye"></i> -->
                                                 </div>
-                                                <div class="kr-sg-input-text mb-3" *ngIf="selectedConnector.type !== 'serviceNow'&&  selectedConnector.type !== 'zendesk'">
+                                                <div class="kr-sg-input-text mb-3" *ngIf="selectedConnector.type !== 'serviceNow'&&  selectedConnector.type !== 'zendesk' && selectedConnector.type !== 'sharePoint'">
                                                     <div class="label-text">{{'connectors_host_domain_name'|translate}}</div>
                                                     <input type="text" placeholder="Enter HostURL here" class="input-text" [(ngModel)]="configurationObj.hostDomainName">
+                                                    <!-- <i class="si-eye"></i> -->
+                                                </div>
+                                                <div class="kr-sg-input-text mb-3" *ngIf="selectedConnector.type === 'sharePoint'">
+                                                    <div class="label-text">{{'connectors_tenant_id'|translate}}</div>
+                                                    <input type="text" placeholder="Enter Tenant ID here" class="input-text" [(ngModel)]="configurationObj.tenantId">
                                                     <!-- <i class="si-eye"></i> -->
                                                 </div>
                                                 <ng-container *ngIf="selectedConnector.type==='serviceNow'">
@@ -346,6 +351,11 @@
                                             <div class="kr-sg-input-text mb-3" *ngIf="selectedConnector.type!=='serviceNow' && selectedConnector.type!=='zendesk'">
                                                 <div class="label-text">{{'connectors_host_domain_name'|translate}}</div>
                                                 <input type="text" placeholder="Enter Host DomainName here" class="input-text" [(ngModel)]="configurationObj.hostDomainName">
+                                            </div>
+                                            <div class="kr-sg-input-text mb-3" *ngIf="selectedConnector.type === 'sharePoint'">
+                                                <div class="label-text">{{'connectors_tenant_id'|translate}}</div>
+                                                <input type="text" placeholder="Enter Tenant ID here" class="input-text" [(ngModel)]="configurationObj.tenantId">
+                                                <!-- <i class="si-eye"></i> -->
                                             </div>
                                             <ng-container  *ngIf="selectedConnector.type==='serviceNow'">
                                                 <div class="kr-sg-input-text mb-3">

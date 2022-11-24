@@ -2645,6 +2645,7 @@
     "connectors_connect":"Connect",
     "connectors_hostURL":"Host URL",
     "connectors_host_domain_name":"Host Domain Name",
+    "connectors_tenant_id":"Tenant Id",
     "connectors_username":"Username",
     "connectors_password":"Password",
     "connectors_connection_settings_tab":"Connection Settings",

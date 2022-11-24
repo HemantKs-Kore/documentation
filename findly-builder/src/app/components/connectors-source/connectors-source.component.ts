@@ -53,16 +53,16 @@ export class ConnectorsSourceComponent implements OnInit {
       url: "https://www.zendesk.com/",
       doc_url: "https://developer.zendesk.com/documentation/",
       tag: "Engineering Awesome"
+    },
+    {
+      connector_name: "SharePoint",
+      description: "Please complete configuration",
+      type: "sharePoint",
+      image: "assets/icons/connectors/sharepoint.png",
+      url: "https://microsoft.sharepoint.com/",
+      doc_url: "https://learn.microsoft.com/en-us/sharepoint/dev/",
+      tag: "Empowering teamwork"
     }
-    // {
-    //   connector_name: "SharePoint",
-    //   description: "Please complete configuration",
-    //   type: "sharePoint",
-    //   image: "assets/icons/connectors/sharepoint.png",
-    //   url: "https://microsoft.sharepoint.com/",
-    //   doc_url: "https://learn.microsoft.com/en-us/sharepoint/dev/",
-    //   tag: "Empowering teamwork"
-    // }
   ];
   componentType = 'Connectors';
   selectedContent: string = 'list';
@@ -76,7 +76,7 @@ export class ConnectorsSourceComponent implements OnInit {
   sessionData: any = {};
   connectorsData: any = [];
   availableConnectorsData: any = [];
-  configurationObj: any = { name: '', clientId: '', clientSecret: '', hostUrl: '', hostDomainName: '', username: '', password: '' };
+  configurationObj: any = { name: '', clientId: '', clientSecret: '', hostUrl: '', hostDomainName: '', username: '', password: '',tenantId:'' };
   overViewData: any = { overview: [], coneten: [],jobs:[] };
   syncCount = { count: [], hours: 0, minutes: 0, days: 0 };
   showProtecedText: Object = { isClientShow: false, isSecretShow: false, isPassword: false };
@@ -210,6 +210,7 @@ export class ConnectorsSourceComponent implements OnInit {
       this.configurationObj.name = res?.name;
       this.configurationObj.hostUrl = res?.configuration?.hostUrl;
       this.configurationObj.hostDomainName = res?.configuration?.hostDomainName;
+      this.configurationObj.tenantId = res?.configuration?.tenantId;
       this.configurationObj.clientId = res?.authDetails?.clientId;
       this.configurationObj.clientSecret = res?.authDetails?.clientSecret;
       this.configurationObj.isActive = res?.isActive;
@@ -313,7 +314,7 @@ export class ConnectorsSourceComponent implements OnInit {
       this.isAuthorizeStatus = false;
       this.isPopupDelete = true;
       this.syncCount = { count: [], hours: 0, minutes: 0, days: 0 };
-      this.configurationObj = { name: '', clientId: '', clientSecret: '', hostUrl: '', hostDomainName: '', username: '', password: '' };
+      this.configurationObj = { name: '', clientId: '', clientSecret: '', hostUrl: '', hostDomainName: '', username: '', password: '',tenantId:'' };
       this.addConnectorSteps = this.addConnectorSteps.map((item, index) => {
         if (index > 0) {
           return { ...item, isCompleted: false };
@@ -382,6 +383,9 @@ export class ConnectorsSourceComponent implements OnInit {
     if (this.selectedConnector.type === 'serviceNow') {
       payload.authDetails.username = this.configurationObj.username;
       payload.authDetails.password = this.configurationObj.password;
+    }
+    if (this.selectedConnector.type === 'sharePoint') {
+      payload.configuration.tenantId = this.configurationObj.tenantId;
     }
     if (['zendesk','sharePoint'].includes(this.selectedConnector.type)) {
       delete payload.configuration.hostDomainName;   
@@ -494,6 +498,9 @@ export class ConnectorsSourceComponent implements OnInit {
     if (this.selectedConnector.type === 'serviceNow') {
       payload.authDetails.username = this.configurationObj.username;
       payload.authDetails.password = this.configurationObj.password;
+    }
+    if (this.selectedConnector.type === 'sharePoint') {
+      payload.configuration.tenantId = this.configurationObj.tenantId;
     }
     if (['zendesk','sharePoint'].includes(this.selectedConnector.type)) {
       delete  payload.configuration.hostDomainName
