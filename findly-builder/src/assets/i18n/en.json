@@ -3423,7 +3423,10 @@
     "contentSource_now_you_can_choose":"Now you can choose to Crawl immediately or later",
     "contentSource_cancel_extraction":"Cancel Extraction",
     "contentSource_retry":"Retry",
-    "contentSource_edit_configuration": "Edit Configuration",
+    "contentSource_any": "Crawl Everything",
+    "contentSource_block": "Crawl Everything Except Specific URLs",
+    "contentSource_allow": "Crawl Only Specific URLs",
+    "contentSource_title_are_derived_from_desc": "Source titles are derived from uploaded files.",
     
 
 
