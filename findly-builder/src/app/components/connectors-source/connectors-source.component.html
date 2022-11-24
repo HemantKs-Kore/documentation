@@ -217,15 +217,16 @@
                                                         <i class="si-eye" *ngIf="!showProtecedText.isSecretShow" (click)="showProtecedText.isSecretShow=!showProtecedText.isSecretShow"></i>
                                                         <i class="si-eyeshow" *ngIf="showProtecedText.isSecretShow" (click)="showProtecedText.isSecretShow=!showProtecedText.isSecretShow"></i>
                                                     </div>
-                                                    <div class="kr-sg-input-text mb-3">
+                                                    <div class="kr-sg-input-text mb-3" *ngIf="selectedConnector.type !== 'sharepointOnline'">
                                                         <div class="label-text">{{'connectors_hostURL'|translate}}</div>
                                                         <input type="text" placeholder="Enter HostURL here" class="input-text" [(ngModel)]="configurationObj.hostUrl">
                                                         <!-- <i class="si-eye"></i> -->
                                                     </div>
                                                     <div class="kr-sg-input-text mb-3" *ngIf="selectedConnector.type === 'sharepointOnline'">
                                                         <div class="label-text">{{'connectors_tenant_id'|translate}}</div>
-                                                        <input type="text" placeholder="Enter Tenant ID here" class="input-text" [(ngModel)]="configurationObj.tenantId">
-                                                        <!-- <i class="si-eye"></i> -->
+                                                        <input type="text" placeholder="Enter Tenant ID here" class="input-text"  [type]="showProtecedText.istenantIdShow?'text':'password'" [(ngModel)]="configurationObj.tenantId">
+                                                        <i class="si-eye" *ngIf="!showProtecedText.istenantIdShow" (click)="showProtecedText.istenantIdShow=!showProtecedText.istenantIdShow"></i>
+                                                        <i class="si-eyeshow" *ngIf="showProtecedText.istenantIdShow" (click)="showProtecedText.istenantIdShow=!showProtecedText.istenantIdShow"></i>
                                                     </div>
                                                     <div class="kr-sg-input-text mb-3" *ngIf="selectedConnector.type !== 'serviceNow' && selectedConnector.type !== 'zendesk' && selectedConnector.type !== 'sharepointOnline'">
                                                         <div class="label-text">{{'connectors_host_domain_name'|translate}}</div>
@@ -357,7 +358,7 @@
                                                     <i class="si-eye" *ngIf="!showProtecedText.isSecretShow" (click)="showProtecedText.isSecretShow=!showProtecedText.isSecretShow"></i>
                                                     <i class="si-eyeshow" *ngIf="showProtecedText.isSecretShow" (click)="showProtecedText.isSecretShow=!showProtecedText.isSecretShow"></i>
                                                 </div>
-                                                <div class="kr-sg-input-text mb-3">
+                                                <div class="kr-sg-input-text mb-3"  *ngIf="selectedConnector.type !== 'sharepointOnline'">
                                                     <div class="label-text">{{'connectors_hostURL'|translate}}</div>
                                                     <input type="text" placeholder="{{'connectors_Enter_Host_URL_here' | translate}}" class="input-text" [(ngModel)]="configurationObj.hostUrl">
                                                 </div>
@@ -367,8 +368,9 @@
                                                 </div>
                                                 <div class="kr-sg-input-text mb-3" *ngIf="selectedConnector.type === 'sharepointOnline'">
                                                     <div class="label-text">{{'connectors_tenant_id'|translate}}</div>
-                                                    <input type="text" placeholder="Enter Tenant ID here" class="input-text" [(ngModel)]="configurationObj.tenantId">
-                                                    <!-- <i class="si-eye"></i> -->
+                                                    <input type="text" placeholder="Enter Tenant ID here" class="input-text"  [type]="showProtecedText.istenantIdShow?'text':'password'" [(ngModel)]="configurationObj.tenantId">
+                                                    <i class="si-eye" *ngIf="!showProtecedText.istenantIdShow" (click)="showProtecedText.istenantIdShow=!showProtecedText.istenantIdShow"></i>
+                                                    <i class="si-eyeshow" *ngIf="showProtecedText.istenantIdShow" (click)="showProtecedText.istenantIdShow=!showProtecedText.istenantIdShow"></i>
                                                 </div>
                                                 <ng-container  *ngIf="selectedConnector.type==='serviceNow'">
                                                     <div class="kr-sg-input-text mb-3">

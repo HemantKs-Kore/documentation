@@ -81,7 +81,7 @@ export class ConnectorsSourceComponent implements OnInit {
   configurationObj: any = { name: '', clientId: '', clientSecret: '', hostUrl: '', hostDomainName: '', username: '', password: '',tenantId:'' };
   overViewData: any = { overview: [], coneten: [],jobs:[] };
   syncCount = { count: [], hours: 0, minutes: 0, days: 0 };
-  showProtecedText: Object = { isClientShow: false, isSecretShow: false, isPassword: false };
+  showProtecedText: Object = { isClientShow: false, isSecretShow: false, isPassword: false, istenantIdShow: false };
   isEditable: boolean = false;
   checkConfigButton: Boolean = true;
   isPopupDelete: boolean = true;
@@ -152,7 +152,7 @@ export class ConnectorsSourceComponent implements OnInit {
   //change edit tabs
   changeEditTabs(type) {
     this.selectedTab = type;
-    this.showProtecedText = { isClientShow: false, isSecretShow: false, isPassword: false };
+    this.showProtecedText = { isClientShow: false, isSecretShow: false, isPassword: false, istenantIdShow: false  };
   }
 
   //get connector list
@@ -272,7 +272,7 @@ export class ConnectorsSourceComponent implements OnInit {
 
   //change page like list, add ,edit
   changeContent(page, data) {
-    this.showProtecedText = { isClientShow: false, isSecretShow: false, isPassword: false };
+    this.showProtecedText = { isClientShow: false, isSecretShow: false, isPassword: false, istenantIdShow: false  };
     this.selectedConnector = data;
     this.selectedContent = page;
     if (page === 'edit') {
