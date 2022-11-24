@@ -12,12 +12,14 @@ declare const $: any;
 import { ConfirmationDialogComponent } from 'src/app/helpers/components/confirmation-dialog/confirmation-dialog.component';
 import { Subscription } from 'rxjs';
 import { MixpanelServiceService } from '@kore.services/mixpanel-service.service';
+import { EMPTY_SCREEN } from 'src/app/modules/empty-screen/empty-screen.constants';
 @Component({
   selector: 'app-app-experiments',
   templateUrl: './app-experiments.component.html',
   styleUrls: ['./app-experiments.component.scss']
 })
 export class AppExperimentsComponent implements OnInit {
+  emptyScreen = EMPTY_SCREEN.ANALYTICS;
   addExperimentsRef: any;
   selectedApp: any;
   serachIndexId: any;
@@ -249,13 +251,19 @@ export class AppExperimentsComponent implements OnInit {
       }
     }
     else if (length === 2) {
-      this.star.push(50, 100);
+      const percent = (this.form_type==='edit')?(this.variantsArray[0].trafficPct):50;
+      this.star.push(percent, 100);
     }
     else if (length === 3) {
-      this.star.push(30, 60, 100);
+      const percent1 = (this.form_type==='edit')?(this.variantsArray[0].trafficPct):30;
+      const percent2 = (this.form_type==='edit')?(this.variantsArray[0].trafficPct+this.variantsArray[1].trafficPct):60;
+      this.star.push(percent1, percent2, 100);
     }
     else if (length === 4) {
-      this.star.push(25, 50, 75, 100);
+      const percent1 = (this.form_type==='edit')?(this.variantsArray[0].trafficPct):25;
+      const percent2 = (this.form_type==='edit')?(this.variantsArray[0].trafficPct+this.variantsArray[1].trafficPct):50;
+      const percent3 = (this.form_type==='edit')?(this.variantsArray[0].trafficPct+this.variantsArray[1].trafficPct+this.variantsArray[2].trafficPct):75;
+      this.star.push(percent1, percent2, percent3, 100);
     }
     setTimeout(() => {
       this.showSlider = false;
@@ -415,6 +423,8 @@ export class AppExperimentsComponent implements OnInit {
     this.service.invoke('get.experiment', quaryparms, header).subscribe(res => {
       const date1: any = new Date();
       this.exp_totalRecord = res.total;
+
+      this.imageLoaded();
       const result = res.experiments.map(data => {
         let hours = moment().diff(moment(data.end), 'hours');
         let days = moment().diff(moment(data.end), 'days');

@@ -47,7 +47,7 @@
                     <div class="content">
                         <div class="title-info">{{'dash_board_view_total_user'| translate}}
                             <img src="assets/icons/gray_info.svg" placement="top-center"
-                                ngbTooltip="Number of unique users performed search during the selected period"
+                            ngbTooltip="{{'dash_board_no_of_unique_users_perfromed_search_during_selected_period' | translate}}"
                                 [container]="'body'" tooltipClass="dashboard-custom-tooltips" class="pl-1">
                         </div>
                         <div class="bottom-sec">
@@ -75,7 +75,7 @@
                     <div class="content">
                         <div class="title-info">{{'dash_board_view_total_searches'| translate}}
                             <img src="assets/icons/gray_info.svg"
-                                ngbTooltip="Total number of searches performed during the selected period"
+                            ngbTooltip="{{'dash_board_total_no_of_searches_perfromed_during_selected_period' | translate}}"
                                 placement="top-center" [container]="'body'" tooltipClass="dashboard-custom-tooltips"
                                 class="pl-1">
                         </div>
@@ -104,7 +104,7 @@
                     <div class="content">
                         <div class="title-info">{{'dash_board_view_result_rate'| translate}}
                             <img src="assets/icons/gray_info.svg" placement="top-center"
-                                ngbTooltip="Total number of searches that returned at least one result"
+                            ngbTooltip="{{'dash_board_total_no_of_searches_that_returned_one_result' | translate}}"
                                 [container]="'body'" tooltipClass="dashboard-custom-tooltips" class="pl-1">
                         </div>
                         <div class="bottom-sec if-ctr-value-available">
@@ -142,7 +142,7 @@
                     <div class="content">
                         <div class="title-info">{{'dash_board_view_searches_with_click'| translate}}
                             <img src="assets/icons/gray_info.svg" placement="top-center"
-                                ngbTooltip="No. of searches where at least one result was clicked on by the search user"
+                               ngbTooltip="{{'dash_board_no_of_searches_where_atleast_one_result_was_clicked' | translate}}"
                                 [container]="'body'" tooltipClass="dashboard-custom-tooltips" class="pl-1">
                         </div>
                         <div class="bottom-sec if-ctr-value-available view-clicks">
@@ -168,7 +168,7 @@
                     <div class="content">
                         <div class="title-info">{{'dash_board_view_avg_click_position'| translate}}
                             <img src="assets/icons/gray_info.svg" placement="top-right"
-                                ngbTooltip="Average position of the clicks performed on the search results"
+                                ngbTooltip="{{'dash_board_average_position_of_click_performed_search_results' | translate}}"
                                 [container]="'body'" tooltipClass="dashboard-custom-tooltips ml_12" class="pl-1">
                         </div>
                         <div class="bottom-sec">
@@ -231,7 +231,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="create_new_link" (click)="viewAll('/searchInsights','Top_Search_Queries')">View all
+                        <div class="create_new_link" (click)="viewAll('/searchInsights','Top_Search_Queries')">{{'dash_board_view_all'| translate}}
                         </div>
                     </div>
                 </div>
@@ -370,7 +370,7 @@
                         [ngStyle]="{'opacity':isyAxisMostClickPostiondata?'unset':'0.3','pointer-events':isyAxisMostClickPostiondata?'auto':'none'}">
                         <div class="title-card">{{'dash_board_view_Most_Clicked_Position'| translate}}
                             <img src="assets/icons/gray_info.svg" placement="top-center"
-                                ngbTooltip="Position at which the search results were clicked on by the end - users most number of times."
+                            ngbTooltip="{{'dash_board_position_which_search_results_clicked_on_by_end_users' | translate}}"
                                 [container]="'body'" tooltipClass="dashboard-custom-tooltips" class="pl-1">
                         </div>
                         <div echarts [options]="mostClickBar" class="demo-chart-graphMode bottom"></div>
@@ -392,8 +392,8 @@
                                 <img src="assets/icons/dashboard/feedback_empty.png">
                             </div>
                             <div class="title-empty">
-                                <span>No user Feedback available as of now.</span>
-                                <p *ngIf="!(searchExperienceConfig?.interactionsConfig?.feedbackExperience?.queryLevel)">Try enabling Feedback to start receiving Feedback.</p>
+                                <span>{{'dash_board_no_user_feedback_avaialble'| translate}}</span>
+                                <p *ngIf="!(searchExperienceConfig?.interactionsConfig?.feedbackExperience?.queryLevel)">{{'dash_board_try_enabling_feedback'| translate}}</p>
                             </div>
                         </div>
                         <div class="row col-12 m-0 p-0"

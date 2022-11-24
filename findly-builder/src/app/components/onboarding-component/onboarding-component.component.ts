@@ -854,7 +854,7 @@ mediaObj:any = {};
    $('#topicGuideVideoModal').modal('show');   
    this.mediaObj.loadingMedia = true;
    this.showLoader1 = true;
-   this.topicGuideVideoUrl = this.sanitizer.bypassSecurityTrustResourceUrl(payload.url); 
+   this.topicGuideVideoUrl = this.sanitizer.bypassSecurityTrustUrl(payload.url); 
 };
 
   triggerFaq() {
@@ -1178,7 +1178,7 @@ onMediaLoadedLoaded(){
        this.appVersion= res.APP_VERSION;
      }
     }, errRes => {
-      this.notificationService.notify('Something has gone wrong.', 'error');
+      this.notificationService.notify('Something has gone wrong.', 'error');      
     });
   }
 

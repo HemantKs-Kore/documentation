@@ -988,7 +988,7 @@
                 .icon-config {
                     width: 24px;
                     height: 24px;
-                    background: #BDC1C6;
+                    background: #E4E5E7;
                     border-radius: 17px;
                     color: #FFFFFF;
                     font-size: 12px;
@@ -1176,9 +1176,9 @@
 
                                             &::placeholder {
                                                 font-weight: 400;
-                                                font-size: 10px;
+                                                font-size: 14px;
                                                 line-height: 18px;
-                                                color: #5F6368;
+                                                color: #BDC1C6;
                                             }
                                         }
 
@@ -1306,6 +1306,11 @@
             }
         }
     }
+}
+
+.content-settings-tab-data ::ng-deep .empty-screen-wrapper img {
+    width: 100px;
+    height: 100px;
 }
 
 .text-overflow {

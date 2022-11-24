@@ -11897,3 +11897,21 @@ a.tile-heading {
 .snippet-template .quick-links .quick-item img {
     margin-right: 8px;
 }
+.snippet-template .quick-links  img {
+    margin-left: 8px;
+    cursor: pointer;
+}
+.snippet-template .quick-links .quick-source {
+    font-weight: 500;
+    font-size: 12px;
+    line-height: 12px;
+}
+.snippet-template .quick-links .quick-sourcename {
+    font-weight: 400;
+    font-size: 10px;
+    line-height: 12px;
+    text-decoration-line: underline;
+    color: #0D6EFD;
+    margin-left: 6.5px;
+    cursor: pointer;
+}

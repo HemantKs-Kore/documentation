@@ -7,6 +7,7 @@ import { AuthService } from '@kore.services/auth.service';
 import { AppSelectionService } from '@kore.services/app.selection.service';
 import * as moment from 'moment';
 import { of, interval, Subject, Subscription } from 'rxjs';
+import { EMPTY_SCREEN } from 'src/app/modules/empty-screen/empty-screen.constants';
 declare const $: any;
 @Component({
   selector: 'app-usage-log',
@@ -14,6 +15,7 @@ declare const $: any;
   styleUrls: ['./usage-log.component.scss']
 })
 export class UsageLogComponent implements OnInit {
+  emptyScreen = EMPTY_SCREEN.MANAGE_USAGE_LOGS;
   usageLogs = [];
   queryTypeArr = [];
   requestSourceArr = [];

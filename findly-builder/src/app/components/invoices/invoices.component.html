@@ -6,21 +6,21 @@
     <div class="header-sec">
         <app-useronboarding-journey [componentType]='componentType'></app-useronboarding-journey>
         <div class="title">{{"invoices_invoices" | translate}}
-            <span class="module-topic" tooltipClass="tooltip-global-" [container]="'body'" ngbTooltip='Topic Guide' 
+            <span class="module-topic" tooltipClass="tooltip-global-" [container]="'body'" ngbTooltip='{{"sa_topic_guide" | translate}}' 
  placement="right-center"(click)="openUserMetaTagsSlider()">
                 <i class="si-topic-guide-1"></i>
             </span>
         </div>
         <div class="d-flex align-items-center" *ngIf="invoices.length">
             <div class="kr-sg-input-search m-0" [ngClass]="{'d-none': !showSearch}">
-                <input type="text" placeholder="{{'sa_topic_guide' | translate}}" maxlength="60" class="input-search"
+                <input type="text" placeholder="{{'sa_search' | translate}}" maxlength="60" class="input-search"
                     autocomplete="off" id="fieldSearchId" [(ngModel)]="searchInvoice" 
                     (mouseover)="searchImgSrc = (searchFocusIn ? 'assets/icons/search_gray.svg' :'assets/icons/search_gray_dark.svg')"
                     (mouseout)="searchFocusIn=false;searchImgSrc = 'assets/icons/search_gray.svg'"
                     (focus)="searchFocusIn=true;searchImgSrc = 'assets/icons/search_gray.svg'">
                 <!-- <img [src]="searchImgSrc" class="search-icon" *ngIf="!searchFields"> -->
                 <img class="close-icon" src="assets/icons/close_icon.svg" [ngClass]="{'pr-22':searchInvoice}" (click)="showSearch=!showSearch;searchInvoice=''"
-                     placement="top-center" container='body' ngbTooltip="{{'fields.cancel' | translate}}"
+                     placement="top-center" container='body' ngbTooltip="{{'sa_cancel' | translate}}"
                     tooltipClass="ngb_tooltip_custom_class sampleJson">
             </div>
             <div class="seach-block" (click)="showSearch=!showSearch;">
@@ -31,16 +31,18 @@
     </div>
 
     <ng-container *ngIf="!invoices.length && !loading">
-        <div class="empty-invoice">
+        <app-empty-screen [title]="emptyScreen.TITLE" [desc]="emptyScreen.DESC" [imgName]="emptyScreen.IMG_NAME">
+        </app-empty-screen>
+        <!-- <div class="empty-invoice">
             <div class="img-block">
                 <img src="assets/icons/invoices/invoice-empty-log.png">
             </div>
             <div class="empty-text">{{"invoices_no_invoice_log" | translate}}</div>
             <div class="empty-warning">
                 <div><i class="si-warning"></i></div>
-                <div class="empty-warning-text">After subscribing to any of the plans offered, your invoices will appear here</div>
+                <div class="empty-warning-text">{{"invoices_after_subscribing_to_any_of_plans_desc" | translate}}</div>
             </div>
-        </div>
+        </div> -->
     </ng-container>
 
     <ng-container *ngIf="invoices.length && !loading">
@@ -62,7 +64,7 @@
                     <div class="title col-1">{{invoice?.status}}</div>
                     <div class="title col-2">{{invoice?.amountPaid}} {{invoice?.currencyCode}}</div>
                     <div class="title col-1">-</div>
-                    <div class="title col-2">KOREINV_{{invoice._id}}</div>
+                    <div class="title col-2">{{"invoices_koreinV" | translate}}{{invoice._id}}</div>
                     <div class="actions-invoice">
                         <div class="download-invoice"><a type="button" (click)="downloadInvoice(invoice.viewInvoice,invoice._id)"><img src="assets/icons/usage-log/download.svg"></a></div>
                     </div>

@@ -14,7 +14,6 @@ import { startWith } from 'rxjs/operators';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { AuthService } from '@kore.services/auth.service';
 import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
-import { JsonPipe } from '@angular/common';
 import { AppSelectionService } from '@kore.services/app.selection.service';
 import { InlineManualService } from '@kore.services/inline-manual.service';
 import { FormControl } from '@angular/forms';
@@ -38,6 +37,8 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
   search_basic_fieldName: any = '';
   search_basic_fieldName1: any = '';
   search_basic_fieldName2: any = '';
+  search_basic_fieldName3: any = '';
+  search_basic_fieldName4: any = '';
   savingConfig;
   reIndexing;
   simulating;
@@ -2329,6 +2330,18 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
     if ($('#searchBoxId2') && $('#searchBoxId2').length) {
       $('#searchBoxId2')[0].value = "";
       this.search_basic_fieldName2 = '';
+    }
+  }
+  clearcontentSrcURL() {
+    if ($('#searchBoxId4') && $('#searchBoxId4').length) {
+      $('#searchBoxId4')[0].value = "";
+      this.search_basic_fieldName4 = '';
+    }
+  }
+  clearcontentSrcField() {
+    if ($('#searchBoxId3') && $('#searchBoxId3').length) {
+      $('#searchBoxId3')[0].value = "";
+      this.search_basic_fieldName3 = '';
     }
   }
 

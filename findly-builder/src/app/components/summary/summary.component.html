@@ -36,7 +36,7 @@
                   [src]="totalUsersStats?.percentageIncrease>=0?'assets/icons/overview/graph-1.svg':'assets/icons/overview/graph-3.svg'">
               </div>
             </div>
-            <div class="view-insights" (click)="userViewAll()">View Insights</div>
+            <div class="view-insights" (click)="userViewAll()">{{'overview_viewInsights' | translate}}</div>
           </ng-container>
           <ng-container *ngIf="loading_skelton">
             <div class="skelton-img">
@@ -278,8 +278,6 @@
             <ng-container *ngIf="loading_skelton">
               <div class="skelton-img">
                 <img src="assets/icons/overview/group-skelton.svg">
-                <div class="empty-title">{{'overview_no_experiments_created_yet' | translate}}</div>
-                  <div class="create-exp-btn">{{'overview_create_experiment' | translate}}</div> 
               </div>
             </ng-container>
           </div>

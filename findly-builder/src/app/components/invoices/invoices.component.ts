@@ -7,6 +7,7 @@ import { AuthService } from '@kore.services/auth.service';
 import { AppSelectionService } from '@kore.services/app.selection.service';
 import { of, interval, Subject, Subscription } from 'rxjs';
 import { saveAs } from 'file-saver';
+import { EMPTY_SCREEN } from 'src/app/modules/empty-screen/empty-screen.constants';
 declare var require: any
 const FileSaver = require('file-saver');
 @Component({
@@ -15,6 +16,7 @@ const FileSaver = require('file-saver');
   styleUrls: ['./invoices.component.scss']
 })
 export class InvoicesComponent implements OnInit, OnDestroy {
+  emptyScreen = EMPTY_SCREEN.MANAGE_ORDERS_INVOICES;
   invoices = [];
   showSearch = false;
   searchInvoice:string='';

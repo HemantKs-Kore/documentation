@@ -195,7 +195,26 @@
                     </ng-container>
                 </div>
                 <app-record-pagination *ngIf="totalCount && totalCount > limitpage" id="pagination_structured_data" class="pagination" [totalRecord]='totalCount' [limitpage]='limitpage' (pageChanged)="paginate($event)"></app-record-pagination>
-            <div class="empty-landing-screen" *ngIf="noItems">
+            
+            <app-empty-screen *ngIf="noItems && !searchText" [title]="emptyScreen.TITLE" [desc]="emptyScreen.DESC"
+                [imgName]="emptyScreen.IMG_NAME">
+                <div class="action-buttons">
+                    <button class="kr-sg-button-secondary btn_lg mr-2" (click)="openAddStructuredData('structuredData')">
+                        <i class="si-union"></i>
+                        {{'structuredData_import' | translate}}
+                    </button>
+                    <button class="kr-sg-button-secondary btn_lg" (click)="openAddStructuredData('structuredDataManual')">
+                        <i class="si-add-plus"></i>
+                        {{'structuredData_addManually' | translate}}
+                    </button>
+                </div>
+            
+            </app-empty-screen>
+            <app-empty-screen *ngIf="noItems && searchText" [title]="emptyScreen.TITLE_SEARCH" [desc]="emptyScreen.DESC_SEARCH"
+                [imgName]="emptyScreen.IMG_NAME">
+            </app-empty-screen>
+
+                <!-- <div class="empty-landing-screen" *ngIf="noItems">
                 <div class="img-block" *ngIf="noItems && !emptySearchResults"><img class="action_icon"  (load)="imageLoad()" src="assets/images/structured-data-empty.png"></div>
                 <ng-container *ngIf="noItems && !emptySearchResults && loadImageText">
                     <div class="empty-title">{{'structuredData_no_structuer_data' | translate}}</div>
@@ -213,7 +232,7 @@
                 <ng-container *ngIf="noItems && emptySearchResults">
                     <div class="desc-text">{{'structuredData_empty_search_result' | translate}}</div>
                 </ng-container>
-            </div>
+            </div> -->
         </div>
 
         <div class="mainLoadingSpinner" *ngIf="isLoading" >
@@ -282,7 +301,7 @@
                 <div class="group-radiobutton mt-3 mb-3">               
                     <div class="kr-sg-radiobutton">
                         <input id="radio-and" [disabled]="index != 0" [(ngModel)]="advancedSearch.operand" name="radio{{index}}" value="and" class="radio-custom" type="radio">
-                        <label for="radio-and" class="radio-custom-label">AND</label>
+                        <label for="radio-and" class="radio-custom-label">{{'sa_add_caps' | translate}} </label>
                     </div>
                     <div class="kr-sg-radiobutton">
                         <input id="radio-or" [disabled]="index != 0" [(ngModel)]="advancedSearch.operand" name="radio{{index}}" value="or" class="radio-custom" type="radio">

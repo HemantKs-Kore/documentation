@@ -47,7 +47,7 @@
                 </div>
                 <div class="searchBlock" (click)="showSearch=!showSearch;focusinSearch('fieldSearchId')">
                     <span [ngClass]="{'d-none': showSearch}" class="mr-3" id="btn_toggle_search_structured_data"><img
-                            src="assets/icons/search.svg" [ngClass]="{'d-none': showSearch}">{{'search' |  translate}}</span>
+                            src="assets/icons/search.svg" [ngClass]="{'d-none': showSearch}">{{'sa_search' |  translate}}</span>
                 </div>
                 <div class="add_feild" (click)="createNewMember()"><img
                         src="assets/icons/add_plus.svg">{{'teams_add_members'| translate}}</div>
@@ -72,7 +72,8 @@
             </div>
             <ng-container *ngIf="(membersList && membersList.length)">
                 <perfect-scrollbar class="scroll-table-data">
-                    <div class="show-checkbox-hover"
+                    <ng-container *ngIf="(membersList | filter : [searchteam, 'emailId']).length; else noTeam">
+                        <div class="show-checkbox-hover"
                         *ngFor="let member of membersList | filter : [searchteam, 'emailId']">
                         <div class="table-body row"
                             [ngClass]="{'selected': member.roleInfo[0].role==='Owner'?'':(selcectionObj && selcectionObj.selectedItems && selcectionObj.selectedItems[member._id])}">
@@ -94,6 +95,13 @@
                             </div>
                         </div>
                     </div>
+                    </ng-container>
+
+                    <ng-template #noTeam>
+                        <app-empty-screen [title]="emptyScreen.TITLE_SEARCH" [desc]="emptyScreen.DESC_SEARCH" [imgName]="emptyScreen.IMG_NAME">
+                          </app-empty-screen>
+                    </ng-template>
+
                 </perfect-scrollbar>
             </ng-container>
             <div class="divBlockEmptylastChild text-center">

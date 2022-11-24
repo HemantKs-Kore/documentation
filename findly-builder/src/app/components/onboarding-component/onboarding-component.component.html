@@ -7,19 +7,19 @@
         <li class="nav-item">
           <a  id="Support" class="nav-link active" (click)="supportParentData=true;closeFaqSearch();closeSearch()" data-toggle="pill" href="#support">
               <i class="si-home"></i>
-              <span>Support</span>
+              <span>{{'onboarding_support' | translate}}</span>
           </a>
         </li>
         <li class="nav-item">
           <a class="nav-link topic-guide-tab" id="topicguide"data-toggle="pill" (click)="triggerFaq();closeSearch();closeFaqSearch()" href="#faq">
             <i class="si-topic-guide-1"></i>
-            <span>{{'useronboarding.Topic_Guide' | translate}}</span>
+            <span>{{'sa_topic_guide' | translate}}</span>
           </a>
         </li>
         <li class="nav-item " [ngClass]="{'d-none': router.url=='/apps' || router.url=='/' || router.url=='/**'}">
           <a class="nav-link" data-toggle="pill" (click)="closeFaqSearch();closeSearch();checkForStatus()" href="#appchecklist">
             <i class="si-list"></i>
-            <span>App Checklist</span>
+            <span> {{'onboarding_app_checklist' | translate}}</span>
           </a>
         </li>
         <div class="version">V{{appVersion}}</div>
@@ -29,7 +29,7 @@
         <div id="support" class="tab-pane active">
             <div class="bread-cum-search">
                 <div class="bread-cum-list">
-                    <div class="first-title" (click)="supportParentData=true;closeSearch()">Support</div>
+                    <div class="first-title" (click)="supportParentData=true;closeSearch()">{{'onboarding_support' | translate}}</div>
                     <i class="si-carrotup" *ngIf="!supportParentData"></i>
                     <div class="secondary-title" *ngIf="!supportParentData">{{breadcrumbName}}</div>
                 </div>
@@ -83,7 +83,7 @@
                     <div class="video-block-data">
                       <video class="video" height="216" controls>
                         <source src="https://www.w3schools.com/tags/movie.mp4" type="video/mp4">
-                       Your browser does not support the video tag.
+                       {{'onboarding_browser_video_tag' | translate}}
                      </video>
                     </div>
                     <div class="content-block">
@@ -126,7 +126,7 @@
                 <div class="secondary-title" *ngIf="!supportParentfaq">{{breadcrumbNameFaq}}</div>
             </div>
             <div class="kr-sg-input-text" *ngIf="searchOpenFaq">
-              <input type="text" placeholder="look for a question" class="input-text" [(ngModel)]="faq_Search">
+              <input type="text" placeholder="{{'onboarding_look_for_a_question' | translate}}" class="input-text" [(ngModel)]="faq_Search">
               <i class="si-close" (click)="closeFaqSearch()"></i>
             </div>
             <!-- <div class="search-icon" *ngIf="!searchOpenFaq" (click)="openFaqSearch()">
@@ -265,7 +265,7 @@
                                     </div> -->
                                     <!-- <iframe id="topicGuideMediaModal" allowfullscreen controls src="https://drive.google.com/file/d/1ohhg7dfgPL0pWVzr8i2kjKveUwO9qy_o/preview" width="100%" height="100%" [class.d-none]="showLoader" (load)="showHideSpinner() class="noBorder"   allow="autoplay"></iframe> -->
                                     <!-- <iframe id="topicGuideMediaModal" class="noBorder" allowfullscreen controls (load)="showHideSpinner()" src=" https://drive.google.com/file/d/1ohhg7dfgPL0pWVzr8i2kjKveUwO9qy_o/preview " width="100% " height="100% " allow="autoplay" iframe-onload="onMediaLoadedLoaded(this) "></iframe> -->
-                                    <iframe id="topicGuideMediaModal" class="noBorder" allowfullscreen controls (load)="showHideSpinner()" [src]="topicGuideVideoUrl" width="100% " height="100% " allow="autoplay" iframe-onload="onMediaLoadedLoaded(this) "></iframe>
+                                    <iframe id="topicGuideMediaModal" [src]="topicGuideVideoUrl" class="noBorder" (load)="showHideSpinner()" width="100% " height="100% " allow="autoplay" iframe-onload="onMediaLoadedLoaded(this)" allowfullscreen controls></iframe>
                                     <!-- <iframe id="topicGuideMediaModal" class="noBorder" allowfullscreen controls (load)="showHideSpinner();onMediaLoadedLoaded(this)" [src]="topicGuideVideoUrl" width="100% " height="100% " allow="autoplay" ></iframe> -->
                                   </div>
                             </div>
@@ -283,13 +283,13 @@
           <div class="applist-header">
             <div class="count-title">
               <i class="si-check-round"></i>
-              <span>{{checklistCount}} Out of 6 Steps Completed</span>
+              <span>{{checklistCount}} {{"onboarding_out_of_6_steps_completed" | translate}}</span>
             </div>
             <div class="toggle-check">
-              <div class="status-bar-title">Status Bar</div>
+              <div class="status-bar-title">{{"onboarding_status_bar" | translate}}</div>
               <label class="kr-sg-toggle">
                 <input type="checkbox" [(ngModel)]="statusSlider" (change)="toggleSlider()" >
-                <div class="slider"><span class="enabled">Show</span><span class="disabled">Show</span></div>
+                <div class="slider"><span class="enabled">{{"onboarding_show" | translate}}</span><span class="disabled">{{"onboarding_show" | translate}}</span></div>
               </label>
             </div>
           </div>
@@ -312,8 +312,8 @@
                     </div>
                     <div class="desc-text">{{list.desc}} </div>
                     <div class="actions-link">
-                      <a class="link-name" (click)="gotoRoutes(list.route)">Guide Me<i  class="si-externallink"></i></a>
-                      <a class="link-name" (click)="goToLink(list.docUrl)">Documentation<i  class="si-externallink"></i></a>
+                      <a class="link-name" (click)="gotoRoutes(list.route)">{{"onboarding_guide_me" | translate}}<i  class="si-externallink"></i></a>
+                      <a class="link-name" (click)="goToLink(list.docUrl)">{{"onboarding_documentation" | translate}}<i  class="si-externallink"></i></a>
                     </div>
                     <!-- <div class="arrow-icon">
                       <i class="si-carrotup"></i>
