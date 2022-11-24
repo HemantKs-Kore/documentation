@@ -74,7 +74,6 @@ export class StopWordsComponent implements OnInit, OnDestroy {
     if (this.indexPipelineId) {
       this.queryPipelineId = this.workflowService.selectedQueryPipeline() ? this.workflowService.selectedQueryPipeline()._id : this.selectedApp.searchIndexes[0].queryPipelineId;
       if (this.queryPipelineId) {
-        // this.getStopWords();
         this.getStopWordsList();
       }
     }
@@ -389,8 +388,8 @@ export class StopWordsComponent implements OnInit, OnDestroy {
       code:'en'
     };
     this.service.invoke('get.stopWordsList', quaryparms).subscribe(res => {
-      if(res && res.stopWords){
-        this.stopwordsList = res.stopWords || [];
+      if(res && res.stopwords){
+        this.stopwordsList = res.stopwords;
       }
     }, errRes => {
       this.errorToaster(errRes, 'Failed to get stop words');

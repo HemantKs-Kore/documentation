@@ -19,13 +19,14 @@ import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 import { OnboardingComponentComponent } from 'src/app/components/onboarding-component/onboarding-component.component';
 import { SliderComponentComponent } from 'src/app/shared/slider-component/slider-component.component';
 import * as moment from 'moment';
+import { EMPTY_SCREEN } from 'src/app/modules/empty-screen/empty-screen.constants';
 @Component({
   selector: 'app-structured-data',
   templateUrl: './structured-data.component.html',
   styleUrls: ['./structured-data.component.scss']
 })
 export class StructuredDataComponent implements OnInit {
-
+  emptyScreen = EMPTY_SCREEN.STRUCTURED_DATA;
   addStructuredDataModalPopRef: any;
   selectedSourceType: any;
   availableSources = [
@@ -195,6 +196,7 @@ export class StructuredDataComponent implements OnInit {
     this.service.invoke('get.structuredData', quaryparms).subscribe((res: any) => {
       this.isLoading = false;
       this.totalCount = JSON.parse(JSON.stringify(res.total));
+      this.imageLoad();
       // this.selectedStructuredData = []; 
       // this.allSelected = false; // To be sent true for selectionAll during pagination
       if (res.data) {

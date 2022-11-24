@@ -132,6 +132,7 @@ import { SpellCorrectionComponent } from './components/spell-correction/spell-co
 import { SearchRelevanceComponent } from './components/search-relevance/search-relevance.component';
 import { ListFieldsComponent } from './components/search-settings/list-fields/list-fields.component';
 import { SearchFilterComponent } from './helpers/components/search-filter/search-filter.component';
+import { EmptyScreenModule } from './modules/empty-screen/empty-screen.module';
 export function HttpLoaderFactory(httpClient: HttpClient) {
   return new TranslateHttpLoader(httpClient, 'assets/i18n/', '.json');
 }
@@ -274,7 +275,8 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
       autoDismiss: false,
       closeButton: true
     }),
-    NgxDaterangepickerMd.forRoot()
+    NgxDaterangepickerMd.forRoot(),
+    EmptyScreenModule,
   ],
   // tslint:disable-next-line:max-line-length
   entryComponents: [ConfirmationDialogComponent, ImportFaqsModalComponent, EditorUrlDialogComponent],

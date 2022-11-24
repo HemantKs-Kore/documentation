@@ -78,7 +78,7 @@ export class IndexConfigurationSettingsComponent implements OnInit {
     this.addLangModalPopRef = this.addLangModalPop.open();
     this.supportedLanguages.forEach(element => {
       this.languageList.forEach(lang => {
-        if(element.code == lang.code){
+        if(element.languageCode == lang.languageCode){
           lang.selected = true;
         } 
       }); 
@@ -113,10 +113,10 @@ export class IndexConfigurationSettingsComponent implements OnInit {
     let arr = [...this.supportedLanguages]
     let dumyArr = []
     arr.forEach(arrElement => {
-      dumyArr.push(arrElement.code)
+      dumyArr.push(arrElement.languageCode)
     });
     this.languageList.forEach(element => {
-      if(dumyArr.includes(element.code)){
+      if(dumyArr.includes(element.languageCode)){
         element.selected = true;
       }else{
         element.selected = false;
@@ -168,7 +168,7 @@ export class IndexConfigurationSettingsComponent implements OnInit {
    unCheck(){
     this.supportedLanguages.forEach(element => {
       this.languageList.forEach(data => {
-        if(element.code == data.code){
+        if(element.languageCode == data.languageCode){
           data.selected = true
         }
         else{
@@ -180,7 +180,7 @@ export class IndexConfigurationSettingsComponent implements OnInit {
    updateLangListFun(list){
     let updateArr = [];
     this.supportedLanguages.forEach((element,index) => {
-      if(element.code != list.code){
+      if(element.languageCode != list.languageCode){
        updateArr.push(element)
       }
     });

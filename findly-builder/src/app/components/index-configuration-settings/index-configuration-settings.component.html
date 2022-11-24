@@ -32,7 +32,7 @@
                 <perfect-scrollbar class="table_body_content">
                     <div *ngFor="let list of supportedLanguages;let i = index" class="table_body row m-0">
                                 <div class="col-8 title text-left p-0">  {{list.language}} </div>
-                                <div class="col-1 title text-left p-0"> {{list.code}}  </div>
+                                <div class="col-1 title text-left p-0"> {{list.languageCode}}  </div>
                                 <div class="col-1">
                                     <div class="action_links text-right">
                                         <!-- <span class="action_link-icon"> <i class="si-pencil-edit"  (click)="editLanguages(i)"></i> </span> -->
@@ -93,7 +93,7 @@
                                 </div>
                             </div>
                             <div class="col-6 title text-left p-0" title=""> {{language.language}} </div>
-                            <div class="col-3 title text-left p-0"> {{language.code}} </div>
+                            <div class="col-3 title text-left p-0"> {{language.languageCode}} </div>
                         </div>
                     </perfect-scrollbar>
                 </div>
