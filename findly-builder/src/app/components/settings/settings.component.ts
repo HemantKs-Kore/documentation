@@ -320,7 +320,7 @@ export class SettingsComponent implements OnInit {
   validationForDomainURl(){
    if( this.webClientDetails.domains[this.webClientDetails.domains.length - 1] == ''){
     $('#domain-url'+ [this.webClientDetails.domains.length - 1]).css("border-color","#DD3646")
-    this.notificationService.notify('domain cannot be empty','error');
+    this.notificationService.notify('Domain cannot be empty','error');
    }
    else{
     this.configureCredential(true);

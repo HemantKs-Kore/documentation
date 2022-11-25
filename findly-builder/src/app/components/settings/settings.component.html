@@ -471,8 +471,8 @@
                                                                     <div class="kr-sg-input-text">
                                                                         <input type="text" id="domain-url{{i}}" placeholder="sampleurl.com" class="input-text" [value]="domainUrl" (change)="onFocusOutEvent($event)" [disabled]="i != (webClientDetails.domains.length-1)">
                                                                     </div>
-                                                                    <div class="actions-copy-ext" [ngClass]="{'disable-class' : i===0  }">
-                                                                        <div class="btn-ext-copy" ngbTooltip="{{'sa_delete' | translate}}" (click)="i===0?null:deleteDomain(i)">
+                                                                    <div class="actions-copy-ext">
+                                                                        <div class="btn-ext-copy" ngbTooltip="{{'sa_delete' | translate}}" (click)="deleteDomain(i)">
                                                                             <img src="assets/icons/delete.svg">
                                                                         </div>
                                                                         <div class="btn-ext-copy invisible"></div>
