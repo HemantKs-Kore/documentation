@@ -210,7 +210,7 @@
                 </div>
             
             </app-empty-screen>
-            <app-empty-screen *ngIf="noItems && searchText" [title]="emptyScreen.TITLE_SEARCH" [desc]="emptyScreen.DESC_SEARCH"
+            <app-empty-screen [width]="120" [height]="120" *ngIf="noItems && searchText" [title]="emptyScreen.TITLE_SEARCH" [desc]="emptyScreen.DESC_SEARCH"
                 [imgName]="emptyScreen.IMG_NAME">
             </app-empty-screen>
 
