@@ -312,11 +312,21 @@ export class SettingsComponent implements OnInit {
     this.webClientDetails.domains[this.webClientDetails.domains.length - 1] = event.target.value;
   }
   addNewDomain(){
-  this.webClientDetails.domains.push('')  
+      this.webClientDetails.domains.push('') 
   }
   deleteDomain(recordIndex){
     this.webClientDetails.domains.splice(recordIndex,1) 
   }
+  validationForDomainURl(){
+   if( this.webClientDetails.domains[this.webClientDetails.domains.length - 1] == ''){
+    $('#domain-url'+ [this.webClientDetails.domains.length - 1]).css("border-color","#DD3646")
+    this.notificationService.notify('Domain cannot be empty','error');
+   }
+   else{
+    this.configureCredential(true);
+   }
+  }
+
 
   getCredential() {
     const queryParams = {
@@ -539,12 +549,12 @@ export class SettingsComponent implements OnInit {
     );
   }
   configureCredential(event) {
-    if (event) {
-      if (this.enableConfiguration) {
-        event.stopPropagation();
-        event.preventDefault();
-      }
-    }
+    // if (event) {
+    //   if (this.enableConfiguration) {
+    //     event.stopPropagation();
+    //     event.preventDefault();
+    //   }
+    // }
     const queryParams = {
       userId: this.authService.getUserId(),
       streamId: this.selectedApp._id
