@@ -226,8 +226,8 @@
                                             </div>
                                         </div>                                        
                                     </div> -->
-
-                                        <div id="accordion" class="accordion-sec"
+                                    <!-- Old Customized Data D-none-->
+                                        <div id="accordion" class="accordion-sec d-none"
                                             *ngFor="let actLog of actionLogData;let i = index">
                                             <div class="acc-card" *ngIf="actionLogData">
                                                 <div class="acc-card-header">
@@ -278,8 +278,6 @@
                                                                 </ng-container>
                                                                 <ng-container
                                                                     *ngIf="actLog.target.contentType && actLog.target.contentInfo && actLog.target.contentType == 'data'">
-                                                                <!-- <ng-container
-                                                                    *ngIf="actLog.target.contentType  && actLog.target.contentType == 'data'"> -->
                                                                     <div class="title">
 
                                                                         {{actLog.target.contentInfo._source.strucDataHeadingDis}}
@@ -303,9 +301,6 @@
                                                                 <div class="desc-text-ranking">
                                                                     {{actLog.target.contentInfo.shortDesc}}</div>
                                                             </ng-container>
-                                                            <!-- <ng-container
-                                                                *ngIf="actLog.target.contentType && actLog.target.contentInfo && actLog.target.contentType == 'data'"> -->
-                                                            
                                                              <ng-container
                                                             *ngIf="actLog.target.contentType && actLog.target.contentType == 'data' && actLog.target.contentInfo">
 
@@ -353,6 +348,56 @@
                                                 </div>
                                             </div>
                                         </div>
+                                    <!-- Old Customized Data D-none-->
+                                        <!-- customized ActionLog Data Bindin -->
+                                        <div id="accordion" class="accordion-sec"
+                                            *ngFor="let actLog of customizedActionLogData ;let i = index">
+                                            <div class="acc-card" *ngIf="customizedActionLogData">
+                                                <div class="acc-card-header">
+                                                    <a class="collapsed acc-card-link link-block" data-toggle="collapse"
+                                                        href="#collapse{{i}}">
+                                                        <div class="row m-0 row_data">
+                                                            <div class="main-title-text">
+                                                                <div class="img-block">
+                                                                    <img *ngIf="actLog.contentType"
+                                                                    container='body' ngbTooltip='{{actLog.contentType.substr(0,1).toUpperCase() + actLog.contentType.substr(1)}}'
+                                                                    placement="top"
+                                                                    src="{{actLog.icon}}"
+                                                                    class="cursor-pointer">
+                                                                </div>
+                                                                <ng-container *ngIf="actLog.title">
+                                                                    <div class="title"> {{actLog.title}} </div>
+                                                                </ng-container>
+                                                            </div>
+
+                                                            <ng-container *ngIf="actLog.desc">
+                                                                <div class="desc-text-ranking"> {{actLog.desc}} </div>
+                                                            </ng-container>
+
+                                                            <div class="info-data-pinned-or-boostead">
+                                                                <div class="pinned" *ngIf="actLog.action" [ngClass]="{'manual': actLog.addedResult}">
+                                                                    <img src="{{actLog.actionIcon}}" [ngClass]="{'rotateimg180-move-up': actLog.action == 'boosted'}"> 
+                                                                    <span *ngIf="actLog.action == 'pinned'">{{'resultRanking_PINNED' | translate}}</span>
+                                                                    <span *ngIf="actLog.action == 'hidden'">{{'resultRanking_HIDDEN' | translate}}</span>
+                                                                    <span *ngIf="actLog.action == 'lowered'">{{actLog.value}}x{{'resultRanking_LOWERED' | translate}}</span>
+                                                                    <span *ngIf="actLog.action == 'boosted'">{{actLog.value}}x{{'resultRanking_BOOSTED' | translate}}</span>
+                                                                </div>
+                                                                <div class="time-stamp">{{actLog.lMod}}</div>
+                                                            </div>
+                                                            <div class="remove-btn-sec"
+                                                                [ngClass]="{'disableDiv' : permisionView }">
+                                                                <div class="remove-btn" (click)="removeRecord(actLog)">
+                                                                    {{'resultRanking_Remove' | translate}}</div>
+                                                            </div>
+                                                        </div>
+                                                    </a>
+                                                </div>
+                                                <!-- <div id="collapse{{i}}" class="collapse" data-parent="#accordion">
+
+                                                </div> -->
+                                            </div>
+                                        </div>
+                                         <!-- customized ActionLog Data Binding -->
                                     </div>
                                 </div>
                             </perfect-scrollbar>
