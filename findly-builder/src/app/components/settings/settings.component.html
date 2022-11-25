@@ -469,7 +469,7 @@
                                                             <ng-container *ngFor="let domainUrl of webClientDetails.domains ;let i = index">
                                                                 <div class="input-url-box mb-2">
                                                                     <div class="kr-sg-input-text">
-                                                                        <input type="text" placeholder="sampleurl.com" class="input-text" [value]="domainUrl" (input)="onFocusOutEvent($event)" [disabled]="i != (webClientDetails.domains.length-1)">
+                                                                        <input type="text" id="domain-url{{i}}" placeholder="sampleurl.com" class="input-text" [value]="domainUrl" (change)="onFocusOutEvent($event)" [disabled]="i != (webClientDetails.domains.length-1)">
                                                                     </div>
                                                                     <div class="actions-copy-ext">
                                                                         <div class="btn-ext-copy" ngbTooltip="{{'sa_delete' | translate}}" (click)="deleteDomain(i)">
@@ -625,7 +625,7 @@
                 <button class="kr-sg-button-secondary btn_lg mr-2" *ngIf="slider==2" (click)="back()"> {{"settings_back" | translate}}</button>
                 <button class="kr-sg-button-primary btn_lg" (click)="continue()" *ngIf="slider!==3" [disabled]="(!(credntial.name) || !(credntial.awt)) && (slider==2)">{{"settings.continue" | translate}}</button>
                 <button class="kr-sg-button-secondary btn_lg mr-2"  *ngIf=existingCredential (click)="cancel()">{{"settings_cancel" | translate}} </button>
-                <button class="kr-sg-button-primary btn_lg" *ngIf="slider==3" (click)="configureCredential($event)"> {{"settings_save" | translate}}</button>
+                <button class="kr-sg-button-primary btn_lg" *ngIf="slider==3" (click)="validationForDomainURl()"> {{"settings_save" | translate}}</button>
             </div>
         </div>
     </div>
