@@ -38,7 +38,7 @@ export class ResultRankingComponent implements OnInit, OnDestroy {
   icontoggle: boolean = false;
   faqDesc: any;
   mocData: any;
-  subscription: Subscription;4
+  subscription: Subscription;
   timeLogData: any;
   lastModifiedOn: any;
   resultSelected = false;
