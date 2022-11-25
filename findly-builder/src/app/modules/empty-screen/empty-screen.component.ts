@@ -7,6 +7,8 @@ import { Component, Input, OnInit } from '@angular/core';
 })
 export class EmptyScreenComponent implements OnInit {
   @Input() imgName = 'no-data.svg';
+  @Input() width = '200';
+  @Input() height = '200';
   @Input() title = '';
   @Input() desc = '';
   @Input() isSearch = false;
