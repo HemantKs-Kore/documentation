@@ -1533,7 +1533,7 @@ export class AppHeaderComponent implements OnInit {
   trackChecklist() {
     let arr = [];
     let Index = [];
-    this.tourData.forEach((item) => {
+    this.tourData?.forEach((item) => {
       Object.keys(item).forEach((key) => {
         arr.push(item[key])
       });
