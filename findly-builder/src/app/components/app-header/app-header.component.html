@@ -142,7 +142,7 @@
                       id="test-btn-launch-sdk" (click)="openOrCloseSearchSDK()" [disabled]="isRouteDisabled"><span class="pr-1 align-middle"><i class="si-play-button"></i></span>{{ 'header_preview' | translate }}</button>
                 </li>
              <!-- New Code wrt to Stop Traing -->
-            <!-- <li class="nav-item new-train-btn" (mouseenter)="displayStopTrain()" (mouseleave)="displayStopTrainLeave()" (click)="isRouteDisabled?null:train()" [ngbTooltip]="training && showClose?'Stop Training The App':'Train Your APP'">
+            <li class="nav-item new-train-btn" (mouseenter)="displayStopTrain()" (mouseleave)="displayStopTrainLeave()" (click)="isRouteDisabled?null:train()" [ngbTooltip]="training && showClose?'Stop Training The App':'Train Your APP'">
                     <button  class="kr-sg-button-secondary btn_lg" [ngClass]='{"show-close":showClose && training}'>
                         <span class="align-middle train-btn-icons">
                             <span *ngIf="!training" >
@@ -159,12 +159,12 @@
                             {{training && !showClose?"Train":training && showClose?" Stop" : "Train"}}
                         </span>
                     </button>
-            </li> -->
+            </li>
              <!-- New Code wrt to Stop Traing -->
             <!-- OLD Code should be remove after testing-->
-            <li class="nav-item new-train-btn" (click)="isRouteDisabled?null:train()" ngbTooltip="{{ 'header_trainYourApp' | translate }}"  [ngClass]='{"active-train":training}'>
+            <!-- <li class="nav-item new-train-btn" (click)="isRouteDisabled?null:train()" ngbTooltip="{{ 'header_trainYourApp' | translate }}"  [ngClass]='{"active-train":training}'>
                 <button class="kr-sg-button-secondary btn_lg"><span class="pr-1 align-middle"><i class="si-train-multi-intent"></i></span>{{ 'header_train' | translate }}</button>
-              </li>
+              </li> -->
             <!-- OLD Code should be remove after testing-->
                 <!-- <li (click)="isRouteDisabled?null:train()" class="nav-item train-btn" ngbTooltip="{{ 'header_trainYourApp' | translate }}"
                     container='body' tooltipClass="train-icon-tooltip" [ngClass]='{"active-train":training}'>
@@ -199,7 +199,7 @@
                     <div class="kr-sg-dropdowns" ngbDropdown>
                         <div class="dropdown dropdown-open">
                             <button class="dropdown-toggle dropdown-input notification" id="dropdownBasic1"
-                                ngbDropdownToggle (mouseup)="notificationIconClick()">
+                                ngbDropdownToggle (mouseup)="notificationIconClick();checkJObStatus(dockersList)">
                                 <img src="assets/icons/sidemenu/notification.svg">
                                 <sup *ngIf="isAnyRecordFailed" class="red-notification"></sup>
                                 <sup *ngIf="isAnyRecordCompleted" class="completed-notification"></sup>
@@ -319,7 +319,7 @@
                                                         </div>
                                                     </perfect-scrollbar>
                                                     <div class="clear_icon text-right"
-                                                        [class.disabled]="!dockersList.length"
+                                                        [class.disabled]="(!dockersList.length || disableClearAll)"
                                                         (click)="clearAllRecords()">{{'clear_all' | translate}}</div>
                                                 </div>
                                             </div>

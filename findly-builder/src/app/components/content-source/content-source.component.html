@@ -23,33 +23,10 @@
           </button>
         </div>
       </app-empty-screen>
-      <!-- <div class="empty-landing-screen">
-        <div class="img-block" *ngIf="!emptyItems"><img class="action_icon" (load)="imageLoad()"
-            src="assets/images/contentmanag-empty.png"></div>
-        <ng-container *ngIf="loadImageText">
-          <div class="empty-title">{{"contentSource_no_content" | translate}}</div>
-          <div class="desc-text"> {{"contentSource_no_content_info" | translate}}</div>
-          <div class="kr-sg-dropdowns" ngbDropdown [container]="'body'">
-            <div class="dropdown dropdown-open">
-              <button class="dropdown-toggle dropdown-input" ngbDropdownToggle>{{"contentSource_add_content" |
-                translate}}</button>
-              <ul class="dropdown-menu content-menu faq-filter-add" ngbDropdownMenu>
-                <li class="webDomain" (click)="addNewContentSource('contentWeb')">{{"contentSource_craw_web_domain" |
-                  translate}}</li>
-                <li class="webDomain" (click)="addNewContentSource('contentDoc')">{{"contentSource_upload_file" |
-                  translate}}</li>
-              </ul>
-            </div>
-          </div>
-        </ng-container>
-        <ng-container *ngIf="noItems && emptySearchResults">
-          <div class="desc-text">{{"contentSource_no_search_query" | translate}}</div>
-        </ng-container>
-      </div> -->
     </perfect-scrollbar>
   </ng-container>
 
-  <div class="table-list-content">
+  <div class="table-list-content" *ngIf="!loadingContent">
     <app-useronboarding-journey [componentType]='componentType'></app-useronboarding-journey>
     <div class="kr-sg-data-table with-checkbox">
       <div class="table-action-header">
@@ -288,19 +265,12 @@
             </div>
             </ng-container>
             <ng-template #noListContent>
-              <app-empty-screen [title]="emptyScreen.TITLE_SEARCH" [desc]="emptyScreen.DESC_SEARCH" [imgName]="emptyScreen.IMG_NAME">
+              <app-empty-screen [width]="100" [height]="100" [title]="emptyScreen.TITLE_SEARCH" [desc]="emptyScreen.DESC_SEARCH" [imgName]="emptyScreen.IMG_NAME">
               </app-empty-screen>
             </ng-template>
             <div style="margin-right: 10px;"> <app-record-pagination *ngIf="totalRecord > 10" [totalRecord]='totalRecord' [limitpage]='10' (pageChanged)="paginateContent($event)"></app-record-pagination></div>
             <!-- <div class="empty">{{"contentSource_no_results_found" | translate}}</div> -->
-          </perfect-scrollbar>            
-
-
-        <ng-template #noListContent>
-          <app-empty-screen *ngIf="searchSources" [title]="emptyScreen.TITLE_SEARCH" [desc]="emptyScreen.DESC_SEARCH" [imgName]="emptyScreen.IMG_NAME">
-          </app-empty-screen>            
-        </ng-template>
-
+          </perfect-scrollbar>
       </section>
 
       <ng-container *ngIf="currentView === 'grid'">
@@ -376,7 +346,7 @@
             </ng-container>
 
             <ng-template #noGridContent>
-              <app-empty-screen *ngIf="searchSources" [title]="emptyScreen.TITLE_SEARCH" [desc]="emptyScreen.DESC_SEARCH" [imgName]="emptyScreen.IMG_NAME">
+              <app-empty-screen [width]="100" [height]="100" *ngIf="searchSources" [title]="emptyScreen.TITLE_SEARCH" [desc]="emptyScreen.DESC_SEARCH" [imgName]="emptyScreen.IMG_NAME">
               </app-empty-screen>
             </ng-template>
             <!-- New Design -->
@@ -1155,7 +1125,7 @@
                 </div>
               </div>
             </div>
-            <app-empty-screen [title]="emptyScreen.TITLE_PAGES" [desc]="emptyScreen.DESC_PAGES"
+            <app-empty-screen [width]="100" [height]="100" [title]="emptyScreen.TITLE_PAGES" [desc]="emptyScreen.DESC_PAGES"
               [imgName]="emptyScreen.IMG_NAME_PAGES" *ngIf="!pagingData.length">
               <div class="action-buttons">
                 <button class="kr-sg-button-primary btn_lg" (click)="jobOndemand(selectedSource, $event)">

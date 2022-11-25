@@ -49,6 +49,7 @@
         <!-- <ng-container *ngIf="!(faqSelectionObj.stats.draft || faqSelectionObj.stats.in_review || faqSelectionObj.stats.approved) && faqSelectionObj.loadingStats && !(extractedResources && extractedResources.length)  && !extractedFaqs && !viewDetails && !searchFaq && !showSearch && !loading"> -->
         <perfect-scrollbar class="empty-scroll">
             <app-empty-screen
+            [width]="170" [height]="170"
             [title]="emptyScreen.TITLE"
             [desc]="emptyScreen.DESC"
             [imgName]="emptyScreen.IMG_NAME"
@@ -221,6 +222,7 @@
                        <!-- <app-pagination *ngIf="!loadingTab && !searchFaq" [totalRecord]='faqSelectionObj.stats[selectedtab]' [limitpage]='faqLimit' [allInOne]='false' (pageChanged)="paginate($event)"></app-pagination> -->
                         <div class="empty-questions-selected"  *ngIf="!(faqs && faqs.length)">
                             <app-empty-screen
+                            [width]="100" [height]="100"
                             *ngIf="!loadingTab"
                             [title]="emptyScreen.TITLE_SEARCH_SOURCES"
                             [desc]="emptyScreen.DESC_SEARCH_SOURCES"
@@ -902,7 +904,7 @@
         </div>      
     </div>
     <ng-container *ngIf="!(extractedResources && extractedResources.length)">
-        <app-empty-screen [title]="emptyScreen.TITLE_NO_SOURCES" [desc]="emptyScreen.DESC_NO_SOURCES" [imgName]="emptyScreen.IMG_NAME">
+        <app-empty-screen [width]="100" [height]="100" [title]="emptyScreen.TITLE_NO_SOURCES" [desc]="emptyScreen.DESC_NO_SOURCES" [imgName]="emptyScreen.IMG_NAME">
         </app-empty-screen>
     </ng-container>
     <!-- <div *ngIf="!( extractedResources &&  extractedResources.length)"  class="empty-source-modal">
@@ -1010,6 +1012,7 @@
                             </div>
                             <div class="empty">
                                 <app-empty-screen
+                                [width]="100" [height]="100"
                                 *ngIf="searchSources"
                                 [title]="emptyScreen.TITLE_SEARCH"
                                 [desc]="emptyScreen.DESC_SEARCH"
@@ -1060,6 +1063,7 @@
                     </div> 
                     <div class="empty">
                         <app-empty-screen
+                        [width]="100" [height]="100"
                         *ngIf="searchSources"
                         [title]="emptyScreen.TITLE_SEARCH"
                         [desc]="emptyScreen.DESC_SEARCH"
