@@ -32,7 +32,7 @@
             <i class="si-help info-icon" placement="right" [ngbTooltip]="('businessRules.contextual_rules_allow'| translate)" [container]='"body"' tooltipClass="metrics_tooltips m-0"></i>
             <div class="tab-name-text" [ngClass]="{'active-tab-rule':selcectionObj?.ruleType==='nlp'}" (click)="selectRuleType('nlp')"><span>{{"businessRules_nlp"| translate}} {{"businessRules_rules"| translate}}</span></div>
         </div>
-        <div class="right-contnet col-8 p-0 justify-content-end" >
+        <div class="right-contnet col-8 p-0 justify-content-end" *ngIf="rules.length!==0">
             <div class="kr-sg-input-search">
                 <input type="text" placeholder="Search" maxlength="60" id="inputSearch" class="input-search"
                     (keyup)="searchByRule()" [ngClass]="{'pl-33':!searchRules,'pl-2':searchRules}" autocomplete="off"
@@ -769,7 +769,7 @@
                                                             (keyup)='buildCurrentContextSuggetions(outcomeObj)'
                                                             [matChipInputFor]="chipList" [matAutocomplete]="auto"
                                                             [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
-                                                            (matChipInputTokenEnd)="addOutcome($event, outcomeObj, (outcomeObj.outcomeValue.length))" />
+                                                            (matChipInputTokenEnd)="addOutcome($event, outcomeObj, (outcomeObj.outcomeValue.length))" [disabled]="outcomeObj.fieldId===''"/>
                                                             <img *ngIf="iconImageOut && submitted" id="infoWarningOut" src="assets/icons/warning_escalation.svg" style="top: 35%; position: absolute; right: 3%; display: block;" height="12" width="12" />
                                                     </mat-chip-list>
                                                     <mat-autocomplete #auto="matAutocomplete" class="mat_autofocus_dropdown {{outcomeObj.outcomeValueType==='static'?'hideAutoFocus':''}}" (optionSelected)="selected($event,outcomeObj,index)">

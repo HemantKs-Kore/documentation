@@ -280,6 +280,7 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
         for (let item of ruleObj.rules) {
           this.createColorSentence(item);
         }
+        this.getLegends();
       }
     }
     if (ruleObj && ruleObj.outcomes && ruleObj.outcomes.length) {
@@ -806,7 +807,6 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
             return false;
           } else {
             this.iconImageCon = false;
-            // this.submitted=false;   
             return true;
           }
         }
@@ -842,7 +842,7 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
     this.submitted = true;
     let isValidate: boolean;
     if (this.selcectionObj?.ruleType === 'nlp') {
-      isValidate = this.validateRules() && this.validateOut() && this.emptyAnnotatorValidate() && this.validateLegends();
+      isValidate = this.validateRules() && this.validateOut() && this.emptyAnnotatorValidate() && this.validateLegends('all');
     }
     else if (this.selcectionObj?.ruleType === 'contextual') {
       isValidate = this.validateRules() && this.validateCon() && this.validateOut()
@@ -901,24 +901,25 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
     }
     else {
       let message = '';
-      if (!this.validateCon()) {
-        $("#ConditionInput").parent('div').css("border-color", "#DD3646");
-        $("#infoWarningCon").css({ "top": "35%", "position": "absolute", "right": "3%", "display": "block" });
-        message = 'Enter the required fields to proceed';
+      if(this.selcectionObj?.ruleType === 'contextual'){
+        if (!this.validateCon()) {
+          $("#ConditionInput").parent('div').css("border-color", "#DD3646");
+          $("#infoWarningCon").css({ "top": "35%", "position": "absolute", "right": "3%", "display": "block" });
+          message = 'Enter the required fields to proceed';
+          this.notificationService.notify(message, 'error');
+        }
       }
       if (!this.validateOut()) {
         $("#OutcomeInput").parent('div').css("border-color", "#DD3646");
         $("#infoWarningOut").css({ "top": "35%", "position": "absolute", "right": "3%", "display": "block" });
         message = 'Enter the required fields to proceed';
+        this.notificationService.notify(message, 'error');
       }
       if (!this.emptyAnnotatorValidate()) {
         $("#contentText")[0].style.borderColor = '#DD3646';
         message = 'Enter the required fields to proceed';
+        this.notificationService.notify(message, 'error');
       }
-      if (!this.validateLegends()) {
-        message = 'Tags should equally matched with legends in each annotator';
-      }
-      this.notificationService.notify(message, 'error');
     }
     this.loadRules();
   }
@@ -929,14 +930,43 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
   }
 
   //validate legends in all annotators
-  validateLegends() {
-    let count = 0;
-    for (let item of this.nlpAnnotatorObj.annotator) {
-      if (item.legends.length > 0) count++;
+  validateLegends(type) {
+    let entityArray=[], isValid=false, count=0;
+    const legendCount = this.nlpAnnotatorObj.Legends.length;
+    if(type==='all'){
+      let entityCountArray=[];
+      this.nlpAnnotatorObj.annotator.forEach(item=>{
+        entityCountArray.push(item.entities.length);
+      })
+      const isCountEqual = entityCountArray.every(val=>val===legendCount);
+      if(isCountEqual){
+        this.nlpAnnotatorObj.annotator.forEach(annotator=>{
+          annotator.entities.forEach(item1=>{
+            const entityObj = this.sys_entities.filter(item => item._id === item1.entityId);
+          if(!entityArray.includes(entityObj[0].entityName)) entityArray.push(entityObj[0].entityName);
+          })
+        })
+      }else{
+        isValid = false;
+      }
+    } else if(type==='single'){
+      this.entityObj.entities.forEach(entity=>{
+        const entityObj = this.sys_entities.filter(item => item._id === entity.entityId);
+        if(!entityArray.includes(entityObj[0].entityName)) entityArray.push(entityObj[0].entityName);
+      })
     }
-    return count === 0 ? true : false;
+    if(entityArray.length>0){
+      entityArray.forEach(val=>{
+        this.nlpAnnotatorObj.Legends.forEach(legend=>{
+          if(val===legend?.name) count++;
+        })
+      })
+      isValid = count===legendCount&&entityArray.length===legendCount;
+    } 
+    if(!isValid) this.errorToaster(null, 'Tags should equally matched with legends in each annotator');
+    return isValid;
   }
-
+ 
   //get all fields
   getFields() {
     const quaryparms: any = {
@@ -949,7 +979,7 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
       }
     }
     this.service.invoke('post.allField', quaryparms, payload).subscribe(res => {
-      this.fieldAutoSuggestion = res.fields || [];
+      this.fieldAutoSuggestion = res?.fields || [];
     }, errRes => {
       this.errorToaster(errRes, 'Failed to get fields');
     });
@@ -1017,8 +1047,7 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
         this.errorToaster(null, 'Atleast one outcome is required');
         return;
       }
-      if (!this.validateLegends() && this.selcectionObj?.ruleType === 'nlp') {
-        this.errorToaster(null, 'Tags should equally matched with legends in each annotator');
+      if (!this.validateLegends('all') && this.selcectionObj?.ruleType === 'nlp') {
         return;
       }
       this.service.invoke('update.businessRule', quaryparms, payload).subscribe(res => {
@@ -1439,17 +1468,24 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
   //after sentence changes click on add button
   AddSelectedEnity() {
     if (this.validateEntityObject()) {
+      let isCall:boolean=false;
       if (this.selectEditIndex !== null) {
         this.nlpAnnotatorObj.annotator[this.selectEditIndex].isEditable = false;
         this.selectEditIndex = null;
+        isCall=true;
       }
       else {
-        this.nlpAnnotatorObj.annotator.push(this.entityObj);
-        $("#contentText")[0].style.borderColor = '';
+        isCall = this.nlpAnnotatorObj.annotator.length===0?true:this.validateLegends('single');
+        if(isCall){
+          this.nlpAnnotatorObj.annotator.push(this.entityObj);
+          $("#contentText")[0].style.borderColor = '';
+        }
       }
-      this.getLegends();
-      this.entityObj = { entities: [], sentence: '', colorSentence: '', isEditable: false, legends: [] };
-      this.entityFields = { startIndex: 0, endIndex: 0, entityId: '', word: '' };
+      if(isCall){
+        this.getLegends();
+        this.entityObj = { entities: [], sentence: '', colorSentence: '', isEditable: false, legends: [] };
+        this.entityFields = { startIndex: 0, endIndex: 0, entityId: '', word: '' };
+      }
     }
   }
 
@@ -1469,6 +1505,7 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
     if (isvalid === false) this.notificationService.notify(message, 'error');
     return isvalid;
   }
+  
 
   //create or cancel entity
   createTag(isPopup, isEdit) {
@@ -1570,7 +1607,7 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
     }
     for (let field of this.fieldAutoSuggestion) {
       const isInclude = fields.includes(field?._id);
-      if (!isInclude) this.filteredFields.push(field);
+      if (!isInclude&&field?.fieldDataType!=="number") this.filteredFields.push(field);
     }
     if(type==='remove') this.search_field = '';
   }
@@ -1635,13 +1672,10 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
 
   //create color sentence while click on edit
   createColorSentence(rule) {
-    this.entityObj = { entities: [], sentence: '', colorSentence: '', isEditable: false, legends: [] };
     this.entityObj = { entities: rule?.entities, sentence: rule?.sentence, colorSentence: '', isEditable: false, legends: [] };
-    const sentence = this.updateColorSentence();
-    this.entityObj.colorSentence = this.sanitizer.bypassSecurityTrustHtml(sentence);
+    this.entityObj.colorSentence = this.updateColorSentence();
     this.nlpAnnotatorObj.annotator.push(this.entityObj);
     this.entityObj = { entities: [], sentence: '', colorSentence: '', isEditable: false, legends: [] };
-    this.getLegends();
   }
 
   //edit annotator object
