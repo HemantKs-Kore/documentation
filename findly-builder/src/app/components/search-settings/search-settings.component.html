@@ -20,7 +20,7 @@
                   {{component.key}}
                   </button>
               </div>
-              <div class="vr-beta" [ngClass]="{'beta-active':(selectedComponent===component.value)}">BETA</div>
+              <div class="vr-beta" *ngIf="component.value=='custom_configurations'"[ngClass]="{'beta-active':(selectedComponent===component.value)}">BETA</div>
             </div>
           </div>
       </perfect-scrollbar>
