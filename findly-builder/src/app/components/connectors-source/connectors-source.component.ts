@@ -419,7 +419,6 @@ export class ConnectorsSourceComponent implements OnInit {
           window.open(res.url, '_self');
         }
         else {
-          this.appSelectionService.updateTourConfig('addData');
           if (dialogRef) {
             dialogRef.close();
             this.getConnectors();
@@ -431,6 +430,7 @@ export class ConnectorsSourceComponent implements OnInit {
           }
         }
       }
+      this.appSelectionService.updateTourConfig('addData');
     }, errRes => {
       this.isPopupDelete = false;
       this.isAuthorizeStatus = false;

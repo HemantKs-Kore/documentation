@@ -54,7 +54,7 @@
                         <div class="inner-content-data">
                             <ng-container>
                                 <div class="desc-text-heading">{{'connectors_picksourceandconfigure'|translate}}</div>
-                                <ng-container>
+                                <ng-container  *ngIf="connectorsData?.length">
                                     <div class="heading-with-line">
                                         <div class="main-heading">{{'connectors_connected'|translate}}</div>
                                         <div class="line-border"></div>
@@ -72,7 +72,7 @@
                                                 <div class="content-block text-truncate">
                                                     <div class="title add-new-link">
                                                         <div class="connector-name text-truncate">{{connector?.connector_name}}</div>
-                                                        <div class="details-span" (click)="changeContent('edit',connector)"><a href="javascript:void(0)" class="details-link">details</a></div>
+                                                        <div class="details-span" (click)="changeContent('edit',connector)"><a href="javascript:void(0)" class="details-link">{{'connectors_details'|translate}}</a></div>
                                                     </div>
                                                         <!-- <div class="title" *ngIf="connector?.type==='confluenceServer'">(Server)</div> -->
                                                     <div class="desc-text text-truncate">({{connector?.name}})</div>
@@ -82,7 +82,7 @@
                                     </div>
                                 </ng-container>
                                 <ng-container *ngIf="availableConnectorsData?.length">
-                                    <div class="heading-with-line" *ngIf="connectorsData?.length">
+                                    <div class="heading-with-line" *ngIf="availableConnectorsData?.length">
                                         <div class="main-heading">{{'connectors_available'|translate}}</div>
                                         <div class="line-border"></div>
                                     </div>
@@ -177,7 +177,7 @@
                                     <div class="header-configuration-data mt-0">
                                         <div class="config-tab">
                                             <div class="icon-config">
-                                                <i class="si-instructions"></i>
+                                                <i class="si-settings"></i>
                                             </div>
                                             <div class="title">{{'connectors_configuration_authentication'|translate}}</div>
                                         </div>
@@ -224,7 +224,7 @@
                                                     </div>
                                                     <div class="kr-sg-input-text mb-3" *ngIf="selectedConnector.type === 'sharepointOnline'">
                                                         <div class="label-text">{{'connectors_tenant_id'|translate}}</div>
-                                                        <input type="text" placeholder="Enter Tenant ID here" class="input-text"  [type]="showProtecedText.istenantIdShow?'text':'password'" [(ngModel)]="configurationObj.tenantId">
+                                                        <input type="text" placeholder="{{'connectors_enter_tenant_id'|translate}}" class="input-text"  [type]="showProtecedText.istenantIdShow?'text':'password'" [(ngModel)]="configurationObj.tenantId">
                                                         <i class="si-eye" *ngIf="!showProtecedText.istenantIdShow" (click)="showProtecedText.istenantIdShow=!showProtecedText.istenantIdShow"></i>
                                                         <i class="si-eyeshow" *ngIf="showProtecedText.istenantIdShow" (click)="showProtecedText.istenantIdShow=!showProtecedText.istenantIdShow"></i>
                                                     </div>
@@ -304,7 +304,6 @@
                             <div class="tab-content" [ngSwitch]="selectedTab">    
                                 <!--Overview tab-->                       
                                 <div class="tab-pane active" *ngSwitchCase="'overview'">
-                                    <perfect-scrollbar class="tab-content-scroll-data">
                                         <div class="overview-tab-data">
                                             <div class="heading-summery">
                                                 {{'connectors_summary'|translate}}</div>
@@ -314,12 +313,14 @@
                                                         <div class="title">{{'connectors_source_type'|translate}}</div>
                                                         <div class="title text-right">{{'connectors_items'|translate}}</div>
                                                     </div>
+                                                    <perfect-scrollbar class="tab-content-scroll-data">
                                                     <ng-container *ngFor="let overview of overViewData?.overview">
                                                         <div class="repeat-table-body">
                                                             <div class="title user-type">{{overview?.key|titlecase}}</div>
                                                             <div class="title item-count">{{overview?.doc_count}}</div>
                                                         </div>
                                                     </ng-container>
+                                                    </perfect-scrollbar>
                                                 </div>
                                                 <div class="source-data">
                                                     <div class="source-card sync-source-card">
@@ -330,7 +331,6 @@
                                                 </div>
                                             </div>
                                         </div>
-                                    </perfect-scrollbar>
                                 </div>
                                 <!--Connection Settings tab-->
                                 <div class="tab-pane active" *ngSwitchCase="'connectionSettings'">
@@ -418,12 +418,12 @@
                                                         </app-empty-screen>
                                                     </div>
                                                 </section>
-                                                <app-record-pagination [totalRecord]='total_records' [limitpage]='10' (pageChanged)="paginate($event)" *ngIf="overViewData.content?.length">
-                                                </app-record-pagination>                               
                                             </div>
                                         </div>
                                     </div>
                                     </perfect-scrollbar>
+                                    <app-record-pagination  [totalRecord]='total_records' [limitpage]='10' (pageChanged)="paginate($event)" *ngIf="total_records > 10">
+                                    </app-record-pagination>                               
                                 </div>
                                 <!--configuration or sync frequency tab-->
                                 <div class="tab-pane active" *ngSwitchCase="'configurations'">

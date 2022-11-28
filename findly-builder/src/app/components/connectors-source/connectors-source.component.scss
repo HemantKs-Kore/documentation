@@ -395,7 +395,7 @@
                     perfect-scrollbar {
                         &.tab-content-scroll-data {
                             min-height: auto;
-                            height: calc(100vh - 420px);
+                            height: calc(100vh - 430px);
                         }
                     }
 
@@ -760,6 +760,7 @@
                             .content-data-table {
                                 .kr-sg-data-table {
                                     .table-content {
+                                        display: block;
                                         .table-header {
                                             border-bottom: 1px solid #E4E5E7 !important;
                                             padding: 10px 0 !important;

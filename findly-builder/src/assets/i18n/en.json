@@ -2639,7 +2639,6 @@
     "connectors_connect":"Connect",
     "connectors_hostURL":"Host URL",
     "connectors_host_domain_name":"Host Domain Name",
-    "connectors_tenant_id":"Tenant Id",
     "connectors_username":"Username",
     "connectors_password":"Password",
     "connectors_connection_settings_tab":"Connection Settings",
@@ -3536,7 +3535,12 @@
     "home_enter_your_industry_name":"Enter your Industry name",
     "home_please_type_delete":"Please type DELETE to confirm",
     "home_welcome_to_search_assist":"Welcome to SearchAssist",
-    "home_watch_a_quick_desc":"Watch a quick introductory video on the SearchAssist’s features."
+    "home_watch_a_quick_desc":"Watch a quick introductory video on the SearchAssist’s features.",
+
+
+    "connectors_tenant_id":"Tenant ID",
+    "connectors_enter_tenant_id":"Enter Tenant ID here",
+    "connectors_details":"Details"
 
 
 }
