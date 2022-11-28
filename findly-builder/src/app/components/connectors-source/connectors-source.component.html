@@ -41,7 +41,7 @@
     <ng-container
         *ngIf="(!(connectorsData|filter: [ searchField, 'connector_name']).length && !(availableConnectorsData|filter: [ searchField, 'connector_name']).length); else noConnectors">
     
-        <app-empty-screen [title]="emptyScreen.TITLE_SEARCH" [desc]="emptyScreen.DESC_SEARCH"
+        <app-empty-screen [width]="117" [height]="142" [title]="emptyScreen.TITLE_SEARCH" [desc]="emptyScreen.DESC_SEARCH"
             [imgName]="emptyScreen.IMG_NAME">
         </app-empty-screen>
     </ng-container>
@@ -413,7 +413,7 @@
                                                         <div class="col-4">{{content?.lastUpdatedAt | date:'d/M/yyyy, h:mm:s a'}}</div>
                                                     </div>
                                                     <div *ngIf="overViewData.content?.length===0">
-                                                        <app-empty-screen [title]="emptyScreen.TITLE_SEARCH_CONTENT" [desc]="emptyScreen.DESC_SEARCH_CONTENT"
+                                                        <app-empty-screen [width]="117" [height]="142" [title]="emptyScreen.TITLE_SEARCH_CONTENT" [desc]="emptyScreen.DESC_SEARCH_CONTENT"
                                                             [imgName]="emptyScreen.IMG_NAME">
                                                         </app-empty-screen>
                                                     </div>
