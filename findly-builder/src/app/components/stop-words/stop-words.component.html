@@ -40,8 +40,8 @@
     </div> -->
 
     <div class="page-sub-headers">
-      <div class="page-sub-hding">{{'Add_Stop_Words'| translate}}</div>
-      <div class="page-sub-desc">How would you like to start?</div>
+      <div class="page-sub-hding">{{"stopwords_add_stop_words"| translate}}</div>
+      <div class="page-sub-desc">{{"stopwords_How_would_you_like_to_start" | translate}}</div>
     </div>
 
     <div class="stop-words-wrapper" [ngClass]="{'stop-words-no-border': !(stopwords && stopwords.length)}">
@@ -54,8 +54,8 @@
           <div class="kr-sg-radiobutton">
             <input id="defaultStopWords" maxlength="60" value="default" name="defaultStopWords" [(ngModel)]="stopWordsIntiType" class="radio-custom" type="radio" checked>
             <label for="defaultStopWords" class="radio-custom-label">
-              <div class="label_heading">{{'Add_defaults'| translate}}</div>
-              <div class="lable_dec">{{'Add_defaults_eg'| translate}}</div>
+              <div class="label_heading">{{'stopwords_Add_defaults'| translate}}</div>
+              <div class="lable_dec">{{'stopwords_Add_defaults_eg'| translate}}</div>
             </label>
           </div>
         </div>
@@ -70,7 +70,7 @@
         </div>
       </div>
       <div class="text-left">
-        <button class="kr-sg-button-primary btn_lg" (click)="createInit()">{{'Get_Started' | translate}}</button>
+        <button class="kr-sg-button-primary btn_lg" (click)="createInit()">{{'stopwords_Get_Started' | translate}}</button>
       </div>
       </div>  
       <!-- <ng-container *ngIf="!(stopwords && stopwords.length) && !loadingContent && !createFromScratch">
@@ -94,7 +94,7 @@
           </perfect-scrollbar>          
         </div>
       </ng-container>                -->
-      <ng-container>
+      <ng-container  *ngIf="true">
       <div class="listingHeader row m-0">
         <div class="col-7 p-0" >
           <!-- <div class="desc-info-text" *ngIf="searchStopwords">{{'Showing ' + getActiveSearch()  +' results for ‘'+ searchStopwords  +'’'}}</div> -->
@@ -144,17 +144,17 @@
                   <li (click)='deleteAllStopWords(event)' >{{'sa_delete_all' | translate}}</li>   -->
 
                   <li class="restoreDefaults" (click)="removeDefaultStopWords()">
-                    <span class="li-icon-span"><i class="si-minus-circle-o"></i></span><span class="label_txt">Remove Default Stop Words</span>              
+                    <span class="li-icon-span"><i class="si-minus-circle-o"></i></span><span class="label_txt">{{"stopwords_Remove_Default_Stop_Words" | translate}}</span>              
                   </li> 
-                  <li class="restoreDefaults" (click)="restoreStopWords($event)">
-                    <span class="li-icon-span"><i class="si-recall"></i></span><span class="label_txt">Reset to Default</span>              
+                  <li class="restoreDefaults" (click)="createStopWords('','',false)">
+                    <span class="li-icon-span"><i class="si-recall"></i></span><span class="label_txt">{{"stopwords_reset_to_default" | translate}}</span>              
                   </li> 
                   <li class="restoreDefaults" (click)="createStopWords(true)">
-                    <span class="li-icon-span"><i class="si-add-plus-square"></i></span><span class="label_txt">Add Default Stop Words</span>              
+                    <span class="li-icon-span"><i class="si-add-plus-square"></i></span><span class="label_txt">{{"stopwords_add_defalut" | translate}}</span>              
                   </li> 
                   
                   <li class="restoreDefaults clear-all-btn" (click)='deleteStopWords(true)'>
-                    <span class="li-icon-span"><i class="si-close-red"></i></span><span class="label_txt">Clear All</span>              
+                    <span class="li-icon-span"><i class="si-close-red"></i></span><span class="label_txt">{{"stopwords_clear_all" | translate}}</span>              
                   </li> 
                   
                   

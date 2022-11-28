@@ -3548,11 +3548,6 @@
     "home_please_type_delete":"Please type DELETE to confirm",
     "home_welcome_to_search_assist":"Welcome to SearchAssist",
     "home_watch_a_quick_desc":"Watch a quick introductory video on the SearchAssist’s features.",
-    "Add_Stop_Words": "Add Stop Words",
-    "How_would_you_like_to_start": "How would you like to start?",
-    "Add_defaults": "Add defaults",
-    "Add_defaults_eg": "Eg: If, Me, I, Can, Not, Won’t etc..",
-    "Get_Started": "Get Started",
 
 
     "10NOv":"10NOv  Not Added keys---------------------------------------------------------------------------------------------------------------",
@@ -3602,6 +3597,17 @@
     "search_setting_small_value_min_no_of_char":"For a very small value for minimum number of characters a word, you'll get a lot of false positive results.",
     "search_setting_max_typo_edits":"Maximum Typo Edits",
     "search_setting_max_no_of_typos_will_be_corrected":"Set value for the maximum number of typos that will be corrected in a word",
-    "search_settings_less_options":"Show Less"
+    "search_settings_less_options":"Show Less",
+
+
+    "stopwords_add_stop_words": "Add Stop Words",
+    "stopwords_How_would_you_like_to_start": "How would you like to start?",
+    "stopwords_Add_defaults": "Add defaults",
+    "stopwords_Add_defaults_eg": "Eg: If, Me, I, Can, Not, Won’t etc..",
+    "stopwords_Get_Started": "Get Started",
+    "stopwords_Remove_Default_Stop_Words": "Remove Default Stop Words",
+    "stopwords_reset_to_default": "Reset to Default",
+    "stopwords_add_defalut": "Add Default Stop Words",
+    "stopwords_clear_all": "Clear All"
 }
 
