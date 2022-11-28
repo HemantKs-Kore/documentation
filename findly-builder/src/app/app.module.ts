@@ -6,7 +6,6 @@ import { NgbModule, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { HttpClientModule, HttpClient } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { FilterPipe } from './helpers/filters/filter.pipe';
 import { DateFormatPipe } from './helpers/filters/dateformat.pipe';
 import { AppHeaderComponent } from './components/app-header/app-header.component';
 import { AppBodyComponent } from './components/app-body/app-body.component';
@@ -31,7 +30,6 @@ import { ScrollSpyDirective } from './helpers/directives/scroll-spy.directive';
 import { ConfirmationDialogComponent } from './helpers/components/confirmation-dialog/confirmation-dialog.component';
 import { SharedModule } from './shared/shared.module';
 import { SummaryComponent } from './components/summary/summary.component';
-import { KRModalComponent } from './shared/kr-modal/kr-modal.component';
 import { AddSourceComponent } from './components/add-source/add-source.component';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
@@ -110,7 +108,6 @@ import { SmallTalkComponent } from './components/small-talk/small-talk.component
 import { PricingComponent } from './components/pricing/pricing.component';
 import { InvoicesComponent } from './components/invoices/invoices.component';
 import { UsageLogComponent } from './components/usage-log/usage-log.component';
-import { RangeSliderSearchExperienceComponent } from './helpers/components/range-slider-search-experience/range-slider-search-experience.component';
 import { UpgradePlanComponent } from './helpers/components/upgrade-plan/upgrade-plan.component';
 import { valueFormatPipe } from './helpers/filters/number-format.pipe';
 import { TextTransformPipe } from './helpers/filters/textTransfom.pipe';
@@ -129,9 +126,7 @@ import { PresentableComponent } from './components/presentable/presentable.compo
 import { HighlightingComponent } from './components/highlighting/highlighting.component';
 import { SpellCorrectionComponent } from './components/spell-correction/spell-correction.component';
 import { SearchRelevanceComponent } from './components/search-relevance/search-relevance.component';
-import { ListFieldsComponent } from './components/search-settings/list-fields/list-fields.component';
-import { SearchFilterComponent } from './helpers/components/search-filter/search-filter.component';
-import { SearchSettingsSharedModule } from './modules/search-settings-shared/search-settings-shared.module';
+import { FindlySharedModule } from './modules/findly-shared/findly-shared.module';
 export function HttpLoaderFactory(httpClient: HttpClient) {
   return new TranslateHttpLoader(httpClient, 'assets/i18n/', '.json');
 }
@@ -141,14 +136,12 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
     AppHeaderComponent,
     AppBodyComponent,
     AppMenuComponent,
-    FilterPipe,
     SortPipe,
     DateFormatPipe,
     AppsListingComponent,
     ScrollSpyDirective,
     ConfirmationDialogComponent,
     SummaryComponent,
-    // KRModalComponent, /* Added in shared module*/
     AddSourceComponent,
     ContentSourceComponent,
     FaqSourceComponent,
@@ -209,7 +202,6 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
     PricingComponent,
     InvoicesComponent,
     UsageLogComponent,
-    RangeSliderSearchExperienceComponent,
     UpgradePlanComponent,
     valueFormatPipe,
     TextTransformPipe,
@@ -228,11 +220,9 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
     HighlightingComponent,
     SpellCorrectionComponent,
     SearchRelevanceComponent,
-    ListFieldsComponent,
-    SearchFilterComponent,
   ],
   imports: [
-    SearchSettingsSharedModule,
+    FindlySharedModule,
     BrowserModule,
     FormsModule,
     MaterialModule,
@@ -258,7 +248,7 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
     ColorPickerModule,
     PickerModule,
     NgxEchartsModule.forRoot({
-      echarts: { init: echarts.init }
+      echarts: { init: echarts.init },
     }),
     TranslateModule.forRoot({
       defaultLanguage: 'en',
@@ -266,24 +256,31 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
         provide: TranslateLoader,
         useFactory: HttpLoaderFactory,
         deps: [HttpClient],
-      }
+      },
     }),
     ToastrModule.forRoot({
       timeOut: 5000,
       autoDismiss: false,
-      closeButton: true
+      closeButton: true,
     }),
-    NgxDaterangepickerMd.forRoot()
+    NgxDaterangepickerMd.forRoot(),
   ],
   // tslint:disable-next-line:max-line-length
-  entryComponents: [ConfirmationDialogComponent, ImportFaqsModalComponent, EditorUrlDialogComponent],
+  entryComponents: [
+    ConfirmationDialogComponent,
+    ImportFaqsModalComponent,
+    EditorUrlDialogComponent,
+  ],
   providers: [
     {
       provide: HTTP_INTERCEPTORS,
       useClass: AuthInterceptor,
       multi: true,
     },
-    { provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: { appearance: 'fill' } },
+    {
+      provide: MAT_FORM_FIELD_DEFAULT_OPTIONS,
+      useValue: { appearance: 'fill' },
+    },
     SortPipe,
     AuthGuard,
     AppDataResolver,
@@ -295,9 +292,9 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
     ConvertMDtoHTML,
     MatDatepickerModule,
     AppSelectionService,
-    DockStatusService
+    DockStatusService,
   ],
   // exports: [NgbdDatepickerRange],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}

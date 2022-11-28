@@ -9,7 +9,7 @@ import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import {HttpClient } from '@angular/common/http';
 
-import { SearchSettingsSharedModule } from 'src/app/modules/search-settings-shared/search-settings-shared.module';
+import { FindlySharedModule } from 'src/app/modules/findly-shared/findly-shared.module';
 export function HttpLoaderFactory(httpClient: HttpClient) {
   return new TranslateHttpLoader(httpClient, './assets/i18n/', '.json');
 }
@@ -21,7 +21,7 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
     WeightsRoutingModule,
     MaterialModule,
     PerfectScrollbarModule,
-    SearchSettingsSharedModule,
+    FindlySharedModule,
     TranslateModule.forChild({
       defaultLanguage: 'en',
       loader: {

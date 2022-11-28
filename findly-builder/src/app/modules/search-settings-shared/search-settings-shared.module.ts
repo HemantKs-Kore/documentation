@@ -7,18 +7,6 @@ import { KRModalComponent } from 'src/app/shared/kr-modal/kr-modal.component';
 import { RangeSliderSearchExperienceComponent } from 'src/app/helpers/components/range-slider-search-experience/range-slider-search-experience.component';
 
 @NgModule({
-  declarations: [
-    UseronboardingJourneyComponent,   
-    KRModalComponent ,
-    RangeSliderSearchExperienceComponent,
-  ],
-  imports: [
-    CommonModule,
-    TranslateModule,
-    PerfectScrollbarModule
-  ],
-  exports: [
-    UseronboardingJourneyComponent
-  ]
+
 })
 export class SearchSettingsSharedModule { }
