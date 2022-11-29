@@ -32,7 +32,7 @@
             <i class="si-help info-icon" placement="right" [ngbTooltip]="('businessRules.contextual_rules_allow'| translate)" [container]='"body"' tooltipClass="metrics_tooltips m-0"></i>
             <div class="tab-name-text" [ngClass]="{'active-tab-rule':selcectionObj?.ruleType==='nlp'}" (click)="selectRuleType('nlp')"><span>{{"businessRules_nlp"| translate}} {{"businessRules_rules"| translate}}</span></div>
         </div>
-        <div class="right-contnet col-8 p-0 justify-content-end" >
+        <div class="right-contnet col-8 p-0 justify-content-end" *ngIf="rules.length!==0">
             <div class="kr-sg-input-search">
                 <input type="text" placeholder="Search" maxlength="60" id="inputSearch" class="input-search"
                     (keyup)="searchByRule()" [ngClass]="{'pl-33':!searchRules,'pl-2':searchRules}" autocomplete="off"
@@ -568,7 +568,7 @@
                                         </div>
                                     </span>
                                 </div>
-                                <div contenteditable="true" class="input-editable" id="contentText" data-ph="Start typing here..." (mouseup)="getDialogDiemensions($event)" (keydown)="eventDeleted($event)" (selectedIndex)="getSelectedIndex($event)" [innerHTML]="inputSentence" oncontextmenu="return false;" appSelectText></div>
+                                <div contenteditable="true" class="input-editable" id="contentText" data-ph="Start typing here..." (mouseup)="getDialogDiemensions($event)" [textContent]="entityObj.sentence" (input)="entityObj.sentence = $event.target.textContent" (keypress)="dynamicColorPreview('add',$event)" (keydown)="dynamicColorPreview('add',$event)" (selectedIndex)="getSelectedIndex($event)" oncontextmenu="return false;" appSelectText></div>
                             </div>
                             <div class="kr-sg-btn">
                                 <button class="kr-sg-buttonicon-secondary" (click)="AddSelectedEnity()">
@@ -578,6 +578,12 @@
                         </div>
                          <!-- nlp annotator text area end -->
                          <!-- nlp custom tag builder area start -->
+                         <div class="nlp-custom-tag-block" *ngIf="entityObj.colorSentence.length>0">
+                            <div class="nlp-tag-legend">{{"businessRules_preview"| translate}}:</div>
+                            <div class="nlp-custom-tag-dynamic">
+                                <span class="nlp-preview-text" [innerHTML]="entityObj.colorSentence|safeHtml"></span>
+                            </div>
+                        </div>
                         <div class="nlp-custom-tag-block">
                             <div class="nlp-tag-legend">{{"businessRules_legend"| translate}}:</div>
                             <div class="nlp-custom-tag-dynamic">
@@ -597,8 +603,8 @@
                          <div class="nlp-custom-tag-generator-list" *ngIf="nlpAnnotatorObj.annotator?.length>0">
                             <div class="nlp-custom-tag-data-block" *ngFor="let annotator of nlpAnnotatorObj.annotator;let i=index;" [ngClass]="{'nlp-tag-edit':annotator.isEditable}">
                                 <div class="nlp-custom-tag-data-line">
-                                    <div contenteditable="false"  [innerHTML]="annotator.colorSentence" *ngIf="!annotator.isEditable"></div>
-                                    <div contenteditable="true" id="contentText{{i}}" class="div-editable" [innerHTML]="annotator.colorSentence" *ngIf="annotator.isEditable" (mouseup)="getDialogDiemensions($event)" (keydown)="eventDeleted($event)" (selectedIndex)="getSelectedIndex($event)" appSelectText></div>                                   
+                                    <div contenteditable="false"  [innerHTML]="annotator.colorSentence|safeHtml" *ngIf="!annotator.isEditable"></div>
+                                    <div contenteditable="true" id="contentText{{i}}" class="div-editable" [textContent]="annotator.sentence" (input)="annotator.sentence = $event.target.textContent" *ngIf="annotator.isEditable" (mouseup)="getDialogDiemensions($event)" (keypress)="dynamicColorPreview('edit',$event)" (keydown)="dynamicColorPreview('edit',$event)" (selectedIndex)="getSelectedIndex($event)" appSelectText></div>                                   
                                    <div class="nlp-custom-tag-overflow-menu" *ngIf="annotator.isEditable===false">
                                     <div class="dropdown nlp-overflow-menu">
                                         <button class="btn dropdown-toggle dropdown-btn" type="button" id="nlpOverflowMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -613,11 +619,14 @@
                                 </div>
                                 <div class="nlp-preview-block" *ngIf="annotator.isEditable">
                                     <div class="nlp-preview-header"></div> 
-                                    <span class="warning-span"><img src="assets/images/warning.svg" class="warning-icon" height="8" *ngIf="annotator?.legends?.length>0"/></span><span class="ml-1 mr-2">{{(annotator?.legends?.length>0)?'Please tag':''}}</span>  <span class="nlp-custom-tag"  *ngFor="let tag of annotator?.legends"  [ngClass]="{'nlp-system-entity':tag.type==='system_defined','nlp-index-entity':tag.type==='index_field','nlp-custom-entity':tag.type==='custom'}"><span class="nlp-tag">{{tag?.name}}</span></span>
+                                    <span class="warning-span"><img src="assets/images/warning.svg" class="warning-icon" height="8" *ngIf="annotator?.legends?.length>0"/></span><span class="ml-1 mr-2">{{(annotator?.legends?.length>0)?'Please tag':''}}</span>  <span class="nlp-custom-tag ml-2"  *ngFor="let tag of annotator?.legends"  [ngClass]="{'nlp-system-entity':tag.type==='system_defined','nlp-index-entity':tag.type==='index_field','nlp-custom-entity':tag.type==='custom'}"><span class="nlp-tag">{{tag?.name}}</span></span>
                                     <div class="nlp-preview-action-list">
                                         <div class="nlp-preview-action-done" (click)="AddSelectedEnity()"><span class="nlp-preview-action-span"><img src="assets/images/check-primary.svg" class="warning-icon "/></span> {{"sa_done"| translate}}</div>
                                         <div class="nlp-preview-action-cancel" (click)="cancelAnnotatorSentence(annotator)"><span class="nlp-preview-action-span"><img src="assets/images/close.svg" class="warning-icon "/></span> {{"sa_cancel"| translate}}</div>
                                     </div>
+                                </div>
+                                <div class="nlp-color-preview-block mt-1" *ngIf="annotator.isEditable">
+                                    <span class="nlp-color-preview-header">{{"businessRules_preview"| translate}}:</span> <span class="ml-2 nlp-color-preview-text" [innerHTML]="annotator.colorSentence|safeHtml"></span>                                     
                                 </div>
                             </div>
                           
@@ -760,7 +769,7 @@
                                                             (keyup)='buildCurrentContextSuggetions(outcomeObj)'
                                                             [matChipInputFor]="chipList" [matAutocomplete]="auto"
                                                             [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
-                                                            (matChipInputTokenEnd)="addOutcome($event, outcomeObj, (outcomeObj.outcomeValue.length))" />
+                                                            (matChipInputTokenEnd)="addOutcome($event, outcomeObj, (outcomeObj.outcomeValue.length))" [disabled]="outcomeObj.fieldId===''"/>
                                                             <img *ngIf="iconImageOut && submitted" id="infoWarningOut" src="assets/icons/warning_escalation.svg" style="top: 35%; position: absolute; right: 3%; display: block;" height="12" width="12" />
                                                     </mat-chip-list>
                                                     <mat-autocomplete #auto="matAutocomplete" class="mat_autofocus_dropdown {{outcomeObj.outcomeValueType==='static'?'hideAutoFocus':''}}" (optionSelected)="selected($event,outcomeObj,index)">

@@ -3548,6 +3548,7 @@
     "home_please_type_delete":"Please type DELETE to confirm",
     "home_welcome_to_search_assist":"Welcome to SearchAssist",
     "home_watch_a_quick_desc":"Watch a quick introductory video on the SearchAssist’s features.",
+<<<<<<< HEAD
 
 
     "10NOv":"10NOv  Not Added keys---------------------------------------------------------------------------------------------------------------",
@@ -3609,5 +3610,10 @@
     "stopwords_reset_to_default": "Reset to Default",
     "stopwords_add_defalut": "Add Default Stop Words",
     "stopwords_clear_all": "Clear All"
+=======
+
+    "--------------Date-----------------------":"-----------------------------18-11-2022--------------------------------------------",
+    "businessRules_preview":"Preview"
+>>>>>>> e90326692ef67550b18e663aa75ae808cb058e9a
 }
 
