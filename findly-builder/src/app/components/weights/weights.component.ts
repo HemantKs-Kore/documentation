@@ -387,6 +387,7 @@ export class WeightsComponent implements OnInit, OnDestroy
     this.weightsList.push(this.getWeightsPayload(weight));
     this.service.invoke('put.updateWeight', quaryparms,payload).subscribe(res =>
     {
+      this.getWeights()
       this.prepereWeights();
       if (type == 'add')
       {
