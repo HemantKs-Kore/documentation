@@ -442,34 +442,6 @@ export class ResultRankingComponent implements OnInit, OnDestroy {
       //this.customizeList = res;
       this.lastModifiedOn = res.lMod;
       this.actionLogData = JSON.parse(JSON.stringify(res.customizations));
-      for (let i = 0; i < this.actionLogData.length; i++) {
-        this.actionLogData[i]["selected"] = false;
-        this.actionLogData[i]["drop"] = false;
-        this.actionLogData[i].customization.lMod = moment(this.actionLogData[i].customization.lMod).fromNow()
-        if (this.actionLogData[i].logs) {
-          this.actionLogData[i].logs[0].createdOn = moment(this.actionLogData[i].logs[0].createdOn).fromNow()
-        }
-        if (this.actionLogData[i].target.contentType == 'faq') {
-          if (this.actionLogData[i].target.contentInfo._source.faq_answer[0].text) {
-            this.actionLogData[i].target.contentInfo._source['faqDesc'] = this.actionLogData[i].target.contentInfo._source.faq_answer[0].text;
-          }
-
-          // if (this.actionLogData[i].target.contentInfo._source.defaultAnswers[0].payload.split(/^\r\n/)) {
-          //   this.faqDesc = this.actionLogData[i].target.contentInfo._source.defaultAnswers[0].payload.replace(/\u21b5/g, '');
-          // } else {
-          //   this.faqDesc = this.actionLogData[i].target.contentInfo._source.defaultAnswers[0].payload
-          // }
-
-        }
-        if (this.actionLogData[i].target.contentType == 'data') {
-          if (this.actionLogData[i].target.contentInfo._source) {
-            this.actionLogData[i].target.contentInfo._source['strucDataHeadingDis'] = this.actionLogData[i].target.contentInfo._source[this.strucDataHeading];
-            this.actionLogData[i].target.contentInfo._source['strucDataDecDis'] = this.actionLogData[i].target.contentInfo._source[this.strucDataDec];
-          }
-
-
-        }
-      }
       this.customizedActionLogData = [];
       this.actionLogData.forEach(data => {
         let actLog = new ActionLog();
