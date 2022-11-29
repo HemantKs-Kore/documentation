@@ -7,6 +7,10 @@ import { AppSelectionService } from '@kore.services/app.selection.service';
 import { WorkflowService } from '@kore.services/workflow.service';
 import { Subscription } from 'rxjs';
 import { ValueConverter } from '@angular/compiler/src/render3/view/template';
+import { ConfirmationDialogComponent } from 'src/app/helpers/components/confirmation-dialog/confirmation-dialog.component';
+import { MatDialog } from '@angular/material/dialog';
+
+
 
 
 
@@ -46,6 +50,7 @@ export class IndexConfigurationSettingsComponent implements OnInit {
     private service: ServiceInvokerService,
     private notificationService: NotificationService,
     private appSelectionService: AppSelectionService,
+    public dialog: MatDialog,
   ) { }
 
   ngOnInit(): void {
@@ -78,7 +83,7 @@ export class IndexConfigurationSettingsComponent implements OnInit {
     this.addLangModalPopRef = this.addLangModalPop.open();
     this.supportedLanguages.forEach(element => {
       this.languageList.forEach(lang => {
-        if(element.code == lang.code){
+        if(element.languageCode == lang.languageCode){
           lang.selected = true;
         } 
       }); 
@@ -113,10 +118,10 @@ export class IndexConfigurationSettingsComponent implements OnInit {
     let arr = [...this.supportedLanguages]
     let dumyArr = []
     arr.forEach(arrElement => {
-      dumyArr.push(arrElement.code)
+      dumyArr.push(arrElement.languageCode)
     });
     this.languageList.forEach(element => {
-      if(dumyArr.includes(element.code)){
+      if(dumyArr.includes(element.languageCode)){
         element.selected = true;
       }else{
         element.selected = false;
@@ -134,10 +139,10 @@ export class IndexConfigurationSettingsComponent implements OnInit {
         langArr.push(element);
       }
     });
-    this.saveLanguage(langArr)
+    this.saveLanguage('',langArr)
   }
   //add or edit Language
-  saveLanguage(langArr){
+  saveLanguage(dialogRef?,langArr?){
         let queryParams = {
           streamId:this.selectedApp._id,
           indexPipelineId:this.indexPipelineId
@@ -152,6 +157,9 @@ export class IndexConfigurationSettingsComponent implements OnInit {
         this.service.invoke(url, queryParams, payload).subscribe(
           res => {
             this.getIndexPipeline()
+            if (dialogRef && dialogRef.close) {
+              dialogRef.close();
+            }
             this.notificationService.notify('Language Saved Successfully', 'success');
           },
           errRes => {
@@ -168,7 +176,7 @@ export class IndexConfigurationSettingsComponent implements OnInit {
    unCheck(){
     this.supportedLanguages.forEach(element => {
       this.languageList.forEach(data => {
-        if(element.code == data.code){
+        if(element.languageCode == data.languageCode){
           data.selected = true
         }
         else{
@@ -180,7 +188,7 @@ export class IndexConfigurationSettingsComponent implements OnInit {
    updateLangListFun(list){
     let updateArr = [];
     this.supportedLanguages.forEach((element,index) => {
-      if(element.code != list.code){
+      if(element.languageCode != list.languageCode){
        updateArr.push(element)
       }
     });
@@ -188,11 +196,38 @@ export class IndexConfigurationSettingsComponent implements OnInit {
     return updateArr;
    }
   //delete language
-  deleteLanguage(list){
-  // this.supportedLanguages.splice(index,1);
+  deleteLanguagesPop(event,list) {
+    if (event) {
+      event.stopImmediatePropagation();
+      event.preventDefault();
+    }
+    const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+      width: '530px',
+      height: 'auto',
+      panelClass: 'delete-popup',
+      data: {
+        title: 'Delete Language',
+        text: 'Are you sure you want to remove?',
+        newTitle: 'Are you sure you want to remove?',
+        body: 'The'+list.language+ 'language will be removed.'+list.language+'content will be searched using English language analyzers.' ,
+        buttons: [{ key: 'yes', label: 'Delete', type: 'danger' }, { key: 'no', label: 'Cancel' }],
+        confirmationPopUp: true
+      }
+    });
+
+    dialogRef.componentInstance.onSelect
+      .subscribe(result => {
+        if (result === 'yes' ) {
+         this.deleteLanguage(dialogRef,list);
+        } else if (result === 'no') {
+          dialogRef.close();
+        }
+      })
+  }
+  deleteLanguage(dialogRef?,list?){
     this.unCheck()
     let updateArr = this.updateLangListFun(list)
-    this.saveLanguage(updateArr)
+    this.saveLanguage(dialogRef,updateArr)
   }
   //Use a better Apporch so that we can restrict this call for IndexPipline - use Observable
   getIndexPipeline() {

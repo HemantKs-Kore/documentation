@@ -735,7 +735,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
     let showProg: boolean = false;
     this.extension = '.' + element.file_ext
     if (this.selectedSourceType.sourceType === "content") {
-      if (['.pdf', '.doc', '.ppt', '.xlsx', '.txt', '.docx'].includes(this.extension)) {
+      if (['.pdf', '.doc', '.ppt', '.xlsx', '.txt', '.docx','.png','.jpeg','.jpg'].includes(this.extension)) {
         if (this.multipleFileArr.length >= 1) {
           if (index == this.multipleFileArr.length - 1)
             showProg = true;

@@ -996,7 +996,9 @@
                     align-items: center;
                     justify-content: center;
 
-                    i {}
+                    margin-left-2{
+                        margin-left: 2px;
+                    }
                 }
 
                 .title {
@@ -1306,6 +1308,11 @@
             }
         }
     }
+}
+
+.content-settings-tab-data ::ng-deep .empty-screen-wrapper img {
+    width: 100px;
+    height: 100px;
 }
 
 .text-overflow {

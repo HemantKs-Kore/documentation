@@ -1,5 +1,5 @@
 <div class="contentContainer">
-    <div class="mainLoadingSpinner" *ngIf="loadingContent" >
+    <div class="mainLoadingSpinner d-none" *ngIf="loadingContent" >
       <mat-spinner diameter="18" strokeWidth="2"></mat-spinner>
       <span class="please-wait-message">{{'sa_please_wait'| translate}}</span>
     </div>
@@ -21,7 +21,7 @@
           </label>
       </div>
 
-      <div class="block-separate-line" *ngIf="(stopwords && stopwords.length)"></div>
+      <div class="block-separate-line"></div>
     </div>
 
     <!-- <div class="header-sec-stopwords">
@@ -39,36 +39,23 @@
       </div>     
     </div> -->
 
-    <div class="page-sub-headers" *ngIf="(stopwords && stopwords.length)">
-      <div class="page-sub-hding">Add Stopwords</div>
-      <div class="page-sub-desc">Lorem Ipsum is a dummy text</div>
+    <div class="page-sub-headers">
+      <div class="page-sub-hding">{{"stopwords_add_stop_words"| translate}}</div>
+      <div class="page-sub-desc">{{"stopwords_How_would_you_like_to_start" | translate}}</div>
     </div>
 
-    <div *ngIf="loadingContent1" class="stop-words-wrapper">
+    <div class="stop-words-wrapper" [ngClass]="{'stop-words-no-border': !(stopwords && stopwords.length)}">
       <app-useronboarding-journey [componentType]='componentType'></app-useronboarding-journey>
-      <div class="m-0 row addStopWordsBlock" *ngIf="((stopwords && stopwords.length) && !loadingContent) || createFromScratch">
-        <!-- <div class="label_text col-12 p-0">{{'stopWords_add_stop_word'| translate}}</div> -->
-        <div class="kr-sg-input-text">
-            <input [class.err-block]="((!newStopWord || !newStopWord.length) && submitted)" type="text" autocomplete="off" (keyup)="validate($event)" placeholder="Multiple words can be added with comma separation"  maxlength="60" class="input-text" [(ngModel)]="newStopWord">
-            <img *ngIf="(!newStopWord || !newStopWord.length) && submitted" id="searchTermWarning" src="assets/icons/warning_escalation.svg" style="top: 29%; position: absolute; right: 1.5%; display: block;" height="12" width="12" />
-            <div class="error-msg" *ngIf="validation.duplicate"><img class="pr-1" src="assets/icons/warning_escalation.svg">{{'stopWords_stop_word_already_added'| translate}}</div>
-            <div class="error-msg" *ngIf="validation.spaceFound"><img class="pr-1" src="assets/icons/warning_escalation.svg">{{'stopWords_stop_word_should_not_have_space_in_between'| translate}}</div>
-        </div>
-        <div class="addStopWordsButton">
-            <button class="kr-sg-button-primary btn_lg" (click)="addStopWord()"><i class="si-add-plus"></i> {{'sa_add'| translate}}</button> <!-- [disabled]="validation.duplicate || validation.spaceFound || !newStopWord" -->
-        </div>
-     </div> 
 
-     <div class="empty-stopwords" *ngIf="!(stopwords && stopwords.length) && !loadingContent && !createFromScratch">
-      <div class="main_heading">{{'Add_Stop_Words'| translate}}</div>
-      <div class="desc_info">{{'How_would_you_like_to_start'| translate}}</div>
+
+     <div class="empty-stopwords" *ngIf="!stopwordsList?.length && !createFromScratch">
       <div class="radio-sec">
         <div class="radio_block">            
           <div class="kr-sg-radiobutton">
             <input id="defaultStopWords" maxlength="60" value="default" name="defaultStopWords" [(ngModel)]="stopWordsIntiType" class="radio-custom" type="radio" checked>
             <label for="defaultStopWords" class="radio-custom-label">
-              <div class="label_heading">{{'Add_defaults'| translate}}</div>
-              <div class="lable_dec">{{'Add_defaults_eg'| translate}}</div>
+              <div class="label_heading">{{'stopwords_Add_defaults'| translate}}</div>
+              <div class="lable_dec">{{'stopwords_Add_defaults_eg'| translate}}</div>
             </label>
           </div>
         </div>
@@ -83,7 +70,7 @@
         </div>
       </div>
       <div class="text-left">
-        <button class="kr-sg-button-primary btn_lg" (click)="createInit()">{{'Get_Started' | translate}}</button>
+        <button class="kr-sg-button-primary btn_lg" (click)="createInit()">{{'stopwords_Get_Started' | translate}}</button>
       </div>
       </div>  
       <!-- <ng-container *ngIf="!(stopwords && stopwords.length) && !loadingContent && !createFromScratch">
@@ -107,29 +94,70 @@
           </perfect-scrollbar>          
         </div>
       </ng-container>                -->
-      <ng-container>
-      <div class="listingHeader row m-0" *ngIf="stopwords && stopwords.length">
-        <div class="col-5 p-0" >
-          <div class="desc-info-text" *ngIf="searchStopwords">{{'Showing ' + getActiveSearch()  +' results for ‘'+ searchStopwords  +'’'}}</div>
+      <ng-container  *ngIf="stopwordsList?.length || (stopWordsIntiType == 'scratch' && createFromScratch)">
+      <div class="listingHeader row m-0">
+        <div class="col-7 p-0" >
+          <!-- <div class="desc-info-text" *ngIf="searchStopwords">{{'Showing ' + getActiveSearch()  +' results for ‘'+ searchStopwords  +'’'}}</div> -->
+          <div class="m-0 row addStopWordsBlock" >
+            <!-- <div class="label_text col-12 p-0">{{'stopWords_add_stop_word'| translate}}</div> -->
+            <div class="kr-sg-input-text">
+                <input [class.err-block]="((!newStopWord || !newStopWord.length) && submitted)" type="text" autocomplete="off" (keyup)="validate($event)" placeholder="Add Stopwords and Press Enter"  maxlength="60" class="input-text" [(ngModel)]="newStopWord">
+                <img *ngIf="(!newStopWord || !newStopWord.length) && submitted" id="searchTermWarning" src="assets/icons/warning_escalation.svg" style="top: 29%; position: absolute; right: 1.5%; display: block;" height="12" width="12" />
+                <div class="error-msg" *ngIf="validation.duplicate"><img class="pr-1" src="assets/icons/warning_escalation.svg">{{'stopWords_stop_word_already_added'| translate}}</div>
+                <div class="error-msg" *ngIf="validation.spaceFound"><img class="pr-1" src="assets/icons/warning_escalation.svg">{{'stopWords_stop_word_should_not_have_space_in_between'| translate}}</div>
+            </div>
+            <div class="addStopWordsButton">
+                <button class="kr-sg-button-primary btn_lg" (click)="addStopWords()"><i class="si-add-plus"></i> {{'sa_add'| translate}}</button> <!-- [disabled]="validation.duplicate || validation.spaceFound || !newStopWord" -->
+            </div>
+         </div> 
         </div>         
-        <div class="col-7 p-0 d-flex align-items-center justify-content-end"> 
-          <div class="kr-sg-input-search m-0"  [ngClass]="{'d-none': !showSearch}">                               
-            <input type="text" maxlength="60" placeholder="Search" id="inputSearch" class="input-search"  [ngClass]="{'pl-33':!searchStopwords,'pl-2':searchStopwords}" autocomplete="off" [(ngModel)]="searchStopwords"  maxlength="50" (mouseover)="searchImgSrc = (searchFocusIn ? 'assets/icons/search_gray.svg' :'assets/icons/search_gray_dark.svg')"
-            (mouseout)="searchFocusIn=false;searchImgSrc = 'assets/icons/search_gray.svg'" (focus)="searchFocusIn=true;searchImgSrc = 'assets/icons/search_gray.svg'">
-        <img [src]="searchImgSrc" class="search-icon" *ngIf="!searchStopwords">
-        <img class="close-icon" src="assets/icons/close_icon.svg" [ngClass]="{'pr-22':searchStopwords}" (mouseover)="activeClose=true" (mouseout)="activeClose=false"  (click)="focusoutSearch()"  placement="top-center" container='body' ngbTooltip="Cancel" tooltipClass="ngb_tooltip_custom_class sampleJson">
+        <div class="col-5 p-0 d-flex align-items-center justify-content-end"> 
+          <div class="kr-sg-input-search"  [ngClass]="{'d-none': !showSearch}">    
+            <input type="text" maxlength="60" placeholder="Search" id="inputSearch" class="input-search"
+            [ngClass]="{'pl-33':!searchStopwords,'pl-2':searchStopwords}" autocomplete="off" [(ngModel)]="searchStopwords"
+            (mouseover)="searchImgSrc = (searchFocusIn ? 'assets/icons/search_gray.svg' :'assets/icons/search_gray_dark.svg')"
+            (mouseout)="searchFocusIn=false;searchImgSrc = 'assets/icons/search_gray.svg'" 
+            (focus)="searchFocusIn=true;searchImgSrc = 'assets/icons/search_gray.svg'">
+          <span class="search-icon" *ngIf="!searchStopwords"><i class="si-search"></i></span>
+          <span class="close-icon" *ngIf="!searchStopwords" [ngClass]="{'pr-22':searchStopwords}"
+            (mouseover)="activeClose=true" (mouseout)="activeClose=false" (click)="focusoutSearch()"
+            placement="top-center" container='body' ngbTooltip="Cancel"
+            tooltipClass="ngb_tooltip_custom_class sampleJson"><i class="si-close"></i></span>
         </div> 
-          <div class="searchBlock" (click)="showSearch=!showSearch;focusinSearch('inputSearch')" *ngIf="(stopwords && stopwords.length)">
-            <span [ngClass]="{'d-none': showSearch}" class="mr-3" id="btn_toggle_search_structured_data" ><img src="assets/icons/search.svg" [ngClass]="{'d-none': showSearch}">{{'search' | translate}}</span>
+        <div class="seach-block" (click)="showSearch=!showSearch;focusinSearch('inputSearch')" *ngIf="(stopwords && stopwords.length)">
+          <span class="in-search" [ngClass]="{'d-none': showSearch}" id="btn_toggle_search_structured_data"><i
+              class="si-search" [ngClass]="{'d-none': showSearch}"></i></span>
         </div>
+          <!-- <div class="searchBlock" (click)="showSearch=!showSearch;focusinSearch('inputSearch')" *ngIf="(stopwords && stopwords.length)">
+            <span [ngClass]="{'d-none': showSearch}" class="mr-3" id="btn_toggle_search_structured_data" ><img src="assets/icons/search.svg" [ngClass]="{'d-none': showSearch}">{{'search' | translate}}</span>
+        </div> -->
           <div class="kr-sg-dropdowns w-auto exportdropdown" ngbDropdown [container]="'body'" [placement]="'bottom-right'">                                        
             <div class="dropdown dropdown-open">
-                <button class="dropdown-toggle dropdown-input p-0 border-0" ngbDropdownToggle><img src="assets/icons/elipse.svg"></button>                                            
+                <button class="dropdown-toggle dropdown-input p-0 border-0" ngbDropdownToggle>
+                  <!-- <img src="assets/icons/elipse.svg"> -->
+                  <span class="elipse-span"><i class="si-overflow-menu"></i></span>
+                </button>                                            
                 <ul class="dropdown-menu content-menu faq-filter-add" ngbDropdownMenu>
-                  <li class="restoreDefaults" (click)="restoreStopWords($event)">
+                  <!-- <li class="restoreDefaults" (click)="restoreStopWords($event)">
                     <img class="label-icon d-none" src="assets/icons/return_black.svg"><span class="label_txt">{{'stopWords_reset_to_default' | translate}}</span>              
                   </li> 
-                  <li (click)='deleteAllStopWords(event)' >{{'sa_delete_all' | translate}}</li>                         
+                  <li (click)='deleteAllStopWords(event)' >{{'sa_delete_all' | translate}}</li>   -->
+
+                  <li class="restoreDefaults" (click)="removeDefaultStopWords()">
+                    <span class="li-icon-span"><i class="si-minus-circle-o"></i></span><span class="label_txt">{{"stopwords_Remove_Default_Stop_Words" | translate}}</span>              
+                  </li> 
+                  <li class="restoreDefaults" (click)="createStopWords('','',false)">
+                    <span class="li-icon-span"><i class="si-recall"></i></span><span class="label_txt">{{"stopwords_reset_to_default" | translate}}</span>              
+                  </li> 
+                  <li class="restoreDefaults" (click)="createStopWords(true)">
+                    <span class="li-icon-span"><i class="si-add-plus-square"></i></span><span class="label_txt">{{"stopwords_add_defalut" | translate}}</span>              
+                  </li> 
+                  
+                  <li class="restoreDefaults clear-all-btn" (click)='deleteStopWords(true)'>
+                    <span class="li-icon-span"><i class="si-close-red"></i></span><span class="label_txt">{{"stopwords_clear_all" | translate}}</span>              
+                  </li> 
+                  
+                  
                 </ul>
             </div>
         </div>
@@ -137,11 +165,16 @@
         </div>                     
       </div>
       <perfect-scrollbar class="table-scroll-perfect-synonyms">
-        <ng-container *ngIf="!loadingWords">
-          <div class="stopWordsListing"  *ngIf="(stopwords && stopwords.length) && !loadingContent">
-            <span class="wordTag" *ngFor="let word of stopwords | filter: [searchStopwords] ; let index = index">
+        <ng-container>
+          <div class="stopWordsListing"  *ngIf="(stopwordsList && stopwordsList.length)">
+            <span class="wordTag" *ngFor="let word of stopwordsList | filter: [searchStopwords] ; let index = index">
               <span class="word stopwordBlock" >{{word}}</span>
-              <span class="deleteTag"><img (click)="deleteInfividualStopWords(index,$event,word,stopwords)" src="assets/icons/clode_stop_word.svg"></span>
+              <span class="deleteTag">
+                <span class="span-close-icon" (click)="deleteStopWords(false,index,word)">
+                  <i class="si-close"></i>
+                </span>
+              </span>
+                <!-- <img src="assets/icons/clode_stop_word.svg"> -->
             </span>
             <div class="divBlockEmptylastChild text-center">         
               <div class="desc">{{'stopWords_no_search_results_found' | translate}}</div>

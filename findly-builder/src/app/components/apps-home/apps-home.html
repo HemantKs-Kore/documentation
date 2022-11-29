@@ -139,7 +139,10 @@
                     </div>
                   </div>
                 </div>
-                <div *ngIf="filteredApps.length===0" class="empty_filter">{{app_type}} {{"home_apps_not_available" | translate}}</div>
+                <div *ngIf="filteredApps.length===0" class="empty_filter">
+                  <app-empty-screen [width]="170" [height]="170" [title]="emptyScreen.TITLE" [desc]="emptyScreen.DESC" [imgName]="emptyScreen.IMG_NAME">
+                  </app-empty-screen>
+                </div>
               </ng-container>
 
               <ng-container>

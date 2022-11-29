@@ -72,7 +72,8 @@
             </div>
             <ng-container *ngIf="(membersList && membersList.length)">
                 <perfect-scrollbar class="scroll-table-data">
-                    <div class="show-checkbox-hover"
+                    <ng-container *ngIf="(membersList | filter : [searchteam, 'emailId']).length; else noTeam">
+                        <div class="show-checkbox-hover"
                         *ngFor="let member of membersList | filter : [searchteam, 'emailId']">
                         <div class="table-body row"
                             [ngClass]="{'selected': member.roleInfo[0].role==='Owner'?'':(selcectionObj && selcectionObj.selectedItems && selcectionObj.selectedItems[member._id])}">
@@ -94,6 +95,13 @@
                             </div>
                         </div>
                     </div>
+                    </ng-container>
+
+                    <ng-template #noTeam>
+                        <app-empty-screen [width]="120" [height]="108" [title]="emptyScreen.TITLE_SEARCH" [desc]="emptyScreen.DESC_SEARCH" [imgName]="emptyScreen.IMG_NAME">
+                          </app-empty-screen>
+                    </ng-template>
+
                 </perfect-scrollbar>
             </ng-container>
             <div class="divBlockEmptylastChild text-center">

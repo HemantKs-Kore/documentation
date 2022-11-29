@@ -11,6 +11,7 @@ import { AuthService } from '@kore.services/auth.service';
 import { InlineManualService } from '@kore.services/inline-manual.service';
 import { MixpanelServiceService } from '@kore.services/mixpanel-service.service';
 import { AppHeaderComponent } from '../app-header/app-header.component';
+import { EMPTY_SCREEN } from 'src/app/modules/empty-screen/empty-screen.constants';
 declare const $: any;
 declare var PureJSCarousel: any;
 @Component({
@@ -20,6 +21,7 @@ declare var PureJSCarousel: any;
   styleUrls: ['./apps-home.scss']
 })
 export class AppsListingComponent implements OnInit {
+  emptyScreen = EMPTY_SCREEN.SHARED_APP;
   authInfo: any;
   openJourney = false;
   saveInProgress = false;

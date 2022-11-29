@@ -127,6 +127,10 @@ import { HighlightingComponent } from './components/highlighting/highlighting.co
 import { SpellCorrectionComponent } from './components/spell-correction/spell-correction.component';
 import { SearchRelevanceComponent } from './components/search-relevance/search-relevance.component';
 import { FindlySharedModule } from './modules/findly-shared/findly-shared.module';
+import { EmptyScreenModule } from './modules/empty-screen/empty-screen.module';
+import { SnippetsComponent } from './components/snippets/snippets.component';
+import { SearchsettingsBotactionsComponent } from './components/searchsettings-botactions/searchsettings-botactions.component';
+import { CustomConfigurationsComponent } from './components/custom-configurations/custom-configurations.component';
 export function HttpLoaderFactory(httpClient: HttpClient) {
   return new TranslateHttpLoader(httpClient, 'assets/i18n/', '.json');
 }
@@ -220,6 +224,9 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
     HighlightingComponent,
     SpellCorrectionComponent,
     SearchRelevanceComponent,
+    SnippetsComponent,
+    SearchsettingsBotactionsComponent,
+    CustomConfigurationsComponent,
   ],
   imports: [
     FindlySharedModule,
@@ -264,6 +271,7 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
       closeButton: true,
     }),
     NgxDaterangepickerMd.forRoot(),
+    EmptyScreenModule,
   ],
   // tslint:disable-next-line:max-line-length
   entryComponents: [

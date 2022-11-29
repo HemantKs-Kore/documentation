@@ -12,10 +12,17 @@
   <div class="search-settings-main-block">
     <div class="search-settings-left">
       <perfect-scrollbar class="search-settings-left-menu-scroll">
-        <ng-container *ngFor="let component of componentsArray">
-          <button (click)="selectedComponent=component.value" class="btn side-menu-tab-btn"
-            [ngClass]="{'btn-active':(selectedComponent===component.value)}">{{component.key}}</button><br />
-        </ng-container>
+          <div class="scoll-data-wrapper">
+            <div *ngFor="let component of componentsArray" class="array-loop">
+              <div class="side-menu-tab-block">
+                  <button (click)="selectedComponent=component.value" class="btn side-menu-tab-btn"
+                  [ngClass]="{'btn-active':(selectedComponent===component.value)}">
+                  {{component.key}}
+                  </button>
+              </div>
+              <div class="vr-beta" *ngIf="component.value=='custom_configurations'"[ngClass]="{'beta-active':(selectedComponent===component.value)}">BETA</div>
+            </div>
+          </div>
       </perfect-scrollbar>
     </div>
     <div class="search-settings-right">
@@ -45,8 +52,8 @@
         </ng-container>
 
         <!--search_settings_Snippets_Component component-->
-        <ng-container *ngSwitchCase="'snippets'">
-          Snippets Component
+        <ng-container *ngSwitchCase="'snippets'">         
+        <app-snippets></app-snippets>
         </ng-container>
 
         <!--search-relevance component-->
@@ -68,43 +75,7 @@
 
          <!--bot_actions component-->
         <ng-container *ngSwitchCase="'bot_actions'">
-          <div class="bot-actions-block">
-            <div class="widget-header-block">
-              <div class="widget-header">Bot Actions</div>
-              <div class="widget-desc">Enable or disable Bot Actions to trigger an event during the conversation with a
-                virtual assistant </div>
-            </div>
-            <div class="landing-page-toggle">
-              <label class="kr-sg-toggle with-label">
-                <input type="checkbox" checked="">
-                <div class="slider">
-                  <span class="no">Disable</span>
-                  <span class="yes">Enable</span>
-                </div>
-              </label>
-            </div>
-            <div class="block-separate-line"></div>
-
-            <div class="widget-header-block second-header-block">
-              <div class="widget-header">Bot Action Behaviour</div>
-              <div class="widget-desc">Enable or disable the bot action behaviour to auto execute the winning intent or to have the action prompts as a part of the search results</div>
-            </div>
-
-            <div class="bot-actions-radio-grp-block">
-              <div class="group-radiobutton">
-                <div class="kr-sg-radiobutton d-block">
-                    <input id="auto_execute" name="radio" class="radio-custom" type="radio">
-                    <label for="auto_execute" class="radio-custom-label">Auto execute the winning intent</label>
-                </div> 
-                <div class="kr-sg-radiobutton d-block">
-                    <input id="do_not_auto_execute" name="radio" class="radio-custom" type="radio">
-                    <label for="do_not_auto_execute" class="radio-custom-label">Do not auto execute the winning intent</label>
-                </div> 
-            </div>
-            </div>
-
-
-          </div>
+          <app-searchsettings-botactions  [botactionsdata]="pipeline.settings.botActions" [selectedcomponent]="selectedComponent"></app-searchsettings-botactions>
         </ng-container>
 
         <!--small_talk component-->
@@ -115,7 +86,7 @@
 
          <!--custom_configurations component-->
         <ng-container *ngSwitchCase="'custom_configurations'">
-          Custom Configuration
+          <app-custom-configurations></app-custom-configurations>
         </ng-container>
       </div>
     </div>

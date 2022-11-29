@@ -96,6 +96,9 @@ export class HighlightingComponent implements OnInit {
    }
     //**highlight get page */
  highlightpage(pageinfo){
+  if(pageinfo<0){
+    pageinfo=0;
+  }
   this.page=pageinfo;
   this.getHighlightFields(true)
  }
@@ -222,14 +225,16 @@ export class HighlightingComponent implements OnInit {
  }
   /** Add to Prescentable */
  addRecords(addData){
-  this.service.invoke(addData.url,addData.quaryparms,addData.payload).subscribe(res => {
-    this.getAllHighlightFields();
-    this.notificationService.notify("Field added succesfully",'success');
-  }, errRes => {
-    this.notificationService.notify("Failed to add Fields",'error');
-  });
-  // 
- }
+  if(addData.payload.fieldIds.length>0){
+    this.service.invoke(addData.url,addData.quaryparms,addData.payload).subscribe(res => {
+      this.getAllHighlightFields();
+      this.notificationService.notify("Field added succesfully",'success');
+    }, errRes => {
+      this.notificationService.notify("Failed to add Fields",'error');
+    });
+    // 
+  }
+}
  sildervaluechanged(event,type){
   const quaryparms:any={
     indexPipelineId:this.workflowService.selectedIndexPipeline(),

@@ -37,12 +37,14 @@
     </div>
 
     <ng-container *ngIf="!usageLogs.length && !loading && !searchUsageLog && !showSearch">
-        <div class="empty-usage-log">
+        <app-empty-screen [width]="150" [height]="132" [title]="emptyScreen.TITLE" [desc]="emptyScreen.DESC" [imgName]="emptyScreen.IMG_NAME">
+        </app-empty-screen>
+        <!-- <div class="empty-usage-log">
             <div class="img-block">
                 <img src="assets/icons/usage-log/empty-log.png">
             </div>
             <div class="empty-text">{{"ussageLog_usage_log_will_appear_once_the_app_is_active" | translate}}</div>
-        </div>
+        </div> -->
     </ng-container>
     <ng-container *ngIf="(usageLogs.length && !loadingLogs) || searchUsageLog || showSearch">
         <div class="plan-type">
@@ -128,8 +130,8 @@
                     </div>
                 </div>
 
-                <ng-container *ngFor="let usageLog of usageLogs">
-                    <div class="table_body row">
+                <ng-container *ngIf="usageLogs.length; else noUsageLogs">
+                    <div class="table_body row" *ngFor="let usageLog of usageLogs">
                         <div class="col-4 title search-query-data">
                             <div class="img-block">
                                 <img src="assets/icons/usage-logs/info-img.svg">
@@ -143,7 +145,10 @@
                         </div>
                     </div>
                 </ng-container>
-
+                <ng-template #noUsageLogs>
+                    <app-empty-screen [width]="100" [height]="88" *ngIf="searchUsageLog && !loading" [title]="emptyScreen.TITLE_SEARCH" [desc]="emptyScreen.DESC_SEARCH" [imgName]="emptyScreen.IMG_NAME">
+                    </app-empty-screen> 
+                </ng-template>
                 <app-record-pagination *ngIf="totalRecord && totalRecord>10" [totalRecord]='totalRecord'
                     [limitpage]='10' (pageChanged)="paginate($event)"></app-record-pagination>
             </div>

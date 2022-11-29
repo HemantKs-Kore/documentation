@@ -1,0 +1,37 @@
+<div class="landing-page-common-block">
+    <div class="widget-header-block">
+      <div class="widget-header">Bot Actions</div>
+      <div class="widget-desc">Enable or disable Bot Actions to trigger an event during the conversation with a
+        virtual assistant </div>
+    </div>
+    <div class="landing-page-toggle">
+      <label class="kr-sg-toggle with-label">
+        <input type="checkbox" [checked]="botactionsdata?.enable"  (change)="sildervaluechanged($event)">
+        <div class="slider">
+          <span class="no">Disable</span>
+          <span class="yes">Enable</span>
+        </div>
+      </label>
+    </div>
+    <div class="block-separate-line"></div>
+
+    <div class="widget-header-block second-header-block">
+      <div class="widget-header">Bot Action Behaviour</div>
+      <div class="widget-desc">Enable or disable the bot action behaviour to auto execute the winning intent or to have the action prompts as a part of the search results</div>
+    </div>
+
+    <div class="bot-actions-radio-grp-block">
+      <div class="group-radiobutton">
+        <div class="kr-sg-radiobutton d-block">
+            <input id="auto_execute" name="radio" class="radio-custom" type="radio" [checked]="botactionsdata?.executeIntents">
+            <label for="auto_execute" class="radio-custom-label">Auto execute the winning intent</label>
+        </div> 
+        <div class="kr-sg-radiobutton d-block">
+            <input id="do_not_auto_execute" name="radio" class="radio-custom" type="radio" [checked]="!botactionsdata?.executeIntents">
+            <label for="do_not_auto_execute" class="radio-custom-label">Do not auto execute the winning intent</label>
+        </div> 
+    </div>
+    </div>
+
+
+  </div>

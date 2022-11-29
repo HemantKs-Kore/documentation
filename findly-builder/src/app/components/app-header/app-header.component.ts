@@ -57,6 +57,7 @@ export class AppHeaderComponent implements OnInit {
   alphabetSeries: any = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z']
   training: boolean = false;
   fromCallFlow = '';
+  disableClearAll:boolean = false;
   showSwichAccountOption = false;
   searchActive = false;
   searchImgSrc: any = 'assets/icons/search_gray.svg';
@@ -570,6 +571,8 @@ export class AppHeaderComponent implements OnInit {
   analyticsClick(menu, skipRouterLink?) {
     this.mainMenu = menu;
     if (this.menuItems?.anlytics?.includes(menu) ||menu == '/summary') {
+      this.showClose = false;
+      this.training = false;
       this.showMainMenu = false;
     } else {
       this.showMainMenu = true;
@@ -665,6 +668,7 @@ export class AppHeaderComponent implements OnInit {
     this.fromCallFlow = '';
     this.ref.detectChanges();
   }
+  //FOR TRAINING 
   train() {
     if(!this.training){
       this.training = true;
@@ -699,23 +703,21 @@ export class AppHeaderComponent implements OnInit {
       this.notificationService.notify('Stoping Train Initiated', 'success');
     }
   }
-// showing Stop button
-displayStopTrain(){
-  if(this.training){
-   this.countTrainAction = this.countTrainAction+1; 
-   this.countTrainAction>1?this.showClose=true:this.showClose=false;
+  //SHOWING STOP BUTTON 
+  displayStopTrain(){
+    if(this.training){
+    this.countTrainAction = this.countTrainAction+1; 
+    this.countTrainAction>1?this.showClose=true:this.showClose=false;
+    }
+    else {
+      this.countTrainAction = 0;
+    }
   }
-  else {
+  displayStopTrainLeave(){
     this.countTrainAction = 0;
+    this.displayStopTrain()
   }
-}
-displayStopTrainLeave(){
-  this.countTrainAction = 0;
-  this.displayStopTrain()
-}
-
-
-  //For stoping Train
+  //FOR STOPING TRAIN
   stopTrain(){
     this.training = false;
     const selectedApp = this.workflowService.selectedApp();
@@ -761,7 +763,7 @@ displayStopTrainLeave(){
   //     this.statusDockerLoading = false;
   //   }
   // }
-
+  
   poling(recordStatistics?, updateRecordsWithRead?) {
     if (this.pollingSubscriber) {
       this.pollingSubscriber.unsubscribe();
@@ -785,7 +787,7 @@ displayStopTrainLeave(){
         this.dockersList = JSON.parse(JSON.stringify(res));
         /**made code updates in line no 503 on 03/01 added new condition for success and jobType,since SUCCESS is updated to success and action is updated to jobType and TRAIN has been updated to TRAINING */
         // if (this.trainingInitiated && this.dockersList[0].status === 'SUCCESS' && this.dockersList[0].action === "TRAIN") {
-        if (this.trainingInitiated && (this.dockersList[0].status === 'SUCCESS' || this.dockersList[0].status === 'success') && this.dockersList[0].jobType === "TRAINING") {
+        if (this.trainingInitiated && (this.dockersList[0]?.status === 'SUCCESS' || this.dockersList[0]?.status === 'success') && this.dockersList[0]?.jobType === "TRAINING") {
           this.trainingInitiated = false;
           if (this.training) {
             this.notificationService.notify('Training Completed', 'success');
@@ -797,7 +799,7 @@ displayStopTrainLeave(){
         }
         /**made code updates in line no 512 on 03/01 added new condition for FAILED,jobType,TRAINING since FAILURE is updated to FAILED  and action is updated to jobType and TRAIN has been updated to TRAINING as per new api contract*/
         // if (this.trainingInitiated && this.dockersList[0].status === 'FAILURE' && this.dockersList[0].action === "TRAIN") {
-        if (this.trainingInitiated && (this.dockersList[0].status === 'FAILURE' || this.dockersList[0].status === "FAILED") && this.dockersList[0].jobType === "TRAINING") {
+        if (this.trainingInitiated && (this.dockersList[0]?.status === 'FAILURE' || this.dockersList[0]?.status === "FAILED") && this.dockersList[0]?.jobType === "TRAINING") {
           this.trainingInitiated = false;
           if (this.training) {
             this.notificationService.notify(this.dockersList[0].message, 'error');
@@ -889,7 +891,7 @@ displayStopTrainLeave(){
           this.isAnyRecordInprogress = false;
           this.pollingSubscriber.unsubscribe();
         }
-
+        this.checkJObStatus(this.dockersList)
       }, errRes => {
         this.pollingSubscriber.unsubscribe();
         if (errRes && errRes.error && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0].msg) {
@@ -900,6 +902,18 @@ displayStopTrainLeave(){
       });
     }
     )
+  }
+  // CHECK FOR THE INPROGRESS JOB 
+  checkJObStatus(dockersList){
+    dockersList.forEach(element => {
+      if((element.status === 'IN_PROGRESS' || element.status === 'INPROGRESS' || element.status === 'in_progress' || element.status === 'inprogress'
+      || element.status === 'running' || element.status === 'RUNNING')){
+        this.disableClearAll = true;
+      }
+      else {
+        this.disableClearAll = false;
+      }
+    });
   }
 
   getStatusView(status, other?) {
@@ -920,7 +934,8 @@ displayStopTrainLeave(){
       }
       /**made code updates in line no 630 on 03/01 added new condition for FAILED,since FAILURE is updated to FAILED as per new api contract*/
       // else if (status === 'FAILURE') {
-        else if (status === 'FAILURE' || status === 'FAILED' || status === 'failed' || status === 'failure') {
+        else if (
+          status === 'FAILURE' || status === 'FAILED' || status === 'failed' || status === 'failure') {
           return 'Failed'
         }
     }
@@ -1518,7 +1533,7 @@ displayStopTrainLeave(){
   trackChecklist() {
     let arr = [];
     let Index = [];
-    this.tourData.forEach((item) => {
+    this.tourData?.forEach((item) => {
       Object.keys(item).forEach((key) => {
         arr.push(item[key])
       });

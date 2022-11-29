@@ -101,14 +101,16 @@ export class PresentableComponent implements OnInit {
  }
   /** Add to Prescentable */
  addRecords(addData){
-  this.service.invoke(addData.url,addData.quaryparms,addData.payload).subscribe(res => {
-   this.getAllpresentableFields();
-   this.notificationService.notify("Field added succesfully",'success');
-  }, errRes => {
-    this.notificationService.notify("Failed to add Fields",'error');
-  });
-  // 
- }
+  if(addData.payload.fieldIds.length>0){
+    this.service.invoke(addData.url,addData.quaryparms,addData.payload).subscribe(res => {
+    this.getAllpresentableFields();
+    this.notificationService.notify("Field added succesfully",'success');
+    }, errRes => {
+      this.notificationService.notify("Failed to add Fields",'error');
+    });
+    // 
+  }
+}
  //**Presentable search function */
  presentablesearch(obj){
   this.searchValue=obj.searchvalue;
@@ -121,6 +123,9 @@ export class PresentableComponent implements OnInit {
  }
  //**presentable get page */
  presentablepage(pageinfo){
+  if(pageinfo<0){
+    pageinfo=0;
+  }
   this.page=pageinfo;
   this.getPresentableFields(true)
  }
