@@ -48,7 +48,7 @@
       <app-useronboarding-journey [componentType]='componentType'></app-useronboarding-journey>
 
 
-     <div class="empty-stopwords d-none" >
+     <div class="empty-stopwords" *ngIf="!stopwordsList?.length && !createFromScratch">
       <div class="radio-sec">
         <div class="radio_block">            
           <div class="kr-sg-radiobutton">
@@ -94,7 +94,7 @@
           </perfect-scrollbar>          
         </div>
       </ng-container>                -->
-      <ng-container  *ngIf="true">
+      <ng-container  *ngIf="stopwordsList?.length || (stopWordsIntiType == 'scratch' && createFromScratch)">
       <div class="listingHeader row m-0">
         <div class="col-7 p-0" >
           <!-- <div class="desc-info-text" *ngIf="searchStopwords">{{'Showing ' + getActiveSearch()  +' results for ‘'+ searchStopwords  +'’'}}</div> -->
