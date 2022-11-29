@@ -235,9 +235,13 @@ export class ConnectorsSourceComponent implements OnInit {
 
   //content pagination 
   paginate(event) {
-    this.getConentData(event?.skip);
+    if(this.contentInputSearch.length){
+      this.getConentData(0,this.contentInputSearch)
+    }
+    else {
+      this.getConentData(event?.skip)
+    }
   }
-
   //get content data api
   getConentData(offset?,text?) {
     const quaryparms: any = {
