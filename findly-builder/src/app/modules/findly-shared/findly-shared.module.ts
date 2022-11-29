@@ -12,6 +12,8 @@ import { FormsModule } from '@angular/forms';
 import { FilterPipe } from 'src/app/helpers/filters/filter.pipe';
 import { NgbDropdownModule, NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { RecordPaginationComponent } from 'src/app/helpers/components/record-pagination/record-pagination.component';
+import { SynonymFilterPipe } from '../../components/synonyms/synonym-filter';
 
 
 
@@ -24,6 +26,8 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
     SearchFilterComponent,
     RangeSliderComponent,
     FilterPipe,
+    RecordPaginationComponent,
+    SynonymFilterPipe,
   ],
   imports: [
     CommonModule,
@@ -49,6 +53,8 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
     NgbTooltipModule,
     MatProgressSpinnerModule,
     NgbDropdownModule,
+    RecordPaginationComponent,
+    SynonymFilterPipe,
   ],
 })
 export class FindlySharedModule {}

@@ -47,7 +47,6 @@ import { EditorUrlDialogComponent } from './helpers/components/editor-url-dialog
 import { FileUploadModule } from 'ng2-file-upload';
 import { ImportFaqsModalComponent } from './components/import-faqs-modal/import-faqs-modal.component';
 import { SynonymsComponent } from './components/synonyms/synonyms.component';
-import { SynonymFilterPipe } from './components/synonyms/synonym-filter';
 import { BotActionComponent } from './components/bot-action/bot-action.component';
 import { TraitsComponent } from './components/traits/traits.component';
 import { TraitsFilterPipe } from './components/traits/traits-filter.pipe';
@@ -90,7 +89,6 @@ import { SettingsComponent } from './components/settings/settings.component';
 import { Ng5SliderModule } from 'ng5-slider';
 import { CredentialsListComponent } from './components/credentials-list/credentials-list.component';
 import { DateRangePickerComponent } from './helpers/components/date-range-picker/date-range-picker.component';
-import { RecordPaginationComponent } from './helpers/components/record-pagination/record-pagination.component';
 import { NgxDaterangepickerMd } from 'ngx-daterangepicker-material';
 import { FieldManagementComponent } from './components/field-management/field-management.component';
 import { AppExperimentsComponent } from './components/app-experiments/app-experiments.component';
@@ -175,7 +173,6 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
     StopWordsComponent,
     WeightsComponent,
     ResultRankingComponent,
-    SynonymFilterPipe,
     AddResultComponent,
     FacetsComponent,
     FieldsFilterPipe,
@@ -189,7 +186,6 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
     SettingsComponent,
     CredentialsListComponent,
     DateRangePickerComponent,
-    RecordPaginationComponent,
     FieldManagementComponent,
     FieldManagementComponent,
     AppExperimentsComponent,
