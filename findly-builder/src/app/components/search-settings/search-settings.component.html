@@ -75,7 +75,7 @@
 
          <!--bot_actions component-->
         <ng-container *ngSwitchCase="'bot_actions'">
-          <app-searchsettings-botactions></app-searchsettings-botactions>
+          <app-searchsettings-botactions  [botactionsdata]="pipeline.settings.botActions" [selectedcomponent]="selectedComponent"></app-searchsettings-botactions>
         </ng-container>
 
         <!--small_talk component-->

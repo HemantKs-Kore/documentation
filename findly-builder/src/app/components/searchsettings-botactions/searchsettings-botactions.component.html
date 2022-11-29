@@ -6,7 +6,7 @@
     </div>
     <div class="landing-page-toggle">
       <label class="kr-sg-toggle with-label">
-        <input type="checkbox" checked="">
+        <input type="checkbox" [checked]="botactionsdata?.enable"  (change)="sildervaluechanged($event)">
         <div class="slider">
           <span class="no">Disable</span>
           <span class="yes">Enable</span>
@@ -23,11 +23,11 @@
     <div class="bot-actions-radio-grp-block">
       <div class="group-radiobutton">
         <div class="kr-sg-radiobutton d-block">
-            <input id="auto_execute" name="radio" class="radio-custom" type="radio">
+            <input id="auto_execute" name="radio" class="radio-custom" type="radio" [checked]="botactionsdata?.executeIntents">
             <label for="auto_execute" class="radio-custom-label">Auto execute the winning intent</label>
         </div> 
         <div class="kr-sg-radiobutton d-block">
-            <input id="do_not_auto_execute" name="radio" class="radio-custom" type="radio">
+            <input id="do_not_auto_execute" name="radio" class="radio-custom" type="radio" [checked]="!botactionsdata?.executeIntents">
             <label for="do_not_auto_execute" class="radio-custom-label">Do not auto execute the winning intent</label>
         </div> 
     </div>
