@@ -93,6 +93,7 @@ export class ConnectorsSourceComponent implements OnInit {
   pageLoading: boolean = false;
   total_records: number;
   onboardingOpened: boolean = false;
+  validation: boolean = false;
   currentRouteData: any = "";
   contentInputSearch:string='';
   addConnectorSteps: any = [{ name: 'instructions', isCompleted: true, display: 'Introduction' }, { name: 'configurtion', isCompleted: false, display: 'Configuration & Authentication' }];
@@ -334,13 +335,14 @@ export class ConnectorsSourceComponent implements OnInit {
         this.navigatePage();
       }
       else if (this.selectAddContent === 'configurtion') {
-        if (this.fieldsValidation()) {
+        if (this.validationForConnetor()) {
           if (this.isEditable || this.connectorId !== '') {
             this.updateConnector();
           } else {
             this.createConnector();
           }
         }
+        this.validation = true;
       }
     }
   }
@@ -364,7 +366,33 @@ export class ConnectorsSourceComponent implements OnInit {
       return true;
     }
   }
-
+validationForConnetor(){
+  if(this.configurationObj.name && this.configurationObj.clientId && this.configurationObj.clientId){
+   if(['confluenceServer','confluenceCloud'].includes(this.selectedConnector.type)){
+      if(this.configurationObj.hostUrl && this.configurationObj.hostDomainName){
+        return true
+      }
+   }
+   else if (['serviceNow'].includes(this.selectedConnector.type)){
+    if(this.configurationObj.hostUrl && this.configurationObj.name && this.configurationObj.password){
+      return true
+    }
+   }
+   else if (['zendesk'].includes(this.selectedConnector.type)){
+    if(this.configurationObj.hostUrl ){
+      return true
+    }
+   }
+   else if (['sharePoint'].includes(this.selectedConnector.type)){
+    if(this.configurationObj.tenantId ){
+      return true
+    }
+   }
+  }
+  else {
+    return false
+  }
+}
   //save connectors create api
   createConnector() {
     const quaryparms: any = {

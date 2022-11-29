@@ -203,44 +203,44 @@
                                                     <div class="heading-label">{{'connectors_provide_appropriate_config_info'|translate}}</div>
                                                     <div class="kr-sg-input-text mb-3">
                                                         <div class="label-text">{{'connectors_name'|translate}}</div>
-                                                        <input type="text" placeholder="{{'connectors_enter_name_here' | translate}}" class="input-text" [(ngModel)]="configurationObj.name">
+                                                        <input type="text" placeholder="{{'connectors_enter_name_here' | translate}}" class="input-text" [(ngModel)]="configurationObj.name"  [ngClass]="{'error':!configurationObj.name && validation}">
                                                     </div>
                                                     <div class="kr-sg-input-text mb-3">
                                                         <div class="label-text">{{'connectors_clientid'|translate}}</div>
-                                                        <input [type]="showProtecedText.isClientShow?'text':'password'" placeholder="{{'connectors_paste_client_ID_here' | translate}}" class="input-text" [(ngModel)]="configurationObj.clientId">
+                                                        <input [type]="showProtecedText.isClientShow?'text':'password'" placeholder="{{'connectors_paste_client_ID_here' | translate}}" class="input-text" [(ngModel)]="configurationObj.clientId" [ngClass]="{'!error':configurationObj.clientId && validation}">
                                                         <i class="si-eye" *ngIf="!showProtecedText.isClientShow" (click)="showProtecedText.isClientShow=!showProtecedText.isClientShow"></i>
                                                         <i class="si-eyeshow" *ngIf="showProtecedText.isClientShow" (click)="showProtecedText.isClientShow=!showProtecedText.isClientShow"></i>
                                                     </div>
                                                     <div class="kr-sg-input-text mb-3">
                                                         <div class="label-text">{{'connectors_clientsecretId'|translate}}</div>
-                                                        <input [type]="showProtecedText.isSecretShow?'text':'password'" placeholder="{{'connectors_Paste_Secret_ID_here' | translate}}" class="input-text" [(ngModel)]="configurationObj.clientSecret">
+                                                        <input [type]="showProtecedText.isSecretShow?'text':'password'" placeholder="{{'connectors_Paste_Secret_ID_here' | translate}}" class="input-text" [(ngModel)]="configurationObj.clientSecret" [ngClass]="{'error':!configurationObj.clientSecret && validation}">
                                                         <i class="si-eye" *ngIf="!showProtecedText.isSecretShow" (click)="showProtecedText.isSecretShow=!showProtecedText.isSecretShow"></i>
                                                         <i class="si-eyeshow" *ngIf="showProtecedText.isSecretShow" (click)="showProtecedText.isSecretShow=!showProtecedText.isSecretShow"></i>
                                                     </div>
                                                     <div class="kr-sg-input-text mb-3" *ngIf="selectedConnector.type !== 'sharepointOnline'">
                                                         <div class="label-text">{{'connectors_hostURL'|translate}}</div>
-                                                        <input type="text" placeholder="Enter HostURL here" class="input-text" [(ngModel)]="configurationObj.hostUrl">
+                                                        <input type="text" placeholder="Enter HostURL here" class="input-text" [(ngModel)]="configurationObj.hostUrl" [ngClass]="{'error':!configurationObj.hostUrl && validation}">
                                                         <!-- <i class="si-eye"></i> -->
                                                     </div>
                                                     <div class="kr-sg-input-text mb-3" *ngIf="selectedConnector.type === 'sharepointOnline'">
                                                         <div class="label-text">{{'connectors_tenant_id'|translate}}</div>
-                                                        <input type="text" placeholder="{{'connectors_enter_tenant_id'|translate}}" class="input-text"  [type]="showProtecedText.istenantIdShow?'text':'password'" [(ngModel)]="configurationObj.tenantId">
+                                                        <input type="text" placeholder="{{'connectors_enter_tenant_id'|translate}}" class="input-text"  [type]="showProtecedText.istenantIdShow?'text':'password'" [(ngModel)]="configurationObj.tenantId" [ngClass]="{'error':configurationObj.tenantId && validation}">
                                                         <i class="si-eye" *ngIf="!showProtecedText.istenantIdShow" (click)="showProtecedText.istenantIdShow=!showProtecedText.istenantIdShow"></i>
                                                         <i class="si-eyeshow" *ngIf="showProtecedText.istenantIdShow" (click)="showProtecedText.istenantIdShow=!showProtecedText.istenantIdShow"></i>
                                                     </div>
                                                     <div class="kr-sg-input-text mb-3" *ngIf="selectedConnector.type !== 'serviceNow' && selectedConnector.type !== 'zendesk' && selectedConnector.type !== 'sharepointOnline'">
                                                         <div class="label-text">{{'connectors_host_domain_name'|translate}}</div>
-                                                        <input type="text" placeholder="Enter HostURL here" class="input-text" [(ngModel)]="configurationObj.hostDomainName">
+                                                        <input type="text" placeholder="Enter HostURL here" class="input-text" [(ngModel)]="configurationObj.hostDomainName" [ngClass]="{'error':!configurationObj.hostDomainName && validation}">
                                                         <!-- <i class="si-eye"></i> -->
                                                     </div>
                                                     <ng-container *ngIf="selectedConnector.type==='serviceNow'">
                                                     <div class="kr-sg-input-text mb-3">
                                                         <div class="label-text">{{'connectors_username'|translate}}</div>
-                                                        <input type="text" placeholder="{{'connectors_Enter_username_here' | translate}}" class="input-text" [(ngModel)]="configurationObj.username">
+                                                        <input type="text" placeholder="{{'connectors_Enter_username_here' | translate}}" class="input-text" [(ngModel)]="configurationObj.username" [ngClass]="{'error':!configurationObj.username && validation}">
                                                     </div>
                                                     <div class="kr-sg-input-text">
                                                         <div class="label-text">{{'connectors_password'|translate}}</div>
-                                                        <input [type]="showProtecedText.isPassword?'text':'password'" placeholder="Enter password here" class="input-text" [(ngModel)]="configurationObj.password">
+                                                        <input [type]="showProtecedText.isPassword?'text':'password'" placeholder="Enter password here" class="input-text" [(ngModel)]="configurationObj.password" [ngClass]="{'error':!configurationObj.password && validation}">
                                                         <i class="si-eye" *ngIf="!showProtecedText.isPassword" (click)="showProtecedText.isPassword=!showProtecedText.isPassword"></i>
                                                         <i class="si-eyeshow" *ngIf="showProtecedText.isPassword" (click)="showProtecedText.isPassword=!showProtecedText.isPassword"></i>
                                                     </div>
@@ -343,43 +343,43 @@
                                             <div class="connection-settings-form">
                                                 <div class="kr-sg-input-text mb-3">
                                                     <div class="label-text">{{'connectors_name'|translate}}</div>
-                                                    <input class="input-text" placeholder="{{'connectors_enter_name_here' | translate}}" type="text" [(ngModel)]="configurationObj.name">
+                                                    <input class="input-text" placeholder="{{'connectors_enter_name_here' | translate}}" type="text" [(ngModel)]="configurationObj.name" [ngClass]="{'error':!configurationObj.name && validation}">
                                                         <!-- <i class="si-eye"></i> -->
                                                 </div>
                                                 <div class="kr-sg-input-text mb-3">
                                                     <div class="label-text">{{'connectors_clientid'|translate}}</div>
-                                                    <input class="input-text" placeholder="{{'connectors_paste_client_ID_here' | translate}}" [type]="showProtecedText.isClientShow?'text':'password'" [(ngModel)]="configurationObj.clientId">
+                                                    <input class="input-text" placeholder="{{'connectors_paste_client_ID_here' | translate}}" [type]="showProtecedText.isClientShow?'text':'password'" [(ngModel)]="configurationObj.clientId" [ngClass]="{'error':!configurationObj.clientId && validation}">
                                                     <i class="si-eye" *ngIf="!showProtecedText.isClientShow" (click)="showProtecedText.isClientShow=!showProtecedText.isClientShow"></i>
                                                     <i class="si-eyeshow" *ngIf="showProtecedText.isClientShow" (click)="showProtecedText.isClientShow=!showProtecedText.isClientShow"></i>
                                                 </div>
                                                 <div class="kr-sg-input-text mb-3">
                                                     <div class="label-text">{{'connectors_clientsecretId'|translate}}</div>
-                                                    <input class="input-text" placeholder="{{'connectors_Paste_Secret_ID_here' | translate}}" [type]="showProtecedText.isSecretShow?'text':'password'" [(ngModel)]="configurationObj.clientSecret">
+                                                    <input class="input-text" placeholder="{{'connectors_Paste_Secret_ID_here' | translate}}" [type]="showProtecedText.isSecretShow?'text':'password'" [(ngModel)]="configurationObj.clientSecret" [ngClass]="{'error':!configurationObj.clientSecret && validation}">
                                                     <i class="si-eye" *ngIf="!showProtecedText.isSecretShow" (click)="showProtecedText.isSecretShow=!showProtecedText.isSecretShow"></i>
                                                     <i class="si-eyeshow" *ngIf="showProtecedText.isSecretShow" (click)="showProtecedText.isSecretShow=!showProtecedText.isSecretShow"></i>
                                                 </div>
                                                 <div class="kr-sg-input-text mb-3"  *ngIf="selectedConnector.type !== 'sharepointOnline'">
                                                     <div class="label-text">{{'connectors_hostURL'|translate}}</div>
-                                                    <input type="text" placeholder="{{'connectors_Enter_Host_URL_here' | translate}}" class="input-text" [(ngModel)]="configurationObj.hostUrl">
+                                                    <input type="text" placeholder="{{'connectors_Enter_Host_URL_here' | translate}}" class="input-text" [(ngModel)]="configurationObj.hostUrl" [ngClass]="{'error':!configurationObj.hostUrl && validation}">
                                                 </div>
                                                 <div class="kr-sg-input-text mb-3" *ngIf="selectedConnector.type !== 'serviceNow'&&  selectedConnector.type !== 'zendesk' && selectedConnector.type !== 'sharepointOnline'">
                                                     <div class="label-text">{{'connectors_host_domain_name'|translate}}</div>
-                                                    <input type="text" placeholder="{{'connectors_enter_host_domainname_here' | translate}}" class="input-text" [(ngModel)]="configurationObj.hostDomainName">
+                                                    <input type="text" placeholder="{{'connectors_enter_host_domainname_here' | translate}}" class="input-text" [(ngModel)]="configurationObj.hostDomainName"  [ngClass]="{'error':!configurationObj.hostDomainName && validation}">
                                                 </div>
                                                 <div class="kr-sg-input-text mb-3" *ngIf="selectedConnector.type === 'sharepointOnline'">
                                                     <div class="label-text">{{'connectors_tenant_id'|translate}}</div>
-                                                    <input type="text" placeholder="Enter Tenant ID here" class="input-text"  [type]="showProtecedText.istenantIdShow?'text':'password'" [(ngModel)]="configurationObj.tenantId">
+                                                    <input type="text" placeholder="Enter Tenant ID here" class="input-text"  [type]="showProtecedText.istenantIdShow?'text':'password'" [(ngModel)]="configurationObj.tenantId" [ngClass]="{'error':!configurationObj.tenantId && validation}">
                                                     <i class="si-eye" *ngIf="!showProtecedText.istenantIdShow" (click)="showProtecedText.istenantIdShow=!showProtecedText.istenantIdShow"></i>
                                                     <i class="si-eyeshow" *ngIf="showProtecedText.istenantIdShow" (click)="showProtecedText.istenantIdShow=!showProtecedText.istenantIdShow"></i>
                                                 </div>
                                                 <ng-container  *ngIf="selectedConnector.type==='serviceNow'">
                                                     <div class="kr-sg-input-text mb-3">
                                                         <div class="label-text">{{'connectors_username'|translate}}</div>
-                                                        <input type="text" placeholder="{{'connectors_Enter_username_here' | translate}}" class="input-text" [(ngModel)]="configurationObj.username">
+                                                        <input type="text" placeholder="{{'connectors_Enter_username_here' | translate}}" class="input-text" [(ngModel)]="configurationObj.username" [ngClass]="{'error':!configurationObj.username && validation}">
                                                     </div>
                                                     <div class="kr-sg-input-text mb-3">
                                                         <div class="label-text">{{'connectors_password'|translate}}</div>
-                                                        <input [type]="showProtecedText.isPassword?'text':'password'" placeholder="{{'connectors_enter_password_here' | translate}}" class="input-text" [(ngModel)]="configurationObj.password">
+                                                        <input [type]="showProtecedText.isPassword?'text':'password'" placeholder="{{'connectors_enter_password_here' | translate}}" class="input-text" [(ngModel)]="configurationObj.password" [ngClass]="{'error':!configurationObj.password && validation}">
                                                         <i class="si-eye" *ngIf="!showProtecedText.isPassword" (click)="showProtecedText.isPassword=!showProtecedText.isPassword"></i>
                                                         <i class="si-eyeshow" *ngIf="showProtecedText.isPassword" (click)="showProtecedText.isPassword=!showProtecedText.isPassword"></i>
                                                     </div>
@@ -590,7 +590,7 @@
                 <div class="view-more-btn">
                     <div *ngIf="['connectionSettings','configurations'].includes(selectedTab)">
                         <button class="kr-sg-button-secondary btn_lg" (click)="backToPage('cancel')">{{'connectors_cancel'|translate}}</button>
-                        <button class="kr-sg-button-primary btn_lg" (click)="selectedTab==='configurations'?updateSyncFrequency():fieldsValidation()?updateConnector():null" [disabled]="isloadingBtn"><span class="spin-loader-button mr-2"></span> {{selectedTab==='configurations'?'Save Changes':'Connect'}}</button>
+                        <button class="kr-sg-button-primary btn_lg" (click)="selectedTab==='configurations'?updateSyncFrequency():validationForConnetor()?updateConnector():null" [disabled]="isloadingBtn"><span class="spin-loader-button mr-2"></span> {{selectedTab==='configurations'?'Save Changes':'Connect'}}</button>
                     </div>
                     <div *ngIf="selectedTab==='connectionSettings'">
                         <button class="kr-sg-button-danger btn_lg" (click)="openDeleteModel('open')"><i class="si-delete"></i>{{'connectors_remove_this_content_source'|translate}}</button>
