@@ -1002,7 +1002,7 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
       }
     }
     else {
-      payload = request
+      payload = request;
     }
 
     let serviceId = 'post.businessRules';
