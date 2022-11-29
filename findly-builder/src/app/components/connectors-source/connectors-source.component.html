@@ -268,10 +268,10 @@
                      
                         <div class="footer-btns">
                             <div class="left-btn">
-                                <button class="kr-sg-button-secondary btn_lg" (click)="backToPage('back')" *ngIf="selectAddContent!=='instructions'">{{'connectors_back_button'|translate}}</button>
+                                <button class="kr-sg-button-secondary btn_lg" (click)="backToPage('back');validation=false" *ngIf="selectAddContent!=='instructions'">{{'connectors_back_button'|translate}}</button>
                             </div>
                             <div class="right-btn">
-                                <button class="kr-sg-button-secondary btn_lg" (click)="backToPage('cancel')">{{'connectors_cancel_button'|translate}}</button>
+                                <button class="kr-sg-button-secondary btn_lg" (click)="backToPage('cancel');validation=false">{{'connectors_cancel_button'|translate}}</button>
                                 <button class="kr-sg-button-primary btn_lg" *ngIf="selectAddContent==='instructions'" (click)="backToPage('submit')">{{'connectors_proceed_button'|translate}}</button>
                                 <button class="kr-sg-button-primary btn_lg" *ngIf="selectAddContent==='configurtion'" (click)="backToPage('submit')" [disabled]="!(configurationObj?.clientId?.length && configurationObj?.clientSecret?.length)">{{'connectors_save_configuration'|translate}}</button>
                                 <button class="kr-sg-button-primary btn_lg" *ngIf="selectAddContent==='authentication'" (click)="backToPage('submit')">{{'connectors_connect'|translate}} {{selectedConnector?.connector_name}}</button>
