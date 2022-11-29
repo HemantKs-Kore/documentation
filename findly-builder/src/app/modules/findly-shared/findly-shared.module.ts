@@ -10,7 +10,8 @@ import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
 import { SearchFilterComponent } from 'src/app/helpers/components/search-filter/search-filter.component';
 import { FormsModule } from '@angular/forms';
 import { FilterPipe } from 'src/app/helpers/filters/filter.pipe';
-import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbDropdownModule, NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 
 
@@ -30,6 +31,8 @@ import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
     PerfectScrollbarModule,
     FormsModule,
     NgbTooltipModule,
+    MatProgressSpinnerModule,
+    NgbDropdownModule,
   ],
   exports: [
     ListFieldsComponent,
@@ -44,6 +47,8 @@ import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
     RangeSliderComponent,
     FilterPipe,
     NgbTooltipModule,
+    MatProgressSpinnerModule,
+    NgbDropdownModule,
   ],
 })
 export class FindlySharedModule {}
