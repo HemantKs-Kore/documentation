@@ -25,7 +25,7 @@ export class StopWordsComponent implements OnInit, OnDestroy {
   searchImgSrc: any = 'assets/icons/search_gray.svg';
   searchFocusIn = false;
   activeClose = false;
-  checkStopwords = false;
+  checkStopwords:boolean = false;
   enabled = false;
   validation: any = {
     duplicate: false,
@@ -38,7 +38,7 @@ export class StopWordsComponent implements OnInit, OnDestroy {
   indexPipelineId;
   pipeline;
   stopWordsIntiType = 'default'
-  createFromScratch;
+  createFromScratch:boolean = false;
   subscription: Subscription;
   componentType: string = 'configure';
   submitted: boolean = false;
@@ -86,7 +86,7 @@ export class StopWordsComponent implements OnInit, OnDestroy {
   }
   createInit() {
     if (this.stopWordsIntiType === 'default') {
-      this.checkStopwords = true
+      // this.checkStopwords = true
       this.createStopWords(true);
     } else {
       this.createFromScratch = true;
@@ -464,6 +464,10 @@ export class StopWordsComponent implements OnInit, OnDestroy {
       resetStopwords:reset,         //reset is to have only default Stop Words
       stopwords: stopwordsArr
     };
+    if(reset) {
+      delete payload.defaultStopwords
+      delete payload.stopwords
+    }
     this.service.invoke('put.createStopWords',quaryparms,payload).subscribe(res => {
        this.stopwordsList = [...res.stopwords] // updating Display Array
        this.notificationService.notify('Stopwords Added Successfully', 'success');
@@ -494,6 +498,8 @@ export class StopWordsComponent implements OnInit, OnDestroy {
     else {
       this.stopwordsList = [];
       this.notificationService.notify('All Stop words Deleted Successfully', 'success')
+      this.createFromScratch = false;
+      this.checkStopwords = false;
     }
   }, errRes => {
     if(type == false)this.errorToaster(errRes, `Failed to delete ${word}`);
