@@ -133,6 +133,9 @@ import { SearchRelevanceComponent } from './components/search-relevance/search-r
 import { ListFieldsComponent } from './components/search-settings/list-fields/list-fields.component';
 import { SearchFilterComponent } from './helpers/components/search-filter/search-filter.component';
 import { EmptyScreenModule } from './modules/empty-screen/empty-screen.module';
+import { SnippetsComponent } from './components/snippets/snippets.component';
+import { SearchsettingsBotactionsComponent } from './components/searchsettings-botactions/searchsettings-botactions.component';
+import { CustomConfigurationsComponent } from './components/custom-configurations/custom-configurations.component';
 export function HttpLoaderFactory(httpClient: HttpClient) {
   return new TranslateHttpLoader(httpClient, 'assets/i18n/', '.json');
 }
@@ -233,6 +236,9 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
     SearchRelevanceComponent,
     ListFieldsComponent,
     SearchFilterComponent,
+    SnippetsComponent,
+    SearchsettingsBotactionsComponent,
+    CustomConfigurationsComponent,
   ],
   imports: [
     BrowserModule,

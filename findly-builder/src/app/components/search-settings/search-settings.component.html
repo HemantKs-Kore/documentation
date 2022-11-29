@@ -20,7 +20,7 @@
                   {{component.key}}
                   </button>
               </div>
-              <div class="vr-beta" [ngClass]="{'beta-active':(selectedComponent===component.value)}">BETA</div>
+              <div class="vr-beta" *ngIf="component.value=='custom_configurations'"[ngClass]="{'beta-active':(selectedComponent===component.value)}">BETA</div>
             </div>
           </div>
       </perfect-scrollbar>
@@ -52,34 +52,8 @@
         </ng-container>
 
         <!--search_settings_Snippets_Component component-->
-        <ng-container *ngSwitchCase="'snippets'">
-          <div class="landing-page-common-block">
-            <div class="widget-header-block">
-              <div class="widget-header">Snippets</div>
-              <div class="widget-desc">A snippet is the description, summary or short answers from the most relevant search result. Snippets appear at the top of the search results and provide users with a quick answer to their questions.</div>
-            </div>
-            <div class="landing-page-toggle">
-              <label class="kr-sg-toggle with-label">
-                <input type="checkbox" checked="">
-                <div class="slider">
-                  <span class="no">Disable</span>
-                  <span class="yes">Enable</span>
-                </div>
-              </label>
-            </div>
-
-            <div class="row m-0 col-12 application-type pr-0 pl-0">
-              <div class="col-6 pl-0">
-                <div class="application-type-header">Virtual Assistant</div>
-                <div class="application-type-block"></div>
-              </div>
-              <div class="col-6 pr-0">
-                <div class="application-type-header">Search Bar</div>
-                <div class="application-type-block"></div>
-              </div>
-            </div>
-
-          </div>
+        <ng-container *ngSwitchCase="'snippets'">         
+        <app-snippets></app-snippets>
         </ng-container>
 
         <!--search-relevance component-->
@@ -101,43 +75,7 @@
 
          <!--bot_actions component-->
         <ng-container *ngSwitchCase="'bot_actions'">
-          <div class="landing-page-common-block">
-            <div class="widget-header-block">
-              <div class="widget-header">Bot Actions</div>
-              <div class="widget-desc">Enable or disable Bot Actions to trigger an event during the conversation with a
-                virtual assistant </div>
-            </div>
-            <div class="landing-page-toggle">
-              <label class="kr-sg-toggle with-label">
-                <input type="checkbox" checked="">
-                <div class="slider">
-                  <span class="no">Disable</span>
-                  <span class="yes">Enable</span>
-                </div>
-              </label>
-            </div>
-            <div class="block-separate-line"></div>
-
-            <div class="widget-header-block second-header-block">
-              <div class="widget-header">Bot Action Behaviour</div>
-              <div class="widget-desc">Enable or disable the bot action behaviour to auto execute the winning intent or to have the action prompts as a part of the search results</div>
-            </div>
-
-            <div class="bot-actions-radio-grp-block">
-              <div class="group-radiobutton">
-                <div class="kr-sg-radiobutton d-block">
-                    <input id="auto_execute" name="radio" class="radio-custom" type="radio">
-                    <label for="auto_execute" class="radio-custom-label">Auto execute the winning intent</label>
-                </div> 
-                <div class="kr-sg-radiobutton d-block">
-                    <input id="do_not_auto_execute" name="radio" class="radio-custom" type="radio">
-                    <label for="do_not_auto_execute" class="radio-custom-label">Do not auto execute the winning intent</label>
-                </div> 
-            </div>
-            </div>
-
-
-          </div>
+          <app-searchsettings-botactions></app-searchsettings-botactions>
         </ng-container>
 
         <!--small_talk component-->
@@ -148,106 +86,7 @@
 
          <!--custom_configurations component-->
         <ng-container *ngSwitchCase="'custom_configurations'">
-          <div class="cc-landing-page-block">
-            <div class="splitter-header">
-              <div class="widget-header-block">
-                <div class="widget-header">Custom Configurations</div>
-                <div class="widget-desc">Add key-value pair in custom configuration to test out new features and capabilities</div>
-              </div>
-              <div class="add-field-link-btn"><span class="icon-add-span"><i class="si-add-plus icon-add"></i></span>
-                Add Field</div>
-            </div>
-         
-
-            <div class="cc-table-block">
-              <!-- <div class="cc-table-filter-block">
-                  <div class="cc-add">
-                      <div class="add-field-link-btn" (click)="openModalPopup()"><span class="icon-add-span"><i class="si-add-plus icon-add"></i></span>
-                          Add Field</div>
-                  </div>
-                  <div class="cc-search">
-                      <div class="kr-sg-input-inline-search">                               
-                          <input type="text" placeholder="Search" class="input-search">
-                          <span class="search-icon close-icon">
-                              <i class="si-close"></i>
-                          </span>
-                          <span class="search-icon">
-                              <i class="si-search"></i>
-                          </span>                                   
-                      </div>
-                  </div>
-              </div> -->
-          
-              <!-- table start from here -->
-              <div class="custom-config-table row m-0">
-                  <div class="table_data_content col-12">
-                      <div class="table_header row m-0">
-                          <div class="col_ col-5 title d-flex align-items-center justify-content-start">
-                              <span class="d-flex align-items-center flex-column mr-2 filter-sort">
-                                  <i class="si-chev-up icon-up"></i>
-                                  <i class="si-chev-down icon-down"></i>
-                              </span>
-                              KEY
-                          </div>
-                          <div class="col_ col-5 title d-flex align-items-center justify-content-start"> 
-                              <span class="d-flex align-items-center flex-column mr-2 filter-sort">
-                                  <i class="si-chev-up icon-up"></i>
-                                  <i class="si-chev-down icon-down"></i>
-                              </span>
-                              VALUE
-                          </div>
-                          <div class="col_ col-2 title d-flex align-items-center justify-content-start"> 
-                              ACTION 
-                          </div>
-                      </div>
-                      <perfect-scrollbar class="table_body_content custom-config-table-body">
-                        <div class="table_body row m-0">
-                          <div class="col-5 title text-left text-truncate">
-                            <div class="kr-sg-input-text cc-input-text">
-                              <input type="text" placeholder="Enter Key Here" class="input-text">
-                          </div>
-                          </div>
-                          <div class="col-5 title text-left p-0">
-                            <div class="kr-sg-input-text cc-input-text">
-                              <input type="text" placeholder="Enter Value Here" class="input-text">
-                          </div>
-                          </div>
-                          <div class="col-2 p-0 text-left">
-                              <div class="action_links">
-                                <span class="action_link-icon">
-                                    <i class="si-pencil-edit mr-2"></i>
-                                </span>
-                                <span class="action_link-icon link-delete">
-                                  <i class="si-delete1"></i>
-                                </span>
-                              </div>
-                          </div>
-                        </div>
-                        <div class="table_body row m-0">
-                                      <div class="col-5 title text-left text-truncate" title="">
-                                          English
-                                      </div>
-                                      <div class="col-5 title text-left p-0">
-                                          en
-                                      </div>
-                                      <div class="col-2 p-0 text-left">
-                                        <div class="action_links">
-                                          <span class="action_link-icon">
-                                              <i class="si-pencil-edit mr-2"></i>
-                                          </span>
-                                          <span class="action_link-icon link-delete">
-                                            <i class="si-delete1"></i>
-                                          </span>
-                                        </div>
-                                      </div>
-                        </div>
-                                 
-                      </perfect-scrollbar>
-                  </div>
-              </div>
-          
-          </div>
-          </div>
+          <app-custom-configurations></app-custom-configurations>
         </ng-container>
       </div>
     </div>

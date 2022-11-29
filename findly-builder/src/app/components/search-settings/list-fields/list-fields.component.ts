@@ -198,6 +198,7 @@ export class ListFieldsComponent implements OnInit {
       record :record,
       type : 'add'
     });
+    this.closeModalPopup();
   }
 
   addRecord(fields,event) {

@@ -175,14 +175,16 @@ export class SpellCorrectionComponent implements OnInit {
  }
   /** Add to Prescentable */
  addRecords(addData){
-  this.service.invoke(addData.url,addData.quaryparms,addData.payload).subscribe(res => {
-    this.getAllspellcorrectFields();
-    this.notificationService.notify("Field added succesfully",'success');
-  }, errRes => {
-    this.notificationService.notify("Failed to add Fields",'error');
-  });
-  // 
- }
+  if(addData.payload.fieldIds.length>0){
+    this.service.invoke(addData.url,addData.quaryparms,addData.payload).subscribe(res => {
+      this.getAllspellcorrectFields();
+      this.notificationService.notify("Field added succesfully",'success');
+    }, errRes => {
+      this.notificationService.notify("Failed to add Fields",'error');
+    });
+    // 
+  }
+}
  //**Spell Correct Slider change update query pipeline */
  sildervaluechanged(event){
     const quaryparms:any={
@@ -279,12 +281,12 @@ export class SpellCorrectionComponent implements OnInit {
           const payload:any={
             settings: {
               spellCorrect: {
-                minCharacterThreshold:this. min_threshold
+                minCharThreshold:this. min_threshold
             }
           }
         }
         this.service.invoke('put.queryPipeline', quaryparms,payload).subscribe(res => {
-          this.spellcorrectdata.minCharacterThreshold=res.settings.spellCorrect.minCharacterThreshold
+          this.spellcorrectdata.minCharThreshold=res.settings.spellCorrect.minCharThreshold
           if(this.min_threshold > 0){
             this.notificationService.notify("updated successfully",'success');
           }
@@ -304,12 +306,12 @@ export class SpellCorrectionComponent implements OnInit {
         const payload:any={
           settings: {
             spellCorrect: {
-              minCharacterThreshold:this. min_threshold
+              minCharThreshold:this. min_threshold
           }
         }
       }
       this.service.invoke('put.queryPipeline', quaryparms,payload).subscribe(res => {
-        this.spellcorrectdata.minCharacterThreshold=res.settings.spellCorrect.minCharacterThreshold
+        this.spellcorrectdata.minCharThreshold=res.settings.spellCorrect.minCharThreshold
         this.notificationService.notify("updated successfully",'success');
       }, errRes => {
         this.notificationService.notify("Failed to update",'error');
