@@ -207,7 +207,7 @@
                                                     </div>
                                                     <div class="kr-sg-input-text mb-3">
                                                         <div class="label-text">{{'connectors_clientid'|translate}}</div>
-                                                        <input [type]="showProtecedText.isClientShow?'text':'password'" placeholder="{{'connectors_paste_client_ID_here' | translate}}" class="input-text" [(ngModel)]="configurationObj.clientId" [ngClass]="{'!error':configurationObj.clientId && validation}">
+                                                        <input [type]="showProtecedText.isClientShow?'text':'password'" placeholder="{{'connectors_paste_client_ID_here' | translate}}" class="input-text" [(ngModel)]="configurationObj.clientId" [ngClass]="{'!error':!configurationObj.clientId && validation}">
                                                         <i class="si-eye" *ngIf="!showProtecedText.isClientShow" (click)="showProtecedText.isClientShow=!showProtecedText.isClientShow"></i>
                                                         <i class="si-eyeshow" *ngIf="showProtecedText.isClientShow" (click)="showProtecedText.isClientShow=!showProtecedText.isClientShow"></i>
                                                     </div>
@@ -224,7 +224,7 @@
                                                     </div>
                                                     <div class="kr-sg-input-text mb-3" *ngIf="selectedConnector.type === 'sharepointOnline'">
                                                         <div class="label-text">{{'connectors_tenant_id'|translate}}</div>
-                                                        <input type="text" placeholder="{{'connectors_enter_tenant_id'|translate}}" class="input-text"  [type]="showProtecedText.istenantIdShow?'text':'password'" [(ngModel)]="configurationObj.tenantId" [ngClass]="{'error':configurationObj.tenantId && validation}">
+                                                        <input type="text" placeholder="{{'connectors_enter_tenant_id'|translate}}" class="input-text"  [type]="showProtecedText.istenantIdShow?'text':'password'" [(ngModel)]="configurationObj.tenantId" [ngClass]="{'error':!configurationObj.tenantId && validation}">
                                                         <i class="si-eye" *ngIf="!showProtecedText.istenantIdShow" (click)="showProtecedText.istenantIdShow=!showProtecedText.istenantIdShow"></i>
                                                         <i class="si-eyeshow" *ngIf="showProtecedText.istenantIdShow" (click)="showProtecedText.istenantIdShow=!showProtecedText.istenantIdShow"></i>
                                                     </div>
@@ -284,7 +284,7 @@
             <div class="connector-cards-data" *ngSwitchCase="'edit'">        
                     <div class="inner-content-data">
                         <!-- <div class="desc-text">{{'connectors_editremoveconnectedsources'|translate}}</div> -->
-                        <div class="back-to-block"><div class="back-to-page" (click)="backToPage('cancel')"><i class="si-carrotup"></i></div>{{'connectors_back'|translate}}</div>
+                        <div class="back-to-block"><div class="back-to-page" (click)="backToPage('cancel');validation=false"><i class="si-carrotup"></i></div>{{'connectors_back'|translate}}</div>
                         <div class="connector-brand">
                             <div class="c-img">
                                 <img [src]="selectedConnector.image">

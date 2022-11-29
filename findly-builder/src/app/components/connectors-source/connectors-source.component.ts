@@ -185,6 +185,7 @@ export class ConnectorsSourceComponent implements OnInit {
         this.availableConnectorsData = this.Connectors;
       }
       this.pageLoading = true;
+      this.validation = false;
     }, errRes => {
       this.errorToaster(errRes, 'Failed to get Connectors');
     });
@@ -342,11 +343,9 @@ export class ConnectorsSourceComponent implements OnInit {
             this.createConnector();
           }
         }
-        this.validation = true;
       }
     }
   }
-
   //navaigate to next page based on selectAddContent
   navigatePage() {
     this.selectAddContent = this.selectAddContent === 'instructions' ? 'configurtion' : 'instructions';
@@ -390,6 +389,7 @@ validationForConnetor(){
    }
   }
   else {
+    this.validation = true;
     return false
   }
 }
