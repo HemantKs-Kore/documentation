@@ -1,0 +1,89 @@
+.small-talk-body-data{        
+    width: 550px;
+    padding: 20px 0;
+    .title-heading{
+        color: #000000;
+        font-weight: 500;
+        font-size: 16px;
+        line-height: 19px;
+        margin-bottom: 2px;
+    }
+    .title-desc-text{
+        color: #9AA0A6;
+        font-weight: normal;
+        font-size: 12px;
+        line-height: 20px;
+        margin-bottom: 13px;
+    }
+    .kr-sg-toggle {
+        input{
+            &:checked {
+                + .slider{
+                    background-color: #0D6EFD;
+                    box-shadow: 0 0 1px #0d6efd;
+                    border: 1px solid #0D6EFD;
+                    &::before{
+                        background-color: #fff;
+                    }
+                }
+            }
+        }
+        .slider{
+            border: 1px solid #BDC1C6;
+            background-color: #fff;
+            &::before{                    
+                background-color: #BDC1C6;
+            }
+        }
+    }
+}
+
+// new css for small talk start from here
+.landing-page-common-block{
+    padding: 0px 20px 0px 35px;
+    .widget-header-block{
+        padding: 35px 0px 15px 0px;
+        &.second-header-block{
+            padding: 25px 0px 15px 0px;
+        }
+        .widget-header{
+            font-weight: 500;
+            font-size: 14px;
+            line-height: 17px;
+            color: #121314;
+            padding-bottom: 10px;
+        }
+        .widget-desc{
+            font-weight: 400;
+            font-size: 12px;
+            line-height: 15px;
+            color: #777A80;
+        }
+    }
+
+    .landing-page-toggle{
+        padding: 0 20px 25px 0px;
+        .kr-sg-toggle{
+            input{
+                &:not(:checked){
+                    + .slider{
+                        span{
+                            &.no{
+                                color: #202124;
+                            }
+                        }
+                    }
+                }
+            }
+            &.with-label{
+                margin-left: 49px;
+                .slider{
+                    .no{
+                        margin-left: -49px;
+                    }
+                }
+            }
+        }
+      }
+    
+}
