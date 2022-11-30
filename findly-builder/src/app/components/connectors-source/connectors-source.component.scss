@@ -448,6 +448,9 @@
                                             font-size: 14px;
                                             line-height: 17px;
                                             color: #202124;
+                                            &.font-bold{
+                                                font-weight: 600; 
+                                            }
 
                                             &.user-type {
                                                 width: 60%;
@@ -1337,6 +1340,3 @@
       margin: 30px 0;
     }
   }
-  .bold-class{
-    font-weight: 800; 
-   }

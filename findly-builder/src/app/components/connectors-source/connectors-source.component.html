@@ -314,10 +314,10 @@
                                                         <div class="title text-right">{{'connectors_items'|translate}}</div>
                                                     </div>
                                                     <perfect-scrollbar class="tab-content-scroll-data">
-                                                    <ng-container *ngFor="let overview of overViewData?.overview">
+                                                    <ng-container *ngFor="let overview of overViewData?.overview;let i=index">
                                                         <div class="repeat-table-body">
-                                                            <div class="title user-type">{{overview?.key|titlecase}}</div>
-                                                            <div class="title item-count">{{overview?.doc_count}}</div>
+                                                            <div class="title user-type" [ngClass]="{'font-bold':selectedConnector.type === 'sharepointOnline' && i==overViewData?.overview.length-1}">{{overview?.key|titlecase}}</div>
+                                                            <div class="title item-count" [ngClass]="{'font-bold':selectedConnector.type === 'sharepointOnline' && i==overViewData?.overview.length-1}">{{overview?.doc_count}}</div>
                                                         </div>
                                                     </ng-container>
                                                     </perfect-scrollbar>

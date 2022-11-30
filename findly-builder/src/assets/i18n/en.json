@@ -2501,6 +2501,8 @@
     "workbench_serviceNow":"Service Now",
     "workbench_confluenceCloud":"Confluence Cloud",
     "workbench_confluenceServer":"Confluence Server",
+    "workbench_zendesk":"Zendesk",
+    "workbench_sharepointOnline":"Share Point",
     "workbench_beta":"BETA",
     "workbench_script":"Script",
     "workbench_choose_script_option":"On choosing the Script option, conditions defined here will only be applied.",
