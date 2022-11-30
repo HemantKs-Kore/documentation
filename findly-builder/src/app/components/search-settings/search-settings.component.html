@@ -59,7 +59,7 @@
         <!--search-relevance component-->
         <ng-container *ngSwitchCase="'search_relevance'">
           <perfect-scrollbar class="page-common-scroll">
-            <app-search-relevance></app-search-relevance>
+            <app-search-relevance [searchrelevancedata]="pipeline.settings.searchRelevance"></app-search-relevance>
           </perfect-scrollbar>
         </ng-container>
 

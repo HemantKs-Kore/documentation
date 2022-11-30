@@ -1,4 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit,Output,Input,EventEmitter } from '@angular/core';
+import { WorkflowService } from '@kore.services/workflow.service';
+import { AppSelectionService } from '@kore.services/app.selection.service';
+import { NotificationService } from '@kore.services/notification.service';
+import { ServiceInvokerService } from '@kore.services/service-invoker.service';
+import { of, interval, Subject, Subscription } from 'rxjs';
 import { RangeSlider } from '../../helpers/models/range-slider.model';
 
 @Component({
@@ -7,17 +12,37 @@ import { RangeSlider } from '../../helpers/models/range-slider.model';
   styleUrls: ['./search-relevance.component.scss'],
 })
 export class SearchRelevanceComponent implements OnInit {
-  weightModal;
-  constructor() {}
+  @Input() searchrelevancedata: any;
+  weightModal = {
+            fieldName: 'matchThreshold',
+            fieldDataType: 'number',
+            fieldId: 'matchThreshold',
+            sliderObj: new RangeSlider(0, 100, 1,30,'matchThreshold','',true)
+  };
+ 
+  constructor() { }
   sliderOpen;
   disableCancle: any = true;
   ngOnInit(): void {
-    this.prepereSliderObj(1, 2);
+    console.log(this.searchrelevancedata.matchThreshold)
+    this.prepareThreshold()
+
   }
 
-  prepereSliderObj(index, scale?) {
-    return new RangeSlider(0, 5, 1, scale || 3, 'outcomeScale' + index);
+  prepareThreshold(){ 
+  
+          // const name = ('matchThreshold' || '').replace(/[^\w]/gi, '')
+          // const obj = {
+          //   fieldName: name,
+          //   fieldDataType: 'number',
+          //   fieldId: 'matchThreshold',
+          //   sliderObj: new RangeSlider(0, 100, 1,this.searchrelevancedata.matchThreshold,'matchThreshold','',true)
+          // }
+          //this.weightModal= obj;
   }
+ 
+ 
+  
 
   valueEvent(val, outcomeObj) {
     outcomeObj.scale = val;
