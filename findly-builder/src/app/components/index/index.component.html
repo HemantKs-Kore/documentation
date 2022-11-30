@@ -1287,13 +1287,13 @@
                 (simulteObj.sourceType
                 ? (simulteObj.sourceType == 'faq'? 'FAQ': (simulteObj.sourceType =='data'?'Data':(simulteObj.sourceType
                 =='all'?'All':(simulteObj.sourceType =='file'?'File':(simulteObj.sourceType
-                =='web'?'Web':simulteObj.sourceType =='serviceNow'?'Service Now':simulteObj.sourceType =='confluenceCloud'?'Confluence Cloud':simulteObj.sourceType =='confluenceServer'?'Confluence Server':simulteObj.sourceType)))))
+                =='web'?'Web':simulteObj.sourceType =='serviceNow'?'Service Now':simulteObj.sourceType =='confluenceCloud'?'Confluence Cloud':simulteObj.sourceType =='confluenceServer'?'Confluence Server':simulteObj.sourceType?'Zendesk':simulteObj.sourceType =='zendesk'?'Share Point':simulteObj.sourceType =='sharepointOnline')))))
                 : "choose_an_option"
                 ) | translate
               }}
             </button>
             <ul class="dropdown-menu content-menu">
-              <li *ngFor="let source of sourceList" (click)="changeSimulate(source, 'source')"><a>{{'workbench.'+source | translate}}</a></li>
+              <li *ngFor="let source of sourceList" (click)="changeSimulate(source, 'source')"><a>{{'workbench_'+source | translate}}</a></li>
             </ul>
           </div>
         </div>

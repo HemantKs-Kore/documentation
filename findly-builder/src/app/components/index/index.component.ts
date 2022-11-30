@@ -229,7 +229,7 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
     createdStages: [],
     deletedStages: []
   }
-  sourceList: any = ['all', 'faq', 'web', 'file', 'data', 'serviceNow', 'confluenceCloud', 'confluenceServer'];
+  sourceList: any = ['all', 'faq', 'web', 'file', 'data', 'serviceNow', 'confluenceCloud', 'confluenceServer','zendesk','sharepointOnline'];
   readonly separatorKeysCodes: number[] = [ENTER, COMMA];
   entityName: string;
   constructor(
@@ -1573,7 +1573,7 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
         noOfDocuments: this.simulteObj.docCount || 5,
         // pipelineConfig: this.preparepayload()
       }
-      if (['serviceNow', 'confluenceCloud', 'confluenceServer'].includes(this.sourceType)) {
+      if (['serviceNow', 'confluenceCloud', 'confluenceServer','zendesk','sharepointOnline'].includes(this.sourceType)) {
         payload.connectorType = this.sourceType;
         payload.sourceType = 'connector';
       }
