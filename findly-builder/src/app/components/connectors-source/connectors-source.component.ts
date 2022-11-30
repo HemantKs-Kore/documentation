@@ -386,7 +386,7 @@ validationForConnetor(){
       return true
     }
    }
-   else if (['sharePoint'].includes(this.selectedConnector.type)){
+   else if (['sharepointOnline'].includes(this.selectedConnector.type)){
     if(this.configurationObj.tenantId ){
       return true
     }
