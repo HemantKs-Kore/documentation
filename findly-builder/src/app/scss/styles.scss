@@ -1193,6 +1193,7 @@ div.divBlockEmptylastChild:first-child {
                 margin: 0;
                 padding: 0;
                 border: 0;
+                background-color: #fff;
                 .mat-chip-list{
                     .mat-chip-list-wrapper{
                         border-radius: 3px;
@@ -1213,7 +1214,7 @@ div.divBlockEmptylastChild:first-child {
                             border-radius: 4px;
                             background-color: #EFF0F1;
                             padding: 0px 9px;
-                            margin: 3px 0px 3px 3px;
+                            margin: 3px 3px 3px 3px;
                             min-height: 26px;
                             &:hover{
                                 &::after{
@@ -1234,7 +1235,7 @@ div.divBlockEmptylastChild:first-child {
                                     height: 11px;
                                     vertical-align: middle;
                                     position: relative;
-                                    top: -1px;
+                                    top: -4px;
                                     left: 2px;
                                 }
                             }
