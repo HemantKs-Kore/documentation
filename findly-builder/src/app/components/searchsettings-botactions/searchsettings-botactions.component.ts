@@ -63,6 +63,39 @@ export class SearchsettingsBotactionsComponent implements OnInit {
     });
    
   }
+  selectradiobutton(type){
+    const quaryparms:any={
+      indexPipelineId:this.workflowService.selectedIndexPipeline(),
+      queryPipelineId:this.workflowService.selectedQueryPipeline() ? this.workflowService.selectedQueryPipeline()._id : '',
+      searchIndexId:this.serachIndexId
+    }
+    if(type=='execute'){
+        var payload:any={
+          settings: {
+            botActions: {
+              executeIntents:true
+          }
+        }    
+      }
+    }
+    else{
+      var payload:any={
+        settings: {
+          botActions: {
+            executeIntents:false
+        }
+      }    
+    }
+    }
+
+    this.service.invoke('put.queryPipeline', quaryparms,payload).subscribe(res => {
+      this.botactionsdata.enable=res.settings.botActions.enable
+      this.notificationService.notify("updated successfully",'success');
+    }, errRes => {
+      this.notificationService.notify("Failed to update",'error');
+    });
+    
+  }
 
   ngOnDestroy() {
     this.querySubscription ? this.querySubscription.unsubscribe() : false;

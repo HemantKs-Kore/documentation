@@ -3484,7 +3484,14 @@
     "search_setting_small_value_min_no_of_char":"For a very small value for minimum number of characters a word, you'll get a lot of false positive results.",
     "search_setting_max_typo_edits":"Maximum Typo Edits",
     "search_setting_max_no_of_typos_will_be_corrected":"Set value for the maximum number of typos that will be corrected in a word",
-    "search_settings_less_options":"Show Less"
+    "search_settings_less_options":"Show Less",
+    "search_settingsa_bot_actions":"Bot Actions",
+    "search_settings_bot_action_desc":"Enable or disable Bot Actions to trigger an event during the conversation with a virtual assistant ",
+    "search_settings_bot_action_enable":"Enable",
+    "search_settings_bot_action_behavior":"Bot Action Behaviour",
+    "search_settings_enable_disable_desc":"Enable or disable the bot action behaviour to auto execute the winning intent or to have the action prompts as a part of the search results",
+    "search_settings_bot_action_auto_execute_win_intent":"Auto execute the winning intent",
+    "search_settings_bot_action_do_not_win_intent":"Do not auto execute the winning intent"
 
 
 
