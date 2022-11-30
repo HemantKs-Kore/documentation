@@ -394,6 +394,7 @@ validationForConnetor(){
   }
   else {
     this.validation = true;
+    this.notificationService.notify('Enter the Required Fields', 'error');
     return false
   }
 }
