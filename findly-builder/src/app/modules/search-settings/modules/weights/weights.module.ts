@@ -3,8 +3,6 @@ import { CommonModule } from '@angular/common';
 
 import { WeightsRoutingModule } from './weights-routing.module';
 import { WeightsComponent } from './weights.component';
-import { MaterialModule } from 'src/app/modules/material.module';
-import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import {HttpClient } from '@angular/common/http';
@@ -19,8 +17,6 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
   imports: [
     CommonModule,
     WeightsRoutingModule,
-    MaterialModule,
-    PerfectScrollbarModule,
     FindlySharedModule,
     TranslateModule.forChild({
       defaultLanguage: 'en',

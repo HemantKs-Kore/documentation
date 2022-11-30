@@ -7,8 +7,9 @@
         <app-useronboarding-journey [componentType]='componentType'></app-useronboarding-journey>
         <div class="header-sec-stopwords">
             <div class="title">{{'weights_Weights'| translate}}
-                <span class="module-topic" tooltipClass="tooltip-global-" [container]="'body'" ngbTooltip="{{'sa_topic_guide'| translate}}"
- placement="right-center"(click)="openUserMetaTagsSlider()">
+                <span class="module-topic" tooltipClass="tooltip-global-" [container]="'body'"
+                    ngbTooltip="{{'sa_topic_guide'| translate}}" placement="right-center"
+                    (click)="openUserMetaTagsSlider()">
                     <i class="si-topic-guide-1"></i>
                 </span>
             </div>
@@ -34,14 +35,14 @@
                         FIELD NAME
                     </div>
                     <div class="col_ col-6 title d-flex align-items-center justify-content-start">
-                        TYPE 
+                        TYPE
                     </div>
                     <div class="col_ col-4 title d-flex align-items-center justify-content-start">
                         <span class="d-flex align-items-center flex-column mr-2 filter-sort">
                             <i class="si-chev-up icon-up"></i>
                             <i class="si-chev-down icon-down"></i>
                         </span>
-                        WEIGHTS 
+                        WEIGHTS
                     </div>
                 </div>
                 <perfect-scrollbar class="scroll-table-allowRow">
@@ -66,7 +67,7 @@
                             <div class="action_links">
                                 <span class="actions-links" id="btn_deleteWeight" ngbTooltip='Delete'
                                     [container]="'body'" (click)="deleteWeight(weightModal,$event,i)"><img
-                                    class="action_icon" src="assets/icons/delete.svg"></span>
+                                        class="action_icon" src="assets/icons/delete.svg"></span>
                             </div>
                         </div>
                     </div>
@@ -153,8 +154,8 @@
     </perfect-scrollbar>
     <div class="modal-footer text-left" *ngIf="addEditWeighObj">
         <button id="btn_weightsSave" type="button" class="kr-sg-button-danger btn_lg float-left"
-            *ngIf="currentEditIndex>-1"
-            (click)="deleteWeight(addEditWeighObj,$event,currentEditIndex)">{{'sa_delete' | translate}}</button>
+            *ngIf="currentEditIndex>-1" (click)="deleteWeight(addEditWeighObj,$event,currentEditIndex)">{{'sa_delete' |
+            translate}}</button>
         <button id="btn_weightseditSave" type="button" class="kr-sg-button-primary btn_lg mr-0 float-right"
             (click)="addEditWeight(addEditWeighObj)">{{(currentEditIndex>-1)?'Update':'Add'}}</button>
         <!-- [disabled]="!addEditWeighObj.name" -->

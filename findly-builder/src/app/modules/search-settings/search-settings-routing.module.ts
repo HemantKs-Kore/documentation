@@ -87,7 +87,7 @@ const routes: Routes = [
       },
       // {
       //   path: '',
-      //   redirectTo: 'snippets',
+      //   redirectTo: 'weights',
       //   pathMatch: 'full',
       // },
     ],
