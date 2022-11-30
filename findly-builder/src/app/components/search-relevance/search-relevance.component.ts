@@ -14,10 +14,6 @@ import { RangeSlider } from '../../helpers/models/range-slider.model';
 export class SearchRelevanceComponent implements OnInit {
   @Input() searchrelevancedata: any;
   weightModal = {
-            fieldName: 'matchThreshold',
-            fieldDataType: 'number',
-            fieldId: 'matchThreshold',
-            sliderObj: new RangeSlider(0, 100, 1,30,'matchThreshold','',true)
   };
  
   constructor() { }
@@ -31,14 +27,14 @@ export class SearchRelevanceComponent implements OnInit {
 
   prepareThreshold(){ 
   
-          // const name = ('matchThreshold' || '').replace(/[^\w]/gi, '')
-          // const obj = {
-          //   fieldName: name,
-          //   fieldDataType: 'number',
-          //   fieldId: 'matchThreshold',
-          //   sliderObj: new RangeSlider(0, 100, 1,this.searchrelevancedata.matchThreshold,'matchThreshold','',true)
-          // }
-          //this.weightModal= obj;
+          const name = ('matchThreshold' || '').replace(/[^\w]/gi, '')
+          const obj = {
+            fieldName: name,
+            fieldDataType: 'number',
+            fieldId: 'matchThreshold',
+            sliderObj: new RangeSlider(0, 100, 1,this.searchrelevancedata.matchThreshold,'matchThreshold','',true)
+          }
+          this.weightModal= obj;
   }
  
  
