@@ -12,6 +12,7 @@ export class RangeSliderComponent implements OnInit, AfterViewInit {
   @Input() allData;
   @Input() customClass;
   @Input() addTextToTooltip;
+  @Input() addpercentToTooltip;
   @Output() valueEvent = new EventEmitter();
   sliderUpdatedVal: number;
   sliderRet: any;
@@ -59,6 +60,7 @@ export class RangeSliderComponent implements OnInit, AfterViewInit {
     else{
       $('#' + this.allData.id + '-slider').find('.tooltip-main').addClass('hide');
     }
-    $('#'+this.allData.id+'-slider').find('.tooltip-inner').text(val+(this.addTextToTooltip?this.addTextToTooltip:'')); }
+    $('#'+this.allData.id+'-slider').find('.tooltip-inner').text(val+(this.addTextToTooltip?this.addTextToTooltip:'')); 
+    $('%'+this.allData.id+'-slider').find('.tooltip-inner').text(val+(this.addpercentToTooltip?this.addpercentToTooltip:''));}
 }
 
