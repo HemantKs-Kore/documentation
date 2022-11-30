@@ -87,8 +87,8 @@ const routes: Routes = [
       },
       // {
       //   path: '',
-      //   redirectTo: 'weights',
-      //   pathMatch: 'full',
+      //   redirectTo: './weights',
+      //   pathMatch: 'full'
       // },
     ],
   },
