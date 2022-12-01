@@ -1,49 +1,50 @@
-<div class="widget-header-block">
-    <div class="widget-header">Match Threshold</div>
-    <div class="widget-desc">Define the percentage of tokens in a query that should be present in a document so as to be returned in search results.</div>
+<div class="widget-header-block" id="sa_widget_header">
+    <div class="widget-header" id="sa_widget_header-sec">{{"search_settings_search_relevance_threshold_match" |translate}}</div>
+    <div class="widget-desc" id="sa_widget_header_desc">{{"search_settings_search_relevance_define_perecent_tokens" |translate}}</div>
 </div>
-<div class="d-flex">
-    <span class="sliderVal">{{weightModal.sliderObj.minVal}}%</span>
+
+<div class="slider-container-block" id="sa_container_block">
+    <span class="sliderVal mr-3" id="sa_slider_val_min">{{weightModal.sliderObj.minVal}}%</span>
     <app-range-slider [customClass]='"weightsSlider"' [addTextToTooltip]="'%'" [allData]='weightModal.sliderObj'
             (valueEvent)="valueEvent($event,weightModal)"></app-range-slider>
-    <span class="sliderVal">{{weightModal.sliderObj.maxVal}}%</span>
+    <span class="sliderVal ml-3" id="sa_slider_val_max">{{weightModal.sliderObj.maxVal}}%</span>
 </div>
 
 
-<div class="landing-page-block">
+<div class="landing-page-block" id="sa_landing_page_block">
     <div class="block-separate-line"></div>
 
-    <div class="widget-header-block">
-        <div class="widget-header">Search Relevance</div>
-        <div class="widget-desc">Configure search relevance to ensure serach results returned contains the subject, object and verb given in the search query</div>
+    <div class="widget-header-block" id="sa_widget_header_block_sec_2">
+        <div class="widget-header" id="sa_search_relevance_title">{{"search_settings_search_relevance_title" |translate}}</div>
+        <div class="widget-desc" id="sa_search_relevance_desc">{{"search_settings_search_relevance_configure_search_relevance" |translate}}</div>
     </div>
 
-    <div class="landing-page-toggle">
+    <div class="landing-page-toggle" id="sa_landing_page_toggle">
         <label class="kr-sg-toggle with-label">
-            <input type="checkbox" checked="">
-            <div class="slider">
-                <span class="no">Disable</span>
-                <span class="yes">Enable</span>
+            <input type="checkbox" checked="" id="sa_slider_enable_disable">
+            <div class="slider" id="sa_slider">
+                <span class="no" id="sa_disable_text">{{"search_settings_search_relevance_disable" |translate}}</span>
+                <span class="yes" id="sa_enable_text">{{"search_settings_search_relevance_enable" |translate}}</span>
             </div>
         </label>
     </div>
 
-    <div class="checkbox-with-desc-block">
-        <div class="group-checkbox">
+    <div class="checkbox-with-desc-block" id="sa_checkbox_desc_block">
+        <div class="group-checkbox" id="sa_group_checkbox">
             <div class="kr-sg-checkbox d-block">
-                <input id="checkbox_grp1" class="checkbox-custom" type="checkbox">
-                <label for="checkbox_grp1" class="checkbox-custom-label">Subject</label>
-                <div class="checkbox-custom-desc">The subject in the search query must be pesent in the document to be included in the search result</div>
+                <input id="checkbox_grp1" class="checkbox-custom" type="checkbox" id="sa_checkbox_subject_block">
+                <label for="checkbox_grp1" class="checkbox-custom-label"  id="sa_checkbox_subject_title">{{"search_settings_search_relevance_subject" |translate}}</label>
+                <div class="checkbox-custom-desc" id="sa_checkbox_subject_desc">{{"search_settings_search_relevance_subject_desc" |translate}}</div>
             </div>
             <div class="kr-sg-checkbox d-block">
-                <input id="checkbox_grp2" class="checkbox-custom" type="checkbox">
-                <label for="checkbox_grp2" class="checkbox-custom-label">Object</label>
-                <div class="checkbox-custom-desc">The object in the search query must be pesent in the document to be included in the search result</div>
+                <input id="checkbox_grp2" class="checkbox-custom" type="checkbox" id="sa_checkbox_object_block">
+                <label for="checkbox_grp2" class="checkbox-custom-label" id="sa_checkbox_object_title">{{"search_settings_search_relevance_object" |translate}}</label>
+                <div class="checkbox-custom-desc" id="sa_checkbox_object_title">{{"search_settings_search_relevance_object_desc" |translate}}</div>
             </div>
             <div class="kr-sg-checkbox d-block">
-                <input id="checkbox_grp3" class="checkbox-custom" type="checkbox">
-                <label for="checkbox_grp3" class="checkbox-custom-label">Verb</label>
-                <div class="checkbox-custom-desc">The verb in the search query must be pesent in the document to be included in the search result</div>
+                <input id="checkbox_grp3" class="checkbox-custom" type="checkbox" id="sa_checkbox_verb_block">
+                <label for="checkbox_grp3" class="checkbox-custom-label" id="sa_checkbox_verb_title">{{"search_settings_search_relevance_verb" |translate}}</label>
+                <div class="checkbox-custom-desc" id="sa_checkbox_verb_desc">{{"search_settings_search_relevance_verb_desc" |translate}}</div>
             </div>
         </div>
     </div>
