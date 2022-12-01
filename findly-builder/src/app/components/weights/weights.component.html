@@ -65,7 +65,7 @@
                             <div class="sliderVal">{{weightModal.sliderObj.default}}</div>
                             <div class="action_links">
                                 <span class="actions-links" id="btn_deleteWeight" ngbTooltip='Delete'
-                                    [container]="'body'" (click)="deleteWeight(weightModal,$event,i)"><img
+                                    [container]="'body'" (click)="deleteWeightPopUp(weightModal,$event,i)"><img
                                     class="action_icon" src="assets/icons/delete.svg"></span>
                             </div>
                         </div>
@@ -144,7 +144,7 @@
                 <div class="d-flex m-0 slider_sec">
                     <div class="range_slider add-searchable-feild-range-slider">
                         <app-range-slider [customClass]='"weightsSlider"' [allData]='addEditWeighObj.sliderObj'
-                            (valueEvent)="valueEvent($event,addEditWeighObj)"></app-range-slider>
+                            (valueEvent)="valueEvent($event,addEditWeighObj,i)"></app-range-slider>
                     </div>
                     <div class="sliderVal">{{addEditWeighObj.sliderObj.default}}</div>
                 </div>
@@ -154,7 +154,7 @@
     <div class="modal-footer text-left" *ngIf="addEditWeighObj">
         <button id="btn_weightsSave" type="button" class="kr-sg-button-danger btn_lg float-left"
             *ngIf="currentEditIndex>-1"
-            (click)="deleteWeight(addEditWeighObj,$event,currentEditIndex)">{{'sa_delete' | translate}}</button>
+            (click)="deleteWeightPopUp(addEditWeighObj,$event,currentEditIndex)">{{'sa_delete' | translate}}</button>
         <button id="btn_weightseditSave" type="button" class="kr-sg-button-primary btn_lg mr-0 float-right"
             (click)="addEditWeight(addEditWeighObj)">{{(currentEditIndex>-1)?'Update':'Add'}}</button>
         <!-- [disabled]="!addEditWeighObj.name" -->

@@ -222,15 +222,14 @@ export class WeightsComponent implements OnInit, OnDestroy
       this.errorToaster(errRes, 'Failed to get weights');
     });
   }
-  valueEvent(val, weight)
-  {
+  valueEvent(val, weight,index){
     if (!this.sliderOpen)
     {
       this.disableCancle = false;
     }
     if(weight.sliderObj.default != val){
       weight.sliderObj.default = val;
-      this.sliderChange(weight);
+      this.sliderChange(weight,index);
     }
   }
   editWeight(weight, index)
@@ -355,67 +354,50 @@ export class WeightsComponent implements OnInit, OnDestroy
       tempweights.push(obj);
     return tempweights
   }
-  sliderChange(weight){
+  sliderChange(weight,index?){
    if(this.sliderOpen){
     return
    }
    else {
-    // const weights = JSON.parse(JSON.stringify(this.weights));
-    this.addOrUpddate(weight,null,'edit');
+    this.addOrUpddate(weight,null,'edit',index);
    }
   }
-  addOrUpddate(weight, dialogRef?, type?)
-  {
-    // weights = weights || this.weightsList;
+  addOrUpddate(weight, dialogRef?, type?,index?) {
     const quaryparms: any = {
       streamId: this.selectedApp._id,
       queryPipelineId: this.queryPipelineId,
       indexPipelineId: this.workflowService.selectedIndexPipeline() || '',
       fieldId:weight.fieldId
     };
-    if(type != 'delete'){
-      this.payloadObj  = {
+    const payload  = {
         weight:{
           value:weight.sliderObj.default
         }
       }
-    }
-    else {
-      this.payloadObj = { }  
-    }
-    const payload = this.payloadObj
     this.weightsList.push(this.getWeightsPayload(weight));
     this.service.invoke('put.updateWeight', quaryparms,payload).subscribe(res =>
     {
       this.getWeights()
       this.prepereWeights();
-      if (type == 'add')
-      {
-        this.notificationService.notify('Added Successfully', 'success');
-      // this.mixpanel.postEvent('Save Weights',{});
-      }
-      else if (type == 'edit')
-      {
-        this.notificationService.notify(' Updated Successfully', 'success');
-        this.appSelectionService.updateTourConfig(this.componentType);
-      }
-      else if (type == 'delete')
-      {
-        this.notificationService.notify(' Deleted Successfully', 'success')
-      }
-      if (dialogRef && dialogRef.close)
-      {
+      if (type == 'add')  {
+          this.notificationService.notify('Added Successfully', 'success');
+        }
+      else if (type == 'edit') {
+          this.notificationService.notify(' Updated Successfully', 'success');
+          this.appSelectionService.updateTourConfig(this.componentType);
+       }
+      if (dialogRef && dialogRef.close) {
         dialogRef.close();
-      } else
-      {
-        this.closeAddEditWeight();
       }
+    else  {
+          this.closeAddEditWeight();
+     }
     }, errRes =>
     {
       this.errorToaster(errRes, 'Failed to add Weight');
     });
   }
-  deleteWeight(record, event, index)
+  deleteWeightPopUp(record, event, index)
   {
     if (event)
     {
@@ -440,15 +422,30 @@ export class WeightsComponent implements OnInit, OnDestroy
       {
         if (result === 'yes')
         {
-          this.weightsList.splice(index, 1);
-          this.addOrUpddate(record, dialogRef, 'delete');
+         this.deleteWeight(record,index);
           dialogRef.close();
         } else if (result === 'no')
         {
           dialogRef.close();
-          // console.log('deleted')
         }
       })
+  }
+  deleteWeight(weight,index){
+    const quaryparms: any = {
+      streamId: this.selectedApp._id,
+      queryPipelineId: this.queryPipelineId,
+      indexPipelineId: this.workflowService.selectedIndexPipeline() || '',
+      fieldId:weight.fieldId
+    };
+    this.service.invoke('delete.Weight', quaryparms).subscribe(res => {
+     if(res){
+         this.weightsList.splice(index, 1);
+         this.notificationService.notify('Deleted Successfully', 'success');
+        }
+      }, errRes => {
+         this.loadingContent = false;
+         this.errorToaster(errRes, 'Failed to Delete weight');
+      });
   }
   modifyFieldWarningMsg(warningMessage)
   {
