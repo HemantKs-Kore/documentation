@@ -3609,7 +3609,19 @@
     "search_settings_bot_action_behavior":"Bot Action Behaviour",
     "search_settings_enable_disable_desc":"Enable or disable the bot action behaviour to auto execute the winning intent or to have the action prompts as a part of the search results",
     "search_settings_bot_action_auto_execute_win_intent":"Auto execute the winning intent",
-    "search_settings_bot_action_do_not_win_intent":"Do not auto execute the winning intent"
+    "search_settings_bot_action_do_not_win_intent":"Do not auto execute the winning intent",
+    "search_settings_search_relevance_threshold_match":"Match Threshold",
+    "search_settings_search_relevance_define_perecent_tokens":"Define the percentage of tokens in a query that should be present in a document so as to be returned in search results.",
+    "search_settings_search_relevance_title":"Search Relevance",
+    "search_settings_search_relevance_configure_search_relevance":"Configure search relevance to ensure serach results returned contains the subject, object and verb given in the search query",
+    "search_settings_search_relevance_disable":"Disable",
+    "search_settings_search_relevance_enable":"Enable",
+    "search_settings_search_relevance_subject":"Subject",
+    "search_settings_search_relevance_subject_desc":"The subject in the search query must be present in the document to be included in the search result",
+    "search_settings_search_relevance_object":"Object",
+    "search_settings_search_relevance_object_desc":"The object in the search query must be present in the document to be included in the search result",
+    "search_settings_search_relevance_verb":"Verb",
+    "search_settings_search_relevance_verb_desc":"The verb in the search query must be pesent in the document to be included in the search result"
 
 }
 
