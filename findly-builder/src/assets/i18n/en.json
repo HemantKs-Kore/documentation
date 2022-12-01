@@ -2427,7 +2427,7 @@
     "businessRules_map_field": "Map Field",
     "businessRules_tag_save": "Tag & Save",
     "businessRules_save": "Save",
-    "businessRules_name_caps": "Name",
+    "businessRules_name_caps": "NAME",
     "businessRules_add_outcome": "Add Outcome",
     "businessRules_add_caps": "ADD",
 
@@ -2504,6 +2504,8 @@
     "workbench_serviceNow":"Service Now",
     "workbench_confluenceCloud":"Confluence Cloud",
     "workbench_confluenceServer":"Confluence Server",
+    "workbench_zendesk":"Zendesk",
+    "workbench_sharepointOnline":"Share Point",
     "workbench_beta":"BETA",
     "workbench_script":"Script",
     "workbench_choose_script_option":"On choosing the Script option, conditions defined here will only be applied.",
@@ -3548,12 +3550,6 @@
     "home_please_type_delete":"Please type DELETE to confirm",
     "home_welcome_to_search_assist":"Welcome to SearchAssist",
     "home_watch_a_quick_desc":"Watch a quick introductory video on the SearchAssist’s features.",
-    "Add_Stop_Words": "Add Stop Words",
-    "How_would_you_like_to_start": "How would you like to start?",
-    "Add_defaults": "Add defaults",
-    "Add_defaults_eg": "Eg: If, Me, I, Can, Not, Won’t etc..",
-    "Get_Started": "Get Started",
-
 
     "10NOv":"10NOv  Not Added keys---------------------------------------------------------------------------------------------------------------",
 
@@ -3609,7 +3605,14 @@
     "search_settings_bot_action_behavior":"Bot Action Behaviour",
     "search_settings_enable_disable_desc":"Enable or disable the bot action behaviour to auto execute the winning intent or to have the action prompts as a part of the search results",
     "search_settings_bot_action_auto_execute_win_intent":"Auto execute the winning intent",
-    "search_settings_bot_action_do_not_win_intent":"Do not auto execute the winning intent"
+    "search_settings_bot_action_do_not_win_intent":"Do not auto execute the winning intent",
+
+
+    "businessRules_preview":"Preview",
+    "businessRules_selected":"Selected",
+    "connectors_tenant_id":"Tenant ID",
+    "connectors_enter_tenant_id":"Enter Tenant ID here",
+    "connectors_details":"Details"
+
 
 }
-

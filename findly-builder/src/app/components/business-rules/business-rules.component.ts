@@ -1010,6 +1010,7 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
       payload.search = this.searchRules;
 
     }
+    // payload['ruleType']= this.selcectionObj?.ruleType || 'contextual';
     this.service.invoke(serviceId, quaryparms, payload).subscribe(res => {
       this.allRules = res.rules || [];
       this.selectRuleType(this.selcectionObj.ruleType);
@@ -1047,7 +1048,7 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
         this.errorToaster(null, 'Atleast one outcome is required');
         return;
       }
-      if (!this.validateLegends('all') && this.selcectionObj?.ruleType === 'nlp') {
+      if (this.selcectionObj?.ruleType === 'nlp' && !this.validateLegends('all')) {
         return;
       }
       this.service.invoke('update.businessRule', quaryparms, payload).subscribe(res => {
@@ -1401,6 +1402,16 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
 
   //add color sentence to original sentence
   updateColorSentence() {
+    setTimeout(()=>{
+      $('.tag-tooltip-container').mouseenter(function(event) {
+        const title = $(event.currentTarget).closest('.tag-tooltip-container').attr('title');
+       $('.tag-tooltip-text').html(title);
+       $('.tag-tooltip-text').css({'top':((event.pageY-event.offsetY-29)+'px'),'left':((event.offsetX+30+$('.tag-tooltip-text').width())+'px'),'visibility':'visible'});
+    }).mouseleave(function() {
+      $('.tag-tooltip-text').html('');
+      $('.tag-tooltip-text').css({'top':'0px','left':'0px', 'visibility':'hidden'});
+    });
+    },1000)
     let entityArray = [];
     const orgSentence = (this.selectEditIndex !== null) ? this.nlpAnnotatorObj.annotator[this.selectEditIndex].sentence : this.entityObj.sentence;
     const entityObj = (this.selectEditIndex !== null) ? this.nlpAnnotatorObj.annotator[this.selectEditIndex] : this.entityObj;
@@ -1418,7 +1429,8 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
         const endIndex = total_entities[i].endIndex;
         const entity = this.sys_entities.filter(item => item._id === total_entities[i].entityId);
         const applyColor = this.entityDefaultColors.filter(item => item.type === entity[0].entityType);
-        sentence = `<span contenteditable="false" style="font-weight:bold;color:${applyColor[0].color}">` + orgSentence.substring(startIndex, endIndex) + '</span>'
+        const entityName = entity[0].entityName.charAt(0).toUpperCase() + entity[0].entityName.substr(1).toLowerCase();
+        sentence = `<span class="tag-tooltip-container" title="${entityName}" contenteditable="false" style="font-weight:bold;color:${applyColor[0].color}">` + orgSentence.substring(startIndex, endIndex) + `</span>`
         entityArray.push([startIndex, endIndex, sentence]);
       }
       const sentence = this.getSentenceByEntity(entityArray, orgSentence);
@@ -1428,6 +1440,7 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
       entityArray = [];
       return orgSentence;
     }
+    
   }
 
   //remove entities if word not matched with sentence
@@ -1520,6 +1533,9 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
 
   //select rule type 
   selectRuleType(type) {
+    this.selcectionObj.selectAll = false;
+    this.selcectionObj.selectedItems = [];
+    this.selcectionObj.selectedCount = 0;
     this.selcectionObj.ruleType = type;
     this.rules = this.allRules?.filter(item => {
       if (type === 'contextual') {
