@@ -2,11 +2,12 @@
     <div class="widget-header">Match Threshold</div>
     <div class="widget-desc">Define the percentage of tokens in a query that should be present in a document so as to be returned in search results.</div>
 </div>
-<div class="d-flex">
-    <span class="sliderVal">{{weightModal.sliderObj.minVal}}%</span>
+
+<div class="slider-container-block">
+    <span class="sliderVal mr-3">{{weightModal.sliderObj.minVal}}%</span>
     <app-range-slider [customClass]='"weightsSlider"' [addTextToTooltip]="'%'" [allData]='weightModal.sliderObj'
             (valueEvent)="valueEvent($event,weightModal)"></app-range-slider>
-    <span class="sliderVal">{{weightModal.sliderObj.maxVal}}%</span>
+    <span class="sliderVal ml-3">{{weightModal.sliderObj.maxVal}}%</span>
 </div>
 
 
