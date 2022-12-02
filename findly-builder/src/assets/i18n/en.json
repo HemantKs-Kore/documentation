@@ -3625,6 +3625,10 @@
     "search_settings_search_relevance_object":"Object",
     "search_settings_search_relevance_object_desc":"The object in the search query must be present in the document to be included in the search result",
     "search_settings_search_relevance_verb":"Verb",
-    "search_settings_search_relevance_verb_desc":"The verb in the search query must be pesent in the document to be included in the search result"
-
+    "search_settings_search_relevance_verb_desc":"The verb in the search query must be pesent in the document to be included in the search result",
+    "search_settings_custom_configurations":"Custom Configurations",
+    "search_settings_key_value_pair":"Add key-value pair in custom configuration to test out new features and capabilities",
+    "search_settings_custom_configurations_key":"KEY",
+    "search_settings_custom_configurations_value":"VALUE",
+    "search_settings_custom_configurations_action":"ACTION"
 }
