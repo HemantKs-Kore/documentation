@@ -473,7 +473,7 @@ export class StopWordsComponent implements OnInit, OnDestroy {
     if(type == true)this.errorToaster(errRes, `Failed to delete all stop words `);
    });
   }
-
+ // CONFIRMATION POPUP FOR DELETE ALL
    deleteAllConfirmationPopUp(event) {
     if (event) {
       event.stopImmediatePropagation();
@@ -496,6 +496,30 @@ export class StopWordsComponent implements OnInit, OnDestroy {
         if (result === 'yes') {
           this.loadingWords = true;
           this.deleteStopWords(true,'','',dialogRef);
+        } else if (result === 'no') {
+          dialogRef.close();
+        }
+      })
+  }
+  deleteSingleStopWordConfirmationPopUp(index, event, word) {
+    const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+      width: '530px',
+      height: 'auto',
+      panelClass: 'delete-popup',
+      data: {
+        title: 'Delete Stop Word',
+        text: 'Are you sure you want to delete selected Stop Word?',
+        newTitle: 'Are you sure you want to delete ?',
+        body: word + ' will be removed from stopword list',
+        buttons: [{ key: 'yes', label: 'Delete', type: 'danger' }, { key: 'no', label: 'Cancel' }],
+        confirmationPopUp: true
+      }
+    });
+
+    dialogRef.componentInstance.onSelect
+      .subscribe(result => {
+        if (result === 'yes') {
+          this.deleteStopWords(false,index,word,dialogRef);
         } else if (result === 'no') {
           dialogRef.close();
         }
