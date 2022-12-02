@@ -3584,7 +3584,7 @@
     "search_settings_disable":"Disable",
     "search_settings_enable":"Enable",
     "search_settings_synonyms_highlight":"Synonyms Highlighting",
-    "search_settings_loren_ipsum":"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vulputate dolor nisl non, et nunc, ",
+    "search_settings_loren_ipsum":"Enable Synonyms Highlighting to highlight the original word that matches the synonym or the synonym itself ",
     "search_settings_no":"On",
     "search_highlight_appearance":"Highlight Appearance",
     "search_settings_enable_highlight_to_highlight_desc":"Enable Highlighting to highlight the query matches in the search results.It improves readability and helps users",
