@@ -31,7 +31,7 @@
     </div>
 
     <ng-container *ngIf="!invoices.length && !loading">
-        <app-empty-screen [title]="emptyScreen.TITLE" [desc]="emptyScreen.DESC" [imgName]="emptyScreen.IMG_NAME">
+        <app-empty-screen class="empty-lg" [title]="emptyScreen.TITLE" [desc]="emptyScreen.DESC" [imgName]="emptyScreen.IMG_NAME">
         </app-empty-screen>
         <!-- <div class="empty-invoice">
             <div class="img-block">
