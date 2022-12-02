@@ -20,6 +20,7 @@ import { UpgradePlanComponent } from 'src/app/helpers/components/upgrade-plan/up
 import { PerfectScrollbarComponent } from 'ngx-perfect-scrollbar';
 import { MixpanelServiceService } from '@kore.services/mixpanel-service.service';
 import { DomSanitizer } from '@angular/platform-browser';
+import { EMPTY_SCREEN } from 'src/app/modules/empty-screen/empty-screen.constants';
 declare const $: any;
 declare global {
   interface String {
@@ -33,6 +34,9 @@ declare global {
 })
 export class BusinessRulesComponent implements OnInit, OnDestroy {
   @ViewChild('perfectScroll') perfectScroll: PerfectScrollbarComponent;
+  contextualEmptyScreen = EMPTY_SCREEN.CONTEXTUAL_RULES;
+  nlpEmptyScreen = EMPTY_SCREEN.NLP_RULES;
+  emptyScreen = this.contextualEmptyScreen;
   defaultValuesObj: any = {
     contextType: 'searchContext',
     dataType: 'string',
@@ -145,6 +149,7 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
   nlpAnnotatorObj: any = { showEntityPopup: false, isEditPage: false, entities: { entityId: '', entityName: '', entityType: 'index_field', fieldId: '', field_name: '', isEditable: false }, searchEntity: '', annotator: [], Legends: [] };
   search_field: String = '';
   filteredFields: Array<Object> = [];
+  isSearchClear: boolean =false;
   @ViewChild('contextSuggestedImput') set content(content: ElementRef) {
     if (content) {
       this.contextSuggestedImput = content;
@@ -446,7 +451,7 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
   }
   filterRules(searchValue?, searchSource?, source?, headerOption?, sortHeaderOption?, sortValue?, navigate?) {
     // fieldsFilter(searchValue?,searchSource?, source?,headerOption?, sortHeaderOption?,sortValue?,navigate?)  
-    // this.loadingContent = true;
+    this.loadingContent = true;
     if (sortValue) {
       this.sortedObject = {
         type: sortHeaderOption,
@@ -831,7 +836,7 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
         }
         else {
           this.iconImageOut = false;
-          this.submitted = false;
+          // this.submitted = false;
           return true;
         }
       }
@@ -848,6 +853,7 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
       isValidate = this.validateRules() && this.validateCon() && this.validateOut()
     }
     if (isValidate) {
+      this.submitted = false;
       const quaryparms: any = {
         searchIndexID: this.serachIndexId,
         queryPipelineId: this.queryPipelineId,
@@ -872,12 +878,12 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
 
       this.service.invoke('create.businessRules', quaryparms, payload).subscribe(res => {
         if (this.filterSystem.isRuleActiveFilter == 'all') {
-          this.allRules.push(res);
-          this.selectRuleType(this.selcectionObj.ruleType);
+          this.rules.push(res);
+          // this.selectRuleType(this.selcectionObj.ruleType);
         }
-        if (this.searchRules) {
-          this.getRules(null, this.searchRules);
-        }
+        // if (this.searchRules) {
+        //   this.getRules(null, this.searchRules);
+        // }
         this.beforeFilterRules.push(res);
         this.isRuleActiveArr = [];
         this.beforeFilterRules.forEach(element => {
@@ -921,7 +927,7 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
         this.notificationService.notify(message, 'error');
       }
     }
-    this.loadRules();
+    // this.loadRules();
   }
 
   //check nlp annotaator is empty
@@ -1010,22 +1016,41 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
       payload.search = this.searchRules;
 
     }
-    // payload['ruleType']= this.selcectionObj?.ruleType || 'contextual';
+    if(this.filterSystem.isRuleActiveFilter !="all"){
+      payload['isRuleActive'] = this.filterSystem.isRuleActiveFilter;
+    }
+    payload['ruleType']= this.selcectionObj?.ruleType || 'contextual';
     this.service.invoke(serviceId, quaryparms, payload).subscribe(res => {
+      this.isSearchClear =false;
       this.allRules = res.rules || [];
-      this.selectRuleType(this.selcectionObj.ruleType);
+      this.rules = this.allRules;
+      // this.selectRuleType(this.selcectionObj.ruleType);
+      if (payload['ruleType'] === 'nlp') {
+        this.getEntities();
+      }
+      this.beforeFilterRules = JSON.parse(JSON.stringify(this.rules));
+      if (this.rules.length > 0) {
+        this.loadingContent = false;
+        this.loadingContent1 = false;
+      }
+      else {
+        this.loadingContent1 = true;
+      }
+      
       this.totalRecord = res.totalCount || 0;
       this.loadingContent = false;
       this.addRemoveRuleFromSelection(null, null, true);
     }, errRes => {
       this.loadingContent = false;
       this.loadingContent1 = false;
+      this.isSearchClear =false;
       this.errorToaster(errRes, 'Failed to get rules');
     });
   }
   updateRule(rule) {
     this.submitted = true;
     if (this.validateRules()) {
+      this.submitted = false;
       const quaryparms: any = {
         searchIndexID: this.serachIndexId,
         queryPipelineId: this.queryPipelineId,
@@ -1056,9 +1081,9 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
           return pg._id === rule._id;
         })
         this.rules[editRule] = res;
-        if (this.searchRules) {
-          this.getRules(null, this.searchRules);
-        }
+        // if (this.searchRules) {
+        //   this.getRules(null, this.searchRules);
+        // }
         this.beforeFilterRules[editRule] = res;
         this.isRuleActiveArr = [];
         this.beforeFilterRules.forEach(element => {
@@ -1296,7 +1321,7 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
       return false;
     }
   }
-  updateRuleStatus(rule, event) {
+  updateRuleStatus(rule, event, index) {
     const isRuleStatus = event.target.checked;
     const quaryparms: any = {
       searchIndexID: this.serachIndexId,
@@ -1312,12 +1337,17 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
     }
     this.service.invoke('update.businessRule', quaryparms, payload).subscribe(res => {
       this.notificationService.notify('Updated Successfully', 'success');
-      this.allRules = this.allRules.map(item => {
-        if (item?._id === rule?._id) {
-          item.isRuleActive = isRuleStatus;
-        }
-        return item
-      });
+      if(this.filterSystem.isRuleActiveFilter !== 'all'){
+        this.rules.splice(index,1);
+      } else {
+        this.rules = this.rules.map(item => {
+          if (item?._id === rule?._id) {
+            item.isRuleActive = isRuleStatus;
+          }
+          return item
+        });
+      }
+      
     }, errRes => {
       this.errorToaster(errRes, 'Failed to update rule');
     });
@@ -1336,6 +1366,9 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
   //fetch index info from appSelectText directive
   getSelectedIndex(index) {
     this.entityFields = { startIndex: 0, endIndex: 0, entityId: '', word: '' };
+    if(this.entityObj.sentence[index?.start] == ' '){
+      index.start = index?.start+1;
+    }
     this.entityFields.startIndex = index?.start;
     this.entityFields.endIndex = index?.start + index?.text?.length;
     this.entityFields.word = index?.text;
@@ -1404,9 +1437,9 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
   updateColorSentence() {
     setTimeout(()=>{
       $('.tag-tooltip-container').mouseenter(function(event) {
-        const title = $(event.currentTarget).closest('.tag-tooltip-container').attr('title');
+        const title = $(event.currentTarget).closest('.tag-tooltip-container').attr('tagname');
        $('.tag-tooltip-text').html(title);
-       $('.tag-tooltip-text').css({'top':((event.pageY-event.offsetY-29)+'px'),'left':((event.offsetX+30+$('.tag-tooltip-text').width())+'px'),'visibility':'visible'});
+       $('.tag-tooltip-text').css({'top':((event.pageY-event.offsetY+30)+'px'),'left':((event.offsetX+30+$('.tag-tooltip-text').width())+'px'),'visibility':'visible'});
     }).mouseleave(function() {
       $('.tag-tooltip-text').html('');
       $('.tag-tooltip-text').css({'top':'0px','left':'0px', 'visibility':'hidden'});
@@ -1430,7 +1463,7 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
         const entity = this.sys_entities.filter(item => item._id === total_entities[i].entityId);
         const applyColor = this.entityDefaultColors.filter(item => item.type === entity[0].entityType);
         const entityName = entity[0].entityName.charAt(0).toUpperCase() + entity[0].entityName.substr(1).toLowerCase();
-        sentence = `<span class="tag-tooltip-container" title="${entityName}" contenteditable="false" style="font-weight:bold;color:${applyColor[0].color}">` + orgSentence.substring(startIndex, endIndex) + `</span>`
+        sentence = `<span class="tag-tooltip-container" tagname="${entityName}" contenteditable="false" style="font-weight:bold;color:${applyColor[0].color}">` + orgSentence.substring(startIndex, endIndex) + `</span>`
         entityArray.push([startIndex, endIndex, sentence]);
       }
       const sentence = this.getSentenceByEntity(entityArray, orgSentence);
@@ -1449,6 +1482,7 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
     for (let item of data?.entities) {
       const sentence = data?.sentence;
       const word = item?.word;
+      console.log(sentence.indexOf(word,item?.startIndex),sentence.indexOf(word),word, item?.startIndex, item?.startIndex + item?.word?.length);
       const indexes = [sentence.indexOf(word,item?.startIndex), sentence.indexOf(word) + word?.length];
       const endIndex = item?.startIndex + item?.word?.length;
       if (indexes[0] === item?.startIndex && indexes[1] === endIndex) {
@@ -1533,29 +1567,35 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
 
   //select rule type 
   selectRuleType(type) {
+    if (type === 'contextual') {
+      this.emptyScreen = this.contextualEmptyScreen;
+    } else {
+      this.emptyScreen = this.nlpEmptyScreen;
+    }
+    this.searchRules='';
     this.selcectionObj.selectAll = false;
     this.selcectionObj.selectedItems = [];
     this.selcectionObj.selectedCount = 0;
     this.selcectionObj.ruleType = type;
-    this.rules = this.allRules?.filter(item => {
-      if (type === 'contextual') {
-        return (item?.ruleType === type || item?.ruleType === null)
-      } else {
-        return item?.ruleType === type
-      }
+    this.filterSystem.isRuleActiveFilter = 'all';
+    this.getRules();
+    // this.rules = this.allRules?.filter(item => {
+    //   if (type === 'contextual') {
+    //     return (item?.ruleType === type || item?.ruleType === null)
+    //   } else {
+    //     return item?.ruleType === type
+    //   }
 
-    });
-    this.beforeFilterRules = JSON.parse(JSON.stringify(this.rules));
-    if (this.rules.length > 0) {
-      this.loadingContent = false;
-      this.loadingContent1 = false;
-    }
-    else {
-      this.loadingContent1 = true;
-    }
-    if (type === 'nlp') {
-      this.getEntities();
-    }
+    // });
+    
+    // this.beforeFilterRules = JSON.parse(JSON.stringify(this.rules));
+    // if (this.rules.length > 0) {
+    //   this.loadingContent = false;
+    //   this.loadingContent1 = false;
+    // }
+    // else {
+    //   this.loadingContent1 = true;
+    // }
   }
 
   //delete annotator using index
