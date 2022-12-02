@@ -5,7 +5,7 @@
   </h2>
   <div class="desc-text">
     <ng-container *ngIf="desc; else contentPassed">
-      <div  [innerHTML]="desc">
+      <div  [innerHTML]='desc'>
       </div>
     </ng-container>
     <ng-template #contentPassed>

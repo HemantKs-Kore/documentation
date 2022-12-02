@@ -539,7 +539,7 @@
     },
     "experiments": {
         "name": "Experiments",
-        "add_btn": "Add Experiment",
+        "add_btn": "Add Experiments",
         "exp_name": "Experiment Name",
         "variants": "Variants",
         "status": "Status",
@@ -1999,7 +1999,7 @@
 
 
     "experiments_name":"Experiments",
-    "experiments_add_btn":"Add Experiment",
+    "experiments_add_btn":"Add Experiments",
     "experiments_exp_name":"Experiment Name",
     "experiments_variants":"Variants",
     "experiments_status":"Status",
