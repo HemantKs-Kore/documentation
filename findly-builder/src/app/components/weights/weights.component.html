@@ -50,7 +50,7 @@
                         <div class="heading">{{'weights_no_rankable_field_available'| translate}}</div>
                         <div class="desc">{{'weights_please_add_rankable_field'| translate}}</div>
                     </div>
-                    <div class="content-body" *ngFor="let weightModal of weightsList; let i = index">
+                    <div class="content-body" *ngFor="let weightModal of weightsList; let i = index ; trackBy: prepereWeights">
                         <div class="col-2 name text-truncate">
                             <div class="text-truncate">{{weightModal.fieldName}} </div>
                         </div>
@@ -62,7 +62,7 @@
                                 <app-range-slider [customClass]='"weightsSlider"' [allData]='weightModal.sliderObj'
                                     (valueEvent)="valueEvent($event,weightModal)"></app-range-slider>
                             </div>
-                            <div class="sliderVal">{{weightModal.sliderObj.default}}</div>
+                            <div class="sliderVal">{{weightModal?.sliderObj.default}}</div>
                             <div class="action_links">
                                 <span class="actions-links" id="btn_deleteWeight" ngbTooltip='Delete'
                                     [container]="'body'" (click)="deleteWeightPopUp(weightModal,$event,i)"><img

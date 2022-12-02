@@ -1,5 +1,5 @@
 <div class="contentContainer">
-    <div class="mainLoadingSpinner d-none" *ngIf="loadingContent" >
+    <div class="mainLoadingSpinner" *ngIf="loadingStopWords" >
       <mat-spinner diameter="18" strokeWidth="2"></mat-spinner>
       <span class="please-wait-message">{{'sa_please_wait'| translate}}</span>
     </div>
@@ -41,10 +41,10 @@
 
     <div class="page-sub-headers">
       <div class="page-sub-hding">{{"stopwords_add_stop_words"| translate}}</div>
-      <div class="page-sub-desc">{{"stopwords_How_would_you_like_to_start" | translate}}</div>
+      <div class="page-sub-desc" *ngIf="!loadingStopWords && !stopwords?.length">{{"stopwords_How_would_you_like_to_start" | translate}}</div>
     </div>
 
-    <div class="stop-words-wrapper" [ngClass]="{'stop-words-no-border': !(stopwords && stopwords.length)}">
+    <div class="stop-words-wrapper" *ngIf="!loadingStopWords" [ngClass]="{'stop-words-no-border': !(stopwords && stopwords.length)}">
       <app-useronboarding-journey [componentType]='componentType'></app-useronboarding-journey>
 
 
@@ -94,7 +94,7 @@
           </perfect-scrollbar>          
         </div>
       </ng-container>                -->
-      <ng-container  *ngIf="stopwordsList?.length || (stopWordsIntiType == 'scratch' && createFromScratch)">
+      <ng-container  *ngIf="!loadingStopWords && (stopwordsList?.length || (stopWordsIntiType == 'scratch' && createFromScratch))">
       <div class="listingHeader row m-0">
         <div class="col-7 p-0" >
           <!-- <div class="desc-info-text" *ngIf="searchStopwords">{{'Showing ' + getActiveSearch()  +' results for ‘'+ searchStopwords  +'’'}}</div> -->
@@ -112,13 +112,14 @@
          </div> 
         </div>         
         <div class="col-5 p-0 d-flex align-items-center justify-content-end"> 
-          <div class="kr-sg-input-search"  [ngClass]="{'d-none': !showSearch}">    
+          <ng-container *ngIf="stopwordsList?.length">
+          <div class="kr-sg-input-search">    
             <input type="text" maxlength="60" placeholder="Search" id="inputSearch" class="input-search"
             [ngClass]="{'pl-33':!searchStopwords,'pl-2':searchStopwords}" autocomplete="off" [(ngModel)]="searchStopwords"
             (mouseover)="searchImgSrc = (searchFocusIn ? 'assets/icons/search_gray.svg' :'assets/icons/search_gray_dark.svg')"
             (mouseout)="searchFocusIn=false;searchImgSrc = 'assets/icons/search_gray.svg'" 
             (focus)="searchFocusIn=true;searchImgSrc = 'assets/icons/search_gray.svg'">
-          <span class="search-icon" *ngIf="!searchStopwords"><i class="si-search"></i></span>
+          <span class="search-icon" *ngIf="!searchStopwords && stopwordsList?.length"><i class="si-search"></i></span>
           <span class="close-icon" *ngIf="!searchStopwords" [ngClass]="{'pr-22':searchStopwords}"
             (mouseover)="activeClose=true" (mouseout)="activeClose=false" (click)="focusoutSearch()"
             placement="top-center" container='body' ngbTooltip="Cancel"
@@ -128,6 +129,7 @@
           <span class="in-search" [ngClass]="{'d-none': showSearch}" id="btn_toggle_search_structured_data"><i
               class="si-search" [ngClass]="{'d-none': showSearch}"></i></span>
         </div>
+      </ng-container>
           <!-- <div class="searchBlock" (click)="showSearch=!showSearch;focusinSearch('inputSearch')" *ngIf="(stopwords && stopwords.length)">
             <span [ngClass]="{'d-none': showSearch}" class="mr-3" id="btn_toggle_search_structured_data" ><img src="assets/icons/search.svg" [ngClass]="{'d-none': showSearch}">{{'search' | translate}}</span>
         </div> -->
@@ -143,17 +145,17 @@
                   </li> 
                   <li (click)='deleteAllStopWords(event)' >{{'sa_delete_all' | translate}}</li>   -->
 
-                  <li class="restoreDefaults" (click)="removeDefaultStopWords()">
+                  <li class="restoreDefaults">
                     <span class="li-icon-span"><i class="si-minus-circle-o"></i></span><span class="label_txt">{{"stopwords_Remove_Default_Stop_Words" | translate}}</span>              
                   </li> 
-                  <li class="restoreDefaults" (click)="createStopWords('','',false)">
+                  <li class="restoreDefaults" (click)="createStopWords(false,'',true)">
                     <span class="li-icon-span"><i class="si-recall"></i></span><span class="label_txt">{{"stopwords_reset_to_default" | translate}}</span>              
                   </li> 
                   <li class="restoreDefaults" (click)="createStopWords(true)">
                     <span class="li-icon-span"><i class="si-add-plus-square"></i></span><span class="label_txt">{{"stopwords_add_defalut" | translate}}</span>              
                   </li> 
                   
-                  <li class="restoreDefaults clear-all-btn" (click)='deleteStopWords(true)'>
+                  <li class="restoreDefaults clear-all-btn" (click)='deleteAllConfirmationPopUp($event)'>
                     <span class="li-icon-span"><i class="si-close-red"></i></span><span class="label_txt">{{"stopwords_clear_all" | translate}}</span>              
                   </li> 
                   
@@ -167,7 +169,7 @@
       <perfect-scrollbar class="table-scroll-perfect-synonyms">
         <ng-container>
           <div class="stopWordsListing"  *ngIf="(stopwordsList && stopwordsList.length)">
-            <span class="wordTag" *ngFor="let word of stopwordsList | filter: [searchStopwords] ; let index = index">
+            <span class="wordTag" *ngFor="let word of stopwordsList | filter: [searchStopwords] ; let index = index ; trackBy: getStopWordsList">
               <span class="word stopwordBlock" >{{word}}</span>
               <span class="deleteTag">
                 <span class="span-close-icon" (click)="deleteStopWords(false,index,word)">

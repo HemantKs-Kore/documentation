@@ -127,7 +127,7 @@ export class WeightsComponent implements OnInit, OnDestroy
     })
   }
   prepereWeights(){
-    this.weightsList = []
+    let weightArr = [];
     if (this.weights){
       this.weights.forEach((element, i) => {
         const name = (element.fieldName || '').replace(/[^\w]/gi, '')
@@ -137,8 +137,9 @@ export class WeightsComponent implements OnInit, OnDestroy
           fieldId: element._id,
           sliderObj: new RangeSlider(0, 10, 1,element.weight.value, name + i,'',true)
         }
-        this.weightsList.push(obj);
+        weightArr.push(obj);
       });
+      this.weightsList = [...weightArr];
     }
     this.loadingContent = false;
   }
@@ -202,7 +203,7 @@ export class WeightsComponent implements OnInit, OnDestroy
       queryPipelineId: this.queryPipelineId,
       indexPipelineId: this.workflowService.selectedIndexPipeline() || '',
       pageNo: 1,
-      // pageNo: this.pageNumber,
+      // pageNo: this.pageNumber, 
       noOfRecords: 10,
       // noOfRecords: this.numberofweigths,
       isSelected : true
@@ -211,8 +212,7 @@ export class WeightsComponent implements OnInit, OnDestroy
     {
       this.weights = res.data || {};
       this.prepereWeights();
-      if (!this.inlineManual.checkVisibility('WEIGHTS'))
-      {
+      if (!this.inlineManual.checkVisibility('WEIGHTS')) {
         this.inlineManual.openHelp('WEIGHTS')
         this.inlineManual.visited('WEIGHTS')
       }
@@ -246,19 +246,16 @@ export class WeightsComponent implements OnInit, OnDestroy
       streamId: this.selectedApp._id,
       queryPipelineId: this.queryPipelineId,
       indexPipelineId: this.workflowService.selectedIndexPipeline() || '',
-      // pageNo: 1,
+      isSearchable: true, 
+      isSelected : false
+    };
+          // pageNo: 1,
       // pageNo: this.pageNumber,
       // noOfRecords: 10,
       // noOfRecords: this.numberofweigths,
-      isSelected : false
-    };
     this.service.invoke('get.weightsList', quaryparms).subscribe(res =>
       {
       this.fieldsList = res.data || [];
-      // this.fieldsList.forEach(element => {
-      //   this.fields.push(element.fieldName);
-      //   console.log(this.fields)
-      // });
     }, errRes =>
     {
       this.errorToaster(errRes, 'Failed to get fields');
@@ -374,18 +371,19 @@ export class WeightsComponent implements OnInit, OnDestroy
           value:weight.sliderObj.default
         }
       }
-    this.weightsList.push(this.getWeightsPayload(weight));
     this.service.invoke('put.updateWeight', quaryparms,payload).subscribe(res =>
     {
-      this.getWeights()
-      this.prepereWeights();
-      if (type == 'add')  {
+      if(res){
+        if (type == 'add')  {
           this.notificationService.notify('Added Successfully', 'success');
+          this.getWeights();
         }
       else if (type == 'edit') {
+          this.weightsList[index] = this.getWeightsPayload(weight);
           this.notificationService.notify(' Updated Successfully', 'success');
           this.appSelectionService.updateTourConfig(this.componentType);
        }
+      }
       if (dialogRef && dialogRef.close) {
         dialogRef.close();
       }
