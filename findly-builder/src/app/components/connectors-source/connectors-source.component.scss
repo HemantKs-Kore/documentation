@@ -395,7 +395,7 @@
                     perfect-scrollbar {
                         &.tab-content-scroll-data {
                             min-height: auto;
-                            height: calc(100vh - 420px);
+                            height: calc(100vh - 430px);
                         }
                     }
 
@@ -448,6 +448,9 @@
                                             font-size: 14px;
                                             line-height: 17px;
                                             color: #202124;
+                                            &.font-bold{
+                                                font-weight: 600; 
+                                            }
 
                                             &.user-type {
                                                 width: 60%;
@@ -760,6 +763,7 @@
                             .content-data-table {
                                 .kr-sg-data-table {
                                     .table-content {
+                                        display: block;
                                         .table-header {
                                             border-bottom: 1px solid #E4E5E7 !important;
                                             padding: 10px 0 !important;
@@ -990,7 +994,7 @@
                     height: 24px;
                     background: #E4E5E7;
                     border-radius: 17px;
-                    color: #FFFFFF;
+                    // color: #FFFFFF;
                     font-size: 12px;
                     display: flex;
                     align-items: center;
