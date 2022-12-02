@@ -61,6 +61,6 @@ export class RangeSliderComponent implements OnInit, AfterViewInit {
       $('#' + this.allData.id + '-slider').find('.tooltip-main').addClass('hide');
     }
     $('#'+this.allData.id+'-slider').find('.tooltip-inner').text(val+(this.addTextToTooltip?this.addTextToTooltip:'')); 
-    $('%'+this.allData.id+'-slider').find('.tooltip-inner').text(val+(this.addpercentToTooltip?this.addpercentToTooltip:''));}
+    $('#'+this.allData.id+'-slider').find('.tooltip-inner').text(val+(this.addpercentToTooltip?this.addpercentToTooltip:''));}
 }
 
