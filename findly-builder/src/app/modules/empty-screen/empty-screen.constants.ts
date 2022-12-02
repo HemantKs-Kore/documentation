@@ -10,7 +10,6 @@ export const EMPTY_SCREEN = {
     DESC: 'The Content is the data ingested into SearchAssist that are indexed to answer search user queries. SearchAssist allows you to add content by crawling web domain and uploading documents.',
     TITLE_SEARCH: 'No search results found',
     DESC_SEARCH: 'We couldn’t find the content you are looking for',
-    IMG_NAME_PAGES: 'no-pages.png',
     TITLE_PAGES: 'Sorry no pages available yet!',
     DESC_PAGES: 'Please crawl the web domain again',
   },

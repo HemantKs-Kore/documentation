@@ -1126,7 +1126,7 @@
               </div>
             </div>
             <app-empty-screen [width]="100" [height]="100" [title]="emptyScreen.TITLE_PAGES" [desc]="emptyScreen.DESC_PAGES"
-              [imgName]="emptyScreen.IMG_NAME_PAGES" *ngIf="!pagingData.length">
+              [imgName]="emptyScreen.IMG_NAME" *ngIf="!pagingData.length">
               <div class="action-buttons">
                 <button class="kr-sg-button-primary btn_lg" (click)="jobOndemand(selectedSource, $event)">
                   <i class="si-web"></i>
