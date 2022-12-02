@@ -253,7 +253,7 @@ export class WeightsComponent implements OnInit, OnDestroy
       // pageNo: this.pageNumber,
       // noOfRecords: 10,
       // noOfRecords: this.numberofweigths,
-    this.service.invoke('get.weightsList', quaryparms).subscribe(res =>
+    this.service.invoke('get.fieldsList', quaryparms).subscribe(res =>
       {
       this.fieldsList = res.data || [];
     }, errRes =>

@@ -1386,6 +1386,11 @@ export class EndPointsService {
       endpoint: this.API_SERVER_URL +'/findly/stream/:streamId/indexPipeline/:indexPipelineId/queryPipeline/:queryPipelineId/weights?page=:pageNo&limit=:noOfRecords&isSelected=:isSelected',
       method: 'get'
     }
+     //API request for getting List of Searchable fields
+    this.serviceList['get.fieldsList'] = {
+      endpoint: this.API_SERVER_URL +'/findly/stream/:streamId/indexPipeline/:indexPipelineId/queryPipeline/:queryPipelineId/weights?isSelected=:isSelected&isSearchable:isSearchable',
+      method: 'get'
+    }
     //API request for updating  Weight
     this.serviceList['put.updateWeight'] = {
       endpoint: this.API_SERVER_URL +'/findly/stream/:streamId/indexPipeline/:indexPipelineId/queryPipeline/:queryPipelineId/weights/field/:fieldId',

@@ -1,5 +1,5 @@
 <div class="contentContainer">
-    <div class="mainLoadingSpinner" *ngIf="loadingStopWords" >
+    <div class="mainLoadingSpinner d-none" *ngIf="loadingContent" >
       <mat-spinner diameter="18" strokeWidth="2"></mat-spinner>
       <span class="please-wait-message">{{'sa_please_wait'| translate}}</span>
     </div>
@@ -41,10 +41,10 @@
 
     <div class="page-sub-headers">
       <div class="page-sub-hding">{{"stopwords_add_stop_words"| translate}}</div>
-      <div class="page-sub-desc" *ngIf="!loadingStopWords && !stopwords?.length">{{"stopwords_How_would_you_like_to_start" | translate}}</div>
+      <div class="page-sub-desc">{{"stopwords_How_would_you_like_to_start" | translate}}</div>
     </div>
 
-    <div class="stop-words-wrapper" *ngIf="!loadingStopWords" [ngClass]="{'stop-words-no-border': !(stopwords && stopwords.length)}">
+    <div class="stop-words-wrapper" [ngClass]="{'stop-words-no-border': !(stopwords && stopwords.length)}">
       <app-useronboarding-journey [componentType]='componentType'></app-useronboarding-journey>
 
 
@@ -94,14 +94,14 @@
           </perfect-scrollbar>          
         </div>
       </ng-container>                -->
-      <ng-container  *ngIf="!loadingStopWords && (stopwordsList?.length || (stopWordsIntiType == 'scratch' && createFromScratch))">
+      <ng-container  *ngIf="stopwordsList?.length || (stopWordsIntiType == 'scratch' && createFromScratch)">
       <div class="listingHeader row m-0">
         <div class="col-7 p-0" >
           <!-- <div class="desc-info-text" *ngIf="searchStopwords">{{'Showing ' + getActiveSearch()  +' results for ‘'+ searchStopwords  +'’'}}</div> -->
           <div class="m-0 row addStopWordsBlock" >
             <!-- <div class="label_text col-12 p-0">{{'stopWords_add_stop_word'| translate}}</div> -->
             <div class="kr-sg-input-text">
-                <input [class.err-block]="((!newStopWord || !newStopWord.length) && submitted)" type="text" autocomplete="off" (keyup)="validate($event)" placeholder="Add Stopwords and Press Enter"  maxlength="60" class="input-text" [(ngModel)]="newStopWord">
+                <input [class.err-block]="((!newStopWord || !newStopWord.length) && submitted)" type="text" autocomplete="off" (keyup)="validate($event)" placeholder="Add Stopwords and Press Enter"  maxlength="60" class="input-text" [(ngModel)]="newStopWord"  [ngClass]="{'error':validation.spaceFound || validation.duplicate}">
                 <img *ngIf="(!newStopWord || !newStopWord.length) && submitted" id="searchTermWarning" src="assets/icons/warning_escalation.svg" style="top: 29%; position: absolute; right: 1.5%; display: block;" height="12" width="12" />
                 <div class="error-msg" *ngIf="validation.duplicate"><img class="pr-1" src="assets/icons/warning_escalation.svg">{{'stopWords_stop_word_already_added'| translate}}</div>
                 <div class="error-msg" *ngIf="validation.spaceFound"><img class="pr-1" src="assets/icons/warning_escalation.svg">{{'stopWords_stop_word_should_not_have_space_in_between'| translate}}</div>
@@ -169,7 +169,7 @@
       <perfect-scrollbar class="table-scroll-perfect-synonyms">
         <ng-container>
           <div class="stopWordsListing"  *ngIf="(stopwordsList && stopwordsList.length)">
-            <span class="wordTag" *ngFor="let word of stopwordsList | filter: [searchStopwords] ; let index = index ; trackBy: getStopWordsList">
+            <span class="wordTag" *ngFor="let word of stopwordsList | filter: [searchStopwords] ; let index = index">
               <span class="word stopwordBlock" >{{word}}</span>
               <span class="deleteTag">
                 <span class="span-close-icon" (click)="deleteStopWords(false,index,word)">

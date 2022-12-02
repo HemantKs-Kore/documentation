@@ -25,7 +25,6 @@ export class StopWordsComponent implements OnInit, OnDestroy {
   searchImgSrc: any = 'assets/icons/search_gray.svg';
   searchFocusIn = false;
   activeClose = false;
-  loadingStopWords:boolean = false;
   checkStopwords:boolean = false;
   enabled = false;
   validation: any = {
@@ -346,7 +345,6 @@ export class StopWordsComponent implements OnInit, OnDestroy {
 
 // GET LIST OF STOPWORDS (GET API CALL)
   getStopWordsList() {
-    this.loadingStopWords = true
     const quaryparms: any = {
       streamId: this.selectedApp._id,
       queryPipelineId: this.queryPipelineId,
@@ -356,7 +354,6 @@ export class StopWordsComponent implements OnInit, OnDestroy {
     this.service.invoke('get.stopWordsList', quaryparms).subscribe(res => {
       if(res && res.stopwords){
         this.stopwordsList = res.stopwords;
-        this.loadingStopWords = false
       }
     }, errRes => {
       this.errorToaster(errRes, 'Failed to get stop words');
@@ -434,10 +431,8 @@ export class StopWordsComponent implements OnInit, OnDestroy {
       delete payload.defaultStopwords
       delete payload.stopwords
     }
-    this.loadingStopWords = true;
     this.service.invoke('put.createStopWords',quaryparms,payload).subscribe(res => {
        this.stopwordsList = [...res.stopwords] // updating Display Array
-       this.loadingStopWords = false;
        this.notificationService.notify('Stopwords Added Successfully', 'success');
        this.newStopWord = '';
     }, errRes => {
