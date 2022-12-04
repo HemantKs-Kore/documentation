@@ -259,44 +259,8 @@ export class StopWordsComponent implements OnInit, OnDestroy {
           this.updateStopWords(dialogRef);
         } else if (result === 'no') {
           dialogRef.close();
-          // console.log('deleted')
         }
       })
-  }
-  deleteAllStopWords(event) {
-    if (event) {
-      event.stopImmediatePropagation();
-      event.preventDefault();
-    }
-    const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
-      width: '530px',
-      height: 'auto',
-      panelClass: 'delete-popup',
-      data: {
-        title: 'Delete  All StopWords',
-        newTitle: 'Are you sure you want to delete ?',
-        body: 'All the stopwords will be deleted.',
-        buttons: [{ key: 'yes', label: 'Delete', type: 'danger' }, { key: 'no', label: 'Cancel' }],
-        confirmationPopUp: true
-      }
-    });
-    dialogRef.componentInstance.onSelect
-      .subscribe(result => {
-        if (result === 'yes') {
-          this.loadingWords = true;
-          // let deleteStopWords = this.stopwords
-          // if(deleteStopWords >= this.stopwords.length ){
-          //   this.stopwords.splice(1,deleteStopWords)
-          //   dialogRef.close();
-          // }
-          this.updateStopWords(dialogRef, null, true);
-        } else if (result === 'no') {
-          dialogRef.close();
-          // console.log('deleted')
-        }
-      })
-
-
   }
   updateStopWords(dialogRef?, enableOrDisable?, deleteAll?) {
     const quaryparms: any = {
@@ -429,10 +393,9 @@ export class StopWordsComponent implements OnInit, OnDestroy {
         });
       }
       this.validation.duplicate = duplicate;
-    }
-    if (event.keyCode === 13) {
-      // this.addStopWord(event);
-      this.addStopWords();
+      if (!this.validation.spaceFound && !this.validation.duplicate && event.keyCode === 13) {
+        this.addStopWords();
+      }
     }
   }
   // SORT STOP WORDS
@@ -471,13 +434,14 @@ export class StopWordsComponent implements OnInit, OnDestroy {
     this.service.invoke('put.createStopWords',quaryparms,payload).subscribe(res => {
        this.stopwordsList = [...res.stopwords] // updating Display Array
        this.notificationService.notify('Stopwords Added Successfully', 'success');
+       this.newStopWord = '';
     }, errRes => {
       if(type == true) this.notificationService.notify('Failed To Add Stopwords', 'success')
       if(type == false) this.notificationService.notify('Failed To Add Stopword', 'success')   
     });
   }
   // DELETING AND UPDATING THE STOPWORDS (DELETE API CALL)
-  deleteStopWords(type,index?,word?){          //type here is boolean for deleting all(true) or single stop word(false)
+  deleteStopWords(type,index?,word?,dialogRef?){          //type here is boolean for deleting all(true) or single stop word(false)
     let deleteStopWordsArr = [];
     type==true?deleteStopWordsArr = [...this.stopwordsList]:deleteStopWordsArr=[word]
     const quaryparms: any = {
@@ -501,15 +465,42 @@ export class StopWordsComponent implements OnInit, OnDestroy {
       this.createFromScratch = false;
       this.checkStopwords = false;
     }
+    if (dialogRef && dialogRef.close) {
+      dialogRef.close();
+    }
   }, errRes => {
     if(type == false)this.errorToaster(errRes, `Failed to delete ${word}`);
-    if(type == true)this.errorToaster(errRes, `Failed to delete ${word}`);
+    if(type == true)this.errorToaster(errRes, `Failed to delete all stop words `);
    });
   }
 
-   removeDefaultStopWords(){
-    
-   }
+   deleteAllConfirmationPopUp(event) {
+    if (event) {
+      event.stopImmediatePropagation();
+      event.preventDefault();
+    }
+    const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+      width: '530px',
+      height: 'auto',
+      panelClass: 'delete-popup',
+      data: {
+        title: 'Delete  All StopWords',
+        newTitle: 'Are you sure you want to delete ?',
+        body: 'All the stopwords will be deleted.',
+        buttons: [{ key: 'yes', label: 'Delete', type: 'danger' }, { key: 'no', label: 'Cancel' }],
+        confirmationPopUp: true
+      }
+    });
+    dialogRef.componentInstance.onSelect
+      .subscribe(result => {
+        if (result === 'yes') {
+          this.loadingWords = true;
+          this.deleteStopWords(true,'','',dialogRef);
+        } else if (result === 'no') {
+          dialogRef.close();
+        }
+      })
+  }
   // -----------------------------(AUTHOR:BHARADWAJ)
 
   ngOnDestroy() {
