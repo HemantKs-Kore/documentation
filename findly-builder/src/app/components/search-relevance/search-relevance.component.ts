@@ -34,7 +34,9 @@ export class SearchRelevanceComponent implements OnInit {
           "enable": true
       }
   };
- 
+  searchRelevanceConfig;
+  selectedLanguage='en';
+
   constructor(
     public workflowService: WorkflowService,
     private appSelectionService: AppSelectionService,
@@ -66,6 +68,7 @@ export class SearchRelevanceComponent implements OnInit {
     };
     this.service.invoke('get.queryPipeline', quaryparms).subscribe(res => {
       this.searchrelevancedata = res.settings.searchRelevance;
+      this.searchRelevanceConfig= res.settings.searchRelevance.languages.find(item=>item.languageCode==this.selectedLanguage)      
       const name = ('matchThreshold' || '').replace(/[^\w]/gi, '')
       const obj = {
         fieldName: name,
@@ -80,9 +83,113 @@ export class SearchRelevanceComponent implements OnInit {
     }); 
   }
  
- 
-  
+  //** update query pipeline on toggle button */
+  sildervaluechanged(event,type){
+    const quaryparms:any={
+      indexPipelineId:this.workflowService.selectedIndexPipeline(),
+      queryPipelineId:this.workflowService.selectedQueryPipeline() ? this.workflowService.selectedQueryPipeline()._id : '',
+      searchIndexId:this.serachIndexId
+    } 
+    //**condition check for slider */
+        if(type==='slider'){
+          const updatedItems = this.searchrelevancedata.languages.map(item =>{
+            if (item.languageCode === this.selectedLanguage) {
+              return {
+                ...item,
+                enable: event.target.checked
+              }
+            }
 
+            return item;
+          });
+
+          var payload:any=  {
+            settings: {
+              searchRelevance: {
+                languages: updatedItems
+              }
+            }
+          };
+        }
+
+    //**condition check for subject  */
+        else if(type==='subject'){
+          const updatedItems = this.searchrelevancedata.languages.map(item =>{
+            if (item.languageCode === this.selectedLanguage) {
+              return {
+                ...item,
+                subject: event.target.checked
+              }
+            }
+
+            return item;
+          });
+
+          var payload:any=  {
+            settings: {
+              searchRelevance: {
+                languages: updatedItems
+              }
+            }
+          };
+        }
+
+        //**condition check for subject  */
+        else if(type==='verb'){
+          const updatedItems = this.searchrelevancedata.languages.map(item =>{
+            if (item.languageCode === this.selectedLanguage) {
+              return {
+                ...item,
+                verb: event.target.checked
+              }
+            }
+
+            return item;
+          });
+
+          var payload:any=  {
+            settings: {
+              searchRelevance: {
+                languages: updatedItems
+              }
+            }
+          };
+        }
+
+        else{
+          const updatedItems = this.searchrelevancedata.languages.map(item =>{
+            if (item.languageCode === this.selectedLanguage) {
+              return {
+                ...item,
+                object: event.target.checked
+              }
+            }
+
+            return item;
+          });
+
+          var payload:any=  {
+            settings: {
+              searchRelevance: {
+                languages: updatedItems
+              }
+            }
+          };
+        }
+
+
+
+    this.service.invoke('put.queryPipeline', quaryparms,payload).subscribe(res => {
+      this.searchrelevancedata.enable=res?.settings?.searchRelevance?.enable
+      this.notificationService.notify("updated successfully",'success');
+      this.prepareThreshold()
+    }, errRes => {
+      this.notificationService.notify("Failed to update",'error');
+    });
+  
+}
+  
+  // to update the  threshold Range slider
   valueEvent(val, outcomeObj) {
     const quaryparms:any={
       indexPipelineId:this.workflowService.selectedIndexPipeline(),

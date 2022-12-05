@@ -2427,7 +2427,7 @@
     "businessRules_map_field": "Map Field",
     "businessRules_tag_save": "Tag & Save",
     "businessRules_save": "Save",
-    "businessRules_name_caps": "Name",
+    "businessRules_name_caps": "NAME",
     "businessRules_add_outcome": "Add Outcome",
     "businessRules_add_caps": "ADD",
 
@@ -2504,6 +2504,8 @@
     "workbench_serviceNow":"Service Now",
     "workbench_confluenceCloud":"Confluence Cloud",
     "workbench_confluenceServer":"Confluence Server",
+    "workbench_zendesk":"Zendesk",
+    "workbench_sharepointOnline":"Share Point",
     "workbench_beta":"BETA",
     "workbench_script":"Script",
     "workbench_choose_script_option":"On choosing the Script option, conditions defined here will only be applied.",
@@ -3548,12 +3550,6 @@
     "home_please_type_delete":"Please type DELETE to confirm",
     "home_welcome_to_search_assist":"Welcome to SearchAssist",
     "home_watch_a_quick_desc":"Watch a quick introductory video on the SearchAssist’s features.",
-    "Add_Stop_Words": "Add Stop Words",
-    "How_would_you_like_to_start": "How would you like to start?",
-    "Add_defaults": "Add defaults",
-    "Add_defaults_eg": "Eg: If, Me, I, Can, Not, Won’t etc..",
-    "Get_Started": "Get Started",
-
 
     "10NOv":"10NOv  Not Added keys---------------------------------------------------------------------------------------------------------------",
 
@@ -3584,7 +3580,7 @@
     "search_settings_disable":"Disable",
     "search_settings_enable":"Enable",
     "search_settings_synonyms_highlight":"Synonyms Highlighting",
-    "search_settings_loren_ipsum":"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vulputate dolor nisl non, et nunc, ",
+    "search_settings_loren_ipsum":"Enable Synonyms Highlighting to highlight the original word that matches the synonym or the synonym itself ",
     "search_settings_no":"On",
     "search_highlight_appearance":"Highlight Appearance",
     "search_settings_enable_highlight_to_highlight_desc":"Enable Highlighting to highlight the query matches in the search results.It improves readability and helps users",
@@ -3610,6 +3606,14 @@
     "search_settings_enable_disable_desc":"Enable or disable the bot action behaviour to auto execute the winning intent or to have the action prompts as a part of the search results",
     "search_settings_bot_action_auto_execute_win_intent":"Auto execute the winning intent",
     "search_settings_bot_action_do_not_win_intent":"Do not auto execute the winning intent",
+
+
+    "businessRules_preview":"Preview",
+    "businessRules_selected":"Selected",
+    "connectors_tenant_id":"Tenant ID",
+    "connectors_enter_tenant_id":"Enter Tenant ID here",
+    "connectors_details":"Details",
+
     "search_settings_search_relevance_threshold_match":"Match Threshold",
     "search_settings_search_relevance_define_perecent_tokens":"Define the percentage of tokens in a query that should be present in a document so as to be returned in search results.",
     "search_settings_search_relevance_title":"Search Relevance",
@@ -3621,7 +3625,10 @@
     "search_settings_search_relevance_object":"Object",
     "search_settings_search_relevance_object_desc":"The object in the search query must be present in the document to be included in the search result",
     "search_settings_search_relevance_verb":"Verb",
-    "search_settings_search_relevance_verb_desc":"The verb in the search query must be pesent in the document to be included in the search result"
-
+    "search_settings_search_relevance_verb_desc":"The verb in the search query must be pesent in the document to be included in the search result",
+    "search_settings_custom_configurations":"Custom Configurations",
+    "search_settings_key_value_pair":"Add key-value pair in custom configuration to test out new features and capabilities",
+    "search_settings_custom_configurations_key":"KEY",
+    "search_settings_custom_configurations_value":"VALUE",
+    "search_settings_custom_configurations_action":"ACTION"
 }
-
