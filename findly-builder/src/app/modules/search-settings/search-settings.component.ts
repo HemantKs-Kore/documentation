@@ -81,7 +81,7 @@ export class SearchSettingsComponent implements OnInit {
   }
 
   openSettingsScreen(value) {
-    this.router.navigate(['search-settings', value]);
+    // this.router.navigate(['search-settings', value]);
   }
 
   ngOnDestroy() {
