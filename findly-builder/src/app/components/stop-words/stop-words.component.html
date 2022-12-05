@@ -172,7 +172,7 @@
             <span class="wordTag" *ngFor="let word of stopwordsList | filter: [searchStopwords] ; let index = index">
               <span class="word stopwordBlock" >{{word}}</span>
               <span class="deleteTag">
-                <span class="span-close-icon" (click)="deleteStopWords(false,index,word)">
+                <span class="span-close-icon" (click)="deleteSingleStopWordConfirmationPopUp(false,index,word)">
                   <i class="si-close"></i>
                 </span>
               </span>
