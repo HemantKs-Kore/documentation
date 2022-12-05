@@ -12,8 +12,15 @@ export class EmptyScreenComponent implements OnInit {
   @Input() title = '';
   @Input() desc = '';
   @Input() isSearch = false;
+  isLoading: boolean;
 
-  constructor() {}
+  constructor() {
+    this.isLoading = true;
+  }
+
+  hideLoader() {
+    this.isLoading = false;
+  }
 
   ngOnInit(): void {}
 }

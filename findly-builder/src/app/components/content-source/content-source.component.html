@@ -11,7 +11,7 @@
       </span>
     </div>    
     <perfect-scrollbar class="scoll-empty-screen">
-      <app-empty-screen [title]="emptyScreen.TITLE" [desc]="emptyScreen.DESC" [imgName]="emptyScreen.IMG_NAME">
+      <app-empty-screen class="empty-lg" [title]="emptyScreen.TITLE" [desc]="emptyScreen.DESC" [imgName]="emptyScreen.IMG_NAME">
         <div class="action-buttons">
           <button class="kr-sg-button-secondary btn_lg mr-2" (click)="addNewContentSource('contentWeb')">
             <i class="si-web"></i>
@@ -265,7 +265,7 @@
             </div>
             </ng-container>
             <ng-template #noListContent>
-              <app-empty-screen [width]="100" [height]="100" [title]="emptyScreen.TITLE_SEARCH" [desc]="emptyScreen.DESC_SEARCH" [imgName]="emptyScreen.IMG_NAME">
+              <app-empty-screen class="empty-sm" [width]="100" [height]="100" [title]="emptyScreen.TITLE_SEARCH" [desc]="emptyScreen.DESC_SEARCH" [imgName]="emptyScreen.IMG_NAME">
               </app-empty-screen>
             </ng-template>
             <div style="margin-right: 10px;"> <app-record-pagination *ngIf="totalRecord > 10" [totalRecord]='totalRecord' [limitpage]='10' (pageChanged)="paginateContent($event)"></app-record-pagination></div>
@@ -346,7 +346,7 @@
             </ng-container>
 
             <ng-template #noGridContent>
-              <app-empty-screen [width]="100" [height]="100" *ngIf="searchSources" [title]="emptyScreen.TITLE_SEARCH" [desc]="emptyScreen.DESC_SEARCH" [imgName]="emptyScreen.IMG_NAME">
+              <app-empty-screen class="empty-lg" [width]="100" [height]="100" *ngIf="searchSources" [title]="emptyScreen.TITLE_SEARCH" [desc]="emptyScreen.DESC_SEARCH" [imgName]="emptyScreen.IMG_NAME">
               </app-empty-screen>
             </ng-template>
             <!-- New Design -->
@@ -1131,8 +1131,10 @@
             </div>
             <app-empty-screen [width]="100" [height]="100" *ngIf="pagesSearch?.length &&  !isSearchLoading && !pagingData.length && !isPageDelete" [title]="emptyScreen.TITLE_SEARCH" [desc]="emptyScreen.DESC_SEARCH" [imgName]="emptyScreen.IMG_NAME">
             </app-empty-screen>
-            <app-empty-screen [width]="100" [height]="100" [title]="emptyScreen.TITLE_PAGES" [desc]="emptyScreen.DESC_PAGES"
-              [imgName]="emptyScreen.IMG_NAME_PAGES" *ngIf="!isSearchLoading && !pagingData.length && !pagesSearch?.length && !isPageDelete">
+
+            <app-empty-screen class="empty-sm" [width]="100" [height]="100" [title]="emptyScreen.TITLE_PAGES" [desc]="emptyScreen.DESC_PAGES"
+              [imgName]="emptyScreen.IMG_NAME" *ngIf="!isSearchLoading && !pagingData.length && !pagesSearch?.length && !isPageDelete">
+
               <div class="action-buttons">
                 <button class="kr-sg-button-primary btn_lg" (click)="jobOndemand(selectedSource, $event)">
                   <i class="si-web"></i>
