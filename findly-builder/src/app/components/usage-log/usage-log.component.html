@@ -37,7 +37,7 @@
     </div>
 
     <ng-container *ngIf="!usageLogs.length && !loading && !searchUsageLog && !showSearch">
-        <app-empty-screen [width]="150" [height]="132" [title]="emptyScreen.TITLE" [desc]="emptyScreen.DESC" [imgName]="emptyScreen.IMG_NAME">
+        <app-empty-screen class="empty-lg" [width]="150" [height]="132" [title]="emptyScreen.TITLE" [desc]="emptyScreen.DESC" [imgName]="emptyScreen.IMG_NAME">
         </app-empty-screen>
         <!-- <div class="empty-usage-log">
             <div class="img-block">
@@ -146,7 +146,7 @@
                     </div>
                 </ng-container>
                 <ng-template #noUsageLogs>
-                    <app-empty-screen [width]="100" [height]="88" *ngIf="searchUsageLog && !loading" [title]="emptyScreen.TITLE_SEARCH" [desc]="emptyScreen.DESC_SEARCH" [imgName]="emptyScreen.IMG_NAME">
+                    <app-empty-screen class="empty-lg" [width]="100" [height]="88" *ngIf="searchUsageLog && !loading" [title]="emptyScreen.TITLE_SEARCH" [desc]="emptyScreen.DESC_SEARCH" [imgName]="emptyScreen.IMG_NAME">
                     </app-empty-screen> 
                 </ng-template>
                 <app-record-pagination *ngIf="totalRecord && totalRecord>10" [totalRecord]='totalRecord'
