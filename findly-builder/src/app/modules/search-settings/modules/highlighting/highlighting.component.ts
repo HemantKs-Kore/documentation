@@ -21,7 +21,7 @@ export class HighlightingComponent implements OnInit {
   querySubscription : Subscription;
   synonymsHighlight
   highlightenable
-  @Input() highlightdata;
+  highlightdata;
   @Input() selectedcomponent
    more_options:boolean=false;
    home_pre_tag
@@ -55,10 +55,7 @@ export class HighlightingComponent implements OnInit {
   ngOnInit(): void {
 
     
-    this.home_pre_tag=this.highlightdata.highlightAppearance.preTag
-    this.home_post_tag=this.highlightdata.highlightAppearance.postTag
-    this.pre_tag=this.highlightdata.highlightAppearance.preTag;
-    this.post_tag=this.highlightdata.highlightAppearance.postTag;
+
     this.more_options=false;
     this.selectedApp = this.workflowService.selectedApp();
     this.serachIndexId = this.selectedApp.searchIndexes[0]._id;
@@ -66,6 +63,7 @@ export class HighlightingComponent implements OnInit {
     this.queryPipelineId = this.workflowService.selectedQueryPipeline() ? this.workflowService.selectedQueryPipeline()._id : '';
     this.getAllHighlightFields()
     this.getQuerypipeline();
+
     this.querySubscription = this.appSelectionService.queryConfigSelected.subscribe(res => {
       this.indexPipelineId = this.workflowService.selectedIndexPipeline();
       this.queryPipelineId = this.workflowService.selectedQueryPipeline() ? this.workflowService.selectedQueryPipeline()._id : ''
@@ -83,6 +81,10 @@ export class HighlightingComponent implements OnInit {
       this.service.invoke('get.queryPipeline', quaryparms).subscribe(
         (res) => {
           this.highlightdata = res;
+          this.home_pre_tag=this.highlightdata.settings.highlight.highlightAppearance.preTag
+          this.home_post_tag=this.highlightdata.settings.highlight.highlightAppearance.postTag
+          this.pre_tag=this.highlightdata.settings.highlight.highlightAppearance.preTag;
+          this.post_tag=this.highlightdata.settings.highlight.highlightAppearance.postTag;
         },
         (errRes) => {
           this.notificationService.notify(
@@ -131,27 +133,27 @@ export class HighlightingComponent implements OnInit {
       streamId:this.selectedApp._id,
       queryPipelineId:this.queryPipelineId,
       isSearchable:this.isSearchable,
-      page:this.page?this.page:0,
-      limit:this.limit,
+      // page:this.page?this.page:0,
+      // limit:this.limit,
       searchKey:this.searchValue?this.searchValue:''
     };
     this.service.invoke('get.highlightFields', quaryparms).subscribe(res => {
       this.allhighlightFields = res.data;
-      this.max_pageno=Number(Math.ceil(res.totalCount/10))-1;
+      //this.max_pageno=Number(Math.ceil(res.totalCount/10))-1;
       if(isSelected){
         this.highlight=[];
         this.allhighlightFields.forEach(element => {
-          if(element.presentable.value){
+          // if(element.presentable.value){
             this.highlight.push(element)
-          }
+          // }
         });
       }
       else{
         this.nonhighlight=[];
         this.allhighlightFields.forEach(element => {
-          if(!element.presentable.value){
+          // if(!element.presentable.value){
             this.nonhighlight.push(element)
-          }
+          // }
         });
       }
     }, errRes => {

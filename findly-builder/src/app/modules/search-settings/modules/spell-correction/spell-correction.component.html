@@ -6,7 +6,7 @@
 <div class="landing-page-block" id="sa-landing-page-block">
     <div class="landing-page-toggle" id="sa-landing-page-toggle">
         <label class="kr-sg-toggle with-label" id="kr-sg-toggle-with-label">
-            <input type="checkbox" [checked]="spellcorrectdata?.enable" id="sa_checkbox_1"
+            <input type="checkbox" [checked]="spellcorrectdata?.settings?.spellCorrect?.enable" id="sa_checkbox_1"
                 (change)="sildervaluechanged($event)">
             <div class="slider" id="sa_slider_1">
                 <span class="no" id="sa_no_1">{{"search_settings_disable" |translate}}</span>
@@ -27,12 +27,12 @@
                 <div class="toggle-block-header width-55">
                     <div class="toggle-block-desc">{{"search_settings_set_value_minimum_no_of_char" |translate}}</div>
                 </div>
-
                 <div class="toggle-count-btn width-15">
-                    <div class="toggle-count-sub" (click)="mindecrementValue(spellcorrectdata?.minCharacterThreshold)">-
+
+                    <div class="toggle-count-sub" (click)="mindecrementValue(spellcorrectdata?.settings?.spellCorrect?.minCharThreshold)">-
                     </div>
-                    <div class="toggle-count-num">{{spellcorrectdata?.minCharacterThreshold}}</div>
-                    <div class="toggle-count-add" (click)="minincrementValue(spellcorrectdata?.minCharacterThreshold)">+
+                    <div class="toggle-count-num">{{spellcorrectdata?.settings?.spellCorrect?.minCharThreshold}}</div>
+                    <div class="toggle-count-add" (click)="minincrementValue(spellcorrectdata?.settings?.spellCorrect?.minCharThreshold)">+
                     </div>
                 </div>
             </div>
@@ -57,9 +57,9 @@
                 </div>
 
                 <div class="toggle-count-btn width-15">
-                    <div class="toggle-count-sub" (click)="maxdecrementValue(spellcorrectdata?.maxTypoEdits)">-</div>
-                    <div class="toggle-count-num">{{spellcorrectdata?.maxTypoEdits}}</div>
-                    <div class="toggle-count-add" (click)="maxincrementValue(spellcorrectdata?.maxTypoEdits)">+</div>
+                    <div class="toggle-count-sub" (click)="maxdecrementValue(spellcorrectdata?.settings?.spellCorrect?.maxTypoEdits)">-</div>
+                    <div class="toggle-count-num">{{spellcorrectdata?.settings?.spellCorrect?.maxTypoEdits}}</div>
+                    <div class="toggle-count-add" (click)="maxincrementValue(spellcorrectdata?.settings?.spellCorrect?.maxTypoEdits)">+</div>
                 </div>
 
             </div>
@@ -86,8 +86,11 @@
         <div class="header-desc">Add fields against which the search query should be spell corrected</div>
     </div>
 
-    <app-list-fields [tablefieldvalues]="spellcorrect" [popupfieldvalues]="nonspellcorrect" [maxpageno]="max_pageno"
+    <!-- <app-list-fields [tablefieldvalues]="spellcorrect" [popupfieldvalues]="nonspellcorrect" [maxpageno]="max_pageno"
         (emitRecord)="getrecord($event)" (sort)="spellcorrectsort($event)" (searchModel)="spellcorrectsearch($event)"
-        (pageno)="spellcorrectpage($event)"></app-list-fields>
+        (pageno)="spellcorrectpage($event)"></app-list-fields> -->
+    <app-list-fields [tablefieldvalues]="spellcorrect" [popupfieldvalues]="nonspellcorrect" [maxpageno]="max_pageno"
+        (emitRecord)="getrecord($event)" (sort)="spellcorrectsort($event)" (searchModel)="spellcorrectsearch($event)">
+    </app-list-fields>
 
 </div>

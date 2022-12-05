@@ -135,27 +135,27 @@ export class PresentableComponent implements OnInit {
     streamId:this.selectedApp._id,
     queryPipelineId:this.queryPipelineId,
     isSearchable:this.isSearchable,
-    page:this.page?this.page:0,
-    limit:this.limit,
+    // page:this.page?this.page:0,
+    // limit:this.limit,
     searchKey:this.searchValue?this.searchValue:''
   };
   this.service.invoke('get.presentableFields', quaryparms).subscribe(res => {
     this.allpresentableFields = res.data;
-    this.max_pageno=Number(Math.ceil(res.totalCount/10))-1;
+    //this.max_pageno=Number(Math.ceil(res.totalCount/10))-1;
     if(selected){
       this.presentable=[];
       this.allpresentableFields.forEach(element => {
-        if(element.presentable.value){
+        // if(element.presentable.value){
           this.presentable.push(element)
-        }
+        // }
       });
     }
     else{
       this.nonPresentable=[];
       this.allpresentableFields.forEach(element => {
-        if(!element.presentable.value){
+        // if(!element.presentable.value){
           this.nonPresentable.push(element)
-        }
+        // }
       });
     }    
     // this.allpresentableFields.forEach(element => {

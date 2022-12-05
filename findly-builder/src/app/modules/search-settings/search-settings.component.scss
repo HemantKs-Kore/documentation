@@ -119,6 +119,8 @@
         .search-settings-right {
             width: 78%;
             background: #fff;
+            height: calc(100vh - 68px);
+            overflow-y: auto;
 
             .page-common-scroll {
                 height: calc(100vh - 120px);

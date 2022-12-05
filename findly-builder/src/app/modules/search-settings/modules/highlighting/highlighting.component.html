@@ -6,7 +6,7 @@
 
     <div class="highlighting-toggle">
         <label class="kr-sg-toggle with-label">
-            <input type="checkbox" [checked]="highlightdata?.enable" (change)="sildervaluechanged($event,'highlight')">
+            <input type="checkbox" [checked]="highlightdata?.settings?.highlight?.enable" (change)="sildervaluechanged($event,'highlight')">
             <div class="slider" id="sa_slider">
                 <span class="no">{{"search_settings_disable" |translate}}</span>
                 <span class="yes">{{"search_settings_enable" |translate}}</span>
@@ -24,7 +24,7 @@
                 </div>
                 <div class="toggle-block-btn">
                     <label class="kr-sg-toggle with-label">
-                        <input type="checkbox" [checked]="highlightdata?.synonymsHighlight" (change)="sildervaluechanged($event,'synonyms')">
+                        <input type="checkbox" [checked]="highlightdata?.settings?.highlight?.synonymsHighlight" (change)="sildervaluechanged($event,'synonyms')">
                         <div class="slider" id="sa_slider">
                             <span class="yes">{{"search_settings_no" |translate}}</span>
                         </div>
@@ -83,7 +83,8 @@
         <div class="header-desc">Add fields which are to be used for highlighting the  in the search results</div>    
     </div>
     
-    <app-list-fields [tablefieldvalues]="highlight" [popupfieldvalues]="nonhighlight" [maxpageno]="max_pageno" (emitRecord)="getrecord($event)" (sort)="highlightsort($event)" (searchModel)="highlightsearch($event)" (pageno)="highlightpage($event)"></app-list-fields>
+    <!-- <app-list-fields [tablefieldvalues]="highlight" [popupfieldvalues]="nonhighlight" [maxpageno]="max_pageno" (emitRecord)="getrecord($event)" (sort)="highlightsort($event)" (searchModel)="highlightsearch($event)" (pageno)="highlightpage($event)"></app-list-fields> -->
+    <app-list-fields [tablefieldvalues]="highlight" [popupfieldvalues]="nonhighlight" [maxpageno]="max_pageno" (emitRecord)="getrecord($event)" (sort)="highlightsort($event)" (searchModel)="highlightsearch($event)"></app-list-fields>
 
 </div>
 

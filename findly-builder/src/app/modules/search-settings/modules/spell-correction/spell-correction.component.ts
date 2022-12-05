@@ -136,8 +136,8 @@ export class SpellCorrectionComponent implements OnInit {
       streamId: this.selectedApp._id,
       queryPipelineId: this.queryPipelineId,
       isSearchable: this.isSearchable,
-      page: this.page ? this.page : 0,
-      limit: this.limit,
+      // page: this.page ? this.page : 0,
+      // limit: this.limit,
       searchKey: this.searchValue ? this.searchValue : '',
     };
     this.service.invoke('get.spellcorrectFields', quaryparms).subscribe(
@@ -147,16 +147,16 @@ export class SpellCorrectionComponent implements OnInit {
         if (isSelected) {
           this.spellcorrect = [];
           this.allspellCorrect.forEach((element) => {
-            if (element.presentable.value) {
+            // if (element.spellcorrect.value) {
               this.spellcorrect.push(element);
-            }
+            // }
           });
         } else {
           this.nonspellcorrect = [];
           this.allspellCorrect.forEach((element) => {
-            if (!element.presentable.value) {
+            // if (!element.spellcorrect.value) {
               this.nonspellcorrect.push(element);
-            }
+            // }
           });
         }
         // this.allspellCorrect.forEach(element => {
@@ -248,7 +248,7 @@ export class SpellCorrectionComponent implements OnInit {
     };
     this.service.invoke('put.queryPipeline', quaryparms, payload).subscribe(
       (res) => {
-        this.spellcorrectdata.enable = res.settings.spellcorrectdata.enable;
+        this.spellcorrectdata.settings.spellCorrect.enable = res?.settings?.spellcorrectdata?.enable;
         this.notificationService.notify('updated successfully', 'success');
       },
       (errRes) => {
@@ -285,8 +285,8 @@ export class SpellCorrectionComponent implements OnInit {
       };
       this.service.invoke('put.queryPipeline', quaryparms, payload).subscribe(
         (res) => {
-          this.spellcorrectdata.maxTypoEdits =
-            res.settings.spellCorrect.maxTypoEdits;
+          this.spellcorrectdata.settings.spellCorrect.maxTypoEdits =
+            res?.settings?.spellCorrect?.maxTypoEdits;
           if (this.max_threshold > 0) {
             this.notificationService.notify('updated successfully', 'success');
           }
@@ -316,8 +316,8 @@ export class SpellCorrectionComponent implements OnInit {
       };
       this.service.invoke('put.queryPipeline', quaryparms, payload).subscribe(
         (res) => {
-          this.spellcorrectdata.maxTypoEdits =
-            res.settings.spellCorrect.maxTypoEdits;
+          this.spellcorrectdata.settings.spellCorrect.maxTypoEdits =
+            res?.settings?.spellCorrect?.maxTypoEdits;
           this.notificationService.notify('updated successfully', 'success');
         },
         (errRes) => {
@@ -342,14 +342,14 @@ export class SpellCorrectionComponent implements OnInit {
       const payload: any = {
         settings: {
           spellCorrect: {
-            minCharacterThreshold: this.min_threshold,
+            minCharThreshold: this.min_threshold,
           },
         },
       };
       this.service.invoke('put.queryPipeline', quaryparms, payload).subscribe(
         (res) => {
-          this.spellcorrectdata.minCharacterThreshold =
-            res.settings.spellCorrect.minCharacterThreshold;
+          this.spellcorrectdata.settings.spellCorrect.minCharThreshold =
+            res?.settings?.spellCorrect?.minCharThreshold;
           if (this.min_threshold > 0) {
             this.notificationService.notify('updated successfully', 'success');
           }
@@ -373,14 +373,14 @@ export class SpellCorrectionComponent implements OnInit {
       const payload: any = {
         settings: {
           spellCorrect: {
-            minCharacterThreshold: this.min_threshold,
+            minCharThreshold: this.min_threshold,
           },
         },
       };
       this.service.invoke('put.queryPipeline', quaryparms, payload).subscribe(
         (res) => {
-          this.spellcorrectdata.minCharacterThreshold =
-            res.settings.spellCorrect.minCharacterThreshold;
+          this.spellcorrectdata.settings.spellCorrect.minCharThreshold =
+          res?.settings?.spellCorrect?.minCharThreshold;
           this.notificationService.notify('updated successfully', 'success');
         },
         (errRes) => {
