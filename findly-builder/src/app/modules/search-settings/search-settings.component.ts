@@ -59,6 +59,7 @@ export class SearchSettingsComponent implements OnInit {
           : '';
         this.getQuerypipeline();
       });
+    this.openWeightsScreen();
   }
   //** get Query pipeline API call */
   getQuerypipeline() {
@@ -80,8 +81,8 @@ export class SearchSettingsComponent implements OnInit {
     );
   }
 
-  openSettingsScreen(value) {
-    // this.router.navigate(['search-settings', value]);
+  openWeightsScreen() {
+    this.router.navigateByUrl('search-settings/weights', {skipLocationChange: true});
   }
 
   ngOnDestroy() {

@@ -24,6 +24,7 @@
             <div *ngFor="let component of componentsArray" class="array-loop">
               <div class="side-menu-tab-block">
                 <button
+                  skipLocationChange
                   class="btn side-menu-tab-btn"
                   routerLinkActive="btn-active"
                   [routerLink]="[component.value]"

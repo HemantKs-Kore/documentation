@@ -84,12 +84,7 @@ const routes: Routes = [
           import('./modules/search-relevance/search-relevance.module').then(
             (m) => m.SearchRelevanceModule
           ),
-      },
-      {
-        path: '',
-        redirectTo: 'weights',
-        pathMatch: 'full'
-      },
+      }
     ],
   },
 ];
