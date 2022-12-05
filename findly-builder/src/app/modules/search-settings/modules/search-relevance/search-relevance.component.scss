@@ -15,6 +15,15 @@
     }
 }
 
+.slider-container-block{
+    padding: 0px 20px 0px 35px;
+    display: flex;
+    .sliderVal{
+        font-family: 'Inter' !important;
+        font: unset;
+    }
+}
+
 .block-separate-line{
     border-bottom: 1px solid #E3E4E6;
   }
@@ -162,4 +171,19 @@
     // .tooltip {
     //     display: none !important;
     // }
+}
+
+::ng-deep app-range-slider{
+    .thresholdDir{
+        .single-slider{
+            width: 330px;
+            margin-bottom: 0;
+            .slider {
+                &.slider-horizontal{
+                    width: 330px;
+                    height: 6px;
+                }
+            }
+        }
+    }
 }
