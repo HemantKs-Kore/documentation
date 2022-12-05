@@ -20,7 +20,6 @@ export class BotActionsComponent implements OnInit {
   serachIndexId
   queryPipelineId
   querySubscription : Subscription;
-  pipeline:any=[];
 
   constructor(
     public workflowService: WorkflowService,
@@ -34,25 +33,31 @@ export class BotActionsComponent implements OnInit {
     this.serachIndexId = this.selectedApp.searchIndexes[0]._id;
     this.indexPipelineId = this.workflowService.selectedIndexPipeline();
     this.queryPipelineId = this.workflowService.selectedQueryPipeline() ? this.workflowService.selectedQueryPipeline()._id : '';
-    this.getQuerypipeline();
     this.querySubscription = this.appSelectionService.queryConfigSelected.subscribe(res => {
       this.indexPipelineId = this.workflowService.selectedIndexPipeline();
-      this.queryPipelineId = this.workflowService.selectedQueryPipeline() ? this.workflowService.selectedQueryPipeline()._id : ''
-      this.getQuerypipeline();
+      this.queryPipelineId = this.workflowService.selectedQueryPipeline() ? this.workflowService.selectedQueryPipeline()._id : ''      
   })
+  this.getQuerypipeline()
 }
 
-getQuerypipeline(){
+//** get querypipeline */
+getQuerypipeline() {
   const quaryparms: any = {
     searchIndexID: this.serachIndexId,
     queryPipelineId: this.queryPipelineId,
-    indexPipelineId: this.indexPipelineId
+    indexPipelineId: this.indexPipelineId,
   };
-  this.service.invoke('get.queryPipeline', quaryparms).subscribe(res => {
-    this.botactionsdata = res.settings.botActions;
-  },errRes => {
-    this.notificationService.notify('failed to get querypipeline details', 'error')
-  });
+  this.service.invoke('get.queryPipeline', quaryparms).subscribe(
+    (res) => {
+      this.botactionsdata = res.settings.botActions;
+    },
+    (errRes) => {
+      this.notificationService.notify(
+        'failed to get querypipeline details',
+        'error'
+      );
+    }
+  );
 }
 
 
@@ -72,6 +77,7 @@ getQuerypipeline(){
     }
     this.service.invoke('put.queryPipeline', quaryparms,payload).subscribe(res => {
       this.botactionsdata.enable=res.settings.botActions.enable
+      this.getQuerypipeline()
       this.notificationService.notify("updated successfully",'success');
     }, errRes => {
       this.notificationService.notify("Failed to update",'error');
@@ -105,6 +111,7 @@ getQuerypipeline(){
 
     this.service.invoke('put.queryPipeline', quaryparms,payload).subscribe(res => {
       this.botactionsdata.enable=res.settings.botActions.enable
+      this.getQuerypipeline();
       this.notificationService.notify("updated successfully",'success');
     }, errRes => {
       this.notificationService.notify("Failed to update",'error');
