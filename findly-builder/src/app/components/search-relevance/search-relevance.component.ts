@@ -215,5 +215,4 @@ export class SearchRelevanceComponent implements OnInit {
     this.querySubscription ? this.querySubscription.unsubscribe() : false;
   }
 
-
 }
