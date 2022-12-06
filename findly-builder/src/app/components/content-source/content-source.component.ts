@@ -314,22 +314,16 @@ isSourceSearchClear : boolean = false;
       this.getSourceList(null,this.searchSources,'search');
     })
   }
+
+  isEmptyScreenLoading(isLoading) {
+    this.loadingContent = isLoading;
+  }
+
   scroll = (event): void => {
     //console.log(event)
   };
   loadImageText: boolean = false;
-  imageLoad() {
-    this.loadingContent = false;
-    this.loadingContent1 = true;
-    this.loadImageText = true;
-    // this.templateState.next('loadingContent1')
-    // setTimeout(()=>{
-    //   if (!this.inlineManual.checkVisibility('ADD_CONTENT_FROM_LANDING')) {
-    //     this.inlineManual.openHelp('ADD_CONTENT_FROM_LANDING')
-    //     this.inlineManual.visited('ADD_CONTENT_FROM_LANDING')
-    //   }
-    // }, 500)
-  }
+
   hoverExecutionLog() {
     this.executionLogStatus = true;
   }
@@ -468,7 +462,6 @@ isSourceSearchClear : boolean = false;
     this.service.invoke('get.source.list', quaryparms, payload).subscribe(res => {
       this.resources = res.sources;
       this.totalRecord = res.totalCount || 0;
-      this.imageLoad();
       //  this.resourcesDoc=this.resources[0].fileMeta;
       //element.advanceSettings.scheduleOpts.interval.intervalType
       this.resources.forEach(element => {
