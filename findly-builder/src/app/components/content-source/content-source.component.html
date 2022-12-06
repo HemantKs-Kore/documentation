@@ -1129,7 +1129,7 @@
               <mat-spinner diameter="18" strokeWidth="2"></mat-spinner>
               <span class="please-wait-message">{{'Please Wait!' | translate}}</span>
             </div>
-            <app-empty-screen [width]="100" [height]="100" *ngIf="pagesSearch?.length &&  !isSearchLoading && !pagingData.length && !isPageDelete" [title]="emptyScreen.TITLE_SEARCH" [desc]="emptyScreen.DESC_SEARCH" [imgName]="emptyScreen.IMG_NAME">
+            <app-empty-screen class="empty-sm" [width]="100" [height]="100" *ngIf="pagesSearch?.length &&  !isSearchLoading && !pagingData.length && !isPageDelete" [title]="emptyScreen.TITLE_SEARCH" [desc]="emptyScreen.DESC_SEARCH" [imgName]="emptyScreen.IMG_NAME">
             </app-empty-screen>
 
             <app-empty-screen class="empty-sm" [width]="100" [height]="100" [title]="emptyScreen.TITLE_PAGES" [desc]="emptyScreen.DESC_PAGES"
@@ -1283,7 +1283,7 @@
     <button type="button" class="kr-sg-button-secondary-two btn_lg" data-dismiss="modal"
       (click)="deletePages('source',selectedSource,null)">{{'contentSource_delete'| translate}}</button>
   </div>
-  <div class="footer-btns 123" *ngIf="page && totalCrawledCount>10">
+  <div class="footer-btns" *ngIf="page && totalCrawledCount>10">
     <app-record-pagination *ngIf = "totalCrawledCount" [totalRecord]='totalCrawledCount' [limitpage]='limitpage' (pageChanged)="paginate($event);isSearchLoading=true;"></app-record-pagination>
   </div>
 </kr-modal>
