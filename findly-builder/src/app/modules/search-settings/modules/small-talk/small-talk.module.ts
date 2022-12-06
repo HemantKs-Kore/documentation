@@ -12,6 +12,9 @@ import { FindlySharedModule } from 'src/app/modules/findly-shared/findly-shared.
     CommonModule,
     SmallTalkRoutingModule,
     FindlySharedModule
+  ],
+  exports: [
+    SmallTalkComponent
   ]
 })
 export class SmallTalkModule { }
