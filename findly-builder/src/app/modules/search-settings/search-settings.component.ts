@@ -82,7 +82,11 @@ export class SearchSettingsComponent implements OnInit {
   }
 
   openWeightsScreen() {
-    this.router.navigateByUrl('search-settings/weights', {skipLocationChange: true});
+    if (this.router.url === '/search-settings') {
+      this.router.navigateByUrl('search-settings/weights', {
+        skipLocationChange: true,
+      });      
+    }
   }
 
   ngOnDestroy() {
