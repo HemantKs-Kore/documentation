@@ -135,7 +135,7 @@
 
     <!-- For business rules table -->
 
-    <div class="table_section" *ngIf="(!loadingContent && rules && beforeFilterRules && beforeFilterRules.length) || searchRules || showSearch || filterSystem.isRuleActiveFilter !== 'all'">
+    <div class="table_section" *ngIf="(!loadingContent && rules && beforeFilterRules && beforeFilterRules.length) || searchRules || showSearch || filterSystem.isRuleActiveFilter !== 'all'|| isPaginating">
         <perfect-scrollbar class="scroll_table">
             <!-- <div class="body_sec row m-0" *ngFor="let ruleObj of rules | filter: [searchRules, 'ruleName']" [ngClass]="{ -->
                 <div *ngIf="(rules && rules.length); else noBusinessRules">
@@ -235,7 +235,7 @@
                 </app-empty-screen>
               </ng-template>
             
-            <app-record-pagination *ngIf="totalRecord && totalRecord>10" [totalRecord]='totalRecord' [limitpage]='10' (pageChanged)="paginate($event)"></app-record-pagination>
+            <app-record-pagination *ngIf="totalRecord && totalRecord>10" [totalRecord]='totalRecord' [limitpage]='10' (pageChanged)="paginate($event); isPaginating=true;"></app-record-pagination>
         </perfect-scrollbar>
     </div>
 </div>
