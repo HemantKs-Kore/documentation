@@ -8,12 +8,10 @@ import { AddSourceComponent } from './components/add-source/add-source.component
 import { ContentSourceComponent } from './components/content-source/content-source.component';
 import { FaqSourceComponent } from './components/faq-source/faq-source.component';
 import { ConnectorsSourceComponent } from './components/connectors-source/connectors-source.component';
-import { SynonymsComponent } from './components/synonyms/synonyms.component';
 import { BotActionComponent } from './components/bot-action/bot-action.component';
 import { TraitsComponent } from './components/traits/traits.component';
 import { IndexComponent } from './components/index/index.component';
 import { StopWordsComponent } from './components/stop-words/stop-words.component';
-import { WeightsComponent } from './components/weights/weights.component';
 import { SearchFieldPropertiesComponent } from './components/search-field-properties/search-field-properties.component';
 import { ResultRankingComponent } from './components/result-ranking/result-ranking.component';
 import { FacetsComponent } from './components/facets/facets.component';
@@ -33,13 +31,11 @@ import { TeamManagementComponent } from './components/team-management/team-manag
 import { StructuredDataComponent } from './components/structured-data/structured-data.component';
 import { SearchExperienceComponent } from './components/search-experience/search-experience.component';
 import { ActionsComponent } from './components/actions/actions.component';
-import { SmallTalkComponent } from './components/small-talk/small-talk.component';
 import { PricingComponent } from './components/pricing/pricing.component';
 import { InvoicesComponent } from './components/invoices/invoices.component';
 import { UsageLogComponent } from './components/usage-log/usage-log.component';
 import { GeneralSettingsComponent } from './components/general-settings/general-settings.component';
 import { ResultTemplatesComponent } from './components/result-templates/result-templates.component';
-import {SearchSettingsComponent} from './components/search-settings/search-settings.component';
 import { IndexConfigurationSettingsComponent } from './components/index-configuration-settings/index-configuration-settings.component';
 
 const routes: Routes = [
@@ -57,14 +53,12 @@ const routes: Routes = [
       { path: 'faqs', component: FaqSourceComponent },
       { path: 'connectors', component: ConnectorsSourceComponent },
       { path: 'botActions', component: BotActionComponent },
-      { path: 'synonyms', component: SynonymsComponent },
       { path: 'traits', component: TraitsComponent },
       { path: 'rules', component: BusinessRulesComponent },
       { path: 'facets', component: FacetsComponent },
       { path: 'index', component: IndexComponent },
       { path: 'experiments', component: AppExperimentsComponent },
       { path: 'stopWords', component: StopWordsComponent },
-      { path: 'weights', component: WeightsComponent },
       { path: 'resultranking', component: ResultRankingComponent },
       { path: 'metrics', component: MetricsComponent },
       { path: 'dashboard', component: DashboardComponent },
@@ -74,7 +68,6 @@ const routes: Routes = [
       { path: 'settings', component: SettingsComponent },
       { path: 'credentials-list', component: CredentialsListComponent },
       { path: 'actions', component: ActionsComponent },
-      { path: 'smallTalk', component: SmallTalkComponent },
       { path: 'generalSettings', component: GeneralSettingsComponent },
       { path: 'FieldManagementComponent', component: FieldManagementComponent },
       { path: 'resultTemplate', component: ResultTemplatesComponent },

@@ -46,7 +46,6 @@ import { MarkdownEditorResizeSensorComponent } from './helpers/lib/resize-sensor
 import { EditorUrlDialogComponent } from './helpers/components/editor-url-dialog/editor-url-dialog.component';
 import { FileUploadModule } from 'ng2-file-upload';
 import { ImportFaqsModalComponent } from './components/import-faqs-modal/import-faqs-modal.component';
-import { SynonymsComponent } from './components/synonyms/synonyms.component';
 import { BotActionComponent } from './components/bot-action/bot-action.component';
 import { TraitsComponent } from './components/traits/traits.component';
 import { TraitsFilterPipe } from './components/traits/traits-filter.pipe';
@@ -75,7 +74,6 @@ import { ColorPickerModule } from 'ngx-color-picker';
 import { PickerModule } from '@ctrl/ngx-emoji-mart';
 import * as echarts from 'echarts';
 import { StopWordsComponent } from './components/stop-words/stop-words.component';
-import { WeightsComponent } from './components/weights/weights.component';
 import { ResultRankingComponent } from './components/result-ranking/result-ranking.component';
 import { AddResultComponent } from './components/add-result/add-result.component';
 import { FacetsComponent } from './components/facets/facets.component';
@@ -102,7 +100,6 @@ import { SearchInterfaceComponent } from './components/search-interface/search-i
 import { TeamManagementComponent } from './components/team-management/team-management.component';
 import { SearchExperienceComponent } from './components/search-experience/search-experience.component';
 import { ActionsComponent } from './components/actions/actions.component';
-import { SmallTalkComponent } from './components/small-talk/small-talk.component';
 import { PricingComponent } from './components/pricing/pricing.component';
 import { InvoicesComponent } from './components/invoices/invoices.component';
 import { UsageLogComponent } from './components/usage-log/usage-log.component';
@@ -119,16 +116,10 @@ import { SafeHtmlPipe } from './helpers/filters/safe-html.pipe';
 import { SelectTextDirective } from './helpers/directives/select-text.directive';
 import { EllipsisActiveDirective } from './helpers/directives/ellipsis-active.directive';
 import { IndexConfigurationSettingsComponent } from './components/index-configuration-settings/index-configuration-settings.component';
-import { SearchSettingsComponent } from './components/search-settings/search-settings.component';
-import { PresentableComponent } from './components/presentable/presentable.component';
-import { HighlightingComponent } from './components/highlighting/highlighting.component';
-import { SpellCorrectionComponent } from './components/spell-correction/spell-correction.component';
 import { SearchRelevanceComponent } from './components/search-relevance/search-relevance.component';
 import { FindlySharedModule } from './modules/findly-shared/findly-shared.module';
 import { EmptyScreenModule } from './modules/empty-screen/empty-screen.module';
-import { SnippetsComponent } from './components/snippets/snippets.component';
-import { SearchsettingsBotactionsComponent } from './components/searchsettings-botactions/searchsettings-botactions.component';
-import { CustomConfigurationsComponent } from './components/custom-configurations/custom-configurations.component';
+import { SmallTalkModule } from './modules/search-settings/modules/small-talk/small-talk.module';
 export function HttpLoaderFactory(httpClient: HttpClient) {
   return new TranslateHttpLoader(httpClient, 'assets/i18n/', '.json');
 }
@@ -154,7 +145,6 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
     MarkdownEditorResizeSensorComponent,
     EditorUrlDialogComponent,
     ImportFaqsModalComponent,
-    SynonymsComponent,
     BotActionComponent,
     TraitsComponent,
     MlThresholdComponent,
@@ -171,7 +161,6 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
     InsightsComponent,
     PaginationComponent,
     StopWordsComponent,
-    WeightsComponent,
     ResultRankingComponent,
     AddResultComponent,
     FacetsComponent,
@@ -198,7 +187,6 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
     StatusDockerComponent,
     SearchExperienceComponent,
     ActionsComponent,
-    SmallTalkComponent,
     PricingComponent,
     InvoicesComponent,
     UsageLogComponent,
@@ -215,14 +203,7 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
     SelectTextDirective,
     EllipsisActiveDirective,
     IndexConfigurationSettingsComponent,
-    SearchSettingsComponent,
-    PresentableComponent,
-    HighlightingComponent,
-    SpellCorrectionComponent,
     SearchRelevanceComponent,
-    SnippetsComponent,
-    SearchsettingsBotactionsComponent,
-    CustomConfigurationsComponent,
   ],
   imports: [
     FindlySharedModule,
@@ -268,6 +249,7 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
     }),
     NgxDaterangepickerMd.forRoot(),
     EmptyScreenModule,
+    SmallTalkModule
   ],
   // tslint:disable-next-line:max-line-length
   entryComponents: [
