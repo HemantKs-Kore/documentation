@@ -80,28 +80,6 @@
               </button>
             </div>
           </app-empty-screen>
-          
-        <!-- <div  class="empty-landing-screen" >
-          <div class="img-block" id ="imageLoad"*ngIf="!emptyItems"><img class="action_icon" (load)="imageLoad()" src="assets/images/faq-empty.png"></div>
-          <ng-container *ngIf="loadImageText">
-              <div class="empty-title">{{'faqSource_no_faqs' | translate}}</div>
-              <div class="desc-text"> {{'faqSource_no_faqs_info' | translate}}
-              </div>
-              <div class="kr-sg-dropdowns" #selectSourceDrop='ngbDropdown' ngbDropdown [container]="'body'">                                         
-                <div class="dropdown dropdown-open">
-                  <button class="dropdown-toggle dropdown-input"  ngbDropdownToggle> {{'faqSource_add_faqs' | translate}}</button>                                            
-                  <ul class="dropdown-menu content-menu faq-filter-add" ngbDropdownMenu>
-                    <li (click)="selectSourceDrop.close();addFaqSource('faqWeb')"> {{'faqSource_extract_faqs' | translate}}</li>
-                    <li (click)="selectSourceDrop.close();addFaqSource('faqDoc')">{{'faqSource_import_faqs' | translate}}</li>
-                    <li (click)="selectSourceDrop.close();addFaqSource('manual')">{{'faqSource_add_manually' | translate}}</li>
-                  </ul>
-              </div>                                    
-              </div>
-          </ng-container>
-          <ng-container *ngIf="noItems && emptySearchResults">
-              <div class="desc-text">{{'faqSource_no_search_results_for_match' | translate}}</div>
-          </ng-container>
-      </div> -->
     </perfect-scrollbar>
 </ng-container>
         <div class="faq-content-boxes"  *ngIf="((extractedResources && extractedResources.length) || faqSelectionObj.stats.draft || faqSelectionObj.stats.in_review || faqSelectionObj.stats.approved) ||  extractedFaqs || searchFaq || showSearch ||loading">
