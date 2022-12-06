@@ -22,9 +22,9 @@
   </div>
 
 
-  <ng-container *ngIf="!linkedBotID && !loadingContent && !loading">
+  <ng-container *ngIf="!linkedBotID && !loading">
     <perfect-scrollbar class="empty-scroll">
-      <app-empty-screen class="empty-lg" [title]="emptyScreen.TITLE" [desc]="emptyScreen.DESC" [imgName]="emptyScreen.IMG_NAME">
+      <app-empty-screen class="empty-lg" [title]="emptyScreen.TITLE" [desc]="emptyScreen.DESC" [imgName]="emptyScreen.IMG_NAME" (isImgLoading)="isEmptyScreenLoading($event)">
         <div class="action-buttons">
           <button class="kr-sg-button-primary btn_lg" (click)="openBotsModalElement()">
             <i class="si-bot"></i>
@@ -32,23 +32,6 @@
           </button>
         </div>
       </app-empty-screen>
-    <!-- <div  class="empty-landing-screen">
-      <div class="img-block" *ngIf="!emptyItems"><img class="action_icon" (load)="imageLoad()" src="assets/images/botactions-empty.png"></div>
-      <ng-container *ngIf="loadImageText" >
-          <div class="empty-title">{{'botAction_bot_actions' | translate}}</div>
-          <div class="desc-text"> {{'botAction_bot_actions_are_a_list_of_tasks' | translate}}
-          </div>
-          <div class="kr-sg-dropdowns" ngbDropdown [container]="'body'">                                         
-              <div class="dropdown dropdown-open">
-                <button class="kr-sg-button-primary btn_lg px-3" (click)="openBotsModalElement()"> {{'botAction_link_a_bot' | translate}}</button>                                            
-              </div>
-          </div>
-      </ng-container>
-      <ng-container *ngIf="noItems && emptySearchResults">
-          <div class="desc-text">{{'botAction_your_search_query_doesnot_match_with_any_record' | translate}}</div>
-      </ng-container>
-
-  </div> -->
   </perfect-scrollbar>
   </ng-container>
 

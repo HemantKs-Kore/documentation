@@ -15,7 +15,7 @@ declare const $: any;
 @Component({
   selector: 'app-credentials-list',
   templateUrl: './credentials-list.component.html',
-  styleUrls: ['./credentials-list.component.scss']
+  styleUrls: ['./credentials-list.component.scss'],
 })
 export class CredentialsListComponent implements OnInit {
   emptyScreen = EMPTY_SCREEN.MANAGE_CREDENTIALS;
@@ -24,10 +24,10 @@ export class CredentialsListComponent implements OnInit {
   selectedApp: any;
   serachIndexId: any;
   firstlistData: any;
-  params:any ={};
-  url:string = '';
-  appsData:any = [];
-  displayScopes:any =[];
+  params: any = {};
+  url: string = '';
+  appsData: any = [];
+  displayScopes: any = [];
   addCredentialRef: any;
   credentialsListRef: any;
   editCredentialRef: any;
@@ -36,7 +36,10 @@ export class CredentialsListComponent implements OnInit {
   configuredBot_streamId = '';
   searchcredential = '';
   selectedTab: string = 'configuration';
-  credentialsTabs: any = [{ name: 'Configuration', type: 'configuration' }, { name: 'API Scopes', type: 'apiScopes' }];
+  credentialsTabs: any = [
+    { name: 'Configuration', type: 'configuration' },
+    { name: 'API Scopes', type: 'apiScopes' },
+  ];
   showSearch = false;
   searchImgSrc: any = 'assets/icons/search_gray.svg';
   searchFocusIn = false;
@@ -56,21 +59,24 @@ export class CredentialsListComponent implements OnInit {
     anonymus: true,
     register: true,
     awt: 'HS256',
-    enabled: true
+    enabled: true,
   };
   scopeDesc;
-  selectedScopes=[];
-  scopesList = []
+  selectedScopes = [];
+  scopesList = [];
   componentType: string = 'addData';
   @ViewChild('addCredential') addCredential: KRModalComponent;
   @ViewChild('credentialsList') credentialsList: KRModalComponent;
   @ViewChild('editCredentialPop') editCredentialPop: KRModalComponent;
 
-  constructor(public workflowService: WorkflowService,
+  constructor(
+    public workflowService: WorkflowService,
     private service: ServiceInvokerService,
     public dialog: MatDialog,
     private notificationService: NotificationService,
-    public authService: AuthService,private appSelectionService: AppSelectionService) { }
+    public authService: AuthService,
+    private appSelectionService: AppSelectionService
+  ) {}
 
   ngOnInit(): void {
     this.selectedApp = this.workflowService.selectedApp();
@@ -84,28 +90,33 @@ export class CredentialsListComponent implements OnInit {
     this.credntial.awt = awt;
   }
   loadImageText: boolean = false;
-  loadingContent1: boolean
-  loadingContent: boolean
+  loadingContent1: boolean;
+  loadingContent: boolean;
   imageLoad() {
     this.loadingContent = false;
     this.loadingContent1 = true;
     this.loadImageText = true;
   }
-  
-  
+
   manageCredential() {
     const queryParams = {
       userId: this.authService.getUserId(),
       streamId: this.selectedApp._id,
       getAppsUsage: true,
-    }
+    };
     this.service.invoke('manage.credentials', queryParams).subscribe(
-      res => {
+      (res) => {
         this.credentials = res;
         // console.log(res)
       },
-      errRes => {
-        if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
+      (errRes) => {
+        if (
+          errRes &&
+          errRes.error.errors &&
+          errRes.error.errors.length &&
+          errRes.error.errors[0] &&
+          errRes.error.errors[0].msg
+        ) {
           this.notificationService.notify(errRes.error.errors[0].msg, 'error');
         } else {
           this.notificationService.notify('Failed ', 'error');
@@ -118,8 +129,8 @@ export class CredentialsListComponent implements OnInit {
     // this.editCredentialRef = this.editCredentialPop.open();
     this.addCredentialRef = this.addCredential.open();
   }
-  openCredentialsList(index){
-    this.appsData = this.channnelConguired[index]
+  openCredentialsList(index) {
+    this.appsData = this.channnelConguired[index];
     this.credentialsListRef = this.credentialsList.open();
   }
   closeCredentialsList() {
@@ -132,75 +143,80 @@ export class CredentialsListComponent implements OnInit {
     this.credntial.awt = 'HS256';
     this.addCredentialRef.close();
     this.editTitleFlag = false;
-    this.scopesList.forEach(element => {
-      element.isMandatory = false
+    this.scopesList.forEach((element) => {
+      element.isMandatory = false;
     });
   }
   //open the edit popUop
-  viewDetails(data){
+  viewDetails(data) {
     this.addCredentialRef = this.addCredential.open();
     this.editTitleFlag = true;
     this.credntial.name = data.appName;
     this.editCreden.clientSecret = data.clientSecret;
     this.editCreden.clientId = data.clientId;
-    if(data && data.scope && data.scope[2]){
-      let selectedScope = data?.scope[2].scopes
-      this.scopesList?.forEach(element => {
-        selectedScope.forEach(data => {
-          if(element.scope == data){
-            element.isMandatory = true
+    if (data && data.scope && data.scope[2]) {
+      let selectedScope = data?.scope[2].scopes;
+      this.scopesList?.forEach((element) => {
+        selectedScope.forEach((data) => {
+          if (element.scope == data) {
+            element.isMandatory = true;
           }
         });
       });
     }
   }
-  //create and edit Credentials 
-  saveCredential(){
-    let scopeArr =[];
-    for(let item of this.scopesList){
-      if(item.isMandatory) scopeArr.push(item.scope)
+  //create and edit Credentials
+  saveCredential() {
+    let scopeArr = [];
+    for (let item of this.scopesList) {
+      if (item.isMandatory) scopeArr.push(item.scope);
     }
-    if(!this.editTitleFlag){
-      this.params = {
-        userId: this.authService.getUserId(),
-        streamId: this.selectedApp._id
-      }
-      this.url = 'create.createCredential'
-    }
-    else{
+    if (!this.editTitleFlag) {
       this.params = {
         userId: this.authService.getUserId(),
         streamId: this.selectedApp._id,
-        sdkAppId: this.editCreden.clientId
-      }
-      this.url = 'edit.credential'
+      };
+      this.url = 'create.createCredential';
+    } else {
+      this.params = {
+        userId: this.authService.getUserId(),
+        streamId: this.selectedApp._id,
+        sdkAppId: this.editCreden.clientId,
+      };
+      this.url = 'edit.credential';
     }
-    const queryParams = this.params
+    const queryParams = this.params;
     const payload = {
       appName: this.credntial.name,
       algorithm: this.credntial.awt,
       pushNotifications: {
         enable: this.credntial.enabled,
-        webhookUrl: ''
+        webhookUrl: '',
       },
       bots: [this.selectedApp._id],
       scope: [
-        "anonymouschat",
-        "registration",
+        'anonymouschat',
+        'registration',
         {
-            bot: this.selectedApp._id, 
-            scopes: scopeArr
-        }
-    ]
-    }
-    this.service.invoke(this.url, queryParams,payload).subscribe(
-      res => {
+          bot: this.selectedApp._id,
+          scopes: scopeArr,
+        },
+      ],
+    };
+    this.service.invoke(this.url, queryParams, payload).subscribe(
+      (res) => {
         this.getCredential();
-        this.closeModalPopup()
+        this.closeModalPopup();
       },
-     
-      errRes => {
-        if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
+
+      (errRes) => {
+        if (
+          errRes &&
+          errRes.error.errors &&
+          errRes.error.errors.length &&
+          errRes.error.errors[0] &&
+          errRes.error.errors[0].msg
+        ) {
           this.notificationService.notify(errRes.error.errors[0].msg, 'error');
         } else {
           this.notificationService.notify('Failed ', 'error');
@@ -210,60 +226,72 @@ export class CredentialsListComponent implements OnInit {
   }
   //validations
   validateSource() {
-    if (this.credntial.awt != 'Select Signing Algorithm' && this.credntial.name != "") {
-      this.saveCredential()
-
-    }
-    else {
+    if (
+      this.credntial.awt != 'Select Signing Algorithm' &&
+      this.credntial.name != ''
+    ) {
+      this.saveCredential();
+    } else {
       if (this.credntial.awt == 'Select Signing Algorithm') {
-        $(".dropdown-input").css("border-color", "#DD3646");
-        this.notificationService.notify('Enter the required fields to proceed', 'error');
+        $('.dropdown-input').css('border-color', '#DD3646');
+        this.notificationService.notify(
+          'Enter the required fields to proceed',
+          'error'
+        );
       }
-      if (this.credntial.name == "") {
-
-        $("#addSourceTitleInput").css("border-color", "#DD3646");
-        $("#infoWarning1").css({ "top": "58%", "position": "absolute", "right": "1.5%", "display": "block" });
-        this.notificationService.notify('Enter the required fields to proceed', 'error');
+      if (this.credntial.name == '') {
+        $('#addSourceTitleInput').css('border-color', '#DD3646');
+        $('#infoWarning1').css({
+          top: '58%',
+          position: 'absolute',
+          right: '1.5%',
+          display: 'block',
+        });
+        this.notificationService.notify(
+          'Enter the required fields to proceed',
+          'error'
+        );
       }
-
     }
-
 
     // if (this.credntial.name) {
     //   this.createCredential()
 
     // }
-
-
   }
   //track changing of input
   inputChanged(type) {
     if (type == 'title') {
-      this.credntial.name != '' ? $("#infoWarning").hide() : $("#infoWarning").show();
-      $("#addSourceTitleInput").css("border-color", this.credntial.name != '' ? "#BDC1C6" : "#DD3646");
+      this.credntial.name != ''
+        ? $('#infoWarning').hide()
+        : $('#infoWarning').show();
+      $('#addSourceTitleInput').css(
+        'border-color',
+        this.credntial.name != '' ? '#BDC1C6' : '#DD3646'
+      );
     }
   }
   //changing tabs configuration and API scope
-  changeTabs(type){
+  changeTabs(type) {
     this.selectedTab = type;
   }
   //Adding Scopes
-  getScope(index){
-    this.scopesList[index].isMandatory = !this.scopesList[index].isMandatory
-   }
+  getScope(index) {
+    this.scopesList[index].isMandatory = !this.scopesList[index].isMandatory;
+  }
   //credentials List method
   getCredential() {
     const queryParams = {
       userId: this.authService.getUserId(),
-      streamId: this.selectedApp._id
-    }
+      streamId: this.selectedApp._id,
+    };
     this.service.invoke('get.credential', queryParams).subscribe(
-      res => {
+      (res) => {
         //this.getApiScopes();
         this.channnelConguired = res.apps;
-        this.firstlistData = res.apps[0]
+        this.firstlistData = res.apps[0];
         this.imageLoad();
-                 // Scopes code for API Scopes initial //
+        // Scopes code for API Scopes initial //
         // Single Obj Api Scope
         // let resScopeList = [];
         // this.channnelConguired.forEach(appsData => {
@@ -287,44 +315,47 @@ export class CredentialsListComponent implements OnInit {
         // });
         // console.log(this.channnelConguired)
         //End
-        let scopeObj = []
-        this.channnelConguired['customScopeObj'] =[];  
-        this.channnelConguired['customScopeObjTitle'] =[];  
-        this.channnelConguired.forEach(element => {
-          if(element.scope && element.scope[2]){
-            this.channnelConguired['customScopeObj'].push(element.scope[2].scopes)
-            scopeObj.push(element.scope[2].scopes)
-          }else{
-            scopeObj.push([])
-          } 
-       });
-       scopeObj.forEach(element => {
-        element['arr']=[]
-         element.forEach(childElement => {
-           this.scopesList.forEach(scopeElement => {
-            let tooltipObj : any = {}
-            let titleObj :any = {};
-            if(childElement == scopeElement.scope){
-              tooltipObj['scopeTitle'] = scopeElement.displayName,
-              titleObj['scopeTitle'] = scopeElement.displayName,
-               tooltipObj['scopeDesc'] = scopeElement.description.en
-               element['arr'].push(tooltipObj) 
-               this.channnelConguired['customScopeObjTitle'].push(titleObj.scopeTitle)
-            }
+        let scopeObj = [];
+        this.channnelConguired['customScopeObj'] = [];
+        this.channnelConguired['customScopeObjTitle'] = [];
+        this.channnelConguired.forEach((element) => {
+          if (element.scope && element.scope[2]) {
+            this.channnelConguired['customScopeObj'].push(
+              element.scope[2].scopes
+            );
+            scopeObj.push(element.scope[2].scopes);
+          } else {
+            scopeObj.push([]);
+          }
+        });
+        scopeObj.forEach((element) => {
+          element['arr'] = [];
+          element.forEach((childElement) => {
+            this.scopesList.forEach((scopeElement) => {
+              let tooltipObj: any = {};
+              let titleObj: any = {};
+              if (childElement == scopeElement.scope) {
+                (tooltipObj['scopeTitle'] = scopeElement.displayName),
+                  (titleObj['scopeTitle'] = scopeElement.displayName),
+                  (tooltipObj['scopeDesc'] = scopeElement.description.en);
+                element['arr'].push(tooltipObj);
+                this.channnelConguired['customScopeObjTitle'].push(
+                  titleObj.scopeTitle
+                );
+              }
+            });
           });
-         });
-       });
+        });
         this.channnelConguired.forEach((elementChannel, index) => {
           elementChannel['customScopeObj'] = [];
-          scopeObj.forEach((elementScope , childIndex) => {
-            if(index == childIndex){
-              elementChannel['customScopeObj'].push(elementScope)  
+          scopeObj.forEach((elementScope, childIndex) => {
+            if (index == childIndex) {
+              elementChannel['customScopeObj'].push(elementScope);
             }
-
           });
         });
         console.log(this.channnelConguired);
-    // Scopes code for API Scopes end //
+        // Scopes code for API Scopes end //
 
         // this.firstlistData.lastModifiedOn = moment(this.firstlistData.lastModifiedOn).format('MM/DD/YYYY - hh:mmA');
         // var moment = require('moment/moment');
@@ -334,13 +365,18 @@ export class CredentialsListComponent implements OnInit {
         if (res.length > 0) {
           this.loadingContent = false;
           this.loadingContent1 = true;
-        }
-        else {
+        } else {
           this.loadingContent1 = true;
         }
       },
-      errRes => {
-        if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
+      (errRes) => {
+        if (
+          errRes &&
+          errRes.error.errors &&
+          errRes.error.errors.length &&
+          errRes.error.errors[0] &&
+          errRes.error.errors[0].msg
+        ) {
           this.notificationService.notify(errRes.error.errors[0].msg, 'error');
         } else {
           this.notificationService.notify('Failed ', 'error');
@@ -351,8 +387,8 @@ export class CredentialsListComponent implements OnInit {
   configureCredential() {
     const queryParams = {
       userId: this.authService.getUserId(),
-      streamId: this.selectedApp._id
-    }
+      streamId: this.selectedApp._id,
+    };
     let payload = {
       type: 'rtm',
       name: 'Web / Mobile Client',
@@ -363,19 +399,25 @@ export class CredentialsListComponent implements OnInit {
       isAlertsEnabled: this.isAlertsEnabled,
       enable: this.channelEnabled,
       sttEnabled: false,
-      sttEngine: 'kore'
-    }
+      sttEngine: 'kore',
+    };
 
     this.service.invoke('configure.credential', queryParams, payload).subscribe(
-      res => {
+      (res) => {
         this.slider = 0;
 
         this.notificationService.notify('Credential Configuered', 'success');
         // this.standardPublish();
         // console.log(res);
       },
-      errRes => {
-        if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
+      (errRes) => {
+        if (
+          errRes &&
+          errRes.error.errors &&
+          errRes.error.errors.length &&
+          errRes.error.errors[0] &&
+          errRes.error.errors[0].msg
+        ) {
           this.notificationService.notify(errRes.error.errors[0].msg, 'error');
         } else {
           this.notificationService.notify('Failed ', 'error');
@@ -383,14 +425,14 @@ export class CredentialsListComponent implements OnInit {
       }
     );
   }
-  stopPropagationOfViewDetails(event){
-    if(document.getElementById('viewDetails')){
+  stopPropagationOfViewDetails(event) {
+    if (document.getElementById('viewDetails')) {
       event.stopPropagation();
     }
   }
-  //deleting the credential 
+  //deleting the credential
   deleteCredential(data) {
-    const channelName= this.firstlistData.appName
+    const channelName = this.firstlistData.appName;
     const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
       width: '530px',
       height: 'autox',
@@ -398,49 +440,64 @@ export class CredentialsListComponent implements OnInit {
       data: {
         newTitle: 'Are you sure you want to delete?',
         body: ' Selected credential will be deleted.',
-        buttons: [{ key: 'yes', label: 'Delete', type: 'danger', class: 'deleteBtn' }, { key: 'no', label: 'Cancel' }],
-        confirmationPopUp: true
-      }
+        buttons: [
+          { key: 'yes', label: 'Delete', type: 'danger', class: 'deleteBtn' },
+          { key: 'no', label: 'Cancel' },
+        ],
+        confirmationPopUp: true,
+      },
     });
-    dialogRef.componentInstance.onSelect
-      .subscribe(result => {
-        if (result === 'yes') {
-          const quaryparms: any = {
-            userId: this.authService.getUserId(),
-            streamId: this.selectedApp._id,
-            appId: data.clientId,
-          }
-          const payload ={
-            "ignoreScopesCheck": true
-            }
+    dialogRef.componentInstance.onSelect.subscribe((result) => {
+      if (result === 'yes') {
+        const quaryparms: any = {
+          userId: this.authService.getUserId(),
+          streamId: this.selectedApp._id,
+          appId: data.clientId,
+        };
+        const payload = {
+          ignoreScopesCheck: true,
+        };
 
-          this.service.invoke('delete.credential', quaryparms,payload).subscribe(res => {
+        this.service.invoke('delete.credential', quaryparms, payload).subscribe(
+          (res) => {
             this.getCredential();
             dialogRef.close();
             this.notificationService.notify('Deleted Successfully', 'success');
-
-          }, (errors) => {
-            if (errors && errors.error && errors.error.errors.length && errors.error.errors[0] && errors.error.errors[0].code && errors.error.errors[0].code == 409) {
-              this.notificationService.notify('This app is currently associated with' + ' ' + channelName +'.'+ ' '+ 'Please remove the association and retry.' , 'error');
-              dialogRef.close();//errors.error.errors[0].msg
-            }
-            else {
+          },
+          (errors) => {
+            if (
+              errors &&
+              errors.error &&
+              errors.error.errors.length &&
+              errors.error.errors[0] &&
+              errors.error.errors[0].code &&
+              errors.error.errors[0].code == 409
+            ) {
+              this.notificationService.notify(
+                'This app is currently associated with' +
+                  ' ' +
+                  channelName +
+                  '.' +
+                  ' ' +
+                  'Please remove the association and retry.',
+                'error'
+              );
+              dialogRef.close(); //errors.error.errors[0].msg
+            } else {
               this.notificationService.notify('Deleted Successfully', 'error');
             }
-          });
-        } else if (result === 'no') {
-          dialogRef.close();
-        }
-      })
-  };
+          }
+        );
+      } else if (result === 'no') {
+        dialogRef.close();
+      }
+    });
+  }
   toggleSearch() {
-
     if (this.showSearch && this.searchcredential) {
       this.searchcredential = '';
     }
-    this.showSearch = !this.showSearch
-
-
+    this.showSearch = !this.showSearch;
   }
   focusoutSearch() {
     if (this.activeClose) {
@@ -452,17 +509,23 @@ export class CredentialsListComponent implements OnInit {
   focusinSearch(inputSearch) {
     setTimeout(() => {
       document.getElementById(inputSearch).focus();
-    }, 100)
+    }, 100);
   }
- //getting all the seed data for the scopes.
-  getApiScopes(){
+  //getting all the seed data for the scopes.
+  getApiScopes() {
     this.service.invoke('get.apiScopes').subscribe(
-      res => {
+      (res) => {
         this.scopesList = res;
-        this.getCredential()
+        this.getCredential();
       },
-      errRes => {
-        if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
+      (errRes) => {
+        if (
+          errRes &&
+          errRes.error.errors &&
+          errRes.error.errors.length &&
+          errRes.error.errors[0] &&
+          errRes.error.errors[0].msg
+        ) {
           this.notificationService.notify(errRes.error.errors[0].msg, 'error');
         } else {
           this.notificationService.notify('Failed ', 'error');
@@ -482,32 +545,13 @@ export class CredentialsListComponent implements OnInit {
     selBox.select();
     document.execCommand('copy');
     document.body.removeChild(selBox);
-    this.notificationService.notify('Copied to clipboard', 'success')
-
+    this.notificationService.notify('Copied to clipboard', 'success');
   }
   openUserMetaTagsSlider() {
     this.appSelectionService.topicGuideShow.next();
   }
+
+  isEmptyScreenLoading(isLoading) {
+    this.loadingContent = isLoading;
+  }
 }
-// getLinkedBot() {
-//   const queryParams = {
-//     userId: this.authService.getUserId(),
-//     streamId: this.selectedApp._id
-//   }
-
-//   this.service.invoke('get.linkedBot', queryParams).subscribe(
-//     res => {
-//       if (res.configuredBots) this.configuredBot_streamId = res.configuredBots[0]._id
-//       console.log(res);
-//     },
-//     errRes => {
-//       if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
-//         this.notificationService.notify(errRes.error.errors[0].msg, 'error');
-//       } else {
-//         this.notificationService.notify('Failed to get LInked BOT', 'error');
-//       }
-//     }
-//   );
-// }
-
-

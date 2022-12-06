@@ -197,7 +197,7 @@
                 <app-record-pagination *ngIf="totalCount && totalCount > limitpage" id="pagination_structured_data" class="pagination" [totalRecord]='totalCount' [limitpage]='limitpage' (pageChanged)="paginate($event)"></app-record-pagination>
             
             <app-empty-screen class="empty-lg" *ngIf="noItems && !searchText" [title]="emptyScreen.TITLE" [desc]="emptyScreen.DESC"
-                [imgName]="emptyScreen.IMG_NAME">
+                [imgName]="emptyScreen.IMG_NAME" (isImgLoading)="isEmptyScreenLoading($event)">
                 <div class="action-buttons">
                     <button class="kr-sg-button-secondary btn_lg mr-2" (click)="openAddStructuredData('structuredData')">
                         <i class="si-union"></i>
@@ -213,27 +213,6 @@
             <app-empty-screen class="empty-lg" [width]="120" [height]="120" *ngIf="noItems && searchText" [title]="emptyScreen.TITLE_SEARCH" [desc]="emptyScreen.DESC_SEARCH"
                 [imgName]="emptyScreen.IMG_NAME">
             </app-empty-screen>
-
-                <!-- <div class="empty-landing-screen" *ngIf="noItems">
-                <div class="img-block" *ngIf="noItems && !emptySearchResults"><img class="action_icon"  (load)="imageLoad()" src="assets/images/structured-data-empty.png"></div>
-                <ng-container *ngIf="noItems && !emptySearchResults && loadImageText">
-                    <div class="empty-title">{{'structuredData_no_structuer_data' | translate}}</div>
-                    <div class="desc-text">{{'structuredData_help_text' | translate}}</div>
-                    <div class="kr-sg-dropdowns" ngbDropdown [container]="'body'">                                        
-                        <div class="dropdown dropdown-open">
-                            <button class="dropdown-toggle dropdown-input" id="btn_empty_toggle_add_file_structured_data" ngbDropdownToggle>{{'structuredData_addData' | translate}}</button>                                            
-                            <ul class="dropdown-menu content-menu faq-filter-add" ngbDropdownMenu>
-                            <li id="btn_open_import_structured_data" (click)="openAddStructuredData('structuredData')">{{'structuredData_import' | translate}}</li>
-                            <li id="btn_open_manual_structured_data" (click)="openAddStructuredData('structuredDataManual')">{{'structuredData_addManually' | translate}}</li>                  
-                            </ul>
-                        </div>
-                    </div>
-                </ng-container>
-                <ng-container *ngIf="noItems && emptySearchResults">
-                    <div class="desc-text">{{'structuredData_empty_search_result' | translate}}</div>
-                </ng-container>
-            </div> -->
-        </div>
 
         <div class="mainLoadingSpinner" *ngIf="isLoading" >
             <mat-spinner diameter="18" strokeWidth="2"></mat-spinner>
