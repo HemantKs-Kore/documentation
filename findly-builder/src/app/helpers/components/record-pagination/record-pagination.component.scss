@@ -54,6 +54,7 @@
     .custom-disable {
         cursor: not-allowed !important;
         opacity: 0.5 !important;
+        pointer-events: none !important;
     }
 }
 

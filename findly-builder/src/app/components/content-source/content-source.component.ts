@@ -17,7 +17,7 @@ import { Subject } from 'rxjs';
 import { PerfectScrollbarComponent } from 'ngx-perfect-scrollbar';
 import { CrwalObj, AdvanceOpts, AllowUrl, BlockUrl, scheduleOpts } from 'src/app/helpers/models/Crwal-advance.model';
 import { InlineManualService } from '@kore.services/inline-manual.service';
-
+import { debounceTime, distinctUntilChanged } from "rxjs/operators";
 import { DockStatusService } from '../../services/dockstatusService/dock-status.service';
 import { MixpanelServiceService } from '@kore.services/mixpanel-service.service';
 import { OnboardingComponentComponent } from 'src/app/components/onboarding-component/onboarding-component.component';
@@ -242,6 +242,8 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
     'type': '',
     'header': ''
   }
+  isSearchLoading :boolean = false;
+  isPageDelete :boolean = false;
   @ViewChild('statusModalDocument') statusModalDocument: KRModalComponent;
   @ViewChild('perfectScroll') perfectScroll: PerfectScrollbarComponent;
   @ViewChild('addSourceModalPop') addSourceModalPop: KRModalComponent;
@@ -254,6 +256,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
   @ViewChild(OnboardingComponentComponent, { static: true }) onBoardingComponent: OnboardingComponentComponent;
   templateState = new Subject();
   loadingData: boolean = true;
+isSourceSearchClear : boolean = false;
 
   //latest object wrt crawl changes
   editSource: any;
@@ -271,7 +274,8 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
   isShowSchedlerModal:Boolean = false;
   scheduleObject:any={};
   isContentPage:boolean=false;
-
+  pagesSearchModelChanged = new Subject<string>();
+  sourcesSearchModelChanged = new Subject<string>();
   constructor(
     public workflowService: WorkflowService,
     private service: ServiceInvokerService,
@@ -296,6 +300,18 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
 
     this.templateState.subscribe(val => {
       // console.log(val)
+    })
+    this.pagesSearchModelChanged
+    .pipe(
+      debounceTime(300))
+    .subscribe(() => {
+      this.getCrawledPages(10, 0);
+    })
+    this.sourcesSearchModelChanged
+    .pipe(
+      debounceTime(300))
+    .subscribe(() => {
+      this.getSourceList(null,this.searchSources,'search');
     })
   }
   scroll = (event): void => {
@@ -552,6 +568,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
       if (this.resources && this.resources.length && !nxt) {
         this.poling('content')
       }
+      this.isSourceSearchClear = false;
       this.loadingContent = false;
       this.loadingData = false;
       setTimeout(() => {
@@ -672,6 +689,12 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
       this.notificationService.notify('Somthing went worng', 'error');
     }
   }
+  searchSourcesChange(){
+    this.sourcesSearchModelChanged.next();
+  }
+  searchPageChange(){
+    this.pagesSearchModelChanged.next();
+  }
   getCrawledPages(limit?, skip?) {
     this.pagingData = [];
     this.docContent = {};
@@ -703,6 +726,8 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
     }
     // payload.sort.lMod = -1;
     this.service.invoke('get.extracted.pags', quaryparms, payload).subscribe(res => {
+      this.isPageDelete = false;
+      this.isSearchLoading = false;
       this.loadingSliderContent = false;
       this.selectedSource.pages = res.content;
       this.totalCrawledCount = res.count;
@@ -739,6 +764,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
         this.clicksViews('file')
       }
     }, errRes => {
+      this.isSearchLoading = false;
       if (errRes && errRes.error && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0].msg) {
         this.loadingSliderContent = false;
         this.notificationService.notify(errRes.error.errors[0].msg, 'error');
@@ -1168,7 +1194,8 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
           if (from == 'source') {
             this.deleteSource(record, dialogRef)
           } else {
-            this.deletePage(record, event, dialogRef)
+            this.isPageDelete = true;
+            this.deletePage(record, event, dialogRef);
           }
         } else if (result === 'no') {
           dialogRef.close();
@@ -1281,7 +1308,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
       sourceType: this.selectedSource.type
     }
     if (quaryparms.sourceType === 'web') {
-      quaryparms.contentType = 'pages'
+      quaryparms.contentType = 'pages';
     }
     if (quaryparms.sourceType === 'file') {
       quaryparms.contentType = 'docContent'
@@ -1291,11 +1318,14 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
       this.totalRecord = this.totalRecord - 1;
       this.pageination(this.totalRecord, true)
       this.notificationService.notify('Page deleted successsfully', 'success');
-      const deleteIndex = _.findIndex(this.selectedSource.pages, (pg) => {
+      // const deleteIndex = _.findIndex(this.selectedSource.pages, (pg) => {
+      //   return pg._id === page._id;
+      // })
+      const deleteIndex = _.findIndex(this.pagingData, (pg) => {
         return pg._id === page._id;
       })
       if (deleteIndex > -1) {
-        this.selectedSource.pages.splice(deleteIndex, 1);
+        this.pagingData.splice(deleteIndex, 1);
         this.getCrawledPages(this.limitpage, this.recordStr - 1);
       }
       this.getSourceList();
@@ -1591,11 +1621,14 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
     }, 500)
   }
   closeStatusModal() {
+    this.page = false;
+    this.editTitleFlag = false;
     // this.swapSlider('page') // Just to redirect to 1st page
     if (this.statusModalPopRef && this.statusModalPopRef.close) {
       this.statusModalPopRef.close();
     }
-    this.editTitleFlag = false;
+  
+    this.totalCrawledCount = 0;
     this.addFormField('cancel');
     this.addAuthorizationField('cancel');
   }
@@ -1947,6 +1980,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
     this.getCrawledPages(10, 0);
   }
   focusoutSearch(isSearchSource?) {
+
     if (this.activeClose) {
       if (isSearchSource) {
         this.searchSources = '';

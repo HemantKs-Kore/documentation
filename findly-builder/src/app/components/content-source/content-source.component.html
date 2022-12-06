@@ -3,7 +3,7 @@
     <mat-spinner diameter="18" strokeWidth="2"></mat-spinner>
     <span class="please-wait-message">{{'Please Wait!' | translate}}</span>
   </div>
-  <ng-container *ngIf="!(resources && resources.length) && loadingContent1 && !searchSources">
+  <ng-container *ngIf="!(resources && resources.length) && loadingContent1 && !searchSources && !isSourceSearchClear">
     <app-useronboarding-journey [componentType]='componentType'></app-useronboarding-journey>
     <div class="title-content">{{"contentSource_content" | translate}}
       <span class="module-topic" tooltipClass="tooltip-global-" [container]="'body'" ngbTooltip="{{'contentSource_topic_guide' | translate}}" placement="right-center"(click)="openUserMetaTagsSlider()">
@@ -26,7 +26,7 @@
     </perfect-scrollbar>
   </ng-container>
 
-  <div class="table-list-content" *ngIf="!loadingContent">
+  <div class="table-list-content" *ngIf="!loadingContent || isSourceSearchClear">
     <app-useronboarding-journey [componentType]='componentType'></app-useronboarding-journey>
     <div class="kr-sg-data-table with-checkbox">
       <div class="table-action-header">
@@ -39,11 +39,11 @@
         <div>
           <div class="kr-sg-input-search m-0"  [ngClass]="{'d-none': !showSearch}">
             <input type="text" maxlength="60" placeholder="Search" class="input-search" name='searchSources' placeholder="Search" [ngClass]="{'pl-2':searchSources}"
-              id="searchContentSources" [(ngModel)]="searchSources" (keyup)="getSourceList(null,searchSources,'search')"
+              id="searchContentSources" [(ngModel)]="searchSources" (ngModelChange)="searchSourcesChange();isSourceSearchClear = true;"
               autocomplete="off"  (mouseover)="searchImgSrc = (searchFocusIn ? 'assets/icons/search_gray.svg' :'assets/icons/search_gray_dark.svg')"
               (mouseout)="searchFocusIn=false;searchImgSrc = 'assets/icons/search_gray.svg'" (focus)="searchFocusIn=true;searchImgSrc = 'assets/icons/search_gray.svg'">
               <img [src]="searchImgSrc" class="search-icon" *ngIf="!searchSources">
-              <img class="close-icon" src="assets/icons/close_icon.svg" [ngClass]="{'pr-22':searchSources}"  (mouseover)="activeClose=true" (mouseout)="activeClose=false" (click)="focusoutSearch(true);">
+              <img class="close-icon" src="assets/icons/close_icon.svg" [ngClass]="{'pr-22':searchSources}"  (mouseover)="activeClose=true" (mouseout)="activeClose=false" (click)="focusoutSearch(true);isSourceSearchClear = true;">
           </div>
 
           <div class="search-block">
@@ -1006,17 +1006,17 @@
 
         <!-- Pages -->
           <ng-container *ngIf="page && !loadingSliderContent">
-            <div class="pages-container-content" *ngIf="pagingData.length>0">
-              <div class="search_header">
+            <div class="pages-container-content">
+              <div class="search_header" *ngIf="pagingData.length>0 || isSearchLoading || pagesSearch?.length">
                 <div class="label-text">{{'contentSource_search_page'| translate}}</div>
                 <div class="kr-sg-input-search">                               
                   <input type="text" placeholder="{{'contentSource_search' | translate}}" class="input-search pl-35" name='pagesSearch'
-                  id="searchInput" [(ngModel)]="pagesSearch" (keyup)="getCrawledPages(10,0,pagesSearch,'search')"
+                  id="searchInput" [(ngModel)]="pagesSearch" (ngModelChange)="searchPageChange();isSearchLoading = true;"
                     autocomplete="off">
                   <i class="si-search search-icon"></i>
                 </div>
               </div>
-              <div class="inner-pages-content">
+              <div class="inner-pages-content" *ngIf="pagingData.length>0 && !isSearchLoading">
                 <div class="left_sec">
                   <perfect-scrollbar>
                     <div class="inner-scroll-data">
@@ -1125,8 +1125,16 @@
                 </div>
               </div>
             </div>
+            <div class="mainLoadingSpinner" *ngIf="isSearchLoading || isPageDelete">
+              <mat-spinner diameter="18" strokeWidth="2"></mat-spinner>
+              <span class="please-wait-message">{{'Please Wait!' | translate}}</span>
+            </div>
+            <app-empty-screen class="empty-sm" [width]="100" [height]="100" *ngIf="pagesSearch?.length &&  !isSearchLoading && !pagingData.length && !isPageDelete" [title]="emptyScreen.TITLE_SEARCH" [desc]="emptyScreen.DESC_SEARCH" [imgName]="emptyScreen.IMG_NAME">
+            </app-empty-screen>
+
             <app-empty-screen class="empty-sm" [width]="100" [height]="100" [title]="emptyScreen.TITLE_PAGES" [desc]="emptyScreen.DESC_PAGES"
-              [imgName]="emptyScreen.IMG_NAME" *ngIf="!pagingData.length">
+              [imgName]="emptyScreen.IMG_NAME" *ngIf="!isSearchLoading && !pagingData.length && !pagesSearch?.length && !isPageDelete">
+
               <div class="action-buttons">
                 <button class="kr-sg-button-primary btn_lg" (click)="jobOndemand(selectedSource, $event)">
                   <i class="si-web"></i>
@@ -1276,7 +1284,7 @@
       (click)="deletePages('source',selectedSource,null)">{{'contentSource_delete'| translate}}</button>
   </div>
   <div class="footer-btns" *ngIf="page && totalCrawledCount>10">
-    <app-record-pagination *ngIf = "totalCrawledCount" [totalRecord]='totalCrawledCount' [limitpage]='limitpage' (pageChanged)="paginate($event)"></app-record-pagination>
+    <app-record-pagination *ngIf = "totalCrawledCount" [totalRecord]='totalCrawledCount' [limitpage]='limitpage' (pageChanged)="paginate($event);isSearchLoading=true;"></app-record-pagination>
   </div>
 </kr-modal>
 
