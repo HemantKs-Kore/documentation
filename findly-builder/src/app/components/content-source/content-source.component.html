@@ -11,7 +11,7 @@
       </span>
     </div>    
     <perfect-scrollbar class="scoll-empty-screen">
-      <app-empty-screen class="empty-lg" [title]="emptyScreen.TITLE" [desc]="emptyScreen.DESC" [imgName]="emptyScreen.IMG_NAME">
+      <app-empty-screen class="empty-lg" [title]="emptyScreen.TITLE" [desc]="emptyScreen.DESC" [imgName]="emptyScreen.IMG_NAME" (isImgLoading)="isEmptyScreenLoading($event)">
         <div class="action-buttons">
           <button class="kr-sg-button-secondary btn_lg mr-2" (click)="addNewContentSource('contentWeb')">
             <i class="si-web"></i>
