@@ -578,7 +578,6 @@ export class BotActionComponent implements OnInit {
         (res) => {
           // console.log("Stream API, response payload", res);
           this.associatedBots = [];
-
           if (res.length > 0) {
             res.forEach((element) => {
               if (element.type == 'default' || element.type == 'universalbot') {
@@ -1760,6 +1759,8 @@ export class BotActionComponent implements OnInit {
   }
 
   isEmptyScreenLoading(isLoading) {
-    this.loadingContent = isLoading;
+    setTimeout(() => {
+      this.loadingContent = isLoading;
+    })
   }
 }
