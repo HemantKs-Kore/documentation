@@ -6,7 +6,6 @@ import { NgbModule, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { HttpClientModule, HttpClient } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { FilterPipe } from './helpers/filters/filter.pipe';
 import { DateFormatPipe } from './helpers/filters/dateformat.pipe';
 import { AppHeaderComponent } from './components/app-header/app-header.component';
 import { AppBodyComponent } from './components/app-body/app-body.component';
@@ -31,7 +30,6 @@ import { ScrollSpyDirective } from './helpers/directives/scroll-spy.directive';
 import { ConfirmationDialogComponent } from './helpers/components/confirmation-dialog/confirmation-dialog.component';
 import { SharedModule } from './shared/shared.module';
 import { SummaryComponent } from './components/summary/summary.component';
-import { KRModalComponent } from './shared/kr-modal/kr-modal.component';
 import { AddSourceComponent } from './components/add-source/add-source.component';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
@@ -49,7 +47,6 @@ import { EditorUrlDialogComponent } from './helpers/components/editor-url-dialog
 import { FileUploadModule } from 'ng2-file-upload';
 import { ImportFaqsModalComponent } from './components/import-faqs-modal/import-faqs-modal.component';
 import { SynonymsComponent } from './components/synonyms/synonyms.component';
-import { SynonymFilterPipe } from './components/synonyms/synonym-filter';
 import { BotActionComponent } from './components/bot-action/bot-action.component';
 import { TraitsComponent } from './components/traits/traits.component';
 import { TraitsFilterPipe } from './components/traits/traits-filter.pipe';
@@ -58,7 +55,7 @@ import { AddAlternateQuestionComponent } from './components/faqs/add-alternate-q
 import { GroupInputComponent } from './components/faqs/group-input/group-input.component';
 import { TagsInpComponent } from './components/faqs/tags-inp/tags-inp.component';
 import { CodemirrorModule } from '@ctrl/ngx-codemirror';
-import { RangeSliderComponent } from './helpers/components/range-slider/range-slider.component';
+
 // import { AttributesListComponent } from './components/attributes-list/attributes-list.component';
 import { AutocompleteMultiChipComponent } from './helpers/components/autocomplete-multi-chip/autocomplete-multi-chip.component';
 import { IndexComponent } from './components/index/index.component';
@@ -92,7 +89,6 @@ import { SettingsComponent } from './components/settings/settings.component';
 import { Ng5SliderModule } from 'ng5-slider';
 import { CredentialsListComponent } from './components/credentials-list/credentials-list.component';
 import { DateRangePickerComponent } from './helpers/components/date-range-picker/date-range-picker.component';
-import { RecordPaginationComponent } from './helpers/components/record-pagination/record-pagination.component';
 import { NgxDaterangepickerMd } from 'ngx-daterangepicker-material';
 import { FieldManagementComponent } from './components/field-management/field-management.component';
 import { AppExperimentsComponent } from './components/app-experiments/app-experiments.component';
@@ -105,13 +101,11 @@ import { MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material/form-field';
 import { SearchInterfaceComponent } from './components/search-interface/search-interface.component';
 import { TeamManagementComponent } from './components/team-management/team-management.component';
 import { SearchExperienceComponent } from './components/search-experience/search-experience.component';
-import { UseronboardingJourneyComponent } from './helpers/components/useronboarding-journey/useronboarding-journey.component';
 import { ActionsComponent } from './components/actions/actions.component';
 import { SmallTalkComponent } from './components/small-talk/small-talk.component';
 import { PricingComponent } from './components/pricing/pricing.component';
 import { InvoicesComponent } from './components/invoices/invoices.component';
 import { UsageLogComponent } from './components/usage-log/usage-log.component';
-import { RangeSliderSearchExperienceComponent } from './helpers/components/range-slider-search-experience/range-slider-search-experience.component';
 import { UpgradePlanComponent } from './helpers/components/upgrade-plan/upgrade-plan.component';
 import { valueFormatPipe } from './helpers/filters/number-format.pipe';
 import { TextTransformPipe } from './helpers/filters/textTransfom.pipe';
@@ -130,8 +124,7 @@ import { PresentableComponent } from './components/presentable/presentable.compo
 import { HighlightingComponent } from './components/highlighting/highlighting.component';
 import { SpellCorrectionComponent } from './components/spell-correction/spell-correction.component';
 import { SearchRelevanceComponent } from './components/search-relevance/search-relevance.component';
-import { ListFieldsComponent } from './components/search-settings/list-fields/list-fields.component';
-import { SearchFilterComponent } from './helpers/components/search-filter/search-filter.component';
+import { FindlySharedModule } from './modules/findly-shared/findly-shared.module';
 import { EmptyScreenModule } from './modules/empty-screen/empty-screen.module';
 import { SnippetsComponent } from './components/snippets/snippets.component';
 import { SearchsettingsBotactionsComponent } from './components/searchsettings-botactions/searchsettings-botactions.component';
@@ -145,14 +138,12 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
     AppHeaderComponent,
     AppBodyComponent,
     AppMenuComponent,
-    FilterPipe,
     SortPipe,
     DateFormatPipe,
     AppsListingComponent,
     ScrollSpyDirective,
     ConfirmationDialogComponent,
     SummaryComponent,
-    // KRModalComponent, /* Added in shared module*/
     AddSourceComponent,
     ContentSourceComponent,
     FaqSourceComponent,
@@ -171,7 +162,6 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
     AddAlternateQuestionComponent,
     GroupInputComponent,
     TagsInpComponent,
-    RangeSliderComponent,
     // AttributesListComponent,
     AutocompleteMultiChipComponent,
     IndexComponent,
@@ -183,7 +173,6 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
     StopWordsComponent,
     WeightsComponent,
     ResultRankingComponent,
-    SynonymFilterPipe,
     AddResultComponent,
     FacetsComponent,
     FieldsFilterPipe,
@@ -197,7 +186,6 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
     SettingsComponent,
     CredentialsListComponent,
     DateRangePickerComponent,
-    RecordPaginationComponent,
     FieldManagementComponent,
     FieldManagementComponent,
     AppExperimentsComponent,
@@ -209,13 +197,11 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
     StructuredDataStatusModalComponent,
     StatusDockerComponent,
     SearchExperienceComponent,
-    UseronboardingJourneyComponent,
     ActionsComponent,
     SmallTalkComponent,
     PricingComponent,
     InvoicesComponent,
     UsageLogComponent,
-    RangeSliderSearchExperienceComponent,
     UpgradePlanComponent,
     valueFormatPipe,
     TextTransformPipe,
@@ -234,13 +220,12 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
     HighlightingComponent,
     SpellCorrectionComponent,
     SearchRelevanceComponent,
-    ListFieldsComponent,
-    SearchFilterComponent,
     SnippetsComponent,
     SearchsettingsBotactionsComponent,
     CustomConfigurationsComponent,
   ],
   imports: [
+    FindlySharedModule,
     BrowserModule,
     FormsModule,
     MaterialModule,
@@ -266,7 +251,7 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
     ColorPickerModule,
     PickerModule,
     NgxEchartsModule.forRoot({
-      echarts: { init: echarts.init }
+      echarts: { init: echarts.init },
     }),
     TranslateModule.forRoot({
       defaultLanguage: 'en',
@@ -274,25 +259,32 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
         provide: TranslateLoader,
         useFactory: HttpLoaderFactory,
         deps: [HttpClient],
-      }
+      },
     }),
     ToastrModule.forRoot({
       timeOut: 5000,
       autoDismiss: false,
-      closeButton: true
+      closeButton: true,
     }),
     NgxDaterangepickerMd.forRoot(),
     EmptyScreenModule,
   ],
   // tslint:disable-next-line:max-line-length
-  entryComponents: [ConfirmationDialogComponent, ImportFaqsModalComponent, EditorUrlDialogComponent],
+  entryComponents: [
+    ConfirmationDialogComponent,
+    ImportFaqsModalComponent,
+    EditorUrlDialogComponent,
+  ],
   providers: [
     {
       provide: HTTP_INTERCEPTORS,
       useClass: AuthInterceptor,
       multi: true,
     },
-    { provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: { appearance: 'fill' } },
+    {
+      provide: MAT_FORM_FIELD_DEFAULT_OPTIONS,
+      useValue: { appearance: 'fill' },
+    },
     SortPipe,
     AuthGuard,
     AppDataResolver,
@@ -304,9 +296,9 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
     ConvertMDtoHTML,
     MatDatepickerModule,
     AppSelectionService,
-    DockStatusService
+    DockStatusService,
   ],
   // exports: [NgbdDatepickerRange],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}

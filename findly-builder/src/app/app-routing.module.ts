@@ -50,7 +50,6 @@ const routes: Routes = [
       appData: AppDataResolver
     },
     children: [
-      { path: '', component: AppsListingComponent, pathMatch: 'full' },
       { path: 'apps', component: AppsListingComponent },
       { path: 'summary', component: SummaryComponent },
       { path: 'source', component: AddSourceComponent },
@@ -85,12 +84,14 @@ const routes: Routes = [
       { path: 'pricing', component: PricingComponent },
       { path: 'invoices', component: InvoicesComponent },
       { path: 'usageLog', component: UsageLogComponent },
-      { path: 'search-field-properties', component: SearchSettingsComponent },
-      { path: 'search-field-properties', component: SearchFieldPropertiesComponent },
-      { path: 'index-configuration-settings', component: IndexConfigurationSettingsComponent },      
+      // { path: 'search-field-properties', component: SearchSettingsComponent },
+      // { path: 'search-field-properties', component: SearchFieldPropertiesComponent },
+      { path: 'index-configuration-settings', component: IndexConfigurationSettingsComponent },  
+      { path: 'search-settings', loadChildren: () => import('./modules/search-settings/search-settings.module').then(m => m.SearchSettingsModule) },
+      { path: '', component: AppsListingComponent },
       { path: '**', component: AppsListingComponent }
     ]
-  }
+  },
 ];
 
 @NgModule({

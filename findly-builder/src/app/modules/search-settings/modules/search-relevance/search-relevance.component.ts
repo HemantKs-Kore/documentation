@@ -4,7 +4,8 @@ import { AppSelectionService } from '@kore.services/app.selection.service';
 import { NotificationService } from '@kore.services/notification.service';
 import { ServiceInvokerService } from '@kore.services/service-invoker.service';
 import { of, interval, Subject, Subscription } from 'rxjs';
-import { RangeSlider } from '../../helpers/models/range-slider.model';
+import { RangeSlider } from 'src/app/helpers/models/range-slider.model';
+import { FindlySharedModule } from 'src/app/modules/findly-shared/findly-shared.module';
 
 
 @Component({

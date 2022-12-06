@@ -13,6 +13,7 @@ import { AppSelectionService } from '@kore.services/app.selection.service'
 import { Observable, of, Subscriber, Subscription } from 'rxjs';
 import { InlineManualService } from '@kore.services/inline-manual.service';
 import { TmplAstRecursiveVisitor } from '@angular/compiler';
+import { FindlySharedModule } from 'src/app/modules/findly-shared/findly-shared.module';
 declare const $: any;
 
 @Component({
