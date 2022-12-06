@@ -24,7 +24,7 @@
 
   <ng-container *ngIf="!linkedBotID && !loadingContent && !loading">
     <perfect-scrollbar class="empty-scroll">
-      <app-empty-screen class="empty-lg" [title]="emptyScreen.TITLE" [desc]="emptyScreen.DESC" [imgName]="emptyScreen.IMG_NAME">
+      <app-empty-screen class="empty-lg" [title]="emptyScreen.TITLE" [desc]="emptyScreen.DESC" [imgName]="emptyScreen.IMG_NAME" (isImgLoading)="isEmptyScreenLoading($event)">
         <div class="action-buttons">
           <button class="kr-sg-button-primary btn_lg" (click)="openBotsModalElement()">
             <i class="si-bot"></i>
