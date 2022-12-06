@@ -54,6 +54,7 @@
             [title]="emptyScreen.TITLE"
             [desc]="emptyScreen.DESC"
             [imgName]="emptyScreen.IMG_NAME"
+            (isImgLoading)="isEmptyScreenLoading($event)">
           >
             <div class="action-buttons">
               <button
