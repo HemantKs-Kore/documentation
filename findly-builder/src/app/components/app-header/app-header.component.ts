@@ -1260,6 +1260,7 @@ export class AppHeaderComponent implements OnInit {
   // }
   //open app
   openApp(app) {
+    $('#test-btn-launch-sdk').attr("disabled", "disabled").button('refresh');
     this.training = false;
     this.appSelectionService.openApp(app);
     //this.appSelectionService.refreshSummaryPage.next('changed');
