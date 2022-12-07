@@ -147,10 +147,10 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
   loadImageText: boolean = false;
   loadingContent1: boolean = false;
   sortedObject = {
-    type: 'fieldName',
-    position: 'up',
-    value: 1,
-  };
+    'type': 'ruleName',
+    'position': 'up',
+    "value": 1,
+  }
   filterObject = {
     type: '',
     header: '',
@@ -187,7 +187,8 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
   };
   search_field: String = '';
   filteredFields: Array<Object> = [];
-  isSearchClear: boolean = false;
+  isSearchClear: boolean =false;
+  isPaginating: boolean=false;
   @ViewChild('contextSuggestedImput') set content(content: ElementRef) {
     if (content) {
       this.contextSuggestedImput = content;
@@ -1215,12 +1216,14 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
 
         this.totalRecord = res.totalCount || 0;
         this.loadingContent = false;
+        this.isPaginating=false;
         this.addRemoveRuleFromSelection(null, null, true);
       },
       (errRes) => {
         this.loadingContent = false;
         this.loadingContent1 = false;
         this.isSearchClear = false;
+        this.isPaginating=false;
         this.errorToaster(errRes, 'Failed to get rules');
       }
     );
@@ -1566,6 +1569,7 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
             return item;
           });
         }
+      this.getDyanmicFilterData();
       },
       (errRes) => {
         this.errorToaster(errRes, 'Failed to update rule');
@@ -1876,6 +1880,7 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
     this.selcectionObj.selectedCount = 0;
     this.selcectionObj.ruleType = type;
     this.filterSystem.isRuleActiveFilter = 'all';
+    this.skip = 0;
     this.getRules();
     // this.rules = this.allRules?.filter(item => {
     //   if (type === 'contextual') {

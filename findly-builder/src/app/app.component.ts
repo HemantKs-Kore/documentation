@@ -697,6 +697,7 @@ export class AppComponent implements OnInit, OnDestroy {
           _self.searchExperienceConfig = res;
           _self.searchExperinceLoading = true;
           _self.headerService.updateSearchConfigurationValue(res);
+          $('#test-btn-launch-sdk').removeAttr("disabled").button('refresh');
           _self.headerService.searchConfiguration = res;
           //if (_self.isDemoApp) _self.searchSDKHeader();
         }, errRes => {

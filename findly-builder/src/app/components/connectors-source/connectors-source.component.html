@@ -133,7 +133,7 @@
                                     <div class="header-configuration-data mt-0">
                                         <div class="config-tab">
                                             <div class="icon-config">
-                                                <i class="si-instructions margin-left-2"></i>
+                                                <i class="si-instructions-black margin-left-2"></i>
                                             </div>
                                             <div class="title">{{'connectors_introduction'|translate}}</div>
                                         </div>
@@ -177,7 +177,7 @@
                                     <div class="header-configuration-data mt-0">
                                         <div class="config-tab">
                                             <div class="icon-config">
-                                                <i class="si-settings"></i>
+                                                <i class="si-settings-black"></i>
                                             </div>
                                             <div class="title">{{'connectors_configuration_authentication'|translate}}</div>
                                         </div>
@@ -408,7 +408,7 @@
                                                         <div class="col-4">{{'connectors_last_update'|translate}}</div>
                                                     </header>
                                                     <div class="content-body cursor-pointer" *ngFor="let content of overViewData.content">
-                                                        <div class="col-4 p-0">{{content?.title}}</div>
+                                                        <div class="col-4 p-0 text-overflow" appEllipsisActive>{{content?.title}}</div>
                                                         <div class="col-4 text-overflow" [title]="content?.url" (click)="removeSpaces(content?.url)"><span class="url-link">{{content?.url}}</span></div>
                                                         <div class="col-4">{{content?.lastUpdatedAt | date:'d/M/yyyy, h:mm:s a'}}</div>
                                                     </div>
