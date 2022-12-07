@@ -403,6 +403,10 @@
   content: "\e90a";
   color: #0d6efd;
 }
+.si-instructions-black:before {
+  content: "\e90a";
+  color: #202124;
+}
 .si-delete:before {
   content: "\e90b";
   color: #fff;
@@ -431,6 +435,10 @@
 .si-settings:before {
   content: "\e913";
   color: #fff;
+}
+.si-settings-black:before {
+  content: "\e913";
+  color: #202124;
 }
 .si-check:before {
   content: "\e909";
