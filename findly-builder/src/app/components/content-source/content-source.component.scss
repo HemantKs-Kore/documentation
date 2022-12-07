@@ -2100,8 +2100,6 @@
             cursor: pointer;
             position: absolute;
             left: calc(21% - 27px);
-            z-index: 1;
-
             &:hover {
                 .execute-log {
                     display: block;
@@ -2113,6 +2111,8 @@
                 font-weight: 400;
                 font-size: 14px;
                 line-height: 17px;
+                z-index: 1;
+                position: relative;
             }
 
             .execute-log {
