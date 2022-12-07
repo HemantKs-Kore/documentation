@@ -278,7 +278,7 @@
             <!-- New Design -->
             <ng-container  *ngIf="(resources | filter: [ searchSources , 'name']).length; else noGridContent">
               <div class="row col-12 p-0 grid-data-sec">
-                <div class="col-4 grid-card" *ngFor="let source of resources | filter: [ searchSources , 'name']"
+                <div class="col-4 grid-card cursor-pointer" *ngFor="let source of resources | filter: [ searchSources , 'name']"
                   (click)="openStatusSlider(source)">
                   <div class="card_sec">
                     <div class="titles-sec">
@@ -1323,10 +1323,10 @@
           <img class="dwnld-image" src="assets/images/download.svg" (click)="downloadDoc(docContent.file_url)">
         </div>
         <div class="title-desc-text" *ngIf="selectedSource.fileMeta">{{docContent.file_title || '---'}}</div>
-        <div class="title-text">{{'no_of_pages'| translate}}</div>
+        <div class="title-text">{{'contentSource_no_of_pages'| translate}}</div>
         <div class="title-desc-text">{{docContentType.pageCount}}</div>
 
-        <div class="title-text">{{'last_updated'| translate}}</div>
+        <div class="title-text">{{'contentSource_last_updated'| translate}}</div>
         <div class="title-desc-text">{{selectedSource.createdOn | dateFormatPipe: 'D MMMM YYYY , hh:mm A'}}</div>
         <div class="title-text">{{'contentSource_results_preview'| translate}}</div>
         <div class="title-desc-text">{{docContent.file_preview || '---'}}</div>

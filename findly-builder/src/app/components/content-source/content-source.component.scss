@@ -338,7 +338,8 @@
 
                     &:hover {
                         background: #F8F9FA;
-
+                        cursor: pointer;
+                        
                         .action_icon {
                             visibility: visible;
                         }
