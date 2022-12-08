@@ -21,7 +21,7 @@ declare var PureJSCarousel: any;
   styleUrls: ['./apps-home.scss']
 })
 export class AppsListingComponent implements OnInit {
-  emptyScreen = EMPTY_SCREEN.SHARED_APP;
+  emptyScreen = EMPTY_SCREEN.APP;
   authInfo: any;
   openJourney = false;
   saveInProgress = false;
