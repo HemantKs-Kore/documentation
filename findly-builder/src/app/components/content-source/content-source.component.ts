@@ -466,30 +466,30 @@ isSourceSearchClear : boolean = false;
       //element.advanceSettings.scheduleOpts.interval.intervalType
       this.resources.forEach(element => {
         if (element.advanceSettings && element.advanceSettings.scheduleOpt && element.advanceSettings.scheduleOpts.interval && element.advanceSettings.scheduleOpts.time) {
-          if (element.advanceSettings.scheduleOpts.interval.intervalType != "Custom") {
-            let minute = ''
-            let hour = (element.advanceSettings.scheduleOpts.time.hour).toString().length > 1 ? element.advanceSettings.scheduleOpts.time.hour : '0' + element.advanceSettings.scheduleOpts.time.hour;
-            if (element.advanceSettings.scheduleOpts.time.minute) {
-              minute = (element.advanceSettings.scheduleOpts.time.minute).toString().length > 1 ? element.advanceSettings.scheduleOpts.time.minute : '0' + element.advanceSettings.scheduleOpts.time.minute;
+          if (element?.advanceSettings?.scheduleOpts?.interval?.intervalType != "Custom") {
+            let minute='',hour = '';
+            if(element?.advanceSettings?.scheduleOpts?.time?.hour) hour = (element?.advanceSettings?.scheduleOpts?.time?.hour).toString().length > 1 ? element?.advanceSettings?.scheduleOpts?.time?.hour : '0' + element?.advanceSettings?.scheduleOpts?.time?.hour;
+            if (element?.advanceSettings?.scheduleOpts?.time?.minute) {
+              minute = (element?.advanceSettings?.scheduleOpts?.time?.minute).toString().length > 1 ? element?.advanceSettings?.scheduleOpts?.time?.minute : '0' + element?.advanceSettings?.scheduleOpts?.time?.minute;
             }
-            element['schedule_title'] = 'Runs ' + element.advanceSettings.scheduleOpts.interval.intervalType + ' ' + 'at ' +
+            element['schedule_title'] = 'Runs ' + element?.advanceSettings?.scheduleOpts?.interval?.intervalType + ' ' + 'at ' +
               hour + ':' + minute + ' ' +
-              element.advanceSettings.scheduleOpts.time.timeOpt + ' ' + element.advanceSettings.scheduleOpts.time.timezone;
+              element?.advanceSettings?.scheduleOpts?.time?.timeOpt + ' ' + element?.advanceSettings?.scheduleOpts?.time?.timezone;
           } else {
             let repeatOn = "";
             let schedulePeriod = "";
             let every = "";
             let date = ""
-            if (element.advanceSettings.scheduleOpts.interval.intervalValue && element.advanceSettings.scheduleOpts.interval.intervalValue.schedulePeriod) {
+            if (element?.advanceSettings?.scheduleOpts?.interval?.intervalValue && element?.advanceSettings?.scheduleOpts?.interval?.intervalValue?.schedulePeriod) {
               schedulePeriod = element.advanceSettings.scheduleOpts.interval.intervalValue.schedulePeriod
             }
-            if (element.advanceSettings.scheduleOpts.interval.intervalValue && element.advanceSettings.scheduleOpts.interval.intervalValue.repeatOn) {
+            if (element?.advanceSettings?.scheduleOpts?.interval?.intervalValue && element?.advanceSettings?.scheduleOpts?.interval?.intervalValue?.repeatOn) {
               repeatOn = " on " + this.convertToDay(element.advanceSettings.scheduleOpts.interval.intervalValue.repeatOn);
             }
-            if (element.advanceSettings.scheduleOpts.interval.intervalValue && element.advanceSettings.scheduleOpts.interval.intervalValue.every) {
+            if (element?.advanceSettings?.scheduleOpts?.interval?.intervalValue && element?.advanceSettings?.scheduleOpts?.interval?.intervalValue?.every) {
               every = element.advanceSettings.scheduleOpts.interval.intervalValue.every
             }
-            if (element.advanceSettings.scheduleOpts.interval.intervalValue && element.advanceSettings.scheduleOpts.interval.intervalValue.endsOn) {
+            if (element?.advanceSettings?.scheduleOpts?.interval?.intervalValue && element?.advanceSettings?.scheduleOpts?.interval?.intervalValue?.endsOn) {
               date = moment(element.advanceSettings.scheduleOpts.interval.intervalValue.endsOn.endDate).format('Do MMMM YYYY');
             }
             if (date != 'Invalid date') {

@@ -133,7 +133,7 @@
                                     <div class="header-configuration-data mt-0">
                                         <div class="config-tab">
                                             <div class="icon-config">
-                                                <i class="si-instructions-black margin-left-2"></i>
+                                                <i class="si-instructions margin-left-2"></i>
                                             </div>
                                             <div class="title">{{'connectors_introduction'|translate}}</div>
                                         </div>
@@ -177,7 +177,7 @@
                                     <div class="header-configuration-data mt-0">
                                         <div class="config-tab">
                                             <div class="icon-config">
-                                                <i class="si-settings-black"></i>
+                                                <i class="si-settings"></i>
                                             </div>
                                             <div class="title">{{'connectors_configuration_authentication'|translate}}</div>
                                         </div>
@@ -394,7 +394,7 @@
                                     <div class="content-settings-tab-data">
                                         <div class="search-tab">
                                             <div class="kr-sg-input-search">
-                                                <input autocomplete="off" class="input-search pl-33" #inputSearch maxlength="60" placeholder="{{'sa_search' | translate}}" type="text" [(ngModel)]="contentInputSearch" (change)="getDynamicSearchContent('input')">
+                                              <input autocomplete="off" class="input-search pl-33" #inputSearch maxlength="60" placeholder="{{'sa_search' | translate}}" type="text" [(ngModel)]="contentInputSearch" (input)="getDynamicSearchContent('input')">
                                               <img class="search-icon" src="assets/icons/search_gray.svg">
                                               <img class="close-icon" src="assets/icons/close_icon.svg" (click)="getDynamicSearchContent('clear')">
                                             </div>
