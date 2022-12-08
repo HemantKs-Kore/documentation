@@ -45,7 +45,7 @@
                 <div class="tile-plan-details">
                   <div class="plan-type">{{currentSubscriptionPlan?.subscription?.planName|uppercase}} PLAN</div> 
                   <div class="plan-price">
-                   <span class="plan-crown-img" *ngIf="(currentSubscriptionPlan?.subscription?.planName|lowercase)!=='free'"><img src="assets/images/pricing-plan/plan-crown.svg" /></span> <span *ngIf="currentSubscriptionPlan?.subscription?.planAmount>=0">$</span>{{currentSubscriptionPlan?.subscription?.planAmount>=0?(currentSubscriptionPlan?.subscription?.planAmount):'CUSTOM '}} <span class="plan-duration" *ngIf="currentSubscriptionPlan?.subscription?.planAmount>0||(['unlimited','enterprise'].includes(currentSubscriptionPlan?.subscription?.planName|lowercase))">/ {{currentSubscriptionPlan?.subscription?.billingUnit}}</span>
+                   <span class="plan-crown-img" *ngIf="(currentSubscriptionPlan?.subscription?.planName|lowercase)!=='free'"><img src="assets/images/pricing-plan/plan-crown.svg" /></span> <span *ngIf="currentSubscriptionPlan?.subscription?.planAmount>=0">$</span>{{currentSubscriptionPlan?.subscription?.planAmount>=0?(currentSubscriptionPlan?.subscription?.planAmount+' /'):'CUSTOM '}} <span class="plan-duration ml-1" *ngIf="currentSubscriptionPlan?.subscription?.planAmount>0||(['unlimited','enterprise'].includes(currentSubscriptionPlan?.subscription?.planName|lowercase))">{{currentSubscriptionPlan?.subscription?.billingUnit}}</span>
                   </div>
                   <div class="plan-options" [ngClass]="{'d-none':(currentSubscriptionPlan?.subscription?.planName|lowercase)==='unlimited'}">
                     <div class="plan-view">
