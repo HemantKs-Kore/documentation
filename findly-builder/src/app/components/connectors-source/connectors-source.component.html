@@ -39,7 +39,7 @@
     </div>
     
     <ng-container
-        *ngIf="(searchField && !(connectorsData|filter: [ searchField, 'connector_name']).length && !(availableConnectorsData|filter: [ searchField, 'connector_name']).length); else noConnectors">
+        *ngIf="searchField && (connectorsData.length && availableConnectorsData.length) && (!(connectorsData|filter: [ searchField, 'connector_name']).length && !(availableConnectorsData|filter: [ searchField, 'connector_name']).length); else noConnectors">
     
         <app-empty-screen class="empty-lg" [width]="117" [height]="142" [title]="emptyScreen.TITLE_SEARCH" [desc]="emptyScreen.DESC_SEARCH"
             [imgName]="emptyScreen.IMG_NAME">
