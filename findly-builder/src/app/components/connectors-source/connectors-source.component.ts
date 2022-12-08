@@ -229,7 +229,9 @@ export class ConnectorsSourceComponent implements OnInit {
   //on change get content data using search function
   getDynamicSearchContent(type){
     const text = (type==='input')?this.contentInputSearch:'';
-    this.getConentData(0,text); 
+    setTimeout(()=>{
+      this.getConentData(0,text); 
+    },500)
     if(type==='clear') this.contentInputSearch='';
   }
 

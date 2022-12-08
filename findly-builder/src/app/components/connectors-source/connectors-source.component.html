@@ -394,7 +394,7 @@
                                     <div class="content-settings-tab-data">
                                         <div class="search-tab">
                                             <div class="kr-sg-input-search">
-                                                <input autocomplete="off" class="input-search pl-33" #inputSearch maxlength="60" placeholder="{{'sa_search' | translate}}" type="text" [(ngModel)]="contentInputSearch" (change)="getDynamicSearchContent('input')">
+                                              <input autocomplete="off" class="input-search pl-33" #inputSearch maxlength="60" placeholder="{{'sa_search' | translate}}" type="text" [(ngModel)]="contentInputSearch" (input)="getDynamicSearchContent('input')">
                                               <img class="search-icon" src="assets/icons/search_gray.svg">
                                               <img class="close-icon" src="assets/icons/close_icon.svg" (click)="getDynamicSearchContent('clear')">
                                             </div>
