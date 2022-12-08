@@ -33,7 +33,7 @@
                 </button>
               </div>
               <div class="vr-beta" *ngIf="component.value=='custom_configurations'"
-                [ngClass]="{'beta-active':(selectedComponent===component.value)}">BETA</div>
+                [ngClass]="{'beta-active':(router.url === '/search-settings/custom_configurations')}">BETA</div>
             </div>
           </div>
         </perfect-scrollbar>
