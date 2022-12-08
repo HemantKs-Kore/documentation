@@ -1640,7 +1640,7 @@ and open the template in the editor.
             &:disabled {
                 // border: solid 1px #f3f3f4;
                 color: $primaryColor;
-                // opacity: 0.3;	
+                opacity: 0.3;	
                 cursor: not-allowed;
                 pointer-events: none;
             }
