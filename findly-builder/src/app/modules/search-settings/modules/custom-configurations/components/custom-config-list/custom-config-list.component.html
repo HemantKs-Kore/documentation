@@ -1,0 +1,18 @@
+<div class="table_body row m-0 py-3" *ngFor="let item of customConfigList">
+    <div class="col-5 title text-left text-truncate" title="">
+        {{ item.key }}
+    </div>
+    <div class="col-5 title text-left">
+        {{ item.value }}
+    </div>
+    <div class="col-2 p-0 text-left">
+      <div class="action_links">
+        <span class="action_link-icon" (click)="updateCustomConfig(item)">
+            <i class="si-pencil-edit mr-2"></i>
+        </span>
+        <span class="action_link-icon link-delete" (click)="removeCustomConfig(item)">
+          <i class="si-delete1"></i>
+        </span>
+      </div>
+    </div>
+</div>
