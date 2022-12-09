@@ -172,7 +172,12 @@ export class ListFieldsComponent implements OnInit {
   clearReocrd() {
     //this.searchType = '';
     this.search_value = '';
+    this.popupfieldvalues = this.popupfieldvalues.map(item => {
+      item.isChecked = false;
+      return item;
+    })
   }
+    
 
   getsearchvalue(value,component){
     let component_type

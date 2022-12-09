@@ -135,7 +135,7 @@ export class SpellCorrectionComponent implements OnInit {
       indexPipelineId: this.indexPipelineId,
       streamId: this.selectedApp._id,
       queryPipelineId: this.queryPipelineId,
-      isSearchable: this.isSearchable,
+      // isSearchable: this.isSearchable,
       // page: this.page ? this.page : 0,
       // limit: this.limit,
       searchKey: this.searchValue ? this.searchValue : '',

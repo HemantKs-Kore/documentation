@@ -31,7 +31,7 @@ export class HighlightingComponent implements OnInit {
    selectedSort:string='asc';
    checksort:string='fieldName';
    selectionflag:boolean=true;
-   isSearchable:boolean=true;
+  //  isSearchable:boolean=true;
    page:number=0;
    limit:number=10;
    max_pageno:any;
@@ -132,7 +132,7 @@ export class HighlightingComponent implements OnInit {
       indexPipelineId:this.indexPipelineId,
       streamId:this.selectedApp._id,
       queryPipelineId:this.queryPipelineId,
-      isSearchable:this.isSearchable,
+      // isSearchable:this.isSearchable,
       // page:this.page?this.page:0,
       // limit:this.limit,
       searchKey:this.searchValue?this.searchValue:''
