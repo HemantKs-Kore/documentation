@@ -16,7 +16,7 @@
   </div>
   <div class="landing-page-toggle">
     <label class="kr-sg-toggle with-label">
-      <input type="checkbox" checked="">
+      <input type="checkbox" [checked]="smallTalkData?.enable" (change)="sildervaluechanged($event)">
       <div class="slider">
         <span class="no">Disable</span>
         <span class="yes">Enable</span>

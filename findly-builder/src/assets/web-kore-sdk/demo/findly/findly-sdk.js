@@ -2305,10 +2305,10 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
               {{if msgData && msgData.isSearchResultsMessage===true}}\
                 <div class="sdk-query-retry-icon" searchQuery="${msgData.text}"><img src="assets/icons/SDK-Icons/reply.svg"><span class="tooltiptext_top center sdk-i18n-lang" sdk-i18n-key="sa_sdk_retry_query">{{html langTranslator("sa_sdk_retry_query")}}</span></div>\
               {{/if}}\
-              <span>{{html helpers.convertMDtoHTML(msgData.text)}}</span>\
+              <span>${msgData.text}</span>\
               <div class="time-info">${msgData.timeStamp}</div>\
               {{if msgData && msgData.isFromHistory===true}}\
-              <div class="search-agin-tag" title="{{html helpers.convertMDtoHTML(msgData.text)}}">\
+              <div class="search-agin-tag" title="${msgData.text}">\
                 <img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTEiIGhlaWdodD0iMTEiIHZpZXdCb3g9IjAgMCAxMSAxMSIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZmlsbC1ydWxlPSJldmVub2RkIiBjbGlwLXJ1bGU9ImV2ZW5vZGQiIGQ9Ik00LjkyOTI5IDAuNDYyNDk0QzIuNDYyMzUgMC40NjI0OTQgMC40NjI0OTQgMi40Njc2OSAwLjQ2MjQ5NCA0Ljk0MTIyQzAuNDYyNDk0IDcuNDE0NzYgMi40NjIzNSA5LjQxOTk1IDQuOTI5MjkgOS40MTk5NUM2LjAwODExIDkuNDE5OTUgNi45OTc2IDkuMDM2NDggNy43Njk1OCA4LjM5ODA3TDkuODQwNTIgMTAuNDQ5TDkuODcxNDEgMTAuNDc2OUMxMC4wNDE0IDEwLjYxNTggMTAuMjkyMSAxMC42MDQ5IDEwLjQ0OTQgMTAuNDQ1M0MxMC42MTY1IDEwLjI3NTcgMTAuNjE0OCAxMC4wMDIzIDEwLjQ0NTYgOS44MzQ3OUw4LjM3ODMxIDcuNzg3NDFDOS4wMTQyIDcuMDEzNjIgOS4zOTYwOSA2LjAyMjE0IDkuMzk2MDkgNC45NDEyMkM5LjM5NjA5IDIuNDY3NjkgNy4zOTYyNCAwLjQ2MjQ5NCA0LjkyOTI5IDAuNDYyNDk0Wk00LjkyOTI5IDEuMzI1ODZDNi45MjA2OCAxLjMyNTg2IDguNTM1MDIgMi45NDQ1MSA4LjUzNTAyIDQuOTQxMjJDOC41MzUwMiA2LjkzNzkzIDYuOTIwNjggOC41NTY1OCA0LjkyOTI5IDguNTU2NThDMi45Mzc5IDguNTU2NTggMS4zMjM1NiA2LjkzNzkzIDEuMzIzNTYgNC45NDEyMkMxLjMyMzU2IDIuOTQ0NTEgMi45Mzc5IDEuMzI1ODYgNC45MjkyOSAxLjMyNTg2WiIgZmlsbD0iIzBENkVGRCIvPgo8L3N2Zz4K">\
                   <div class="text-search sdk-i18n-lang" sdk-i18n-key="sa_sdk_search_again" >{{html langTranslator("sa_sdk_search_again")}}</div>\
                 </div>\

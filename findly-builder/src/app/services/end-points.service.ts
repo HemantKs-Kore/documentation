@@ -1414,7 +1414,7 @@ export class EndPointsService {
       endpoint: this.API_SERVER_URL +'/findly/stream/:streamId/indexPipeline/:indexPipelineId/queryPipeline/:queryPipelineId/stopwords?languageCode=:code',
       method: 'get'
     }
-    //Api for Adding stopwords List
+    //Api for Adding or Editing stopwords List
     this.serviceList['put.createStopWords'] = {
       endpoint: this.API_SERVER_URL +'/findly/stream/:streamId/indexPipeline/:indexPipelineId/queryPipeline/:queryPipelineId/stopwords',
       method: 'put'
@@ -1426,5 +1426,27 @@ export class EndPointsService {
     }
 
     //Apis for Stop Words module ends
+
+    //Api for getting stopwords List
+    this.serviceList['get.synonyms'] = {
+      endpoint: this.API_SERVER_URL +'/findly/stream/:streamId/indexPipeline/:indexPipelineId/queryPipeline/:queryPipelineId/synonyms?languageCode=:code&page=:pageNo&limit=:noOfRecords',
+      method: 'get'
+    }
+    //Apis for Synonyms module starts
+    this.serviceList['put.addSynonym'] = {
+      endpoint: this.API_SERVER_URL +'/findly/stream/:streamId/indexPipeline/:indexPipelineId/queryPipeline/:queryPipelineId/synonyms',
+      method: 'put'
+    }
+    this.serviceList['put.EditSynonym'] = {
+      endpoint: this.API_SERVER_URL +'/findly/stream/:streamId/indexPipeline/:indexPipelineId/queryPipeline/:queryPipelineId/synonyms/synonymId:synonymId',
+      method: 'put'
+    }
+    this.serviceList['delete.synonymn'] = {
+      endpoint: this.API_SERVER_URL +'/findly/stream/:streamId/indexPipeline/:indexPipelineId/queryPipeline/:queryPipelineId/synonyms/:synonymId',
+      method: 'delete'
+    }
+
+    //Apis for Synonyms module ends
+
  }
 }
