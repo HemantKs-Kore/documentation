@@ -92,9 +92,9 @@
                                     <img class="custom-dropdown-toggle-icon" src="assets/icons/Fields_Vector.svg">
                                 </button>
                                 <ul class="dropdown-menu content-menu type_sort_dropdown-content" ngbDropdownMenu>
-                                    <li (click)="selectFilter.close();filterTable('all','isSearchable')"><span
-                                            class="list-name">{{'fields_all' | translate}}</span><img
-                                            [ngClass]="{'hide': filterSystem.isSearchableFilter !== 'all'}"
+                                    <li (click)="sourceFilter.close();filterTable('all','fieldDataType')"><span
+                                            class="list-name">{{'sa_all' | translate}}</span><img
+                                            [ngClass]="{'hide': filterSystem.typefilter !== 'all'}"
                                             src="assets/icons/check-blue.svg"></li>
                                     <li *ngFor="let docType of isSearchableArr"
                                         (click)="selectFilter.close();filterTable(docType,'isSearchable')">
@@ -154,7 +154,7 @@
                                 </button>
                                 <ul class="dropdown-menu content-menu type_sort_dropdown-content" ngbDropdownMenu>
                                     <li (click)="selectFilter.close();filterTable('all','isMultiValued')"><span
-                                            class="list-name">All</span><img
+                                            class="list-name">{{'sa_all' | translate}}</span><img
                                             [ngClass]="{'hide': filterSystem.isMultiValuedFilter !== 'all'}"
                                             src="assets/icons/check-blue.svg"></li>
                                     <li *ngFor="let docType of isMultiValuedArr"
@@ -183,7 +183,7 @@
                                 </button>
                                 <ul class="dropdown-menu content-menu type_sort_dropdown-content" ngbDropdownMenu>
                                     <li (click)="isRequiredFilter.close();filterTable('all','isRequired')"><span
-                                            class="list-name">All</span><img
+                                            class="list-name">{{'sa_all' | translate}}</span><img
                                             [ngClass]="{'hide': filterSystem.isRequiredFilter !== 'all'}"
                                             src="assets/icons/check-blue.svg"></li>
                                     <li *ngFor="let docType of isRequiredArr"

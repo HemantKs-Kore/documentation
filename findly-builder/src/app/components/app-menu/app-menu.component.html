@@ -2,7 +2,6 @@
 <div class="sidebar-fixed position-fixed activeMenu" *ngIf="show">
 	<ng-container *ngIf="(settingMainMenu || sourceMenu) && appSelectionService?.env_dep_type!=='installer'">
 		<div class="upgrade_your_plan_price" *ngIf="showUpgrade">
-			<!-- <span [ngClass]="{'status-type':upgradeBannerFlag}"></span> -->
 			<div class="product-subscription-alert">
 				<span class="px-1 close-btn" (click)="showUpgrade=!showUpgrade"><i class="si-close-red"></i></span>
 				<p class="product-subscription-desc" *ngIf="(usageDetails?.searchQueries>80||usageDetails?.ingestDocs>80)">{{'app_menu_utlization_80%' | translate}}</p>
@@ -158,9 +157,7 @@
 			</div>
 
 			<div class="search-config-nav-block mb-2">
-
 				<div class="search-config-title text-truncate">{{'app_menu_Search_Configuration' | translate}}</div>
-
 				<div class="search-config-elipse-block pr-0">
 					<div class="title text-truncate"
 						title="{{configObj[selectedConfig]?configObj[selectedConfig].name=='Default'?'Default Search':configObj[selectedConfig].name:'Loading..'}}">
@@ -297,21 +294,11 @@
 				<div mat-button class="mat-button" [routerLink]="['/search-experience']" skipLocationChange
 					routerLinkActive="active" (click)="preview('index')" mat-button>
 					<span class="inlineIconBox">
-						<!-- <img src="assets/icons/sidemenu/new-icons/channels.svg" class="defaultIcon">
-						<img src="assets/icons/sidemenu/new-icons/channels.svg" class="activeIcon"> -->
 						<img src="assets/icons/sidemenu/new-icons/search-interface.svg" class="defaultIcon">
 						<img src="assets/icons/sidemenu/new-icons/search-interface-active.svg" class="activeIcon">
 					</span>
 					<span class="linkTitle">{{'app_menu_search_interface' | translate}}</span>
 				</div>
-
-				<!-- <div mat-button class="mat-button" [routerLink]="['/searchInterface']" skipLocationChange routerLinkActive="active" (click)="preview('index')" mat-button>
-					<span class="inlineIconBox">						
-						<img src="assets/icons/sidemenu/new-icons/result-template.svg" class="defaultIcon">
-						<img src="assets/icons/sidemenu/new-icons/result-template.svg" class="activeIcon">
-					</span>
-					<span class="linkTitle">Result Templates </span>
-				</div> -->
 
 				<div mat-button class="mat-button" [routerLink]="['/resultTemplate']" skipLocationChange
 					routerLinkActive="active" (click)="preview('index')" mat-button>
