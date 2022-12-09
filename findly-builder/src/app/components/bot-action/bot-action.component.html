@@ -263,29 +263,40 @@
               <div class="col-6 title">{{'botAction_bot_name'| translate}}</div>
               <div class="col-6 title">{{'botAction_owner'| translate}}</div>
           </div>
-          <div class="table-body-link-bot row col-12"  *ngFor="let bot of associatedBots | filter: [searchAssociatedBots, 'name']">
-            <div class="col-6 bot-name-data row m-0">
-              <div class="col-8 name-with-type">
-                {{bot.name}} <span class="bot-type" *ngIf="bot.type==='universalbot'">{{'botAction_unlink_bot'| translate}}</span>
-              </div>
-              <div class="col-4 shares-data">
+          <ng-container *ngIf="(associatedBots | filter: [searchAssociatedBots, 'name']).length; else noSearchBots">
+            <div class="table-body-link-bot row col-12" *ngFor="let bot of associatedBots | filter: [searchAssociatedBots, 'name']">
+              <div class="col-6 bot-name-data row m-0">
+                <div class="col-8 name-with-type">
+                  {{bot.name}} <span class="bot-type" *ngIf="bot.type==='universalbot'">{{'botAction_unlink_bot'| translate}}</span>
+                </div>
+                <div class="col-4 shares-data">
                   <img src="assets/icons/actions/shares.svg">{{bot.publishedTasksCount}} {{'botAction_tasks'| translate}}
+                </div>
+              </div>
+              <div class="col-3 owner-name">{{bot.createdBy.firstName}} {{bot.createdBy.lastName}}</div>
+              <div class="col-3 link-bot-actions">
+                <div class="link-bot-btn" placement="left" [ngbTooltip]="(linkedBotID ?'Please Unlink the linked bot':null)"
+                  container='body' [ngClass]="{'link-bot-disable':linkedBotID}"
+                  (click)="openBotsConfigurationModalElement(bot,linkedBotID)" *ngIf="streamId !== bot._id">
+                  <img
+                    src="{{!linkedBotID?'assets/icons/actions/link-bot.svg':'assets/icons/actions/link-bot-disable.svg'}}">{{'botAction_link_a_bot'|
+                  translate}}
+                </div>
+                <div class="link-bot-btn" (click)="unlinkBot(bot._id,'bulk_unlink')" *ngIf="streamId == bot._id">
+                  <img src="assets/icons/actions/link-bot.svg">{{'botAction_unlink_bot'| translate}}
+                </div>
+                <!-- <img src="assets/icons/actions/external-link.svg" class="ext-link" placement="top-right" ngbTooltip="Open this bot in Kore.ai Platform" container='body' tooltipClass="train-icon-tooltip ml-12"> -->
               </div>
             </div>
-            <div class="col-3 owner-name">{{bot.createdBy.firstName}} {{bot.createdBy.lastName}}</div>
-            <div class="col-3 link-bot-actions">
-              <div class="link-bot-btn" placement="left" [ngbTooltip]="(linkedBotID ?'Please Unlink the linked bot':null)" container='body' [ngClass]="{'link-bot-disable':linkedBotID}" (click)="openBotsConfigurationModalElement(bot,linkedBotID)" *ngIf="streamId !== bot._id">
-                <img src="{{!linkedBotID?'assets/icons/actions/link-bot.svg':'assets/icons/actions/link-bot-disable.svg'}}">{{'botAction_link_a_bot'| translate}}
-              </div>
-              <div class="link-bot-btn" (click)="unlinkBot(bot._id,'bulk_unlink')" *ngIf="streamId == bot._id">
-                <img src="assets/icons/actions/link-bot.svg">{{'botAction_unlink_bot'| translate}}
-              </div>
-              <!-- <img src="assets/icons/actions/external-link.svg" class="ext-link" placement="top-right" ngbTooltip="Open this bot in Kore.ai Platform" container='body' tooltipClass="train-icon-tooltip ml-12"> -->
-            </div>
-          </div>
-          
+          </ng-container>
+          <ng-template #noSearchBots>
+            <app-empty-screen class="empty-bot" [width]="100" [height]="100" [title]="emptyScreen.TITLE_SEARCH"
+              [desc]="emptyScreen.DESC_SEARCH" [imgName]="emptyScreen.IMG_NAME">
+            </app-empty-screen>
+          </ng-template>
         </div>
       </div>
+
       <div *ngIf="!associatedBots || !associatedBots.length" class="link-action-bot-empty">
           <div class="img-block">
             <img src="assets/icons/actions/no-link-bot-action.svg">
