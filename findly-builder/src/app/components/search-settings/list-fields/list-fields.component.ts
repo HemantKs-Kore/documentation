@@ -107,7 +107,7 @@ export class ListFieldsComponent implements OnInit {
     } else {
       this.isAsc = !this.isAsc;
     }
-    var naviagtionArrow ='';
+    let naviagtionArrow ='';
     //var checkSortValue= 1;
     if(this.isAsc){
       naviagtionArrow= 'up';
@@ -123,7 +123,6 @@ export class ListFieldsComponent implements OnInit {
       fieldname :this.selectedSort,
       type : this.checksort
     });
-    //this.fieldsFilter(null,null,null,null,sort,checkSortValue,naviagtionArrow)
   }
   /** On Perfect Scroll Event Y end */
   onYReachEnd(event){
@@ -155,6 +154,7 @@ export class ListFieldsComponent implements OnInit {
     }
     this.pageno.emit(this.page_number)
   }
+  //** open add field modal pop up */
   openModalPopup() {
     this.addFieldModalPopRef = this.addFieldModalPop.open();
     this.modal_open=true
@@ -163,12 +163,13 @@ export class ListFieldsComponent implements OnInit {
       this.perfectScroll.directiveRef.scrollToTop();
     }, 500)
   }
-
+  //** to close the modal pop-up */
   closeModalPopup() {
     this.addFieldModalPopRef.close();
     this.clearReocrd();
   }
-
+ 
+  //** to clear the search text and the checkbox selections */
   clearReocrd() {
     //this.searchType = '';
     this.search_value = '';
@@ -178,6 +179,7 @@ export class ListFieldsComponent implements OnInit {
     })
   }
     
+//** fetch the search value and emit it to the other components */
 
   getsearchvalue(value,component){
     let component_type
@@ -188,6 +190,8 @@ export class ListFieldsComponent implements OnInit {
       searchvalue :this.search_value
     });
   }
+
+  //** Add Fields pass the selected values to the other components */
   add(){
     let record = {};
     let arrayId=[]
@@ -205,7 +209,7 @@ export class ListFieldsComponent implements OnInit {
     });
     this.closeModalPopup();
   }
-
+  //** for selecting and de selecting the checkboxes*/
   addRecord(fields,event) {
     if (event.target.checked) {
       fields.isChecked = true;
@@ -213,6 +217,8 @@ export class ListFieldsComponent implements OnInit {
       fields.isChecked = false;  
     }
   }
+
+  //** to delete the Field modal pop-up */
   deletefieldsDataPopup(record) {
     const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
       width: '530px',

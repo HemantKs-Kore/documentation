@@ -15,10 +15,11 @@ export class CustomConfigListComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  //delete the custom config and emit the data*/
   removeCustomConfig(item) {
     this.onDelete.emit(item);
   } 
-
+  //**update the custom config */
   updateCustomConfig(item) {
     this.onUpdate.emit(item);
   }

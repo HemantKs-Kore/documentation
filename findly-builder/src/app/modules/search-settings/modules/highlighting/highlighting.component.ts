@@ -94,21 +94,22 @@ export class HighlightingComponent implements OnInit {
         }
       );
     }
+  //** to get the data for the highlight table and add highlight pop-up sending true and false for get api */
   getAllHighlightFields(){
     this.getHighlightFields(true);
     this.getHighlightFields(false);
   }
-   /**highlight sort */
-   highlightsort(sortobj){
-  console.log(sortobj);
-  if(sortobj.componenttype=="datatable"){
-    this.getHighlightFields(true,sortobj);
-  }
-  else{
-    this.getHighlightFields(false,sortobj);
-  }
+   /**highlight sort for data table and pop-up */
+    highlightsort(sortobj){
+    console.log(sortobj);
+    if(sortobj.componenttype=="datatable"){
+      this.getHighlightFields(true,sortobj);
+    }
+    else{
+      this.getHighlightFields(false,sortobj);
+    }
 
- }
+  }
    //**highlight search function */
    highlightsearch(obj){
     this.searchValue=obj.searchvalue;
@@ -120,10 +121,12 @@ export class HighlightingComponent implements OnInit {
     }
    }
     //**highlight get page */
- highlightpage(pageinfo){
-  this.page=pageinfo;
-  this.getHighlightFields(true)
- }
+    highlightpage(pageinfo){
+      this.page=pageinfo;
+      this.getHighlightFields(true)
+    }
+
+  //** get api call to fetch highlight fields */
   getHighlightFields(isSelected?,sortobj?){
     const quaryparms: any = {
       isSelected:isSelected,
@@ -160,7 +163,8 @@ export class HighlightingComponent implements OnInit {
       this.notificationService.notify("Failed to get highlight fields",'error');
     });
    }
-
+  
+   //**Add highlight modal pop-up */
   openModalPopup() {
     this.highlightAppearanceModalPopRef = this.highlightAppearanceModalPop.open();
     setTimeout(() => {
@@ -168,18 +172,25 @@ export class HighlightingComponent implements OnInit {
       this.perfectScroll.directiveRef.scrollToTop();
     }, 500)
   }
-
+  
+  //** close the add pop-up */
   closeModalPopup() {
     this.highlightAppearanceModalPopRef.close();
   }
+
+  //** open show more  container */
   openContainer(){
     this.more_options=true;
     this.perfectScroll.directiveRef.scrollTo(25,50,500)
   }
+
+  //** close the  show more  container */
   closeContainer(){
     this.more_options=false;
     this.perfectScroll.directiveRef.scrollTo(25,50,500)
   }
+
+  //** highlight appearance pre and post tag api call for binding pre and post tag*/
   addTags(pretag,posttag){
     const quaryparms:any={
       indexPipelineId:this.workflowService.selectedIndexPipeline(),
@@ -255,6 +266,7 @@ export class HighlightingComponent implements OnInit {
   });
   // 
  }
+ //** Change of highlight slider value to call put querypipeline*/
  sildervaluechanged(event,type){
   const quaryparms:any={
     indexPipelineId:this.workflowService.selectedIndexPipeline(),
@@ -292,6 +304,8 @@ export class HighlightingComponent implements OnInit {
     });
  }
 }
+
+//** unsubscribing the query subscription */
   ngOnDestroy() {
     this.querySubscription ? this.querySubscription.unsubscribe() : false;
   }

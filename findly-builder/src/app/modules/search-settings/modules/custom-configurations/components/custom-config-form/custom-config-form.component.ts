@@ -24,6 +24,7 @@ export class CustomConfigFormComponent implements OnInit, OnChanges {
     this.formData = formData;
   }
 
+  //**submit the form */
   submitForm(customConfigForm) { 
     if (customConfigForm.invalid) {
       // show alert

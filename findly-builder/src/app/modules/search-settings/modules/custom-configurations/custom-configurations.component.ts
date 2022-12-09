@@ -78,7 +78,7 @@ getQuerypipeline() {
     }
   );
 }
-  //**Spupdate query pipeline */
+  //**update query pipeline */
   sendData(configObj) {
     const quaryparms: any = {
       indexPipelineId: this.workflowService.selectedIndexPipeline(),
@@ -106,17 +106,19 @@ getQuerypipeline() {
   }
 
 
+  //**delete the custom config data */
 deleteCustomConfig(data) {
   this.customConfig = this.customConfig.filter(item => item !== data);
   this.sendData(this.customConfig)
   this.notificationService.notify('deleted succesfully', 'success');
   this.formData = {};
 }
-
+//**update the custom config data */
   updateCustomConfig(data) {
     this.formData = data;
   }
 
+  //**update the custom config data */
   updateCustomConfigValue(data) {
     console.log('ss', data);
       this.customConfig = this.customConfig.map(item => {
@@ -130,6 +132,7 @@ deleteCustomConfig(data) {
       this.notificationService.notify('Updated successfully', 'success');
   }
 
+  //** Add the custom config data*/
   onFormSubmit(formData) {
     if (formData._id) {
       // Update

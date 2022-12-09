@@ -49,6 +49,8 @@ export class PresentableComponent implements OnInit {
       this.getAllpresentableFields()
    })
  }
+
+ /**to fetch the data to table and add pop-up passing true and false*/
   getAllpresentableFields(){
     this.getPresentableFields(true);
     this.getPresentableFields(false);
@@ -171,9 +173,7 @@ export class PresentableComponent implements OnInit {
     this.notificationService.notify("Failed to get presentable fields",'error');
   });
  }
- delete(){
-
- }
+ //**unsubcribing the query subsciption */
   ngOnDestroy() {
     this.querySubscription ? this.querySubscription.unsubscribe() : false;
   }

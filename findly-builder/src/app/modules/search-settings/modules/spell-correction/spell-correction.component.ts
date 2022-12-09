@@ -96,11 +96,13 @@ export class SpellCorrectionComponent implements OnInit {
         this.getAllspellcorrectFields();
       });
   }
+
+  //**to fetch the fields for spellcorrect table and pop-up */
   getAllspellcorrectFields() {
     this.getSpellcorrect(true);
     this.getSpellcorrect(false);
   }
-
+  //** sort the data for spellcorrect data table and pop-up */
   spellcorrectsort(sortobj) {
     console.log(sortobj);
     if (sortobj.componenttype == 'datatable') {
@@ -126,6 +128,7 @@ export class SpellCorrectionComponent implements OnInit {
     this.getSpellcorrect(true);
   }
 
+  //**get api call to fetch the spell correct data */
   getSpellcorrect(isSelected?, sortobj?) {
     const quaryparms: any = {
       isSelected: isSelected,
@@ -257,12 +260,15 @@ export class SpellCorrectionComponent implements OnInit {
     );
   }
 
+  //** to open the more option container */
   openContainer() {
     this.more_options = true;
   }
+   //** to close the more option container */
   closeContainer() {
     this.more_options = false;
   }
+  //** to decrement the max typo edits value */
   maxdecrementValue(max_val) {
     this.max_threshold = max_val - 1;
     if (this.max_threshold < 0) {
@@ -297,6 +303,7 @@ export class SpellCorrectionComponent implements OnInit {
       );
     }
   }
+   //** to increment the max typo edits value */
   maxincrementValue(max_val) {
     this.max_threshold = max_val + 1;
     if (this.max_threshold >= 0) {
@@ -326,6 +333,7 @@ export class SpellCorrectionComponent implements OnInit {
       );
     }
   }
+   //** to decrement the minimum character threshold value */
   mindecrementValue(min_val) {
     this.min_threshold = min_val - 1;
     if (this.min_threshold < 0) {
@@ -360,6 +368,7 @@ export class SpellCorrectionComponent implements OnInit {
       );
     }
   }
+  //** to increment the minimum character threshold value */
   minincrementValue(min_val) {
     this.min_threshold = min_val + 1;
     if (this.min_threshold >= 0) {
@@ -389,6 +398,7 @@ export class SpellCorrectionComponent implements OnInit {
       );
     }
   }
+  //** to unsubcribe the query subscription*/
   ngOnDestroy() {
     this.querySubscription ? this.querySubscription.unsubscribe() : false;
   }

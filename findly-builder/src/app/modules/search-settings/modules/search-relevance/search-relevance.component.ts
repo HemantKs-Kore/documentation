@@ -60,7 +60,7 @@ export class SearchRelevanceComponent implements OnInit {
     
     
   }
-
+  //** to fetch the threshold range slider value */
   prepareThreshold(){ 
     const quaryparms: any = {
       searchIndexID: this.serachIndexId,

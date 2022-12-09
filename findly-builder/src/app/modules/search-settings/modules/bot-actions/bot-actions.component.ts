@@ -40,7 +40,7 @@ export class BotActionsComponent implements OnInit {
   this.getQuerypipeline()
 }
 
-//** get querypipeline */
+//** get querypipeline API call*/
 getQuerypipeline() {
   const quaryparms: any = {
     searchIndexID: this.serachIndexId,
@@ -60,7 +60,7 @@ getQuerypipeline() {
   );
 }
 
-
+//** Change in the Slider state to call put Query Pipeline */
   sildervaluechanged(event){
     console.log(event)
     const quaryparms:any={
@@ -84,6 +84,8 @@ getQuerypipeline() {
     });
    
   }
+
+  //** Selecting the button of winning intent and calling the put query pipeline api */
   selectradiobutton(type){
     const quaryparms:any={
       indexPipelineId:this.workflowService.selectedIndexPipeline(),
@@ -100,7 +102,7 @@ getQuerypipeline() {
       }
     }
     else{
-      var payload:any={
+      var  payload:any={
         settings: {
           botActions: {
             executeIntents:false
@@ -118,7 +120,7 @@ getQuerypipeline() {
     });
     
   }
-
+  //** unsubscribing the query subscription */
   ngOnDestroy() {
     this.querySubscription ? this.querySubscription.unsubscribe() : false;
   }
