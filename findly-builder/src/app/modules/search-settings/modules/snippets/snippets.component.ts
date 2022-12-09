@@ -69,7 +69,7 @@ export class SnippetsComponent implements OnInit {
     }
       const payload:any={
         settings: {
-          smallTalk: {
+          snippet: {
             enable: event.currentTarget.checked
         }
       }    
