@@ -89,7 +89,7 @@
               <div class="stateIcon" *ngIf="!pipe?.enable">
                 <img src="assets/images/inActiveStage.svg" />
               </div>
-              <div class="title text-truncate">{{ pipe?.name }} <div class="beta-tag" *ngIf="pipe.type==='snippet_extraction'">{{'workbench_beta' | translate}}</div></div>
+              <div class="title text-truncate" [title]="pipe?.name">{{ pipe?.name }}  <div class="beta-tag" *ngIf="pipe.type==='snippet_extraction'">{{'workbench_beta' | translate}}</div></div>
               <div class="close_icon" (click)="removeStage(i,pipe?.name)">
                 <img src="assets/icons/close_field.svg" />
               </div>

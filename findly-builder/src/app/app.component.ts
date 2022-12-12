@@ -195,7 +195,7 @@ export class AppComponent implements OnInit, OnDestroy {
         paramsExist = params;
       });
       this.router.navigate(['/apps'], { skipLocationChange: true });
-      this.router.navigate([], { relativeTo: this.activatedRoute, queryParams: {}, queryParamsHandling: '' });
+      // this.router.navigate([], { relativeTo: this.activatedRoute, queryParams: {}, queryParamsHandling: '' });
     }
   }
 

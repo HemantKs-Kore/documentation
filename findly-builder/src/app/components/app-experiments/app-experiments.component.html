@@ -189,7 +189,11 @@
                       <div class="col-2 title">{{"experiments_search_config"| translate}}</div>
                       <div class="col-1 title">{{"experiments_traffic"| translate}}</div>
                       <div class="col-1 title">{{"experiments_users"| translate}}</div>
-                      <div class="col-1 title">{{"experiments_searches"| translate}}</div>
+                      <div class="col-1 title">{{"experiments_searches"| translate}}
+                        <span
+                          placement="top-center" [ngbTooltip]="searchTooltip" [container]='"body"'
+                          tooltipClass="metrics_tooltips m-0"><img src="assets/icons/overview/Info.svg"></span>
+                      </div>
                       <div class="col-1 title">{{"experiments_clicks"| translate}}</div>
                       <div class="col-1 title d-flex align-items-center">
                         <span class="d-inline-block text-truncate" style="max-width: 70px;"
@@ -197,7 +201,11 @@
                           placement="top-center" [ngbTooltip]="ctrTooltip" [container]='"body"'
                           tooltipClass="metrics_tooltips m-0"><img src="assets/icons/overview/Info.svg"></span>
                       </div>
-                      <div class="col-2 title">{{"experiments_searches_results"| translate}}</div>
+                      <div class="col-2 title">{{"experiments_searches_results"| translate}}
+                        <span
+                          placement="top-center" [ngbTooltip]="searchResultTooltip" [container]='"body"'
+                          tooltipClass="metrics_tooltips m-0"><img src="assets/icons/overview/Info.svg"></span>
+                      </div>
                     </div>
                     <div class="row m-0 col-12 acc-row-body align-items-center" *ngFor="let expCol of exp.variants">
                       <div class="col-2 d-flex varient-data align-items-center">

@@ -1105,7 +1105,7 @@ body.showFullResults.top-down .top-down-wrapper{
   flex-shrink: 0;
   margin-top: 70px;
   /* margin-top: 80px; */
-  /* max-height: calc(100vh - 248px); */
+  max-height: calc(100vh - 248px);
   overflow: auto;
   position: relative;
 }

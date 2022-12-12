@@ -10,8 +10,8 @@ import { KRModalComponent } from 'src/app/shared/kr-modal/kr-modal.component';
 import { OnboardingComponentComponent } from 'src/app/components/onboarding-component/onboarding-component.component';
 import { SliderComponentComponent } from 'src/app/shared/slider-component/slider-component.component';
 import { Router } from '@angular/router';
-import { DELETE } from '@angular/cdk/keycodes';
 import { EMPTY_SCREEN } from 'src/app/modules/empty-screen/empty-screen.constants';
+declare const $:any;
 @Component({
   selector: 'app-connectors-source',
   templateUrl: './connectors-source.component.html',
@@ -232,13 +232,16 @@ export class ConnectorsSourceComponent implements OnInit {
     setTimeout(()=>{
       this.getConentData(0,text); 
     },500)
-    if(type==='clear') this.contentInputSearch='';
+    if(type==='clear'){
+      if($('#pageInput').length) $('#pageInput')[0].value=1;
+      this.contentInputSearch='';
+    } 
   }
 
   //content pagination 
   paginate(event) {
     if(this.contentInputSearch.length){
-      this.getConentData(0,this.contentInputSearch)
+      this.getConentData(event?.skip,this.contentInputSearch)
     }
     else {
       this.getConentData(event?.skip)
