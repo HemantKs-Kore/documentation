@@ -108,3 +108,35 @@
             }
         }
     }
+    .empty-table {
+        width: 320px;
+        margin: 0 auto;
+        text-align: center;
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: flex;
+        -webkit-box-orient: vertical;
+        -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+        flex-direction: column;
+        -webkit-box-pack: center;
+        -ms-flex-pack: center;
+        justify-content: center;
+        height: calc(100vh - 450px);
+        &.divBlockEmptylastChild {
+            display: none;
+            padding: 0;
+        }
+        img {
+            width: 75%;
+            margin: 0 auto;
+        }
+        .heading {
+            margin: 18px 0 8px 0;
+            color: #202124;
+        }
+        .desc {
+            color: #9B9B9B;
+            font-size: 14px;
+        }
+    }

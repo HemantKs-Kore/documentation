@@ -1,3 +1,9 @@
+<div class="empty-table" *ngIf="!customConfigList.length">
+  <!-- <img src="assets/images/icons/empty_ill.svg"> -->
+  <div class="heading">{{'search_settings_empty_custom_config'| translate}}</div>
+  <div class="desc">{{'search_settings_empty_custom_config_desc'| translate}}</div>
+</div>
+
 <div class="table_body row m-0 py-3" *ngFor="let item of customConfigList">
     <div class="col-5 title text-left text-truncate" title="">
         {{ item.key }}
