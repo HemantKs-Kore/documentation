@@ -38,11 +38,15 @@ export class ListFieldsComponent implements OnInit {
   componenttype;
   checksort='asc'
   isAsc = true;
+  loadingContent = true;
 
-  ngOnInit(): void {
+  ngOnInit(): void {    
     this.modal_open=false;
     console.log(this.tablefieldvalues);
     console.log(this.popupfieldvalues);
+    // if(this.tablefieldvalues && this.tablefieldvalues.length){
+    //   this.loadingContent = false
+    // }
   }
   //**Sort icon visibility */
   getSortIconVisibility(sortingField: string, type: string,component: string) {

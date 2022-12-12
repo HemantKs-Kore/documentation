@@ -1,5 +1,3 @@
-
-
 <div class="presentable-table-block" id="sa_presentable-table">
     <div class="p-table-filter-block" id="sa_filter-block">
         <div class="pt-add" id="sa_pt-add">
@@ -22,56 +20,68 @@
         </div> -->
     </div>
 
-    <!-- table header start from here -->
-    <div class="index-config-lang-table row m-0" id="sa_lang-table">
-        <div class="table_data_content col-12" id="sa_table_data_content">
-             <!-- table header start from here -->
-                <div class="table_header row m-0" id="sa_table_header">
-                    <div class="col_ col-5 title d-flex align-items-center justify-content-start" (click)="sortByApi('fieldName','datatable')">
-                        <span class="d-flex align-items-center flex-column mr-2 filter-sort" id="filter-sort">
-                            <i class="si-chev-up icon-up" [ngClass]="getSortIconVisibility('fieldName', 'up','datatable')" id="sa_icon-up"></i>
-                            <i class="si-chev-down icon-down" [ngClass]="getSortIconVisibility('fieldName', 'down','datatable')" id="sa_icon-down"></i>
-                        </span>
-                        {{"search_settings_field_name_caps" |translate}}
+    <!-- <div class="mainLoadingSpinner" *ngIf="loadingContent">
+        <mat-spinner diameter="18" strokeWidth="2"></mat-spinner>
+        <span class="please-wait-message">{{'sa_please_wait'| translate}}</span>
+    </div> -->
+
+    <!-- <ng-container *ngIf="!loadingContent"> -->
+        <!-- table header start from here -->
+        <div class="index-config-lang-table row m-0" id="sa_lang-table">
+            <div class="table_data_content col-12" id="sa_table_data_content">
+                <!-- table header start from here -->
+                    <div class="table_header row m-0" id="sa_table_header">
+                        <div class="col_ col-5 title d-flex align-items-center justify-content-start" (click)="sortByApi('fieldName','datatable')">
+                            <span class="d-flex align-items-center flex-column mr-2 filter-sort" id="filter-sort">
+                                <i class="si-chev-up icon-up" [ngClass]="getSortIconVisibility('fieldName', 'up','datatable')" id="sa_icon-up"></i>
+                                <i class="si-chev-down icon-down" [ngClass]="getSortIconVisibility('fieldName', 'down','datatable')" id="sa_icon-down"></i>
+                            </span>
+                            {{"search_settings_field_name_caps" |translate}}
+                        </div>
+                        <div class="col_ col-5 title d-flex align-items-center justify-content-start" id="title"> 
+                            <span class="d-flex align-items-center flex-column mr-2 filter-sort" id="sa_filter-sort" (click)="sortByApi('fieldDataType','datatable')">
+                                <i class="si-chev-up icon-up" [ngClass]="getSortIconVisibility('fieldDataType', 'up','datatable')" id="sa_icon-up1"></i>
+                                <i class="si-chev-down icon-down" [ngClass]="getSortIconVisibility('fieldDataType', 'down','datatable')" id="sa_icon-icon-down1"></i>
+                            </span>
+                            {{"search_settings_type" |translate}}
+                        </div>
+                        <div class="col_ col-2 title d-flex align-items-center justify-content-start"> 
+                            {{"search_settings_action_caps" |translate}}
+                        </div>
                     </div>
-                    <div class="col_ col-5 title d-flex align-items-center justify-content-start" id="title"> 
-                        <span class="d-flex align-items-center flex-column mr-2 filter-sort" id="sa_filter-sort" (click)="sortByApi('fieldDataType','datatable')">
-                            <i class="si-chev-up icon-up" [ngClass]="getSortIconVisibility('fieldDataType', 'up','datatable')" id="sa_icon-up1"></i>
-                            <i class="si-chev-down icon-down" [ngClass]="getSortIconVisibility('fieldDataType', 'down','datatable')" id="sa_icon-icon-down1"></i>
-                        </span>
-                        {{"search_settings_type" |translate}}
-                    </div>
-                    <div class="col_ col-2 title d-flex align-items-center justify-content-start"> 
-                        {{"search_settings_action_caps" |translate}}
-                    </div>
-                </div>
-            <!-- table header end from here -->
-            
-            <!-- Table Records/Body -->
-            <!-- <perfect-scrollbar class="table_body_content" id="sa_table_body_ps" (psYReachStart)="onYReachStart($event)" (psYReachEnd)="onYReachEnd($event)"> -->
-                <perfect-scrollbar class="table_body_content" id="sa_table_body_ps">
-                        <div class="table_body row m-0" *ngFor="let fields of tablefieldvalues;let i = index" >
-                     
-                            <div class="col-5 title text-left text-truncate" title="">
-                                {{fields.fieldName}}
-                            </div>
-                            <div class="col-5 title text-left p-0">
-                                {{fields.fieldDataType}}
-                            </div>
-                            <div class="col-2 p-0 text-left">
-                                <div class="action_links">
-                                    <!-- <span class="action_link-icon">
-                                        <i class="si-pencil-edit"></i> Edit
-                                    </span> -->
-                                    <span class="action_link-icon link-delete" (click)="deletefieldsDataPopup(fields)">
-                                        <i class="si-delete1 mr-1" ></i> Delete
-                                    </span>
+                <!-- table header end from here -->
+                
+                <!-- Table Records/Body -->
+                <!-- <perfect-scrollbar class="table_body_content" id="sa_table_body_ps" (psYReachStart)="onYReachStart($event)" (psYReachEnd)="onYReachEnd($event)"> -->
+                    <perfect-scrollbar class="table_body_content" id="sa_table_body_ps">
+                        <div class="empty-table" *ngIf="!tablefieldvalues.length">
+                            <!-- <img src="assets/images/icons/empty_ill.svg"> -->
+                            <div class="heading">{{'search_settings_empty_table_data'| translate}}</div>
+                            <div class="desc">{{'search_settings_empty_table_data_please_add_Fields'| translate}}</div>
+                        </div>
+                            <div class="table_body row m-0" *ngFor="let fields of tablefieldvalues;let i = index" >
+                        
+                                <div class="col-5 title text-left text-truncate" title="">
+                                    {{fields.fieldName}}
+                                </div>
+                                <div class="col-5 title text-left p-0">
+                                    {{fields.fieldDataType}}
+                                </div>
+                                <div class="col-2 p-0 text-left">
+                                    <div class="action_links">
+                                        <!-- <span class="action_link-icon">
+                                            <i class="si-pencil-edit"></i> Edit
+                                        </span> -->
+                                        <span class="action_link-icon link-delete" (click)="deletefieldsDataPopup(fields)">
+                                            <i class="si-delete1 mr-1" ></i> Delete
+                                        </span>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-            </perfect-scrollbar>
+                </perfect-scrollbar>
+            </div>
         </div>
-    </div>
+   <!-- </ng-container> -->
 
 </div>
 
