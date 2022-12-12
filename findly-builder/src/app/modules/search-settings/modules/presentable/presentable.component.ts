@@ -89,6 +89,7 @@ export class PresentableComponent implements OnInit {
  /**presentable sort */
  presentablesort(sortobj){
   console.log(sortobj);
+  this.method_type='search'
   if(sortobj.componenttype=="datatable"){
     this.getPresentableFields(true,sortobj);
   }

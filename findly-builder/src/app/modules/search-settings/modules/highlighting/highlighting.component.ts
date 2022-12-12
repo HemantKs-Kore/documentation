@@ -103,6 +103,7 @@ export class HighlightingComponent implements OnInit {
   }
    /**highlight sort for data table and pop-up */
     highlightsort(sortobj){
+      this.method_type='search'
     console.log(sortobj);
     if(sortobj.componenttype=="datatable"){
       this.getHighlightFields(true,sortobj);

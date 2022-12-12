@@ -107,6 +107,7 @@ export class SpellCorrectionComponent implements OnInit {
   //** sort the data for spellcorrect data table and pop-up */
   spellcorrectsort(sortobj) {
     console.log(sortobj);
+    this.method_type='search'
     if (sortobj.componenttype == 'datatable') {
       this.getSpellcorrect(true, sortobj);
     } else {
@@ -146,9 +147,9 @@ export class SpellCorrectionComponent implements OnInit {
       // limit: this.limit,
       searchKey: this.searchValue ? this.searchValue : '',
     };
-    if(this.method_type!=='search'){
+    if(this.method_type!=='search') {
       this.isLoading = true;
-    } 
+    }
     this.service.invoke('get.spellcorrectFields', quaryparms).subscribe(
       (res) => {
         this.isLoading = false;
