@@ -29,6 +29,7 @@ export class PresentableComponent implements OnInit {
   nonPresentable = [];
   isLoading = false;
   loader:any=false;
+  method_type='';
   @Input() presentabledata;
   @Input() selectedcomponent
   constructor(
@@ -119,6 +120,7 @@ export class PresentableComponent implements OnInit {
  //**Presentable search function */
  presentablesearch(obj){
   this.searchValue=obj.searchvalue;
+  this.method_type='search';
   if(obj.componenttype=="datatable"){
     this.getPresentableFields(true)
   }  
@@ -146,7 +148,9 @@ export class PresentableComponent implements OnInit {
     // limit:this.limit,
     searchKey:this.searchValue?this.searchValue:''
   };
-  this.isLoading = true;
+  if(this.method_type!=='search'){
+    this.isLoading = true;
+  } 
   this.service.invoke('get.presentableFields', quaryparms).subscribe(res => {
     this.isLoading = false;
     this.allpresentableFields = res.data;

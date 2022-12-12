@@ -39,6 +39,7 @@ export class HighlightingComponent implements OnInit {
    allhighlightFields : any = [];
    highlight: any=[];
    nonhighlight: any=[];
+   method_type='';
    isLoading = false;
   constructor(
     public workflowService: WorkflowService,
@@ -114,6 +115,7 @@ export class HighlightingComponent implements OnInit {
    //**highlight search function */
    highlightsearch(obj){
     this.searchValue=obj.searchvalue;
+    this.method_type='search';
     if(obj.componenttype=="datatable"){
       this.getHighlightFields(true)
     }  
@@ -141,7 +143,9 @@ export class HighlightingComponent implements OnInit {
       // limit:this.limit,
       searchKey:this.searchValue?this.searchValue:''
     };
-    this.isLoading = true;
+    if(this.method_type!=='search'){
+      this.isLoading = true;
+    } 
     this.service.invoke('get.highlightFields', quaryparms).subscribe(res => {
       this.isLoading = false;
       this.allhighlightFields = res.data;

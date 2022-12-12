@@ -38,6 +38,7 @@ export class SpellCorrectionComponent implements OnInit {
   min_threshold: number = 0;
   searchValue = '';
   serachIndexId;
+  method_type='';
   spellcorrectdata: any = {};
   isLoading = false;
   @Input() selectedcomponent;
@@ -116,6 +117,7 @@ export class SpellCorrectionComponent implements OnInit {
   //**spellcorrect search function */
   spellcorrectsearch(obj) {
     this.searchValue = obj.searchvalue;
+    this.method_type='search';
     if (obj.componenttype == 'datatable') {
       this.getSpellcorrect(true);
     } else {
@@ -144,7 +146,9 @@ export class SpellCorrectionComponent implements OnInit {
       // limit: this.limit,
       searchKey: this.searchValue ? this.searchValue : '',
     };
-    this.isLoading = true;
+    if(this.method_type!=='search'){
+      this.isLoading = true;
+    } 
     this.service.invoke('get.spellcorrectFields', quaryparms).subscribe(
       (res) => {
         this.isLoading = false;
