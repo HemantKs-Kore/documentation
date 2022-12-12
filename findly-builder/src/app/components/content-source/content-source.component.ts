@@ -473,7 +473,7 @@ isSourceSearchClear : boolean = false;
               minute = (element?.advanceSettings?.scheduleOpts?.time?.minute).toString().length > 1 ? element?.advanceSettings?.scheduleOpts?.time?.minute : '0' + element?.advanceSettings?.scheduleOpts?.time?.minute;
             }
             element['schedule_title'] = 'Runs ' + element?.advanceSettings?.scheduleOpts?.interval?.intervalType + ' ' + 'at ' +
-              hour + ':' + minute + ' ' +
+              hour + ':' + (minute===''?'00':minute) + ' ' +
               element?.advanceSettings?.scheduleOpts?.time?.timeOpt + ' ' + element?.advanceSettings?.scheduleOpts?.time?.timezone;
           } else {
             let repeatOn = "";
@@ -687,6 +687,11 @@ isSourceSearchClear : boolean = false;
   }
   searchPageChange(){
     this.pagesSearchModelChanged.next();
+  }
+  clearPageSearch(){
+    this.pagesSearch='';
+    this.isSearchLoading=true;
+    this.getCrawledPages();
   }
   getCrawledPages(limit?, skip?) {
     this.pagingData = [];
@@ -927,11 +932,14 @@ isSourceSearchClear : boolean = false;
       this.isJavaScriptRendered = source?.advanceSettings?.isJavaScriptRendered;
       this.crawlDepth = source?.advanceSettings?.crawlDepth;
       this.maxUrlLimit = source?.advanceSettings?.maxUrlLimit;
-      this.allowURLArray = source?.advanceSettings?.allowedURLs;
-      this.blockURLArray = source?.advanceSettings?.blockedURLs;
+      this.allowURLArray = (source?.advanceSettings?.allowedURLs?.length===0)?(this.allowURLArray):(source?.advanceSettings?.allowedURLs);
+      this.blockURLArray = (source?.advanceSettings?.blockedURLs?.length===0)?(this.blockURLArray):(source?.advanceSettings?.blockedURLs);
       this.editSource.advanceOpts.scheduleOpt = source?.advanceSettings?.scheduleOpt;
       this.editSource.advanceOpts.scheduleOpts = source?.advanceSettings?.scheduleOpts;
       this.editSource.authorizationEnabled = source?.authorizationEnabled;
+      this.editSource.advanceOpts.allowedOpt = source?.advanceSettings?.allowedOpt;
+      this.editSource.advanceOpts.blockedOpt = source?.advanceSettings?.blockedOpt;
+      this.editSource.advanceOpts.crawlEverything = source?.advanceSettings?.crawlEverything;
       if (source?.authorizationProfle) {
         this.editSource.authorizationProfle.sso_type = source?.authorizationProfle?.sso_type;
         this.editSource.authorizationProfle.testType = source?.authorizationProfle?.testType;

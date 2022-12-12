@@ -73,6 +73,8 @@ export class AppExperimentsComponent implements OnInit {
   componentType: string = "experiment";
   skip = 0;
   ctrTooltip: string = 'Click Through Rate is the percentage of searches which got at least one click of all the searches performed';
+  searchTooltip: string = 'Searches are the total of live searches and search queries entered';
+  searchResultTooltip: string = 'Searches with results are the total of live search results and search queries with results';
   filterSystem: any = {
     'statusfilter': 'all',
   }
@@ -716,9 +718,9 @@ export class AppExperimentsComponent implements OnInit {
       $("#enterName").css("border-color", this.experimentObj.name != '' ? "#BDC1C6" : "#DD3646");
     }
     if (type == 'variantName') {
-      if (this.variantsArray != []) {
+      if (!this.variantsArray.length) {
         $("#infoWarning" + i).show()
-        $("#variantName" + i).css("border-color", this.variantsArray != [] ? "#BDC1C6" : "#DD3646");
+        $("#variantName" + i).css("border-color", !this.variantsArray.length ? "#BDC1C6" : "#DD3646");
       }
       else {
         $("#infoWarning" + i).hide()

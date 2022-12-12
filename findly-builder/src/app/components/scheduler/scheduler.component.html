@@ -125,6 +125,6 @@
   </perfect-scrollbar>
   <div class="shedular-footer">
     <button class="kr-sg-button-secondary btn_lg" (click)="openCloseSchedular('close')">Cancel</button>
-    <button class="kr-sg-button-primary btn_lg" (click)="sendScheduleData()">Ok</button>
+    <button class="kr-sg-button-primary btn_lg" (click)="isCustom?(isCustom=false):sendScheduleData()">Ok</button>
   </div>
 </kr-modal>

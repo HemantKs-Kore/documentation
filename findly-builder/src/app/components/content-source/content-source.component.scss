@@ -1480,6 +1480,13 @@
             line-height: 15px;
             color: #5F6368;
         }
+
+        .close-icon{
+            position: absolute;
+            right: 11px;
+            top: 12px;
+            cursor: pointer;
+        }
     }
 
     .inner-pages-content {

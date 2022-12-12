@@ -720,7 +720,7 @@ link:"https://docs.kore.ai/searchassist/concepts/designing-search-experience/des
 }]
 },
 {
-   display:"Team Management",
+   display:"Team",
    key:"team-management",
    icon:"",
    childData:[{
@@ -1000,7 +1000,7 @@ mediaObj:any = {};
       this.breadcrumbNameFaq='Credentials List'
     }
     else if(this.breadcrumbNameFaq=='team-management'){
-      this.breadcrumbNameFaq='Team Management'
+      this.breadcrumbNameFaq='Team'
     }
     else if(this.breadcrumbNameFaq=='pricing'){
       this.breadcrumbNameFaq='Pricing'
