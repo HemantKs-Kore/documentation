@@ -33,6 +33,7 @@ export class SynonymsComponent implements OnInit, OnDestroy {
   filterSynonym: boolean;
   haveRecord = false;
   currentEditIndex: any = -1;
+  editIndex: any = -1;
   pipeline;
   showFlag;
   totalRecord: number = 0;
@@ -58,6 +59,10 @@ export class SynonymsComponent implements OnInit, OnDestroy {
     values: []
   }
   addNewSynonymObj: any = {
+    type: 'synonym',
+    synonyms: []
+  }
+  EditsynonymObj: any = {
     type: 'synonym',
     synonyms: []
   }
@@ -316,17 +321,6 @@ export class SynonymsComponent implements OnInit, OnDestroy {
     this.synonymObj.values = [];
     this.newSynonymObj.keyword = [];
   }
-  cancleAddEdit() {
-    this.currentEditIndex = -1;
-    this.newSynonymObj = {
-      type: 'synonym',
-      addNew: false,
-      values: []
-    }
-    this.synonymObj = new SynonymClass();
-    // this.prepareSynonyms();
-
-  }
   errorToaster(errRes, message) {
     if (errRes && errRes.error && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0].msg) {
       this.notificationService.notify(errRes.error.errors[0].msg, 'error');
@@ -341,7 +335,7 @@ export class SynonymsComponent implements OnInit, OnDestroy {
       event.stopImmediatePropagation();
       event.preventDefault();
     }
-    this.cancleAddEdit();
+    this.cancelEdit();
     this.currentEditIndex = i
   }
   updateSynonm(record, event, i) {
@@ -516,7 +510,7 @@ export class SynonymsComponent implements OnInit, OnDestroy {
   checkDuplicateTags(suggestion: string, alltTags): boolean {
     return alltTags.every((f) => f !== suggestion);
   }
-  add(event: MatChipInputEvent) {
+  add(event: MatChipInputEvent,type) {
     const input = event.input;
     const value = event.value;
     if ((value || '').trim()) {
@@ -524,7 +518,7 @@ export class SynonymsComponent implements OnInit, OnDestroy {
         this.notificationService.notify('Duplicate tags are not allowed', 'warning');
         return;
       } else {
-        this.addNewSynonymObj.synonyms.push(value.trim());
+        type=='add'?this.addNewSynonymObj.synonyms.push(value.trim()):this.EditsynonymObj.synonyms.push(value.trim());
       }
     }
     if (input) {
@@ -573,7 +567,7 @@ changeSynonymType(){
   this.synonymObj.synonyms = [];
   this.addNewSynonymObj.keyword = [];
 }
-addorEditSynonym() {
+addSynonym() {
   this.submitted = true;
   if (this.validateSynonyms()) {
     const obj: any = {
@@ -624,7 +618,7 @@ addOrUpddate(synonymData,type, dialogRef?) {
   this.service.invoke(url, quaryparms, payload).subscribe(res => {
 
     this.getSynonyms();
-    this.cancleAddEdit();
+    this.cancelEdit();
     this.submitted = false;
     if(type =='add') this.addNewSynonymObj.synonyms = []
     if(synonymData.type=='oneWaySynonym') this.addNewSynonymObj.keyword = []
@@ -635,13 +629,16 @@ addOrUpddate(synonymData,type, dialogRef?) {
     this.errorToaster(errRes, 'Failed to add Weight');
   });
 }
-remove(syn) {
-  const index = this.addNewSynonymObj.synonyms.indexOf(syn);
-  if (index >= 0) {
+remove(syn,type) {
+  const index = type=='add'?this.addNewSynonymObj.synonyms.indexOf(syn):this.EditsynonymObj.synonyms.indexOf(syn);
+  if (index >= 0 && type=='add') {
     this.addNewSynonymObj.synonyms.splice(index, 1);
   }
+  else {
+    this.EditsynonymObj.synonyms.splice(index, 1);
+  }
 }
-deleteSynonymn(synonym,index){
+deleteSynonymn(synonym,index,dialogRef){
   const quaryparms: any = {
     streamId: this.selectedApp._id,
     queryPipelineId: this.queryPipelineId,
@@ -653,10 +650,24 @@ deleteSynonymn(synonym,index){
     this.synonymData.splice(index,1);
     this.notificationService.notify('Synonym deleted successfully', 'success');
   }
+  if (dialogRef && dialogRef.close) {
+    dialogRef.close();
+  }
   }, errRes => {
     this.errorToaster(errRes, 'Failed to delete Synonymn');
   });
 }
+editSynonymn(index,synonymn){
+  this.editIndex = index;
+  this.EditsynonymObj = synonymn;
+}
+
+cancelEdit() {
+  this.editIndex = -1;
+  this.synonymObj = new SynonymClass();
+}
+
+
   //-------------------------(Author:BHARADWAJ)
   ngOnDestroy() {
     this.subscription ? this.subscription.unsubscribe() : false;
