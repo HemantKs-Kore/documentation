@@ -84,6 +84,16 @@ export class SearchRelevanceComponent implements OnInit {
     }); 
   }
  
+  getUpdateItem(type, event) {
+    return this.searchrelevancedata.languages.map(item =>{
+      if (item.languageCode === this.selectedLanguage) {
+        return {
+          ...item,
+          [type]: event.target.checked
+        }
+      }  return item;
+    });
+  }
   //** update query pipeline on toggle button */
   sildervaluechanged(event,type){
     const quaryparms:any={
@@ -91,62 +101,13 @@ export class SearchRelevanceComponent implements OnInit {
       queryPipelineId:this.workflowService.selectedQueryPipeline() ? this.workflowService.selectedQueryPipeline()._id : '',
       searchIndexId:this.serachIndexId
     }
-        let updatedItems=[];
-        //**condition check for slider */
-        if(type==='slider'){
-           updatedItems = this.searchrelevancedata.languages.map(item =>{
-            if (item.languageCode === this.selectedLanguage) {
-              return {
-                ...item,
-                enable: event.target.checked
-              }
-            } return item;
-          });
-		}
-
-    //**condition check for subject  */
-        else if(type==='subject'){
-           updatedItems = this.searchrelevancedata.languages.map(item =>{
-            if (item.languageCode === this.selectedLanguage) {
-              return {
-                ...item,
-                subject: event.target.checked
-              }
-            }  return item;
-          });
-		}
-        //**condition check for subject  */
-        else if(type==='verb'){
-           updatedItems = this.searchrelevancedata.languages.map(item =>{
-            if (item.languageCode === this.selectedLanguage) {
-              return {
-                ...item,
-                verb: event.target.checked
-              }
-            }   return item;
-          });
-		}
-        else{
-           updatedItems = this.searchrelevancedata.languages.map(item =>{
-            if (item.languageCode === this.selectedLanguage) {
-              return {
-                ...item,
-                object: event.target.checked
-              }
-            }  return item;
-          });
-        }		
-
           const payload:any=  {
             settings: {
               searchRelevance: {
-                languages: updatedItems
+                languages: this.getUpdateItem(type, event)  
               }
             }
           };
-
-
-
     this.service.invoke('put.queryPipeline', quaryparms,payload).subscribe(res => {
       this.searchrelevancedata.enable=res?.settings?.searchRelevance?.enable
       this.notificationService.notify("updated successfully",'success');
