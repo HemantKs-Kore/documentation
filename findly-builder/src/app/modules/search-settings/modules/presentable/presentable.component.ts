@@ -27,6 +27,7 @@ export class PresentableComponent implements OnInit {
   allpresentableFields : any = [];
   presentable = [];
   nonPresentable = [];
+  isLoading = false;
   loader:any=false;
   @Input() presentabledata;
   @Input() selectedcomponent
@@ -145,8 +146,9 @@ export class PresentableComponent implements OnInit {
     // limit:this.limit,
     searchKey:this.searchValue?this.searchValue:''
   };
+  this.isLoading = true;
   this.service.invoke('get.presentableFields', quaryparms).subscribe(res => {
-    this.loader=true;
+    this.isLoading = false;
     this.allpresentableFields = res.data;
     //this.max_pageno=Number(Math.ceil(res.totalCount/10))-1;
     if(selected){

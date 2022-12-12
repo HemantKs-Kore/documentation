@@ -22,6 +22,7 @@ export class ListFieldsComponent implements OnInit {
   @Output() sort=new EventEmitter();
   @Output() searchModel =new EventEmitter();
   @Output() pageno =new EventEmitter();
+  @Input() isLoading = false;
    page_number=0;
   constructor(
     public dialog: MatDialog

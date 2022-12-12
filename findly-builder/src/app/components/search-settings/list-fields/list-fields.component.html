@@ -20,12 +20,12 @@
         </div> -->
     </div>
 
-    <!-- <div class="mainLoadingSpinner" *ngIf="loadingContent">
+    <div class="mainLoadingSpinner" *ngIf="isLoading">
         <mat-spinner diameter="18" strokeWidth="2"></mat-spinner>
         <span class="please-wait-message">{{'sa_please_wait'| translate}}</span>
-    </div> -->
+    </div>
 
-    <!-- <ng-container *ngIf="!loadingContent"> -->
+    <ng-container *ngIf="!isLoading">
         <!-- table header start from here -->
         <div class="index-config-lang-table row m-0" id="sa_lang-table">
             <div class="table_data_content col-12" id="sa_table_data_content">
@@ -81,7 +81,7 @@
                 </perfect-scrollbar>
             </div>
         </div>
-   <!-- </ng-container> -->
+   </ng-container>
 
 </div>
 

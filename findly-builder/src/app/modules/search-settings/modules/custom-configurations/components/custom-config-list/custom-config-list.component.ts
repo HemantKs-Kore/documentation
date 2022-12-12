@@ -9,6 +9,7 @@ import { Component, OnInit, Input,Output, EventEmitter } from '@angular/core';
 })
 export class CustomConfigListComponent implements OnInit {
   @Input() customConfigList;
+  @Input() isLoading = false;
   @Output() onDelete = new EventEmitter();
   @Output() onUpdate = new EventEmitter();
 
