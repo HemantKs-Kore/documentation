@@ -84,7 +84,7 @@
     </div>
     
     <!-- <app-list-fields [tablefieldvalues]="highlight" [popupfieldvalues]="nonhighlight" [maxpageno]="max_pageno" (emitRecord)="getrecord($event)" (sort)="highlightsort($event)" (searchModel)="highlightsearch($event)" (pageno)="highlightpage($event)"></app-list-fields> -->
-    <app-list-fields [tablefieldvalues]="highlight" [popupfieldvalues]="nonhighlight" [maxpageno]="max_pageno" (emitRecord)="getrecord($event)" (sort)="highlightsort($event)" (searchModel)="highlightsearch($event)"></app-list-fields>
+    <app-list-fields [tablefieldvalues]="highlight" [popupfieldvalues]="nonhighlight" [maxpageno]="max_pageno" (emitRecord)="getrecord($event)" (sort)="highlightsort($event)" (searchModel)="highlightsearch($event)" [isLoading]="isLoading" ></app-list-fields>
 
 </div>
 

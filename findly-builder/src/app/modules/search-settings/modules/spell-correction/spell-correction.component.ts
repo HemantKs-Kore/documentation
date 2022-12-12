@@ -39,6 +39,7 @@ export class SpellCorrectionComponent implements OnInit {
   searchValue = '';
   serachIndexId;
   spellcorrectdata: any = {};
+  isLoading = false;
   @Input() selectedcomponent;
   constructor(
     public workflowService: WorkflowService,
@@ -143,8 +144,10 @@ export class SpellCorrectionComponent implements OnInit {
       // limit: this.limit,
       searchKey: this.searchValue ? this.searchValue : '',
     };
+    this.isLoading = true;
     this.service.invoke('get.spellcorrectFields', quaryparms).subscribe(
       (res) => {
+        this.isLoading = false;
         this.allspellCorrect = res.data;
         this.max_pageno = Number(Math.ceil(res.totalCount / 10)) - 1;
         if (isSelected) {

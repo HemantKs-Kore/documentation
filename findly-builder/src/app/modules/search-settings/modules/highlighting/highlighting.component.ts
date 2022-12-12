@@ -39,6 +39,7 @@ export class HighlightingComponent implements OnInit {
    allhighlightFields : any = [];
    highlight: any=[];
    nonhighlight: any=[];
+   isLoading = false;
   constructor(
     public workflowService: WorkflowService,
     private appSelectionService: AppSelectionService,
@@ -140,7 +141,9 @@ export class HighlightingComponent implements OnInit {
       // limit:this.limit,
       searchKey:this.searchValue?this.searchValue:''
     };
+    this.isLoading = true;
     this.service.invoke('get.highlightFields', quaryparms).subscribe(res => {
+      this.isLoading = false;
       this.allhighlightFields = res.data;
       //this.max_pageno=Number(Math.ceil(res.totalCount/10))-1;
       if(isSelected){
