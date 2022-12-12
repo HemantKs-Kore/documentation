@@ -90,93 +90,60 @@ export class SearchRelevanceComponent implements OnInit {
       indexPipelineId:this.workflowService.selectedIndexPipeline(),
       queryPipelineId:this.workflowService.selectedQueryPipeline() ? this.workflowService.selectedQueryPipeline()._id : '',
       searchIndexId:this.serachIndexId
-    } 
-    //**condition check for slider */
+    }
+        let updatedItems=[];
+        //**condition check for slider */
         if(type==='slider'){
-          const updatedItems = this.searchrelevancedata.languages.map(item =>{
+           updatedItems = this.searchrelevancedata.languages.map(item =>{
             if (item.languageCode === this.selectedLanguage) {
               return {
                 ...item,
                 enable: event.target.checked
               }
-            }
-
-            return item;
+            } return item;
           });
-
-          var payload:any=  {
-            settings: {
-              searchRelevance: {
-                languages: updatedItems
-              }
-            }
-          };
-        }
+		}
 
     //**condition check for subject  */
         else if(type==='subject'){
-          const updatedItems = this.searchrelevancedata.languages.map(item =>{
+           updatedItems = this.searchrelevancedata.languages.map(item =>{
             if (item.languageCode === this.selectedLanguage) {
               return {
                 ...item,
                 subject: event.target.checked
               }
-            }
-
-            return item;
+            }  return item;
           });
-
-          var payload:any=  {
-            settings: {
-              searchRelevance: {
-                languages: updatedItems
-              }
-            }
-          };
-        }
-
+		}
         //**condition check for subject  */
         else if(type==='verb'){
-          const updatedItems = this.searchrelevancedata.languages.map(item =>{
+           updatedItems = this.searchrelevancedata.languages.map(item =>{
             if (item.languageCode === this.selectedLanguage) {
               return {
                 ...item,
                 verb: event.target.checked
               }
-            }
-
-            return item;
+            }   return item;
           });
-
-          var payload:any=  {
-            settings: {
-              searchRelevance: {
-                languages: updatedItems
-              }
-            }
-          };
-        }
-
+		}
         else{
-          const updatedItems = this.searchrelevancedata.languages.map(item =>{
+           updatedItems = this.searchrelevancedata.languages.map(item =>{
             if (item.languageCode === this.selectedLanguage) {
               return {
                 ...item,
                 object: event.target.checked
               }
-            }
-
-            return item;
+            }  return item;
           });
+        }		
 
-          var payload:any=  {
+          const payload:any=  {
             settings: {
               searchRelevance: {
                 languages: updatedItems
               }
             }
           };
-        }
 
 
 
