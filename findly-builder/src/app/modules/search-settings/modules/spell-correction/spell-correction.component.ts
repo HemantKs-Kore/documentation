@@ -213,7 +213,7 @@ export class SpellCorrectionComponent implements OnInit {
         : this.addRecords(addData);
     }
     else{
-      this.notificationService.notify("Please select the fields to proceed",'warning')
+      this.notificationService.notify("Please select the fields to proceed",'error')
     }
 
   }

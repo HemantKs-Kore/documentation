@@ -212,7 +212,9 @@ export class ListFieldsComponent implements OnInit {
       record :record,
       type : 'add'
     });
-    this.closeModalPopup();
+    if(arrayId.length){
+      this.closeModalPopup();
+    }    
   }
   //** for selecting and de selecting the checkboxes*/
   addRecord(fields,event) {
