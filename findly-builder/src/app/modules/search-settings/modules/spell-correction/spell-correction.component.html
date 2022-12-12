@@ -90,7 +90,7 @@
         (emitRecord)="getrecord($event)" (sort)="spellcorrectsort($event)" (searchModel)="spellcorrectsearch($event)"
         (pageno)="spellcorrectpage($event)"></app-list-fields> -->
     <app-list-fields [tablefieldvalues]="spellcorrect" [popupfieldvalues]="nonspellcorrect" [maxpageno]="max_pageno"
-        (emitRecord)="getrecord($event)" (sort)="spellcorrectsort($event)" (searchModel)="spellcorrectsearch($event)">
+        (emitRecord)="getrecord($event)" (sort)="spellcorrectsort($event)" (searchModel)="spellcorrectsearch($event)" [isLoading]="isLoading">
     </app-list-fields>
 
 </div>

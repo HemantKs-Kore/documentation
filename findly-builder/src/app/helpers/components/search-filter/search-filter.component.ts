@@ -1,5 +1,7 @@
 import { Component, OnInit, Input,Output,EventEmitter } from '@angular/core';
+import { ignoreElements } from 'rxjs/operators';
 
+declare const $: any;
 @Component({
   selector: 'app-search-filter',
   templateUrl: './search-filter.component.html',
@@ -18,6 +20,9 @@ export class SearchFilterComponent implements OnInit {
   }
   filterFields(key){
     this.searchkey.emit(key);
+    if(key.length==0){
+      $('input').blur()
+    }
   }
   focusinSearch(inputSearch) {
     setTimeout(() => {

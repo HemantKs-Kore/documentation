@@ -77,7 +77,7 @@ getQuerypipeline() {
     }
     this.service.invoke('put.queryPipeline', quaryparms,payload).subscribe(res => {
       this.botactionsdata.enable=res.settings.botActions.enable
-      this.getQuerypipeline()
+      //this.getQuerypipeline()
       this.notificationService.notify("updated successfully",'success');
     }, errRes => {
       this.notificationService.notify("Failed to update",'error');
@@ -113,7 +113,7 @@ getQuerypipeline() {
 
     this.service.invoke('put.queryPipeline', quaryparms,payload).subscribe(res => {
       this.botactionsdata.enable=res.settings.botActions.enable
-      this.getQuerypipeline();
+      //this.getQuerypipeline();
       this.notificationService.notify("updated successfully",'success');
     }, errRes => {
       this.notificationService.notify("Failed to update",'error');

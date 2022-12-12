@@ -38,7 +38,9 @@ export class SpellCorrectionComponent implements OnInit {
   min_threshold: number = 0;
   searchValue = '';
   serachIndexId;
+  method_type='';
   spellcorrectdata: any = {};
+  isLoading = false;
   @Input() selectedcomponent;
   constructor(
     public workflowService: WorkflowService,
@@ -105,6 +107,7 @@ export class SpellCorrectionComponent implements OnInit {
   //** sort the data for spellcorrect data table and pop-up */
   spellcorrectsort(sortobj) {
     console.log(sortobj);
+    this.method_type='search'
     if (sortobj.componenttype == 'datatable') {
       this.getSpellcorrect(true, sortobj);
     } else {
@@ -115,6 +118,7 @@ export class SpellCorrectionComponent implements OnInit {
   //**spellcorrect search function */
   spellcorrectsearch(obj) {
     this.searchValue = obj.searchvalue;
+    this.method_type='search';
     if (obj.componenttype == 'datatable') {
       this.getSpellcorrect(true);
     } else {
@@ -143,8 +147,12 @@ export class SpellCorrectionComponent implements OnInit {
       // limit: this.limit,
       searchKey: this.searchValue ? this.searchValue : '',
     };
+    if(this.method_type!=='search') {
+      this.isLoading = true;
+    }
     this.service.invoke('get.spellcorrectFields', quaryparms).subscribe(
       (res) => {
+        this.isLoading = false;
         this.allspellCorrect = res.data;
         this.max_pageno = Number(Math.ceil(res.totalCount / 10)) - 1;
         if (isSelected) {
@@ -182,29 +190,33 @@ export class SpellCorrectionComponent implements OnInit {
   /** Emited Value for Operation (Add/Delete)  */
   getrecord(recordData: any) {
     let record = recordData.record;
-    if (record.length > 1) {
+    if(record?.fieldIds?.length > 0 || (record?.length>0)){
+      let deleteData = {
+        url: 'delete.spellcorrectFields',
+        quaryparms: {
+          streamId: this.selectedApp._id,
+          indexPipelineId: this.indexPipelineId,
+          queryPipelineId: this.queryPipelineId,
+          fieldId: record[0],
+        },
+      };
+      let addData = {
+        url: 'add.spellcorrectFields',
+        quaryparms: {
+          streamId: this.selectedApp._id,
+          indexPipelineId: this.indexPipelineId,
+          queryPipelineId: this.queryPipelineId,
+        },
+        payload: record,
+      };
+      recordData.type == 'delete'
+        ? this.removeRecord(deleteData)
+        : this.addRecords(addData);
     }
-    let deleteData = {
-      url: 'delete.spellcorrectFields',
-      quaryparms: {
-        streamId: this.selectedApp._id,
-        indexPipelineId: this.indexPipelineId,
-        queryPipelineId: this.queryPipelineId,
-        fieldId: record[0],
-      },
-    };
-    let addData = {
-      url: 'add.spellcorrectFields',
-      quaryparms: {
-        streamId: this.selectedApp._id,
-        indexPipelineId: this.indexPipelineId,
-        queryPipelineId: this.queryPipelineId,
-      },
-      payload: record,
-    };
-    recordData.type == 'delete'
-      ? this.removeRecord(deleteData)
-      : this.addRecords(addData);
+    else{
+      this.notificationService.notify("Please select the fields to proceed",'error')
+    }
+
   }
   /** remove fromPresentable */
   removeRecord(deleteData) {
@@ -212,9 +224,10 @@ export class SpellCorrectionComponent implements OnInit {
     this.service.invoke(deleteData.url, quaryparms).subscribe(
       (res) => {
         this.getAllspellcorrectFields();
+        this.notificationService.notify("Field removed successfully",'success');
       },
       (errRes) => {
-        this.notificationService.notify('Failed to remove Fields', 'error');
+        this.notificationService.notify('Failed to remove fields', 'error');
       }
     );
   }
@@ -242,7 +255,7 @@ export class SpellCorrectionComponent implements OnInit {
         : '',
       searchIndexId: this.serachIndexId,
     };
-    var payload: any = {
+    const payload: any = {
       settings: {
         spellCorrect: {
           enable: event.currentTarget.checked,

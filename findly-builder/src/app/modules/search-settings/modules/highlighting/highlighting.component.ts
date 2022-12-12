@@ -39,6 +39,8 @@ export class HighlightingComponent implements OnInit {
    allhighlightFields : any = [];
    highlight: any=[];
    nonhighlight: any=[];
+   method_type='';
+   isLoading = false;
   constructor(
     public workflowService: WorkflowService,
     private appSelectionService: AppSelectionService,
@@ -101,6 +103,7 @@ export class HighlightingComponent implements OnInit {
   }
    /**highlight sort for data table and pop-up */
     highlightsort(sortobj){
+      this.method_type='search'
     console.log(sortobj);
     if(sortobj.componenttype=="datatable"){
       this.getHighlightFields(true,sortobj);
@@ -113,6 +116,7 @@ export class HighlightingComponent implements OnInit {
    //**highlight search function */
    highlightsearch(obj){
     this.searchValue=obj.searchvalue;
+    this.method_type='search';
     if(obj.componenttype=="datatable"){
       this.getHighlightFields(true)
     }  
@@ -140,7 +144,11 @@ export class HighlightingComponent implements OnInit {
       // limit:this.limit,
       searchKey:this.searchValue?this.searchValue:''
     };
+    if(this.method_type!=='search'){
+      this.isLoading = true;
+    } 
     this.service.invoke('get.highlightFields', quaryparms).subscribe(res => {
+      this.isLoading = false;
       this.allhighlightFields = res.data;
       //this.max_pageno=Number(Math.ceil(res.totalCount/10))-1;
       if(isSelected){
@@ -223,28 +231,30 @@ export class HighlightingComponent implements OnInit {
    /** Emited Value for Operation (Add/Delete)  */
  getrecord(recordData : any){
   let record = recordData.record;
-  if(record.length > 1){
-
+  if(record?.fieldIds?.length > 0 || (record?.length>0)){
+    let deleteData = {
+      url :'delete.highlightFields',
+      quaryparms : {
+        streamId:this.selectedApp._id,
+        indexPipelineId:this.indexPipelineId,
+        queryPipelineId:this.queryPipelineId,
+        fieldId :  record[0]
+      }
+     }
+     let addData = {
+      url :'add.highlightFields',
+      quaryparms : {
+        streamId:this.selectedApp._id,
+        indexPipelineId:this.indexPipelineId,
+        queryPipelineId:this.queryPipelineId,
+      },
+      payload : record
+     }
+     recordData.type == 'delete' ? this.removeRecord(deleteData) : this.addRecords(addData)
   }
-  let deleteData = {
-    url :'delete.highlightFields',
-    quaryparms : {
-      streamId:this.selectedApp._id,
-      indexPipelineId:this.indexPipelineId,
-      queryPipelineId:this.queryPipelineId,
-      fieldId :  record[0]
-    }
-   }
-   let addData = {
-    url :'add.highlightFields',
-    quaryparms : {
-      streamId:this.selectedApp._id,
-      indexPipelineId:this.indexPipelineId,
-      queryPipelineId:this.queryPipelineId,
-    },
-    payload : record
-   }
-   recordData.type == 'delete' ? this.removeRecord(deleteData) : this.addRecords(addData)
+  else{
+    this.notificationService.notify("Please select the fields to proceed",'error')
+  }
    
  }
  /** remove fromPresentable */
@@ -252,8 +262,9 @@ export class HighlightingComponent implements OnInit {
   const quaryparms: any = deleteData.quaryparms;
   this.service.invoke(deleteData.url, quaryparms).subscribe(res => {
     this.getAllHighlightFields();
+    this.notificationService.notify("Field removed successfully",'success');
   }, errRes => {
-    this.notificationService.notify("Failed to remove Fields",'error');
+    this.notificationService.notify("Failed to remove fields",'error');
   });
  }
   /** Add to Prescentable */

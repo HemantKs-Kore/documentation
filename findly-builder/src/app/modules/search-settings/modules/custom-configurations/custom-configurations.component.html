@@ -78,7 +78,7 @@
                     </div>
                 </div>
               </div> -->
-              <app-custom-config-list [customConfigList]="customConfig" (onDelete)="deleteCustomConfig($event)" (onUpdate)="updateCustomConfig($event)"></app-custom-config-list>
+              <app-custom-config-list [customConfigList]="customConfig" [isLoading]="isLoading" (onDelete)="deleteCustomConfig($event)" (onUpdate)="updateCustomConfig($event)"></app-custom-config-list>
                        
             </perfect-scrollbar>
         </div>

@@ -27,7 +27,9 @@ export class PresentableComponent implements OnInit {
   allpresentableFields : any = [];
   presentable = [];
   nonPresentable = [];
+  isLoading = false;
   loader:any=false;
+  method_type='';
   @Input() presentabledata;
   @Input() selectedcomponent
   constructor(
@@ -58,33 +60,36 @@ export class PresentableComponent implements OnInit {
  /** Emited Value for Operation (Add/Delete)  */
  getrecord(recordData : any){
   let record = recordData.record;
-  if(record.length > 1){
-
+  if((record?.fieldIds?.length > 0) || (record?.length>0)){
+    let deleteData = {
+      url :'delete.presentableFields',
+      quaryparms : {
+        streamId:this.selectedApp._id,
+        indexPipelineId:this.indexPipelineId,
+        queryPipelineId:this.queryPipelineId,
+        fieldId :  record[0]
+      }
+     }
+     let addData = {
+      url :'add.presentableFields',
+      quaryparms : {
+        streamId:this.selectedApp._id,
+        indexPipelineId:this.indexPipelineId,
+        queryPipelineId:this.queryPipelineId,
+      },
+      payload : record
+     }
+     recordData.type == 'delete' ? this.removeRecord(deleteData) : this.addRecords(addData)
   }
-  let deleteData = {
-    url :'delete.presentableFields',
-    quaryparms : {
-      streamId:this.selectedApp._id,
-      indexPipelineId:this.indexPipelineId,
-      queryPipelineId:this.queryPipelineId,
-      fieldId :  record[0]
-    }
-   }
-   let addData = {
-    url :'add.presentableFields',
-    quaryparms : {
-      streamId:this.selectedApp._id,
-      indexPipelineId:this.indexPipelineId,
-      queryPipelineId:this.queryPipelineId,
-    },
-    payload : record
-   }
-   recordData.type == 'delete' ? this.removeRecord(deleteData) : this.addRecords(addData)
+  else{
+    this.notificationService.notify("Please select the fields to proceed",'error')
+  }
    
  }
  /**presentable sort */
  presentablesort(sortobj){
   console.log(sortobj);
+  this.method_type='search'
   if(sortobj.componenttype=="datatable"){
     this.getPresentableFields(true,sortobj);
   }
@@ -98,6 +103,7 @@ export class PresentableComponent implements OnInit {
   const quaryparms: any = deleteData.quaryparms;
   this.service.invoke(deleteData.url, quaryparms).subscribe(res => {
     this.getAllpresentableFields();
+    this.notificationService.notify("Field removed succesfully",'success');
   }, errRes => {
     this.notificationService.notify("Failed to remove Fields",'error');
   });
@@ -115,6 +121,7 @@ export class PresentableComponent implements OnInit {
  //**Presentable search function */
  presentablesearch(obj){
   this.searchValue=obj.searchvalue;
+  this.method_type='search';
   if(obj.componenttype=="datatable"){
     this.getPresentableFields(true)
   }  
@@ -142,8 +149,11 @@ export class PresentableComponent implements OnInit {
     // limit:this.limit,
     searchKey:this.searchValue?this.searchValue:''
   };
+  if(this.method_type!=='search'){
+    this.isLoading = true;
+  } 
   this.service.invoke('get.presentableFields', quaryparms).subscribe(res => {
-    this.loader=true;
+    this.isLoading = false;
     this.allpresentableFields = res.data;
     //this.max_pageno=Number(Math.ceil(res.totalCount/10))-1;
     if(selected){

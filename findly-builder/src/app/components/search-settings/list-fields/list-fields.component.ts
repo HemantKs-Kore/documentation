@@ -22,6 +22,7 @@ export class ListFieldsComponent implements OnInit {
   @Output() sort=new EventEmitter();
   @Output() searchModel =new EventEmitter();
   @Output() pageno =new EventEmitter();
+  @Input() isLoading = false;
    page_number=0;
   constructor(
     public dialog: MatDialog
@@ -38,11 +39,15 @@ export class ListFieldsComponent implements OnInit {
   componenttype;
   checksort='asc'
   isAsc = true;
+  loadingContent = true;
 
-  ngOnInit(): void {
+  ngOnInit(): void {    
     this.modal_open=false;
     console.log(this.tablefieldvalues);
     console.log(this.popupfieldvalues);
+    // if(this.tablefieldvalues && this.tablefieldvalues.length){
+    //   this.loadingContent = false
+    // }
   }
   //**Sort icon visibility */
   getSortIconVisibility(sortingField: string, type: string,component: string) {
@@ -207,7 +212,9 @@ export class ListFieldsComponent implements OnInit {
       record :record,
       type : 'add'
     });
-    this.closeModalPopup();
+    if(arrayId.length){
+      this.closeModalPopup();
+    }    
   }
   //** for selecting and de selecting the checkboxes*/
   addRecord(fields,event) {

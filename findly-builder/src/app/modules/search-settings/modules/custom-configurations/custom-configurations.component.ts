@@ -13,6 +13,7 @@ import {v4 } from 'uuid';
 export class CustomConfigurationsComponent implements OnInit {
 
   formData = {};
+  isLoading = false;
   selectedApp;
   indexPipelineId;
   streamId: any;
@@ -52,8 +53,11 @@ getQuerypipeline() {
     queryPipelineId: this.queryPipelineId,
     indexPipelineId: this.indexPipelineId,
   };
+
+  this.isLoading = true;
   this.service.invoke('get.queryPipeline', quaryparms).subscribe(
     (res) => {
+      this.isLoading = false;
        this.customConfig = res.settings.customConfiguration.values;
       // this.customConfig = [
       //   {

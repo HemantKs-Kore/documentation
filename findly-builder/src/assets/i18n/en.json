@@ -3648,5 +3648,9 @@
     "search_settings_key_value_pair":"Add key-value pair in custom configuration to test out new features and capabilities",
     "search_settings_custom_configurations_key":"KEY",
     "search_settings_custom_configurations_value":"VALUE",
-    "search_settings_custom_configurations_action":"ACTION"
+    "search_settings_custom_configurations_action":"ACTION",
+    "search_settings_empty_table_data":"No Fields available",
+    "search_settings_empty_table_data_please_add_Fields":"Please add the fields",
+    "search_settings_empty_custom_config":"No custom configuration available",
+    "search_settings_empty_custom_config_desc":"Please add the configurations key values"
 }
