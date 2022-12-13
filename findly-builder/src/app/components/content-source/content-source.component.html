@@ -143,7 +143,7 @@
                       <img *ngIf="source.extractionType == 'file'" src="assets/icons/content/latest-content-icons/green-check-document.svg">
                     </div>
                     <div class="media-right">
-                      <div class="media-name text-truncate"  title="{{source.title || source.name}}">{{source.title || source.name}}</div>
+                      <div class="media-name text-truncate"  appEllipsisActive>{{source.title || source.name}}</div>
                       <!-- <span class="ml-2" *ngIf="source.advanceSettings">
                         <img [title]="source.schedule_title" *ngIf="source.advanceSettings.scheduleOpt" class="search-icon" src="assets/icons/schedule_timer.svg">
                     </span> -->
@@ -364,7 +364,7 @@
 <!-- Edit crawl configuration page -->
 <kr-modal modalType="center" modalClass="sliderComponent modal_popups_" #statusModalPop id="sourceSlider">
   <div class="modal-header">
-    <div class="title" title="{{selectedSource.name}}">{{selectedSource.name}}</div>
+    <div class="title" appEllipsisActive>{{selectedSource.name}}</div>
     <div class="close_icon"><img (click)="sliderStep?sliderBack():closeStatusModal();"
         src="assets/icons/modal-close.svg"></div>
   </div>
@@ -1100,7 +1100,7 @@
                                             <img src="{{selectedPage?._source.page_image_url}}">
                                           </div>
                                           <div class="url-link">
-                                            <span class="preview-url-link" (click)="goToLink(selectedPage?._source?.page_image_url)" title="{{selectedPage?._source?.page_image_url}}">{{selectedPage?._source?.page_image_url}}</span>
+                                            <span class="preview-url-link text-truncate" (click)="goToLink(selectedPage?._source?.page_image_url)" appEllipsisActive>{{selectedPage?._source?.page_image_url}}</span>
                                             <i class="si-copy" (click)="copyUrl(selectedPage?._source?.page_image_url)"></i>
                                           </div>
                                         </div>
@@ -1306,7 +1306,7 @@
           <span>{{docContent.sys_source_name}}</span>
         </div>
         <div class="title-text">{{'contentSource_description'| translate}}</div>
-        <div class="title-desc-text" *ngIf="!isEditDoc">{{selectedSource.desc || '.....'}}</div>
+        <div class="title-desc-text text-truncate" appEllipsisActive *ngIf="!isEditDoc">{{selectedSource.desc || '.....'}}</div>
 
         <div class="title-text">{{'contentSource_document'| translate}}
           <img class="dwnld-image" src="assets/images/download.svg" (click)="downloadDoc(docContent.file_url)">
