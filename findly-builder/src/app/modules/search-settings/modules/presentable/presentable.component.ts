@@ -32,6 +32,7 @@ export class PresentableComponent implements OnInit {
   method_type='';
   @Input() presentabledata;
   @Input() selectedcomponent
+  isaddLoading=false;
   constructor(
     public workflowService: WorkflowService,
     private appSelectionService: AppSelectionService,
@@ -110,7 +111,9 @@ export class PresentableComponent implements OnInit {
  }
   /** Add to Prescentable */
  addRecords(addData){
+  this.isaddLoading=true;
   this.service.invoke(addData.url,addData.quaryparms,addData.payload).subscribe(res => {
+    this.isaddLoading=false;
    this.getAllpresentableFields();
    this.notificationService.notify("Field added succesfully",'success');
   }, errRes => {
