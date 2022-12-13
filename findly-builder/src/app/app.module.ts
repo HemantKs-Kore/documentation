@@ -1,3 +1,4 @@
+import { SharedPipesModule } from './helpers/filters/shared-pipes.module';
 import { SchedulerModule } from './components/scheduler/scheduler.module';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
@@ -7,7 +8,6 @@ import { NgbModule, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { HttpClientModule, HttpClient } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { DateFormatPipe } from './helpers/filters/dateformat.pipe';
 import { AppHeaderComponent } from './components/app-header/app-header.component';
 import { AppBodyComponent } from './components/app-body/app-body.component';
 import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
@@ -36,7 +36,6 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatSnackBar } from '@angular/material/snack-bar';
 // import { ManageIntentComponent } from './components/manage-intent/manage-intent.component';
-import { AddFaqComponent } from './components/add-faq/add-faq.component';
 import { AddAltFaqComponent } from './components/add-alt-faq/add-alt-faq.component';
 import { CustomMarkdownEditorComponent } from './helpers/lib/md-editor.component';
 import { ConvertMDtoHTML } from './helpers/lib/convertHTML';
@@ -47,7 +46,6 @@ import { ImportFaqsModalComponent } from './components/import-faqs-modal/import-
 import { TraitsComponent } from './components/traits/traits.component';
 import { TraitsFilterPipe } from './components/traits/traits-filter.pipe';
 import { MlThresholdComponent } from './components/ml-threshold/ml-threshold.component';
-import { AddAlternateQuestionComponent } from './components/faqs/add-alternate-question/add-alternate-question.component';
 import { GroupInputComponent } from './components/faqs/group-input/group-input.component';
 import { TagsInpComponent } from './components/faqs/tags-inp/tags-inp.component';
 import { CodemirrorModule } from '@ctrl/ngx-codemirror';
@@ -99,14 +97,11 @@ import { PricingComponent } from './components/pricing/pricing.component';
 import { InvoicesComponent } from './components/invoices/invoices.component';
 import { UsageLogComponent } from './components/usage-log/usage-log.component';
 import { UpgradePlanComponent } from './helpers/components/upgrade-plan/upgrade-plan.component';
-import { valueFormatPipe } from './helpers/filters/number-format.pipe';
-import { TextTransformPipe } from './helpers/filters/textTransfom.pipe';
 import { GeneralSettingsComponent } from './components/general-settings/general-settings.component';
 import { ResultTemplatesComponent } from './components/result-templates/result-templates.component';
 import { OnboardingComponentComponent } from './components/onboarding-component/onboarding-component.component';
 import { AnalyticsDropdownComponent } from './helpers/components/analytics-dropdown/analytics-dropdown.component';
 import { SearchFieldPropertiesComponent } from './components/search-field-properties/search-field-properties.component';
-import { SafeHtmlPipe } from './helpers/filters/safe-html.pipe';
 import { SelectTextDirective } from './helpers/directives/select-text.directive';
 import { EllipsisActiveDirective } from './helpers/directives/ellipsis-active.directive';
 import { IndexConfigurationSettingsComponent } from './components/index-configuration-settings/index-configuration-settings.component';
@@ -124,13 +119,11 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
     AppBodyComponent,
     AppMenuComponent,
     SortPipe,
-    DateFormatPipe,
     AppsListingComponent,
     ScrollSpyDirective,
     ConfirmationDialogComponent,
     SummaryComponent,
     // ManageIntentComponent,
-    AddFaqComponent,
     AddAltFaqComponent,
     CustomMarkdownEditorComponent,
     MarkdownEditorResizeSensorComponent,
@@ -138,7 +131,6 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
     ImportFaqsModalComponent,
     TraitsComponent,
     MlThresholdComponent,
-    AddAlternateQuestionComponent,
     GroupInputComponent,
     TagsInpComponent,
     // AttributesListComponent,
@@ -178,14 +170,11 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
     InvoicesComponent,
     UsageLogComponent,
     UpgradePlanComponent,
-    valueFormatPipe,
-    TextTransformPipe,
     GeneralSettingsComponent,
     ResultTemplatesComponent,
     AnalyticsDropdownComponent,
     OnboardingComponentComponent,
     SearchFieldPropertiesComponent,
-    SafeHtmlPipe,
     SelectTextDirective,
     EllipsisActiveDirective,
     IndexConfigurationSettingsComponent,
@@ -237,6 +226,7 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
     EmptyScreenModule,
     SmallTalkModule,
     SchedulerModule,
+    SharedPipesModule
   ],
   // tslint:disable-next-line:max-line-length
   entryComponents: [

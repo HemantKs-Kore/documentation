@@ -1,3 +1,4 @@
+import { AddFaqModule } from './../../components/add-faq/add-faq.module';
 import { SchedulerModule } from './../../components/scheduler/scheduler.module';
 import { FormsModule } from '@angular/forms';
 import { TranslateModule } from '@ngx-translate/core';
@@ -22,7 +23,10 @@ import { SourcesComponent } from './sources.component';
     TranslateModule,
     FormsModule,
     SchedulerModule,
-    TranslateModule
+    TranslateModule,
+
+    // add faq modal
+    AddFaqModule,
   ],
 })
 export class SourcesModule {}

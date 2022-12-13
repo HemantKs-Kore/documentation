@@ -24,6 +24,26 @@
     </perfect-scrollbar>
 </div>
 
+<!-- Manual FAQ Modal -->
+<kr-modal modalType="center" modalClass="modal_popups_ addfaq" #addManualFaqModalPop>
+    <ng-container *ngIf="selectedSourceType && selectedSourceType.resourceType === 'manual'">
+        <div class="modal-header">
+            <div class="title">Add FAQ</div>
+            <div class="close_icon"><img (click)="cancleSourceAddition()" src="assets/icons/modal-close.svg"></div>
+        </div>
+        <perfect-scrollbar class="perfect-scroll-modal-body" #perfectScroll3>
+            <div class="modal-body">
+                <app-add-faq [faqUpdate]="faqUpdate.asObservable()" (addFaq)="addManualFaq($event)"
+                    (cancelfaqEvent)="faqCancle()"></app-add-faq>
+            </div>
+        </perfect-scrollbar>
+        <div class="modal-footer">
+            <button class="kr-sg-button-primary btn_lg" (click)="faqUpdateEvent()">{{"sa_save" | translate}}</button>
+            <button class="kr-sg-button-secondary btn_lg" (click)="faqCancle();">{{"sa_cancel" | translate}}</button>
+        </div>
+    </ng-container>
+</kr-modal>
+
 <!-- Content crawl authentication Modal -->
 <kr-modal modalType="center" modalClass="modal_popups_ addfaq" #addSourceModalPopDummy>
     <div class="modal-header">

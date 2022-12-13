@@ -1,3 +1,4 @@
+import { SharedPipesModule } from './../../helpers/filters/shared-pipes.module';
 import { KrModalModule } from './../../shared/kr-modal/kr-modal.module';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
@@ -9,7 +10,6 @@ import { UseronboardingJourneyComponent } from 'src/app/helpers/components/usero
 import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
 import { SearchFilterComponent } from 'src/app/helpers/components/search-filter/search-filter.component';
 import { FormsModule } from '@angular/forms';
-import { FilterPipe } from 'src/app/helpers/filters/filter.pipe';
 import { NgbDropdownModule, NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { RecordPaginationComponent } from 'src/app/helpers/components/record-pagination/record-pagination.component';
@@ -24,7 +24,6 @@ import { SynonymFilterPipe } from '../../components/synonyms/synonym-filter';
     UseronboardingJourneyComponent,
     SearchFilterComponent,
     RangeSliderComponent,
-    FilterPipe,
     RecordPaginationComponent,
     SynonymFilterPipe,
   ],
@@ -37,6 +36,7 @@ import { SynonymFilterPipe } from '../../components/synonyms/synonym-filter';
     MatProgressSpinnerModule,
     NgbDropdownModule,
     KrModalModule,
+    SharedPipesModule,
   ],
   exports: [
     ListFieldsComponent,
@@ -48,13 +48,13 @@ import { SynonymFilterPipe } from '../../components/synonyms/synonym-filter';
     SearchFilterComponent,
     FormsModule,
     RangeSliderComponent,
-    FilterPipe,
     NgbTooltipModule,
     MatProgressSpinnerModule,
     NgbDropdownModule,
     RecordPaginationComponent,
     SynonymFilterPipe,
     KrModalModule,
+    SharedPipesModule,
   ],
 })
 export class FindlySharedModule {}
