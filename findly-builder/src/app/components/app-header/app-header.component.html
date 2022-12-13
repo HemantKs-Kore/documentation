@@ -142,8 +142,8 @@
                       id="test-btn-launch-sdk" (click)="openOrCloseSearchSDK()" [disabled]="isRouteDisabled"><span class="pr-1 align-middle"><i class="si-play-button"></i></span>{{ 'header_preview' | translate }}</button>
                 </li>
              <!-- New Code wrt to Stop Traing -->
-            <li class="nav-item new-train-btn" (mouseenter)="displayStopTrain()" (mouseleave)="displayStopTrainLeave()" (click)="isRouteDisabled?null:train()" [ngbTooltip]="training && showClose?'Stop Training The App':'Train Your APP'" tooltipClass="train-icon-tooltip">
-                    <button  class="kr-sg-button-secondary btn_lg" [ngClass]='{"show-close":showClose && training}'>
+            <li class="nav-item new-train-btn"  [ngbTooltip]="training?'Stop Training The App':'Train Your APP'">
+                    <button  [disabled]="disableTrainButton" (mouseenter)="displayStopTrain()" (mouseleave)="displayStopTrainLeave()" (click)="isRouteDisabled?null:train()" class="kr-sg-button-secondary btn_lg" [ngClass]='{"show-close":showClose && training}'>
                         <span class="align-middle train-btn-icons">
                             <span *ngIf="!training" >
                                 <i class="si-train-multi-intent"></i>
@@ -275,8 +275,14 @@
                                                                         <!-- <img src="assets/icons/docker/return.svg"
                                                                                 *ngIf="task.status === 'HALTED'"
                                                                                 (click)="recrawl(task)"> -->
+                                                                       <img src="assets/icons/docker/info.svg"
+                                                                         *ngIf="task.jobType === 'TRAINING' && task.status === 'HALTED'"
+                                                                         [ngbTooltip]="task?.message"
+                                                                          placement="top-center" [container]="'body'"
+                                                                         tooltipClass="dashboard-custom-tooltips">
+
                                                                         <img src="assets/icons/docker/return.svg"
-                                                                            *ngIf="task.status === 'HALTED' || task.status === 'halted'"
+                                                                            *ngIf="task.jobType == '!TRAINING' && (task.status === 'HALTED' || task.status === 'halted')"
                                                                             (click)="recrawl(task)">
                                                                         <!-- <img src="assets/icons/docker/download.svg" *ngIf="(task.status === 'SUCCESS') && (task.jobType === 'faq')"> -->
                                                                         <!-- made code updates in line no 254,255 on 03/01 added new condition for success,since SUCCESS is upadted to success as per new api contract  -->
