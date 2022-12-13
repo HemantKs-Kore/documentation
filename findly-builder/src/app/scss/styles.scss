@@ -1288,10 +1288,9 @@ div.divBlockEmptylastChild:first-child {
         }
         .title{
             color: #202124;
-            font-weight: normal;
+            font-weight: bold;
             font-size: 14px;
             float: left;
-            font-weight: 400;
             word-break: break-word;
             width: 95%;
             overflow: hidden;
@@ -1485,6 +1484,9 @@ div.divBlockEmptylastChild:first-child {
 }
 .cursor-pointer{
     cursor: pointer !important;
+}
+.cursor-default{
+    cursor: default !important;
 }
 /* Aligining the serach bubble to little right in business app*/
 .start-search-icon-div{
@@ -1729,9 +1731,6 @@ div.divBlockEmptylastChild:first-child {
                 font-weight: bold;
                 font-size: 14px;
                 line-height: 17px;
-                &.total{
-                    
-                }
                 &.new{
                     color: #0D6EFD;
                 }

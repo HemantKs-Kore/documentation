@@ -29,7 +29,7 @@
         <div id="support" class="tab-pane active">
             <div class="bread-cum-search">
                 <div class="bread-cum-list">
-                    <div class="first-title" (click)="supportParentData=true;closeSearch()">{{'onboarding_support' | translate}}</div>
+                    <div class="first-title" [ngClass]="{'cursor-pointer':!supportParentData}" (click)="supportParentData=true;closeSearch()">{{'onboarding_support' | translate}}</div>
                     <i class="si-carrotup" *ngIf="!supportParentData"></i>
                     <div class="secondary-title" *ngIf="!supportParentData">{{breadcrumbName}}</div>
                 </div>

@@ -105,7 +105,7 @@
                 <li class="nav-item app-dropdown">
                     <div class="kr-sg-dropdowns new-line-btn" ngbDropdown #myDrop="ngbDropdown" [placement]="'bottom-center'">
                         <div class="dropdown dropdown-open">
-                            <button class="dropdown-toggle dropdown-input text-truncate" title="{{appName}}" id="dropdownBasic1" ngbDropdownToggle (click)="getAllApps()" [ngClass]="{'disable_btn':isRouteDisabled}">{{appName}}</button>
+                            <button class="dropdown-toggle dropdown-input text-truncate" [ngbTooltip]="appName" tooltipClass="train-icon-tooltip" container='body' id="dropdownBasic1" ngbDropdownToggle (click)="getAllApps()" [ngClass]="{'disable_btn':isRouteDisabled}">{{appName}}</button>
                             <ul class="dropdown-menu content-menu" ngbDropdownMenu>
                                 <div class="search-assist-apps">
                                     <div class="main-title">{{ 'header_searchAssistApps' | translate }}</div>
@@ -425,8 +425,8 @@
                                     </div>
                                     <div class="info-user text-truncate">
                                         <!-- <div class="u-name text-truncate">{{currentAppControlList?.accountName}}</div> -->
-                                        <div class="u-name text-truncate">{{this.loginusername}}</div>
-                                        <div class="u-name domain-name text-truncate">{{currentAppControlList?.domain}}</div>
+                                        <div class="u-name text-truncate" appEllipsisActive>{{this.loginusername}}</div>
+                                        <div class="u-name domain-name text-truncate" appEllipsisActive>{{currentAppControlList?.domain}}</div>
 
                                         <!-- <div class="u-mail text-truncate">devendar.bala@kore.com</div> -->
                                     </div>

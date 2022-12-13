@@ -313,9 +313,9 @@
                         <span *ngIf="source.numPages">
                           <span class="count">{{source.numPages}}</span>{{"contentSource_pages" | translate}}
                         </span>
-                        <span *ngIf="!source.numPages">
+                        <!-- <span *ngIf="!source.numPages">
                           <span class="count"> -- </span>
-                        </span>
+                        </span> -->
                       </div>
                       <div class="status text-right" *ngIf="statusObj[source.recentStatus]?.name == 'Failed'">
                         <span class="img-block"><img src="assets/icons/content/failed-status.svg"></span>
@@ -416,7 +416,7 @@
                   </div>
                 </div>
                 <div class="update-timestamp width-20 mar-bot-15">
-                  <button class="btn btn-secondary" type="button"><span class="last-update"><img src="assets/icons/refresh-secondary.svg" alt="refresh-icon" /> {{'contentSource_last_updated'| translate}}</span>{{selectedSource?.lMod | dateFormatPipe:'D.MM.YYYY'}}</button>
+                  <button class="btn btn-secondary cursor-default" type="button"><span class="last-update"><img src="assets/icons/refresh-secondary.svg" alt="refresh-icon" /> {{'contentSource_last_updated'| translate}}</span>{{selectedSource?.lMod | dateFormatPipe:'D.MM.YYYY'}}</button>
                 </div>
                 <div class="reload-recrwal width-10 mar-bot-15" *ngIf="!page && !execution">
                   <button class="btn btn-out-primary" type="button" *ngIf="selectedSource.recentStatus === 'configured'" (click)="jobOndemand(selectedSource,$event)">{{'contentSource_crawl'| translate}}</button>
@@ -1014,6 +1014,7 @@
                   id="searchInput" [(ngModel)]="pagesSearch" (ngModelChange)="searchPageChange();isSearchLoading = true;"
                     autocomplete="off">
                   <i class="si-search search-icon"></i>
+                  <img class="close-icon" src="assets/icons/close_icon.svg" (click)="clearPageSearch()">
                 </div>
               </div>
               <div class="inner-pages-content" *ngIf="pagingData.length>0 && !isSearchLoading">
@@ -1202,20 +1203,8 @@
                                 style="position: absolute;left: 4px;top: 4px;font-size: 10px;font-weight: 600">{{history?.executionStats?.percentageDone
                                 || 0}}%</span>
                             </span>
-                            <!-- <span class="execute-success mr-2" ngbTooltip='Sitemap Validation failed due to timeout' placement="top-left" [container]='"body"' tooltipClass="ngb_tooltip_custom_class" >
-                              <img *ngIf="history.executionStats.executionStatusMessage == 'Execution Successful'" src="assets/icons/content/success.svg">
-                              <img *ngIf="history.executionStats.executionStatusMessage == 'Execution Failed'" src="assets/icons/content/failed.svg">
-                              <img *ngIf="history.executionStats.executionStatusMessage == 'Execution Stopped'" src="assets/icons/content/stopped.svg" >
-                              <img *ngIf="history.executionStats.executionStatusMessage == 'Execution In Progress'" src="assets/icons/content/failed.svg">
-                            </span> -->
                             <div class="text-truncate w-100 pr-4">{{history?.executionStats?.executionStatusMessage}}
                             </div>
-                            <!-- <div class="eye-img" (mouseenter)="executionHistoryPop(history,i)"><img src="assets/icons/content/eye.svg" >
-                            </div>
-                            <div *ngIf = "i == executionPop">
-                              HHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH
-                              {{executionObj[history.executionStats.executionStatusMessage]}}
-                            </div> -->
                           </div>
                           <div class="col_ col-2">{{history?.executionStats?.duration}}</div>
                           <div class="col_ col-3">{{history?.executionStats?.triggeredBy}}</div>

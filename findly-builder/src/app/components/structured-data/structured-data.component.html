@@ -523,7 +523,7 @@
 
       <app-empty-screen
         class="empty-lg"
-        *ngIf="noItems && !searchText"
+        *ngIf="noItems && !searchText && !appliedAdvancedSearch?.rules?.length"
         [title]="emptyScreen.TITLE"
         [desc]="emptyScreen.DESC"
         [imgName]="emptyScreen.IMG_NAME"
@@ -550,7 +550,7 @@
         class="empty-lg"
         [width]="120"
         [height]="120"
-        *ngIf="noItems && searchText"
+        *ngIf="noItems && (searchText || appliedAdvancedSearch?.rules?.length)"
         [title]="emptyScreen.TITLE_SEARCH"
         [desc]="emptyScreen.DESC_SEARCH"
         [imgName]="emptyScreen.IMG_NAME"
