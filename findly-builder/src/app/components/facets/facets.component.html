@@ -133,12 +133,12 @@
                                 <img class="custom-dropdown-toggle-icon" src="assets/icons/type-select-dropdown.svg">
                             </button>
                             <ul class="dropdown-menu content-menu type_sort_dropdown-content" ngbDropdownMenu>
-                                <li (click)="typeFilter.close();filterTable('all','facetType')"><span
+                                <li (click)="typeFilter.close();filterTable('all','facetType')" [ngClass]="{'font-weight-bold':('all'===filterSystem?.typefilter)}"><span
                                         class="list-name">{{'sa_all' | translate}}</span><img
                                         [ngClass]="{'hide': filterSystem.typefilter !== 'all'}"
                                         src="assets/icons/check-blue.svg"></li>
                                 <li *ngFor="let docType of docTypeArr"
-                                    (click)="typeFilter.close();filterTable(docType,'facetType')">
+                                    (click)="typeFilter.close();filterTable(docType,'facetType')" [ngClass]="{'font-weight-bold':(docType===filterSystem?.typefilter)}">
                                     <span class="list-name">{{docType|titlecase}}</span><img
                                         [ngClass]="{'hide': filterSystem.typefilter !== docType}"
                                         src="assets/icons/check-blue.svg">
@@ -164,12 +164,12 @@
                                 <img class="custom-dropdown-toggle-icon" src="assets/icons/type-select-dropdown.svg">
                             </button>
                             <ul class="dropdown-menu content-menu type_sort_dropdown-content" ngbDropdownMenu>
-                                <li (click)="selectFilter.close();filterTable('all','isMultiSelect')"><span
+                                <li (click)="selectFilter.close();filterTable('all','isMultiSelect')" [ngClass]="{'font-weight-bold':('all'===filterSystem?.selectFilter)}"><span
                                         class="list-name">{{'sa_all'| translate}}</span><img
                                         [ngClass]="{'hide': filterSystem.selectFilter !== 'all'}"
                                         src="assets/icons/check-blue.svg"></li>
                                 <li *ngFor="let docType of selectTypeArr"
-                                    (click)="selectFilter.close();filterTable(docType,'isMultiSelect')">
+                                    (click)="selectFilter.close();filterTable(docType,'isMultiSelect')" [ngClass]="{'font-weight-bold':(docType===filterSystem?.selectFilter)}">
                                     <span class="list-name">{{docType == false ? 'No' :'Yes'}}</span><img
                                         [ngClass]="{'hide': filterSystem.selectFilter !== docType}"
                                         src="assets/icons/check-blue.svg">
@@ -195,12 +195,12 @@
                                 <img class="custom-dropdown-toggle-icon" src="assets/icons/type-select-dropdown.svg">
                             </button>
                             <ul class="dropdown-menu content-menu type_sort_dropdown-content" ngbDropdownMenu>
-                                <li (click)="statusFilter.close();filterTable('all','statusType')"><span
+                                <li (click)="statusFilter.close();filterTable('all','statusType')" [ngClass]="{'font-weight-bold':('all'===filterSystem?.statusFilter)}"><span
                                         class="list-name">{{'sa_all' | translate}}</span><img
                                         [ngClass]="{'hide': filterSystem.statusFilter !== 'all'}"
                                         src="assets/icons/check-blue.svg"></li>
                                 <li *ngFor="let docType of statusArr"
-                                    (click)="statusFilter.close();filterTable(docType,'statusType')">
+                                    (click)="statusFilter.close();filterTable(docType,'statusType')" [ngClass]="{'font-weight-bold':(docType===filterSystem?.statusFilter)}">
                                     <span class="list-name">{{docType == true ? 'Active':'Inactive'}}</span><img
                                         [ngClass]="{'hide': filterSystem.statusFilter !== docType}"
                                         src="assets/icons/check-blue.svg">
@@ -383,11 +383,8 @@
                                                             [class.err-block]="((!currentFacetObj?.sortConfig?.sortBy?.length) && submitted)">{{currentFacetObj?.sortConfig?.sortBy==''?'Select':(currentFacetObj.sortConfig.sortBy|titlecase)}}</button>
                                                         <ul class="dropdown-menu content-menu">
                                                             <perfect-scrollbar class="scroll-search-field h-200">
-                                                                <li (click)="currentFacetObj.sortConfig.sortBy='label'">
-                                                                    <a>{{'facets_label'| translate}}</a>
-                                                                </li>
-                                                                <li (click)="currentFacetObj.sortConfig.sortBy='count'">
-                                                                    <a>{{'facets_count'|translate}}</a>
+                                                                <li *ngFor="let sort of sortByArray" [ngClass]="{'font-weight-bold':(sort===currentFacetObj?.sortConfig?.sortBy)}" (click)="currentFacetObj.sortConfig.sortBy=sort">
+                                                                    <a>{{'facets_'+sort| translate}}</a>
                                                                 </li>
                                                             </perfect-scrollbar>
                                                         </ul>
@@ -401,11 +398,8 @@
                                                             order':(currentFacetObj?.sortConfig?.order=='asc'?'Ascending':'Descending')}}</button>
                                                         <ul class="dropdown-menu content-menu">
                                                             <perfect-scrollbar class="scroll-search-field h-200">
-                                                                <li (click)="currentFacetObj.sortConfig.order='asc'">
-                                                                    <a>{{'facets_ascending'| translate}}</a>
-                                                                </li>
-                                                                <li (click)="currentFacetObj.sortConfig.order='desc'">
-                                                                    <a>{{'facets_descending'|translate}}</a>
+                                                                <li *ngFor="let order of orderArray" [ngClass]="{'font-weight-bold':(order.value===currentFacetObj.sortConfig.order)}" (click)="currentFacetObj.sortConfig.order=order.value">
+                                                                    <a>{{'facets_'+order.key| translate}}</a>
                                                                 </li>
                                                             </perfect-scrollbar>
                                                         </ul>
@@ -522,36 +516,16 @@
                                         <div class="inner-sort-inputs">
                                             <div class="label-text">{{'facets_sort_by'| translate}}</div>
                                             <div class="d-flex">
-                                                <!-- <div class="kr-sg-dropdowns">
-                                                    <div class="dropdown dropdown-open">
-                                                        <button class="dropdown-toggle dropdown-input"
-                                                            data-toggle="dropdown"
-                                                            [class.err-block]="((!currentFacetObj?.sortConfig?.sortBy?.length) && submitted)">{{currentFacetObj.sortConfig.sortBy==''?'Select':(currentFacetObj.sortConfig.sortBy|titlecase)}}</button>
-                                                        <ul class="dropdown-menu content-menu">
-                                                            <perfect-scrollbar class="scroll-search-field h-200">
-                                                                <li (click)="currentFacetObj.sortConfig.sortBy='label'">
-                                                                    <a>{{'facets_label'|translate}}</a>
-                                                                </li>
-                                                                <li (click)="currentFacetObj.sortConfig.sortBy='count'">
-                                                                    <a>{{'facets_count'|translate}}</a>
-                                                                </li>
-                                                            </perfect-scrollbar>
-                                                        </ul>
-                                                    </div>
-                                                </div> -->
                                                 <div class="kr-sg-dropdowns">
                                                     <div class="dropdown dropdown-open">
                                                         <button class="dropdown-toggle dropdown-input"
                                                             data-toggle="dropdown"
-                                                            [class.err-block]="((!currentFacetObj?.sortConfig?.order?.length) && submitted)">{{currentFacetObj?.sortConfig?.order==''?'Selectorder':(currentFacetObj?.sortConfig?.order=='asc'?'Ascending
+                                                            [class.err-block]="((!currentFacetObj?.sortConfig?.order?.length) && submitted)">{{currentFacetObj?.sortConfig?.order==''?'Select order':(currentFacetObj?.sortConfig?.order=='asc'?'Ascending
                                                             Order':'Descending Order')}}</button>
                                                         <ul class="dropdown-menu content-menu">
                                                             <perfect-scrollbar class="scroll-search-field h-200">
-                                                                <li (click)="currentFacetObj.sortConfig.order='asc'">
-                                                                    <a>{{'facets_ascending'| translate}}</a>
-                                                                </li>
-                                                                <li (click)="currentFacetObj.sortConfig.order='desc'">
-                                                                    <a>{{'facets_descending'|translate}}</a>
+                                                                <li *ngFor="let order of orderArray" [ngClass]="{'font-weight-bold':(order.value===currentFacetObj?.sortConfig?.order)}" (click)="currentFacetObj.sortConfig.order=order.value">
+                                                                    <a>{{'facets_'+order.key| translate}}</a>
                                                                 </li>
                                                             </perfect-scrollbar>
                                                         </ul>

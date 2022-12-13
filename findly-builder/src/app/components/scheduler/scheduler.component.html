@@ -27,10 +27,8 @@
           <div class="kr-sg-dropdowns schedule-timZon">
             <div class="dropdown dropdown-open">
               <button class="dropdown-toggle dropdown-input" data-toggle="dropdown"><span [ngClass] = "{'schedule-drop-text' : stz == 'Time Zone'}" >{{stz}}</span></button>                                            
-              <ul class="dropdown-menu content-menu">                                               
-                <li (click) = "timeZone('IST')"><a>IST</a></li>
-                <li (click) = "timeZone('EST')"><a>EST</a></li>
-                <li (click) = "timeZone('UTC')"><a>UTC</a></li>
+              <ul class="dropdown-menu content-menu min-width-0">                                               
+                <li *ngFor="let zone of timeZoneArray" (click) = "timeZone(zone)" [ngClass]="{'font-weight-bold':(stz===zone)}"><a>{{zone}}</a></li>
               </ul>
             </div>
         </div>
@@ -45,13 +43,7 @@
           <div class="dropdown dropdown-open">
               <button class="dropdown-toggle dropdown-input" [ngClass]="{'dropdown-disable':recurringFrequency===false}" data-toggle="dropdown" [disabled]="!recurringFrequency"> <span>{{rstz}}</span></button>                                            
               <ul class="dropdown-menu content-menu">                                               
-                <li (click) = "repeatTimeZone('Does not repeat')"><a>Does not repeat</a></li>
-                <li (click) = "repeatTimeZone('Daily')"><a>Daily</a></li>
-                <li (click) = "repeatTimeZone('Weekly')"><a>Weekly</a></li>
-                <li (click) = "repeatTimeZone('Monthly')"><a>Monthly</a></li>
-                <li (click) = "repeatTimeZone('Annually')"><a>Annually</a></li>
-                <li (click) = "repeatTimeZone('Every weekday')"><a>Every weekday(Monday to Friday)</a></li>
-                <li (click) = "openCustomRecModal('Custom')"><a>Custom...</a></li>
+                <li *ngFor="let frequency of recurringFrequencyArray" [ngClass]="{'font-weight-bold':(frequency.value===rstz)}" (click) = "(frequency.value==='Custom')?openCustomRecModal(frequency.value):repeatTimeZone(frequency.value)"><a>{{frequency.key}}</a></li>
               </ul>
             </div>
         </div>
@@ -74,11 +66,8 @@
               <div class="kr-sg-dropdowns schedule-Interval">
                 <div class="dropdown dropdown-open">
                     <button class="dropdown-toggle dropdown-input cust-repeat-type" data-toggle="dropdown"> {{custFreq}}</button>                                            
-                    <ul class="dropdown-menu content-menu content-width">                                               
-                      <li (click)="custFrequency('Days')"><a *ngIf="repeatEvery == '1'">Day</a><a *ngIf="repeatEvery != '1'">Days</a></li>
-                      <li (click)="custFrequency('Weeks')"><a *ngIf="repeatEvery == '1'">Week</a><a *ngIf="repeatEvery != '1'">Weeks</a></li>
-                      <li (click)="custFrequency('Months')"><a *ngIf="repeatEvery == '1'">Month</a><a *ngIf="repeatEvery != '1'">Months</a></li>
-                      <li (click)="custFrequency('Years')"><a *ngIf="repeatEvery == '1'">Year</a><a *ngIf="repeatEvery != '1'">Years</a></li>
+                    <ul class="dropdown-menu content-menu content-width min-width-0">                                               
+                      <li *ngFor="let repeat of repeatEveryArray" [ngClass]="{'font-weight-bold':((repeat===custFreq&&repeatEvery=='1')||(repeat+'s'===custFreq&&repeatEvery!='1'))}" (click)="custFrequency(repeat+'s')"><a>{{repeat}}<span *ngIf="repeatEvery!='1'">s</span></a></li>
                     </ul>
                   </div>
               </div>
