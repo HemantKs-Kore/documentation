@@ -150,7 +150,7 @@ export class AppHeaderComponent implements OnInit {
     { displayName: 'Analytics(Search Insights)', routeId: '/searchInsights', quaryParms: {} },
     { displayName: 'Analytics(Result Insights)', routeId: '/resultInsights', quaryParms: {} },
   ];
-  menuItems:any={sources:['/source','/content','/faqs','/botActions','/structuredData','/connectors'],indices:['/FieldManagementComponent','/traits','/index','/weights','/synonyms','/stopWords','/resultranking','/facets','/rules','/search-experience','/resultTemplate'],anlytics:['/dashboard','/userEngagement','/searchInsights','/experiments','/resultInsights'],manage:['/settings','/credentials-list','/actions','/team-management','/smallTalk','/pricing','/usageLog','/invoices','/generalSettings']};
+  menuItems:any={sources:['/sources','/content','/faqs','/botActions','/structuredData','/connectors'],indices:['/FieldManagementComponent','/traits','/index','/weights','/synonyms','/stopWords','/resultranking','/facets','/rules','/search-experience','/resultTemplate'],anlytics:['/dashboard','/userEngagement','/searchInsights','/experiments','/resultInsights'],manage:['/settings','/credentials-list','/actions','/team-management','/smallTalk','/pricing','/usageLog','/invoices','/generalSettings']};
   public dockersList: Array<any> = [];
   public pollingSubscriber: any;
   public dockServiceSubscriber: any;
@@ -598,7 +598,7 @@ export class AppHeaderComponent implements OnInit {
     if (!skipRouterLink) {
       this.router.navigate([menu], { skipLocationChange: true });
     }
-    
+
     this.showMenu.emit(this.showMainMenu)
     this.settingMenu.emit(this.menuFlag)
     this.showSourceMenu.emit(this.sourcesFlag);
@@ -668,7 +668,7 @@ export class AppHeaderComponent implements OnInit {
     this.fromCallFlow = '';
     this.ref.detectChanges();
   }
-  //FOR TRAINING 
+  //FOR TRAINING
   train() {
     if(!this.training){
       this.training = true;
@@ -703,10 +703,10 @@ export class AppHeaderComponent implements OnInit {
       this.notificationService.notify('Stoping Train Initiated', 'success');
     }
   }
-  //SHOWING STOP BUTTON 
+  //SHOWING STOP BUTTON
   displayStopTrain(){
     if(this.training){
-    this.countTrainAction = this.countTrainAction+1; 
+    this.countTrainAction = this.countTrainAction+1;
     this.countTrainAction>1?this.showClose=true:this.showClose=false;
     }
     else {
@@ -763,7 +763,7 @@ export class AppHeaderComponent implements OnInit {
   //     this.statusDockerLoading = false;
   //   }
   // }
-  
+
   poling(recordStatistics?, updateRecordsWithRead?) {
     if (this.pollingSubscriber) {
       this.pollingSubscriber.unsubscribe();
@@ -903,7 +903,7 @@ export class AppHeaderComponent implements OnInit {
     }
     )
   }
-  // CHECK FOR THE INPROGRESS JOB 
+  // CHECK FOR THE INPROGRESS JOB
   checkJObStatus(dockersList){
     dockersList.forEach(element => {
       if((element.status === 'IN_PROGRESS' || element.status === 'INPROGRESS' || element.status === 'in_progress' || element.status === 'inprogress'

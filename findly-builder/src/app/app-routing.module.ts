@@ -43,16 +43,16 @@ const routes: Routes = [
     path: '',
     canActivate: [AuthGuard],
     resolve: {
-      appData: AppDataResolver
+      appData: AppDataResolver,
     },
     children: [
       { path: 'apps', component: AppsListingComponent },
       { path: 'summary', component: SummaryComponent },
-      { path: 'source', component: AddSourceComponent },
-      { path: 'content', component: ContentSourceComponent },
-      { path: 'faqs', component: FaqSourceComponent },
-      { path: 'connectors', component: ConnectorsSourceComponent },
-      { path: 'botActions', component: BotActionComponent },
+      // { path: 'source', component: AddSourceComponent },
+      // { path: 'content', component: ContentSourceComponent },
+      // { path: 'faqs', component: FaqSourceComponent },
+      // { path: 'connectors', component: ConnectorsSourceComponent },
+      // { path: 'botActions', component: BotActionComponent },
       { path: 'traits', component: TraitsComponent },
       { path: 'rules', component: BusinessRulesComponent },
       { path: 'facets', component: FacetsComponent },
@@ -71,7 +71,7 @@ const routes: Routes = [
       { path: 'generalSettings', component: GeneralSettingsComponent },
       { path: 'FieldManagementComponent', component: FieldManagementComponent },
       { path: 'resultTemplate', component: ResultTemplatesComponent },
-      { path: 'structuredData', component: StructuredDataComponent },
+      // { path: 'structuredData', component: StructuredDataComponent },
       { path: 'team-management', component: TeamManagementComponent },
       { path: 'search-experience', component: SearchExperienceComponent },
       { path: 'pricing', component: PricingComponent },
@@ -79,11 +79,59 @@ const routes: Routes = [
       { path: 'usageLog', component: UsageLogComponent },
       // { path: 'search-field-properties', component: SearchSettingsComponent },
       // { path: 'search-field-properties', component: SearchFieldPropertiesComponent },
-      { path: 'index-configuration-settings', component: IndexConfigurationSettingsComponent },  
-      { path: 'search-settings', loadChildren: () => import('./modules/search-settings/search-settings.module').then(m => m.SearchSettingsModule) },
-      { path: '', component: AppsListingComponent },
-      { path: '**', component: AppsListingComponent }
-    ]
+      {
+        path: 'index-configuration-settings',
+        component: IndexConfigurationSettingsComponent,
+      },
+      {
+        path: 'search-settings',
+        loadChildren: () =>
+          import('./modules/search-settings/search-settings.module').then(
+            (m) => m.SearchSettingsModule
+          ),
+      },
+      {
+        path: 'sources',
+        loadChildren: () =>
+          import('./modules/sources/sources.module').then(
+            (m) => m.SourcesModule
+          ),
+      },
+      {
+        path: 'content',
+        loadChildren: () =>
+          import('./modules/content/content.module').then((m) => m.ContentModule),
+      },
+      {
+        path: 'faqs',
+        loadChildren: () =>
+          import('./modules/faqs/faqs.module').then((m) => m.FaqsModule),
+      },
+      {
+        path: 'connectors',
+        loadChildren: () =>
+          import('./modules/connectors/connectors.module').then(
+            (m) => m.ConnectorsModule
+          ),
+      },
+      {
+        path: 'botActions',
+        loadChildren: () =>
+          import('./modules/bot-actions/bot-actions.module').then(
+            (m) => m.BotActionsModule
+          ),
+      },
+      {
+        path: 'structuredData',
+        loadChildren: () =>
+          import('./modules/structured-data/structured-data.module').then(
+            (m) => m.StructuredDataModule
+          ),
+      },
+
+      { path: '', component: AppsListingComponent, pathMatch: 'full' },
+      // { path: '**', component: AppsListingComponent },
+    ],
   },
 ];
 
