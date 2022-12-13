@@ -102,7 +102,13 @@ export class SpellCorrectionComponent implements OnInit {
   //**to fetch the fields for spellcorrect table and pop-up */
   getAllspellcorrectFields() {
     this.getSpellcorrect(true);
-    this.getSpellcorrect(false);
+    //this.getSpellcorrect(false);
+  }
+  /** get highlight fields api call with false value to get data for add pop-up*/
+  getAddpopupspellcorrectionField(event){
+        if(!event){
+          this.getSpellcorrect(false);;
+        }    
   }
   //** sort the data for spellcorrect data table and pop-up */
   spellcorrectsort(sortobj) {
@@ -223,7 +229,9 @@ export class SpellCorrectionComponent implements OnInit {
     const quaryparms: any = deleteData.quaryparms;
     this.service.invoke(deleteData.url, quaryparms).subscribe(
       (res) => {
-        this.getAllspellcorrectFields();
+        // this.getAllspellcorrectFields();
+        this.getSpellcorrect(true);
+        //this.getSpellcorrect(true);
         this.notificationService.notify("Field removed successfully",'success');
       },
       (errRes) => {
@@ -237,7 +245,9 @@ export class SpellCorrectionComponent implements OnInit {
       .invoke(addData.url, addData.quaryparms, addData.payload)
       .subscribe(
         (res) => {
-          this.getAllspellcorrectFields();
+          //this.getAllspellcorrectFields();
+          this.getSpellcorrect(true);
+          //this.getSpellcorrect(true);
           this.notificationService.notify('Field added succesfully', 'success');
         },
         (errRes) => {

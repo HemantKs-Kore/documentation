@@ -22,6 +22,7 @@ export class ListFieldsComponent implements OnInit {
   @Output() sort=new EventEmitter();
   @Output() searchModel =new EventEmitter();
   @Output() pageno =new EventEmitter();
+  @Output() calladdApi = new EventEmitter();
   @Input() isLoading = false;
   @Input() isaddLoading = false;
    page_number=0;
@@ -162,6 +163,8 @@ export class ListFieldsComponent implements OnInit {
   }
   //** open add field modal pop up */
   openModalPopup() {
+    let flag=false;
+    this.calladdApi.emit(flag);
     this.addFieldModalPopRef = this.addFieldModalPop.open();
     this.modal_open=true
     setTimeout(() => {
