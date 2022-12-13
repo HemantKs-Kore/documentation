@@ -638,6 +638,33 @@ remove(syn,type) {
     this.EditsynonymObj.synonyms.splice(index, 1);
   }
 }
+deleteSynonymnConfirmationPopUp(synonym,index) {
+  const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+    width: '530px',
+    height: 'auto',
+    panelClass: 'delete-popup',
+    data: {
+      newTitle: 'Are you sure you want to delete ?',
+      body: 'Selected Synonym group will be deleted.',
+      buttons: [{ key: 'yes', label: 'Delete', type: 'danger' }, { key: 'no', label: 'Cancel' }],
+      confirmationPopUp: true
+    }
+  });
+
+  dialogRef.componentInstance.onSelect
+    .subscribe(result => {
+      if (result === 'yes') {
+        if (this.showFlag = true) {
+          this.deleteSynonymn(synonym,index,dialogRef);
+        }
+      } else if (result === 'no') {
+        dialogRef.close();
+        // console.log('deleted')
+      }
+    })
+
+
+}
 deleteSynonymn(synonym,index,dialogRef){
   const quaryparms: any = {
     streamId: this.selectedApp._id,

@@ -226,7 +226,7 @@ export class IndexConfigurationSettingsComponent implements OnInit {
   }
   deleteLanguage(dialogRef?,list?){
     this.unCheck()
-    let updateArr = this.updateLangListFun(list)
+    let updateArr = this.updateLangListFun(list);
     this.saveLanguage(dialogRef,updateArr)
   }
   //Use a better Apporch so that we can restrict this call for IndexPipline - use Observable

@@ -13,13 +13,12 @@
                 </span>
             </div>
             <div class="restore_text" *ngIf="weights.length">
+                <span class="lable_text mr-2" id="btn_restoreWeight" (click)="restoreWeights();"><img
+                    src="assets/icons/return_black.svg">{{'weights_reset_to_default' | translate}}</span>
+            <span class="clock_img d-none"><img src="assets/icons/clock.svg"></span>
                 <span class="lable_text mr-4" id="btn_openWeight" (click)="openAddNewWeight()"><img
                         src="assets/icons/editor/plus-add.svg" class="mr-2">{{'weights_add_searchable_field'|
                     translate}}</span>
-                <span class="lable_text mr-2" id="btn_restoreWeight" (click)="restoreWeights();"><img
-                        src="assets/icons/return_black.svg">{{'weights_reset_to_default' | translate}}</span>
-                <span class="clock_img d-none"><img src="assets/icons/clock.svg"></span>
-
             </div>
         </div>
         <!-- DATA TABLE START HERE -->
@@ -27,21 +26,25 @@
             <section class="table-content">
                 <div class="table_header row m-0">
                     <div class="col_ col-2 title d-flex align-items-center justify-content-start">
+                        <span (click)="sortValues('fieldName')" class="d-flex align-items-center flex-column mr-2 filter-sort">
+                            <i class="si-chev-up icon-up"></i>
+                            <i class="si-chev-down icon-down"></i>
+                        </span>
+                        {{"weights_field_name" | translate}}
+                    </div>
+                    <div class="col_ col-6 title d-flex align-items-center justify-content-start">
                         <span class="d-flex align-items-center flex-column mr-2 filter-sort">
                             <i class="si-chev-up icon-up"></i>
                             <i class="si-chev-down icon-down"></i>
                         </span>
-                        FIELD NAME
-                    </div>
-                    <div class="col_ col-6 title d-flex align-items-center justify-content-start">
-                        TYPE 
+                        {{"weights_type" | translate}} 
                     </div>
                     <div class="col_ col-4 title d-flex align-items-center justify-content-start">
                         <span class="d-flex align-items-center flex-column mr-2 filter-sort">
-                            <i class="si-chev-up icon-up"></i>
-                            <i class="si-chev-down icon-down"></i>
+                            <i (click)="sortValues('dsc')" class="si-chev-up icon-up"></i>
+                            <i (click)="sortValues('asc')" class="si-chev-down icon-down"></i>
                         </span>
-                        WEIGHTS 
+                        {{"weights_weights_caps" | translate}} 
                     </div>
                 </div>
                 <perfect-scrollbar class="scroll-table-allowRow">
@@ -100,7 +103,7 @@
                 <div class="row m-0 align-items-center">
                     <div class="kr-sg-dropdowns col-12 p-0" ngbDropdown>
                         <div class="dropdown dropdown-open">
-                            <button class="dropdown-toggle dropdown-input" id="dropdownBasic1" data-toggle="dropdown"
+                            <button [ngClass]="{'error':submitted && !search_FieldName.length}" class="dropdown-toggle dropdown-input" id="dropdownBasic1" data-toggle="dropdown"
                                 ngbDropdownAnchor (click)="clearcontentSrcW()">
 
                                 {{addEditWeighObj.fieldName? addEditWeighObj.fieldName :"Choose field"}}
@@ -120,6 +123,7 @@
                                             [ngClass]="{'highlight':addEditWeighObj.fieldName == suggesition}">
                                             {{ suggesition.fieldName}}
                                         </li>
+                                        <li *ngIf="fieldsList && fieldsList.length===0">{{"weights_please_add" | translate}}</li>
                                     </ng-container>
                                 </perfect-scrollbar>
                             </ul>

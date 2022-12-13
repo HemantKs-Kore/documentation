@@ -61,7 +61,6 @@ export class SnippetsComponent implements OnInit {
    }
 
    sildervaluechanged(event){
-    console.log(event)
     const quaryparms:any={
       indexPipelineId:this.workflowService.selectedIndexPipeline(),
       queryPipelineId:this.workflowService.selectedQueryPipeline() ? this.workflowService.selectedQueryPipeline()._id : '',
@@ -83,5 +82,7 @@ export class SnippetsComponent implements OnInit {
     });
    
   }
-
+  ngOnDestroy() {
+    this.querySubscription ? this.querySubscription.unsubscribe() : false;
+  }
 }

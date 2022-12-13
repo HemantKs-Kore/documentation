@@ -127,7 +127,6 @@ export class SmallTalkComponent implements OnInit {
 
 
  sildervaluechanged(event){
-  console.log(event)
   const quaryparms:any={
     indexPipelineId:this.workflowService.selectedIndexPipeline(),
     queryPipelineId:this.workflowService.selectedQueryPipeline() ? this.workflowService.selectedQueryPipeline()._id : '',
@@ -148,5 +147,8 @@ export class SmallTalkComponent implements OnInit {
     this.notificationService.notify("Failed to update",'error');
   });
  
+}
+ngOnDestroy() {
+  this.querySubscription ? this.querySubscription.unsubscribe() : false;
 }
 }

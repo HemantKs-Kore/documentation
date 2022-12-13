@@ -8,18 +8,18 @@
 
       <div class="widget-header-block">
         <div class="widget-header">{{'stopWords_stop_words'| translate}}</div>
-        <div class="widget-desc">Enable stopwords to filter out the commonly used English words like "a," "an," "the," etc. from the user query before searching</div>
+        <div class="widget-desc">{{'stopwords_desc'| translate}}</div>
       </div>
   
       <div class="landing-page-toggle">
-          <label class="kr-sg-toggle with-label" >
-              <input type="checkbox" checked (change)="enableStopWords($event)" [(ngModel)]="enabled">
-              <div class="slider">
-                  <span class="no">Disable</span>
-                  <span class="yes">Enable</span>
-              </div>
-          </label>
-      </div>
+        <label class="kr-sg-toggle with-label" >
+            <input type="checkbox"  (change)="enableStopWords($event)" [checked]="stopwordData?.enable">
+            <div class="slider">
+                <span class="no">{{"sa_disable" | translate}}</span>
+                <span class="yes">{{"sa_enable" | translate}}</span>
+            </div>
+        </label>
+    </div>
 
       <div class="block-separate-line"></div>
     </div>
@@ -61,7 +61,7 @@
         </div>
         <div class="radio_block">
           <div class="kr-sg-radiobutton">
-            <input id="customStopWords" value="scratch" name="customStopWords" [(ngModel)]="stopWordsIntiType" class="radio-custom" type="radio">
+            <input id="customStopWords"  name="customStopWords" value="scratch" [(ngModel)]="stopWordsIntiType" class="radio-custom" type="radio">
             <label for="customStopWords" class="radio-custom-label">
               <div class="label_heading">{{'stopWords_start_from_scratch'| translate}}</div>
               <div class="lable_dec">{{'stopWords_add_custom_stop_words' | translate}}</div>
@@ -145,17 +145,17 @@
                   </li> 
                   <li (click)='deleteAllStopWords(event)' >{{'sa_delete_all' | translate}}</li>   -->
 
-                  <li class="restoreDefaults">
+                  <li *ngIf="stopwordsList?.length" class="restoreDefaults">
                     <span class="li-icon-span"><i class="si-minus-circle-o"></i></span><span class="label_txt">{{"stopwords_Remove_Default_Stop_Words" | translate}}</span>              
                   </li> 
-                  <li class="restoreDefaults" (click)="createStopWords(false,'',true)">
+                  <li *ngIf="stopwordsList?.length" class="restoreDefaults" (click)="createStopWords(false,'',true)">
                     <span class="li-icon-span"><i class="si-recall"></i></span><span class="label_txt">{{"stopwords_reset_to_default" | translate}}</span>              
                   </li> 
                   <li class="restoreDefaults" (click)="createStopWords(true)">
                     <span class="li-icon-span"><i class="si-add-plus-square"></i></span><span class="label_txt">{{"stopwords_add_defalut" | translate}}</span>              
                   </li> 
                   
-                  <li class="restoreDefaults clear-all-btn" (click)='deleteAllConfirmationPopUp($event)'>
+                  <li *ngIf="stopwordsList?.length" class="restoreDefaults clear-all-btn" (click)='deleteAllConfirmationPopUp($event)'>
                     <span class="li-icon-span"><i class="si-close-red"></i></span><span class="label_txt">{{"stopwords_clear_all" | translate}}</span>              
                   </li> 
                   

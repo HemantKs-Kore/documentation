@@ -8,7 +8,6 @@ import { AppSelectionService } from '@kore.services/app.selection.service'
 import * as _ from 'underscore';
 import { Subscription } from 'rxjs';
 import { InlineManualService } from '@kore.services/inline-manual.service';
-import { FindlySharedModule } from 'src/app/modules/findly-shared/findly-shared.module';
 declare const $: any;
 @Component({
   selector: 'app-stop-words',
@@ -22,6 +21,7 @@ export class StopWordsComponent implements OnInit, OnDestroy {
   stopwordsList: any = [];
   searchStopwords: any = '';
   newStopWord: any = '';
+  stopwordData:any;
   showSearch = false;
   searchImgSrc: any = 'assets/icons/search_gray.svg';
   searchFocusIn = false;
@@ -38,7 +38,7 @@ export class StopWordsComponent implements OnInit, OnDestroy {
   queryPipelineId;
   indexPipelineId;
   pipeline;
-  stopWordsIntiType = 'default'
+  stopWordsIntiType:any = 'default';
   createFromScratch:boolean = false;
   subscription: Subscription;
   componentType: string = 'configure';
@@ -76,6 +76,7 @@ export class StopWordsComponent implements OnInit, OnDestroy {
       this.queryPipelineId = this.workflowService.selectedQueryPipeline() ? this.workflowService.selectedQueryPipeline()._id : this.selectedApp.searchIndexes[0].queryPipelineId;
       if (this.queryPipelineId) {
         this.getStopWordsList();
+        this.getQuerypipeline();
       }
     }
   }
@@ -84,14 +85,6 @@ export class StopWordsComponent implements OnInit, OnDestroy {
       this.searchStopwords = '';
     }
     this.showSearch = !this.showSearch
-  }
-  createInit() {
-    if (this.stopWordsIntiType === 'default') {
-      // this.checkStopwords = true
-      this.createStopWords(true);
-    } else {
-      this.createFromScratch = true;
-    }
   }
   getStopWords() {
     const quaryparms: any = {
@@ -132,39 +125,6 @@ export class StopWordsComponent implements OnInit, OnDestroy {
       this.loadingContent = false;
       this.errorToaster(errRes, 'Failed to get stop words');
     });
-  }
-  enableStopWords(event) {
-    if (event) {
-      event.stopImmediatePropagation();
-      event.preventDefault();
-    }
-    const modalData: any = {
-      newTitle: 'Are you sure you want to Enable ?',
-      body: 'Stopwords will be enabled.',
-      buttons: [{ key: 'yes', label: 'Enable' }, { key: 'no', label: 'Cancel' }],
-      confirmationPopUp: true
-    }
-    if (!this.enabled) {
-      modalData.newTitle = 'Are you sure you want to disable?'
-      modalData.body = 'Stopwords will be disabled. ';
-      modalData.buttons[0].label = 'Disable';
-    }
-    const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
-      width: '530px',
-      height: 'auto',
-      panelClass: 'delete-popup',
-      data: modalData,
-
-    });
-    dialogRef.componentInstance.onSelect
-      .subscribe(result => {
-        if (result === 'yes') {
-          this.updateStopWords(dialogRef, true);
-        } else if (result === 'no') {
-          this.enabled = !this.enabled;
-          dialogRef.close();
-        }
-      })
   }
   restore(dialogRef?) {
     const quaryparms: any = {
@@ -257,64 +217,11 @@ export class StopWordsComponent implements OnInit, OnDestroy {
           if (deleteindex > -1) {
             this.stopwords.splice(deleteindex, 1);
           }
-          this.updateStopWords(dialogRef);
+          // this.updateStopWords(dialogRef);
         } else if (result === 'no') {
           dialogRef.close();
         }
       })
-  }
-  updateStopWords(dialogRef?, enableOrDisable?, deleteAll?) {
-    const quaryparms: any = {
-      searchIndexId: this.serachIndexId,
-      queryPipelineId: this.queryPipelineId,
-      indexPipelineId: this.workflowService.selectedIndexPipeline() || ''
-    };
-    let msg = 'Updated Successfully';
-    if (!enableOrDisable) {
-      if (this.pipeline.stages && this.pipeline.stages.length) {
-        this.pipeline.stages.forEach(stage => {
-          if (stage && stage.type === 'stopwords') {
-            stage.stopwords = this.stopwords;
-          }
-        });
-      }
-    }
-    if (deleteAll) {
-      this.stopwords = []
-      this.enabled = false
-    }
-    const payload: any = {
-      pipeline: {
-        stopwords: this.stopwords
-      },
-      options: {
-        stopWordsEnabled: this.enabled
-      }
-    }
-    // if (deleteAll) {
-    //   this.stopwords = [],
-    //   this.enabled = false
-    // }
-    if (enableOrDisable) {
-      msg = 'Stop words ' + (this.enabled ? 'enabled' : 'disabled') + ' successfully';
-    }
-    this.service.invoke('put.queryPipeline', quaryparms, payload).subscribe(res => {
-      this.newStopWord = '';
-      if (dialogRef && dialogRef.close) {
-        dialogRef.close();
-        if (!enableOrDisable) {
-          msg = 'Deleted Successfully';
-        }
-        else {
-          if (this.stopwords.length === 0) this.appSelectionService.updateTourConfig(this.componentType);
-        }
-      }
-      this.notificationService.notify(msg, 'success');
-      this.loadingWords = false;
-    }, errRes => {
-      this.loadingWords = false;
-      this.errorToaster(errRes, 'Failed to update');
-    });
   }
   errorToaster(errRes, message) {
     if (errRes && errRes.error && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0].msg) {
@@ -334,7 +241,7 @@ export class StopWordsComponent implements OnInit, OnDestroy {
       this.stopwords = _.filter(this.stopwords, (stopword) => {
         return stopword !== '';
       })
-      this.updateStopWords();
+      // this.updateStopWords();
       this.submitted = false;
     }
     else {
@@ -343,7 +250,14 @@ export class StopWordsComponent implements OnInit, OnDestroy {
   }
 
 //-----------------------------(AUTHOR:BHARADWAJ)
-
+//ADD DEFAULT OR START FROM SCRATCH
+createInit() {
+  if (this.stopWordsIntiType === 'default') {
+    this.createStopWords(true);
+  } else {
+    this.createFromScratch = true;
+  }
+}
 // GET LIST OF STOPWORDS (GET API CALL)
   getStopWordsList() {
     const quaryparms: any = {
@@ -360,7 +274,6 @@ export class StopWordsComponent implements OnInit, OnDestroy {
       this.errorToaster(errRes, 'Failed to get stop words');
     });
   }
-
 // VALIDATING NEWLY ADDED STOPWORD 
   validateAddStopWord() {
     if (!this.newStopWord || !this.newStopWord.length) {
@@ -526,8 +439,79 @@ export class StopWordsComponent implements OnInit, OnDestroy {
         }
       })
   }
-  // -----------------------------(AUTHOR:BHARADWAJ)
+  enableStopWords(event) {
+    const modalData: any = {
+      newTitle: 'Are you sure you want to Enable ?',
+      body: 'Stopwords will be enabled.',
+      buttons: [{ key: 'yes', label: 'Enable' }, { key: 'no', label: 'Cancel' }],
+      confirmationPopUp: true
+    }
+    if (this.stopwordData.enable) {
+      modalData.newTitle = 'Are you sure you want to disable?'
+      modalData.body = 'Stopwords will be disabled. ';
+      modalData.buttons[0].label = 'Disable';
+    }
+    const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+      width: '530px',
+      height: 'auto',
+      panelClass: 'delete-popup',
+      data: modalData,
 
+    });
+    dialogRef.componentInstance.onSelect
+      .subscribe(result => {
+        if (result === 'yes') {
+          this.sildervaluechanged(event,dialogRef);
+        } else if (result === 'no') {
+          this.enabled = !this.enabled;
+          dialogRef.close();
+        }
+      })
+  }
+  getQuerypipeline(){
+    const quaryparms: any = {
+      searchIndexID: this.serachIndexId,
+      queryPipelineId: this.queryPipelineId,
+      indexPipelineId: this.indexPipelineId,
+    };
+    this.service.invoke('get.queryPipeline', quaryparms).subscribe(
+      (res) => {
+        this.stopwordData = res?.settings.stopwords;
+      },
+      (errRes) => {
+        this.notificationService.notify(
+          'failed to get querypipeline details',
+          'error'
+        );
+      }
+    );
+  }
+   sildervaluechanged(event,dialogRef?){
+    const quaryparms:any={
+      indexPipelineId:this.workflowService.selectedIndexPipeline(),
+      queryPipelineId:this.workflowService.selectedQueryPipeline() ? this.workflowService.selectedQueryPipeline()._id : '',
+      searchIndexId:this.serachIndexId
+    }
+      const payload:any={
+        settings: {
+          stopwords: {
+            enable: event.target.checked
+        }
+      }    
+    }
+    this.service.invoke('put.queryPipeline', quaryparms,payload).subscribe(res => {
+      this.stopwordData.enable=res.settings.stopwords.enable
+      this.getQuerypipeline();
+      if (dialogRef && dialogRef.close) {
+        dialogRef.close();
+      }
+      this.notificationService.notify("updated successfully",'success');
+    }, errRes => {
+      this.notificationService.notify("Failed to update",'error');
+    });
+   
+  }
+  // -----------------------------(AUTHOR:BHARADWAJ)
   ngOnDestroy() {
     this.subscription ? this.subscription.unsubscribe() : false;
   }

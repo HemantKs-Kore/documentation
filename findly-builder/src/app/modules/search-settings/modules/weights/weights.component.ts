@@ -203,9 +203,9 @@ export class WeightsComponent implements OnInit, OnDestroy
       streamId: this.selectedApp._id,
       queryPipelineId: this.queryPipelineId,
       indexPipelineId: this.workflowService.selectedIndexPipeline() || '',
-      pageNo: 1,
+      // pageNo: 1,
       // pageNo: this.pageNumber, 
-      noOfRecords: 10,
+      // noOfRecords: 10,
       // noOfRecords: this.numberofweigths,
       isSelected : true
     };
@@ -277,8 +277,6 @@ export class WeightsComponent implements OnInit, OnDestroy
   {
     this.addEditWeighObj = {
       filedName: '',
-      // desc: '',
-      // isField: true,
       fieldId:'',
       sliderObj: new RangeSlider(0, 10, 1, 2, 'editSlider','',true)
     };
@@ -446,6 +444,7 @@ export class WeightsComponent implements OnInit, OnDestroy
          this.errorToaster(errRes, 'Failed to Delete weight');
       });
   }
+  sort
   modifyFieldWarningMsg(warningMessage)
   {
     let index = warningMessage.indexOf("changed");
