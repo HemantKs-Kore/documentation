@@ -143,7 +143,7 @@
                 </li>
              <!-- New Code wrt to Stop Traing -->
             <li class="nav-item new-train-btn"  [ngbTooltip]="training?'Stop Training The App':'Train Your APP'">
-                    <button  [disabled]="disableTrainButton" (mouseenter)="displayStopTrain()" (mouseleave)="displayStopTrainLeave()" (click)="isRouteDisabled?null:train()" class="kr-sg-button-secondary btn_lg" [ngClass]='{"show-close":showClose && training}'>
+                    <button (mouseenter)="displayStopTrain()" (mouseleave)="displayStopTrainLeave()" (click)="isRouteDisabled?null:train()" class="kr-sg-button-secondary btn_lg" [ngClass]='{"show-close":showClose && training}'>
                         <span class="align-middle train-btn-icons">
                             <span *ngIf="!training" >
                                 <i class="si-train-multi-intent"></i>
