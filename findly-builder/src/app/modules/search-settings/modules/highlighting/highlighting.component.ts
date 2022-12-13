@@ -99,8 +99,14 @@ export class HighlightingComponent implements OnInit {
   //** to get the data for the highlight table and add highlight pop-up sending true and false for get api */
   getAllHighlightFields(){
     this.getHighlightFields(true);
-    this.getHighlightFields(false);
+    //this.getHighlightFields(false);
   }
+    /** get highlight fields api call with false value to get data for add pop-up*/
+    getAddpopuphighlightField(event){
+      if(!event){
+        this.getHighlightFields(false);
+      }    
+    }
    /**highlight sort for data table and pop-up */
     highlightsort(sortobj){
       this.method_type='search'
@@ -257,20 +263,23 @@ export class HighlightingComponent implements OnInit {
   }
    
  }
- /** remove fromPresentable */
+ /** remove from highlight */
  removeRecord(deleteData){
   const quaryparms: any = deleteData.quaryparms;
   this.service.invoke(deleteData.url, quaryparms).subscribe(res => {
-    this.getAllHighlightFields();
+    //this.getAllHighlightFields();
+    this.getHighlightFields(true);
     this.notificationService.notify("Field removed successfully",'success');
   }, errRes => {
     this.notificationService.notify("Failed to remove fields",'error');
   });
  }
-  /** Add to Prescentable */
+  /** Add to Highlight */
  addRecords(addData){
   this.service.invoke(addData.url,addData.quaryparms,addData.payload).subscribe(res => {
-    this.getAllHighlightFields();
+    //this.getAllHighlightFields();
+    this.getHighlightFields(true);
+    //this.getPresentableFields(false);
     this.notificationService.notify("Field added succesfully",'success');
   }, errRes => {
     this.notificationService.notify("Failed to add Fields",'error');

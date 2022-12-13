@@ -56,7 +56,13 @@ export class PresentableComponent implements OnInit {
  /**to fetch the data to table and add pop-up passing true and false*/
   getAllpresentableFields(){
     this.getPresentableFields(true);
-    this.getPresentableFields(false);
+    //this.getPresentableFields(false);
+  }
+  /** get presentable fields api call with false value to get data for add pop-up*/
+  getAddpopuppresentableField(event){
+    if(!event){
+      this.getPresentableFields(false);
+    }    
   }
  /** Emited Value for Operation (Add/Delete)  */
  getrecord(recordData : any){
@@ -103,7 +109,8 @@ export class PresentableComponent implements OnInit {
  removeRecord(deleteData){
   const quaryparms: any = deleteData.quaryparms;
   this.service.invoke(deleteData.url, quaryparms).subscribe(res => {
-    this.getAllpresentableFields();
+    this.getPresentableFields(true);
+    //this.getPresentableFields(false);
     this.notificationService.notify("Field removed succesfully",'success');
   }, errRes => {
     this.notificationService.notify("Failed to remove Fields",'error');
@@ -114,7 +121,8 @@ export class PresentableComponent implements OnInit {
   this.isaddLoading=true;
   this.service.invoke(addData.url,addData.quaryparms,addData.payload).subscribe(res => {
     this.isaddLoading=false;
-   this.getAllpresentableFields();
+  this.getPresentableFields(true);
+  //this.getPresentableFields(false);
    this.notificationService.notify("Field added succesfully",'success');
   }, errRes => {
     this.notificationService.notify("Failed to add Fields",'error');
