@@ -745,16 +745,8 @@ export class AppHeaderComponent implements OnInit {
   // CHECKING TRAINING STATUS
   checkTrainStatus(dockersList){
     const trainStatus = dockersList?.filter(data => data.jobType === 'TRAINING');
-    if(trainStatus[0]?.status == 'INPROGRESS'){
-      this.training = true;
-    }
-    else if (trainStatus[0]?.status == 'SUCCESS' && this.training){
-      this.training = false;
-      this.notificationService.notify('Training Successfully', 'success');
-    }
-    else {
-      this.training = false;
-    }
+    this.training = ((trainStatus[0]?.status !== 'INPROGRESS' && this.training))?false:true;
+    if (trainStatus[0]?.status == 'SUCCESS') this.notificationService.notify('Training Successfully', 'success');
   }
   
   poling(recordStatistics?, updateRecordsWithRead?) {
