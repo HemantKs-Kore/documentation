@@ -153,6 +153,7 @@ export class AppsListingComponent implements OnInit {
     this.apps = apps;
   }
   openApp(app,isUpgrade?) {
+    $('#test-btn-launch-sdk').attr("disabled", "disabled").button('refresh');
     this.appSelectionService.tourConfigCancel.next({ name: undefined, status: 'pending' });
     const isDemo = this.appType == 'sampleData' ? true : false;
     this.appSelectionService.openApp(app, isDemo,isUpgrade);

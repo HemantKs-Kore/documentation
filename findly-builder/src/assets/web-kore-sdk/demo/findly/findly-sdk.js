@@ -5810,7 +5810,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       if (templateType === "search-container") {
 
         $(dataHTML).off('keydown', '#search').on('keydown', '#search', function (e) {
-          _self.trimSearchQuery();
+          _self.trimSearchQuery(e);
           var keyCode = e.keyCode || e.which;
           keyCode = Number(keyCode);
           if (keyCode !== 13) {
@@ -6145,13 +6145,13 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         var searchBoxDom = document.getElementById('search');
 
         // This represents a very heavy method. Which takes a lot of time to execute
-        function makeAPICall() {
+        function makeAPICall(event) {
           // $('#search').trigger("keydown");
           if (_self.vars.enterIsClicked) {
             return;
           }
           $('#search').trigger("keyup");
-          _self.pubSub.publish('sa-input-keyup');
+          _self.pubSub.publish('sa-input-keyup',event);
         }
 
         // Debounce function: Input as function which needs to be debounced and delay is the debounced time in milliseconds
@@ -6165,11 +6165,11 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         // Event listener on the input box
         searchBoxDom.addEventListener('input', function (event) {
           // Debounces makeAPICall method
-          debounceFunction(makeAPICall, 200, event);
+          debounceFunction(makeAPICall(event), 200, event);
         })
 
         $(dataHTML).off('keyup', '#search').on('keyup', '#search', function (e) {
-          _self.trimSearchQuery();
+          _self.trimSearchQuery(e);
           if ((!$('body').hasClass('top-down') && $('.bottom-up-search').val())) {
             $('.search-container').removeClass('no-history');
             if (!$('.search-container').hasClass('active')) {
@@ -6584,7 +6584,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             }
           }
           if (($('body').hasClass('top-down') ? $('.search-top-down').val() : $('.bottom-up-search').val())) {
-            _self.pubSub.publish('sa-input-keyup');
+            _self.pubSub.publish('sa-input-keyup', e);
           }
           if (!_self.vars.isSocketInitialize) {
             _self.bot.init(_self.vars.botConfig, _self.config.messageHistoryLimit);
@@ -7364,6 +7364,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             } else {
               $('.empty-full-results-container').removeClass('hide');
               $('.no-templates-defined-full-results-container').hide();
+              $('.skelton-load-img').hide();
             }
           } else {
             if ((res.tasks || []).length) {
@@ -20562,7 +20563,12 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         }
       }, 500);
     }
-    FindlySDK.prototype.trimSearchQuery = function () {
+    FindlySDK.prototype.trimSearchQuery = function (e) {
+      var keyCode = e.keyCode || e.which;
+      keyCode = Number(keyCode);
+      if(e.target.selectionStart !== ($('body').hasClass('top-down') ? $('.search-top-down').val() : $('.bottom-up-search').val()).length && keyCode !== 13){
+        return;
+      }
       if ((!$('body').hasClass('top-down') && $('.bottom-up-search').val() && $('.bottom-up-search').val().length == 1)) {
         $('.bottom-up-search').val($('.bottom-up-search').val().trim());
       } else if (!$('body').hasClass('top-down') && $('.bottom-up-search').val() && $('.bottom-up-search').val().length > 1) {

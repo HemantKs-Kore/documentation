@@ -1675,7 +1675,7 @@ float: right;
 .sdk-top-down-interface .conversation-container .conversations{
   position: relative;
   top: 0;
-  height: 380px;
+  height: 360px;
   /* height: 480px; */
   overflow-x: hidden;
   background: var(--sdk-white-bg);

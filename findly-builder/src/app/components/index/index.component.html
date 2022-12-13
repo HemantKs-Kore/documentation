@@ -289,7 +289,7 @@
                       Operator':camelCaseNames(basic.operator)}}</button>
                     <ul class="dropdown-menu content-menu">
                       <li *ngFor="let operator of operators"
-                        (click)="basic.operator=operator.value;addCondition('update',i,'operator',basic.operator,'condition');">
+                        (click)="basic.operator=operator.value;addCondition('update',i,'operator',basic.operator,'condition');" [ngClass]="{'font-weight-bold':operator.value===basic.operator}">
                         <a>{{operator.name}}</a>
                       </li>
                     </ul>
