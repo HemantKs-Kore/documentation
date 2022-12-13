@@ -159,7 +159,6 @@ export class AppHeaderComponent implements OnInit {
   public isAnyRecordFailed: boolean = false;
   public readDocs: any = [];
   public unReadDocs: any = [];
-  trainingInitiated = false;
   WorkspaceList: any = [];
   loadingContent: boolean = false;
   loadingProgress: boolean;
@@ -571,8 +570,6 @@ export class AppHeaderComponent implements OnInit {
   analyticsClick(menu, skipRouterLink?) {
     this.mainMenu = menu;
     if (this.menuItems?.anlytics?.includes(menu) ||menu == '/summary') {
-      this.showClose = false;
-      this.training = false;
       this.showMainMenu = false;
     } else {
       this.showMainMenu = true;
@@ -671,9 +668,6 @@ export class AppHeaderComponent implements OnInit {
   //FOR TRAINING 
   train() {
     if(!this.training){
-      this.training = true;
-      const self = this;
-      var url ;
       const selectedApp = this.workflowService.selectedApp();
       if (selectedApp && selectedApp.searchIndexes && selectedApp.searchIndexes.length) {
         const payload = {
@@ -683,17 +677,14 @@ export class AppHeaderComponent implements OnInit {
           searchIndexId: selectedApp.searchIndexes[0]._id
         }
         this.service.invoke('train.app', quaryparms, payload).subscribe(res => {
-          if (this.training) {
-            self.notificationService.notify('Training has been Initiated', 'success');
+          if(res){
+            setTimeout(() => {
+              this.training = true;
+              this.poling();
+            }, 200)
           }
-          setTimeout(() => {
-            // self.training = false;
-            this.trainingInitiated = true;
-            // this.appSelectionService.updateTourConfig('indexing');
-            this.poling();
-          }, 200)
         }, errRes => {
-          self.training = false;
+          this.training = false;
           this.notificationService.notify('Failed to train the app', 'error');
         });
       }
@@ -751,18 +742,12 @@ export class AppHeaderComponent implements OnInit {
     }
     window.location.href = this.appUrlsService.marketURL();
   }
-
-  // Controlling the Status Docker Opening
-  //  openStatusDocker(){
-  //   this.dockService.showStatusDocker = !this.dockService.showStatusDocker
-  //   if(this.dockService.showStatusDocker){
-  //     this.statusDockerLoading = true;
-  //     // this.getDockerData();
-  //   }
-  //   else{
-  //     this.statusDockerLoading = false;
-  //   }
-  // }
+  // CHECKING TRAINING STATUS
+  checkTrainStatus(dockersList){
+    const trainStatus = dockersList?.filter(data => data.jobType === 'TRAINING');
+    this.training = ((trainStatus[0]?.status !== 'INPROGRESS' && this.training))?false:true;
+    if (trainStatus[0]?.status == 'SUCCESS') this.notificationService.notify('Training Successfully', 'success');
+  }
   
   poling(recordStatistics?, updateRecordsWithRead?) {
     if (this.pollingSubscriber) {
@@ -787,24 +772,8 @@ export class AppHeaderComponent implements OnInit {
         this.dockersList = JSON.parse(JSON.stringify(res));
         /**made code updates in line no 503 on 03/01 added new condition for success and jobType,since SUCCESS is updated to success and action is updated to jobType and TRAIN has been updated to TRAINING */
         // if (this.trainingInitiated && this.dockersList[0].status === 'SUCCESS' && this.dockersList[0].action === "TRAIN") {
-        if (this.trainingInitiated && (this.dockersList[0]?.status === 'SUCCESS' || this.dockersList[0]?.status === 'success') && this.dockersList[0]?.jobType === "TRAINING") {
-          this.trainingInitiated = false;
-          if (this.training) {
-            this.notificationService.notify('Training Completed', 'success');
-          }
-          this.training = false;
-        }
-        if(this.dockersList[0]?.status === "INPROGRESS"){
-          this.training = true;
-        }
-        /**made code updates in line no 512 on 03/01 added new condition for FAILED,jobType,TRAINING since FAILURE is updated to FAILED  and action is updated to jobType and TRAIN has been updated to TRAINING as per new api contract*/
-        // if (this.trainingInitiated && this.dockersList[0].status === 'FAILURE' && this.dockersList[0].action === "TRAIN") {
-        if (this.trainingInitiated && (this.dockersList[0]?.status === 'FAILURE' || this.dockersList[0]?.status === "FAILED") && this.dockersList[0]?.jobType === "TRAINING") {
-          this.trainingInitiated = false;
-          if (this.training) {
-            this.notificationService.notify(this.dockersList[0].message, 'error');
-          }
-          this.training = false;
+        if(this.training){
+          this.checkTrainStatus(this.dockersList);
         }
         this.dockersList.forEach((record: any) => {
           record.createdOn = moment(record.createdOn).format("Do MMM YYYY | h:mm A");

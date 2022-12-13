@@ -365,37 +365,7 @@
                                 <ul class="dropdown-menu content-menu dropdown_overflow">
                                     <perfect-scrollbar class="scroll-search-field-">
                                         <div class="scroll_">
-                                            <li (click)="selectFieldType('string')"><a>{{'fields_string' |
-                                                    translate}}</a></li>
-                                            <li (click)="selectFieldType('number')"><a>{{'fields_number' |
-                                                    translate}}</a></li>
-                                            <li (click)="selectFieldType('trait')"><a>{{'fields_trait' | translate}}</a>
-                                            </li>
-                                            <li (click)="selectFieldType('dense_vector')"><a>{{'fields_dense_vector' |
-                                                    translate}}</a></li>
-                                            <li (click)="selectFieldType('entity')"><a>{{'fields_entity' |
-                                                    translate}}</a></li>
-                                            <li (click)="selectFieldType('keyword')"><a>{{'fields_keyword' |
-                                                    translate}}</a></li>
-                                            <li (click)="selectFieldType('array')"><a>{{'fields_array' | translate}}</a>
-                                            </li>
-                                            <li (click)="selectFieldType('object')"><a>{{'fields_object' |
-                                                    translate}}</a></li>
-                                             <li (click)="selectFieldType('date')"><a>{{'fields_date' |
-                                                        translate}}</a></li>
-                                            
-                                            <li (click)="selectFieldType('float')"><a>{{'fields_float' |
-                                                            translate}}</a></li>
-                                            <li (click)="selectFieldType('boolean')"><a>{{'fields_boolean' |
-                                                                translate}}</a></li>
-                                            <li (click)="selectFieldType('url')"><a>{{'fields_url' |
-                                                                    translate}}</a></li>
-                                            <li (click)="selectFieldType('html')"><a>{{'fields_html' |
-                                                                        translate}}</a></li>
-                                            <li (click)="selectFieldType('ip')"><a>{{'fields_ip' |
-                                                                            translate}}</a></li>
-                                            <li (click)="selectFieldType('geo_point')"><a>{{'fields_geo_point' |
-                                                                                translate}}</a></li>
+                                            <li *ngFor="let type of fieldTypesArray" [ngClass]="{'font-weight-bold':(type===newFieldObj?.fieldDataType)}" (click)="selectFieldType(type)"><a>{{'fields_'+type|translate}}</a></li>
                                         </div>
                                     </perfect-scrollbar>
                                 </ul>

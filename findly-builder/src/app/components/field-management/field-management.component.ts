@@ -81,7 +81,8 @@ export class FieldManagementComponent implements OnInit {
   filterObject={
     'type': '',
     'header':''
-  }
+  };
+  fieldTypesArray:Array<String>=['string','number','trait','dense_vector','entity','keyword','array','object'];
   @ViewChild('addFieldModalPop') addFieldModalPop: KRModalComponent;
   @ViewChild('perfectScroll') perfectScroll: PerfectScrollbarComponent;
   constructor(
