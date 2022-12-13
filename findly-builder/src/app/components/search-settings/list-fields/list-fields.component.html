@@ -140,8 +140,9 @@
 
         <div class="modal-footer">
             <div class="modal-footer-with-selected-count" id="sa_selected-count">
+                <!-- <span class="loader-spin-inside-btn" *ngIf=true></span> -->
                 <div>
-                    <button type="button" class="kr-sg-button-primary btn_lg float-right" id="sa_primary_button" (click)="add()">{{"search_settings_add" |translate}}</button>
+                    <button type="button" class="kr-sg-button-primary btn_lg float-right" id="sa_primary_button" (click)="add()" ><span class="loader-spin-inside-btn" *ngIf="isaddLoading"></span>{{"search_settings_add" |translate}}</button>
                     <button type="button" class="kr-sg-button-secondary btn_lg float-right" id="sa_secondary_button" (click)="closeModalPopup()">{{"search_settings__cancel" |translate}}</button>
                 </div>
             </div>
