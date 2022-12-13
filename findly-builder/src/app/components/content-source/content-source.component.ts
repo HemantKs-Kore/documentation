@@ -936,7 +936,7 @@ isSourceSearchClear : boolean = false;
       this.blockURLArray = (source?.advanceSettings?.blockedURLs?.length===0)?(this.blockURLArray):(source?.advanceSettings?.blockedURLs);
       this.editSource.advanceOpts.scheduleOpt = source?.advanceSettings?.scheduleOpt;
       this.editSource.advanceOpts.scheduleOpts = source?.advanceSettings?.scheduleOpts;
-      this.editSource.authorizationEnabled = source?.authorizationEnabled;
+      this.editSource.authorizationEnabled = source?.authorizationEnabled ||false;
       this.editSource.advanceOpts.allowedOpt = source?.advanceSettings?.allowedOpt;
       this.editSource.advanceOpts.blockedOpt = source?.advanceSettings?.blockedOpt;
       this.editSource.advanceOpts.crawlEverything = source?.advanceSettings?.crawlEverything;
