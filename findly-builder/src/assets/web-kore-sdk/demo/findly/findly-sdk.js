@@ -19472,7 +19472,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       var ctx = canvas.getContext("2d");
       ctx.font = "14px 'Inter', sans-serif";
       var width = ctx.measureText(config.searchConfig.buttonText).width;
-      if (config.searchConfig.buttonPlacementPosition == "inside") {
+      if (config.searchConfig.buttonPlacementPosition == "inside"  && config.searchConfig.searchButtonEnabled) {
         let rightPosition = 70 + 31 + 23;
 
         rightPosition = rightPosition + (width) + 1;
@@ -19484,24 +19484,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         $("body").append("<style>.kore-sponsored {right:72px !important;}</style>")
         if (config.searchConfig.buttonPlacementPosition == "outside") {
           let rightPosition = 812;
-          // if(config.searchConfig.buttonText.length==1){
-          //   rightPosition = 12;
-          // }
-          // if(config.searchConfig.buttonText.length==2){
-          //   rightPosition = 6;
-          // }
-          // if(config.searchConfig.buttonText.length==3){
-          //   rightPosition = -6;
-          // }
-          // if(config.searchConfig.buttonText.length==4){
-          //   rightPosition = -16;
-          // }
-          // if(config.searchConfig.buttonText.length==5){
-          //   rightPosition = -26;
-          // }
-          // if(config.searchConfig.buttonText.length==6){
-          //   rightPosition = -32;
-          // }
+         
           $("body").append("<style>.submit-button-outside {left: " + rightPosition + "px !important;}</style>")
         }
       }
