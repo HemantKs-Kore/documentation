@@ -4,11 +4,6 @@ import { AuthGuard } from '@kore.services/auth.guard';
 import { AppDataResolver } from '@kore.services/resolvers/app.data.resolve';
 import { AppsListingComponent } from './components/apps-home/apps-home';
 import { SummaryComponent } from './components/summary/summary.component';
-import { AddSourceComponent } from './components/add-source/add-source.component';
-import { ContentSourceComponent } from './components/content-source/content-source.component';
-import { FaqSourceComponent } from './components/faq-source/faq-source.component';
-import { ConnectorsSourceComponent } from './components/connectors-source/connectors-source.component';
-import { BotActionComponent } from './components/bot-action/bot-action.component';
 import { TraitsComponent } from './components/traits/traits.component';
 import { IndexComponent } from './components/index/index.component';
 import { StopWordsComponent } from './components/stop-words/stop-words.component';
@@ -28,7 +23,6 @@ import { AppExperimentsComponent } from './components/app-experiments/app-experi
 import { QueryPipelineResolver } from '@kore.services/resolvers/query.pipeline.resolve';
 import { SearchInterfaceComponent } from './components/search-interface/search-interface.component';
 import { TeamManagementComponent } from './components/team-management/team-management.component';
-import { StructuredDataComponent } from './components/structured-data/structured-data.component';
 import { SearchExperienceComponent } from './components/search-experience/search-experience.component';
 import { ActionsComponent } from './components/actions/actions.component';
 import { PricingComponent } from './components/pricing/pricing.component';
@@ -48,7 +42,6 @@ const routes: Routes = [
     children: [
       { path: 'apps', component: AppsListingComponent },
       { path: 'summary', component: SummaryComponent },
-      // { path: 'source', component: AddSourceComponent },
       // { path: 'content', component: ContentSourceComponent },
       // { path: 'faqs', component: FaqSourceComponent },
       // { path: 'connectors', component: ConnectorsSourceComponent },

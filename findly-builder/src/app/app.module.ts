@@ -1,3 +1,4 @@
+import { SchedulerModule } from './components/scheduler/scheduler.module';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { MaterialModule } from './modules/material.module';
@@ -30,13 +31,10 @@ import { ScrollSpyDirective } from './helpers/directives/scroll-spy.directive';
 import { ConfirmationDialogComponent } from './helpers/components/confirmation-dialog/confirmation-dialog.component';
 import { SharedModule } from './shared/shared.module';
 import { SummaryComponent } from './components/summary/summary.component';
-import { AddSourceComponent } from './components/add-source/add-source.component';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { ContentSourceComponent } from './components/content-source/content-source.component';
-import { FaqSourceComponent } from './components/faq-source/faq-source.component';
 // import { ManageIntentComponent } from './components/manage-intent/manage-intent.component';
 import { AddFaqComponent } from './components/add-faq/add-faq.component';
 import { AddAltFaqComponent } from './components/add-alt-faq/add-alt-faq.component';
@@ -46,7 +44,6 @@ import { MarkdownEditorResizeSensorComponent } from './helpers/lib/resize-sensor
 import { EditorUrlDialogComponent } from './helpers/components/editor-url-dialog/editor-url-dialog.component';
 import { FileUploadModule } from 'ng2-file-upload';
 import { ImportFaqsModalComponent } from './components/import-faqs-modal/import-faqs-modal.component';
-import { BotActionComponent } from './components/bot-action/bot-action.component';
 import { TraitsComponent } from './components/traits/traits.component';
 import { TraitsFilterPipe } from './components/traits/traits-filter.pipe';
 import { MlThresholdComponent } from './components/ml-threshold/ml-threshold.component';
@@ -63,7 +60,6 @@ import { QueryComponent } from './components/query/query.component';
 import { RulesTableComponent } from './components/results-rules/rules-table/rules-table.component';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
-import { SchedulerComponent } from './components/scheduler/scheduler.component';
 import { AnnotoolModule } from './components/annotool/annotool.module';
 import { InsightsComponent } from './components/insights/insights.component';
 import { PaginationComponent } from './helpers/components/pagination/pagination.component';
@@ -90,7 +86,6 @@ import { DateRangePickerComponent } from './helpers/components/date-range-picker
 import { NgxDaterangepickerMd } from 'ngx-daterangepicker-material';
 import { FieldManagementComponent } from './components/field-management/field-management.component';
 import { AppExperimentsComponent } from './components/app-experiments/app-experiments.component';
-import { StructuredDataComponent } from './components/structured-data/structured-data.component';
 import { AddStructuredDataComponent } from './components/add-structured-data/add-structured-data.component';
 import { StructuredDataStatusModalComponent } from './components/structured-data-status-modal/structured-data-status-modal.component';
 import { StatusDockerComponent } from './components/status-docker/status-docker.component';
@@ -110,7 +105,6 @@ import { GeneralSettingsComponent } from './components/general-settings/general-
 import { ResultTemplatesComponent } from './components/result-templates/result-templates.component';
 import { OnboardingComponentComponent } from './components/onboarding-component/onboarding-component.component';
 import { AnalyticsDropdownComponent } from './helpers/components/analytics-dropdown/analytics-dropdown.component';
-import { ConnectorsSourceComponent } from './components/connectors-source/connectors-source.component';
 import { SearchFieldPropertiesComponent } from './components/search-field-properties/search-field-properties.component';
 import { SafeHtmlPipe } from './helpers/filters/safe-html.pipe';
 import { SelectTextDirective } from './helpers/directives/select-text.directive';
@@ -135,9 +129,6 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
     ScrollSpyDirective,
     ConfirmationDialogComponent,
     SummaryComponent,
-    AddSourceComponent,
-    ContentSourceComponent,
-    FaqSourceComponent,
     // ManageIntentComponent,
     AddFaqComponent,
     AddAltFaqComponent,
@@ -145,10 +136,8 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
     MarkdownEditorResizeSensorComponent,
     EditorUrlDialogComponent,
     ImportFaqsModalComponent,
-    BotActionComponent,
     TraitsComponent,
     MlThresholdComponent,
-    BotActionComponent,
     AddAlternateQuestionComponent,
     GroupInputComponent,
     TagsInpComponent,
@@ -157,7 +146,6 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
     IndexComponent,
     QueryComponent,
     RulesTableComponent,
-    SchedulerComponent,
     InsightsComponent,
     PaginationComponent,
     StopWordsComponent,
@@ -181,7 +169,6 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
     StatusDockerComponent,
     SearchInterfaceComponent,
     TeamManagementComponent,
-    StructuredDataComponent,
     AddStructuredDataComponent,
     StructuredDataStatusModalComponent,
     StatusDockerComponent,
@@ -196,7 +183,6 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
     GeneralSettingsComponent,
     ResultTemplatesComponent,
     AnalyticsDropdownComponent,
-    ConnectorsSourceComponent,
     OnboardingComponentComponent,
     SearchFieldPropertiesComponent,
     SafeHtmlPipe,
@@ -249,7 +235,8 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
     }),
     NgxDaterangepickerMd.forRoot(),
     EmptyScreenModule,
-    SmallTalkModule
+    SmallTalkModule,
+    SchedulerModule,
   ],
   // tslint:disable-next-line:max-line-length
   entryComponents: [

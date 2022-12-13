@@ -6,7 +6,7 @@
     "paths": {
       "@kore.services/*": [ "./src/app/services/*"],
       "@kore.environment": [ "./src/environments/environment"],
-      "@kore.components":["./src/app/components/*"]
+      "@kore.components/*":["./src/app/components/*"]
     },
     "outDir": "./dist/out-tsc",
     "sourceMap": true,
