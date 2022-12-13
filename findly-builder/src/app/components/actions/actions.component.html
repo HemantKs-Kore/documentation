@@ -72,7 +72,7 @@
         <div class="dropdown-actions-preview" [ngClass]="{'no-linked' : !botLinked }">
             <div class="kr-sg-dropdowns choose-template">                
                 <div class="dropdown dropdown-open">
-                    <button class="dropdown-toggle dropdown-input" data-toggle="dropdown">{{("actions."+actionConfig.actionTemplate) | translate}}</button>                                            
+                    <button class="dropdown-toggle dropdown-input" data-toggle="dropdown" [disabled]="!botLinked">{{("actions."+actionConfig.actionTemplate) | translate}}</button>                                            
                     <ul class="dropdown-menu content-menu">                                               
                         <li><a (click)='topDownOrBottomUp("grid")'>{{"actions_grid" | translate}}</a></li>
                         <li><a (click)='topDownOrBottomUp("list")'>{{"actions_list" | translate}}</a></li>

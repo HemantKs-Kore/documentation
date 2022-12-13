@@ -81,9 +81,9 @@ export class AppsListingComponent implements OnInit {
   testRepeat = false;
   createdAppData: any = {};
   pollingInterval;
+  isShowSearchGif:boolean=false;
   @ViewChild('createAppPop') createAppPop: KRModalComponent;
   @ViewChild('createBoardingJourney') createBoardingJourney: KRModalComponent;
-  @ViewChild('loadingAppcreation') loadingAppcreation: KRModalComponent;
   @ViewChild('confirmatiomAppPop') confirmatiomAppPop: KRModalComponent;
   @ViewChild('detailsPopUp') detailsPopUp: KRModalComponent;
   @ViewChild('headerComp') headerComp: AppHeaderComponent;
@@ -239,13 +239,6 @@ export class AppsListingComponent implements OnInit {
     else {
       this.validateAppname = true
     }
-  }
-
-  openAppLoadingScreen() {
-    this.loadingAppcreationRef = this.loadingAppcreation.open();
-  }
-  CloseAppLoadingScreen() {
-    if (this.loadingAppcreationRef?.close) this.loadingAppcreationRef.close()
   }
 
   selectDemoType(data) {
@@ -548,7 +541,7 @@ export class AppsListingComponent implements OnInit {
       this.service.invoke('post.createDemoApp', {}, payload).subscribe(
         res => {
           if (res) {
-            this.openAppLoadingScreen();
+            this.isShowSearchGif=true;
             this.polling();
             $('body').addClass('demoScenarioCssForInlinemanual');
           }
@@ -572,12 +565,12 @@ export class AppsListingComponent implements OnInit {
       const doc_status = JSON.parse(JSON.stringify(res));
       if ((doc_status[0].status === 'SUCCESS' || doc_status[0].status === 'success') && doc_status[0].jobType === "TRAINING") {
         clearInterval(this.pollingInterval);
-        this.CloseAppLoadingScreen();
+        this.isShowSearchGif=false;
         this.openCreatedApp();
       }
       else if ((doc_status[0].status === 'FAILURE' || doc_status[0].status === "FAILED") && doc_status[0].jobType === "TRAINING") {
         clearInterval(this.pollingInterval);
-        this.CloseAppLoadingScreen();
+        this.isShowSearchGif=false;
         this.notificationService.notify(doc_status[0].message, 'error');
       }
     }), errRes => {
