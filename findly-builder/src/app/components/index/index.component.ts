@@ -764,6 +764,11 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
     }
     return indexArray.length;
   }
+
+  handleInput(value) {
+    this.selectedStage.name = value
+  }
+
   removeExcludeDocumentStage(indexArrayLength, isSaveConfig) {
     const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
       width: '530px',
@@ -1141,7 +1146,7 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
 
   }
   validation(save) {
-    if ((this.selectedStage.condition.mappings)) {
+    if ((this.selectedStage.condition.mappings && this.selectedStage.name )) {
       if ((Object.keys(this.newMappingObj).length == 0)) {
         if (save === true) {
           this.saveConfig();
@@ -1536,6 +1541,10 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
 
       }
 
+    }
+    else{
+      this.notificationService.notify('Please enter the required Fileds','error');
+      return false
     }
   }
 
@@ -2156,7 +2165,7 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
     }
     this.selectedStage.type = this.defaultStageTypes[i].type;
     this.selectedStage.category = this.defaultStageTypes[i].category;
-    this.selectedStage.name = this.defaultStageTypesObj[systemStage.type].name;
+    this.selectedStage.name = this.selectedStage.name.length?this.defaultStageTypesObj[systemStage.type].name:this.defaultStageTypesObj[systemStage.type].name;
     this.selectedStage.config = {};
     //if (systemStage?.type !== 'custom_script') {
     this.selectedStage.condition = { type: 'basic', mappings: [{ fieldId: '', operator: '', value: [] }] }
