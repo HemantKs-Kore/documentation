@@ -230,7 +230,7 @@ export class SpellCorrectionComponent implements OnInit {
     this.service.invoke(deleteData.url, quaryparms).subscribe(
       (res) => {
         // this.getAllspellcorrectFields();
-        this.getSpellcorrect(false);
+        this.getSpellcorrect(true);
         //this.getSpellcorrect(true);
         this.notificationService.notify("Field removed successfully",'success');
       },
@@ -246,7 +246,7 @@ export class SpellCorrectionComponent implements OnInit {
       .subscribe(
         (res) => {
           //this.getAllspellcorrectFields();
-          this.getSpellcorrect(false);
+          this.getSpellcorrect(true);
           //this.getSpellcorrect(true);
           this.notificationService.notify('Field added succesfully', 'success');
         },
