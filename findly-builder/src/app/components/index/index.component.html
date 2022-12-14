@@ -89,7 +89,7 @@
               <div class="stateIcon" *ngIf="!pipe?.enable">
                 <img src="assets/images/inActiveStage.svg" />
               </div>
-              <div class="title text-truncate" [title]="pipe?.name">{{ pipe?.name }}  <div class="beta-tag" *ngIf="pipe.type==='snippet_extraction'">{{'workbench_beta' | translate}}</div></div>
+              <div class="title text-truncate" [title]="pipe?.name">{{ pipe?.name || '&nbsp;'}}  <div class="beta-tag" *ngIf="pipe.type==='snippet_extraction'">{{'workbench_beta' | translate}}</div></div>
               <div class="close_icon" (click)="removeStage(i,pipe?.name)">
                 <img src="assets/icons/close_field.svg" />
               </div>
@@ -189,7 +189,7 @@
                 tooltipClass="workbench_tolltips m-0" class="pl-1" src="assets/icons/help_gray.svg" />
             </div>
             <input type="text" placeholder="{{'workbench_please_enter_stage_name' | translate}}"
-              (keyup)="changesDetected = true" autocomplete="off" class="input-text" [(ngModel)]="selectedStage.name" />
+              (keyup)="changesDetected = true" autocomplete="off" class="input-text" [value]="selectedStage.name" #stageName (input)="handleInput(stageName.value)"/>
           </div>
           <!-- <div class="kr-sg-input-text mb-2">
             <div class="label-text">
