@@ -1103,7 +1103,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             {{if hideSearchIcon}}\
               style="position: absolute; bottom: 0px; color:#8a959f;">\
             {{else}}\
-              style="position: absolute; bottom: 0px; color:#8a959f; padding-left:43px!important; background : ${searchConfig.searchBarFillColor} !important;"> \
+              style="position: absolute; bottom: 0px; color:#8a959f; padding-left:37px!important; background : ${searchConfig.searchBarFillColor} !important;"> \
             {{/if}}\
             {{/if}}\
             <input autocomplete="off" id="search" name="search"\
@@ -1115,7 +1115,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             {{if hideSearchIcon}}\
               style="position: absolute; bottom: 0px;  \
             {{else}}\
-              style="position: absolute; bottom: 0px; padding-left:42px!important; border : solid 1px ${searchConfig.searchBarBorderColor} !important; background : ${searchConfig.searchBarFillColor} !important; color :  ${searchConfig.searchBarPlaceholderTextColor} !important; \
+              style="position: absolute; bottom: 0px; padding-left:36px!important; border : solid 1px ${searchConfig.searchBarBorderColor} !important; background : ${searchConfig.searchBarFillColor} !important; color :  ${searchConfig.searchBarPlaceholderTextColor} !important; \
               {{if searchConfig.autocompleteOpt == true}}\
               background : transparent !important; \
               {{else}}\
@@ -19369,7 +19369,6 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       var frequentlySearchTemplate = '<script id="frequently-searched-template" type="text/x-jqury-tmpl">\
                                         {{if recents && recents.length && searchConfig.showSearchesEnabled == true}}\
                                         <div class="templates-data freq-data-p">\
-                                            <div class="main-title"> {{if searchConfig.showSearches == "frequent"}}\ FREQUENT {{else}} RECENT {{/if}}\ SEARCHES</div>\
                                             {{each(key, recent) recents }}\
                                             {{if recent}}\
                                               <div class="tile_with_header recentText recent-list-container">\
@@ -19472,7 +19471,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       var ctx = canvas.getContext("2d");
       ctx.font = "14px 'Inter', sans-serif";
       var width = ctx.measureText(config.searchConfig.buttonText).width;
-      if (config.searchConfig.buttonPlacementPosition == "inside") {
+      if (config.searchConfig.buttonPlacementPosition == "inside"  && config.searchConfig.searchButtonEnabled) {
         let rightPosition = 70 + 31 + 23;
 
         rightPosition = rightPosition + (width) + 1;
@@ -19484,24 +19483,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         $("body").append("<style>.kore-sponsored {right:72px !important;}</style>")
         if (config.searchConfig.buttonPlacementPosition == "outside") {
           let rightPosition = 812;
-          // if(config.searchConfig.buttonText.length==1){
-          //   rightPosition = 12;
-          // }
-          // if(config.searchConfig.buttonText.length==2){
-          //   rightPosition = 6;
-          // }
-          // if(config.searchConfig.buttonText.length==3){
-          //   rightPosition = -6;
-          // }
-          // if(config.searchConfig.buttonText.length==4){
-          //   rightPosition = -16;
-          // }
-          // if(config.searchConfig.buttonText.length==5){
-          //   rightPosition = -26;
-          // }
-          // if(config.searchConfig.buttonText.length==6){
-          //   rightPosition = -32;
-          // }
+         
           $("body").append("<style>.submit-button-outside {left: " + rightPosition + "px !important;}</style>")
         }
       }
