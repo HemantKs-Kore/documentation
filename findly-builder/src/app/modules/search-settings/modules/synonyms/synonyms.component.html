@@ -117,11 +117,12 @@
               <div class="table-row-view">
                 <div class="synonym-view-data row col-12 p-0 m-0">
                   <div class="synonym-name col-3 p-0" *ngIf="synonyms.type == 'oneWaySynonym'">{{synonyms.keyword}}</div>
-                  <div class="synonym-direction col-1 p-0 text-center" *ngIf="synonyms.type == 'oneWaySynonym'"><img class="arrow_divider" src="assets/icons/twoWayArrow.svg"></div>
+                  <i *ngIf="synonyms.type === 'oneWaySynonym'" class="si-right-arrow-large arrow_divider"></i>
                   <div class="synonym-type-list col-8 p-0">
                     <div *ngFor="let synonym of synonyms.synonyms;let i = index" ><span  class="synonym-type-list-name">{{synonym}}</span>
-                      <img *ngIf="(synonyms.type == 'synonym') && (i<synonyms.synonyms.length-1)" class="arrow_divider" src="assets/icons/twoWayArrow.svg">
+                      <!-- <img *ngIf="(synonyms.type === 'synonym') && (i<synonyms.synonyms.length-1)" class="arrow_divider" src="assets/icons/twoWayArrow.svg"> -->
                       <span *ngIf="(synonyms.type == 'oneWaySynonym') && (i<synonyms.synonyms.length-1)" class="synonym-type-list-and-or">OR</span>
+                      <i *ngIf="(synonyms.type !== 'oneWaySynonym') && (i<synonyms.synonyms.length-1)" class="si-arrow-two-way arrow_divider"></i>
                     </div>           
                   </div>
                 </div>
@@ -149,7 +150,8 @@
                       <div class="kr-sg-input-text">
                         <input [class.err-block]="((!EditsynonymObj.keyword || !EditsynonymObj.keyword.length) && submitted)" type="text" id="synonymName" name="synonymName" autocomplete="off" [(ngModel)]="EditsynonymObj.keyword"
                         [ngModelOptions]="{standalone: true}" placeholder="Search Term" required class="input-text">
-                        <img *ngIf="(!EditsynonymObj.keyword || !EditsynonymObj.keyword.length) && submitted" id="searchTermWarning" src="assets/icons/warning_escalation.svg" style="top: 29%; position: absolute; right: 1.5%; display: block;" height="12" width="12" />
+                        <i *ngIf="(synonyms.type === 'oneWaySynonym') && (!EditsynonymObj.keyword || !EditsynonymObj.keyword.length) && submitted" class="si-right-arrow-large" style="top: 29%; position: absolute; right: 1.5%; display: block;" height="12" width="12"></i>
+                        <!-- <img *ngIf="(!EditsynonymObj.keyword || !EditsynonymObj.keyword.length) && submitted" id="searchTermWarning" src="assets/icons/warning_escalation.svg" style="top: 29%; position: absolute; right: 1.5%; display: block;" height="12" width="12" /> -->
                       </div>
                     </div>
                     <div *ngIf="synonyms?.type !== 'synonym'" class="synonym-direction col-1 p-0 text-center"><img class="arrow_divider" src="assets/icons/twoWayArrow.svg"></div>
