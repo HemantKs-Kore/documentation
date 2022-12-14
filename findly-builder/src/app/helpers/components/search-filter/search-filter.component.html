@@ -1,6 +1,6 @@
 <div class="pt-search" id="pt-search">
     <div class="kr-sg-input-inline-search" id="inline-search"  maxlength="60">                               
-        <input type="text" placeholder="{{'sa_search' | translate}}"  class="input-search"
+        <input tabindex="-1" type="text" placeholder="{{'sa_search' | translate}}"  class="input-search"
         autocomplete="off" id="fieldSearchId" [(ngModel)]="searchFields" (keyup)="filterFields(searchFields)" 
         (mouseover)="searchImgSrc = (searchFocusIn ? 'assets/icons/search_gray.svg' :'assets/icons/search_gray_dark.svg')"
         (mouseout)="searchFocusIn=false;searchImgSrc = 'assets/icons/search_gray.svg'"
