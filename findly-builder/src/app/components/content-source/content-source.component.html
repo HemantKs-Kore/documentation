@@ -278,7 +278,7 @@
             <!-- New Design -->
             <ng-container  *ngIf="(resources | filter: [ searchSources , 'name']).length; else noGridContent">
               <div class="row col-12 p-0 grid-data-sec">
-                <div class="col-4 grid-card cursor-pointer" *ngFor="let source of resources | filter: [ searchSources , 'name'];trackBy:getSourceList"
+                <div class="col-4 grid-card cursor-pointer" *ngFor="let source of resources | filter: [ searchSources , 'name']"
                   (click)="openStatusSlider(source)">
                   <div class="card_sec">
                     <div class="titles-sec">
