@@ -133,7 +133,7 @@ export class SearchRelevanceComponent implements OnInit {
       }    
     }
     this.service.invoke('put.queryPipeline', quaryparms,payload).subscribe(res => {
-      this.prepareThreshold()
+      //this.prepareThreshold()
 
       //this.notificationService.notify("updated successfully",'success');
     }, errRes => {
