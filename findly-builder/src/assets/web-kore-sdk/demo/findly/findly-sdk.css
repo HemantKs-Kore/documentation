@@ -1666,7 +1666,7 @@ body {
 }
 
 .searchAssist-kore-chat-window .Search-BG-Copy .recentContainer .recentSearch .recent-search-delete {
-    right: 28px;
+    right: 12px;
     position: absolute;
     width: 16px;
     height: 16px;
@@ -1674,7 +1674,7 @@ body {
     align-items: center;
     justify-content: center;
     border-radius: 100%;
-    background: #E4E5E7;
+    /* background: #E4E5E7; */
     top: 8px;
     display: none;
     z-index: 9;
@@ -1972,7 +1972,7 @@ body {
     border: 0px solid var(--sdk-border-malibu-color);
     box-sizing: border-box;
     border-radius: 5px;
-    padding: 6px 30px 6px 30px;
+    padding: 7px 25px 7px 38px;
     margin: 0px;
 }
 
@@ -1998,7 +1998,7 @@ body {
 .searchAssist-kore-chat-window .search-recent-column .recentSearch.tile_with_header .recentText img {
     position: absolute;
     left: 7px;
-    top: 8px;
+    top: 10px;
 }
 
 .searchAssist-kore-chat-window .search-button {
