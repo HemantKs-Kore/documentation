@@ -1300,7 +1300,6 @@
           </div>
         </div>
         <div class="title-text">{{'contentSource_title'| translate}}
-          <img src="assets/images/edit-pencil.svg">
         </div>
         <div class="title-desc-text" *ngIf="!isEditDoc && selectedSource.fileMeta">
           <span>{{docContent.sys_source_name}}</span>
@@ -1351,7 +1350,7 @@
           <!-- <div class="col-1">{{selectedSource.numPages}}</div> -->
           <!-- <div class="col-1" *ngIf="selectedSource.fileMeta">{{selectedSource.fileMeta.size ? (selectedSource.fileMeta.size / (1024 * 1024)).toFixed(2) + 'MB': '--'|| '--'}}</div> -->
           <div class="col_ col-1  p-0 text-left actions-images">
-            <img src="assets/images/edit-pencil.svg" (click)="editDoc()" title="Edit">
+            <!-- <img src="assets/images/edit-pencil.svg" (click)="editDoc()" title="Edit"> -->
             <img src="assets/images/downloadIcon.svg" title="Download">
             <img src="assets/images/trashIcon.svg" (click)="deleteDocument('source',selectedSource ,$event)"
               title="Delete">

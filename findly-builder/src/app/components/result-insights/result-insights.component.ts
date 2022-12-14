@@ -208,6 +208,14 @@ export class ResultInsightsComponent implements OnInit {
     this.getQueries('Results',selectedindexpipeline);
     }
   }
+  //**FLY-6712 when clear icon is clicked display all results get api call */
+  clearSearch(){
+    this.searchSources = ''; 
+    this.skipPage=0; 
+    // this.paginate(event, 'Results')  
+      this.getQueries('Results',this.selecteddropId,null,null,null,null,this.searchSources);   
+
+  }
   getQueries(type,selectedindexpipeline?,sortHeaderOption?,sortValue?,navigate?,request?,searchSource?) {
     var today = new Date();
     var yesterday = new Date(Date.now() - 864e5);
@@ -431,19 +439,35 @@ export class ResultInsightsComponent implements OnInit {
     }
   }
 
-  //pagination method
-  paginate(event, type) {
-    if (type === 'Results') {
-      // this.limitPage = event.limit;
-      this.skipPage = event.skip;
-      this.getQueries('Results',this.selecteddropId);
+    //pagination method
+    paginate(event, type) {
+      //**FLY-6865 sort and pagination issue */
+      let sortHeaderOption,sortValue,request
+      if (type === 'Results') {
+        // this.limitPage = event.limit;
+        this.skipPage = event.skip;
+        //**FLY-6865 sort and pagination issue */
+        if(this.sortedObject){
+          sortHeaderOption=this.sortedObject.type
+          sortValue=this.sortedObject.value
+          this.getQueries('Results',this.selecteddropId,sortHeaderOption,sortValue);
+        }else{
+          this.getQueries('Results',this.selecteddropId);
+        }
+      }
+      else if (type === 'QRESULT') {
+        // this.Q_limitPage = event.limit;
+        this.Q_skipPage = event.skip;
+        //**FLY-6865 sort and pagination issue */
+        if(this.sortedObject){
+          sortHeaderOption=this.sortedObject.type
+          sortValue=this.sortedObject.value
+          this.getQueries('SearchQueriesForResult',this.selecteddropId,sortHeaderOption,sortValue);
+        }else{
+          this.getQueries('SearchQueriesForResult',this.selecteddropId);
+      } 
+      }
     }
-    else if (type === 'QRESULT') {
-      // this.Q_limitPage = event.limit;
-      this.Q_skipPage = event.skip;
-      this.getQueries('SearchQueriesForResult',this.selecteddropId);
-    }
-  }
   // pagination(data,type){
   //   if(type == 'MostSearchedQuries'){
   //     if(data.length <= this.tsqlimitpage){ this.tsqlimitpage = data.length }
