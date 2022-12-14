@@ -915,6 +915,7 @@ isSourceSearchClear : boolean = false;
       window.open(url, "_blank");
     }
   }
+  
   openStatusSlider(source, page?) {
     this.executionHistoryData = [];
     this.pagesSearch = '';
