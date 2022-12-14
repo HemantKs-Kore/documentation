@@ -109,7 +109,7 @@ export class HighlightingComponent implements OnInit {
       }    
     }
    /**highlight sort for data table and pop-up */
-    highlightsort(sortobj){
+    highlightSort(sortobj){
       this.method_type='search'
     console.log(sortobj);
     if(sortobj.componenttype=="datatable"){
@@ -121,7 +121,7 @@ export class HighlightingComponent implements OnInit {
 
   }
    //**highlight search function */
-   highlightsearch(obj){
+   highlightSearch(obj){
     this.searchValue=obj.searchvalue;
     this.method_type='search';
     if(obj.componenttype=="datatable"){
@@ -132,7 +132,7 @@ export class HighlightingComponent implements OnInit {
     }
    }
     //**highlight get page */
-    highlightpage(pageinfo){
+    highlightPage(pageinfo){
       this.page=pageinfo;
       this.getHighlightFields(true)
     }
@@ -236,7 +236,7 @@ export class HighlightingComponent implements OnInit {
   }
   
    /** Emited Value for Operation (Add/Delete)  */
- getrecord(recordData : any){
+ getRecord(recordData : any){
   let record = recordData.record;
   if(record?.fieldIds?.length > 0 || (record?.length>0)){
     let deleteData = {
@@ -290,7 +290,7 @@ export class HighlightingComponent implements OnInit {
   // 
  }
  //** Change of highlight slider value to call put querypipeline*/
- sildervaluechanged(event,type){
+ sildervalueChanged(event,type){
   const quaryparms:any={
     indexPipelineId:this.workflowService.selectedIndexPipeline(),
     queryPipelineId:this.workflowService.selectedQueryPipeline() ? this.workflowService.selectedQueryPipeline()._id : '',
