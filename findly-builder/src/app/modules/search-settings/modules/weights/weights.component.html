@@ -25,14 +25,14 @@
         <div class="kr-sg-data-table mb-0">
             <section class="table-content">
                 <div class="table_header row m-0">
-                    <div class="col_ col-2 title d-flex align-items-center justify-content-start">
+                    <div class="col_ col-4 title d-flex align-items-center justify-content-start">
                         <span (click)="sortValues('fieldName')" class="d-flex align-items-center flex-column mr-2 filter-sort">
                             <i class="si-chev-up icon-up"></i>
                             <i class="si-chev-down icon-down"></i>
                         </span>
                         {{"weights_field_name" | translate}}
                     </div>
-                    <div class="col_ col-6 title d-flex align-items-center justify-content-start">
+                    <div class="col_ col-4 title d-flex align-items-center justify-content-start">
                         <span class="d-flex align-items-center flex-column mr-2 filter-sort">
                             <i class="si-chev-up icon-up"></i>
                             <i class="si-chev-down icon-down"></i>
@@ -54,10 +54,10 @@
                         <div class="desc">{{'weights_please_add_rankable_field'| translate}}</div>
                     </div>
                     <div class="content-body" *ngFor="let weightModal of weightsList; let i = index ; trackBy: prepereWeights">
-                        <div class="col-2 name text-truncate">
+                        <div class="col-4 name text-truncate">
                             <div class="text-truncate">{{weightModal.fieldName}} </div>
                         </div>
-                        <div class="col-6 desc text-truncate">
+                        <div class="col-4 desc text-truncate">
                             <span>{{weightModal.fieldDataType}}</span>
                         </div>
                         <div class="col-4 sliderContainer">
@@ -74,18 +74,6 @@
                         </div>
                     </div>
                 </perfect-scrollbar>
-                <div class="weightsFooter d-none">
-                    <!-- <div class="add_btn_sec">
-                </div> -->
-                    <div class="cancel_save_sec">
-                        <button [ngClass]="{'d-none':!weights.length}" class="kr-sg-button-secondary btn_lg"
-                            id="btn_discardWeightChanges" [disabled]="disableCancle"
-                            (click)="setDataToActual()">{{'sa_cancel'| translate}}</button>
-                        <button [ngClass]="{'d-none':!weights.length}" class="kr-sg-button-primary btn_lg"
-                            id="btn_confirmWeightChanges"
-                            (click)="addOrUpddate(weights,null,'edit')">{{'weights_save_weights' | translate}}</button>
-                    </div>
-                </div>
             </section>
         </div>
     </ng-container>
@@ -137,11 +125,6 @@
                 <div class="label-text">{{'weights_weight_name'| translate}}</div>
                 <input type="text" id="input_weightsName" maxlength="60" [(ngModel)]="addEditWeighObj.name"
                     placeholder="Placeholder text" class="input-text">
-            </div>
-            <div class="kr-sg-input-text-area mb-25 d-none">
-                <div class="label-text">{{'weights_description'| translate}}</div>
-                <textarea id="input_weightsDesc" [(ngModel)]="addEditWeighObj.desc" maxlength="250"
-                    placeholder="Short Description" class="input-text"></textarea>
             </div>
             <div class="kr-sg-input-text">
                 <div class="label-text">{{'weights_set_weight'| translate}}</div>

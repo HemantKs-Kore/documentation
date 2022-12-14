@@ -250,7 +250,7 @@ export class WeightsComponent implements OnInit, OnDestroy
       isSearchable: true, 
       isSelected : false
     };
-          // pageNo: 1,
+      // pageNo: 1,
       // pageNo: this.pageNumber,
       // noOfRecords: 10,
       // noOfRecords: this.numberofweigths,
@@ -313,7 +313,6 @@ export class WeightsComponent implements OnInit, OnDestroy
       this.notificationService.notify('Somthing went worng', 'error');
     }
   }
-
   validateWeights() {
     if (this.addEditWeighObj.fieldName && this.addEditWeighObj.fieldName.length)
     {
@@ -325,7 +324,6 @@ export class WeightsComponent implements OnInit, OnDestroy
       return false;
     }
   }
-
   addEditWeight(addEditWeighObj) {
     this.submitted = true;
     if (this.validateWeights())

@@ -1433,9 +1433,9 @@ export class EndPointsService {
 
     //Apis for Stop Words module ends
 
-    //Api for getting stopwords List
+    //Api for getting synonyms List
     this.serviceList['get.synonyms'] = {
-      endpoint: this.API_SERVER_URL +'/findly/stream/:streamId/indexPipeline/:indexPipelineId/queryPipeline/:queryPipelineId/synonyms?languageCode=:code&page=:pageNo&limit=:noOfRecords',
+      endpoint: this.API_SERVER_URL +'/findly/stream/:streamId/indexPipeline/:indexPipelineId/queryPipeline/:queryPipelineId/synonyms?languageCode=:code',
       method: 'get'
     }
     //Apis for Synonyms module starts
@@ -1444,7 +1444,7 @@ export class EndPointsService {
       method: 'put'
     }
     this.serviceList['put.EditSynonym'] = {
-      endpoint: this.API_SERVER_URL +'/findly/stream/:streamId/indexPipeline/:indexPipelineId/queryPipeline/:queryPipelineId/synonyms/synonymId:synonymId',
+      endpoint: this.API_SERVER_URL +'/findly/stream/:streamId/indexPipeline/:indexPipelineId/queryPipeline/:queryPipelineId/synonyms/:synonymId',
       method: 'put'
     }
     this.serviceList['delete.synonymn'] = {

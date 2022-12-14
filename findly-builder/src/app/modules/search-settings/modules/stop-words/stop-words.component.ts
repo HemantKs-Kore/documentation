@@ -22,7 +22,7 @@ export class StopWordsComponent implements OnInit, OnDestroy {
   searchStopwords: any = '';
   newStopWord: any = '';
   stopwordData:any;
-  showSearch = false;
+  showSearch:boolean = false;
   searchImgSrc: any = 'assets/icons/search_gray.svg';
   searchFocusIn = false;
   activeClose = false;
@@ -86,142 +86,8 @@ export class StopWordsComponent implements OnInit, OnDestroy {
     }
     this.showSearch = !this.showSearch
   }
-  getStopWords() {
-    const quaryparms: any = {
-      searchIndexID: this.serachIndexId,
-      queryPipelineId: this.queryPipelineId,
-      indexPipelineId: this.workflowService.selectedIndexPipeline() || ''
-    };
-    this.service.invoke('get.queryPipeline', quaryparms).subscribe(res => {
-      this.pipeline = res.pipeline || {};
-      // if (res.pipeline.stages[2].options) {
-      //   this.enabled = res.pipeline.stages[2].options.stopWordsRemovalEnabled;
-      // }
-      if (this.pipeline.stages && this.pipeline.stages.length) {
-        this.pipeline.stages.forEach(stage => {
-          if (stage && stage.type === 'stopwords') {
-            this.stopwords = stage.stopwords || [];
-            if (stage.options) {
-              this.enabled = stage.options.stopWordsEnabled;
-      }
-          }
-        });
-      }
-      if (res.length > 0) {
-        this.loadingForStopWords = false;
-        this.loadingContent = false;
-        this.loadingContent1 = true;
-      }
-      else {
-        this.loadingContent1 = true;
-        // if(!this.inlineManual.checkVisibility('STOP_WORDS')){
-        //   this.inlineManual.openHelp('STOP_WORDS')
-        //   this.inlineManual.visited('STOP_WORDS')
-        // }
-      }
-      this.loadingContent = false;
-      res.pipeline.stages[2].options.stopWordsEnabled = this.enabled;
-    }, errRes => {
-      this.loadingContent = false;
-      this.errorToaster(errRes, 'Failed to get stop words');
-    });
-  }
-  restore(dialogRef?) {
-    const quaryparms: any = {
-      searchIndexID: this.serachIndexId,
-      queryPipelineId: this.queryPipelineId,
-      indexPipelineId: this.workflowService.selectedIndexPipeline() || ''
-    };
-    this.service.invoke('post.restoreStopWord', quaryparms).subscribe(res => {
-      this.newStopWord = '';
-      this.pipeline = res.pipeline || {};
-      // res.pipeline.stages[2].options.stopWordsRemovalEnabled = true
-      if (this.pipeline.stages && this.pipeline.stages.length) {
-        this.pipeline.stages.forEach(stage => {
-          if (stage && stage.type === 'stopwords') {
-            this.stopwords = stage.stopwords || [];
-            if (stage.options) {
-              this.enabled = stage.options.stopWordsEnabled;
-            }
-            if (!(this.stopwords && this.stopwords.length) && !dialogRef) {
-              this.notificationService.notify('No default stop words available', 'error');
-            } else {
-              if (this.stopwords.length === 0) this.appSelectionService.updateTourConfig(this.componentType);
-            }
-          }
-        });
-      }
-      if (dialogRef && dialogRef.close) {
-        dialogRef.close();
-      }
-    }, errRes => {
-      this.errorToaster(errRes, 'Failed to create default stop words');
-    });
-  }
-  restoreStopWords(event) {
-    if (event) {
-      event.stopImmediatePropagation();
-      event.preventDefault();
-    }
-    const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
-      width: '530px',
-      height: 'auto',
-      panelClass: 'delete-popup',
-      data: {
-        title: 'Restore Stop Words',
-        text: 'Are you sure you want to reset Stop Words?',
-        newTitle: 'Are you sure you want to reset ?',
-        body: 'Stop words will be reset to system-defined values.',
-        buttons: [{ key: 'yes', label: 'Reset' }, { key: 'no', label: 'Cancel' }],
-        confirmationPopUp: true
-      }
-    });
-
-    dialogRef.componentInstance.onSelect
-      .subscribe(result => {
-        if (result === 'yes') {
-          this.restore(dialogRef);
-          this.notificationService.notify('Reset Successful', 'success');
-        } else if (result === 'no') {
-          dialogRef.close();
-        }
-      })
-  }
   getActiveSearch() {
     return $('.stopwordBlock').length;
-  }
-  deleteInfividualStopWords(index, event, word, list) {
-    if (event) {
-      event.stopImmediatePropagation();
-      event.preventDefault();
-    }
-    const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
-      width: '530px',
-      height: 'auto',
-      panelClass: 'delete-popup',
-      data: {
-        title: 'Delete Stop Word',
-        text: 'Are you sure you want to delete selected Stop Word?',
-        newTitle: 'Are you sure you want to delete ?',
-        body: word + ' will be removed from stopword list',
-        buttons: [{ key: 'yes', label: 'Delete', type: 'danger' }, { key: 'no', label: 'Cancel' }],
-        confirmationPopUp: true
-      }
-    });
-
-    dialogRef.componentInstance.onSelect
-      .subscribe(result => {
-        if (result === 'yes') {
-          this.loadingWords = true;
-          const deleteindex = this.stopwords.findIndex(f => f === word);
-          if (deleteindex > -1) {
-            this.stopwords.splice(deleteindex, 1);
-          }
-          // this.updateStopWords(dialogRef);
-        } else if (result === 'no') {
-          dialogRef.close();
-        }
-      })
   }
   errorToaster(errRes, message) {
     if (errRes && errRes.error && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0].msg) {
@@ -232,23 +98,6 @@ export class StopWordsComponent implements OnInit, OnDestroy {
       this.notificationService.notify('Somthing went worng', 'error');
     }
   }
-
-  addStopWord(event) {
-    this.submitted = true;
-    if (this.validateAddStopWord()) {
-      const stopwords = (this.newStopWord || '').split(',');
-      this.stopwords = _.uniq(this.stopwords.concat(stopwords)).sort();
-      this.stopwords = _.filter(this.stopwords, (stopword) => {
-        return stopword !== '';
-      })
-      // this.updateStopWords();
-      this.submitted = false;
-    }
-    else {
-      this.notificationService.notify('Enter the required fields to proceed', 'error');
-    }
-  }
-
 //-----------------------------(AUTHOR:BHARADWAJ)
 //ADD DEFAULT OR START FROM SCRATCH
 createInit() {
@@ -501,7 +350,6 @@ createInit() {
     }
     this.service.invoke('put.queryPipeline', quaryparms,payload).subscribe(res => {
       this.stopwordData.enable=res.settings.stopwords.enable
-      this.getQuerypipeline();
       if (dialogRef && dialogRef.close) {
         dialogRef.close();
       }

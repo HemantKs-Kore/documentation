@@ -65,8 +65,7 @@ export class IndexConfigurationSettingsComponent implements OnInit {
         this.queryPipelineId = this.workflowService.selectedQueryPipeline() ? this.workflowService.selectedQueryPipeline()._id : ''
         this.supportedLanguages = this.workflowService.supportedLanguages.values;
       })
-  }
-  
+  } 
 // toaster message 
   errorToaster(errRes, message) {
     if (errRes && errRes.error && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0].msg) {
@@ -77,7 +76,6 @@ export class IndexConfigurationSettingsComponent implements OnInit {
       this.notificationService.notify('Somthing went wrong', 'error');
     }
   }
-
 // open pop for add and edit 
   openModalPopup() {
     this.addLangModalPopRef = this.addLangModalPop.open();
@@ -89,7 +87,6 @@ export class IndexConfigurationSettingsComponent implements OnInit {
       }); 
     });
   }
-
 // close pop for add and edit 
   closeModalPopup() {
     this.addLangModalPopRef.close();
@@ -112,7 +109,6 @@ export class IndexConfigurationSettingsComponent implements OnInit {
       }
     );
   }
-
   // clearing the seedData
   clearCheckbox(){
     let arr = [...this.supportedLanguages]
@@ -173,7 +169,7 @@ export class IndexConfigurationSettingsComponent implements OnInit {
     this.closeModalPopup();
   }
   //selection and deselection method
-   unCheck(){
+  unCheck(){
     this.supportedLanguages.forEach(element => {
       this.languageList.forEach(data => {
         if(element.languageCode == data.languageCode){
@@ -184,8 +180,8 @@ export class IndexConfigurationSettingsComponent implements OnInit {
         }
       });
     });
-   }
-   updateLangListFun(list){
+  }
+  updateLangListFun(list){
     let updateArr = [];
     this.supportedLanguages.forEach((element,index) => {
       if(element.languageCode != list.languageCode){
@@ -194,65 +190,65 @@ export class IndexConfigurationSettingsComponent implements OnInit {
     });
     this.supportedLanguages = updateArr
     return updateArr;
-   }
+  }
   //delete language
   deleteLanguagesPop(event,list) {
-    if (event) {
-      event.stopImmediatePropagation();
-      event.preventDefault();
-    }
-    const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
-      width: '530px',
-      height: 'auto',
-      panelClass: 'delete-popup',
-      data: {
-        title: 'Delete Language',
-        text: 'Are you sure you want to remove?',
-        newTitle: 'Are you sure you want to remove?',
-        body: 'The'+list.language+ 'language will be removed.'+list.language+'content will be searched using English language analyzers.' ,
-        buttons: [{ key: 'yes', label: 'Delete', type: 'danger' }, { key: 'no', label: 'Cancel' }],
-        confirmationPopUp: true
+      if (event) {
+        event.stopImmediatePropagation();
+        event.preventDefault();
       }
-    });
-
-    dialogRef.componentInstance.onSelect
-      .subscribe(result => {
-        if (result === 'yes' ) {
-         this.deleteLanguage(dialogRef,list);
-        } else if (result === 'no') {
-          dialogRef.close();
-        }
-      })
-  }
-  deleteLanguage(dialogRef?,list?){
-    this.unCheck()
-    let updateArr = this.updateLangListFun(list);
-    this.saveLanguage(dialogRef,updateArr)
-  }
-  //Use a better Apporch so that we can restrict this call for IndexPipline - use Observable
-  getIndexPipeline() {
-    const header: any = {
-      'x-timezone-offset': '-330'
-    };
-    const quaryparms: any = {
-      searchIndexId: this.serachIndexId,
-      offset: 0,
-      limit: 100
-    };
-    this.service.invoke('get.indexPipeline', quaryparms, header).subscribe(res => {
-      res.forEach(element => {
-        if(element._id == this.indexPipelineId){
-          this.supportedLanguages = element.settings.language.values;
-          this.workflowService.getSettings(element.settings);
+      const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+        width: '530px',
+        height: 'auto',
+        panelClass: 'delete-popup',
+        data: {
+          title: 'Delete Language',
+          text: 'Are you sure you want to remove?',
+          newTitle: 'Are you sure you want to remove?',
+          body: 'The'+list.language+ 'language will be removed.'+list.language+'content will be searched using English language analyzers.' ,
+          buttons: [{ key: 'yes', label: 'Delete', type: 'danger' }, { key: 'no', label: 'Cancel' }],
+          confirmationPopUp: true
         }
       });
-    }, errRes => {
-      if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
-        this.notificationService.notify(errRes.error.errors[0].msg, 'error');
-      } else {
-        this.notificationService.notify('Failed ', 'error');
-      }
-    });
+
+      dialogRef.componentInstance.onSelect
+        .subscribe(result => {
+          if (result === 'yes' ) {
+          this.deleteLanguage(dialogRef,list);
+          } else if (result === 'no') {
+            dialogRef.close();
+          }
+        })
+  }
+  deleteLanguage(dialogRef?,list?){
+      this.unCheck()
+      let updateArr = this.updateLangListFun(list);
+      this.saveLanguage(dialogRef,updateArr)
+  }
+    //Use a better Apporch so that we can restrict this call for IndexPipline - use Observable
+  getIndexPipeline() {
+      const header: any = {
+        'x-timezone-offset': '-330'
+      };
+      const quaryparms: any = {
+        searchIndexId: this.serachIndexId,
+        offset: 0,
+        limit: 100
+      };
+      this.service.invoke('get.indexPipeline', quaryparms, header).subscribe(res => {
+        res.forEach(element => {
+          if(element._id == this.indexPipelineId){
+            this.supportedLanguages = element.settings.language.values;
+            this.workflowService.getSettings(element.settings);
+          }
+        });
+      }, errRes => {
+        if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
+          this.notificationService.notify(errRes.error.errors[0].msg, 'error');
+        } else {
+          this.notificationService.notify('Failed ', 'error');
+        }
+      });
   }
   ngOnDestroy() {
     this.configurationsSubscription ? this.configurationsSubscription.unsubscribe() : false;

@@ -16,7 +16,7 @@ export class SnippetsComponent implements OnInit {
   indexPipelineId;
   queryPipelineId;
   querySubscription;
-  snippetsData;
+  snippetsData:boolean = false;
 
 
   constructor(
@@ -37,7 +37,8 @@ export class SnippetsComponent implements OnInit {
     this.querySubscription = this.appSelectionService.queryConfigSelected.subscribe(res => {
       this.indexPipelineId = this.workflowService.selectedIndexPipeline();
       this.queryPipelineId = this.workflowService.selectedQueryPipeline() ? this.workflowService.selectedQueryPipeline()._id : ''
-   })
+      this.getQuerypipeline();
+    })
   }
 
 
@@ -49,7 +50,7 @@ export class SnippetsComponent implements OnInit {
     };
     this.service.invoke('get.queryPipeline', quaryparms).subscribe(
       (res) => {
-        this.snippetsData = res?.settings.smallTalk;
+        this.snippetsData = res?.settings.snippet.enable;
       },
       (errRes) => {
         this.notificationService.notify(
@@ -69,13 +70,13 @@ export class SnippetsComponent implements OnInit {
       const payload:any={
         settings: {
           snippet: {
-            enable: event.currentTarget.checked
+            enable: event.target.checked
         }
       }    
     }
     this.service.invoke('put.queryPipeline', quaryparms,payload).subscribe(res => {
-      this.snippetsData.enable=res.settings.snippet.enable
-      this.getQuerypipeline()
+      this.snippetsData=res.settings.snippet.enable
+      // this.getQuerypipeline();
       this.notificationService.notify("updated successfully",'success');
     }, errRes => {
       this.notificationService.notify("Failed to update",'error');

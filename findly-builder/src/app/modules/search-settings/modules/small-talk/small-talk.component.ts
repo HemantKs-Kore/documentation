@@ -13,19 +13,19 @@ import { of, interval, Subject, Subscription } from 'rxjs';
   styleUrls: ['./small-talk.component.scss']
 })
 export class SmallTalkComponent implements OnInit {
-  searchIndexId:any;
-  selectedApp: any;
-  LinkABot:any;
-  streamId:any;
-  enableSmallTalk:any;
-  querySubscription : Subscription;
-  enable = false ;
-  botLinked = false;
-  smallTalkData:any;
-  serachIndexId;
-  indexPipelineId;
-  queryPipelineId;
-  constructor(
+ searchIndexId:any;
+ selectedApp: any;
+ LinkABot:any;
+ streamId:any;
+ enableSmallTalk:any;
+ querySubscription : Subscription;
+ enable = false ;
+ botLinked = false;
+ smallTalkData:any;
+ serachIndexId;
+ indexPipelineId;
+ queryPipelineId;
+ constructor(
     public workflowService: WorkflowService,
     private service: ServiceInvokerService,
     private notificationService: NotificationService,
@@ -33,13 +33,10 @@ export class SmallTalkComponent implements OnInit {
     private appSelectionService: AppSelectionService,
   ) { 
   
-  }
-
-  ngOnInit(): void {
+ }
+ ngOnInit(): void {
     this.selectedApp = this.workflowService.selectedApp();
     this.searchIndexId = this.selectedApp.searchIndexes[0]._id;
-    this.getAssociatedTasks();
-
     this.selectedApp = this.workflowService.selectedApp();
     this.serachIndexId = this.selectedApp.searchIndexes[0]._id;
     this.indexPipelineId = this.workflowService.selectedIndexPipeline();
@@ -48,24 +45,10 @@ export class SmallTalkComponent implements OnInit {
     this.querySubscription = this.appSelectionService.queryConfigSelected.subscribe(res => {
       this.indexPipelineId = this.workflowService.selectedIndexPipeline();
       this.queryPipelineId = this.workflowService.selectedQueryPipeline() ? this.workflowService.selectedQueryPipeline()._id : ''
-   })
-  }
-  
-// getBots() {
-//   if (this.streamId) {
-//     const quaryparms: any = {
-//       streamId: this.streamId
-//     };
-//     this.service.invoke('get.bots', quaryparms).subscribe(res => {
-//       console.log(res)
-//     }, errRes => {
-//       this.notificationService.notify("Error in loading bot action", 'error');
-
-//     });
-//   }
-
-// }
-  getAssociatedTasks() {
+      this.getQuerypipeline();
+    })
+ }
+ getAssociatedTasks() {
     if (this.searchIndexId) {
       const queryParams: any = {
         searchIndexID: this.searchIndexId
@@ -79,9 +62,9 @@ export class SmallTalkComponent implements OnInit {
         },
         
       )}
-  }
+ }
  enableST(type) {
-   const queryParams: any = {
+    const queryParams: any = {
     streamId: this.selectedApp._id
    };
    const payload = {
@@ -98,14 +81,9 @@ export class SmallTalkComponent implements OnInit {
        payload.smallTalk.enable = false;
        this.notificationService.notify('Small Talk Disabled', 'success')
      }
-
-
-    //  console.log(res);
    },
      (err) => { this.notificationService.notify("Task Enabling Failed", 'error') });
-
  }
-
  getQuerypipeline(){
   const quaryparms: any = {
     searchIndexID: this.serachIndexId,
@@ -124,8 +102,6 @@ export class SmallTalkComponent implements OnInit {
     }
   );
  }
-
-
  sildervaluechanged(event){
   const quaryparms:any={
     indexPipelineId:this.workflowService.selectedIndexPipeline(),
@@ -135,20 +111,19 @@ export class SmallTalkComponent implements OnInit {
     const payload:any={
       settings: {
         smallTalk: {
-          enable: event.currentTarget.checked
+          enable: event.target.checked
       }
     }    
   }
   this.service.invoke('put.queryPipeline', quaryparms,payload).subscribe(res => {
     this.smallTalkData.enable=res.settings.smallTalk.enable
-    this.getQuerypipeline()
     this.notificationService.notify("updated successfully",'success');
   }, errRes => {
     this.notificationService.notify("Failed to update",'error');
   });
  
-}
-ngOnDestroy() {
+ }
+ ngOnDestroy() {
   this.querySubscription ? this.querySubscription.unsubscribe() : false;
-}
+ }
 }
