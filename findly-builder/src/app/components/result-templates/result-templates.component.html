@@ -127,7 +127,7 @@
                             Template':(value.templateType|titlecase)}}</button>
                           <ul class="dropdown-menu content-menu">
                             <li *ngFor="let template of templateNames"
-                              (click)="value.templateType=template;getTemplateData(template,i,value)">
+                              (click)="value.templateType=template;getTemplateData(template,i,value)" [ngClass]="{'font-weight-bold':(template===value.templateType)}">
                               <a>{{template|titlecase}}</a>
                             </li>
                           </ul>
@@ -183,7 +183,7 @@
                 <button class="dropdown-toggle dropdown-input"
                   data-toggle="dropdown">{{resultListObj?.defaultTemplateType|titlecase}}</button>
                 <ul class="dropdown-menu content-menu">
-                  <li *ngFor="let template of templateNames" (click)="getTemplateData(template,'default');">
+                  <li *ngFor="let template of templateNames" [ngClass]="{'font-weight-bold':(template===resultListObj?.defaultTemplateType)}" (click)="getTemplateData(template,'default');">
                     <a>{{template|titlecase}}</a>
                   </li>
                 </ul>
@@ -209,12 +209,6 @@
                 </ul>
               </div>
             </div>
-            <!-- <div class="label-text">Exception</div>
-            <div class="desc-text">Exceptions are for results which you need to display in different template than default
-              template</div>
-            <div class="add-filed-btn mb-3 mt-2">
-              <img src="assets/icons/result-template/add.svg">Exception
-            </div> -->
           </div>
         </ng-container>
 
@@ -381,12 +375,9 @@
             <div class="kr-sg-dropdowns col-6 p-0 mb-3" *ngIf="templateDataBind.type == 'list'&&!['l10','l11'].includes(templateDataBind.layout.layoutType)">
               <div class="label-text">{{"resulttemplate_list_type"| translate}}</div>
               <div class="dropdown dropdown-open">
-                <button class="dropdown-toggle dropdown-input" data-toggle="dropdown">{{templateDatalistext}}</button>
+                <button class="dropdown-toggle dropdown-input" data-toggle="dropdown">{{("resulttemplate_"+templateDataBind?.layout?.listType+"list"| translate)}}</button>
                 <ul class="dropdown-menu content-menu">
-                  <li><a
-                      (click)="templateDatalistDisplay('Plain List');templateDataBind.layout.listType = 'plain'">{{"resulttemplate_plainlist"| translate}}</a></li>
-                  <li><a
-                      (click)="templateDatalistDisplay('Classic List');templateDataBind.layout.listType = 'classic'">{{"resulttemplate_classiclist"| translate}}</a></li>
+                  <li *ngFor="let list of ['plain','classic']" [ngClass]="{'font-weight-bold':(list===templateDataBind.layout.listType)}"><a (click)="templateDataBind.layout.listType = list">{{"resulttemplate_"+list+"list"| translate}}</a></li>
                 </ul>
               </div>
             </div>

@@ -744,7 +744,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
 
       else {
         $('#sourceFileUploader').val(null);
-        this.notificationService.notify('Please select a valid file', 'error');
+        this.notificationService.notify(element.fileName +' is not a supported file format', 'error');
         showProg = false;
       }
     }
@@ -756,7 +756,7 @@ export class AddSourceComponent implements OnInit, OnDestroy, AfterViewInit {
       }
       else {
         $('#sourceFileUploader').val(null);
-        this.notificationService.notify('Please select a valid file', 'error');
+        this.notificationService.notify(element.fileName +' is not a supported file format', 'error');
         // this.multipleFileArr
         // return;
       }

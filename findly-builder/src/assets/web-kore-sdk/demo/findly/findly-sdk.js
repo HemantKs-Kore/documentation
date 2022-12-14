@@ -1103,7 +1103,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             {{if hideSearchIcon}}\
               style="position: absolute; bottom: 0px; color:#8a959f;">\
             {{else}}\
-              style="position: absolute; bottom: 0px; color:#8a959f; padding-left:43px!important; background : ${searchConfig.searchBarFillColor} !important;"> \
+              style="position: absolute; bottom: 0px; color:#8a959f; padding-left:37px!important; background : ${searchConfig.searchBarFillColor} !important;"> \
             {{/if}}\
             {{/if}}\
             <input autocomplete="off" id="search" name="search"\
@@ -1115,7 +1115,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             {{if hideSearchIcon}}\
               style="position: absolute; bottom: 0px;  \
             {{else}}\
-              style="position: absolute; bottom: 0px; padding-left:42px!important; border : solid 1px ${searchConfig.searchBarBorderColor} !important; background : ${searchConfig.searchBarFillColor} !important; color :  ${searchConfig.searchBarPlaceholderTextColor} !important; \
+              style="position: absolute; bottom: 0px; padding-left:36px!important; border : solid 1px ${searchConfig.searchBarBorderColor} !important; background : ${searchConfig.searchBarFillColor} !important; color :  ${searchConfig.searchBarPlaceholderTextColor} !important; \
               {{if searchConfig.autocompleteOpt == true}}\
               background : transparent !important; \
               {{else}}\
@@ -5810,7 +5810,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       if (templateType === "search-container") {
 
         $(dataHTML).off('keydown', '#search').on('keydown', '#search', function (e) {
-          _self.trimSearchQuery();
+          _self.trimSearchQuery(e);
           var keyCode = e.keyCode || e.which;
           keyCode = Number(keyCode);
           if (keyCode !== 13) {
@@ -6145,13 +6145,13 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         var searchBoxDom = document.getElementById('search');
 
         // This represents a very heavy method. Which takes a lot of time to execute
-        function makeAPICall() {
+        function makeAPICall(event) {
           // $('#search').trigger("keydown");
           if (_self.vars.enterIsClicked) {
             return;
           }
           $('#search').trigger("keyup");
-          _self.pubSub.publish('sa-input-keyup');
+          _self.pubSub.publish('sa-input-keyup',event);
         }
 
         // Debounce function: Input as function which needs to be debounced and delay is the debounced time in milliseconds
@@ -6165,11 +6165,11 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         // Event listener on the input box
         searchBoxDom.addEventListener('input', function (event) {
           // Debounces makeAPICall method
-          debounceFunction(makeAPICall, 200, event);
+          debounceFunction(makeAPICall(event), 200, event);
         })
 
         $(dataHTML).off('keyup', '#search').on('keyup', '#search', function (e) {
-          _self.trimSearchQuery();
+          _self.trimSearchQuery(e);
           if ((!$('body').hasClass('top-down') && $('.bottom-up-search').val())) {
             $('.search-container').removeClass('no-history');
             if (!$('.search-container').hasClass('active')) {
@@ -6584,7 +6584,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             }
           }
           if (($('body').hasClass('top-down') ? $('.search-top-down').val() : $('.bottom-up-search').val())) {
-            _self.pubSub.publish('sa-input-keyup');
+            _self.pubSub.publish('sa-input-keyup', e);
           }
           if (!_self.vars.isSocketInitialize) {
             _self.bot.init(_self.vars.botConfig, _self.config.messageHistoryLimit);
@@ -7364,6 +7364,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             } else {
               $('.empty-full-results-container').removeClass('hide');
               $('.no-templates-defined-full-results-container').hide();
+              $('.skelton-load-img').hide();
             }
           } else {
             if ((res.tasks || []).length) {
@@ -19368,7 +19369,6 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       var frequentlySearchTemplate = '<script id="frequently-searched-template" type="text/x-jqury-tmpl">\
                                         {{if recents && recents.length && searchConfig.showSearchesEnabled == true}}\
                                         <div class="templates-data freq-data-p">\
-                                            <div class="main-title"> {{if searchConfig.showSearches == "frequent"}}\ FREQUENT {{else}} RECENT {{/if}}\ SEARCHES</div>\
                                             {{each(key, recent) recents }}\
                                             {{if recent}}\
                                               <div class="tile_with_header recentText recent-list-container">\
@@ -19471,7 +19471,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       var ctx = canvas.getContext("2d");
       ctx.font = "14px 'Inter', sans-serif";
       var width = ctx.measureText(config.searchConfig.buttonText).width;
-      if (config.searchConfig.buttonPlacementPosition == "inside") {
+      if (config.searchConfig.buttonPlacementPosition == "inside"  && config.searchConfig.searchButtonEnabled) {
         let rightPosition = 70 + 31 + 23;
 
         rightPosition = rightPosition + (width) + 1;
@@ -19483,24 +19483,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         $("body").append("<style>.kore-sponsored {right:72px !important;}</style>")
         if (config.searchConfig.buttonPlacementPosition == "outside") {
           let rightPosition = 812;
-          // if(config.searchConfig.buttonText.length==1){
-          //   rightPosition = 12;
-          // }
-          // if(config.searchConfig.buttonText.length==2){
-          //   rightPosition = 6;
-          // }
-          // if(config.searchConfig.buttonText.length==3){
-          //   rightPosition = -6;
-          // }
-          // if(config.searchConfig.buttonText.length==4){
-          //   rightPosition = -16;
-          // }
-          // if(config.searchConfig.buttonText.length==5){
-          //   rightPosition = -26;
-          // }
-          // if(config.searchConfig.buttonText.length==6){
-          //   rightPosition = -32;
-          // }
+         
           $("body").append("<style>.submit-button-outside {left: " + rightPosition + "px !important;}</style>")
         }
       }
@@ -20562,7 +20545,12 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         }
       }, 500);
     }
-    FindlySDK.prototype.trimSearchQuery = function () {
+    FindlySDK.prototype.trimSearchQuery = function (e) {
+      var keyCode = e.keyCode || e.which;
+      keyCode = Number(keyCode);
+      if(e.target.selectionStart !== ($('body').hasClass('top-down') ? $('.search-top-down').val() : $('.bottom-up-search').val()).length && keyCode !== 13){
+        return;
+      }
       if ((!$('body').hasClass('top-down') && $('.bottom-up-search').val() && $('.bottom-up-search').val().length == 1)) {
         $('.bottom-up-search').val($('.bottom-up-search').val().trim());
       } else if (!$('body').hasClass('top-down') && $('.bottom-up-search').val() && $('.bottom-up-search').val().length > 1) {

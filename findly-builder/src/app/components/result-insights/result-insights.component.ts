@@ -208,6 +208,12 @@ export class ResultInsightsComponent implements OnInit {
     this.getQueries('Results',selectedindexpipeline);
     }
   }
+  //**FLY-6712 when clear icon is clicked display all results get api call */
+  // clearSearch(){
+  //   this.searchSources = '';    
+  //     this.getQueries('Results',this.selecteddropId,null,null,this.searchSources,this.selecteddropId);   
+
+  // }
   getQueries(type,selectedindexpipeline?,sortHeaderOption?,sortValue?,navigate?,request?,searchSource?) {
     var today = new Date();
     var yesterday = new Date(Date.now() - 864e5);
@@ -433,15 +439,34 @@ export class ResultInsightsComponent implements OnInit {
 
   //pagination method
   paginate(event, type) {
+    //**FLY-6865 sort and pagination issue */
+    // let sortHeaderOption,sortValue,request
     if (type === 'Results') {
       // this.limitPage = event.limit;
       this.skipPage = event.skip;
       this.getQueries('Results',this.selecteddropId);
+      //**FLY-6865 sort and pagination issue */
+      // if(this.sortedObject){
+      //   sortHeaderOption=this.sortedObject.type
+      //   sortValue=this.sortedObject.value
+      //   this.getQueries('SearchQueriesForResult',this.selecteddropId,sortHeaderOption,sortValue);
+      // }else{
+      //   this.getQueries('SearchQueriesForResult',this.selecteddropId);
+      // }
     }
     else if (type === 'QRESULT') {
       // this.Q_limitPage = event.limit;
       this.Q_skipPage = event.skip;
       this.getQueries('SearchQueriesForResult',this.selecteddropId);
+      //**FLY-6865 sort and pagination issue */
+      // if(this.sortedObject){
+      //   sortHeaderOption=this.sortedObject.type
+      //   sortValue=this.sortedObject.value
+      //   this.getQueries('SearchQueriesForResult',this.selecteddropId,sortHeaderOption,sortValue);
+      // }else{
+      //   this.getQueries('SearchQueriesForResult',this.selecteddropId);
+      // }
+      
     }
   }
   // pagination(data,type){

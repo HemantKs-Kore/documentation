@@ -39,6 +39,8 @@
                             (mouseout)="searchFocusIn=false;searchImgSrc = 'assets/icons/search_gray.svg'" (focus)="searchFocusIn=true;searchImgSrc = 'assets/icons/search_gray.svg'">
                             <img [src]="searchImgSrc" class="search-icon" *ngIf="!searchSources">
                             <img class="close-icon" src="assets/icons/close_icon.svg" [ngClass]="{'pr-22':searchSources}" (click)="searchSources='';"  placement="top-center" container='body' ngbTooltip="{{'sa_cancel' | translate}}" tooltipClass="ngb_tooltip_custom_class sampleJson">
+                            <!-- 13/12 when clear icon is clicked we need display all the results FLY-6712 changes -->
+                            <!-- <img class="close-icon" src="assets/icons/close_icon.svg" [ngClass]="{'pr-22':searchSources}" (click)="clearSearch();"  placement="top-center" container='body' ngbTooltip="{{'sa_cancel' | translate}}" tooltipClass="ngb_tooltip_custom_class sampleJson"> -->
                         </div>
                     </div>                    
                 </div>
