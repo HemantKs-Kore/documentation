@@ -87,7 +87,6 @@ export class ResultTemplatesComponent implements OnInit {
     chips: true,
     rating: true
   }
-  templateDatalistext: any;
   customtemplateBtndisable: boolean = false;
   heading_fieldData: any;
   desc_fieldData: any;
@@ -133,6 +132,7 @@ export class ResultTemplatesComponent implements OnInit {
   defaultFieldName: string;
   tabData: any;
   templateNames: any = ['list', 'carousel', 'grid'];
+  
   filterFacets: any = [{ name: 'Left Aligned', type: 'left' }, { name: 'Right Aligned', type: 'right' }, { name: 'Top Aligned', type: 'top' }]
   @ViewChild('customModal') customModal: KRModalComponent;
   @ViewChild('templateModal') templateModal: KRModalComponent;
@@ -426,7 +426,6 @@ export class ResultTemplatesComponent implements OnInit {
     this.service.invoke('get.templateById', quaryparms).subscribe((res: any) => {
       this.templateDataBind = res;
       if (type === 'modal') {
-        this.templateDatalistext = res.layout.listType == "classic" ? 'Classic List' : 'Plain List';
         this.fieldsDisplay(res.mapping);
         this.openTemplateModal();
         this.templateTypeSelection(res.layout.layoutType);
@@ -440,18 +439,9 @@ export class ResultTemplatesComponent implements OnInit {
       this.errorToaster(errRes, 'Failed to fetch Template');
     });
   }
-  //
-  templateDatalistDisplay(type) {
-    this.templateDatalistext = type
-  }
-  fieldsDisplay(mapping) {
-    // this.heading_fieldData
-    //   this.desc_fieldData 
-    //   this.img_fieldData 
-    //   this.url_fieldData
 
+  fieldsDisplay(mapping) {
     for (const property in mapping) {
-      // console.log(`${property}: ${mapping[property]}`);
       this.fieldData.forEach(element => {
         if (`${property}` == 'heading' && element._id == `${mapping[property]}`) {
           this.preview_title = element.fieldName;

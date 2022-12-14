@@ -551,15 +551,16 @@ body::-webkit-scrollbar {
 /* Tile With Header */
 
 .sdk-top-down-interface .tile_with_header .tile-title {
+  padding: 8px 21px 8px 0px !important;
   background: var(--sdk-white-bg);
-  box-shadow: 0px 0px 11px rgb(0 0 0 / 10%);
+  box-shadow: none;
   border-radius: 6px;
   padding: 11px 15px;
   font-style: normal;
-  font-weight: 600;
-  font-size: 14px;
-  line-height: 20px;
-  margin-bottom: 7px;
+  font-weight: 400;
+  font-size: 13px;
+  line-height: 16px;
+  margin-bottom: 0px;
   display: block !important;
   width: 100%;
   color: var(--sdk-shark-black-color);
@@ -976,7 +977,7 @@ body.showFullResults.top-down .top-down-wrapper{
   width: 800px;
   margin: 0 auto;
   padding-left: 36px;
-  padding-right: 14px;
+  padding-right: 35px;
   height: 34px;
   padding-bottom: 3px;
 }
@@ -1027,7 +1028,7 @@ body.showFullResults.top-down .top-down-wrapper{
 }
 .topdown-search-main-container .search-input-box .live_search_result_box .auto_query_box {
   border-bottom: 1px solid var(--sdk-border-porcelain-color);
-  padding: 1px 25px;
+  padding: 1px 7px;
   margin-bottom: 0px;
   z-index: 2;
   position: relative;
@@ -1225,7 +1226,7 @@ body.showFullResults.top-down .top-down-wrapper{
 .sdk-top-down-interface .templates-data .tile_with_header.recentText .tile-title{
   cursor: pointer;
   position: relative;
-  padding-right: 40px;
+  /* padding-right: 40px; */
 }
 .sdk-top-down-interface .templates-data .tile_with_header.recentText .tile-title .RecentIcon-topDown{
   vertical-align: middle;
@@ -1240,8 +1241,8 @@ sdk-top-down-interface .templates-data .tile_with_header.recentText{
 }
 .sdk-top-down-interface .templates-data .tile_with_header.recentText .recent-search-delete{
   position: absolute;
-  right: 15px;
-  top: 13px;
+  right: 0px;
+  top: 8px;
   cursor: pointer;
   width: 16px;
   height: 16px;
@@ -1364,7 +1365,7 @@ sdk-top-down-interface .templates-data .tile_with_header.recentText{
 }
 
 .topdown-search-main-container .search-input-box .frequently_searched_box .freq-data-p{
-  padding: 15px 9px;
+  padding: 10px 16px 10px;
   background: #fff;
 }
 
@@ -1373,7 +1374,7 @@ sdk-top-down-interface .templates-data .tile_with_header.recentText{
   display: none;
   }
   .topdown-search-main-container .search-input-box .live_search_result_box .data-container {
-    padding: 10px 26px 0px 37px;
+    padding: 10px 18px 0px;
     background: #fff;
     display: inline-block;
     width: 100%;
@@ -1675,7 +1676,7 @@ float: right;
 .sdk-top-down-interface .conversation-container .conversations{
   position: relative;
   top: 0;
-  height: 380px;
+  height: 360px;
   /* height: 480px; */
   overflow-x: hidden;
   background: var(--sdk-white-bg);
@@ -2393,8 +2394,10 @@ body.top-down .top-down-search-background-div .top-down-wrapper{
     left: 12px;
   }
 .top-down-search-background-div .search-bar .widget-icon{
-  bottom: 8px;
-  left: 22px;
+  bottom: 11px;
+  left: 14px;
+  width: 16px;
+  height: 16px;
 }
 
 

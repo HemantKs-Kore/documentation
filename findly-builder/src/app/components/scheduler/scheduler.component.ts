@@ -42,6 +42,9 @@ export class SchedulerComponent implements OnInit {
   minDate;
   recurringFrequency:boolean = false;
   isCustom: boolean = false;
+  timeZoneArray:Array<String>=['IST','EST','UTC'];
+  recurringFrequencyArray:Array<Object>=[{key:'Does not repeat',value:'Does not repeat'},{key:'Daily',value:'Daily'},{key:'Weekly',value:'Weekly'},{key:'Monthly',value:'Monthly'},{key:'Annually',value:'Annually'},{key:'Every weekday(Monday to Friday)',value:'Every weekday'},{key:'Custom...',value:'Custom'}];
+  repeatEveryArray:Array<String>=['Day','Week','Month','Year'];
   scheduledData:Object={};
   @Input() crwalObject: any;
   @Input() schedule: any;
