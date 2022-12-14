@@ -65,7 +65,7 @@ export class PresentableComponent implements OnInit {
     }    
   }
  /** Emited Value for Operation (Add/Delete)  */
- getrecord(recordData : any){
+ getRecord(recordData : any){
   let record = recordData.record;
   if((record?.fieldIds?.length > 0) || (record?.length>0)){
     let deleteData = {
@@ -94,7 +94,7 @@ export class PresentableComponent implements OnInit {
    
  }
  /**presentable sort */
- presentablesort(sortobj){
+ presentableSort(sortobj){
   console.log(sortobj);
   this.method_type='search'
   if(sortobj.componenttype=="datatable"){
@@ -130,7 +130,7 @@ export class PresentableComponent implements OnInit {
   // 
  }
  //**Presentable search function */
- presentablesearch(obj){
+ presentableSearch(obj){
   this.searchValue=obj.searchvalue;
   this.method_type='search';
   if(obj.componenttype=="datatable"){

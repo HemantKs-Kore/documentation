@@ -41,6 +41,7 @@ export class SpellCorrectionComponent implements OnInit {
   method_type='';
   spellcorrectdata: any = {};
   isLoading = false;
+  isaddLoading = false;
   @Input() selectedcomponent;
   constructor(
     public workflowService: WorkflowService,
@@ -111,7 +112,7 @@ export class SpellCorrectionComponent implements OnInit {
         }    
   }
   //** sort the data for spellcorrect data table and pop-up */
-  spellcorrectsort(sortobj) {
+  spellcorrectSort(sortobj) {
     console.log(sortobj);
     this.method_type='search'
     if (sortobj.componenttype == 'datatable') {
@@ -122,7 +123,7 @@ export class SpellCorrectionComponent implements OnInit {
   }
 
   //**spellcorrect search function */
-  spellcorrectsearch(obj) {
+  spellcorrectSearch(obj) {
     this.searchValue = obj.searchvalue;
     this.method_type='search';
     if (obj.componenttype == 'datatable') {
@@ -133,7 +134,7 @@ export class SpellCorrectionComponent implements OnInit {
   }
 
   //**presentable get page */
-  spellcorrectpage(pageinfo) {
+  spellcorrectPage(pageinfo) {
     this.page = pageinfo;
     this.getSpellcorrect(true);
   }
@@ -194,7 +195,7 @@ export class SpellCorrectionComponent implements OnInit {
   }
 
   /** Emited Value for Operation (Add/Delete)  */
-  getrecord(recordData: any) {
+  getRecord(recordData: any) {
     let record = recordData.record;
     if(record?.fieldIds?.length > 0 || (record?.length>0)){
       let deleteData = {
@@ -241,10 +242,12 @@ export class SpellCorrectionComponent implements OnInit {
   }
   /** Add to Prescentable */
   addRecords(addData) {
+    this.isaddLoading = true;
     this.service
       .invoke(addData.url, addData.quaryparms, addData.payload)
       .subscribe(
         (res) => {
+          this.isaddLoading = false;
           //this.getAllspellcorrectFields();
           this.getSpellcorrect(true);
           //this.getSpellcorrect(true);
@@ -257,7 +260,7 @@ export class SpellCorrectionComponent implements OnInit {
     //
   }
   //**Spell Correct Slider change update query pipeline */
-  sildervaluechanged(event) {
+  silderValuechanged(event) {
     const quaryparms: any = {
       indexPipelineId: this.workflowService.selectedIndexPipeline(),
       queryPipelineId: this.workflowService.selectedQueryPipeline()

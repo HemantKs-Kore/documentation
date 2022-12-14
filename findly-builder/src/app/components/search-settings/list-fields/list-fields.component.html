@@ -93,8 +93,7 @@
         <div class="title" id="sa_title">{{"fields_add_field" |translate}}</div>
         <div class="close_icon" id="sa_close_icon" (click)="closeModalPopup()"><img src="assets/icons/modal-close.svg"></div>
     </div>
-    <ng-container>
-        
+    <ng-container>        
             <div class="modal-body">
                 <app-search-filter (searchkey)="getsearchvalue($event,'addFieldModalPop')"></app-search-filter>
                 <div class="index-config-lang-table" id="sa_index_config_lang_table">

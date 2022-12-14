@@ -61,7 +61,7 @@ getQuerypipeline() {
 }
 
 //** Change in the Slider state to call put Query Pipeline */
-  sildervaluechanged(event){
+  silderValuechanged(event){
     console.log(event)
     const quaryparms:any={
       indexPipelineId:this.workflowService.selectedIndexPipeline(),
@@ -86,7 +86,7 @@ getQuerypipeline() {
   }
 
   //** Selecting the button of winning intent and calling the put query pipeline api */
-  selectradiobutton(type){
+  selectRadiobutton(type){
     const quaryparms:any={
       indexPipelineId:this.workflowService.selectedIndexPipeline(),
       queryPipelineId:this.workflowService.selectedQueryPipeline() ? this.workflowService.selectedQueryPipeline()._id : '',

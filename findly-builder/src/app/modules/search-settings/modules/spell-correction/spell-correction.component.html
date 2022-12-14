@@ -7,7 +7,7 @@
     <div class="landing-page-toggle" id="sa-landing-page-toggle">
         <label class="kr-sg-toggle with-label" id="kr-sg-toggle-with-label">
             <input type="checkbox" [checked]="spellcorrectdata?.settings?.spellCorrect?.enable" id="sa_checkbox_1"
-                (change)="sildervaluechanged($event)">
+                (change)="silderValuechanged($event)">
             <div class="slider" id="sa_slider_1">
                 <span class="no" id="sa_no_1">{{"search_settings_disable" |translate}}</span>
                 <span class="yes" id="sa_yes_1">{{"search_settings_enable"|translate}}</span>
@@ -87,11 +87,11 @@
     </div>
 
     <!-- <app-list-fields [tablefieldvalues]="spellcorrect" [popupfieldvalues]="nonspellcorrect" [maxpageno]="max_pageno"
-        (emitRecord)="getrecord($event)" (sort)="spellcorrectsort($event)" (searchModel)="spellcorrectsearch($event)"
-        (pageno)="spellcorrectpage($event)"></app-list-fields> -->
+        (emitRecord)="getRecord($event)" (sort)="spellcorrectSort($event)" (searchModel)="spellcorrectSearch($event)"
+        (pageno)="spellcorrectPage($event)"></app-list-fields> -->
     <app-list-fields [tablefieldvalues]="spellcorrect" [popupfieldvalues]="nonspellcorrect" [maxpageno]="max_pageno"
-        (emitRecord)="getrecord($event)" (sort)="spellcorrectsort($event)" (searchModel)="spellcorrectsearch($event)" 
-        [isLoading]="isLoading" (calladdApi)="getAddpopupspellcorrectionField($event)">
+        (emitRecord)="getRecord($event)" (sort)="spellcorrectSort($event)" (searchModel)="spellcorrectSearch($event)" 
+        [isLoading]="isLoading" (calladdApi)="getAddpopupspellcorrectionField($event)" [isaddLoading]="isaddLoading" >
     </app-list-fields>
 
 </div>
