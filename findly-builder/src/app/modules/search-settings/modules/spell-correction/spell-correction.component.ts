@@ -41,6 +41,7 @@ export class SpellCorrectionComponent implements OnInit {
   method_type='';
   spellcorrectdata: any = {};
   isLoading = false;
+  isaddLoading = false;
   @Input() selectedcomponent;
   constructor(
     public workflowService: WorkflowService,
@@ -241,10 +242,12 @@ export class SpellCorrectionComponent implements OnInit {
   }
   /** Add to Prescentable */
   addRecords(addData) {
+    this.isaddLoading = true;
     this.service
       .invoke(addData.url, addData.quaryparms, addData.payload)
       .subscribe(
         (res) => {
+          this.isaddLoading = false;
           //this.getAllspellcorrectFields();
           this.getSpellcorrect(true);
           //this.getSpellcorrect(true);

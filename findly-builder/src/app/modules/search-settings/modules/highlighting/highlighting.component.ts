@@ -41,6 +41,7 @@ export class HighlightingComponent implements OnInit {
    nonhighlight: any=[];
    method_type='';
    isLoading = false;
+   isaddLoading = false;
   constructor(
     public workflowService: WorkflowService,
     private appSelectionService: AppSelectionService,
@@ -276,7 +277,9 @@ export class HighlightingComponent implements OnInit {
  }
   /** Add to Highlight */
  addRecords(addData){
+  this.isaddLoading = true;
   this.service.invoke(addData.url,addData.quaryparms,addData.payload).subscribe(res => {
+    this.isaddLoading = false;
     //this.getAllHighlightFields();
     this.getHighlightFields(true);
     //this.getPresentableFields(false);
