@@ -380,18 +380,18 @@ export class SpellCorrectionComponent implements OnInit {
           },
         },
       };
-      this.service.invoke('put.queryPipeline', quaryparms, payload).subscribe(
-        (res) => {
-          this.spellcorrectdata.settings.spellCorrect.minCharThreshold =
-            res?.settings?.spellCorrect?.minCharThreshold;
-          if (this.min_threshold > 0) {
-            this.notificationService.notify('updated successfully', 'success');
+        this.service.invoke('put.queryPipeline', quaryparms, payload).subscribe(
+          (res) => {
+            this.spellcorrectdata.settings.spellCorrect.minCharThreshold =
+              res?.settings?.spellCorrect?.minCharThreshold;
+            if (this.min_threshold > 0) {
+              this.notificationService.notify('updated successfully', 'success');
+            }
+          },
+          (errRes) => {
+            this.notificationService.notify('Failed to update', 'error');
           }
-        },
-        (errRes) => {
-          this.notificationService.notify('Failed to update', 'error');
-        }
-      );
+        );      
     }
   }
   //** to increment the minimum character threshold value */
