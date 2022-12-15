@@ -5,23 +5,34 @@
     </div>
     <ng-container *ngIf="!loadingContent">
         <app-useronboarding-journey [componentType]='componentType'></app-useronboarding-journey>
-        <div class="header-sec-stopwords">
-            <div class="title">{{'weights_Weights'| translate}}
-                <span class="module-topic" tooltipClass="tooltip-global-" [container]="'body'" ngbTooltip="{{'sa_topic_guide'| translate}}"
- placement="right-center"(click)="openUserMetaTagsSlider()">
-                    <i class="si-topic-guide-1"></i>
-                </span>
+        <div class="weights-header">
+            <div class="header-sec-stopwords">
+                <div class="title">{{'weights_Weights'| translate}}
+                    <span class="module-topic" tooltipClass="tooltip-global-" [container]="'body'" ngbTooltip="{{'sa_topic_guide'| translate}}"
+     placement="right-center"(click)="openUserMetaTagsSlider()">
+                        <i class="si-topic-guide-1"></i>
+                    </span>
+                </div>
+                <div class="restore_text" *ngIf="weights.length">
+                    <div class="lable_text mr-3" id="btn_restoreWeight" (click)="restoreWeights();">
+                        <!-- <img src="assets/icons/return_black.svg"> -->
+                        <i class="si-re-fresh icon-refresh"></i>
+                        {{'weights_reset_to_default' | translate}}
+                    </div>
+                    <span class="clock_img d-none">
+                        <img src="assets/icons/clock.svg">
+                    </span>
+                    <div class="lable_text mr-4 add-searchable" id="btn_openWeight" (click)="openAddNewWeight()">
+                        <!-- <img src="assets/icons/editor/plus-add.svg" class="mr-2"> -->
+                        <i class="si-add-plus icon-add-plus"></i>
+                        {{'weights_add_searchable_field'| translate}}
+                    </div>
+                </div>
             </div>
-            <div class="restore_text" *ngIf="weights.length">
-                <span class="lable_text mr-2" id="btn_restoreWeight" (click)="restoreWeights();"><img
-                    src="assets/icons/return_black.svg">{{'weights_reset_to_default' | translate}}</span>
-            <span class="clock_img d-none"><img src="assets/icons/clock.svg"></span>
-                <span class="lable_text mr-4" id="btn_openWeight" (click)="openAddNewWeight()"><img
-                        src="assets/icons/editor/plus-add.svg" class="mr-2">{{'weights_add_searchable_field'|
-                    translate}}</span>
-            </div>
+            <div class="header-desc">Assign weights to the individual feilds to fine tune the search results. Fields assigned with higher weights are searched first relative to the fields with lower weights</div>
         </div>
-        <!-- DATA TABLE START HERE -->
+
+         <!-- DATA TABLE START HERE -->
         <div class="kr-sg-data-table mb-0">
             <section class="table-content">
                 <div class="table_header row m-0">
@@ -68,8 +79,10 @@
                             <div class="sliderVal">{{weightModal?.sliderObj.default}}</div>
                             <div class="action_links">
                                 <span class="actions-links" id="btn_deleteWeight" ngbTooltip='Delete'
-                                    [container]="'body'" (click)="deleteWeightPopUp(weightModal,$event,i)"><img
-                                    class="action_icon" src="assets/icons/delete.svg"></span>
+                                    [container]="'body'" (click)="deleteWeightPopUp(weightModal,$event,i)">
+                                    <!-- <img class="action_icon" src="assets/icons/delete.svg"> -->
+                                    <i class="si-delete1 icon-delete"></i>
+                                </span>
                             </div>
                         </div>
                     </div>
