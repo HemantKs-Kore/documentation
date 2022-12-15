@@ -617,35 +617,6 @@ faqData = [
 
    }]
 },
-// {
-//    display:"Actions",
-//    key:"actions",
-//    icon:"",
-//    childData:[
-//     {
-//        ques:"What are bot actions?",
-//        ans:"these are the answer",
-//        link:"https://docs.kore.ai/searchassist/concepts/managing-content/introduction-to-content-sources/"
-//     },
-//     {
-//       ques:"How to integrate a bot to SearchAssist as a content?",
-//       ans:"these are the answer",
-//       link:"https://docs.kore.ai/searchassist/concepts/managing-content/linking-your-virtual-assistant/"
-//    }
-//   ]
-// },
-// {
-//    display:"SmallTalk",
-//    key:"smallTalk",
-//    icon:"",
-//    childData:[{
-//        ques:"What are the Questions?",
-//        ans:"these are the answer",
-//        link:""
-
-//    }]
-// },
-
 {
    display:"Field Management",
    key:"FieldManagementComponent",
@@ -907,10 +878,7 @@ mediaObj:any = {};
       }
       else{
         this.showLoader = true;
-      } 
-      //this.topicGuideUrl = this.sanitizer.bypassSecurityTrustResourceUrl('https://sunilsi-kore.github.io/koredotai-docs/searchassist/topic-guide/en/latest/summary');
-      // this.topicGuideUrl=this.sanitizer.bypassSecurityTrustResourceUrl('https://koredotcom.github.io/koredotai-docs/platform/topic-guide/en/latest/No Bots Form?rnd=cd1at9')
-      //this.topicGuideUrl=this.sanitizer.bypassSecurityTrustResourceUrl('https://koredotcom.github.io/koredotai-docs/platform/topic-guide/en/latest/Dialog Tasks?rnd=cd1at9')
+      }      
       this.topicGuideObj.enableIframe =  true;
       this.topicGuideObj.selectedContent =  topicId;
     } else {
