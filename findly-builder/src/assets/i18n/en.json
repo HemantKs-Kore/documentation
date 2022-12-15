@@ -3652,5 +3652,24 @@
     "search_settings_empty_table_data":"No Fields available",
     "search_settings_empty_table_data_please_add_Fields":"Please add the fields",
     "search_settings_empty_custom_config":"No custom configuration available",
-    "search_settings_empty_custom_config_desc":"Please add the configurations key values"
+    "search_settings_empty_custom_config_desc":"Please add the configurations key values",
+
+
+    "weights_field_name":"FIELD NAME",
+    "weights_type":"TYPE",
+    "weights_weights_caps":"WEIGHTS",
+    "weights_please_add":"Add the Searchable Field to Add Weight to it.",
+
+    "stopwords_desc":"Enable stopwords to filter out the commonly used English words like 'a,' 'an,' 'the,' etc. from the user query before searching",
+    "stopwords_add_stop_words":"Add Stop Words",
+    "stopwords_How_would_you_like_to_start":"How would you like to start?",
+    "stopwords_Add_defaults":"Add default stop words",
+    "stopwords_Add_defaults_eg":"Eg: If, Me, I, Can, Not, Won’t etc..",
+    "stopwords_Remove_Default_Stop_Words":"Remove Defalut",
+    "stopwords_reset_to_default":"Reset To Defalut",
+    "stopwords_add_defalut":"Add Defalut",
+    "stopwords_clear_all":"Clear All",
+    "stopwords_Get_Started":"Get Started"
+    
+ 
 }

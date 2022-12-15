@@ -36,20 +36,10 @@
                                 <div class="col-1">
                                     <div class="action_links text-right">
                                         <!-- <span class="action_link-icon"> <i class="si-pencil-edit"  (click)="editLanguages(i)"></i> </span> -->
-                                        <span class="action_link-icon ml-3"> <i class="si-delete1" (click)="deleteLanguagesPop($event,list)"></i> </span>
+                                        <span class="action_link-icon ml-3"> <i  class="si-delete1" (click)="i===0?'':deleteLanguagesPop($event,list)"></i> </span>
                                     </div>
                                 </div>
                     </div>
-                    <!-- <div class="table_body row m-0">
-                                <div class="col-8 title text-left p-0" title=""> Korean </div>
-                                <div class="col-1 title text-left p-0"> ko </div>
-                                <div class="col-1">
-                                    <div class="action_links text-right">
-                                        <span class="action_link-icon"> <i class="si-pencil-edit"></i> </span>
-                                        <span class="action_link-icon ml-3"> <i class="si-delete1"></i> </span>
-                                    </div>
-                                </div>
-                    </div> -->
                 </perfect-scrollbar>
              <!-- List of Languages ends -->
             </div>
