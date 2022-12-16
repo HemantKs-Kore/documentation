@@ -65,13 +65,14 @@
                                                 class="list-name">{{'fields_all' | translate}} </span><img
                                                 [ngClass]="{'hide': filterSystem.typefilter !== 'all'}"
                                                 src="assets/icons/check-blue.svg"></li>
-                                        
-                                            <li *ngFor="let fieldDataType of fieldDataTypeArr"
-                                                (click)="sourceFilter.close();filterTable(fieldDataType,'fieldDataType')">
-                                                <span class="list-name">{{fieldDataType | translate}}</span><img
-                                                    [ngClass]="{'hide': filterSystem.typefilter !== fieldDataType}"
-                                                    src="assets/icons/check-blue.svg">
-                                            </li>
+                                            <div class="data-type-dropdown-scroll">
+                                                <li *ngFor="let fieldDataType of fieldDataTypeArr"
+                                                    (click)="sourceFilter.close();filterTable(fieldDataType,'fieldDataType')">
+                                                    <span class="list-name">{{fieldDataType | translate}}</span><img
+                                                        [ngClass]="{'hide': filterSystem.typefilter !== fieldDataType}"
+                                                        src="assets/icons/check-blue.svg">
+                                                </li>
+                                            </div>
                                     </ul>
                             </div>
                         </div>
@@ -91,18 +92,20 @@
                                     (click)="$event.stopImmediatePropagation()">
                                     <img class="custom-dropdown-toggle-icon" src="assets/icons/Fields_Vector.svg">
                                 </button>
-                                <ul class="dropdown-menu content-menu type_sort_dropdown-content" ngbDropdownMenu>
+                                <ul class="dropdown-menu data-type-dropdown content-menu type_sort_dropdown-content" ngbDropdownMenu>
                                     <li (click)="sourceFilter.close();filterTable('all','fieldDataType')"><span
                                             class="list-name">{{'sa_all' | translate}}</span><img
                                             [ngClass]="{'hide': filterSystem.typefilter !== 'all'}"
                                             src="assets/icons/check-blue.svg"></li>
-                                    <li *ngFor="let docType of isSearchableArr"
-                                        (click)="selectFilter.close();filterTable(docType,'isSearchable')">
-                                        <span class="list-name">{{docType == false ? 'No' :(docType == true? 'Yes':
-                                            '')}}</span><img
-                                            [ngClass]="{'hide': filterSystem.isSearchableFilter !== docType}"
-                                            src="assets/icons/check-blue.svg">
-                                    </li>
+                                    <div class="data-type-dropdown-scroll">
+                                        <li *ngFor="let docType of isSearchableArr"
+                                            (click)="selectFilter.close();filterTable(docType,'isSearchable')">
+                                            <span class="list-name">{{docType == false ? 'No' :(docType == true? 'Yes':
+                                                '')}}</span><img
+                                                [ngClass]="{'hide': filterSystem.isSearchableFilter !== docType}"
+                                                src="assets/icons/check-blue.svg">
+                                        </li>
+                                    </div>
                                 </ul>
                             </div>
                         </div>
@@ -122,11 +125,12 @@
                                     (click)="$event.stopImmediatePropagation()">
                                     <img class="custom-dropdown-toggle-icon" src="assets/icons/Fields_Vector.svg">
                                 </button>
-                                <ul class="dropdown-menu content-menu type_sort_dropdown-content" ngbDropdownMenu>
+                                <ul class="dropdown-menu data-type-dropdown content-menu type_sort_dropdown-content" ngbDropdownMenu>
                                     <li (click)="selectFilter.close();filterTable('all','isAutosuggest')"><span
                                             class="list-name">{{'fields_all' | translate}}</span><img
                                             [ngClass]="{'hide': filterSystem.isAutosuggestFilter !== 'all'}"
                                             src="assets/icons/check-blue.svg"></li>
+                                            <div class="data-type-dropdown-scroll">
                                     <li *ngFor="let docType of isAutosuggestArr"
                                         (click)="selectFilter.close();filterTable(docType,'isAutosuggest')">
                                         <span class="list-name">{{docType == false ? 'No' :(docType == true? 'Yes':
@@ -134,6 +138,7 @@
                                             [ngClass]="{'hide': filterSystem.isAutosuggestFilter !== docType}"
                                             src="assets/icons/check-blue.svg">
                                     </li>
+                                </div>
                                 </ul>
                             </div>
                         </div>
