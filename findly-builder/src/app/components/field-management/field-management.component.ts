@@ -660,17 +660,17 @@ export class FieldManagementComponent implements OnInit {
           return "display-none"
         }
       }
-      case "isSearchableFilter": {
-        if (this.selectedSort == sortingField) {
-          if (this.isAsc == false && type == 'down') {
-            return "display-block";
-          }
-          if (this.isAsc == true && type == 'up') {
-            return "display-block";
-          }
-          return "display-none"
-        }
-      }
+      // case "isSearchableFilter": {
+      //   if (this.selectedSort == sortingField) {
+      //     if (this.isAsc == false && type == 'down') {
+      //       return "display-block";
+      //     }
+      //     if (this.isAsc == true && type == 'up') {
+      //       return "display-block";
+      //     }
+      //     return "display-none"
+      //   }
+      // }
     }
   }
   compare(a: number | string, b: number | string, isAsc: boolean) {

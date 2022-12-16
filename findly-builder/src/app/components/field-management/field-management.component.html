@@ -84,8 +84,8 @@
                                 <img  [ngClass]="getSortIconVisibility('isSearchable', 'up')"  src="assets/icons/caretDown.svg" class="ml-1 sortImg upArrow">
                               </span>
                               {{'fields_searchable' | translate}}
-                              <span class="info-text-icon"  [container]="'body'" ngbTooltip='Text goes here' placement="bottom-left"><i class="si-info icon-info"></i></span>
-                            <div class="kr-sg-dropdowns type_sort_dropdown" #selectFilter="ngbDropdown" ngbDropdown [container]="'body'"
+                              <span class="info-text-icon" [container]="'body'" ngbTooltip='Text goes here' placement="bottom-left"><i class="si-info icon-info"></i></span>
+                            <div class="kr-sg-dropdowns type_sort_dropdown" #searchableFilter="ngbDropdown" ngbDropdown [container]="'body'"
                             [container]="'body'" [autoClose]="true" [placement]="'bottom-right'">
                             <div class="dropdown dropdown-open">
                                 <button class="dropdown-toggle dropdown-input" ngbDropdownToggle
@@ -93,24 +93,24 @@
                                     <img class="custom-dropdown-toggle-icon" src="assets/icons/Fields_Vector.svg">
                                 </button>
                                 <ul class="dropdown-menu data-type-dropdown content-menu type_sort_dropdown-content" ngbDropdownMenu>
-                                    <li (click)="sourceFilter.close();filterTable('all','fieldDataType')"><span
-                                            class="list-name">{{'sa_all' | translate}}</span><img
-                                            [ngClass]="{'hide': filterSystem.typefilter !== 'all'}"
+                                    <li (click)="searchableFilter.close();filterTable('all','isSearchable')"><span
+                                            class="list-name">{{'fields_all' | translate}}</span><img
+                                            [ngClass]="{'hide': filterSystem.isSearchableFilter !== 'all'}"
                                             src="assets/icons/check-blue.svg"></li>
-                                    <div class="data-type-dropdown-scroll">
-                                        <li *ngFor="let docType of isSearchableArr"
-                                            (click)="selectFilter.close();filterTable(docType,'isSearchable')">
-                                            <span class="list-name">{{docType == false ? 'No' :(docType == true? 'Yes':
-                                                '')}}</span><img
-                                                [ngClass]="{'hide': filterSystem.isSearchableFilter !== docType}"
-                                                src="assets/icons/check-blue.svg">
-                                        </li>
-                                    </div>
+                                            <div class="data-type-dropdown-scroll">
+                                    <li *ngFor="let docType of isSearchableArr"
+                                        (click)="searchableFilter.close();filterTable(docType,'isSearchable')">
+                                        <span class="list-name">{{docType == false ? 'No' :(docType == true? 'Yes':
+                                            '')}}</span><img
+                                            [ngClass]="{'hide': filterSystem.isSearchableFilter !== docType}"
+                                            src="assets/icons/check-blue.svg">
+                                    </li>
+                                </div>
                                 </ul>
                             </div>
                         </div>
+                        
                         </div>
-
                         <div class="col_  col-2 title d-flex align-items-center" (click)="sortByApi('isAutosuggest')">
                             <span class="d-flex align-items-center flex-column mr-1">
                                 <img [ngClass]="getSortIconVisibility('isAutosuggest', 'down')"  src="assets/icons/caretDown.svg" class="ml-1 sortImg downArrow">
