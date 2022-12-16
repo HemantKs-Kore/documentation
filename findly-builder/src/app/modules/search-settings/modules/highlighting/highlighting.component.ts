@@ -196,13 +196,13 @@ export class HighlightingComponent implements OnInit {
   //** open show more  container */
   openContainer(){
     this.more_options=true;
-    this.perfectScroll?.directiveRef.scrollTo(25,50,500)
+    this.perfectScroll?.directiveRef?.scrollTo(25,50,500)
   }
 
   //** close the  show more  container */
   closeContainer(){
     this.more_options=false;
-    this.perfectScroll?.directiveRef.scrollTo(25,50,500)
+    this.perfectScroll?.directiveRef?.scrollTo(25,50,500)
   }
 
   //** highlight appearance pre and post tag api call for binding pre and post tag*/
