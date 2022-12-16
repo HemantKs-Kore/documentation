@@ -33,6 +33,9 @@ export class WeightsComponent implements OnInit, OnDestroy
   sliderMin = 0;
   sliderMax = 10;
   currentEditIndex: any = -1
+  selectedSort = 'fieldName';
+  isAsc = true;
+  checksort='asc'
   fields: any = [];
   weightsList = [];
   fieldsList = [];
@@ -147,14 +150,13 @@ export class WeightsComponent implements OnInit, OnDestroy
   restore(dialogRef?)
   {
     const quaryparms: any = {
-      searchIndexID: this.serachIndexId,
+      streamId: this.selectedApp._id,
       queryPipelineId: this.queryPipelineId,
-      indexPipelineId: this.workflowService.selectedIndexPipeline() || ''
+      indexPipelineId: this.workflowService.selectedIndexPipeline() || '',
     };
-    this.service.invoke('post.restoreWeights', quaryparms).subscribe(res =>
+    this.service.invoke('put.restoreWeights', quaryparms).subscribe(res =>
     {
       this.notificationService.notify('Updated Successfully', 'success');
-      this.pipeline = res.pipeline || {};
       this.prepereWeights();
       if (dialogRef && dialogRef.close)
       {
@@ -203,6 +205,8 @@ export class WeightsComponent implements OnInit, OnDestroy
       streamId: this.selectedApp._id,
       queryPipelineId: this.queryPipelineId,
       indexPipelineId: this.workflowService.selectedIndexPipeline() || '',
+      sortField:this.selectedSort?this.selectedSort:'filedName',
+      orderType:this.checksort?this.checksort:'asc',
       // pageNo: 1,
       // pageNo: this.pageNumber, 
       // noOfRecords: 10,
@@ -461,6 +465,63 @@ export class WeightsComponent implements OnInit, OnDestroy
       $('#searchBoxIdW')[0].value = "";
       this.search_FieldName = '';
     }
+  }
+sortByApi(sort){
+  this.selectedSort = sort;
+  if (this.selectedSort !== sort) {
+    this.isAsc = true;
+  } else {
+    this.isAsc = !this.isAsc;
+  }
+  let naviagtionArrow ='';
+  //var checkSortValue= 1;
+  if(this.isAsc){
+    naviagtionArrow= 'up';
+    this.checksort='asc'
+  }
+  else{
+    naviagtionArrow ='down';
+    //checkSortValue = -1;
+    this.checksort='desc'
+  }
+  this.getWeights();
+}
+getSortIconVisibility(sortingField: string, type: string,component: string) {
+      switch (this.selectedSort) {
+        case "fieldName": {
+          if (this.selectedSort == sortingField) {
+            if (this.isAsc == false && type == 'down') {
+              return "display-block";
+            }
+            if (this.isAsc == true && type == 'up') {
+              return "display-block";
+            }
+            return "display-none"
+          }
+        }
+        case "fieldDataType": {
+          if (this.selectedSort == sortingField) {
+            if (this.isAsc == false && type == 'down') {
+              return "display-block";
+            }
+            if (this.isAsc == true && type == 'up') {
+              return "display-block";
+            }
+            return "display-none"
+          }
+        }
+        case "weight.value": {
+          if (this.selectedSort == sortingField) {
+            if (this.isAsc == false && type == 'down') {
+              return "display-block";
+            }
+            if (this.isAsc == true && type == 'up') {
+              return "display-block";
+            }
+            return "display-none"
+          }
+        }
+      }
   }
   openUserMetaTagsSlider() {
     this.appSelectionService.topicGuideShow.next();

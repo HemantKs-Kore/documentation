@@ -34,7 +34,7 @@
                                 <div class="col-8 title text-left p-0">  {{list.language}} </div>
                                 <div class="col-1 title text-left p-0"> {{list.languageCode}}  </div>
                                 <div class="col-1">
-                                    <div class="action_links text-right">
+                                    <div *ngIf="i>0" class="action_links text-right">
                                         <!-- <span class="action_link-icon"> <i class="si-pencil-edit"  (click)="editLanguages(i)"></i> </span> -->
                                         <span class="action_link-icon ml-3"> <i  class="si-delete1" (click)="i===0?'':deleteLanguagesPop($event,list)"></i> </span>
                                     </div>

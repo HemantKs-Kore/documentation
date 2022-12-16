@@ -250,7 +250,7 @@
                                         align-items: center;
                                         flex-direction: revert;
                                         flex-wrap: wrap;
-                                        gap: 10px;
+                                        // gap: 10px;
                                         .synonym-type-list-name{
                                             background: #EFF0F1;
                                             color: #202124;
@@ -305,6 +305,10 @@
                                         font-size: 12px;
                                         font-weight: 500;
                                         line-height: inherit;
+                                    }
+                                    .si-green-check{
+                                        color: #0D6EFD;
+                                        font-weight: 400;
                                     }
                                 }
                                 .field-edit-mode{
