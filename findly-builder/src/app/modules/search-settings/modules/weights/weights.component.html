@@ -36,24 +36,24 @@
         <div class="kr-sg-data-table mb-0">
             <section class="table-content">
                 <div class="table_header row m-0">
-                    <div class="col_ col-4 title d-flex align-items-center justify-content-start">
-                        <span (click)="sortValues('fieldName')" class="d-flex align-items-center flex-column mr-2 filter-sort">
-                            <i class="si-chev-up icon-up"></i>
-                            <i class="si-chev-down icon-down"></i>
+                    <div class="col_ col-4 title d-flex align-items-center justify-content-start" (click)="sortByApi('fieldName')">
+                        <span  class="d-flex align-items-center flex-column mr-2 filter-sort">
+                            <i [ngClass]="getSortIconVisibility('fieldName', 'down')"  class="si-chev-up icon-up"></i>
+                            <i [ngClass]="getSortIconVisibility('fieldName', 'up')"  class="si-chev-down icon-down"></i>
                         </span>
                         {{"weights_field_name" | translate}}
                     </div>
-                    <div class="col_ col-4 title d-flex align-items-center justify-content-start">
+                    <div class="col_ col-4 title d-flex align-items-center justify-content-start" (click)="sortByApi('fieldDataType')">
                         <span class="d-flex align-items-center flex-column mr-2 filter-sort">
-                            <i class="si-chev-up icon-up"></i>
-                            <i class="si-chev-down icon-down"></i>
+                            <i  [ngClass]="getSortIconVisibility('fieldDataType', 'down')" class="si-chev-up icon-up"></i>
+                            <i  [ngClass]="getSortIconVisibility('fieldDataType', 'up')" class="si-chev-down icon-down"></i>
                         </span>
                         {{"weights_type" | translate}} 
                     </div>
-                    <div class="col_ col-4 title d-flex align-items-center justify-content-start">
-                        <span class="d-flex align-items-center flex-column mr-2 filter-sort">
-                            <i (click)="sortValues('dsc')" class="si-chev-up icon-up"></i>
-                            <i (click)="sortValues('asc')" class="si-chev-down icon-down"></i>
+                    <div class="col_ col-4 title d-flex align-items-center justify-content-start" (click)="sortByApi('weight.value')">
+                        <span class="d-flex align-items-center flex-column mr-2 filter-sort" >
+                            <i [ngClass]="getSortIconVisibility('weight.value', 'down')" class="si-chev-up icon-up"></i>
+                            <i [ngClass]="getSortIconVisibility('weight.value', 'up')" class="si-chev-down icon-down"></i>
                         </span>
                         {{"weights_weights_caps" | translate}} 
                     </div>

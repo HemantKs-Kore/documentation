@@ -5,11 +5,11 @@
       <div class="widget-header">Synonyms</div>
       <div class="widget-desc">Add synonyms to expand the search queries to retrieve better search results</div>
     </div>
-    <div class="landing-page-search" *ngIf="false">
+    <div class="landing-page-search" *ngIf="true">
       <div class="kr-sg-input-text m-0">
         <input type="text" maxlength="60" placeholder="Search" id="inputSearch" class="input-search"
-          [ngClass]="{'pl-33':!synonymSearch,'pl-2':synonymSearch}" autocomplete="off" [(ngModel)]="synonymSearch"
-          (keyup)="getSynonymsApi(synonymSearch, 'search')"
+          [ngClass]="{'pl-33':!synonymSearch,'pl-2':synonymSearch}" autocomplete="off"  [(ngModel)]="synonymSearch"
+          (keyup)="searchSynonymns();displaySearch"
           (mouseover)="searchImgSrc = (searchFocusIn ? 'assets/icons/search_gray.svg' :'assets/icons/search_gray_dark.svg')"
           (mouseout)="searchFocusIn=false;searchImgSrc = 'assets/icons/search_gray.svg'"
           (focus)="searchFocusIn=true;searchImgSrc = 'assets/icons/search_gray.svg'">
@@ -82,18 +82,42 @@
       <div class="table_data_content col-12">
         <div class="table_header row m-0">
           <div class="col_ col-8 title d-flex align-items-center justify-content-start">
-            <span class="d-flex align-items-center flex-column mr-2 filter-sort">
-              <i class="si-chev-up icon-up"></i>
-              <i class="si-chev-down icon-down"></i>
-            </span>
             TERMS
           </div>
-          <div class="col_ col-2 title d-flex align-items-center justify-content-start">
+          <div class="col_ col-2 title d-flex align-items-center justify-content-start" (click)="sortByApi('type')">
             <span class="d-flex align-items-center flex-column mr-2 filter-sort">
-              <i class="si-chev-up icon-up"></i>
-              <i class="si-chev-down icon-down"></i>
+              <i  [ngClass]="getSortIconVisibility('type', 'down')" class="si-chev-up icon-up"></i>
+              <i  [ngClass]="getSortIconVisibility('type', 'up')" class="si-chev-down icon-down"></i>
             </span>
             TYPE
+            <div class="kr-sg-dropdowns type_sort_dropdown" #synonymFilter="ngbDropdown" ngbDropdown [container]="'body'"
+            [autoClose]="true" [placement]="'bottom-right'">
+            <div class="dropdown dropdown-open">
+                <button class="dropdown-toggle dropdown-input" ngbDropdownToggle
+                    (click)="$event.stopImmediatePropagation()">
+
+                    <img class="custom-dropdown-toggle-icon" src="assets/icons/Fields_Vector.svg">
+                </button>
+                
+                    <ul class="dropdown-menu data-type-dropdown content-menu type_sort_dropdown-content" ngbDropdownMenu>
+                        <li [ngClass]="{'selected-list': filterSystem.typefilter == 'all'}" (click)="filterTable('all');synonymFilter.close()"><span
+                                class="list-name">{{'fields_all' | translate}} </span><img
+                                [ngClass]="{'hide': filterSystem.typefilter !== 'all'}"
+                                src="assets/icons/check-blue.svg"></li>
+                        
+                            <li [ngClass]="{'selected-list': filterSystem.typefilter == type}"  (click)="filterTable(type,'synonym');synonymFilter.close()">
+                                <span class="list-name">Synonym</span><img
+                                [ngClass]="{'hide': filterSystem.typefilter !== type}"
+                                    src="assets/icons/check-blue.svg">
+                            </li>
+                            <li [ngClass]="{'selected-list': filterSystem.typefilter == type}"  (click)="filterTable(type,'oneWaySynonym');synonymFilter.close()">
+                                <span class="list-name">One Way Synonym</span><img
+                                [ngClass]="{'hide': filterSystem.typefilter !== type}"
+                                    src="assets/icons/check-blue.svg">
+                            </li>
+                    </ul>
+            </div>
+        </div>
           </div>
           <div class="col_ col-2 title d-flex align-items-center justify-content-start">
             ACTION

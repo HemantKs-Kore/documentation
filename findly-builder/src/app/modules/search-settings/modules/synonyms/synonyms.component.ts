@@ -26,6 +26,7 @@ export class SynonymsComponent implements OnInit, OnDestroy {
   synonymSearch: any = '';
   showSearch = false;
   synonyms: any = [];
+  synonymDropdownTypeArr:any = [];
   serachIndexId
   loadingContent = true;
   skip=0;
@@ -40,7 +41,6 @@ export class SynonymsComponent implements OnInit, OnDestroy {
   synonymData: any[] = [];
   synonymDuplicateData: Array<Object>=[];
   synonymArr :any=[];
-  synonymTypeArr=[];
   synonymTypeArr$: Observable<any[]>;
   synonymGet: any = [];
   visible = true;
@@ -52,7 +52,11 @@ export class SynonymsComponent implements OnInit, OnDestroy {
   // showSynonym:boolean
   indexPipelineId;
   isAsc = true;
-  selectedSort = '';
+  selectedSort = 'type';
+  checksort = 'asc';
+  searchKeyword:any;
+  filterType:any ='';
+  displaySearch:boolean=false;
   newSynonymObj: any = {
     type: 'synonym',
     addNew: false,
@@ -214,98 +218,8 @@ export class SynonymsComponent implements OnInit, OnDestroy {
     });
 
   }
-
-  filterTable(source, headerOption) {
-    switch (headerOption) {
-      case 'type': { this.filterSystem.typefilter = source; break; };
-    };
-    this.filterObject = {
-      type: source,
-      header: headerOption
-    }
-
-    this.synonymFilter(null,null,source, headerOption);
-  }
-  synonymFilter(searchValue?,searchSource?, source?,headerOption?, sortHeaderOption?,sortValue?,navigate?){
-    // fieldsFilter(searchValue?,searchSource?, source?,headerOption?, sortHeaderOption?,sortValue?,navigate?)
-    // this.loadingContent = true;
-    if(sortValue){
-      this.sortedObject = {
-        type : sortHeaderOption,
-        value : sortValue,
-        position: navigate
-      }
-    }
-
-    const quaryparms: any = {
-      searchIndexID: this.serachIndexId,
-      indexPipelineId: this.workflowService.selectedIndexPipeline() || '',
-      queryPipelineId: this.workflowService.selectedQueryPipeline()._id,
-      offset: 0,
-      limit: 10
-    };
-    let request:any={}
-    if(!sortValue){
-      request = {
-        "sort":{
-          'type':1
-        }
-    }
-    }
-    else if(sortValue){
-      const sort :any ={}
-      request= {
-        sort
-      }
-    }
-    else {
-    request={}
-    }
-
-    request.type = this.filterSystem.typefilter;
-    request.search= this.synonymSearch;
-    if (request.type == 'all') {
-     delete  request.type;
-    }
-    if (this.synonymSearch === '') {
-     delete request.search;
-    }
-    if(sortValue){
-      this.getSortIconVisibility(sortHeaderOption,navigate);
-       //Sort start
-       if(sortHeaderOption === 'name' ){
-        request.sort.name = sortValue
-      }
-      if (sortHeaderOption === 'type') {
-        request.sort.type = sortValue
-      }
-    // end
-    }
-    this.getSynonymsApi(searchValue,searchSource, source,headerOption, sortHeaderOption,sortValue,navigate,request);
-  }
-
-  sortByApi(sort){
-    this.selectedSort = sort;
-    if (this.selectedSort !== sort) {
-      this.isAsc = true;
-    } else {
-      this.isAsc = !this.isAsc;
-    }
-    var naviagtionArrow ='';
-    var checkSortValue= 1;
-    if(this.isAsc){
-      naviagtionArrow= 'up';
-      checkSortValue = 1;
-    }
-    else{
-      naviagtionArrow ='down';
-      checkSortValue = -1;
-    }
-    this.synonymFilter(null,null,null,null,sort,checkSortValue,naviagtionArrow)
-  }
   paginate(event) {
     this.skip= event.skip
-     this.synonymFilter(this.synonymSearch,'search',this.filterObject.type,this.filterObject.header,this.sortedObject.type,this.sortedObject.value,this.sortedObject.position)
     // this.getFileds(event.skip, this.searchFields)
 
   }
@@ -334,33 +248,6 @@ export class SynonymsComponent implements OnInit, OnDestroy {
       synonyms[i].values.splice(index, 1);
     }
   }
-  getSortIconVisibility(sortingField: string, type: string) {
-    switch (this.selectedSort) {
-      case "name": {
-        if (this.selectedSort == sortingField) {
-          if (this.isAsc == false && type == 'down') {
-            return "display-block";
-          }
-          if (this.isAsc == true && type == 'up') {
-            return "display-block";
-          }
-          return "display-none"
-        }
-      }
-      case "type": {
-        if (this.selectedSort == sortingField) {
-          if (this.isAsc == false && type == 'down') {
-            return "display-block";
-          }
-          if (this.isAsc == true && type == 'up') {
-            return "display-block";
-          }
-          return "display-none"
-        }
-      }
-    }
-  }
-
   compare(a: number | string, b: number | string, isAsc: boolean) {
     return (a < b ? -1 : 1) * (isAsc ? 1 : -1);
   }
@@ -431,7 +318,10 @@ export class SynonymsComponent implements OnInit, OnDestroy {
       queryPipelineId: this.queryPipelineId,
       indexPipelineId: this.workflowService.selectedIndexPipeline() || '',
       code:'en',
-
+      sortField:this.selectedSort?this.selectedSort:'type',
+      orderType:this.checksort?this.checksort:'asc',
+      searchKey:this.searchKeyword?this.searchKeyword:'',
+      synonymType:this.filterType?this.filterType:''
     };
     this.service.invoke('get.synonyms', quaryparms).subscribe(res => {
       if(res && res.data){
@@ -442,6 +332,10 @@ export class SynonymsComponent implements OnInit, OnDestroy {
       this.loadingContent = false;
       this.errorToaster(errRes, 'Failed to get Synonyms');
     });
+  }
+  searchSynonymns(){
+      this.searchKeyword = this.synonymSearch
+      this.getSynonyms();
   }
   validateSynonyms() {
     if (!this.addNewSynonymObj || (this.addNewSynonymObj.synonyms && !this.addNewSynonymObj.synonyms.length)) {
@@ -592,12 +486,55 @@ addEditedSynonym(synonymn){
   else {
     this.addOrUpddate(synonymn,'edit');
   }
- }
-
+}
 cancelEdit(index) {
   this.editIndex = null;
   this.getSynonyms()
   // this.editSynonymObj = this.synonymData[index]
+}
+sortByApi(sort){
+  this.selectedSort = sort;
+  if (this.selectedSort !== sort) {
+    this.isAsc = true;
+  } else {
+    this.isAsc = !this.isAsc;
+  }
+  let naviagtionArrow ='';
+  if(this.isAsc){
+    naviagtionArrow= 'up';
+    this.checksort='asc'
+  }
+  else{
+    naviagtionArrow ='down';
+    this.checksort='desc'
+  }
+  this.getSynonyms();
+}
+getSortIconVisibility(sortingField: string, type: string,component: string) {
+      switch (this.selectedSort) {
+        case "type": {
+          if (this.selectedSort == sortingField) {
+            if (this.isAsc == false && type == 'down') {
+              return "display-block";
+            }
+            if (this.isAsc == true && type == 'up') {
+              return "display-block";
+            }
+            return "display-none"
+          }
+        }
+      }
+}
+filterTable(source, headerOption) {
+  switch (headerOption) {
+    case 'type': { this.filterSystem.typefilter = source; break; };
+  };
+  this.filterObject = {
+    type: source,
+    header: headerOption
+  }
+  this.filterType = headerOption
+  this.getSynonyms ()
 }
 ngOnDestroy() {
   this.subscription ? this.subscription.unsubscribe() : false;

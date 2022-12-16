@@ -1387,7 +1387,7 @@ export class EndPointsService {
     //API request for getting List of Weights 
     this.serviceList['get.weightsList'] = {
       // endpoint: this.API_SERVER_URL +'/findly/stream/:streamId/indexPipeline/:indexPipelineId/queryPipeline/:queryPipelineId/weights?page=:pageNo&limit=:noOfRecords&isSelected=:isSelected',
-      endpoint: this.API_SERVER_URL +'/findly/stream/:streamId/indexPipeline/:indexPipelineId/queryPipeline/:queryPipelineId/weights?isSelected=:isSelected',
+      endpoint: this.API_SERVER_URL +'/findly/stream/:streamId/indexPipeline/:indexPipelineId/queryPipeline/:queryPipelineId/weights?isSelected=:isSelected&orderBy=:orderType&sortBy=:sortField',
       method: 'get'
     }
     this.serviceList['get.sortWeightsList'] = {
@@ -1435,7 +1435,7 @@ export class EndPointsService {
 
     //Api for getting synonyms List
     this.serviceList['get.synonyms'] = {
-      endpoint: this.API_SERVER_URL +'/findly/stream/:streamId/indexPipeline/:indexPipelineId/queryPipeline/:queryPipelineId/synonyms?languageCode=:code',
+      endpoint: this.API_SERVER_URL +'/findly/stream/:streamId/indexPipeline/:indexPipelineId/queryPipeline/:queryPipelineId/synonyms?languageCode=:code&orderBy=:orderType&sortBy=:sortField&type=:synonymType&search=:searchKey',
       method: 'get'
     }
     //Apis for Synonyms module starts
