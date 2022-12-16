@@ -150,14 +150,13 @@ export class WeightsComponent implements OnInit, OnDestroy
   restore(dialogRef?)
   {
     const quaryparms: any = {
-      searchIndexID: this.serachIndexId,
+      streamId: this.selectedApp._id,
       queryPipelineId: this.queryPipelineId,
-      indexPipelineId: this.workflowService.selectedIndexPipeline() || ''
+      indexPipelineId: this.workflowService.selectedIndexPipeline() || '',
     };
-    this.service.invoke('post.restoreWeights', quaryparms).subscribe(res =>
+    this.service.invoke('put.restoreWeights', quaryparms).subscribe(res =>
     {
       this.notificationService.notify('Updated Successfully', 'success');
-      this.pipeline = res.pipeline || {};
       this.prepereWeights();
       if (dialogRef && dialogRef.close)
       {

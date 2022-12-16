@@ -1410,8 +1410,13 @@ export class EndPointsService {
       endpoint: this.API_SERVER_URL +'/findly/stream/:streamId/indexPipeline/:indexPipelineId/queryPipeline/:queryPipelineId/weights/field/:fieldId',
       method: 'delete'
     }
-
-    ////Apis for Weights module starts ends
+    // API Reset Weights List
+    this.serviceList['put.restoreWeights'] = {
+      // endpoint: this.API_SERVER_URL + '/findly/:searchIndexID/queryPipeline/:queryPipelineId/setDefaults?stage=weights',
+      endpoint: this.API_SERVER_URL + '/findly/stream/:streamId/indexPipeline/:indexPipelineId/queryPipeline/:queryPipelineId/weights/setDefault',
+      method: 'put'
+    }
+    ////Apis for Weights module  ends
 
     //Apis for Stop Words module starts
     
