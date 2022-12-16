@@ -45,7 +45,7 @@
             [ngModelOptions]="{standalone: true}" placeholder="Search Term" required class="input-text">
         </div>
       </div>
-      <div class="form-chip-set-synonym col-7 pr-0" [ngClass]="{'col-10': addNewSynonymObj.type === 'synonym'}">
+      <div class="form-chip-set-synonym col-7 pr-0 pl-0" [ngClass]="{'col-10': addNewSynonymObj.type === 'synonym'}">
         <div class="tags">
           <div class="chip-sys-data">
             <mat-form-field class="example-chip-list"
@@ -107,10 +107,11 @@
                 <div class="synonym-view-data row col-12 p-0 m-0">
                   <div class="synonym-name col-3 p-0" *ngIf="synonymObj.type == 'oneWaySynonym'">{{synonymObj.keyword}}</div>
                   <i *ngIf="synonymObj.type === 'oneWaySynonym'" class="si-right-arrow-large arrow_divider"></i>
-                  <div class="synonym-type-list col-8 p-0">
-                    <div *ngFor="let synonym of synonymObj.synonyms;let synIndex = index" ><span  class="synonym-type-list-name">{{synonym}}</span>
-                      <span *ngIf="(synonymObj.type == 'oneWaySynonym') && (synIndex<synonymObj.synonyms.length-1)" class="synonym-type-list-and-or">OR</span>
-                      <i *ngIf="(synonymObj.type !== 'oneWaySynonym') && (synIndex<synonymObj.synonyms.length-1)" class="si-arrow-two-way arrow_divider"></i>
+                  <div class="synonym-type-list p-0">
+                    <div class="d-flex align-items-center" *ngFor="let synonym of synonymObj.synonyms;let synIndex = index" >
+                      <div  class="synonym-type-list-name">{{synonym}}</div>
+                      <div *ngIf="(synonymObj.type == 'oneWaySynonym') && (synIndex<synonymObj.synonyms.length-1)" class="synonym-type-list-and-or">OR</div>
+                      <div class="icon-one-or-two-way"><i *ngIf="(synonymObj.type !== 'oneWaySynonym') && (synIndex<synonymObj.synonyms.length-1)" class="si-arrow-two-way arrow_divider"></i></div>
                     </div>           
                   </div>
                 </div>
