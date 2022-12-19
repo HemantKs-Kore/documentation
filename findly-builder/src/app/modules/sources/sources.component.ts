@@ -907,7 +907,7 @@ export class SourcesComponent implements OnInit {
         }
       } else {
         $('#sourceFileUploader').val(null);
-        this.notificationService.notify('Please select a valid file', 'error');
+        this.notificationService.notify(element.fileName +' is not a supported file format', 'error');
         showProg = false;
       }
     } else if (
@@ -922,7 +922,7 @@ export class SourcesComponent implements OnInit {
         showProg = true;
       } else {
         $('#sourceFileUploader').val(null);
-        this.notificationService.notify('Please select a valid file', 'error');
+        this.notificationService.notify(element.fileName +' is not a supported file format', 'error');
         // this.multipleFileArr
         // return;
       }

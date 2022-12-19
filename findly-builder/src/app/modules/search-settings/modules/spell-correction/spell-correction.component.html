@@ -7,7 +7,7 @@
     <div class="landing-page-toggle" id="sa-landing-page-toggle">
         <label class="kr-sg-toggle with-label" id="kr-sg-toggle-with-label">
             <input type="checkbox" [checked]="spellcorrectdata?.settings?.spellCorrect?.enable" id="sa_checkbox_1"
-                (change)="sildervaluechanged($event)">
+                (change)="silderValuechanged($event)">
             <div class="slider" id="sa_slider_1">
                 <span class="no" id="sa_no_1">{{"search_settings_disable" |translate}}</span>
                 <span class="yes" id="sa_yes_1">{{"search_settings_enable"|translate}}</span>
@@ -27,9 +27,9 @@
                 <div class="toggle-block-header width-55">
                     <div class="toggle-block-desc">{{"search_settings_set_value_minimum_no_of_char" |translate}}</div>
                 </div>
-                <div class="toggle-count-btn width-15">
+                <div class="toggle-count-btn width-15"> 
 
-                    <div class="toggle-count-sub" (click)="mindecrementValue(spellcorrectdata?.settings?.spellCorrect?.minCharThreshold)">-
+                    <div class="toggle-count-sub" [ngClass]="{'disableminus':spellcorrectdata?.settings?.spellCorrect?.minCharThreshold<=0}"  (click)="mindecrementValue(spellcorrectdata?.settings?.spellCorrect?.minCharThreshold)">-
                     </div>
                     <div class="toggle-count-num">{{spellcorrectdata?.settings?.spellCorrect?.minCharThreshold}}</div>
                     <div class="toggle-count-add" (click)="minincrementValue(spellcorrectdata?.settings?.spellCorrect?.minCharThreshold)">+
@@ -37,7 +37,7 @@
                 </div>
             </div>
 
-            <div class="text-note-warning">
+            <div class="text-note-warning" *ngIf="spellcorrectdata?.settings?.spellCorrect?.minCharThreshold<=2">
                 <span class="warning-icon-span"><i class="si-warning"></i></span>
                 {{"search_setting_small_value_min_no_of_char" |translate}}
             </div>
@@ -57,7 +57,7 @@
                 </div>
 
                 <div class="toggle-count-btn width-15">
-                    <div class="toggle-count-sub" (click)="maxdecrementValue(spellcorrectdata?.settings?.spellCorrect?.maxTypoEdits)">-</div>
+                    <div class="toggle-count-sub" [ngClass]="{'disableminus':spellcorrectdata?.settings?.spellCorrect?.maxTypoEdits<=0}" (click)="maxdecrementValue(spellcorrectdata?.settings?.spellCorrect?.maxTypoEdits)">-</div>
                     <div class="toggle-count-num">{{spellcorrectdata?.settings?.spellCorrect?.maxTypoEdits}}</div>
                     <div class="toggle-count-add" (click)="maxincrementValue(spellcorrectdata?.settings?.spellCorrect?.maxTypoEdits)">+</div>
                 </div>
@@ -87,11 +87,11 @@
     </div>
 
     <!-- <app-list-fields [tablefieldvalues]="spellcorrect" [popupfieldvalues]="nonspellcorrect" [maxpageno]="max_pageno"
-        (emitRecord)="getrecord($event)" (sort)="spellcorrectsort($event)" (searchModel)="spellcorrectsearch($event)"
-        (pageno)="spellcorrectpage($event)"></app-list-fields> -->
+        (emitRecord)="getRecord($event)" (sort)="spellcorrectSort($event)" (searchModel)="spellcorrectSearch($event)"
+        (pageno)="spellcorrectPage($event)"></app-list-fields> -->
     <app-list-fields [tablefieldvalues]="spellcorrect" [popupfieldvalues]="nonspellcorrect" [maxpageno]="max_pageno"
-        (emitRecord)="getrecord($event)" (sort)="spellcorrectsort($event)" (searchModel)="spellcorrectsearch($event)" 
-        [isLoading]="isLoading" (calladdApi)="getAddpopupspellcorrectionField($event)">
+        (emitRecord)="getRecord($event)" (sort)="spellcorrectSort($event)" (searchModel)="spellcorrectSearch($event)" 
+        [isLoading]="isLoading" (calladdApi)="getAddpopupspellcorrectionField($event)" [isaddLoading]="isaddLoading" >
     </app-list-fields>
 
 </div>

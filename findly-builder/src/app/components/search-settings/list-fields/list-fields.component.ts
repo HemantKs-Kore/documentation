@@ -217,7 +217,9 @@ export class ListFieldsComponent implements OnInit {
       type : 'add'
     });
     if(arrayId.length){
-      this.closeModalPopup();
+      setTimeout(() => {
+        this.closeModalPopup();
+      }, 300);      
     }    
   }
   //** for selecting and de selecting the checkboxes*/

@@ -1387,12 +1387,17 @@ export class EndPointsService {
     //API request for getting List of Weights 
     this.serviceList['get.weightsList'] = {
       // endpoint: this.API_SERVER_URL +'/findly/stream/:streamId/indexPipeline/:indexPipelineId/queryPipeline/:queryPipelineId/weights?page=:pageNo&limit=:noOfRecords&isSelected=:isSelected',
-      endpoint: this.API_SERVER_URL +'/findly/stream/:streamId/indexPipeline/:indexPipelineId/queryPipeline/:queryPipelineId/weights?isSelected=:isSelected',
+      endpoint: this.API_SERVER_URL +'/findly/stream/:streamId/indexPipeline/:indexPipelineId/queryPipeline/:queryPipelineId/weights?isSelected=:isSelected&orderBy=:orderType&sortBy=:sortField',
+      method: 'get'
+    }
+    this.serviceList['get.sortWeightsList'] = {
+      // endpoint: this.API_SERVER_URL +'/findly/stream/:streamId/indexPipeline/:indexPipelineId/queryPipeline/:queryPipelineId/weights?page=:pageNo&limit=:noOfRecords&isSelected=:isSelected',
+      endpoint: this.API_SERVER_URL +'/findly/stream/:streamId/indexPipeline/:indexPipelineId/queryPipeline/:queryPipelineId/weights?isSelected=:isSelected&orderBy=:orderBy&sortBy=:sortBy',
       method: 'get'
     }
      //API request for getting List of Searchable fields
     this.serviceList['get.fieldsList'] = {
-      endpoint: this.API_SERVER_URL +'/findly/stream/:streamId/indexPipeline/:indexPipelineId/queryPipeline/:queryPipelineId/weights?isSelected=:isSelected&isSearchable:isSearchable',
+      endpoint: this.API_SERVER_URL +'/findly/stream/:streamId/indexPipeline/:indexPipelineId/queryPipeline/:queryPipelineId/weights?isSelected=:isSelected&isSearchable=:isSearchable',
       method: 'get'
     }
     //API request for updating  Weight
@@ -1405,8 +1410,13 @@ export class EndPointsService {
       endpoint: this.API_SERVER_URL +'/findly/stream/:streamId/indexPipeline/:indexPipelineId/queryPipeline/:queryPipelineId/weights/field/:fieldId',
       method: 'delete'
     }
-
-    ////Apis for Weights module starts ends
+    // API Reset Weights List
+    this.serviceList['put.restoreWeights'] = {
+      // endpoint: this.API_SERVER_URL + '/findly/:searchIndexID/queryPipeline/:queryPipelineId/setDefaults?stage=weights',
+      endpoint: this.API_SERVER_URL + '/findly/stream/:streamId/indexPipeline/:indexPipelineId/queryPipeline/:queryPipelineId/weights/setDefault',
+      method: 'put'
+    }
+    ////Apis for Weights module  ends
 
     //Apis for Stop Words module starts
     
@@ -1428,9 +1438,9 @@ export class EndPointsService {
 
     //Apis for Stop Words module ends
 
-    //Api for getting stopwords List
+    //Api for getting synonyms List
     this.serviceList['get.synonyms'] = {
-      endpoint: this.API_SERVER_URL +'/findly/stream/:streamId/indexPipeline/:indexPipelineId/queryPipeline/:queryPipelineId/synonyms?languageCode=:code&page=:pageNo&limit=:noOfRecords',
+      endpoint: this.API_SERVER_URL +'/findly/stream/:streamId/indexPipeline/:indexPipelineId/queryPipeline/:queryPipelineId/synonyms?languageCode=:code&orderBy=:orderType&sortBy=:sortField&type=:synonymType&search=:searchKey',
       method: 'get'
     }
     //Apis for Synonyms module starts
@@ -1439,7 +1449,7 @@ export class EndPointsService {
       method: 'put'
     }
     this.serviceList['put.EditSynonym'] = {
-      endpoint: this.API_SERVER_URL +'/findly/stream/:streamId/indexPipeline/:indexPipelineId/queryPipeline/:queryPipelineId/synonyms/synonymId:synonymId',
+      endpoint: this.API_SERVER_URL +'/findly/stream/:streamId/indexPipeline/:indexPipelineId/queryPipeline/:queryPipelineId/synonyms/:synonymId',
       method: 'put'
     }
     this.serviceList['delete.synonymn'] = {

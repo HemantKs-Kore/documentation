@@ -373,7 +373,14 @@ perfect-scrollbar .ps--active-y{
     }
 
 }
+
+
 .data-type-dropdown {
-    max-height: 200px;
-    overflow-y: auto;
+.data-type-dropdown-scroll{
+    max-height: 180px;
+    overflow-y: scroll;
+    &::-webkit-scrollbar-thumb {
+        background-color: #aaa;
+      }
+}
 }

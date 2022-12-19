@@ -276,6 +276,8 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       vars.historySkip = 0;
       vars.loadingHistory = false;
       vars.historyLimit = 50;
+      vars.isFilterModified = false;
+      vars.deselectedAutoFilters = [];
       vars.experimentsObject = {}; // Local Object for Storing Experiments-Related Data (QueryPipelineID, Relay, RequestID)
       vars.feedBackType = '';
       vars.feedBackExperience = false;
@@ -2164,7 +2166,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                   <div class="recentSearch tile_with_header">\
                     <span id="${recent}" action-type="textTask" class="pointer recentText"><img class="RecentIcon-bottomUp" src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTMiIGhlaWdodD0iMTMiIHZpZXdCb3g9IjAgMCAxMyAxMyIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTYuNSAwQzIuOTE0MDYgMCAwIDIuOTE0MDYgMCA2LjVDMCAxMC4wODU5IDIuOTE0MDYgMTMgNi41IDEzQzEwLjA4NTkgMTMgMTMgMTAuMDg1OSAxMyA2LjVDMTMgNi4yMjM4NiAxMi43NzYxIDYgMTIuNSA2QzEyLjIyMzkgNiAxMiA2LjIyMzg2IDEyIDYuNUMxMiA5LjU0Mjk3IDkuNTQyOTcgMTIgNi41IDEyQzMuNDU3MDMgMTIgMSA5LjU0Mjk3IDEgNi41QzEgMy40NTcwMyAzLjQ1NzAzIDEgNi41IDFDOC4xNDA2MiAxIDkuNTk3NjYgMS43MjI2NiAxMC42MDU1IDIuODU5MzhMOS45NzY5OCAzLjQ4Nzg3QzkuNzg3OTkgMy42NzY4NiA5LjkyMTg0IDQgMTAuMTg5MSA0SDEyLjdDMTIuODY1NyA0IDEzIDMuODY1NjkgMTMgMy43VjEuMTg5MTFDMTMgMC45MjE4MzcgMTIuNjc2OSAwLjc4Nzk4NyAxMi40ODc5IDAuOTc2OTc2TDExLjMxMjUgMi4xNTIzNEMxMC4xMjExIDAuODM1OTM4IDguNDEwMTYgMCA2LjUgMFpNNi41IDJDNi4yMjM4NiAyIDYgMi4yMjM4NiA2IDIuNVY2SDQuNUM0LjIyMzg2IDYgNCA2LjIyMzg2IDQgNi41QzQgNi43NzYxNCA0LjIyMzg2IDcgNC41IDdINi43MjcyN0M2Ljg3NzkgNyA3IDYuODc3OSA3IDYuNzI3MjdWMi41QzcgMi4yMjM4NiA2Ljc3NjE0IDIgNi41IDJaIiBmaWxsPSIjMjAyMTI0Ii8+Cjwvc3ZnPgo=" alt="Recent search Icon">\${recent}</span>\
                     <span id="${recent}" class="recent-search-delete">\
-                      <img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iOCIgaGVpZ2h0PSI4IiB2aWV3Qm94PSIwIDAgOCA4IiBmaWxsPSJub25lIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPg0KPHBhdGggZD0iTTQuNDM0NzUgNC4wMDAxTDYuOTg2NDUgMS40NDgzOUM3LjEwNjYyIDEuMzI4MjMgNy4xMDY2MiAxLjEzMzQxIDYuOTg2NDUgMS4wMTMyNUM2Ljg2NjI5IDAuODkzMDg2IDYuNjcxNDcgMC44OTMwODYgNi41NTEzMSAxLjAxMzI1TDMuOTk5NTkgMy41NjQ5N0wxLjQ0Nzk5IDEuMDEzNDdDMS4zMjc4MyAwLjg5MzMxNCAxLjEzMzAxIDAuODkzMzE4IDEuMDEyODUgMS4wMTM0OEMwLjg5MjY5MiAxLjEzMzY1IDAuODkyNjk2IDEuMzI4NDcgMS4wMTI4NiAxLjQ0ODYyTDMuNTY0NDUgNC4wMDAxMUwxLjAxMjg1IDYuNTUxNzJDMC44OTI2ODkgNi42NzE4OCAwLjg5MjY4OSA2Ljg2NjcgMS4wMTI4NSA2Ljk4Njg2QzEuMTMzMDEgNy4xMDcwMiAxLjMyNzgzIDcuMTA3MDIgMS40NDc5OSA2Ljk4Njg2TDMuOTk5NiA0LjQzNTI1TDYuNTUxMzIgNi45ODY4NkM2LjY3MTQ5IDcuMTA3MDIgNi44NjYzMSA3LjEwNzAyIDYuOTg2NDYgNi45ODY4NUM3LjEwNjYyIDYuODY2NjkgNy4xMDY2MiA2LjY3MTg3IDYuOTg2NDYgNi41NTE3MUw0LjQzNDc1IDQuMDAwMVoiIGZpbGw9IiMyMDIxMjQiLz4NCjwvc3ZnPg0K" alt="close-icon"/>\
+                      <img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTAiIGhlaWdodD0iMTAiIHZpZXdCb3g9IjAgMCAxMCAxMCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTUuNzA3MDMgNS4wMDAwN0w5Ljg1MzU1IDAuODUzNTM4QzEwLjA0ODggMC42NTgyNzUgMTAuMDQ4OCAwLjM0MTY5MyA5Ljg1MzU1IDAuMTQ2NDMxQzkuNjU4MjkgLTAuMDQ4ODMxIDkuMzQxNzEgLTAuMDQ4ODMwNyA5LjE0NjQ1IDAuMTQ2NDMxTDQuOTk5OTEgNC4yOTI5OEwwLjg1MzU1NSAwLjE0Njc5OEMwLjY1ODI4OCAtMC4wNDg0NTk3IDAuMzQxNzA2IC0wLjA0ODQ1MzMgMC4xNDY0NDggMC4xNDY4MTNDLTAuMDQ4ODEwNCAwLjM0MjA3OSAtMC4wNDg4MDQgMC42NTg2NjEgMC4xNDY0NjIgMC44NTM5Mkw0LjI5MjggNS4wMDAwOUwwLjE0NjQ0NyA5LjE0NjQ1Qy0wLjA0ODgxNTcgOS4zNDE3MSAtMC4wNDg4MTU1IDkuNjU4MjkgMC4xNDY0NDcgOS44NTM1NUMwLjM0MTcwOSAxMC4wNDg4IDAuNjU4MjkyIDEwLjA0ODggMC44NTM1NTMgOS44NTM1NUw0Ljk5OTkyIDUuNzA3MThMOS4xNDY0NiA5Ljg1MzU1QzkuMzQxNzMgMTAuMDQ4OCA5LjY1ODMxIDEwLjA0ODggOS44NTM1NyA5Ljg1MzU0QzEwLjA0ODggOS42NTgyNyAxMC4wNDg4IDkuMzQxNjkgOS44NTM1NSA5LjE0NjQzTDUuNzA3MDMgNS4wMDAwN1oiIGZpbGw9IiMyMDIxMjQiLz4KPC9zdmc+Cg==" alt="close-icon"/>\
                     </span>\
                     </div>\
                 {{/if}}\
@@ -3525,6 +3527,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         "isDev": _self.isDev,
         "searchRequestId": _self.vars.requestId
       }
+      if (_self.vars.isFilterModified) {
+        payload['isFilterModified'] = true;
+      }
       if (_self.isDev) {
         payload['customize'] = _self.vars.customizeView;
       }
@@ -4180,6 +4185,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             _self.filterResults(event, true);
           }
           else {
+            _self.removeSelectFacetFilter(event, { id: $(this).attr("id"), name: $(this).attr("name"), facetName: $(this).attr("facetName"), fieldName: $(this).attr("fieldName"), fieldType: $(this).attr("fieldType") });            var unselectedFilterID = $(this).attr("id");
             var unselectedFilterID = $(this).attr("id");
             _self.vars.selectedFiltersArr.slice(0).forEach(function (filter) {
               if (filter == unselectedFilterID) {
@@ -4211,6 +4217,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             _self.filterResultsTopDown(event, true, false, _self.vars.isTopFacets);
           }
           else {
+            _self.removeSelectFacetFilter(event, { id: $(this).attr("id"), name: $(this).attr("name"), facetName: $(this).attr("facetName"), fieldName: $(this).attr("fieldName"), fieldType: $(this).attr("fieldType") });
             var unselectedFilterID = $(this).attr("id");
             _self.vars.selectedFiltersArr.slice(0).forEach(function (filter) {
               if (filter == unselectedFilterID) {
@@ -4279,6 +4286,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 
 
       $('.filters-reset-anchor').off('click').on('click', function (event) {
+        
         // $('.filter-checkbox').prop('checked', false);
         if (!$('body').hasClass('top-down')) {
           $('.sdk-filter-checkbox').prop('checked', false);
@@ -5278,6 +5286,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
     /** filter New Functions  end*/
     FindlySDK.prototype.searchByFacetFilters = function (filterObject, selectedFiltersArr = [], selectedFacetsList = []) {
       var _self = this;
+      _self.vars.isFilterModified = true;
       if ($('body').hasClass('top-down')) {
         _self.vars.tempSelectedFiltersArr = selectedFiltersArr;
         _self.vars.tempSelectedFacetsList = selectedFacetsList;
@@ -5300,9 +5309,15 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       if (_self.isDev) {
         payload['customize'] = _self.vars.customizeView;
       }
+      if (_self.vars.isFilterModified) {
+        payload['isFilterModified'] = true;
+      }
 
       if (filterObject.length > 0) {
         payload.filters = JSON.parse(JSON.stringify(filterObject));
+      }
+      if ((_self.vars.deselectedAutoFilters || []).length) {
+        payload['deselectedAutoFilters'] = _self.vars.deselectedAutoFilters || [];
       }
       var contentTypeFilter = {
         "fieldName": "sys_content_type",
@@ -5348,7 +5363,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           facets = [];
           var totalResultsCount = 0;
             _self.countTotalResults(res, totalResultsCount);
-            _self.vars.totalNumOfResults = totalResultsCount;
+            // _self.vars.totalNumOfResults = totalResultsCount;
             facets.push({ key: "all results", doc_count: _self.vars.totalNumOfResults + (res.tasks || []).length, name: 'ALL' });
             facets = facets.concat((res.tabFacet || {}).buckets || [])
             facets = _self.rearrangeTabsList(facets);
@@ -5359,7 +5374,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             _self.vars.searchObject.liveData.facets = _self.vars.tabsList;
             _self.pubSub.publish('sa-source-type', facets);
             var dataObj = _self.vars.searchObject.liveData;
-            _self.pubSub.publish('facet-selected', { selectedFacet: _self.vars.selectedFacetFromSearch || 'all results' });
+            _self.pubSub.publish('facet-selected', { selectedFacet: _self.vars.selectedFacetFromSearch || 'all results', isResultsLoading:true });
             _self.pubSub.publish('sa-search-facets', searchFacets);
             if (!$('body').hasClass('top-down')) {
 
@@ -6976,6 +6991,8 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       }
       $('#ceo-name').empty();
       if (res.templateType === 'search') {
+        _self.vars.isFilterModified = false;
+        _self.vars.deselectedAutoFilters = [];
         _self.vars.requestId = res.requestId;
         if (res.queryPipelineId && res.relay) {
 
@@ -8036,6 +8053,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 
       payload.streamId = this.bot.options.botInfo.taskBotId;
       var _self = this;
+      _self.vars.deselectedAutoFilters = [];
       if (!$('body').hasClass('demo')) {
         payload.indexPipelineId = _self.API.indexpipelineId;
         payload.queryPipelineId = _self.API.pipelineId;
@@ -8732,7 +8750,10 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           $('#' + config.container).empty().append(dataHTML);
         } else {
           var dataHTML = $(_self.getSearchFacetsTemplate()).tmplProxy({ searchFacets: data });
-              $('#' + config.container).empty().append(dataHTML);
+              // $('#' + config.container).empty().append(dataHTML);
+              if (!_self.vars.isFilterModified) {
+                $('#' + config.container).empty().append(dataHTML);
+              }
         }
         //top-down-search-filter-start//
         _self.getSearchFacetsTopDown(data, config);
@@ -16246,6 +16267,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       _self.pubSub.unsubscribe('sa-search-full-results');
       _self.pubSub.subscribe('sa-search-full-results', (msg, data) => {
         // _self.vars.scrollPageNumber = 0;
+        if (!_self.vars.isFilterModified) {
+          _self.autoSelectFacetFilter();
+        }
         _self.vars['selectedFiltersRadio'] = [];
         var facetCount = {};
         var facetData = [];
@@ -16519,6 +16543,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         "isDev": _self.isDev,
         "filters": [],
         "searchRequestId": _self.vars.requestId
+      }
+      if (_self.vars.isFilterModified) {
+        payload['isFilterModified'] = true;
       }
 
       if (_self.isDev) {
@@ -16871,6 +16898,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         else {
           _self.vars.isClearAllClickedInBottomUp = false;
         }
+        _self.vars.deselectedAutoFilters = [];
 
         _self.facetReset(facetObj, facetData);
         _self.bindShowAllResultsTrigger(showAllHTML, facetData, null, true);
@@ -16900,6 +16928,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           _self.vars.isClearAllClickedInBottomUp = true;
           // _self.searchByFacetFilters(_self.vars.filterObject);
         }
+        cancelAllRecord()
         var hide = function () {
           $('.filter-data').hide()
           $('.filter-updated-count').hide()
@@ -16907,7 +16936,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         // setTimeout(hide, 1000);
       });
       cancelAllRecord = function () {
-        if (_self.vars.countOfSelectedFilters > 0) {
+        _self.removeAutoselectedFilterFacets();        if (_self.vars.countOfSelectedFilters > 0) {
           $('#loaderDIV').show();
         }
         //$('#loaderDIV').show();
@@ -16925,7 +16954,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         $('.filter-updated-count').hide()
         cancelAllRecord()
         if (_self.vars.filterConfiguration.aligned == "top") {
-          countFunc()
+          countFunc(true)
         }
       });
       $('.apply-btn').off('click').on('click', function () {
@@ -16992,6 +17021,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           _self.filterResults(event, true);
         }
         else {
+          _self.removeSelectFacetFilter(event, { id: $(this).attr("id"), name: $(this).attr("name"), facetName: $(this).attr("data-facetName"), fieldName: $(this).attr("data-fieldName"), fieldType: $(this).attr("data-facetType") });
           var unselectedFilterID = $(this).attr("id");
           _self.vars.selectedFiltersArr.slice(0).forEach(function (filter) {
             if (filter == unselectedFilterID) {
@@ -17072,7 +17102,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       $('.horizantal-filter-sec').off('click', '.apply-btn').on('click', '.apply-btn', function () {
         $('.filter-data').hide()
         // $('#loaderDIV').show();
-        _self.searchByFacetFilters(_self.vars.filterObject);
+        if ($('body').hasClass('top-down')) {
+          _self.searchByFacetFilters(_self.vars.filterObject);
+        }
         if (_self.vars.filterConfiguration.aligned == "top") {
           countFunc()
         }
@@ -17082,7 +17114,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         var optionId = $(e.target).closest('.sdk-top-facet-option').attr('id');
 
       });
-      countFunc = function () {
+      countFunc = function (isFromClearAll) {
         if (facetData.length) {
           var arr = [];
           var mainArr = [];
@@ -17107,7 +17139,15 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           }
         }
         for (let i = 0; i < facetData.length; i++) {
-          facetData[i]['countPerGroup'] = mainArr
+          facetData[i]['countPerGroup'] = mainArr;
+          if (facetData[i]['buckets'].length && isFromClearAll) {
+            facetData[i]['buckets'].forEach((d) => {
+              d.auto_select = false;
+            })
+          }
+        }
+        if (isFromClearAll) {
+          _self.vars.searchFacetFilters = facetData;
         }
         //facetData['countPerGroup'] = mainArr
         //_self.vars['facetObjectGlobal']
@@ -17308,13 +17348,13 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                   {{if searchFacet.multiselect}}\
                     {{if searchFacet.subtype == "value"}}\
                       <div class="custom_checkbox kr-sg-checkbox d-block">\
-                          <input id="checkbox-${i}${j}" class="checkbox-custom sdk-filter-checkbox" type="checkbox" name="${bucket.key}" value="true" data-from="${bucket.from}" data-to="${bucket.to}">\
+                          <input {{if bucket.auto_select}}checked{{/if}} id="checkbox-${i}${j}" class="checkbox-custom sdk-filter-checkbox" type="checkbox" name="${bucket.key}" value="true" data-from="${bucket.from}" data-to="${bucket.to}" data-facetType="${searchFacet.subtype}" data-facetName="${searchFacet.name}" data-fieldName="${searchFacet.fieldName}">\
                           <label for="checkbox-${i}${j}" class="checkbox-custom-label" title="${bucket.key}">${bucket.key} </label><span class="associated-filter-count">(${bucket.doc_count})</span>\
                       </div>\
                     {{/if}}\
                     {{if searchFacet.subtype == "range"}}\
                         <div class="kr-sg-checkbox d-block custom_checkbox">\
-                          <input id="checkbox-${i}${j}" class="checkbox-custom sdk-filter-checkbox" type="checkbox" name="${bucket.key}" value="true" data-from="${bucket.from}" data-to="${bucket.to}">\
+                        <input {{if bucket.auto_select}}checked{{/if}} id="checkbox-${i}${j}" class="checkbox-custom sdk-filter-checkbox" type="checkbox" name="${bucket.key}" value="true" data-from="${bucket.from}" data-to="${bucket.to}"  data-facetType="${searchFacet.subtype}" data-facetName="${searchFacet.name}" data-fieldName="${searchFacet.fieldName}">\
                           <label for="checkbox-${i}${j}" class="checkbox-custom-label" title="${bucket.key}">${bucket.key} </label><span class="associated-filter-count">(${bucket.doc_count})</span>\
                         </div>\
                     {{/if}}\
@@ -17322,13 +17362,13 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                   {{if !searchFacet.multiselect}}\
                     {{if searchFacet.subtype == "value"}}\
                       <div class="custom_checkbox kr-sg-radiobutton d-block">\
-                          <input id="radio-${i}${j}" class="radio-custom sdk-filter-radio" type="radio" name="radio-${i}" value="${bucket.key}" data-from="${bucket.from}" data-to="${bucket.to}">\
+                      <input {{if bucket.auto_select}}checked{{/if}} id="radio-${i}${j}" class="radio-custom sdk-filter-radio" type="radio" name="radio-${i}" value="${bucket.key}" data-from="${bucket.from}" data-to="${bucket.to}" data-facetType="${searchFacet.subtype}" data-facetName="${searchFacet.name}" data-fieldName="${searchFacet.fieldName}">\
                           <label for="radio-${i}${j}" class="radio-custom-label" title="${bucket.key}">${bucket.key} </label><span class="associated-filter-count">(${bucket.doc_count})</span>\
                       </div>\
                     {{/if}}\
                     {{if searchFacet.subtype == "range"}}\
                         <div class="custom_checkbox kr-sg-radiobutton d-block">\
-                          <input id="radio-${i}${j}" class="radio-custom sdk-filter-radio" type="radio" name="radio-${i}" value="${bucket.key}" data-from="${bucket.from}" data-to="${bucket.to}">\
+                        <input {{if bucket.auto_select}}checked{{/if}} id="radio-${i}${j}" class="radio-custom sdk-filter-radio" type="radio" name="radio-${i}" value="${bucket.key}" data-from="${bucket.from}" data-to="${bucket.to}" data-facetType="${searchFacet.subtype}" data-facetName="${searchFacet.name}" data-fieldName="${searchFacet.fieldName}">\
                           <label for="radio-${i}${j}" class="radio-custom-label" title="${bucket.key}">${bucket.key} </label> <span class="associated-filter-count">(${bucket.doc_count})</span>\
                         </div>\
                     {{/if}}\
@@ -17360,28 +17400,28 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       <div class="option-text">\
       {{if searchFacet.subtype == "value"&& searchFacet.multiselect }}\
       <div class="kr-sg-checkbox d-block">\
-      <input id="checkbox-${i}${j}" class="checkbox-custom sdk-filter-checkbox-top-down" type="checkbox" name="${bucket.key}" value="true" fieldName="${searchFacet.fieldName}" fieldType="${searchFacet.subtype}" data-from="${bucket.from}" data-to="${bucket.to}">\
+      <input id="checkbox-${i}${j}" class="checkbox-custom sdk-filter-checkbox-top-down" facetName="${searchFacet.name}" type="checkbox" name="${bucket.key}" value="true" fieldName="${searchFacet.fieldName}" fieldType="${searchFacet.subtype}" data-from="${bucket.from}" data-to="${bucket.to}">\
       <label for="checkbox-${i}${j}" class="checkbox-custom-label" title="${bucket.key}">${bucket.key}</label>\
           <span class="count">\(${bucket.doc_count})</span>\
         </div>\
         {{/if}}\
         {{if searchFacet.subtype == "range" && searchFacet.multiselect}}\
         <div class="kr-sg-checkbox d-block">\
-        <input  id="checkbox-${i}${j}" class="checkbox-custom sdk-filter-checkbox-top-down" type="checkbox" name="${bucket.key}" value="true" fieldName="${searchFacet.fieldName}" fieldType="${searchFacet.subtype}" data-from="${bucket.from}" data-to="${bucket.to}">\
+        <input  id="checkbox-${i}${j}" class="checkbox-custom sdk-filter-checkbox-top-down" facetName="${searchFacet.name}" type="checkbox" name="${bucket.key}" value="true" fieldName="${searchFacet.fieldName}" fieldType="${searchFacet.subtype}" data-from="${bucket.from}" data-to="${bucket.to}">\
         <label  id="checkbox-${i}${j}" class="checkbox-custom-label" title="${bucket.key}">\${bucket.key}</label>\
             <span class="count">\(${bucket.doc_count})</span>\
           </div>\
           {{/if}}\
           {{if searchFacet.subtype == "value" && !searchFacet.multiselect}}\
           <div class="kr-sg-checkbox d-block">\
-            <input id="checkbox-${i}${j}" class="radio-custom sdk-filter-radio-top-down" type="radio" name="radio-top-facet-${i}"  value="${bucket.key}" fieldName="${searchFacet.fieldName}" fieldType="${searchFacet.subtype}" data-from="${bucket.from}" data-to="${bucket.to}">\
+          <input id="checkbox-${i}${j}" class="radio-custom sdk-filter-radio-top-down" facetName="${searchFacet.name}" type="radio" name="radio-top-facet-${i}"  value="${bucket.key}" fieldName="${searchFacet.fieldName}" fieldType="${searchFacet.subtype}" data-from="${bucket.from}" data-to="${bucket.to}">\
               <label for="checkbox-${i}${j}" class="radio-custom-label" title="${bucket.key}">${bucket.key}</label>\
               <span class="count">\(${bucket.doc_count})</span>\
             </div>\
             {{/if}}\
             {{if searchFacet.subtype == "range" && !searchFacet.multiselect }}\
             <div class="kr-sg-checkbox d-block">\
-              <input  id="checkbox-${i}${j}" class="radio-custom sdk-filter-radio-top-down" type="radio" name="radio-top-facet-${i}" value="${bucket.key}" fieldName="${searchFacet.fieldName}" fieldType="${searchFacet.subtype}" data-from="${bucket.from}" data-to="${bucket.to}">\
+            <input  id="checkbox-${i}${j}" class="radio-custom sdk-filter-radio-top-down" facetName="${searchFacet.name}" type="radio" name="radio-top-facet-${i}" value="${bucket.key}" fieldName="${searchFacet.fieldName}" fieldType="${searchFacet.subtype}" data-from="${bucket.from}" data-to="${bucket.to}">\
                 <label  id="checkbox-${i}${j}" class="radio-custom-label" title="${bucket.key}">\${bucket.key}</label>\
                 <span class="count">\(${bucket.doc_count})</span>\
               </div>\
@@ -17433,13 +17473,13 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                         {{if searchFacet.multiselect}}\
                         {{if searchFacet.subtype == "value"}}\
                           <div class="custom_checkbox kr-sg-checkbox d-block">\
-                              <input id="checkbox-${i}${j}" class="checkbox-custom sdk-filter-checkbox" type="checkbox" name="${bucket.key}" value="true" data-from="${bucket.from}" data-to="${bucket.to}">\
+                              <input {{if bucket.auto_select}}checked{{/if}} facetName="${searchFacet.name}" id="checkbox-${i}${j}" class="checkbox-custom sdk-filter-checkbox" type="checkbox" name="${bucket.key}" value="true" data-from="${bucket.from}" data-to="${bucket.to}">\
                               <label for="checkbox-${i}${j}" class="checkbox-custom-label" title="${bucket.key}">${bucket.key} </label><span class="associated-filter-count">(${bucket.doc_count})</span>\
                           </div>\
                         {{/if}}\
                         {{if searchFacet.subtype == "range"}}\
                             <div class="kr-sg-checkbox d-block custom_checkbox">\
-                              <input id="checkbox-${i}${j}" class="checkbox-custom sdk-filter-checkbox" type="checkbox" name="${bucket.key}" value="true" data-from="${bucket.from}" data-to="${bucket.to}">\
+                              <input {{if bucket.auto_select}}checked{{/if}} facetName="${searchFacet.name}" id="checkbox-${i}${j}" class="checkbox-custom sdk-filter-checkbox" type="checkbox" name="${bucket.key}" value="true" data-from="${bucket.from}" data-to="${bucket.to}">\
                               <label for="checkbox-${i}${j}" class="checkbox-custom-label" title="${bucket.key}">${bucket.key} </label><span class="associated-filter-count">(${bucket.doc_count})</span>\
                             </div>\
                         {{/if}}\
@@ -17447,13 +17487,13 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                       {{if !searchFacet.multiselect}}\
                         {{if searchFacet.subtype == "value"}}\
                           <div class="custom_checkbox kr-sg-radiobutton d-block">\
-                              <input id="radio-${i}${j}" class="radio-custom sdk-filter-radio" type="radio" name="radio-${i}" value="${bucket.key}" data-from="${bucket.from}" data-to="${bucket.to}">\
+                              <input {{if bucket.auto_select}}checked{{/if}} facetName="${searchFacet.name}" id="radio-${i}${j}" class="radio-custom sdk-filter-radio" type="radio" name="radio-${i}" value="${bucket.key}" data-from="${bucket.from}" data-to="${bucket.to}">\
                               <label for="radio-${i}${j}" class="radio-custom-label" title="${bucket.key}">${bucket.key} </label><span class="associated-filter-count">(${bucket.doc_count})</span>\
                           </div>\
                         {{/if}}\
                         {{if searchFacet.subtype == "range"}}\
                             <div class="custom_checkbox kr-sg-radiobutton d-block">\
-                              <input id="radio-${i}${j}" class="radio-custom sdk-filter-radio" type="radio" name="radio-${i}" value="${bucket.key}" data-from="${bucket.from}" data-to="${bucket.to}">\
+                             <input {{if bucket.auto_select}}checked{{/if}} facetName="${searchFacet.name}" id="radio-${i}${j}" class="radio-custom sdk-filter-radio" type="radio" name="radio-${i}" value="${bucket.key}" data-from="${bucket.from}" data-to="${bucket.to}">\
                               <label for="radio-${i}${j}" class="radio-custom-label" title="${bucket.key}">${bucket.key} </label><span class="associated-filter-count">(${bucket.doc_count})</span>\
                             </div>\
                         {{/if}}\
@@ -17475,72 +17515,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       </script>'
       return facet
     }
-    FindlySDK.prototype.facetFilterleft = function () {
-      var facet = '<div>\
-      <div class="fliter-right-btn left-filter">\
-        <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA4AAAAKCAYAAACE2W/HAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAA/SURBVHgB1c+hEQAgDATBfyqJwVMKpaYUPCadwCAyGATgcursUiQXYFQ8RU0IE33urFSz3tZFNHpn67Z538YJjc8On2EvoL4AAAAASUVORK5CYII=">\
-      <div class="filter-data">\
-        <div class="header-sec">\
-          <div class="f-heading sdk-i18n-lang" sdk-i18n-key="sa_sdk_filters_caps">{{html langTranslator("sa_sdk_filters_caps")}}</div>\
-          <div class="clear-all sdk-i18n-lang" sdk-i18n-key="sa_sdk_clear_all">{{html langTranslator("sa_sdk_clear_all")}}</div>\
-        </div>\
-            <div class="scroll-data">\
-                <div class="group-checkbox">\
-                  <div class="heading-title">Type</div>\
-                  <div class="custom_checkbox kr-sg-checkbox d-block">\
-                      <input id="checkbox_grpb" class="checkbox-custom" type="checkbox">\
-                      <label\ for="checkbox_grpb" class="checkbox-custom-label">Sapphire Cards <span class="count">(1)</span></label>\
-                  </div>\
-                  <div class="custom_checkbox kr-sg-checkbox d-block">\
-                      <input id="checkbox_grpc" class="checkbox-custom" type="checkbox">\
-                      <label for="checkbox_grpc" class="checkbox-custom-label">Platinum Cards <span class="count">(3)</span></label>\
-                  </div>\
-                  <div class="custom_checkbox kr-sg-checkbox d-block">\
-                    <input id="checkbox_grpc" class="checkbox-custom" type="checkbox">\
-                    <label for="checkbox_grpc" class="checkbox-custom-label">Travel Master Cards <span class="count">(2)</span></label>\
-                </div>\
-                <div class="custom_checkbox kr-sg-checkbox d-block">\
-                  <input id="checkbox_grpc" class="checkbox-custom" type="checkbox">\
-                  <label for="checkbox_grpc" class="checkbox-custom-label">Rewards Cards <span class="count">(3)</span></label>\
-              </div>\
-            </div>\
-            <div class="group-checkbox">\
-                <div class="heading-title">Benefits</div>\
-                <div class="custom_checkbox kr-sg-checkbox d-block">\
-                  <input id="checkbox_grpb" class="checkbox-custom" type="checkbox">\
-                  <label for="checkbox_grpb" class="checkbox-custom-label">Accelarated Rewards <span class="count">(2)</span></label>\
-                </div>\
-                <div class="custom_checkbox kr-sg-checkbox d-block">\
-                  <input id="checkbox_grpb" class="checkbox-custom" type="checkbox">\
-                  <label for="checkbox_grpb" class="checkbox-custom-label">No Joining Fees <span class="count">(2)</span></label>\
-                </div>\
-                <div class="custom_checkbox kr-sg-checkbox d-block">\
-                  <input id="checkbox_grpb" class="checkbox-custom" type="checkbox">\
-                  <label for="checkbox_grpb" class="checkbox-custom-label">Annual Fee Waiver <span class="count">(1)</span></label>\
-                </div>\
-                <div class="custom_checkbox kr-sg-checkbox d-block">\
-                  <input id="checkbox_grpb" class="checkbox-custom" type="checkbox">\
-                  <label for="checkbox_grpb" class="checkbox-custom-label">Exclusive Events <span class="count">(1)</span></label>\
-                </div>\
-            </div>\
-            <div class="group-checkbox">\
-                <div class="heading-title">Min. Balance</div>\
-                <div class="custom_checkbox kr-sg-checkbox d-block">\
-                  <input id="checkbox_grpb" class="checkbox-custom" type="checkbox">\
-                  <label for="checkbox_grpb" class="checkbox-custom-label">0 to 500 <span class="count">(8)</span></label>\
-                </div>\
-            </div>\
-          </div>\
-          <div class="footer-filter">\
-                <button class="apply-btn sdk-i18n-lang" sdk-i18n-key="sa_sdk_apply">{{html langTranslator("sa_sdk_apply")}}</button>\
-          </div>\
-      </div>\
-    </div>\
-      </div>\
-      '
-      return facet
-    }
-    FindlySDK.prototype.fullResultAllType = function () {
+      FindlySDK.prototype.fullResultAllType = function () {
       var template = '<script type="text/x-jqury-tmpl">\
       <div style="height:100%">\
       <!--<div id="loaderDIV" class="loader-container">Loading...</div>-->\
@@ -18391,21 +18366,21 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       {{each(j, bucket) searchFacet.buckets.slice(0, (searchFacet.maxCount?searchFacet.maxCount:searchFacet.buckets.length))}}\
           {{if (searchFacet.subtype == "value" || searchFacet.subtype == "range") && searchFacet.multiselect }}\
           <div class="kr-sg-checkbox d-block">\
-          <input id="checkbox-${i}${j}" class="checkbox-custom sdk-filter-checkbox-top-down c-1" type="checkbox" name="${bucket.key}" value="${bucket.key}" fieldName="${searchFacet.fieldName}" fieldType="${searchFacet.subtype}" data-from="${bucket.from}" data-to="${bucket.to}">\
+          <input {{if bucket.auto_select}}checked{{/if}} id="checkbox-${i}${j}" class="checkbox-custom sdk-filter-checkbox-top-down c-1" facetName="${searchFacet.name}" type="checkbox" name="${bucket.key}" value="${bucket.key}" fieldName="${searchFacet.fieldName}" fieldType="${searchFacet.subtype}" data-from="${bucket.from}" data-to="${bucket.to}">\
 					<label for="checkbox-${i}${j}" class="checkbox-custom-label" title="${bucket.key}">${bucket.key}</label>\
               <span class="count">\(${bucket.doc_count})</span>\
             </div>\
             {{/if}}\
               {{if searchFacet.subtype == "value" && !searchFacet.multiselect}}\
               <div class="kr-sg-radiobutton d-block">\
-                <input id="checkbox-${i}${j}" class="radio-custom sdk-filter-radio-top-down" type="radio" name="radio-top-facet-${i}"  value="${bucket.key}" fieldName="${searchFacet.fieldName}" fieldType="${searchFacet.subtype}" data-from="${bucket.from}" data-to="${bucket.to}">\
+              <input {{if bucket.auto_select}}checked{{/if}} id="checkbox-${i}${j}" class="radio-custom sdk-filter-radio-top-down"  facetName="${searchFacet.name}"type="radio" name="radio-top-facet-${i}"  value="${bucket.key}" fieldName="${searchFacet.fieldName}" fieldType="${searchFacet.subtype}" data-from="${bucket.from}" data-to="${bucket.to}">\
                   <label for="checkbox-${i}${j}" class="radio-custom-label" title="${bucket.key}">${bucket.key}</label>\
                   <span class="count">\(${bucket.doc_count})</span>\
                 </div>\
                 {{/if}}\
                 {{if searchFacet.subtype == "range" &&  !searchFacet.multiselect}}\
                 <div class="kr-sg-radiobutton d-block">\
-                  <input  id="checkbox-${i}${j}" class="radio-custom sdk-filter-radio-top-down" type="radio" name="radio-top-facet-${i}" value="${bucket.key}" fieldName="${searchFacet.fieldName}" fieldType="${searchFacet.subtype}" data-from="${bucket.from}" data-to="${bucket.to}">\
+                <input {{if bucket.auto_select}}checked{{/if}}  id="checkbox-${i}${j}" class="radio-custom sdk-filter-radio-top-down" facetName="${searchFacet.name}" type="radio" name="radio-top-facet-${i}" value="${bucket.key}" fieldName="${searchFacet.fieldName}" fieldType="${searchFacet.subtype}" data-from="${bucket.from}" data-to="${bucket.to}">\
                     <label  id="checkbox-${i}${j}" class="radio-custom-label" title="${bucket.key}">\${bucket.key}</label>\
                     <span class="count">\(${bucket.doc_count})</span>\
                   </div>\
@@ -18432,21 +18407,21 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       <div class="option-text">\
       {{if (searchFacet.subtype == "value" || searchFacet.subtype == "range" ) && searchFacet.multiselect }}\
       <div class="kr-sg-checkbox d-block">\
-      <input id="checkbox-${i}${j}" class="checkbox-custom sdk-filter-checkbox-top-down" type="checkbox" name="${bucket.key}" value="${bucket.key}" fieldName="${searchFacet.fieldName}" fieldType="${searchFacet.subtype}" data-from="${bucket.from}" data-to="${bucket.to}">\
+      <input {{if bucket.auto_select}}checked{{/if}} id="checkbox-${i}${j}" class="checkbox-custom sdk-filter-checkbox-top-down" facetName="${searchFacet.name}" type="checkbox" name="${bucket.key}" value="${bucket.key}" fieldName="${searchFacet.fieldName}" fieldType="${searchFacet.subtype}" data-from="${bucket.from}" data-to="${bucket.to}">\
       <label for="checkbox-${i}${j}" class="checkbox-custom-label" title="${bucket.key}">${bucket.key}</label>\
           <span class="count">\(${bucket.doc_count})</span>\
         </div>\
         {{/if}}\
           {{if searchFacet.subtype == "value" && !searchFacet.multiselect}}\
           <div class="kr-sg-radiobutton d-block">\
-            <input id="checkbox-${i}${j}" class="radio-custom sdk-filter-radio-top-down" type="radio" name="radio-top-facet-${i}"  value="${bucket.key}" fieldName="${searchFacet.fieldName}" fieldType="${searchFacet.subtype}">\
+          <input {{if bucket.auto_select}}checked{{/if}} id="checkbox-${i}${j}" class="radio-custom sdk-filter-radio-top-down" facetName="${searchFacet.name}" type="radio" name="radio-top-facet-${i}"  value="${bucket.key}" fieldName="${searchFacet.fieldName}" fieldType="${searchFacet.subtype}">\
               <label for="checkbox-${i}${j}" class="radio-custom-label" title="${bucket.key}">${bucket.key}</label>\
               <span class="count">\(${bucket.doc_count})</span>\
             </div>\
             {{/if}}\
             {{if searchFacet.subtype == "range" && !searchFacet.multiselect }}\
             <div class="kr-sg-radiobutton d-block">\
-              <input  id="checkbox-${i}${j}" class="radio-custom sdk-filter-radio-top-down" type="radio" name="radio-top-facet-${i}" value="${bucket.key}" fieldName="${searchFacet.fieldName}" fieldType="${searchFacet.subtype}">\
+            <input {{if bucket.auto_select}}checked{{/if}} id="checkbox-${i}${j}" class="radio-custom sdk-filter-radio-top-down" facetName="${searchFacet.name}" type="radio" name="radio-top-facet-${i}" value="${bucket.key}" fieldName="${searchFacet.fieldName}" fieldType="${searchFacet.subtype}">\
                 <label  id="checkbox-${i}${j}" class="radio-custom-label" title="${bucket.key}">\${bucket.key}</label>\
                 <span class="count">\(${bucket.doc_count})</span>\
               </div>\
@@ -18499,13 +18474,21 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
               $('.content-data-sec').addClass('facets-disabled');
             }
           }
+           /** auto_Select Facet Filter Array Codes */
+           if (!_self.vars.isFilterModified) {
+            _self.autoSelectFacetFilter();
+          }
+          /** auto_Select Facet Filter Array Codes */
           var topDownDataHTML = $(_self.getSearchFacetsTopDownTemplate(_self.vars.filterConfiguration.aligned)).tmplProxy({
             searchFacets: _self.vars.searchFacetFilters,
             position: 'left',
+            selectedFacets: _self.vars.selectedFiltersArr,
             truncateText: truncateText,
             langTranslator: langTranslator
           });
+          if (!_self.vars.isFilterModified) {
             $('#' + config.container).empty().append(topDownDataHTML);
+          }
           setTimeout(function () {
             var facetsDataHTML = $('#filters-left-sec');
             // if($('.filters-sec').find('.group-checkbox').length){
@@ -18532,6 +18515,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                 truncateText: truncateText,
                 searchFacets: _self.vars.searchFacetFilters,
                 position: 'left',
+                selectedFacets: _self.vars.selectedFiltersArr,
                 langTranslator: langTranslator
               });
               $('#' + config.container).empty().append(topDownDataHTML);
@@ -18624,6 +18608,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             var topDownDataHTML = $(_self.getSearchFacetsTopDownTemplate(_self.vars.filterConfiguration.aligned)).tmplProxy({
               searchFacets: _self.vars.searchFacetFilters,
               position: 'left',
+              truncateText: truncateText,
               langTranslator: langTranslator
             });
             $('#' + config.container).empty().append(topDownDataHTML);
@@ -20905,6 +20890,161 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       return text;
     }
 
+    FindlySDK.prototype.autoSelectFacetFilter = function () {
+      var _self = this;
+      //_self.vars.selectedFiltersArr = [];
+      _self.vars.selectedFacetsList = [];
+      if (_self.vars.searchFacetFilters) {
+        for (var i = 0; i < _self.vars.searchFacetFilters.length; i++) {
+          if (_self.vars.searchFacetFilters[i].buckets) {
+            for (var j = 0; j < _self.vars.searchFacetFilters[i].buckets.length; j++) {
+              if (_self.vars.searchFacetFilters[i].buckets[j].auto_select) {
+                if (_self.vars.selectedFiltersArr.indexOf("checkbox-" + i + j) !== -1) {// Id of the facet filter
+                  //console.log("Value exist") 
+                } else {
+                  _self.vars.selectedFiltersArr.push("checkbox-" + i + j)
+                }
+                var obj = {
+                  fieldName: _self.vars.searchFacetFilters[i].facetName,
+                  fieldType: _self.vars.searchFacetFilters[i].facetType,
+                  id: "checkbox-" + i + j,
+                  name: _self.vars.searchFacetFilters[i].buckets[j].key
+                };
+                _self.vars.selectedFacetsList.push(obj);
+
+                //filter object pushing autoseletFacets starts//
+                var responsePayload = {};
+                var fieldMatches = false;
+                responsePayload.fieldName = _self.vars.searchFacetFilters[i].fieldName;
+                responsePayload.subtype = _self.vars.searchFacetFilters[i].subtype;
+                responsePayload.name = _self.vars.searchFacetFilters[i].name;
+                if (_self.vars.searchFacetFilters[i].subtype == 'value') {
+                  responsePayload.facetValue = [];
+                  responsePayload.facetValue[0] = _self.vars.searchFacetFilters[i].buckets[j].key;
+                }
+                else {
+                  // var from = $(event.target).attr('data-from');
+                  // var to = $(event.target).attr('data-to');
+                  responsePayload.facetRange = [];
+                  // key = { 'from': 0, 'to': 100 };
+                  // key = { 'from': parseInt(from), 'to': parseInt(to) };
+                  responsePayload.facetRange[0] = _self.vars.searchFacetFilters[i].buckets[j].key;
+                }
+                if (_self.vars.filterObject.length == 0) {
+                  _self.vars.filterObject.push(responsePayload);
+                  fieldMatches = true;
+                }
+                if (_self.vars.filterObject.length > 0 && fieldMatches == false) {
+                  _self.vars.filterObject.forEach(function (element) {
+                    if (responsePayload.fieldName == element.fieldName && responsePayload.subtype == element.subtype) {
+                      if (element.subtype == 'value') {
+                        var index = element.facetValue.findIndex((d) => d == _self.vars.searchFacetFilters[i].buckets[j].key)
+                        if (index == -1) {
+                          element.facetValue.push(_self.vars.searchFacetFilters[i].buckets[j].key);
+                        }
+                      }
+                      else {
+                        var index = element.facetRange.findIndex((d) => d == _self.vars.searchFacetFilters[i].buckets[j].key)
+                        if (index == -1) {
+                          element.facetRange.push(_self.vars.searchFacetFilters[i].buckets[j].key);
+                        }
+                      }
+                      fieldMatches = true;
+                    }
+                  })
+
+                }
+                if (fieldMatches == false) {
+                  _self.vars.filterObject.push(responsePayload);
+                }
+                //filter object pushing autoseletFacets ends//
+              }
+            }
+          }
+        }
+      }
+      FindlySDK.prototype.removeAutoselectedFilterFacets = function (event) {
+        var _self = this;
+        _self.vars.searchFacetFilters.forEach((facet) => {
+          facet['buckets'].forEach((d) => {
+            if (d.auto_select) {
+              var index = _self.vars.deselectedAutoFilters.findIndex((d) => d.fieldName == facet.fieldName);
+              if (index == -1) {
+                _self.vars.deselectedAutoFilters.push(
+                  {
+                    "fieldName": facet.fieldName,
+                    "subtype": facet.subtype,
+                    "name": facet.name,
+                    "facetValue": [d.key]
+                  }
+
+                );
+              } else {
+                _self.vars.deselectedAutoFilters[index].facetValue.push(d.key)
+              }
+              d.auto_select = false;
+            }
+          })
+        })
+      }
+      FindlySDK.prototype.removeSelectFacetFilter = function (event, selectedFacet) {
+        var _self = this;
+        var key = $(event.target).attr('name');
+        if ($('.topdown-search-main-container').length) {
+          if ($('.sdk-filter-radio-top-down').length && $(event.target).hasClass('sdk-filter-radio-top-down')) {
+            key = $(event.target).attr('value');
+          }
+        }
+        var facetMatched = false;
+        if (_self.vars.deselectedAutoFilters.length) {
+          for (var i = 0; i < _self.vars.deselectedAutoFilters.length; i++) {
+            if (_self.vars.deselectedAutoFilters[i].fieldName == selectedFacet.fieldName && _self.vars.deselectedAutoFilters[i].subtype == selectedFacet.fieldType && _self.vars.deselectedAutoFilters[i].name == selectedFacet.facetName) {
+              facetMatched = true;
+              var keyMatched = false;
+              for (var j = 0; j < _self.vars.deselectedAutoFilters[i].facetValue.length; j++) {
+                if (key == _self.vars.deselectedAutoFilters[i].facetValue[j]) {
+                  keyMatched = true;
+                }
+              }
+              if (!keyMatched) {
+                _self.vars.deselectedAutoFilters[i].facetValue.push(key);
+              }
+            }
+          }
+
+        }
+        if (!facetMatched) {
+          _self.vars.deselectedAutoFilters.push(
+            {
+              "fieldName": selectedFacet.fieldName,
+              "subtype": selectedFacet.fieldType,
+              "name": selectedFacet.facetName,
+              "facetValue": [key]
+            }
+
+          );
+        }
+
+        if (_self.vars.searchFacetFilters) {
+          for (var i = 0; i < _self.vars.searchFacetFilters.length; i++) {
+            if (_self.vars.searchFacetFilters[i].buckets) {
+              for (var j = 0; j < _self.vars.searchFacetFilters[i].buckets.length; j++) {
+                if (selectedFacet.fieldName = _self.vars.searchFacetFilters[i].fieldName && _self.vars.searchFacetFilters[i].buckets[j].auto_select && key == _self.vars.searchFacetFilters[i].buckets[j].key) {
+                  //filter object removing autoseletFacets starts//
+                  delete _self.vars.searchFacetFilters[i].buckets[j].auto_select
+                  //filter object pushing autoseletFacets ends//
+                }
+              }
+            }
+          }
+        }
+
+      }
+      if((_self.vars.selectedFacetsList||[]).length){
+        _self.getTopDownFacetsAddedList();
+      }
+
+    }
     FindlySDK.prototype.getSetI18nLangData = function(selectedlang){
 
       var _self = this;

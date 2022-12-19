@@ -95,7 +95,7 @@ export class SearchRelevanceComponent implements OnInit {
     });
   }
   //** update query pipeline on toggle button */
-  sildervaluechanged(event,type){
+  silderValuechanged(event,type){
     const quaryparms:any={
       indexPipelineId:this.workflowService.selectedIndexPipeline(),
       queryPipelineId:this.workflowService.selectedQueryPipeline() ? this.workflowService.selectedQueryPipeline()._id : '',
@@ -133,7 +133,7 @@ export class SearchRelevanceComponent implements OnInit {
       }    
     }
     this.service.invoke('put.queryPipeline', quaryparms,payload).subscribe(res => {
-      this.prepareThreshold()
+      //this.prepareThreshold()
 
       //this.notificationService.notify("updated successfully",'success');
     }, errRes => {

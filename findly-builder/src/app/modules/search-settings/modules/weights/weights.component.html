@@ -5,43 +5,57 @@
     </div>
     <ng-container *ngIf="!loadingContent">
         <app-useronboarding-journey [componentType]='componentType'></app-useronboarding-journey>
-        <div class="header-sec-stopwords">
-            <div class="title">{{'weights_Weights'| translate}}
-                <span class="module-topic" tooltipClass="tooltip-global-" [container]="'body'" ngbTooltip="{{'sa_topic_guide'| translate}}"
- placement="right-center"(click)="openUserMetaTagsSlider()">
-                    <i class="si-topic-guide-1"></i>
-                </span>
+        <div class="weights-header">
+            <div class="header-sec-stopwords">
+                <div class="title">{{'weights_Weights'| translate}}
+                    <span class="module-topic" tooltipClass="tooltip-global-" [container]="'body'" ngbTooltip="{{'sa_topic_guide'| translate}}"
+     placement="right-center"(click)="openUserMetaTagsSlider()">
+                        <i class="si-topic-guide-1"></i>
+                    </span>
+                </div>
+                <div class="restore_text" *ngIf="weights.length">
+                    <div class="lable_text mr-3" id="btn_restoreWeight" (click)="restoreWeights();">
+                        <!-- <img src="assets/icons/return_black.svg"> -->
+                        <i class="si-re-fresh icon-refresh"></i>
+                        {{'weights_reset_to_default' | translate}}
+                    </div>
+                    <span class="clock_img d-none">
+                        <img src="assets/icons/clock.svg">
+                    </span>
+                    <div class="lable_text mr-4 add-searchable" id="btn_openWeight" (click)="openAddNewWeight()">
+                        <!-- <img src="assets/icons/editor/plus-add.svg" class="mr-2"> -->
+                        <i class="si-add-plus icon-add-plus"></i>
+                        {{'weights_add_searchable_field'| translate}}
+                    </div>
+                </div>
             </div>
-            <div class="restore_text" *ngIf="weights.length">
-                <span class="lable_text mr-4" id="btn_openWeight" (click)="openAddNewWeight()"><img
-                        src="assets/icons/editor/plus-add.svg" class="mr-2">{{'weights_add_searchable_field'|
-                    translate}}</span>
-                <span class="lable_text mr-2" id="btn_restoreWeight" (click)="restoreWeights();"><img
-                        src="assets/icons/return_black.svg">{{'weights_reset_to_default' | translate}}</span>
-                <span class="clock_img d-none"><img src="assets/icons/clock.svg"></span>
-
-            </div>
+            <div class="header-desc">Assign weights to the individual feilds to fine tune the search results. Fields assigned with higher weights are searched first relative to the fields with lower weights</div>
         </div>
-        <!-- DATA TABLE START HERE -->
+
+         <!-- DATA TABLE START HERE -->
         <div class="kr-sg-data-table mb-0">
             <section class="table-content">
                 <div class="table_header row m-0">
-                    <div class="col_ col-2 title d-flex align-items-center justify-content-start">
-                        <span class="d-flex align-items-center flex-column mr-2 filter-sort">
-                            <i class="si-chev-up icon-up"></i>
-                            <i class="si-chev-down icon-down"></i>
+                    <div class="col_ col-4 title d-flex align-items-center justify-content-start" (click)="sortByApi('fieldName')">
+                        <span  class="d-flex align-items-center flex-column mr-2 filter-sort">
+                            <i [ngClass]="getSortIconVisibility('fieldName', 'down')"  class="si-chev-up icon-up"></i>
+                            <i [ngClass]="getSortIconVisibility('fieldName', 'up')"  class="si-chev-down icon-down"></i>
                         </span>
-                        FIELD NAME
+                        {{"weights_field_name" | translate}}
                     </div>
-                    <div class="col_ col-6 title d-flex align-items-center justify-content-start">
-                        TYPE 
-                    </div>
-                    <div class="col_ col-4 title d-flex align-items-center justify-content-start">
+                    <div class="col_ col-4 title d-flex align-items-center justify-content-start" (click)="sortByApi('fieldDataType')">
                         <span class="d-flex align-items-center flex-column mr-2 filter-sort">
-                            <i class="si-chev-up icon-up"></i>
-                            <i class="si-chev-down icon-down"></i>
+                            <i  [ngClass]="getSortIconVisibility('fieldDataType', 'down')" class="si-chev-up icon-up"></i>
+                            <i  [ngClass]="getSortIconVisibility('fieldDataType', 'up')" class="si-chev-down icon-down"></i>
                         </span>
-                        WEIGHTS 
+                        {{"weights_type" | translate}} 
+                    </div>
+                    <div class="col_ col-4 title d-flex align-items-center justify-content-start" (click)="sortByApi('weight.value')">
+                        <span class="d-flex align-items-center flex-column mr-2 filter-sort" >
+                            <i [ngClass]="getSortIconVisibility('weight.value', 'down')" class="si-chev-up icon-up"></i>
+                            <i [ngClass]="getSortIconVisibility('weight.value', 'up')" class="si-chev-down icon-down"></i>
+                        </span>
+                        {{"weights_weights_caps" | translate}} 
                     </div>
                 </div>
                 <perfect-scrollbar class="scroll-table-allowRow">
@@ -51,10 +65,10 @@
                         <div class="desc">{{'weights_please_add_rankable_field'| translate}}</div>
                     </div>
                     <div class="content-body" *ngFor="let weightModal of weightsList; let i = index ; trackBy: prepereWeights">
-                        <div class="col-2 name text-truncate">
+                        <div class="col-4 name text-truncate">
                             <div class="text-truncate">{{weightModal.fieldName}} </div>
                         </div>
-                        <div class="col-6 desc text-truncate">
+                        <div class="col-4 desc text-truncate">
                             <span>{{weightModal.fieldDataType}}</span>
                         </div>
                         <div class="col-4 sliderContainer">
@@ -65,24 +79,14 @@
                             <div class="sliderVal">{{weightModal?.sliderObj.default}}</div>
                             <div class="action_links">
                                 <span class="actions-links" id="btn_deleteWeight" ngbTooltip='Delete'
-                                    [container]="'body'" (click)="deleteWeightPopUp(weightModal,$event,i)"><img
-                                    class="action_icon" src="assets/icons/delete.svg"></span>
+                                    [container]="'body'" (click)="deleteWeightPopUp(weightModal,$event,i)">
+                                    <!-- <img class="action_icon" src="assets/icons/delete.svg"> -->
+                                    <i class="si-delete1 icon-delete"></i>
+                                </span>
                             </div>
                         </div>
                     </div>
                 </perfect-scrollbar>
-                <div class="weightsFooter d-none">
-                    <!-- <div class="add_btn_sec">
-                </div> -->
-                    <div class="cancel_save_sec">
-                        <button [ngClass]="{'d-none':!weights.length}" class="kr-sg-button-secondary btn_lg"
-                            id="btn_discardWeightChanges" [disabled]="disableCancle"
-                            (click)="setDataToActual()">{{'sa_cancel'| translate}}</button>
-                        <button [ngClass]="{'d-none':!weights.length}" class="kr-sg-button-primary btn_lg"
-                            id="btn_confirmWeightChanges"
-                            (click)="addOrUpddate(weights,null,'edit')">{{'weights_save_weights' | translate}}</button>
-                    </div>
-                </div>
             </section>
         </div>
     </ng-container>
@@ -100,7 +104,7 @@
                 <div class="row m-0 align-items-center">
                     <div class="kr-sg-dropdowns col-12 p-0" ngbDropdown>
                         <div class="dropdown dropdown-open">
-                            <button class="dropdown-toggle dropdown-input" id="dropdownBasic1" data-toggle="dropdown"
+                            <button [ngClass]="{'error':submitted && !search_FieldName.length}" class="dropdown-toggle dropdown-input" id="dropdownBasic1" data-toggle="dropdown"
                                 ngbDropdownAnchor (click)="clearcontentSrcW()">
 
                                 {{addEditWeighObj.fieldName? addEditWeighObj.fieldName :"Choose field"}}
@@ -120,6 +124,7 @@
                                             [ngClass]="{'highlight':addEditWeighObj.fieldName == suggesition}">
                                             {{ suggesition.fieldName}}
                                         </li>
+                                        <li *ngIf="fieldsList && fieldsList.length===0">{{"weights_please_add" | translate}}</li>
                                     </ng-container>
                                 </perfect-scrollbar>
                             </ul>
@@ -133,11 +138,6 @@
                 <div class="label-text">{{'weights_weight_name'| translate}}</div>
                 <input type="text" id="input_weightsName" maxlength="60" [(ngModel)]="addEditWeighObj.name"
                     placeholder="Placeholder text" class="input-text">
-            </div>
-            <div class="kr-sg-input-text-area mb-25 d-none">
-                <div class="label-text">{{'weights_description'| translate}}</div>
-                <textarea id="input_weightsDesc" [(ngModel)]="addEditWeighObj.desc" maxlength="250"
-                    placeholder="Short Description" class="input-text"></textarea>
             </div>
             <div class="kr-sg-input-text">
                 <div class="label-text">{{'weights_set_weight'| translate}}</div>

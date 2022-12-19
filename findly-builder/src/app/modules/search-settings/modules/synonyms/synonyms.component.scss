@@ -108,7 +108,7 @@
             .panel-form-based-on-radio{
                 padding: 20px 0;
                 display: flex;
-                align-items: flex-start;
+                align-items: center;
                 justify-content: space-around;
                 // gap: 15px;
                 .form-search-synonym{
@@ -250,6 +250,7 @@
                                         align-items: center;
                                         flex-direction: revert;
                                         flex-wrap: wrap;
+                                        // gap: 10px;
                                         .synonym-type-list-name{
                                             background: #EFF0F1;
                                             color: #202124;
@@ -267,10 +268,16 @@
                                             font-weight: 400;
                                             font-size: 10px;
                                             line-height: 12px;
-                                            display: flex;
                                             align-items: flex-end;
                                             color: #777A80;
                                             padding: 0 12px;
+                                        }
+                                        .icon-one-or-two-way{
+                                            padding: 0 10px;
+                                            .arrow_divider{
+                                                font-size: 10px;
+                                                color: #000000;
+                                            }
                                         }
                                     }
                                 }
@@ -298,6 +305,10 @@
                                         font-size: 12px;
                                         font-weight: 500;
                                         line-height: inherit;
+                                    }
+                                    .si-green-check{
+                                        color: #0D6EFD;
+                                        font-weight: 400;
                                     }
                                 }
                                 .field-edit-mode{

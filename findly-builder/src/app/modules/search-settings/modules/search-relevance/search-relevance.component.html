@@ -21,7 +21,7 @@
 
     <div class="landing-page-toggle" id="sa_landing_page_toggle">
         <label class="kr-sg-toggle with-label">
-            <input type="checkbox" [checked]="searchRelevanceConfig?.enable" id="sa_slider_enable_disable" (change)="sildervaluechanged($event,'enable')">
+            <input type="checkbox" [checked]="searchRelevanceConfig?.enable" id="sa_slider_enable_disable" (change)="silderValuechanged($event,'enable')">
             <div class="slider" id="sa_slider">
                 <span class="no" id="sa_disable_text">{{"search_settings_search_relevance_disable" |translate}}</span>
                 <span class="yes" id="sa_enable_text">{{"search_settings_search_relevance_enable" |translate}}</span>
@@ -32,17 +32,17 @@
     <div class="checkbox-with-desc-block" id="sa_checkbox_desc_block">
         <div class="group-checkbox" id="sa_group_checkbox">
             <div class="kr-sg-checkbox d-block">
-                <input id="checkbox_grp1" class="checkbox-custom" type="checkbox"  [checked]="searchRelevanceConfig?.subject" (change)="sildervaluechanged($event,'subject')">
+                <input id="checkbox_grp1" class="checkbox-custom" type="checkbox"  [checked]="searchRelevanceConfig?.subject" (change)="silderValuechanged($event,'subject')">
                 <label for="checkbox_grp1" class="checkbox-custom-label" >{{"search_settings_search_relevance_subject" |translate}}</label>
                 <div class="checkbox-custom-desc" >{{"search_settings_search_relevance_subject_desc" |translate}}</div>
             </div>
             <div class="kr-sg-checkbox d-block">
-                <input id="checkbox_grp2" class="checkbox-custom" type="checkbox"  [checked]="searchRelevanceConfig?.object"  (change)="sildervaluechanged($event,'object')">
+                <input id="checkbox_grp2" class="checkbox-custom" type="checkbox"  [checked]="searchRelevanceConfig?.object"  (change)="silderValuechanged($event,'object')">
                 <label for="checkbox_grp2" class="checkbox-custom-label" >{{"search_settings_search_relevance_object" |translate}}</label>
                 <div class="checkbox-custom-desc" >{{"search_settings_search_relevance_object_desc" |translate}}</div>
             </div>
             <div class="kr-sg-checkbox d-block">
-                <input id="checkbox_grp3" class="checkbox-custom" type="checkbox" [checked]="searchRelevanceConfig?.verb"  (change)="sildervaluechanged($event,'verb')">
+                <input id="checkbox_grp3" class="checkbox-custom" type="checkbox" [checked]="searchRelevanceConfig?.verb"  (change)="silderValuechanged($event,'verb')">
                 <label for="checkbox_grp3" class="checkbox-custom-label" >{{"search_settings_search_relevance_verb" |translate}}</label>
                 <div class="checkbox-custom-desc" >{{"search_settings_search_relevance_verb_desc" |translate}}</div>
             </div>
