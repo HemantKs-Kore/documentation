@@ -157,7 +157,7 @@ export class WeightsComponent implements OnInit, OnDestroy
     this.service.invoke('put.restoreWeights', quaryparms).subscribe(res =>
     {
       this.notificationService.notify('Updated Successfully', 'success');
-      this.prepereWeights();
+      this.getWeights();
       if (dialogRef && dialogRef.close)
       {
         dialogRef.close();

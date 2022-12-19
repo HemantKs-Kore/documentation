@@ -4,7 +4,7 @@
     <div class="common_header">
         <div class="title">{{'index_Settings' | translate}}
             <span class="module-topic" tooltipClass="tooltip-global-" [container]="'body'" ngbTooltip='Topic Guide' placement="right-center">
-                <i class="si-topic-guide-1"></i> <!-- Topic Guide yet to Impiment -->
+                <i id="sa_index_settings_topicguide" class="si-topic-guide-1"></i> <!-- Topic Guide yet to Impiment -->
             </span>
         </div>
     </div>
@@ -17,7 +17,7 @@
                 <div class="body-header-tag"> {{"index_Settings_index_languages" | translate}} </div>
                 <div class="body-header-desc">  {{"index_Settings_multilangual_support_desc" | translate}} </div>
             </div>
-            <div id="sa_open_add_langauge" class="body-header-link-btn" (click)="openModalPopup()">
+            <div id="sa_index_settings_add_language" id="sa_open_add_langauge" class="body-header-link-btn" (click)="openModalPopup()">
                 <span class="icon-add-span"><i class="si-add-plus icon-add"></i></span>
                 {{"index_Settings_add_language" | translate}}
             </div>
@@ -36,7 +36,7 @@
                                 <div class="col-1">
                                     <div *ngIf="i>0" class="action_links text-right">
                                         <!-- <span class="action_link-icon"> <i class="si-pencil-edit"  (click)="editLanguages(i)"></i> </span> -->
-                                        <span class="action_link-icon ml-3"> <i  class="si-delete1" (click)="i===0?'':deleteLanguagesPop($event,list)"></i> </span>
+                                        <span id="sa_index_settings_delete{{i}}" class="action_link-icon ml-3"> <i  class="si-delete1" (click)="i===0?'':deleteLanguagesPop($event,list)"></i> </span>
                                     </div>
                                 </div>
                     </div>
@@ -54,15 +54,15 @@
     <!-- <app-add-list-popup [list] ="languageList"></app-add-list-popup> -->
     <div class="modal-header">
         <div class="title">{{"index_Settings_add_language" | translate}}</div>
-        <div class="close_icon" (click)="closeModalPopup()"><img src="assets/icons/modal-close.svg"></div>
+        <div class="close_icon" id="sa_index_settings_close_model_popUp" (click)="closeModalPopup()"><img src="assets/icons/modal-close.svg"></div>
     </div>
     <ng-container>
     <div class="modal-body">
         <!-- Search bar for Languages -->
          <div class="search-field-bar">
              <div class="kr-sg-input-inline-search">                               
-                 <input type="text" [(ngModel)]="searchLanguages" placeholder="Search" class="input-search">
-                    <span class="search-icon close-icon"><i class="si-close"></i></span>
+                 <input type="text" id="sa_index_settings_search_languages" [(ngModel)]="searchLanguages" placeholder="Search" class="input-search">
+                    <span *ngIf="searchLanguages" id="sa_index_settings_close_search" class="search-icon close-icon"><i (click)="clearSearch()" class="si-close"></i></span>
                     <span class="search-icon"><i class="si-search"></i></span>                                   
              </div>
          </div>
@@ -77,9 +77,9 @@
                         <div *ngFor="let language of languageList | filter : [ searchLanguages, 'language',''];let i = index" class="table_body row m-0">
                             <div class="col-3">
                                 <div class="kr-sg-checkbox">
-                                    <input id="checkbox{{i}}" class="checkbox-custom" type="checkbox"
+                                    <input id="sa_index_settings_checkbox{{i}}" class="checkbox-custom" type="checkbox"
                                     [checked]="language.selected" (click)="addLanguage(i)">
-                                    <label for="checkbox{{i}}" class="checkbox-custom-label"></label>
+                                    <label for="sa_index_settings_checkbox{{i}}" class="checkbox-custom-label"></label>
                                 </div>
                             </div>
                             <div class="col-6 title text-left p-0" title=""> {{language.language}} </div>
@@ -96,8 +96,8 @@
                 {{"index_Settings_selected" | translate}}
             </div>
             <div>
-                <button type="button" class="kr-sg-button-primary btn_lg float-right" (click)="addLang()">{{"sa_save" | translate}}</button>
-                <button type="button" class="kr-sg-button-secondary btn_lg float-right" (click)="closeModalPopup()">{{"sa_cancel" | translate}}</button>
+                <button id="sa_index_settings_save_language" type="button" class="kr-sg-button-primary btn_lg float-right" (click)="addLang()">{{"sa_save" | translate}}</button>
+                <button id="sa_index_settings_cancel_langauge" type="button" class="kr-sg-button-secondary btn_lg float-right" (click)="closeModalPopup()">{{"sa_cancel" | translate}}</button>
             </div>
         </div>
            

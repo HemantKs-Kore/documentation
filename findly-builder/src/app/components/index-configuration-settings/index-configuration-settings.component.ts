@@ -92,6 +92,7 @@ export class IndexConfigurationSettingsComponent implements OnInit {
     this.addLangModalPopRef.close();
     this.saveLanguages = false;
     this.clearCheckbox();
+    this.searchLanguages = '';
   }
   //geting the seedData
   getAvilableLanguages(){
@@ -224,6 +225,9 @@ export class IndexConfigurationSettingsComponent implements OnInit {
       this.unCheck()
       let updateArr = this.updateLangListFun(list);
       this.saveLanguage(dialogRef,updateArr)
+  }
+  clearSearch(){
+    this.searchLanguages = '';
   }
     //Use a better Apporch so that we can restrict this call for IndexPipline - use Observable
   getIndexPipeline() {
