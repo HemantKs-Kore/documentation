@@ -2,8 +2,8 @@
   <!-- Header  start from here -->
   <div class="landing-page-header">
     <div class="widget-header-block">
-      <div class="widget-header">Synonyms</div>
-      <div class="widget-desc">Add synonyms to expand the search queries to retrieve better search results</div>
+      <div class="widget-header">{{"synonyms_Synonymns" | translate}}</div>
+      <div class="widget-desc">{{"synonyms_header_desc" | translate}}</div>
     </div>
     <div class="landing-page-search" *ngIf="true">
       <div class="kr-sg-input-text m-0">
@@ -13,9 +13,9 @@
           (mouseover)="searchImgSrc = (searchFocusIn ? 'assets/icons/search_gray.svg' :'assets/icons/search_gray_dark.svg')"
           (mouseout)="searchFocusIn=false;searchImgSrc = 'assets/icons/search_gray.svg'"
           (focus)="searchFocusIn=true;searchImgSrc = 'assets/icons/search_gray.svg'">
-        <span class="search-icon" *ngIf="!synonymSearch"><i class="si-search"></i></span>
-        <span class="close-icon" *ngIf="!synonymSearch" [ngClass]="{'pr-22':synonymSearch}"
-          (mouseover)="activeClose=true" (mouseout)="activeClose=false" (click)="focusoutSearch()"
+        <span class="search-icon" *ngIf="!synonymSearch.length"><i class="si-search"></i></span>
+        <span class="close-icon" *ngIf="synonymSearch.length" [ngClass]="{'pr-22':synonymSearch}"
+          (mouseover)="activeClose=true" (mouseout)="activeClose=false" (click)="focusoutSearch();synonymSearch=''"
           placement="top-center" container='body' ngbTooltip="Cancel"
           tooltipClass="ngb_tooltip_custom_class sampleJson"><i class="si-close"></i></span>
       </div>
@@ -29,11 +29,11 @@
       <div class="group-radiobutton">
         <div class="kr-sg-radiobutton">
           <input id="two-way-synonum" value="synonym" name="two-way-synonym" [(ngModel)]="addNewSynonymObj.type" (click)="changeSynonymType()" class="radio-custom" type="radio" checked>
-          <label for="two-way-synonum" class="radio-custom-label">Synonym</label>
+          <label for="two-way-synonum" class="radio-custom-label">{{"synonyms_synonym" | translate}}</label>
         </div>
         <div class="kr-sg-radiobutton">
           <input id="one-way-synonum" value="oneWaySynonym" name="one-way-synonym" [(ngModel)]="addNewSynonymObj.type" (click)="changeSynonymType()"  class="radio-custom" type="radio">
-          <label for="one-way-synonum"  class="radio-custom-label">One - Way Synonym</label>
+          <label for="one-way-synonum"  class="radio-custom-label">{{"synonyms_one_way_synonym" | translate}}</label>
         </div>
       </div>
     </div>
@@ -42,7 +42,7 @@
         <div class="kr-sg-input-text">
           <input  [class.err-block]="((!addNewSynonymObj.keyword || !addNewSynonymObj.keyword.length) && submitted)" type="text" 
           id="synonymName" name="synonymName" autocomplete="off"  (click)="synonymChanged()" [(ngModel)]="addNewSynonymObj.keyword"
-            [ngModelOptions]="{standalone: true}" placeholder="Search Term" required class="input-text">
+            [ngModelOptions]="{standalone: true}" placeholder="{{'synonyms_search_terms' | translate}}" required class="input-text">
         </div>
       </div>
       <div class="form-chip-set-synonym col-7 pr-0 pl-0" [ngClass]="{'col-10': addNewSynonymObj.type === 'synonym'}">
@@ -57,7 +57,7 @@
                     (removed)="remove(syn,'add')"><span *ngIf="syn">{{syn}}</span>
                     <mat-icon matChipRemove> <span class="close-icon"><i class="si-close"></i></span></mat-icon>
                   </mat-chip>
-                  <input placeholder="Type Synonym and Press Enter"  [matChipInputFor]="chipList"
+                  <input placeholder="{{'synonyms_type_synonym_and_enter' | translate}}"  [matChipInputFor]="chipList"
                     [matChipInputSeparatorKeyCodes]="separatorKeysCodes" [matChipInputAddOnBlur]="addOnBlur"
                     (matChipInputTokenEnd)="add($event,'add')" #suggestedInput [(ngModel)]="synonymObj.synonyms"
                     [ngModelOptions]="{standalone: true}" autocomplete="off">
@@ -82,14 +82,14 @@
       <div class="table_data_content col-12">
         <div class="table_header row m-0">
           <div class="col_ col-8 title d-flex align-items-center justify-content-start">
-            TERMS
+            {{"synonyms_terms" | translate}}
           </div>
           <div class="col_ col-2 title d-flex align-items-center justify-content-start" (click)="sortByApi('type')">
             <span class="d-flex align-items-center flex-column mr-2 filter-sort">
               <i  [ngClass]="getSortIconVisibility('type', 'down')" class="si-chev-up icon-up"></i>
               <i  [ngClass]="getSortIconVisibility('type', 'up')" class="si-chev-down icon-down"></i>
             </span>
-            TYPE
+            {{"synonyms_type" | translate}}
             <div class="kr-sg-dropdowns type_sort_dropdown" #synonymFilter="ngbDropdown" ngbDropdown [container]="'body'"
             [autoClose]="true" [placement]="'bottom-right'">
             <div class="dropdown dropdown-open">
@@ -106,12 +106,12 @@
                                 src="assets/icons/check-blue.svg"></li>
                         
                             <li [ngClass]="{'selected-list': filterSystem.typefilter == type}"  (click)="filterTable(type,'synonym');synonymFilter.close()">
-                                <span class="list-name">Synonym</span><img
+                                <span class="list-name">{{"synonyms_synonym" | translate}}</span><img
                                 [ngClass]="{'hide': filterSystem.typefilter !== type}"
                                     src="assets/icons/check-blue.svg">
                             </li>
                             <li [ngClass]="{'selected-list': filterSystem.typefilter == type}"  (click)="filterTable(type,'oneWaySynonym');synonymFilter.close()">
-                                <span class="list-name">One Way Synonym</span><img
+                                <span class="list-name">{{"synonyms_one_way_synonym" | translate}}</span><img
                                 [ngClass]="{'hide': filterSystem.typefilter !== type}"
                                     src="assets/icons/check-blue.svg">
                             </li>
@@ -120,7 +120,7 @@
         </div>
           </div>
           <div class="col_ col-2 title d-flex align-items-center justify-content-start">
-            ACTION
+            {{"synonyms_type_action" | translate}}
           </div>
         </div>
         <perfect-scrollbar class="table_body_content">

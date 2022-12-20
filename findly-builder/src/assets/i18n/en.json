@@ -1944,6 +1944,7 @@
     "weights_set_weight": "Set Weight",
     "weights_delete": "Delete",
     "weights_cancel": "Cancel",
+    "weights_header_desc": "Assign weights to the individual feilds to fine tune the search results. Fields assigned with higher weights are searched first relative to the fields with lower weights",
 
     "searchexperience_150":"150",
     "searchexperience_component_title":"Search Interface",
@@ -3669,7 +3670,22 @@
     "stopwords_reset_to_default":"Reset To Defalut",
     "stopwords_add_defalut":"Add Defalut",
     "stopwords_clear_all":"Clear All",
-    "stopwords_Get_Started":"Get Started"
+    "stopwords_Get_Started":"Get Started",
+
+
+    "snippets_Snippets":"Snippets",
+    "snippets_header_desc":"A snippet is the description, summary or short answers from the most relevant search result. Snippets appear at the top of the search results and provide users with a quick answer to their questions.",
+    "snippets_virtual_assistant":"Virtual Assistant",
+    "snippets_Searchbar":"Search Bar",
+
+    "smallTalk_Small_Talk":"Small Talk",
+    "smallTalk_header_desc":"Small Talk refers to the casual conversations that a Search app can have with the end-users. Search apps that can answer social queries like 'How Are You?' create a positive impression with human touch.",
+
+    "synonyms_Synonymns":"Synonyms",
+    "synonyms_header_desc":"Add synonyms to expand the search queries to retrieve better search results",
+    "synonyms_search_terms":"Search Terms",
+    "synonyms_type_synonym_and_enter":"Type Synonym and Press Enter",
+    "synonyms_type_action":"ACTION"
     
  
 }

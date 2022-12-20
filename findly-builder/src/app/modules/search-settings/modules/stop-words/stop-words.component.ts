@@ -178,7 +178,7 @@ createInit() {
     }
   }
   // CREATING AND UPDATING THE STOPWORDS (UPDATE API CALL) 
-  createStopWords(type,stopwordsArr?,reset?){   // type here is a boolean for to check for adding Default(true) or adding manually(false)
+  createStopWords(type,stopwordsArr?,reset?,removeDefault?){   // type here is a boolean for to check for adding Default(true) or adding manually(false)
     const quaryparms: any = {
       streamId: this.selectedApp._id,
       queryPipelineId: this.queryPipelineId,
@@ -188,14 +188,18 @@ createInit() {
       languageCode: 'en',
       defaultStopwords:type,
       resetStopwords:reset,         //reset is to have only default Stop Words
-      stopwords: stopwordsArr
+      stopwords: stopwordsArr,
+      removeDefault:removeDefault
     };
-    if(reset) {
+    if(reset || removeDefault) {
       delete payload.defaultStopwords
       delete payload.stopwords
+      if(removeDefault){
+        delete payload.resetStopwords
+      }
     }
     this.service.invoke('put.createStopWords',quaryparms,payload).subscribe(res => {
-       this.stopwordsList = [...res.stopwords] // updating Display Array
+       this.stopwordsList = res.stopwords // updating Display Array
        this.notificationService.notify('Stopwords Added Successfully', 'success');
        this.newStopWord = '';
     }, errRes => {

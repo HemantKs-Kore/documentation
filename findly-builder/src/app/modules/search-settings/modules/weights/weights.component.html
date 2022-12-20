@@ -10,11 +10,11 @@
                 <div class="title">{{'weights_Weights'| translate}}
                     <span class="module-topic" tooltipClass="tooltip-global-" [container]="'body'" ngbTooltip="{{'sa_topic_guide'| translate}}"
      placement="right-center"(click)="openUserMetaTagsSlider()">
-                        <i class="si-topic-guide-1"></i>
+                        <i id="sa_weights_topic_guide" class="si-topic-guide-1"></i>
                     </span>
                 </div>
                 <div class="restore_text" *ngIf="weights.length">
-                    <div class="lable_text mr-3" id="btn_restoreWeight" (click)="restoreWeights();">
+                    <div id="sa_weights_reset_weigths" class="lable_text mr-3" id="btn_restoreWeight" (click)="restoreWeights();">
                         <!-- <img src="assets/icons/return_black.svg"> -->
                         <i class="si-re-fresh icon-refresh"></i>
                         {{'weights_reset_to_default' | translate}}
@@ -22,35 +22,35 @@
                     <span class="clock_img d-none">
                         <img src="assets/icons/clock.svg">
                     </span>
-                    <div class="lable_text mr-4 add-searchable" id="btn_openWeight" (click)="openAddNewWeight()">
+                    <div id="sa_weights_searchable_field" class="lable_text mr-4 add-searchable" id="btn_openWeight" (click)="openAddNewWeight()">
                         <!-- <img src="assets/icons/editor/plus-add.svg" class="mr-2"> -->
                         <i class="si-add-plus icon-add-plus"></i>
                         {{'weights_add_searchable_field'| translate}}
                     </div>
                 </div>
             </div>
-            <div class="header-desc">Assign weights to the individual feilds to fine tune the search results. Fields assigned with higher weights are searched first relative to the fields with lower weights</div>
+            <div class="header-desc">{{"weights_header_desc" | translate}}</div>
         </div>
 
          <!-- DATA TABLE START HERE -->
         <div class="kr-sg-data-table mb-0">
             <section class="table-content">
                 <div class="table_header row m-0">
-                    <div class="col_ col-4 title d-flex align-items-center justify-content-start" (click)="sortByApi('fieldName')">
+                    <div id="sa_weights_sort_by_fields" class="col_ col-4 title d-flex align-items-center justify-content-start" (click)="sortByApi('fieldName')">
                         <span  class="d-flex align-items-center flex-column mr-2 filter-sort">
                             <i [ngClass]="getSortIconVisibility('fieldName', 'down')"  class="si-chev-up icon-up"></i>
                             <i [ngClass]="getSortIconVisibility('fieldName', 'up')"  class="si-chev-down icon-down"></i>
                         </span>
                         {{"weights_field_name" | translate}}
                     </div>
-                    <div class="col_ col-4 title d-flex align-items-center justify-content-start" (click)="sortByApi('fieldDataType')">
+                    <div id="sa_weights_sort_by_type" class="col_ col-4 title d-flex align-items-center justify-content-start" (click)="sortByApi('fieldDataType')">
                         <span class="d-flex align-items-center flex-column mr-2 filter-sort">
                             <i  [ngClass]="getSortIconVisibility('fieldDataType', 'down')" class="si-chev-up icon-up"></i>
                             <i  [ngClass]="getSortIconVisibility('fieldDataType', 'up')" class="si-chev-down icon-down"></i>
                         </span>
                         {{"weights_type" | translate}} 
                     </div>
-                    <div class="col_ col-4 title d-flex align-items-center justify-content-start" (click)="sortByApi('weight.value')">
+                    <div id="sa_weights_sort_by_value" class="col_ col-4 title d-flex align-items-center justify-content-start" (click)="sortByApi('weight.value')">
                         <span class="d-flex align-items-center flex-column mr-2 filter-sort" >
                             <i [ngClass]="getSortIconVisibility('weight.value', 'down')" class="si-chev-up icon-up"></i>
                             <i [ngClass]="getSortIconVisibility('weight.value', 'up')" class="si-chev-down icon-down"></i>
@@ -73,12 +73,12 @@
                         </div>
                         <div class="col-4 sliderContainer">
                             <div class="range-slider">
-                                <app-range-slider [customClass]='"weightsSlider"' [allData]='weightModal.sliderObj'
+                                <app-range-slider id="sa_weights_slider{{i}}" [customClass]='"weightsSlider"' [allData]='weightModal.sliderObj'
                                     (valueEvent)="valueEvent($event,weightModal)"></app-range-slider>
                             </div>
                             <div class="sliderVal">{{weightModal?.sliderObj.default}}</div>
                             <div class="action_links">
-                                <span class="actions-links" id="btn_deleteWeight" ngbTooltip='Delete'
+                                <span id="sa_weights_delete{{i}}" class="actions-links" id="btn_deleteWeight" ngbTooltip='Delete'
                                     [container]="'body'" (click)="deleteWeightPopUp(weightModal,$event,i)">
                                     <!-- <img class="action_icon" src="assets/icons/delete.svg"> -->
                                     <i class="si-delete1 icon-delete"></i>
@@ -95,7 +95,7 @@
 <kr-modal modalType="center" modalClass="addWeightModalComponent modal_popups_" #addDditWeightPop>
     <div class="modal-header">
         <div class="title">{{currentEditIndex>-1?'Edit':'Add'}} Searchable Field</div>
-        <div class="close_icon"><img id="btn_closeWeightModal" (click)="closeAddEditWeight()"
+        <div id="sa_weights_close_add_weight_popUp" class="close_icon"><img id="btn_closeWeightModal" (click)="closeAddEditWeight()"
                 src="assets/icons/modal-close.svg"></div>
     </div>
     <perfect-scrollbar class="perfect-scroll-modal-body" #perfectScroll>
@@ -104,7 +104,7 @@
                 <div class="row m-0 align-items-center">
                     <div class="kr-sg-dropdowns col-12 p-0" ngbDropdown>
                         <div class="dropdown dropdown-open">
-                            <button [ngClass]="{'error':submitted && !search_FieldName.length}" class="dropdown-toggle dropdown-input" id="dropdownBasic1" data-toggle="dropdown"
+                            <button id="sa_weights_drop_down" [ngClass]="{'error':submitted && !search_FieldName.length}" class="dropdown-toggle dropdown-input" id="dropdownBasic1" data-toggle="dropdown"
                                 ngbDropdownAnchor (click)="clearcontentSrcW()">
 
                                 {{addEditWeighObj.fieldName? addEditWeighObj.fieldName :"Choose field"}}
@@ -113,12 +113,12 @@
                             <ul class="dropdown-menu content-menu faq-filter-add col-12 mw-100"
                                 style="overflow-y: hidden;" ngbDropdownMenu>
                                 <li class="search-box" ngbDropdownItem>
-                                    <input id="searchBoxIdW" autocomplete="off" type="text" placeholder="Search"
+                                    <input id="sa_weights_add_search" id="searchBoxIdW" autocomplete="off" type="text" placeholder="Search"
                                         class="seach-input" autofocus [(ngModel)]="search_FieldName" />
                                 </li>
                                 <perfect-scrollbar class="scroll-search-field h-178">
                                     <ng-container>
-                                        <li ngbDropdownItem
+                                        <li id="sa_weights_sropdown_vales{{i}}" ngbDropdownItem
                                             *ngFor="let suggesition of fieldsList | filter : [search_FieldName, 'fieldName']"
                                             (click)="addEditWeighObj.fieldName=suggesition.fieldName;selectedField(suggesition)"
                                             [ngClass]="{'highlight':addEditWeighObj.fieldName == suggesition}">
@@ -136,7 +136,7 @@
             <div class="kr-sg-input-text mb-25" *ngIf="addEditWeighObj._id"
                 [ngClass]="{'disabled': addEditWeighObj._id}">
                 <div class="label-text">{{'weights_weight_name'| translate}}</div>
-                <input type="text" id="input_weightsName" maxlength="60" [(ngModel)]="addEditWeighObj.name"
+                <input id="sa_weights_add_search" type="text" id="input_weightsName" maxlength="60" [(ngModel)]="addEditWeighObj.name"
                     placeholder="Placeholder text" class="input-text">
             </div>
             <div class="kr-sg-input-text">
