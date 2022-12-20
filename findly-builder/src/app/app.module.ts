@@ -1,3 +1,4 @@
+import { AppMenuModule } from './components/app-menu/app-menu.module';
 import { SharedPipesModule } from './helpers/filters/shared-pipes.module';
 import { SchedulerModule } from './components/scheduler/scheduler.module';
 import { BrowserModule } from '@angular/platform-browser';
@@ -13,7 +14,6 @@ import { AppBodyComponent } from './components/app-body/app-body.component';
 import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
 // import { ScrollTrackerDirective } from './components/dashboard-home/dashboard-home.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { AppMenuComponent } from './components/app-menu/app-menu.component';
 import { AppSelectionService } from '@kore.services/app.selection.service'
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AuthGuard } from '@kore.services/auth.guard';
@@ -93,7 +93,6 @@ import { ActionsComponent } from './components/actions/actions.component';
 import { PricingComponent } from './components/pricing/pricing.component';
 import { InvoicesComponent } from './components/invoices/invoices.component';
 import { UsageLogComponent } from './components/usage-log/usage-log.component';
-import { UpgradePlanComponent } from './helpers/components/upgrade-plan/upgrade-plan.component';
 import { GeneralSettingsComponent } from './components/general-settings/general-settings.component';
 import { ResultTemplatesComponent } from './components/result-templates/result-templates.component';
 import { OnboardingComponentComponent } from './components/onboarding-component/onboarding-component.component';
@@ -114,7 +113,6 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
     AppComponent,
     AppHeaderComponent,
     AppBodyComponent,
-    AppMenuComponent,
     SortPipe,
     AppsListingComponent,
     ScrollSpyDirective,
@@ -163,7 +161,6 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
     PricingComponent,
     InvoicesComponent,
     UsageLogComponent,
-    UpgradePlanComponent,
     GeneralSettingsComponent,
     ResultTemplatesComponent,
     AnalyticsDropdownComponent,
@@ -220,7 +217,8 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
     EmptyScreenModule,
     SmallTalkModule,
     SchedulerModule,
-    SharedPipesModule
+    SharedPipesModule,
+    AppMenuModule
   ],
   // tslint:disable-next-line:max-line-length
   entryComponents: [

@@ -1150,6 +1150,99 @@
     </div>
 </kr-modal>
 
+<!-- Link Bot modal -->
+<kr-modal modalType="center" modalClass="botsModal modal_popups_ linkExistingBotsModal" #linkBotsModalPop>
+  <ng-container *ngIf="selectedSourceType && selectedSourceType.resourceType === 'linkBot'">
+    <div class="modal-header">
+      <div class="title">Link Bots</div>
+      <div class="close_icon"><img (click)="cancleSourceAddition()" src="assets/icons/modal-close.svg"></div>
+    </div>
+    <perfect-scrollbar class="perfect-scroll-modal-body" #perfectScroll4>
+      <div class="modal-body">
+        <div class="bots-modal-empty-bots-container" *ngIf="noAssociatedBots">
+          <img src="assets/images/icons/empty_ill.svg">
+          <h2>{{"contentSource_no_bots" | translate}}</h2>
+          <h4>{{"contentSource_please_add_bots" | translate}}</h4>
+        </div>
+        <ng-container *ngIf="!noAssociatedBots">
+          <div class="info-link-text">{{"botAction_choose_any_bot_from_the_list" | translate}}</div>
+          <div class="kr-sg-input-text">
+            <input type="text" placeholder="Search" [(ngModel)]="searchAssociatedBots" name="searchAssociatedBots"
+              class="input-text" maxlength="60">
+            <img class="search-icon" src="assets/images/search_gray.svg">
+          </div>
+          <ng-container>
+            <div class="link-bot-table">
+              <div class="table-header col-12 row">
+                <div class="col-6 title">{{"botAction_bot_name" | translate}}</div>
+                <div class="col-6 title">{{"botAction_owner" | translate}}</div>
+              </div>
+              <div class="table-body-link-bot row col-12"
+                *ngFor="let bot of associatedBots | filter: [searchAssociatedBots, 'name']">
+                <div class="col-6 bot-name-data row m-0">
+                  <div class="col-8 name-with-type text-truncate">
+                    {{bot.name}} <span class="bot-type" *ngIf="bot.type==='universalbot'">{{"botAction_universal_bot" |
+                      translate}}</span>
+                  </div>
+                  <div class="col-4 shares-data">
+                    <img src="assets/icons/actions/shares.svg">{{bot.publishedTasksCount}} {{"botAction_tasks" |
+                    translate}}
+                  </div>
+                </div>
+                <div class="col-3 owner-name">{{bot.createdBy.firstName}} {{bot.createdBy.lastName}}</div>
+                <div class="col-3 link-bot-actions">
+                  <div class="link-bot-btn" (click)="openBotsConfigurationModalElement(bot,linkedBotID)"
+                    placement="left" [ngbTooltip]="(linkedBotID ?'Please Unlink the linked bot':null)" container='body'
+                    [ngClass]="{'link-bot-disable':linkedBotID}" *ngIf="streamID !== bot._id">
+                    <img
+                      src="{{!linkedBotID?'assets/icons/actions/link-bot.svg':'assets/icons/actions/link-bot-disable.svg'}}">{{"botAction_link_bot"
+                    | translate}}
+                  </div>
+                  <div class="link-bot-btn" (click)="unlinkBot(bot._id)" *ngIf="streamID == bot._id">
+                    <img src="assets/icons/actions/link-bot.svg">{{"botAction_unlink_bot" | translate}}
+                  </div>
+                  <!-- <img src="assets/icons/actions/external-link.svg" class="ext-link" placement="top-right" ngbTooltip="Open this bot in Kore.ai Platform" container='body' tooltipClass="train-icon-tooltip ml-12"> -->
+                </div>
+              </div>
+
+            </div>
+            <!-- <div class="bots-modal-list-container">
+              <ngb-accordion #accordionList="ngbAccordion" (panelChange)="toggleDisable($event)">
+                <ng-container
+                  *ngFor="let bot of associatedBots | filter: [searchAssociatedBots, 'name']; let i = index">
+                  <ngb-panel id="{{'bot' + i}}">
+                    <ng-template ngbPanelHeader>
+                      <div class="bots-modal-accordion-header-container">
+                        <img class="bots-modal-bot-icon" src="assets/images/botIcon.svg">
+                        <span class="bots-modal-accordion-header-title">{{bot.name}}</span>
+                        <button *ngIf="streamID != bot._id" class="kr-sg-button-primary bots-modal-button-link"
+                          (click)="linkBot(bot._id)" [disabled]="streamID != null">Link Bot</button>
+                        <span *ngIf="streamID == bot._id" class="bots-modal-span-link">
+                          <div class="bots-modal-check-icon-container"><img
+                              src="assets/images/source-icos/check-green.svg"></div>&nbsp;Bot is linked
+                        </span>
+                        <div *ngIf="streamID == bot._id" class="bots-modal-dropdown-control"><img class="ellipse-icon"
+                            src="assets/icons/elipse.svg">
+                          <div class="bots-modal-dropdown-content">
+                            <ul class="bots-modal-dropdown-content-list">
+                              <li class="bots-modal-dropdown-content-list-item" (click)="unlinkBot(bot._id)">
+                                <span>Unlink Bot</span></li>
+                            </ul>
+                          </div>
+                        </div>
+                      </div>
+                    </ng-template>
+                  </ngb-panel>
+                </ng-container>
+              </ngb-accordion>
+            </div> -->
+          </ng-container>
+        </ng-container>
+      </div>
+    </perfect-scrollbar>
+  </ng-container>
+</kr-modal>
+
 <!-- Bot Link Existing Modal -->
 <kr-modal modalType="center" #botsConfigurationModalElement modalClass="modal_popups_ linkExistingBotsModal">
   <div class="modal-header">
@@ -1435,3 +1528,6 @@
     </div>
   </div>
 </kr-modal>
+
+
+<!-- <app-upgrade-plan #plans></app-upgrade-plan> -->

@@ -9,7 +9,7 @@
       <span class="module-topic" tooltipClass="tooltip-global-" [container]="'body'" ngbTooltip="{{'contentSource_topic_guide' | translate}}" placement="right-center"(click)="openUserMetaTagsSlider()">
         <i class="si-topic-guide-1"></i>
       </span>
-    </div>    
+    </div>
     <perfect-scrollbar class="scoll-empty-screen">
       <app-empty-screen class="empty-lg" [title]="emptyScreen.TITLE" [desc]="emptyScreen.DESC" [imgName]="emptyScreen.IMG_NAME" (isImgLoading)="isEmptyScreenLoading($event)">
         <div class="action-buttons">
@@ -68,10 +68,10 @@
           ngbTooltip="{{'contentSource_list' | translate}}"><img src="assets/icons/list-view.svg"></div>
         </div>
       </div>
-      
+
       <section class="table-content" *ngIf="currentView === 'list'">
           <header class="table-header">
-            
+
             <div class="col_ col-3 d-flex align-items-center" (click)="sortByApi('name')">
               <span class="d-flex align-items-center flex-column mr-1">
                 <img [ngClass]="getSortIconVisibility('name', 'down')" src="assets/icons/caretDown.svg"
@@ -128,7 +128,7 @@
                 </ul>
               </div>
             </div>
-          </div> 
+          </div>
           </header>
           <perfect-scrollbar class="table-scroll-perfect">
             <ng-container *ngIf="(resources| filter: [ searchSources, 'name','title']).length && sectionShow;else noListContent">
@@ -161,7 +161,7 @@
               <div class="col_ col-2" *ngIf="!source.advanceSettings">
                       <span>{{source?.userDetails?.fullName}}</span>
               </div>
-            
+
               <div class="col_ col-2">
                 <span>{{source?.recentStatus==='configured'?'--':source?.numPages}}</span>
               </div>
@@ -175,7 +175,7 @@
                       </div>
                     </div>
                   </div>
-                      
+
                   <!-- status==='configured' -->
                   <div class="media-block media-success" *ngIf="statusObj[source.recentStatus]?.name == 'Validated'">
                     <div class="media-right">
@@ -224,11 +224,11 @@
                     </div>
                   </div>
               </div>
-              
+
               <!-- <div class="col_ col-2 pr-0">
                 {{(source.extractionType == 'web' ? 'Web' :(source.extractionType == 'file'? 'File': '')) | titlecase }}
               </div> -->
-            
+
               <!-- <div class="col_ col-2">{{source.createdOn | dateFormatPipe: 'MM-DD-YYYY hh:mm A' }}</div> -->
               <div class="col_ col-1 text-right p-0">
                 <!-- <span class="actions-links re-crawl" *ngIf="source.extractionType == 'web' && statusObj[source.recentStatus]?.name != 'In Progress' &&  (['success'].includes(source.recentStatus)) || (source.recentStatus === 'failed'&&source?.validations?.url?.validated) || source.recentStatus === 'halted'"
@@ -258,7 +258,7 @@
                   *ngIf="statusObj[source.recentStatus]?.name == 'In Progress'&&source.recentStatus != 'queued'"
                   (click)="stopCrwaling(source,$event)"><img class="action_icon" src="assets/icons/content/stop.svg"
                   ngbTooltip="{{'contentSource_stop' | translate}}"  container="body"></span>
-                    
+
                 <span class="actions-links" (click)="deletePages('source',source,$event)"><img class="action_icon"
                     src="assets/icons/delete-table.svg" ngbTooltip="{{'contentSource_delete' | translate}}" container="body"></span>
               </div>
@@ -340,8 +340,8 @@
                     </div>
                   </div>
                 </div>
-  
-  
+
+
               </div>
             </ng-container>
 
@@ -394,7 +394,7 @@
                 [ngClass]="{'active' : execution}" (click)="swapSlider('execution')">{{"contentSource_executions" |
                 translate}}</span>
             </div>
-            <div class="right-side">       
+            <div class="right-side">
             </div>
           </div>
 
@@ -491,7 +491,7 @@
                         </div>
                       </div>
                     </div>
-      
+
                     <!-- Allow URL -->
               <div class="crawl-opt-table" *ngIf="(!editSource?.advanceOpts?.crawlEverything&&editSource?.advanceOpts?.allowedOpt)">
                 <div class="crawl-opt-row" *ngFor="let allow of allowURLArray;let i=index;">
@@ -602,17 +602,17 @@
                   </div>
                   </div>
                 </div>
-              </div>                 
+              </div>
                   </div>
                 </div>
-            
+
                 <div class="new-crawl-shedule authenticated-website">
                   <div class="new-crawl-shedule-tab" [ngStyle]="{'border':editSource.authorizationEnabled?'':0}">
                     <div class="shedual-header form-group">
                       <div class="d-block">
                         <div class="shedual-hding">{{'contentSource_is_autheticated_website'| translate}}</div>
                       </div>
-                      
+
                       <div class="sr-toggle-btn">
                         <label class="kr-sg-toggle">
                           <input type="checkbox" name="authenticatedOpts" [(ngModel)]="editSource.authorizationEnabled">
@@ -620,7 +620,7 @@
                         </label>
                       </div>
                     </div>
-      
+
                     <div class="crawl-opt-ddl mt-1">
                       <div class="kr-sg-dropdowns mar-bot-12">
                         <div class="dropdown dropdown-open">
@@ -631,7 +631,7 @@
                         </div>
                       </div>
                     </div>
-      
+
                   </div>
                 </div>
       <div class="is-auth-form-block" *ngIf="editSource.authorizationEnabled&&['basic','form'].includes(editSource.authorizationProfle.sso_type)">
@@ -649,7 +649,7 @@
                 <div class="kr-sg-data-table">
                   <section class="table-content">
                       <header class="table-header">
-                          <div class="col-4">{{'contentSource_field_key_caps'| translate}}</div> 
+                          <div class="col-4">{{'contentSource_field_key_caps'| translate}}</div>
                           <div class="col-4">{{'contentSource_field_value_caps'| translate}}</div>
                           <!-- <div class="col-2"></div> -->
                           <div class="col-4">{{'contentSource_actions_caps'| translate}}</div>
@@ -660,7 +660,7 @@
                           <div class="col-4">{{(form?.type==='password')?'********':form?.value}}</div>
                           <!-- <div class="col-4">
                             <div class="d-flex">
-                              <label class="kr-sg-toggle with-label">                                       
+                              <label class="kr-sg-toggle with-label">
                                 <input type="checkbox" [checked]="form.isEnabled">
                                 <div class="slider"> <span class="no">Disable</span><span class="yes">Enable</span></div>
                             </label>
@@ -699,11 +699,11 @@
                                 <button class="kr-sg-button-secondary btn_lg" (click)="saveBasicField(form,'save')">{{'contentSource_save'| translate}}</button>
                               </div>
                               </div>
-                            </div>                
+                            </div>
                           </div>
                       </div>
-                  </section>                               
-              </div>               
+                  </section>
+              </div>
               </div>
             </div>
 
@@ -711,7 +711,7 @@
             <div class="is-auth-form" *ngIf="editSource.authorizationProfle.sso_type==='form'">
               <div class="is-auth-form-header-block">
                 <div class="is-auth-form-header">
-                  {{'contentSource_form_field'| translate}}                  
+                  {{'contentSource_form_field'| translate}}
                 </div>
                 <div class="is-auth-form-add-field" (click)="addFormField('add')" *ngIf="!formFieldObj.isShow">
                   <span><img src="assets/icons/facets/add-blue.svg" class="add-icon-blue" /> <img src="assets/images/add.svg" class="add-icon-black" /></span>{{'contentSource_add_field'| translate}}
@@ -721,7 +721,7 @@
                 <div class="kr-sg-data-table">
                   <section class="table-content" *ngIf="editSource.authorizationProfle.formFields.length>0">
                       <header class="table-header">
-                          <div class="col-3">{{'contentSource_field_key_caps'| translate}}</div> 
+                          <div class="col-3">{{'contentSource_field_key_caps'| translate}}</div>
                           <div class="col-2">{{'contentSource_field_type_caps'| translate}}</div>
                           <div class="col-3">{{'contentSource_field_value_caps'| translate}}</div>
                           <div class="col-2"></div>
@@ -734,7 +734,7 @@
                           <div class="col-3">{{(form.type==='password')?'********':form.value}}</div>
                           <div class="col-2">
                             <div class="d-flex">
-                              <label class="kr-sg-toggle with-label">                                       
+                              <label class="kr-sg-toggle with-label">
                                 <input type="checkbox" [(ngModel)]="form.isEnabled">
                                 <div class="slider"> <span class="no">{{'contentSource_disable'| translate}}</span><span class="yes">{{'contentSource_enable'| translate}}</span></div>
                             </label>
@@ -786,10 +786,10 @@
                                 </div>
                               </div>
                             </div>
-                          </div> 
+                          </div>
                       </div>
                   </section>
-                  
+
                   <!-- Add Form Fields -->
                   <div class="is-auth-form-edit" *ngIf="formFieldObj.isShow">
                     <div class="is-auth-col">
@@ -830,8 +830,8 @@
                         </div>
                       </div>
                     </div>
-                  </div>  
-              </div> 
+                  </div>
+              </div>
               </div>
             </div>
 
@@ -839,19 +839,19 @@
             <div class="is-auth-form" *ngIf="['basic','form'].includes(editSource.authorizationProfle.sso_type)">
               <div class="is-auth-form-header-block">
                 <div class="is-auth-form-header">
-                  {{'contentSource_authorization_field'| translate}} <span class="optional-hding">(Optional)</span>                  
+                  {{'contentSource_authorization_field'| translate}} <span class="optional-hding">(Optional)</span>
                 </div>
                 <div class="is-auth-form-add-field" (click)="addAuthorizationField('add')" *ngIf="!authorizationFieldObj.isShow">
                   <span><img src="assets/icons/facets/add-blue.svg" class="add-icon-blue" /> <img src="assets/images/add.svg" class="add-icon-black" /></span>
                   {{'contentSource_add'| translate}}
                 </div>
-              </div> 
-              
+              </div>
+
               <div class="is-auth-form-table">
                 <div class="kr-sg-data-table">
                   <section class="table-content" *ngIf="editSource.authorizationProfle.authorizationFields.length>0">
                       <header class="table-header">
-                          <div class="col-3">{{'contentSource_field_key_caps'| translate}}</div> 
+                          <div class="col-3">{{'contentSource_field_key_caps'| translate}}</div>
                           <div class="col-2">{{'contentSource_field_type'| translate}}</div>
                           <div class="col-3">{{'contentSource_field_value_caps'| translate}}</div>
                           <div class="col-2"></div>
@@ -864,7 +864,7 @@
                           <div class="col-3">{{auth?.value}}</div>
                           <div class="col-2">
                             <div class="d-flex">
-                              <label class="kr-sg-toggle with-label">                                       
+                              <label class="kr-sg-toggle with-label">
                                 <input id="sa-formFieldListItemEnableDisable" type="checkbox" [checked]="auth?.isEnabled" [(ngModel)]="auth.isEnabled">
                                 <div class="slider"> <span class="no">{{'contentSource_disable'| translate}}</span><span class="yes">{{'contentSource_enable'| translate}}</span></div>
                             </label>
@@ -874,7 +874,7 @@
                               <span id="sa-editAuthFieldListItem" class="actions-links" (click)="auth.isEditable=true;editAuthorizationField('edit',auth)"><img class="action_icon arrow-icon" src="assets/images/edit-pencil.svg"></span>
                               <span id="sa-deleteAuthFieldListItem" class="actions-links" (click)="editSource.authorizationProfle.authorizationFields.splice(i,1)"><img class="action_icon" src="assets/icons/delete-table.svg"></span>
                           </div>
-                        </ng-container> 
+                        </ng-container>
 
                         <!-- Edit Division Starts -->
                       <div class="is-auth-form-edit" *ngIf="auth?.isEditable">
@@ -915,10 +915,10 @@
                             </div>
                           </div>
                         </div>
-                      </div>  
+                      </div>
                       <!-- Edit Division Ends -->
                       </div>
-                  </section>  
+                  </section>
 
                   <span class="font-weight-bold d-inline-block w-100 text-center" *ngIf="(editSource.authorizationProfle.authorizationFields.length===0&&!authorizationFieldObj.isShow)">{{'contentSource_no_auth_fields_found'| translate}}</span>
 
@@ -961,12 +961,12 @@
                         </div>
                       </div>
                     </div>
-                  </div>  
+                  </div>
                   <!-- ADD DIVISION ENDS -->
-              </div> 
+              </div>
               </div>
             </div>
-            
+
             <!-- Authentication fields -->
             <ng-container *ngIf="['basic','form'].includes(editSource.authorizationProfle.sso_type)">
             <div class="row col-12 border-top-row">
@@ -982,8 +982,8 @@
                 <div class="kr-sg-dropdowns">
                   <div class="label-text">{{'contentSource_test_type'| translate}}<sup class="field-mandatory">*</sup></div>
                   <div class="dropdown dropdown-open">
-                      <button id="contentTestTypeId" class="dropdown-toggle dropdown-input" data-toggle="dropdown">{{(editSource.authorizationProfle.testType==='')?'Choose an option':('contentSource.'+editSource.authorizationProfle.testType|translate)}}</button>                                            
-                      <ul class="dropdown-menu content-menu">                                              
+                      <button id="contentTestTypeId" class="dropdown-toggle dropdown-input" data-toggle="dropdown">{{(editSource.authorizationProfle.testType==='')?'Choose an option':('contentSource.'+editSource.authorizationProfle.testType|translate)}}</button>
+                      <ul class="dropdown-menu content-menu">
                         <li *ngFor="let item of testTypes" (click)="editSource.authorizationProfle.testType=item" [ngClass]="{'font-weight-bold':(editSource.authorizationProfle.testType===item)}"><a>{{'contentSource.'+item|translate}}</a></li>
                       </ul>
                   </div>
@@ -998,7 +998,7 @@
             </div>
             </ng-container>
           </div>
-      
+
               </div>
               <!-- new Configuration html end -->
             </perfect-scrollbar>
@@ -1009,7 +1009,7 @@
             <div class="pages-container-content">
               <div class="search_header" *ngIf="pagingData.length>0 || isSearchLoading || pagesSearch?.length">
                 <div class="label-text">{{'contentSource_search_page'| translate}}</div>
-                <div class="kr-sg-input-search">                               
+                <div class="kr-sg-input-search">
                   <input type="text" placeholder="{{'contentSource_search' | translate}}" class="input-search pl-35" name='pagesSearch'
                   id="searchInput" [(ngModel)]="pagesSearch" (ngModelChange)="searchPageChange();isSearchLoading = true;"
                     autocomplete="off">
@@ -1109,7 +1109,7 @@
                                   </div>
                                 </div>
                               </div>
-                           
+
                               <div class="row-content-data row m-0">
                                 <div class="col-3 title-heading width-22Percent">{{'contentSource_body'| translate}}</div>
                                 <div class="col-9 page-content-details">
@@ -1390,4 +1390,4 @@
 </app-scheduler>
 </ng-container>
 
-<app-upgrade-plan #plans></app-upgrade-plan>
+<!-- <app-upgrade-plan #plans></app-upgrade-plan> -->
