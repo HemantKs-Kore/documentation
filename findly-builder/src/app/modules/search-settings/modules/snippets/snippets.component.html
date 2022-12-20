@@ -1,25 +1,25 @@
 <div class="landing-page-common-block">
   <div class="widget-header-block">
-    <div class="widget-header">Snippets</div>
-    <div class="widget-desc">A snippet is the description, summary or short answers from the most relevant search result. Snippets appear at the top of the search results and provide users with a quick answer to their questions.</div>
+    <div class="widget-header">{{"snippets_Snippets" | translate}}</div>
+    <div class="widget-desc">{{"snippets_header_desc" | translate }}</div>
   </div>
   <div class="landing-page-toggle">
     <label class="kr-sg-toggle with-label">
       <input type="checkbox"  [checked]="snippetsData" (change)="sildervaluechanged($event)">
       <div class="slider">
-        <span class="no">Disable</span>
-        <span class="yes">Enable</span>
+        <span class="no">{{"sa_disable" | translate}}</span>
+        <span class="yes">{{"sa_enable" | translate}}</span>
       </div>
     </label>
   </div>
 
   <div class="row m-0 col-12 application-type pr-0 pl-0">
     <div class="col-6 pl-0">
-      <div class="application-type-header">Virtual Assistant</div>
+      <div class="application-type-header">{{"snippets_virtual_assistant" | translate}}</div>
       <div class="application-type-block"></div>
     </div>
     <div class="col-6 pr-0">
-      <div class="application-type-header">Search Bar</div>
+      <div class="application-type-header">{{"snippets_Searchbar" | translate}}</div>
       <div class="application-type-block"></div>
     </div>
   </div>
