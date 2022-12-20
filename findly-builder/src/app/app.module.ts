@@ -1,3 +1,5 @@
+import { PricingModule } from './components/pricing/pricing.module';
+import { IndexModule } from './components/index/index.module';
 import { BusinessRulesModule } from './components/business-rules/business-rules.module';
 import { AppMenuModule } from './components/app-menu/app-menu.module';
 import { SharedPipesModule } from './helpers/filters/shared-pipes.module';
@@ -53,7 +55,6 @@ import { CodemirrorModule } from '@ctrl/ngx-codemirror';
 
 // import { AttributesListComponent } from './components/attributes-list/attributes-list.component';
 import { AutocompleteMultiChipComponent } from './helpers/components/autocomplete-multi-chip/autocomplete-multi-chip.component';
-import { IndexComponent } from './components/index/index.component';
 import { FieldsFilterPipe } from './components/index/fileds-filter.pipe';
 import { QueryComponent } from './components/query/query.component';
 import { RulesTableComponent } from './components/results-rules/rules-table/rules-table.component';
@@ -90,7 +91,6 @@ import { SearchInterfaceComponent } from './components/search-interface/search-i
 import { TeamManagementComponent } from './components/team-management/team-management.component';
 import { SearchExperienceComponent } from './components/search-experience/search-experience.component';
 import { ActionsComponent } from './components/actions/actions.component';
-import { PricingComponent } from './components/pricing/pricing.component';
 import { InvoicesComponent } from './components/invoices/invoices.component';
 import { UsageLogComponent } from './components/usage-log/usage-log.component';
 import { GeneralSettingsComponent } from './components/general-settings/general-settings.component';
@@ -130,7 +130,6 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
     TagsInpComponent,
     // AttributesListComponent,
     AutocompleteMultiChipComponent,
-    IndexComponent,
     QueryComponent,
     RulesTableComponent,
     InsightsComponent,
@@ -157,7 +156,6 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
     StatusDockerComponent,
     SearchExperienceComponent,
     ActionsComponent,
-    PricingComponent,
     InvoicesComponent,
     UsageLogComponent,
     GeneralSettingsComponent,
@@ -218,7 +216,9 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
     SchedulerModule,
     SharedPipesModule,
     AppMenuModule,
-    BusinessRulesModule
+    BusinessRulesModule,
+    IndexModule,
+    PricingModule
   ],
   // tslint:disable-next-line:max-line-length
   entryComponents: [
