@@ -1,3 +1,4 @@
+import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { StructuredDataStatusModalModule } from './../../components/structured-data-status-modal/structured-data-status-modal.module';
 import { AddStructuredDataModule } from './../../components/add-structured-data/add-structured-data.module';
 import { AddFaqModule } from './../../components/add-faq/add-faq.module';
@@ -17,6 +18,7 @@ import { SourcesComponent } from './sources.component';
   declarations: [SourcesComponent],
   imports: [
     CommonModule,
+    MatProgressBarModule,
     SourcesRoutingModule,
     PerfectScrollbarModule,
 

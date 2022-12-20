@@ -1256,3 +1256,182 @@
   <app-structured-data-status-modal (closeStructuredDataStatusModal)="closeStructuredDataStatusModal()"
     [structuredDataDocPayload]="structuredDataDocPayload"></app-structured-data-status-modal>
 </kr-modal>
+
+<!--crawl popup-->
+<kr-modal modalType="default" #crawlModalPop>
+  <div class="status-modal-popup">
+    <div class="modal_content" *ngIf="selectedSourceType">
+      <div class="modal-header">{{selectedSourceType.name}} <img src="assets/images/close.svg"
+          (click)="closeStatusModal()"></div>
+      <div class="modal-body">
+        <ng-container *ngIf="!(statusObject.status==='success' || statusObject.status==='failed')">
+          <div>
+            <div class="status-body-check">
+              <!-- <div class="success-check status-type-img">
+                <img src="assets/icons/content/latest-content-icons/green-loading-in-progress.svg">
+              </div> -->
+              <div class="configInProgress" *ngIf="selectedSourceType?.sourceType==='content'">
+                <h1 class="status-type-header-content"><strong>{{"contentSource_crawling_in_progress" |
+                    translate}}</strong></h1>
+              </div>
+              <div class="configInProgress" *ngIf="selectedSourceType?.sourceType==='faq'">
+                <h1 class="status-type-header"><strong>{{importFaqInprogress?'Import':'Faq Extraction'}} In
+                    Progress</strong></h1>
+              </div>
+            </div>
+            <div class="progressNote">
+              <div class="crwal-in-progress-status">
+                <div class="crwal-in-progress-mat">
+                  <mat-progress-bar mode="indeterminate" class="mat_progress_bar"></mat-progress-bar>
+                </div>
+                <div class="crwal-in-progress-mat-close" ngbTooltip="Abort" (click)="stopCrwaling($event)">
+                  <span class="mat-close-icon"><i class="si-close"></i></span>
+                </div>
+              </div>
+              <div class="progress-protip">
+                <div class="pro-tip-icon">
+                  <i class="si-info"></i>
+                </div>
+                <div class="pro-tip-text">
+                  {{"contentSource_this_might_take_a_while" | translate}}
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </ng-container>
+        <div class="success-check  pb-4" *ngIf="(statusObject.status==='success')">
+          <img src="assets/icons/successCheck.svg">
+        </div>
+        <div class="error-check" *ngIf="(statusObject.status==='failed')">
+          <img src="assets/images/exclamationCircle-Red.svg">
+        </div>
+        <div class="message-success text-center" *ngIf="(statusObject.status==='success')">
+          {{"contentSource_source_added_success" | translate}}
+        </div>
+        <div class="message-success text-center" *ngIf="(statusObject.status==='failed')">
+          {{"contentSource_failed_to_add_source" | translate}}
+        </div>
+      </div>
+      <div class="modal-footer text-right" [ngClass]="{'centerModel': resourceIDToOpen}">
+        <button type="button" class="kr-sg-button-primary btn_lg float-none ml-2 mr-0" data-dismiss="modal"
+          [disabled]="crawlOkDisable" *ngIf="statusObject.status==='success'"
+          (click)="closeStatusModal()">{{"contentSource_ok" | translate}}</button>
+        <button type="button" class="kr-sg-button-secondary backbtn btn_md mr-2" data-dismiss="modal"
+          (click)="closeStatusModal()"
+          *ngIf="selectedSourceType?.sourceType==='content'&&statusObject.status!=='success'">{{"contentSource_run_in_background"
+          | translate}}</button>
+      </div>
+    </div>
+  </div>
+</kr-modal>
+
+<!--Content Validation Status popup-->
+<kr-modal modalType="default" #statusModalPop>
+  <div class="status-modal-popup">
+    <div class="modal_content" *ngIf="selectedSourceType">
+      <div class="modal-header">{{selectedSourceType?.name}} <img src="assets/images/close.svg"
+          (click)="closeStatusModal()"></div>
+      <div class="modal-body">
+
+        <div class="success-check" *ngIf="statusObject?.status==='success'"
+          [ngClass]="{'pb-4':(selectedSourceType?.sourceType==='faq')}">
+          <img
+            [src]="(selectedSourceType?.sourceType==='faq')?'assets/icons/successCheck.svg':'assets/icons/content/latest-content-icons/success-check-o.svg'">
+        </div>
+
+        <div class="error-check" *ngIf="(statusObject?.status==='failed')"
+          [ngClass]="{'pb-4':(selectedSourceType?.sourceType==='faq')}">
+          <img
+            [src]="(selectedSourceType?.sourceType==='faq')?'assets/images/exclamationCircle-Red.svg':'assets/icons/content/latest-content-icons/failed-check-o.svg'">
+        </div>
+
+        <div class="status-body-check"
+          *ngIf="selectedSourceType?.sourceType === 'content'&&statusObject?.status!=='failed'">
+          <div class="success-check status-type-img"
+            *ngIf="(statusObject?.isURLValid)||(selectedSourceType?.resourceType === 'file')">
+            <img src="assets/icons/content/latest-content-icons/success-check-o.svg">
+          </div>
+          <div class="error-check status-type-img"
+            *ngIf="!(statusObject?.isURLValid)&&!(selectedSourceType?.resourceType === 'file')">
+            <img src="assets/icons/content/latest-content-icons/failed-check-o.svg">
+          </div>
+          <div class="configInProgress">
+            <h1 class="status-type-header"
+              [ngStyle]="{'color':(statusObject?.isURLValid||selectedSourceType?.resourceType === 'file')?'#28A745':'#DD3646'}">
+              <strong>{{(statusObject?.isURLValid)||(selectedSourceType?.resourceType ===
+                'file')?"Validation Successful":"Validation Failed"}}</strong></h1>
+          </div>
+
+        </div>
+        <div class="message-success text-center" *ngIf="(statusObject?.status==='success')">
+          {{"contentSource_source_added_success" | translate}}
+        </div>
+        <div class="message-success text-center" *ngIf="(statusObject?.status==='failed')">
+          {{"contentSource_failed_to_add_source" | translate}}
+        </div>
+        <ng-container *ngIf="selectedSourceType?.sourceType !== 'faq'">
+          <div class="status-identification-content">
+            <perfect-scrollbar class="content-scroll">
+              <div class="content-title"
+                *ngIf="selectedSourceType?.resourceType=='file'&&['success','running'].includes(statusObject?.status)">
+                <img src="assets/images/source-icos/check-green.svg"
+                  *ngIf="(statusObject?.isURLValid||selectedSourceType?.resourceType=='file')"
+                  class="successfullyConnected">
+                <span>{{"contentSource_file_validation" | translate}}</span>
+              </div>
+              <ng-container *ngIf="selectedSourceType?.resourceType==='web'">
+                <div class="content-title"><img class="successfullyConnected"
+                    [src]="(statusObject?.validation?.url?.validated)?'assets/images/source-icos/check-green.svg':'assets/images/source-icos/Info-red.svg'"><span>{{statusObject?.validation?.url?.msg}}</span>
+                </div>
+                <div class="content-title" *ngIf="statusObject?.validation?.networkConnectivity?.msg"><img
+                    class="successfullyConnected"
+                    [src]="(statusObject?.validation?.networkConnectivity?.validated)?'assets/images/source-icos/check-green.svg':'assets/images/source-icos/Info-red.svg'"><span>{{statusObject?.validation?.networkConnectivity?.msg}}</span>
+                </div>
+              </ng-container>
+            </perfect-scrollbar>
+          </div>
+        </ng-container>
+        <div class="progressNote"
+          *ngIf="selectedSourceType?.sourceType === 'faq'&&!(['success','failed'].includes(statusObject?.status))">
+          <div>{{importFaqInprogress?'Import':'Faq Extraction'}} In Progress</div>
+          <div class="text-center">
+            <mat-progress-bar mode="indeterminate" class="mat_progress_bar"></mat-progress-bar>
+            <div class="relaxNote">{{"contentSource_you_will_be_notified" | translate}}
+              {{importFaqInprogress?'import':'extraction'}} {{"contentSource_progress_is_done" | translate}}</div>
+          </div>
+        </div>
+        <div class="configInProgress" *ngIf="statusObject?.isURLValid&&selectedSourceType?.sourceType === 'web'">
+          <h4>{{"contentSource_now_you_can_choose" | translate}}</h4>
+        </div>
+      </div>
+      <div class="modal-footer text-right" [ngClass]="{'centerModel': resourceIDToOpen}">
+        <button type="button" class="kr-sg-button-secondary btn_lg float-none ml-2 mr-0 d-none" data-dismiss="modal"
+          (click)="cancelExtraction()"
+          *ngIf="selectedSourceType?.sourceType==='faq'&&statusObject?.status!=='success'||statusObject?.status=='failed'">{{"contentSource_cancel_extraction"
+          | translate}}</button>
+        <button type="button" class="kr-sg-button-primary btn_lg float-none ml-2 mr-0" data-dismiss="modal"
+          [disabled]="crawlOkDisable" (click)="closeStatusModal()"
+          *ngIf="selectedSourceType?.sourceType==='faq'">{{"contentSource_ok" | translate}}</button>
+        <button type="button" class="kr-sg-button-secondary btn_lg kr-btn-primary float-none ml-2 mr-0"
+          data-dismiss="modal" (click)="closeStatusModal()"
+          *ngIf="selectedSourceType?.sourceType==='content'&&(statusObject?.isURLValid)||(selectedSourceType?.resourceType === 'file')"><img
+            class="mr-1" height="14" style="margin-bottom:2px"
+            src="assets/icons/content/latest-content-icons/blue-calendar.svg"
+            *ngIf="selectedSourceType?.resourceType==='web'"> {{(selectedSourceType?.resourceType==='web')?'Crawl
+          Later':'Close'}}</button>
+        <button type="button" class="kr-sg-button-primary btn_lg float-none ml-2 mr-0" data-dismiss="modal"
+          (click)="jobOndemand()"
+          *ngIf="selectedSourceType?.sourceType==='content'&&selectedSourceType?.resourceType === 'web'&&(statusObject?.isURLValid)"
+          [disabled]="crawlOkDisable">{{"contentSource_crawl" | translate}}</button>
+        <button type="button" class="kr-sg-button-secondary btn_lg float-none ml-2 mr-0" data-dismiss="modal"
+          *ngIf="selectedSourceType?.sourceType==='content'&&selectedSourceType?.resourceType === 'web'&&!(statusObject?.isURLValid)"
+          (click)="retryValidation()">{{"contentSource_retry" | translate}}</button>
+        <button type="button" class="kr-sg-button-primary btn_lg float-none ml-2 mr-0" data-dismiss="modal"
+          (click)="editConfiguration()"
+          *ngIf="selectedSourceType?.sourceType==='content'&&selectedSourceType?.resourceType === 'web'&&!(statusObject?.isURLValid)">{{"contentSource_edit_configuration"
+          | translate}}</button>
+      </div>
+    </div>
+  </div>
+</kr-modal>
