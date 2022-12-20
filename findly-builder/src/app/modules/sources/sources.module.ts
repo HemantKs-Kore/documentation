@@ -1,3 +1,5 @@
+import { StructuredDataStatusModalModule } from './../../components/structured-data-status-modal/structured-data-status-modal.module';
+import { AddStructuredDataModule } from './../../components/add-structured-data/add-structured-data.module';
 import { AddFaqModule } from './../../components/add-faq/add-faq.module';
 import { SchedulerModule } from './../../components/scheduler/scheduler.module';
 import { FormsModule } from '@angular/forms';
@@ -27,6 +29,8 @@ import { SourcesComponent } from './sources.component';
 
     // add faq modal
     AddFaqModule,
+    AddStructuredDataModule,
+    StructuredDataStatusModalModule,
   ],
 })
 export class SourcesModule {}

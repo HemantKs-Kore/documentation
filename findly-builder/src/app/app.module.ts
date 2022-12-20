@@ -83,8 +83,6 @@ import { DateRangePickerComponent } from './helpers/components/date-range-picker
 import { NgxDaterangepickerMd } from 'ngx-daterangepicker-material';
 import { FieldManagementComponent } from './components/field-management/field-management.component';
 import { AppExperimentsComponent } from './components/app-experiments/app-experiments.component';
-import { AddStructuredDataComponent } from './components/add-structured-data/add-structured-data.component';
-import { StructuredDataStatusModalComponent } from './components/structured-data-status-modal/structured-data-status-modal.component';
 import { StatusDockerComponent } from './components/status-docker/status-docker.component';
 import { DockStatusService } from './services/dock.status.service';
 import { MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material/form-field';
@@ -159,8 +157,6 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
     StatusDockerComponent,
     SearchInterfaceComponent,
     TeamManagementComponent,
-    AddStructuredDataComponent,
-    StructuredDataStatusModalComponent,
     StatusDockerComponent,
     SearchExperienceComponent,
     ActionsComponent,

@@ -44,6 +44,284 @@
     </ng-container>
 </kr-modal>
 
+<!-- FAQ and content upload file modal -->
+<kr-modal modalType="center" modalClass="modal_popups_ addfaq" #addSourceModalPop>
+  <ng-container *ngIf="selectedSourceType">
+    <form #sourceCreation="ngForm">
+      <div class="modal-header">
+        <div class="title">{{selectedSourceType.name}}</div>
+        <div class="close_icon"><img (click)="cancleSourceAddition()" src="assets/icons/modal-close.svg"></div>
+      </div>
+      <perfect-scrollbar class="addSourceModalBody addNewSource" #perfectScroll>
+        <div class="modal-body">
+          <div *ngIf="selectedSourceType" class="crerateWebCrawl" [ngClass]="{'pr-0': resourceIDToOpen}">
+            <div class="crawl-form-title" *ngIf="!resourceIDToOpen"></div>
+            <div class="kr-sg-input-text mb-4"
+              *ngIf="(selectedSourceType.sourceType==='faq') || (selectedSourceType.resourceType==='web')|| (showSourceTitle)">
+              <div class="label-text">{{"contentSource_source_title_caps" | translate}}<sup
+                  class="field-mandatory">*</sup></div>
+              <input type="url" autocomplete="off" maxlength="60" id="addSourceTitleInput" name="sourceTitle"
+                placeholder="Enter Title" [(ngModel)]="newSourceObj.name" (change)="inputChanged('title')"
+                class="input-text" required>
+              <img id="infoWarning" src="assets/icons/warning_escalation.svg" style="display: none;" height="12"
+                width="12" />
+            </div>
+            <div class="kr-sg-input-text-area mb-3 " *ngIf="(selectedSourceType.resourceType === 'web') || showDesc">
+              <div class="label-text">{{"contentSource_description" | translate}}</div>
+              <textarea autocomplete="off" [(ngModel)]="newSourceObj.desc" name="sourceDesc" maxlength="250"
+                placeholder="Enter Description" class="input-text pt-2"></textarea>
+            </div>
+            <div *ngIf="(selectedSourceType.resourceType === 'web')">
+              <div class="kr-sg-input-text mb-4">
+                <div class="label-text">{{"contentSource_source_url" | translate}}</div>
+                <input type="text" autocomplete="off" name="url" (keyup)="urlChange()" (change)="urlChange()"
+                  [disabled]="fileObj.fileId || fileObj.fileName" placeholder="{{'contentSource_https' | translate}}"
+                  [(ngModel)]="newSourceObj.url" class="input-text">
+              </div>
+            </div>
+            <div class="container-import"
+              *ngIf="(selectedSourceType.sourceType==='faq') && (selectedSourceType.id=== 'faqDoc')">
+              <div class="import">{{"contentSource_import_from_file" | translate}}</div>
+            </div>
+            <!-- File uploader with Drag & Drop START HERE -->
+
+            <div class="browse-file-tabs-container"
+              *ngIf="(selectedSourceType.sourceType==='faq') || (selectedSourceType.resourceType==='file')">
+              <ul class="nav nav-tabs" *ngIf=" (selectedSourceType.id !='faqDoc')" role="tablist">
+                <li class="nav-item">
+                  <a class="nav-link active" data-toggle="tab" href="#fromfile"
+                    (click)="selectExtract('file')">{{"contentSource_extract_from_file" | translate}}</a>
+                </li>
+                <li class="nav-item ">
+                  <a class="nav-link" data-toggle="tab" href="#fromurl"
+                    (click)="selectExtract('url')">{{"contentSource_extract_from_url" | translate}}</a>
+                </li>
+              </ul>
+              <!-- Tab panes -->
+              <div class="tab-content">
+                <div id="fromfile" class="tab-pane browsebyfile active">
+                  <div class="col-12 row mb-3 top-sec p-0 ml-0 mr-0" *ngIf="(selectedSourceType.id==='faqDoc')">
+                    <div class="title-data col-6 p-0">{{"contentSource_browse_file" | translate}}</div>
+                    <div class="actions-data col-6 p-0 d-flex align-items-center justify-content-end">
+                      <span class="sample-text pr-2" (click)='downloadSampleData("json")'><img class="image mr-2"
+                          src="assets/icons/docker/download.svg">{{"contentSource_sample_json" | translate}}</span>
+                      <span class="sample-text pl-2" (click)='downloadSampleData("csv")'><img class="image mr-2"
+                          src="assets/icons/docker/download.svg">{{"contentSource_sample_csv" | translate}}</span>
+                    </div>
+                    <div class="data">{{"contentSource_you_can_upload_desc" | translate}}</div>
+                  </div>
+                  <div class="kr-sg-input-text-area mb-4">
+                    <div class="note-info" *ngIf="selectedSourceType.resourceType === 'file'">
+                      <img src="assets/images/warning.svg"><b>{{"contentSource_note" | translate}}</b>
+                      {{"contentSource_title_are_derived_from_desc" | translate}}
+                    </div>
+                    <div class="kr-sg-file-drag-drop">
+                      <div class="drag-drop-sec"
+                        [ngClass]="{'after-selection-items':(fileObj.fileName && selectedSourceType.sourceType=='content')}">
+                        <ng-container *ngIf="!fileObj.fileName">
+                          <input *ngIf="(selectedSourceType.resourceType ==='')" type="file" id="sourceFileUploader"
+                            class="custom-file-input " (change)="fileChangeListener($event)"
+                            aria-describedby="inputGroupFileAddon01" accept=".pdf">
+                          <input *ngIf="(selectedSourceType.resourceType ==='importfaq')" type="file"
+                            id="sourceFileUploader" class="custom-file-input " (change)="fileChangeListener($event)"
+                            aria-describedby="inputGroupFileAddon01" accept=".csv,.json">
+                          <input
+                            *ngIf="(selectedSourceType.sourceType=='content' && selectedSourceType.resourceType =='file')"
+                            type="file" id="sourceFileUploader" class="custom-file-input "
+                            (change)="fileChangeListener($event)" aria-describedby="inputGroupFileAddon01"
+                            accept=".pdf,.doc,.ppt,.xlsx,.txt,.docx,.jpeg,.jpg,.png" multiple>
+                          <div class="imageDiv">
+                            <img src="assets/images/source-icos/drog_frop.svg">
+                          </div>
+                          <div class="info_text"
+                            *ngIf="(selectedSourceType.resourceType !='importfaq'&&selectedSourceType.resourceType !='')">
+                            {{"contentSource_drag_and_drop_desc" | translate}}</div>
+                          <div class="info_text"
+                            *ngIf="(selectedSourceType.sourceType=='faq'&&selectedSourceType.resourceType =='')">
+                            {{"contentSource_drag_and_drop_a" | translate}}<strong>{{"contentSource_pdf_file" |
+                              translate}}</strong> {{"contentSource_anywhere_on_this_sec" | translate}}</div>
+                          <div class="info_text" *ngIf="(selectedSourceType.resourceType ==='importfaq')">
+                            {{"contentSource_drag_and_drop_desc" | translate}}</div>
+                          <div class="or-divider">{{"contentSource_anywhere_or" | translate}}</div>
+                          <div class="custom-file">
+
+                            <!-- <input type="file" id="sourceFileUploader" class="custom-file-input "
+                                (change)="fileChangeListener($event)" aria-describedby="inputGroupFileAddon01" accept=".csv,.pdf"> -->
+                          </div>
+                          <label for="sourceFileUploader" class="drag-label adjust_z_index">
+                            <span class="browse">{{"contentSource_browse_file" | translate}}</span>
+                          </label>
+                          <br />
+                          <div class="info_help_text"
+                            *ngIf="(selectedSourceType.sourceType=='content' && selectedSourceType.resourceType =='file')">
+                            <img src="assets/icons/info.svg"> {{"contentSource_support_pdf_docx_ppt_etc" | translate}}
+                          </div>
+                          <div *ngIf="selectedSourceType.sourceType=='content'" class="not-limit-size">
+                            {{"contentSource_maximum_upload_of_file" | translate}}</div>
+                        </ng-container>
+
+                        <ng-container *ngIf="fileObj.fileName && selectedSourceType.sourceType=='faq'">
+                          <div class="kr-sg-file-drag-drop w-100">
+                            <div class="uploaded-file-name"
+                              [ngClass]="{'error':(fileObj.fileUploadError && !fileObj.fileUploadInProgress)}">
+                              <div class="file-close-text">
+                                <div class="d-flex align-items-center">
+                                  <img *ngIf="fileObj.fileName.substring(fileObj.fileName.lastIndexOf('.')) === '.pdf'"
+                                    class="type_img" src="assets/icons/file_type_image.svg">
+                                  <img *ngIf="fileObj.fileName.substring(fileObj.fileName.lastIndexOf('.')) === '.docx'"
+                                    class="type_img" src="assets/icons/doc_logo.svg">
+                                  <img *ngIf="fileObj.fileName.substring(fileObj.fileName.lastIndexOf('.')) === '.txt'"
+                                    class="type_img" src="assets/icons/txt_icon.svg">
+                                  <img *ngIf="fileObj.fileName.substring(fileObj.fileName.lastIndexOf('.')) === '.xlsx'"
+                                    class="type_img" src="assets/icons/excel_logo.svg">
+                                  <img *ngIf="fileObj.fileName.substring(fileObj.fileName.lastIndexOf('.')) === '.ppt'"
+                                    class="type_img" src="assets/icons/ppt_logo.svg">
+                                  <div class="file-name" [innerHTML]="fileObj.fileName"></div>
+                                </div>
+                                <img src="assets/images/close.svg" class="close-file adjust_z_index"
+                                  (click)="removeFile()">
+                              </div>
+                              <div class="progress-status">
+                                <img *ngIf="fileObj.fileUploadInProgress" class="progSpinner"
+                                  src="assets/icons/spinner.svg">
+                                <img *ngIf="fileObj.fileUploadError && !fileObj.fileUploadInProgress"
+                                  src="assets/icons/info.svg">
+                              </div>
+                            </div>
+                            <div class="error-text" *ngIf="fileObj.fileUploadError && !fileObj.fileUploadInProgress">
+                              {{"contentSource_error_upload" | translate}}</div>
+                          </div>
+                        </ng-container>
+                        <ng-container *ngIf="fileObj.fileName && selectedSourceType.sourceType=='content'">
+                          <div class="upload-files-radio-data">
+                            <div class="title">{{"contentSource_upload_files" | translate}}</div>
+                          </div>
+                          <div class="kr-sg-file-drag-drop w-100">
+                            <div class="uploaded-file-name" *ngFor="let file of filesListData;let index = index"
+                              [ngClass]="{'error':(fileObj.fileUploadError && !fileObj.fileUploadInProgress)}">
+                              <div class="file-close-text">
+                                <div class="d-flex align-items-center img-block-data">
+                                  <img *ngIf="file.name.substring(file.name.lastIndexOf('.'))=== '.pdf'"
+                                    class="type_img" src="assets/icons/file_type_image.svg">
+                                  <img *ngIf="file.name.substring(file.name.lastIndexOf('.')) === '.doc'"
+                                    class="type_img" src="assets/icons/doc_logo.svg">
+                                  <img *ngIf="file.name.substring(file.name.lastIndexOf('.')) === '.docx'"
+                                    class="type_img" src="assets/icons/doc_logo.svg">
+                                  <img *ngIf="file.name.substring(file.name.lastIndexOf('.')) === '.txt'"
+                                    class="type_img" src="assets/icons/txt_icon.svg">
+                                  <img *ngIf="file.name.substring(file.name.lastIndexOf('.')) === '.xlsx'"
+                                    class="type_img" src="assets/icons/excel_logo.svg">
+                                  <img *ngIf="file.name.substring(file.name.lastIndexOf('.')) === '.ppt'"
+                                    class="type_img" src="assets/icons/ppt_logo.svg">
+                                </div>
+                                <div class="text-content">
+                                  <div class="file-name" [innerHTML]="file.name"></div>
+                                  <div *ngIf="file.showProgressBar" class="progress-bar-data">
+                                    <img src="assets/images/progressBar.gif">
+                                  </div>
+                                  <!-- <mat-progress-bar mode="indeterminate" class="progress-bar-data"></mat-progress-bar> -->
+                                </div>
+                                <img src="assets/images/close.svg" class="close-file adjust_z_index"
+                                  (click)="removeMultipleFile(index)">
+                              </div>
+                              <!-- <div class="progress-status">
+                                <img *ngIf="fileObj.fileUploadInProgress" class="progSpinner"
+                                  src="assets/icons/spinner.svg">
+                                <img *ngIf="fileObj.fileUploadError && !fileObj.fileUploadInProgress"
+                                  src="assets/icons/info.svg">
+                              </div> -->
+                            </div>
+                            <div class="error-text" *ngIf="fileObj.fileUploadError && !fileObj.fileUploadInProgress">
+                              {{"contentSource_error_upload" | translate}}</div>
+                          </div>
+                        </ng-container>
+                        <!-- <div class="drag-drop-text-info"
+                          *ngIf="fileObj.fileName && selectedSourceType.sourceType=='content'">
+                          <div class="main-text">{{"contentSource_drag_and_drop_desc" | translate}}</div>
+                          <div class="secondary-text">{{"contentSource_maximum_upload_of_file" | translate}}</div>
+                        </div> -->
+                      </div>
+                    </div>
+                    <!-- Annotation Start Here -->
+                    <div class="pt2 annotation" *ngIf="selectedSourceType.resourceType == ''">
+                      <div class="kr-sg-checkbox">
+                        <input id="checkbox-1" class="checkbox-custom" type="checkbox"
+                          (change)="annotateChange($event)">
+                        <label for="checkbox-1" class="checkbox-custom-label">{{"contentSource_annotate_extract" |
+                          translate}}
+                        </label>
+                        <span class="tooltip-text"><img src="assets/icons/help-annotation.svg">
+                          <span class="tooltiptext">
+                            <div class="t-text">{{"contentSource_use_the_annotate_desc" | translate}}</div>
+                            <div class="learn_more"><a
+                                href="https://docs.kore.ai/searchassist/source-management/faqs/#Annotate_Extract"
+                                target="_blank">{{"contentSource_learn_more" | translate}}</a></div>
+                          </span>
+                        </span>
+
+                      </div>
+                    </div>
+                    <!-- Annotation End Here -->
+                    <!-- <div class="kr-sg-input-text mb-4" *ngIf="(selectedSourceType.sourceType==='faq')">
+                        <div class="label_text mt-3 text-center">or</div>
+                      </div> -->
+                  </div>
+                </div>
+                <div id="fromurl" class="tab-pane fade browserbyurl">
+                  <div class="input-url-block">
+                    <div class="kr-sg-input-text">
+                      <div class="label-text">{{"contentSource_enter_url" | translate}}<sup
+                          class="field-mandatory">*</sup></div>
+                      <input type="text" id="extractUrl" placeholder="{{'contentSource_https' | translate}}"
+                        class="input-text" autocomplete="off" name="url" (keyup)="urlChange()"
+                        (change)="urlChange();inputChanged('extractURL')"
+                        [disabled]="fileObj.fileId || fileObj.fileName"
+                        placeholder="{{'contentSource_https' | translate}}" [(ngModel)]="newSourceObj.url"
+                        class="input-text">
+                      <img id="infoWarning1" src="assets/icons/warning_escalation.svg" style="display: none;"
+                        height="12" width="12" />
+                      <!-- <input type="text" placeholder="https://" class="input-text"> -->
+                      <!-- <div class="error-msg">Error message here</div> -->
+                    </div>
+                    <div class="info-upload-pdf d-none"><img
+                        src="assets/icons/Info-pdf.svg">{{"contentSource_upload_pdf_files_only" | translate}}</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- File uploader with Drag & Drop ENDS HERE -->
+            <div *ngIf="(selectedSourceType.sourceType==='faq') || (selectedSourceType.resourceType === 'web')">
+
+              <div class="kr-sg-input-text-area mb-4 radio-pad"
+                *ngIf="(selectedSourceType.sourceType==='faq') && (selectedSourceType.resourceAdded) && false">
+                <!-- Not supporting for now-->
+                <div class="kr-sg-radiobutton d-block">
+                  <input id="radio-17" name="radio" class="radio-custom" type="radio">
+                  <label for="radio-17" class="radio-custom-label">{{"contentSource_index_automatically" |
+                    translate}}</label>
+                </div>
+                <div class="kr-sg-radiobutton d-block">
+                  <input id="radio-18" name="radio" class="radio-custom" type="radio">
+                  <label for="radio-18" class="radio-custom-label">{{"contentSource_extraxt_&_review" |
+                    translate}}</label>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </perfect-scrollbar>
+      <div class="modal-footer">
+        <!-- [disabled]="sourceCreation.invalid || !selectedSourceType.resourceAdded" -->
+        <button class="kr-sg-button-primary btn_lg mr-3" (click)="validateSource()"
+          [disabled]="btnDisabled">{{"contentSource_proceed" | translate}}</button>
+        <button class="kr-sg-button-secondary backbtn btn_md mr-2" (click)="cancleSourceAddition()">{{"sa_cancel" |
+          translate}}</button>
+      </div>
+    </form>
+  </ng-container>
+</kr-modal>
+
 <!-- Content crawl authentication Modal -->
 <kr-modal modalType="center" modalClass="modal_popups_ addfaq" #addSourceModalPopDummy>
     <div class="modal-header">
@@ -870,4 +1148,111 @@
         <button id="sa-cancelCrawl" class="kr-sg-button-secondary backbtn btn_md mr-2"
             (click)="closeAddContentModal(true)">{{"sa_cancel" | translate}}</button>
     </div>
+</kr-modal>
+
+<!-- Bot Link Existing Modal -->
+<kr-modal modalType="center" #botsConfigurationModalElement modalClass="modal_popups_ linkExistingBotsModal">
+  <div class="modal-header">
+    <div class="title"> <span class="gray-text-link"> {{"botAction_link_bot" | translate}}</span><img
+        src="assets/icons/carrotright.svg">
+      Configuration | {{this.selectedLinkBotConfig?.name}}</div>
+    <div class="close_icon" (click)="closeBotsConfigurationModalElement()"><img src="assets/icons/modal-close.svg">
+    </div>
+  </div>
+  <perfect-scrollbar class="perfect-scroll-modal-body" #perfectScroll9>
+    <div class="modal-body">
+      <div class="info-link-text lh-20">{{"botAction_you_can_link_a_virtual_assistant" | translate}}<a
+          (click)="showMore=!showMore" class="show-how-btn"> {{showMore?'Show less':'Show how'}}</a> </div>
+      <div class="more-info-link-text" *ngIf="showMore">
+        <div class="more-info-data"><span class="step-text">Step 1:</span> {{"botAction_enable_webhook_channel_for_your"
+          | translate}}</div>
+        <div class="more-info-data"><span class="step-text">Step 2:</span> {{"botAction_get_the_client_id_and_secret_id"
+          | translate}}</div>
+        <div class="more-info-data"><span class="step-text">Step
+            3:</span>{{"botAction_the_searchassist_app_can_interact_with" | translate}}</div>
+      </div>
+      <div class="kr-sg-input-text">
+        <label class="label-text label-text-bot-link">{{"botAction_access_token" | translate}}</label>
+        <div class="w-75 position-relative d-inline-block">
+          <input type="text" placeholder="Enter access token" [(ngModel)]="configurationLink.accessToken"
+            name="accessToken" class="input-text bot-link-input"
+            [ngClass]="{'err-block' : (!configurationLink?.accessToken?.length && submitted)}" maxlength="60">
+          <img *ngIf="!configurationLink?.accessToken?.length && submitted" id="fieldNameWarning"
+            src="assets/icons/warning_escalation.svg" style="top: 56%; position: absolute; right: 1.5%; display: block;"
+            height="12" width="12" />
+        </div>
+        <div class="copy-btn" (click)="copy(configurationLink.accessToken)"><img
+            src="assets/images/icons/copy.svg">{{"sa_copy" | translate}}
+        </div>
+      </div>
+      <div class="kr-sg-input-text">
+        <label class="label-text label-text-bot-link">{{"botAction_post_url" | translate}}</label>
+        <div class="w-75 position-relative d-inline-block">
+          <input type="text" placeholder="Enter post url" [(ngModel)]="configurationLink.postUrl" name="postUrl"
+            class="input-text bot-link-input"
+            [ngClass]="{'err-block' : (!configurationLink?.postUrl?.length && submitted)}">
+          <img *ngIf="!configurationLink?.postUrl?.length && submitted" id="fieldNameWarning"
+            src="assets/icons/warning_escalation.svg" style="top: 56%; position: absolute; right: 1.5%; display: block;"
+            height="12" width="12" />
+        </div>
+        <div class="copy-btn" (click)="copy(configurationLink.postUrl)"><img
+            src="assets/images/icons/copy.svg">{{"sa_copy" | translate}}
+        </div>
+      </div>
+      <div class="kr-sg-input-text">
+        <div class="w-75 position-relative">
+          <label class="label-text label-text-bot-link">{{"botAction_webhook_url" | translate}}</label>
+          <input type="text" placeholder="{{'contentSource_https' | translate}}"
+            [(ngModel)]="configurationLink.webhookUrl" name="webhookUrl" class="input-text bot-link-input"
+            [ngClass]="{'err-block' : (!configurationLink?.webhookUrl?.length && submitted)}">
+          <img *ngIf="!configurationLink?.webhookUrl?.length && submitted" id="fieldNameWarning"
+            src="assets/icons/warning_escalation.svg" style="top: 56%; position: absolute; right: 1.5%; display: block;"
+            height="12" width="12" />
+        </div>
+      </div>
+      <div class="kr-sg-input-text">
+        <div class="w-75 position-relative">
+          <label class="label-text label-text-bot-link">{{"botAction_bot_client_id" | translate}}</label>
+          <input type="text" placeholder="{{'botAction_enter_bot_client_id' | translate}}"
+            [(ngModel)]="configurationLink.clientId" name="botClientId" class="input-text bot-link-input"
+            [ngClass]="{'err-block' : (!configurationLink?.clientId?.length && submitted)}" maxlength="60">
+          <img *ngIf="!configurationLink?.clientId?.length && submitted" id="fieldNameWarning"
+            src="assets/icons/warning_escalation.svg" style="top: 56%; position: absolute; right: 1.5%; display: block;"
+            height="12" width="12" />
+        </div>
+      </div>
+      <div class="kr-sg-input-text">
+        <label class="label-text label-text-bot-link">{{"botAction_bot_secret_id" | translate}}</label>
+        <div class="w-75 position-relative">
+          <input type="password" id="password" placeholder="{{'botAction_enter_bot_secret_id' | translate}}"
+            [(ngModel)]="configurationLink.clientSecret" name="botSecreatId" class="input-text bot-link-input"
+            [ngClass]="{'err-block' : (!configurationLink?.clientSecret?.length && submitted)}" maxlength="60">
+          <img (click)="showPasword()" *ngIf="!showPassword && configurationLink?.clientSecret?.length"
+            src="assets/images/icons/eye.svg" class="eye" type="eye">
+          <img (click)="showPasword()" *ngIf="showPassword && configurationLink?.clientSecret?.length"
+            src="assets/images/icons/viewPw.svg.svg" class="eye" type="eye">
+          <img *ngIf="!configurationLink?.clientSecret?.length && submitted" id="fieldNameWarning"
+            src="assets/icons/warning_escalation.svg" style="top: 31%; position: absolute; right: 1.5%; display: block;"
+            height="12" width="12" />
+        </div>
+      </div>
+    </div>
+  </perfect-scrollbar>
+  <div class="modal-footer">
+    <button class="kr-sg-button-primary btn_lg" (click)='saveLink()'>{{"botAction_link" | translate}}</button>
+    <button class="kr-sg-button-secondary btn_lg" (click)="closeBotsConfigurationModalElement()">{{"botAction_back" |
+      translate}}</button>
+  </div>
+</kr-modal>
+
+<!-- Add Structure Data Modal -->
+<kr-modal modalType="center" modalClass="modal_popups_  addfaq" #addStructuredDataModalPop>
+  <app-add-structured-data [selectedSourceType]="selectedSourceType"
+    (closeStructuredDataModal)="cancleSourceAddition($event)"></app-add-structured-data>
+</kr-modal>
+
+<!-- Structure Data Status Modal -->
+<kr-modal modalType="default" #structuredDataStatusModalPop>
+  <app-structured-data-status-modal (closeStructuredDataStatusModal)="closeStructuredDataStatusModal()"
+    [structuredDataDocPayload]="structuredDataDocPayload"></app-structured-data-status-modal>
 </kr-modal>
