@@ -38,7 +38,8 @@ import { SourcesComponent } from './sources.component';
     StructuredDataStatusModalModule,
     UpgradePlanModule,
     SharedPipesModule,
-    NgbTooltipModule
+    NgbTooltipModule,
   ],
+  exports: [SourcesComponent],
 })
 export class SourcesModule {}

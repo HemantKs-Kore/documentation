@@ -7,9 +7,7 @@ import { StructuredDataComponent } from './structured-data.component';
 
 @NgModule({
   declarations: [StructuredDataComponent],
-  imports: [
-    CommonModule,
-    StructuredDataRoutingModule
-  ]
+  imports: [CommonModule, StructuredDataRoutingModule],
+  exports: [StructuredDataComponent],
 })
-export class StructuredDataModule { }
+export class StructuredDataModule {}
