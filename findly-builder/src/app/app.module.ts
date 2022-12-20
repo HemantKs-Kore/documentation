@@ -1,3 +1,4 @@
+import { BusinessRulesModule } from './components/business-rules/business-rules.module';
 import { AppMenuModule } from './components/app-menu/app-menu.module';
 import { SharedPipesModule } from './helpers/filters/shared-pipes.module';
 import { SchedulerModule } from './components/scheduler/scheduler.module';
@@ -71,7 +72,6 @@ import { ResultRankingComponent } from './components/result-ranking/result-ranki
 import { AddResultComponent } from './components/add-result/add-result.component';
 import { FacetsComponent } from './components/facets/facets.component';
 import { MetricsComponent } from './components/metrics/metrics.component';
-import { BusinessRulesComponent } from './components/business-rules/business-rules.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { UserEngagementComponent } from './components/user-engagement/user-engagement.component';
 import { SearchInsightsComponent } from './components/search-insights/search-insights.component';
@@ -141,7 +141,6 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
     FieldsFilterPipe,
     TraitsFilterPipe,
     MetricsComponent,
-    BusinessRulesComponent,
     DashboardComponent,
     UserEngagementComponent,
     SearchInsightsComponent,
@@ -218,7 +217,8 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
     SmallTalkModule,
     SchedulerModule,
     SharedPipesModule,
-    AppMenuModule
+    AppMenuModule,
+    BusinessRulesModule
   ],
   // tslint:disable-next-line:max-line-length
   entryComponents: [

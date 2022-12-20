@@ -1,9 +1,9 @@
+import { RangeSliderModule } from './../../helpers/components/range-slider/range-slider.module';
 import { SharedPipesModule } from './../../helpers/filters/shared-pipes.module';
 import { KrModalModule } from './../../shared/kr-modal/kr-modal.module';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ListFieldsComponent } from '../../components/search-settings/list-fields/list-fields.component';
-import { RangeSliderComponent } from '../../helpers/components/range-slider/range-slider.component';
 import { RangeSliderSearchExperienceComponent } from 'src/app/helpers/components/range-slider-search-experience/range-slider-search-experience.component';
 import { TranslateModule } from '@ngx-translate/core';
 import { UseronboardingJourneyComponent } from 'src/app/helpers/components/useronboarding-journey/useronboarding-journey.component';
@@ -23,7 +23,6 @@ import { SynonymFilterPipe } from '../../components/synonyms/synonym-filter';
     RangeSliderSearchExperienceComponent,
     UseronboardingJourneyComponent,
     SearchFilterComponent,
-    RangeSliderComponent,
     RecordPaginationComponent,
     SynonymFilterPipe,
   ],
@@ -37,17 +36,16 @@ import { SynonymFilterPipe } from '../../components/synonyms/synonym-filter';
     NgbDropdownModule,
     KrModalModule,
     SharedPipesModule,
+    RangeSliderModule,
   ],
   exports: [
     ListFieldsComponent,
-    RangeSliderSearchExperienceComponent,
     RangeSliderSearchExperienceComponent,
     TranslateModule,
     UseronboardingJourneyComponent,
     PerfectScrollbarModule,
     SearchFilterComponent,
     FormsModule,
-    RangeSliderComponent,
     NgbTooltipModule,
     MatProgressSpinnerModule,
     NgbDropdownModule,
@@ -55,6 +53,7 @@ import { SynonymFilterPipe } from '../../components/synonyms/synonym-filter';
     SynonymFilterPipe,
     KrModalModule,
     SharedPipesModule,
+    RangeSliderModule,
   ],
 })
 export class FindlySharedModule {}
