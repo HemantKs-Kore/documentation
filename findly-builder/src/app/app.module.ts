@@ -67,7 +67,6 @@ import { NouisliderModule } from 'ng2-nouislider';
 import { ColorPickerModule } from 'ngx-color-picker';
 import { PickerModule } from '@ctrl/ngx-emoji-mart';
 import * as echarts from 'echarts';
-import { StopWordsComponent } from './components/stop-words/stop-words.component';
 import { ResultRankingComponent } from './components/result-ranking/result-ranking.component';
 import { AddResultComponent } from './components/add-result/add-result.component';
 import { FacetsComponent } from './components/facets/facets.component';
@@ -140,7 +139,6 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
     RulesTableComponent,
     InsightsComponent,
     PaginationComponent,
-    StopWordsComponent,
     ResultRankingComponent,
     AddResultComponent,
     FacetsComponent,

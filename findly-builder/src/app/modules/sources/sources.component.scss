@@ -477,9 +477,8 @@
                 border-radius: 4px;
                 padding: 20px;
                 font-family: Inter !important;
-
-                .content-scroll {
-                    height: 130px;
+                .content-scroll{
+                    max-height: 130px;
                 }
 
                 .content-title {
@@ -489,6 +488,9 @@
 
                     .successfullyConnected {
                         margin-right: 5px;
+                    }
+                    &:last-child{
+                        margin-bottom: 0px;
                     }
                 }
             }
@@ -606,7 +608,7 @@
             text-align: left;
             display: block;
             height: auto;
-            padding: 10px 30px;
+            padding: 10px 30px 25px 30px;
             background: #FFFFFF;
             border-radius: 4px;
 
