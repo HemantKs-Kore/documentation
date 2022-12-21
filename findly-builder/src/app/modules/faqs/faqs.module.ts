@@ -1,5 +1,10 @@
+import { UseronboardingJourneyModule } from './../../helpers/components/useronboarding-journey/useronboarding-journey.module';
+import { FormsModule } from '@angular/forms';
+import { RecordPaginationModule } from './../../helpers/components/record-pagination/record-pagination.module';
+import { SharedPipesModule } from './../../helpers/filters/shared-pipes.module';
+import { NgbTooltipModule, NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { AddAlternateQuestionModule } from './../../components/faqs/add-alternate-question/add-alternate-question.module';
-import { FindlySharedModule } from 'src/app/modules/findly-shared/findly-shared.module';
 import { SourcesModule } from './../sources/sources.module';
 import { AddFaqModule } from './../../components/add-faq/add-faq.module';
 import { EmptyScreenModule } from './../empty-screen/empty-screen.module';
@@ -25,9 +30,16 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
     EmptyScreenModule,
     AddFaqModule,
     SourcesModule,
-    FindlySharedModule,
     DragDropModule,
-    AddAlternateQuestionModule
+    AddAlternateQuestionModule,
+    MatProgressSpinnerModule,
+    NgbTooltipModule,
+    PerfectScrollbarModule,
+    SharedPipesModule,
+    NgbDropdownModule,
+    RecordPaginationModule,
+    FormsModule,
+    UseronboardingJourneyModule
   ]
 })
 export class FaqsModule { }
