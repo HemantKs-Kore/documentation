@@ -1,3 +1,4 @@
+import { RecordPaginationModule } from './../../helpers/components/record-pagination/record-pagination.module';
 import { UseronboardingJourneyModule } from './../../helpers/components/useronboarding-journey/useronboarding-journey.module';
 import { RangeSliderModule } from './../../helpers/components/range-slider/range-slider.module';
 import { SharedPipesModule } from './../../helpers/filters/shared-pipes.module';
@@ -12,7 +13,6 @@ import { SearchFilterComponent } from 'src/app/helpers/components/search-filter/
 import { FormsModule } from '@angular/forms';
 import { NgbDropdownModule, NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { RecordPaginationComponent } from 'src/app/helpers/components/record-pagination/record-pagination.component';
 import { SynonymFilterPipe } from '../../components/synonyms/synonym-filter';
 
 
@@ -22,7 +22,6 @@ import { SynonymFilterPipe } from '../../components/synonyms/synonym-filter';
     ListFieldsComponent,
     RangeSliderSearchExperienceComponent,
     SearchFilterComponent,
-    RecordPaginationComponent,
     SynonymFilterPipe,
   ],
   imports: [
@@ -37,6 +36,7 @@ import { SynonymFilterPipe } from '../../components/synonyms/synonym-filter';
     SharedPipesModule,
     RangeSliderModule,
     UseronboardingJourneyModule,
+    RecordPaginationModule,
   ],
   exports: [
     ListFieldsComponent,
@@ -48,12 +48,12 @@ import { SynonymFilterPipe } from '../../components/synonyms/synonym-filter';
     NgbTooltipModule,
     MatProgressSpinnerModule,
     NgbDropdownModule,
-    RecordPaginationComponent,
     SynonymFilterPipe,
     KrModalModule,
     SharedPipesModule,
     RangeSliderModule,
     UseronboardingJourneyModule,
+    RecordPaginationModule,
   ],
 })
 export class FindlySharedModule {}
