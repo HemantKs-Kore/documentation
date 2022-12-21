@@ -11,7 +11,6 @@ import { ConnectorsSourceComponent } from './components/connectors-source/connec
 import { BotActionComponent } from './components/bot-action/bot-action.component';
 import { TraitsComponent } from './components/traits/traits.component';
 import { IndexComponent } from './components/index/index.component';
-import { StopWordsComponent } from './components/stop-words/stop-words.component';
 import { SearchFieldPropertiesComponent } from './components/search-field-properties/search-field-properties.component';
 import { ResultRankingComponent } from './components/result-ranking/result-ranking.component';
 import { FacetsComponent } from './components/facets/facets.component';
@@ -58,7 +57,6 @@ const routes: Routes = [
       { path: 'facets', component: FacetsComponent },
       { path: 'index', component: IndexComponent },
       { path: 'experiments', component: AppExperimentsComponent },
-      { path: 'stopWords', component: StopWordsComponent },
       { path: 'resultranking', component: ResultRankingComponent },
       { path: 'metrics', component: MetricsComponent },
       { path: 'dashboard', component: DashboardComponent },

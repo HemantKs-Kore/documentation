@@ -38,7 +38,7 @@ export class RangeSliderComponent implements OnInit, AfterViewInit {
   registerSlider(ele,obj){
       const slider =$(ele).bootstrapSlider(obj);
       if($(ele).bootstrapSlider()){
-        $(ele).bootstrapSlider().on('slideStop', (ev) => {
+        $(ele).bootstrapSlider().off('slideStop').on('slideStop', (ev) => {
           this.onSliderChanged(ev.value);
         });
         $(ele).bootstrapSlider().on('slide', (ev) => {
