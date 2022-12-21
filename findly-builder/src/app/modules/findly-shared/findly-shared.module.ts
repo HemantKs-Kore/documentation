@@ -1,3 +1,4 @@
+import { UseronboardingJourneyModule } from './../../helpers/components/useronboarding-journey/useronboarding-journey.module';
 import { RangeSliderModule } from './../../helpers/components/range-slider/range-slider.module';
 import { SharedPipesModule } from './../../helpers/filters/shared-pipes.module';
 import { KrModalModule } from './../../shared/kr-modal/kr-modal.module';
@@ -6,7 +7,6 @@ import { CommonModule } from '@angular/common';
 import { ListFieldsComponent } from '../../components/search-settings/list-fields/list-fields.component';
 import { RangeSliderSearchExperienceComponent } from 'src/app/helpers/components/range-slider-search-experience/range-slider-search-experience.component';
 import { TranslateModule } from '@ngx-translate/core';
-import { UseronboardingJourneyComponent } from 'src/app/helpers/components/useronboarding-journey/useronboarding-journey.component';
 import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
 import { SearchFilterComponent } from 'src/app/helpers/components/search-filter/search-filter.component';
 import { FormsModule } from '@angular/forms';
@@ -21,7 +21,6 @@ import { SynonymFilterPipe } from '../../components/synonyms/synonym-filter';
   declarations: [
     ListFieldsComponent,
     RangeSliderSearchExperienceComponent,
-    UseronboardingJourneyComponent,
     SearchFilterComponent,
     RecordPaginationComponent,
     SynonymFilterPipe,
@@ -37,12 +36,12 @@ import { SynonymFilterPipe } from '../../components/synonyms/synonym-filter';
     KrModalModule,
     SharedPipesModule,
     RangeSliderModule,
+    UseronboardingJourneyModule,
   ],
   exports: [
     ListFieldsComponent,
     RangeSliderSearchExperienceComponent,
     TranslateModule,
-    UseronboardingJourneyComponent,
     PerfectScrollbarModule,
     SearchFilterComponent,
     FormsModule,
@@ -54,6 +53,7 @@ import { SynonymFilterPipe } from '../../components/synonyms/synonym-filter';
     KrModalModule,
     SharedPipesModule,
     RangeSliderModule,
+    UseronboardingJourneyModule,
   ],
 })
 export class FindlySharedModule {}
