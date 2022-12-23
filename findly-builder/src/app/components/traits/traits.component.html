@@ -128,8 +128,10 @@
                                     tooltipClass="ngb_tooltip_custom_class sampleJson">
                             </div>
                         </div>
-                        <div class="divBlockEmptylastChild text-center">
-                            <div class="desc">{{'traits_no_search_results_found' | translate}}</div>
+                        <div class="divBlockEmptylastChild">
+                          <app-empty-screen class="empty-sm" [width]="100" [height]="100" [title]="emptyScreen.TITLE_SEARCH"
+                            [desc]="emptyScreen.DESC_SEARCH" [imgName]="emptyScreen.IMG_NAME">
+                          </app-empty-screen>
                         </div>
                     </div>
                     <div style="margin-right: 10px;"> <app-record-pagination *ngIf="totalRecord && totalRecord>10" [totalRecord]='totalRecord' [limitpage]='10' (pageChanged)="paginate($event)"></app-record-pagination></div>
@@ -141,9 +143,20 @@
         <ng-container *ngIf="!(traits.traitGroups &&  traits.traitGroups.length)">
             <perfect-scrollbar class="empty-scroll">
                 <div class="empty-landing-screen">
-                    <div class="img-block" *ngIf="!emptyItems"><img class="action_icon" (load)="imageLoad()"
-                            src="assets/images/traits-empty.png"></div>
-                    <ng-container *ngIf="loadImageText">
+                  <app-empty-screen *ngIf="!emptyItems" class="empty-lg" [title]="emptyScreen.TITLE" [desc]="emptyScreen.DESC"
+                    [width]="130" [height]="130"
+                    [imgName]="emptyScreen.IMG_NAME" (isImgLoading)="isEmptyScreenLoading($event)">
+                    <div class="action-buttons">
+                      <button class="kr-sg-button-primary btn_lg mr-2" (click)='createNewTraits()'>
+                        <i class="si-add-plus"></i>
+                        {{'traits_add_traits' | translate}}
+                      </button>
+                    </div>
+                  </app-empty-screen>
+
+                    <!-- <div class="img-block" *ngIf="!emptyItems"><img class="action_icon" (load)="imageLoad()" -->
+                            <!-- src="assets/images/traits-empty.png"></div> -->
+                    <!-- <ng-container *ngIf="loadImageText">
                         <div class="empty-title">{{'traits_you_havenot_added_any_traits_yet' | translate}}</div>
                         <div class="desc-text">{{'traits_traits_are_specific_entities' | translate}}
                         </div>
@@ -153,11 +166,12 @@
                                     (click)='createNewTraits()'>{{'traits_add_traits' | translate}}</button>
                             </div>
                         </div>
-                    </ng-container>
-                    <ng-container *ngIf="noItems && emptySearchResults">
+                    </ng-container> -->
+                    <!-- <ng-container *ngIf="noItems && emptySearchResults">
+                        HEMANNATT
                         <div class="desc-text">{{'traits_your_search_query_doesnot_match_with_any_record' | translate}}
                         </div>
-                    </ng-container>
+                    </ng-container> -->
                 </div>
             </perfect-scrollbar>
         </ng-container>
