@@ -8,7 +8,7 @@
 <div class="pricing-container-wrapper" *ngIf="(currentSubscriptionPlan?.subscription)">
   <div class="title-header d-flex align-items-center justify-content-between">
     <div>{{"plan_plan_head"| translate}}
-      <span class="module-topic" tooltipClass="tooltip-global-" [container]="'body'" ngbTooltip='{{"sa_topic_guide"| translate}}' 
+      <span class="module-topic" tooltipClass="tooltip-global-" [container]="'body'" ngbTooltip='{{"sa_topic_guide"| translate}}'
  placement="right-center"(click)="openUserMetaTagsSlider()">
         <i class="si-topic-guide-1"></i>
       </span>
@@ -43,7 +43,7 @@
             <div class="tile-plan-overview">
               <div class="tile-current-plan">
                 <div class="tile-plan-details">
-                  <div class="plan-type">{{currentSubscriptionPlan?.subscription?.planName|uppercase}} PLAN</div> 
+                  <div class="plan-type">{{currentSubscriptionPlan?.subscription?.planName|uppercase}} PLAN</div>
                   <div class="plan-price">
                    <span class="plan-crown-img" *ngIf="(currentSubscriptionPlan?.subscription?.planName|lowercase)!=='free'"><img src="assets/images/pricing-plan/plan-crown.svg" /></span> <span *ngIf="currentSubscriptionPlan?.subscription?.planAmount>=0">$</span>{{currentSubscriptionPlan?.subscription?.planAmount>=0?(currentSubscriptionPlan?.subscription?.planAmount+' /'):'CUSTOM '}} <span class="plan-duration ml-1" *ngIf="currentSubscriptionPlan?.subscription?.planAmount>0||(['unlimited','enterprise'].includes(currentSubscriptionPlan?.subscription?.planName|lowercase))">{{currentSubscriptionPlan?.subscription?.billingUnit}}</span>
                   </div>
@@ -66,7 +66,7 @@
                   <ng-container *ngIf="(currentSubscriptionPlan?.subscription?.changesScheduledFor==='downgrade')">
                     <div class="d-flex justify-content-between align-items-center">
                       <div class="plan-downgrade" *ngIf="(currentSubscriptionPlan?.subscription?.changesScheduledFor==='downgrade')"><span class="plan-current-status"></span>{{"plan_downgraded"| translate}}</div>
-                      <div class="plan-downgrade-duration" *ngIf="(currentSubscriptionPlan?.subscription?.changesScheduledFor==='downgrade')">{{"plan_billing_cycle"| translate}} {{currentSubscriptionPlan?.subscription?.endDate|dateFormatPipe:'D.MM.YY'}}</div>  
+                      <div class="plan-downgrade-duration" *ngIf="(currentSubscriptionPlan?.subscription?.changesScheduledFor==='downgrade')">{{"plan_billing_cycle"| translate}} {{currentSubscriptionPlan?.subscription?.endDate|dateFormatPipe:'D.MM.YY'}}</div>
                     </div>
                    <div class="plan-downgrade-cancel" *ngIf="['downgrade'].includes(currentSubscriptionPlan?.subscription?.changesScheduledFor)" (click)="revertCancelModal('open')">{{"plan_cancel_request" | translate}}</div>
                   </ng-container>
@@ -98,7 +98,7 @@
                 </div>
               </div>
 
-              <button class="btn btn-add-overage" [ngClass]="{'d-none':['free','standard','unlimited','enterprise'].includes(currentSubscriptionPlan?.subscription?.planName|lowercase)}" *ngIf="currentSubscriptionPlan?.overages.length===0; else overageUsage" (click)="selectModal('add_overage')"><span class="pr-2"><i class="si-grow-up-arrow"></i></span>{{"plan_add_overage" | translate}}</button>              
+              <button class="btn btn-add-overage" [ngClass]="{'d-none':['free','standard','unlimited','enterprise'].includes(currentSubscriptionPlan?.subscription?.planName|lowercase)}" *ngIf="currentSubscriptionPlan?.overages.length===0; else overageUsage" (click)="selectModal('add_overage')"><span class="pr-2"><i class="si-grow-up-arrow"></i></span>{{"plan_add_overage" | translate}}</button>
               <ng-template #overageUsage>
               <div class="tile-plan-utilization plan-overview">
                 <div class="plan-current-and-overage">

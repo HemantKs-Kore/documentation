@@ -7,7 +7,7 @@
         <app-useronboarding-journey [componentType]='componentType'></app-useronboarding-journey>
             <div class="seach_add_feild">
                 <div class="title">{{'fields_fields' | translate}}
-                    <span class="module-topic" tooltipClass="tooltip-global-" [container]="'body'" ngbTooltip='Topic Guide' 
+                    <span class="module-topic" tooltipClass="tooltip-global-" [container]="'body'" ngbTooltip='Topic Guide'
  placement="right-center"(click)="openUserMetaTagsSlider()">
                         <i class="si-topic-guide-1"></i>
                     </span>
@@ -20,7 +20,7 @@
                             (mouseout)="searchFocusIn=false;searchImgSrc = 'assets/icons/search_gray.svg'"
                             (focus)="searchFocusIn=true;searchImgSrc = 'assets/icons/search_gray.svg'">
                         <img [src]="searchImgSrc" class="search-icon" *ngIf="!searchFields">
-                        <img class="close-icon" src="assets/icons/close_icon.svg" [ngClass]="{'pr-22':searchFields}" (mouseover)="activeClose=true" (mouseout)="activeClose=false" 
+                        <img class="close-icon" src="assets/icons/close_icon.svg" [ngClass]="{'pr-22':searchFields}" (mouseover)="activeClose=true" (mouseout)="activeClose=false"
                             (click)="focusoutSearch()" placement="top-center" container='body' ngbTooltip="{{'sa_cancel' | translate}}"
                             tooltipClass="ngb_tooltip_custom_class sampleJson">
                     </div>
@@ -29,13 +29,13 @@
                     </div>
                     <div class="add_feild" (click)="addEditFiled()"><img src="assets/icons/add_plus.svg">{{'fields_add_field' | translate}}</div>
                 </div>
-            </div> 
+            </div>
             <div class="empty-list"  *ngIf="!(filelds && filelds.length)">
                 <ng-container>
                     <img src="assets/images/icons/empty_ill.svg">
                     <div class="desc">{{'fields_no_fields_available' | translate}}</div>
                 </ng-container>
-            </div>     
+            </div>
             <div>
                 <div class="table_data_content" *ngIf="filelds && filelds.length" >
                     <div class="table_header row m-0" *ngIf="!(filelds && filelds.length) || filelds && filelds.length" >
@@ -50,7 +50,7 @@
                                 <img  [ngClass]="getSortIconVisibility('fieldDataType', 'down')"   src="assets/icons/caretDown.svg" class="ml-1 sortImg downArrow">
                                 <img [ngClass]="getSortIconVisibility('fieldDataType', 'up')"  src="assets/icons/caretDown.svg" class="ml-1 sortImg upArrow">
                               </span>
-                              {{'fields_type' | translate}} 
+                              {{'fields_type' | translate}}
                             <div class="kr-sg-dropdowns type_sort_dropdown" #sourceFilter="ngbDropdown" ngbDropdown [container]="'body'"
                             [autoClose]="true" [placement]="'bottom-right'">
                             <div class="dropdown dropdown-open">
@@ -59,7 +59,7 @@
 
                                     <img class="custom-dropdown-toggle-icon" src="assets/icons/Fields_Vector.svg">
                                 </button>
-                                
+
                                     <ul class="dropdown-menu data-type-dropdown content-menu type_sort_dropdown-content" ngbDropdownMenu>
                                         <li (click)="sourceFilter.close();filterTable('all','fieldDataType')"><span
                                                 class="list-name">{{'fields_all' | translate}} </span><img
@@ -109,7 +109,7 @@
                                 </ul>
                             </div>
                         </div>
-                        
+
                         </div>
                         <div class="col_  col-2 title d-flex align-items-center" (click)="sortByApi('isAutosuggest')">
                             <span class="d-flex align-items-center flex-column mr-1">
