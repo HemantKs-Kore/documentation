@@ -61,7 +61,7 @@ export class UsageLogComponent implements OnInit {
     //   this.loadUsageLogs();
     // })
     let subscription_data = this.appSelectionService.currentsubscriptionPlanDetails;
-    this.current_plan_name = subscription_data.subscription.planName;
+    this.current_plan_name = subscription_data?.subscription.planName;
   }
   toggleSearch() {
     if (this.showSearch && this.searchUsageLog) {

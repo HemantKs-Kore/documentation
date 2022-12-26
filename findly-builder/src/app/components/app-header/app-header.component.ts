@@ -875,8 +875,8 @@ export class AppHeaderComponent implements OnInit {
   // CHECK FOR THE INPROGRESS JOB 
   checkJObStatus(dockersList){
     dockersList.forEach(element => {
-      if((element.status === 'IN_PROGRESS' || element.status === 'INPROGRESS' || element.status === 'in_progress' || element.status === 'inprogress'
-      || element.status === 'running' || element.status === 'RUNNING')){
+      if((element.status !== 'SUCCESS' || element.status !== 'FAILED' || element.status !== 'HALTED' || element.status !== 'STOPPED'||
+      element.status !== 'CONFIGURED' )){
         this.disableClearAll = true;
       }
       else {

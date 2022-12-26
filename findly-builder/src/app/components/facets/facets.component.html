@@ -361,7 +361,7 @@
                                 </div>
                             </div>
                             <div class="kr-sg-input-text mb-20">
-                                <div class="label-text">{{'facets_facet_name'| translate}}</div>
+                                <div class="label-text">{{'facets_facet_name'| translate}}<sup class="field-mandatory">*</sup></div>
                                 <input type="text" placeholder="Enter name" class="input-text"
                                     [(ngModel)]="currentFacetObj.name"
                                     [class.err-block]="((!currentFacetObj?.name?.length) && submitted)">
@@ -374,7 +374,7 @@
                                 <div class="box-input-data col-12 row">
                                     <div class="col-8 sort-section">
                                         <div class="inner-sort-inputs">
-                                            <div class="label-text">{{'facets_sort_by'| translate}}</div>
+                                            <div class="label-text">{{'facets_sort_by'| translate}}<sup class="field-mandatory">*</sup></div>
                                             <div class="d-flex">
                                                 <div class="kr-sg-dropdowns">
                                                     <div class="dropdown dropdown-open">
@@ -414,7 +414,7 @@
                                                     src="assets/icons/facets/info.svg" tooltipClass="tooltip-global-"
                                                     [container]="'body'"
                                                     ngbTooltip="{{'facets_facet_size_info'| translate}}"
-                                                    placement="top-center">
+                                                    placement="top-center"><sup class="field-mandatory">*</sup>
                                             </div>
                                             <input type="text" placeholder="0" class="input-text"
                                                 [(ngModel)]="currentFacetObj.size"
@@ -472,7 +472,7 @@
                     <div id="sortablefacet" class="tab-pane fade  in show active" *ngIf="currentFacetTab==='sortable'">
                         <div class="filterfacet-content">
                             <div class="search_block mb-10">
-                                <div class="label-text">{{'facets_field'| translate}}</div>
+                                <div class="label-text">{{'facets_field'| translate}}<sup class="field-mandatory">*</sup></div>
                                 <div class="col-12 row ml-0 mr-0 mb-3 align-items-center right-side-sec p-0" [ngClass]="{activeDrop: currentEditInex === index}">
                                     <div class="kr-sg-dropdowns col-12 p-0" ngbDropdown ngbDropdown (click)="currentEditInex = index;clearcontent()">
                                         <div class="dropdown dropdown-open">
@@ -501,7 +501,7 @@
                                     </div>   
                             </div>
                             <div class="kr-sg-input-text mb-20">
-                                <div class="label-text">{{'facets_facet_name'| translate}}</div>
+                                <div class="label-text">{{'facets_facet_name'| translate}}<sup class="field-mandatory">*</sup></div>
                                 <input type="text" placeholder="{{'facets_enter_name'| translate}}" class="input-text"
                                     [(ngModel)]="currentFacetObj.name"
                                     [class.err-block]="((!currentFacetObj?.name?.length) && submitted)">
@@ -514,7 +514,7 @@
                                 <div class="box-input-data col-12 row">
                                     <div class="col-12 sort-section">
                                         <div class="inner-sort-inputs">
-                                            <div class="label-text">{{'facets_sort_by'| translate}}</div>
+                                            <div class="label-text">{{'facets_sort_by'| translate}}<sup class="field-mandatory">*</sup></div>
                                             <div class="d-flex">
                                                 <div class="kr-sg-dropdowns">
                                                     <div class="dropdown dropdown-open">
@@ -550,7 +550,7 @@
                             <div class="ok-btn" (click)="hide_facet_info=true;">{{'facets_ok' | translate}}</div>
                         </div>
                         <div class="tabfacet-data">
-                            <div class="label-text">{{'facets_field' | translate}}</div>
+                            <div class="label-text">{{'facets_field' | translate}}<sup class="field-mandatory">*</sup></div>
                             <div class="search-filter-btn mb-20">
                                 <div class="search_block w-100">
                                     <div class="kr-sg-dropdowns">
@@ -601,7 +601,7 @@
                     <div class="label-text">{{'facets_field_name' | translate}} <img class="cursor-pointer" src="assets/icons/facets/info.svg"
                             tooltipClass="tooltip-global-" [container]="'body'"
                             ngbTooltip='Only search results for the values configured here will be displayed, other results will be discarded'
-                            placement="right-center"></div>
+                            placement="right-center"><sup class="field-mandatory">*</sup></div>
                             <!-- <div class="kr-sg-dropdowns">
                                 <div class="kr-sg-input-search dropdown dropdown-open line-height-0">
                                     <button id="btn_select_facet_field"
