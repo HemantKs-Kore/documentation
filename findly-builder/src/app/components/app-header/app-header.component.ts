@@ -874,9 +874,12 @@ export class AppHeaderComponent implements OnInit {
   }
   // CHECK FOR THE INPROGRESS JOB 
   checkJObStatus(dockersList){
+    let statusArr:any =[]
     dockersList.forEach(element => {
-      ['SUCCESS','FAILED','HALTED','STOPPED','CONFIGURED'].includes(element.status)?this.disableClearAll=false:this.disableClearAll=true;
-    });
+      statusArr.push(element.status);
+    }); 
+     const Statisvalues = 'SUCCESS'||'FAILED'||'HALTED'||'STOPPED'||'CONFIGURED';
+     this.disableClearAll = !statusArr.includes(Statisvalues);
   }
 
   getStatusView(status, other?) {
