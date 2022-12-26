@@ -874,15 +874,12 @@ export class AppHeaderComponent implements OnInit {
   }
   // CHECK FOR THE INPROGRESS JOB 
   checkJObStatus(dockersList){
+    let statusArr:any =[]
     dockersList.forEach(element => {
-      if((element.status === 'IN_PROGRESS' || element.status === 'INPROGRESS' || element.status === 'in_progress' || element.status === 'inprogress'
-      || element.status === 'running' || element.status === 'RUNNING')){
-        this.disableClearAll = true;
-      }
-      else {
-        this.disableClearAll = false;
-      }
-    });
+      statusArr.push(element.status);
+    }); 
+     const Statisvalues = 'SUCCESS'||'FAILED'||'HALTED'||'STOPPED'||'CONFIGURED';
+     this.disableClearAll = !statusArr.includes(Statisvalues);
   }
 
   getStatusView(status, other?) {

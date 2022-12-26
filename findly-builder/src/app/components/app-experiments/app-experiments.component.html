@@ -45,7 +45,7 @@
       <div class="table-data-content">
         <div class="row m-0 header-data col-12" *ngIf='filterExperiments.length>0'>
           <div class="col-3 h-title d-flex align-items-center">
-            {{"experiments_exp_name"| translate}}</div>
+            {{"experiments_exp_name"| translate}}<sup class="field-mandatory">*</sup></div>
           <div class="col-3 h-title">
             {{"experiments_variants"| translate}}</div>
           <div class="col-2 d-flex align-items-center h-title" (click)="sortByApi('state')">
@@ -306,7 +306,7 @@
       </div>
       <div class="row ml-0 mr-0 mb-3 col-12 p-0 pr-30">
         <div class="kr-sg-input-text col-8 pl-pr-5">
-          <div class="label-text">{{"experiments_exp_name"| translate}}</div>
+          <div class="label-text">{{"experiments_exp_name"| translate}}<sup class="field-mandatory">*</sup></div>
           <input type="text" autocomplete="off" maxlength="60" id="enterName" placeholder="{{'experiments_enter_experiment_name' | translate}}"
             class="input-text" (blur)="inputChanged('enterName')" (change)="inputChanged('enterName')"
             [(ngModel)]="experimentObj.name" [disabled]="exp_status !== 'configured' && form_type === 'edit'" [ngClass]="{
@@ -320,7 +320,7 @@
 
       <div class="row ml-0 mr-0 mb-3 col-12 p-0 pr-30" *ngFor="let vari of variantsArray; let varIndex = index">
         <div class="kr-sg-input-text col-4 pl-pr-5 ifvariant">
-          <div class="label-text">{{"experiments_var_name"| translate}}</div>
+          <div class="label-text">{{"experiments_var_name"| translate}}<sup class="field-mandatory">*</sup></div>
           <input type="text" maxlength="60" autocomplete="off" #varName placeholder="{{'experiments_enter_variant_name' | translate}}"
             class="input-text" id="variantName{{varIndex}}" (change)="inputChanged('variantName', varIndex)"
             [(ngModel)]="vari.name"
@@ -332,7 +332,7 @@
           <img id="infoWarning{{varIndex}}" src="assets/icons/warning_escalation.svg" style="display: none;" height="12" width="12" />
         </div>
         <div class="kr-sg-dropdowns col-4 pl-pr-5">
-          <div class="label-text">{{"experiments_exp_index"| translate}}</div>
+          <div class="label-text">{{"experiments_exp_index"| translate}}<sup class="field-mandatory">*</sup></div>
           <div class="dropdown dropdown-open">
             <button class="dropdown-toggle dropdown-input" data-toggle="dropdown" id="indexPipelineName{{varIndex}}"
               [disabled]="exp_status !== 'configured' && form_type === 'edit'"
@@ -349,7 +349,7 @@
           </div>
         </div>
         <div class="kr-sg-dropdowns col-4 pl-pr-5">
-          <div class="label-text">{{"experiments_search_configuration"| translate}}</div>
+          <div class="label-text">{{"experiments_search_configuration"| translate}}<sup class="field-mandatory">*</sup></div>
           <div class="dropdown dropdown-open">
             <button class="dropdown-toggle dropdown-input" data-toggle="dropdown" id="queryPipelineName{{varIndex}}"
               [disabled]="(exp_status !== 'configured' && form_type === 'edit')||vari.indexPipelineName==undefined"

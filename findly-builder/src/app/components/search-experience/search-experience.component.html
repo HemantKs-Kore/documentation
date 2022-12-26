@@ -268,7 +268,7 @@
 
 
                                 <div class="kr-sg-input-text">
-                                    <div class="label-text">{{'searchexperience_button_text' | translate}}</div>
+                                    <div class="label-text">{{'searchexperience_button_text' | translate}}<sup class="field-mandatory">*</sup></div>
                                     <input type="text" maxlength="6" #butttonText (keyup)="0" placeholder="Enter Name"
                                         class="input-text" [(ngModel)]="searchObject.searchWidgetConfig.buttonText"
                                         [class.err-block]="(searchObject.searchWidgetConfig.searchButtonEnabled && !searchObject.searchWidgetConfig.buttonText.length) && submitted"

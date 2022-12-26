@@ -143,7 +143,7 @@
                 </li>
              <!-- New Code wrt to Stop Traing -->
             <li class="nav-item new-train-btn"  [ngbTooltip]="training?'Stop Training The App':'Train Your APP'">
-                    <button (mouseenter)="displayStopTrain()" (mouseleave)="displayStopTrainLeave()" (click)="isRouteDisabled?null:train()" class="kr-sg-button-secondary btn_lg" [ngClass]='{"show-close":showClose && training}'>
+                    <button (mouseenter)="displayStopTrain()" (mouseleave)="displayStopTrainLeave()" (click)="isRouteDisabled?null:train()" class="kr-sg-button-secondary btn_lg" [ngClass]='{"show-close":showClose && training}' >
                         <span class="align-middle train-btn-icons">
                             <span *ngIf="!training" >
                                 <i class="si-train-multi-intent"></i>
@@ -325,7 +325,7 @@
                                                         </div>
                                                     </perfect-scrollbar>
                                                     <div class="clear_icon text-right"
-                                                        [class.disabled]="(!dockersList.length || disableClearAll)"
+                                                        [class.disabled]="(disableClearAll || !dockersList.length)"
                                                         (click)="clearAllRecords()">{{'clear_all' | translate}}</div>
                                                 </div>
                                             </div>
@@ -341,7 +341,7 @@
                 </li>
 
                 <li class="nav-item help-icon" [container]="'body'" ngbTooltip="{{'header_help' | translate}}" tooltipClass="train-icon-tooltip"
-                    (click)="openUserMetaTagsSlider()" [ngClass]="{'d-none': router.url=='/apps' || router.url=='/' || router.url=='/**'}">
+                    (click)="openUserMetaTagsSlider()" [ngClass]="{'d-none': router.url=='/apps' || router.url=='/' || router.url=='/**' || router.url=='/home'}">
                     <img src="assets/icons/sidemenu/help.svg">
                 </li>
 
