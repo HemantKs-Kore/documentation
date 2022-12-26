@@ -1635,5 +1635,9 @@ export class AppHeaderComponent implements OnInit {
     }, errRes => {
     });
   }
+  hideparentTooltip(event){
+    event.stopImmediatePropagation();
+    event.preventDefault();
+  }
 }
 
