@@ -1193,6 +1193,7 @@ div.divBlockEmptylastChild:first-child {
                 margin: 0;
                 padding: 0;
                 border: 0;
+                background-color: #fff;
                 .mat-chip-list{
                     .mat-chip-list-wrapper{
                         border-radius: 3px;
@@ -1213,7 +1214,7 @@ div.divBlockEmptylastChild:first-child {
                             border-radius: 4px;
                             background-color: #EFF0F1;
                             padding: 0px 9px;
-                            margin: 3px 0px 3px 3px;
+                            margin: 3px 3px 3px 3px;
                             min-height: 26px;
                             &:hover{
                                 &::after{
@@ -1234,7 +1235,7 @@ div.divBlockEmptylastChild:first-child {
                                     height: 11px;
                                     vertical-align: middle;
                                     position: relative;
-                                    top: -1px;
+                                    top: -4px;
                                     left: 2px;
                                 }
                             }
@@ -1287,10 +1288,9 @@ div.divBlockEmptylastChild:first-child {
         }
         .title{
             color: #202124;
-            font-weight: normal;
+            font-weight: bold;
             font-size: 14px;
             float: left;
-            font-weight: 400;
             word-break: break-word;
             width: 95%;
             overflow: hidden;
@@ -1484,6 +1484,12 @@ div.divBlockEmptylastChild:first-child {
 }
 .cursor-pointer{
     cursor: pointer !important;
+}
+.cursor-default{
+    cursor: default !important;
+}
+.min-width-0{
+    min-width: 0 !important;
 }
 /* Aligining the serach bubble to little right in business app*/
 .start-search-icon-div{
@@ -1728,9 +1734,6 @@ div.divBlockEmptylastChild:first-child {
                 font-weight: bold;
                 font-size: 14px;
                 line-height: 17px;
-                &.total{
-                    
-                }
                 &.new{
                     color: #0D6EFD;
                 }

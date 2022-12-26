@@ -17,7 +17,7 @@ import { Subject } from 'rxjs';
 import { PerfectScrollbarComponent } from 'ngx-perfect-scrollbar';
 import { CrwalObj, AdvanceOpts, AllowUrl, BlockUrl, scheduleOpts } from 'src/app/helpers/models/Crwal-advance.model';
 import { InlineManualService } from '@kore.services/inline-manual.service';
-
+import { debounceTime, distinctUntilChanged } from "rxjs/operators";
 import { DockStatusService } from '../../services/dockstatusService/dock-status.service';
 import { MixpanelServiceService } from '@kore.services/mixpanel-service.service';
 import { OnboardingComponentComponent } from 'src/app/components/onboarding-component/onboarding-component.component';
@@ -242,6 +242,8 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
     'type': '',
     'header': ''
   }
+  isSearchLoading :boolean = false;
+  isPageDelete :boolean = false;
   @ViewChild('statusModalDocument') statusModalDocument: KRModalComponent;
   @ViewChild('perfectScroll') perfectScroll: PerfectScrollbarComponent;
   @ViewChild('addSourceModalPop') addSourceModalPop: KRModalComponent;
@@ -254,6 +256,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
   @ViewChild(OnboardingComponentComponent, { static: true }) onBoardingComponent: OnboardingComponentComponent;
   templateState = new Subject();
   loadingData: boolean = true;
+isSourceSearchClear : boolean = false;
 
   //latest object wrt crawl changes
   editSource: any;
@@ -271,7 +274,8 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
   isShowSchedlerModal:Boolean = false;
   scheduleObject:any={};
   isContentPage:boolean=false;
-
+  pagesSearchModelChanged = new Subject<string>();
+  sourcesSearchModelChanged = new Subject<string>();
   constructor(
     public workflowService: WorkflowService,
     private service: ServiceInvokerService,
@@ -297,23 +301,29 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
     this.templateState.subscribe(val => {
       // console.log(val)
     })
+    this.pagesSearchModelChanged
+    .pipe(
+      debounceTime(300))
+    .subscribe(() => {
+      this.getCrawledPages(10, 0);
+    })
+    this.sourcesSearchModelChanged
+    .pipe(
+      debounceTime(300))
+    .subscribe(() => {
+      this.getSourceList(null,this.searchSources,'search');
+    })
   }
+
+  isEmptyScreenLoading(isLoading) {
+    this.loadingContent = isLoading;
+  }
+
   scroll = (event): void => {
     //console.log(event)
   };
   loadImageText: boolean = false;
-  imageLoad() {
-    this.loadingContent = false;
-    this.loadingContent1 = true;
-    this.loadImageText = true;
-    // this.templateState.next('loadingContent1')
-    // setTimeout(()=>{
-    //   if (!this.inlineManual.checkVisibility('ADD_CONTENT_FROM_LANDING')) {
-    //     this.inlineManual.openHelp('ADD_CONTENT_FROM_LANDING')
-    //     this.inlineManual.visited('ADD_CONTENT_FROM_LANDING')
-    //   }
-    // }, 500)
-  }
+
   hoverExecutionLog() {
     this.executionLogStatus = true;
   }
@@ -452,35 +462,34 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
     this.service.invoke('get.source.list', quaryparms, payload).subscribe(res => {
       this.resources = res.sources;
       this.totalRecord = res.totalCount || 0;
-      this.imageLoad();
       //  this.resourcesDoc=this.resources[0].fileMeta;
       //element.advanceSettings.scheduleOpts.interval.intervalType
       this.resources.forEach(element => {
         if (element.advanceSettings && element.advanceSettings.scheduleOpt && element.advanceSettings.scheduleOpts.interval && element.advanceSettings.scheduleOpts.time) {
-          if (element.advanceSettings.scheduleOpts.interval.intervalType != "Custom") {
-            let minute = ''
-            let hour = (element.advanceSettings.scheduleOpts.time.hour).toString().length > 1 ? element.advanceSettings.scheduleOpts.time.hour : '0' + element.advanceSettings.scheduleOpts.time.hour;
-            if (element.advanceSettings.scheduleOpts.time.minute) {
-              minute = (element.advanceSettings.scheduleOpts.time.minute).toString().length > 1 ? element.advanceSettings.scheduleOpts.time.minute : '0' + element.advanceSettings.scheduleOpts.time.minute;
+          if (element?.advanceSettings?.scheduleOpts?.interval?.intervalType != "Custom") {
+            let minute='',hour = '';
+            if(element?.advanceSettings?.scheduleOpts?.time?.hour) hour = (element?.advanceSettings?.scheduleOpts?.time?.hour).toString().length > 1 ? element?.advanceSettings?.scheduleOpts?.time?.hour : '0' + element?.advanceSettings?.scheduleOpts?.time?.hour;
+            if (element?.advanceSettings?.scheduleOpts?.time?.minute) {
+              minute = (element?.advanceSettings?.scheduleOpts?.time?.minute).toString().length > 1 ? element?.advanceSettings?.scheduleOpts?.time?.minute : '0' + element?.advanceSettings?.scheduleOpts?.time?.minute;
             }
-            element['schedule_title'] = 'Runs ' + element.advanceSettings.scheduleOpts.interval.intervalType + ' ' + 'at ' +
-              hour + ':' + minute + ' ' +
-              element.advanceSettings.scheduleOpts.time.timeOpt + ' ' + element.advanceSettings.scheduleOpts.time.timezone;
+            element['schedule_title'] = 'Runs ' + element?.advanceSettings?.scheduleOpts?.interval?.intervalType + ' ' + 'at ' +
+              hour + ':' + (minute===''?'00':minute) + ' ' +
+              element?.advanceSettings?.scheduleOpts?.time?.timeOpt + ' ' + element?.advanceSettings?.scheduleOpts?.time?.timezone;
           } else {
             let repeatOn = "";
             let schedulePeriod = "";
             let every = "";
             let date = ""
-            if (element.advanceSettings.scheduleOpts.interval.intervalValue && element.advanceSettings.scheduleOpts.interval.intervalValue.schedulePeriod) {
+            if (element?.advanceSettings?.scheduleOpts?.interval?.intervalValue && element?.advanceSettings?.scheduleOpts?.interval?.intervalValue?.schedulePeriod) {
               schedulePeriod = element.advanceSettings.scheduleOpts.interval.intervalValue.schedulePeriod
             }
-            if (element.advanceSettings.scheduleOpts.interval.intervalValue && element.advanceSettings.scheduleOpts.interval.intervalValue.repeatOn) {
+            if (element?.advanceSettings?.scheduleOpts?.interval?.intervalValue && element?.advanceSettings?.scheduleOpts?.interval?.intervalValue?.repeatOn) {
               repeatOn = " on " + this.convertToDay(element.advanceSettings.scheduleOpts.interval.intervalValue.repeatOn);
             }
-            if (element.advanceSettings.scheduleOpts.interval.intervalValue && element.advanceSettings.scheduleOpts.interval.intervalValue.every) {
+            if (element?.advanceSettings?.scheduleOpts?.interval?.intervalValue && element?.advanceSettings?.scheduleOpts?.interval?.intervalValue?.every) {
               every = element.advanceSettings.scheduleOpts.interval.intervalValue.every
             }
-            if (element.advanceSettings.scheduleOpts.interval.intervalValue && element.advanceSettings.scheduleOpts.interval.intervalValue.endsOn) {
+            if (element?.advanceSettings?.scheduleOpts?.interval?.intervalValue && element?.advanceSettings?.scheduleOpts?.interval?.intervalValue?.endsOn) {
               date = moment(element.advanceSettings.scheduleOpts.interval.intervalValue.endsOn.endDate).format('Do MMMM YYYY');
             }
             if (date != 'Invalid date') {
@@ -552,6 +561,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
       if (this.resources && this.resources.length && !nxt) {
         this.poling('content')
       }
+      this.isSourceSearchClear = false;
       this.loadingContent = false;
       this.loadingData = false;
       setTimeout(() => {
@@ -672,6 +682,17 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
       this.notificationService.notify('Somthing went worng', 'error');
     }
   }
+  searchSourcesChange(){
+    this.sourcesSearchModelChanged.next();
+  }
+  searchPageChange(){
+    this.pagesSearchModelChanged.next();
+  }
+  clearPageSearch(){
+    this.pagesSearch='';
+    this.isSearchLoading=true;
+    this.getCrawledPages();
+  }
   getCrawledPages(limit?, skip?) {
     this.pagingData = [];
     this.docContent = {};
@@ -703,6 +724,8 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
     }
     // payload.sort.lMod = -1;
     this.service.invoke('get.extracted.pags', quaryparms, payload).subscribe(res => {
+      this.isPageDelete = false;
+      this.isSearchLoading = false;
       this.loadingSliderContent = false;
       this.selectedSource.pages = res.content;
       this.totalCrawledCount = res.count;
@@ -739,6 +762,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
         this.clicksViews('file')
       }
     }, errRes => {
+      this.isSearchLoading = false;
       if (errRes && errRes.error && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0].msg) {
         this.loadingSliderContent = false;
         this.notificationService.notify(errRes.error.errors[0].msg, 'error');
@@ -891,6 +915,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
       window.open(url, "_blank");
     }
   }
+  
   openStatusSlider(source, page?) {
     this.executionHistoryData = [];
     this.pagesSearch = '';
@@ -908,11 +933,14 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
       this.isJavaScriptRendered = source?.advanceSettings?.isJavaScriptRendered;
       this.crawlDepth = source?.advanceSettings?.crawlDepth;
       this.maxUrlLimit = source?.advanceSettings?.maxUrlLimit;
-      this.allowURLArray = source?.advanceSettings?.allowedURLs;
-      this.blockURLArray = source?.advanceSettings?.blockedURLs;
+      this.allowURLArray = (source?.advanceSettings?.allowedURLs?.length===0)?(this.allowURLArray):(source?.advanceSettings?.allowedURLs);
+      this.blockURLArray = (source?.advanceSettings?.blockedURLs?.length===0)?(this.blockURLArray):(source?.advanceSettings?.blockedURLs);
       this.editSource.advanceOpts.scheduleOpt = source?.advanceSettings?.scheduleOpt;
       this.editSource.advanceOpts.scheduleOpts = source?.advanceSettings?.scheduleOpts;
-      this.editSource.authorizationEnabled = source?.authorizationEnabled;
+      this.editSource.authorizationEnabled = source?.authorizationEnabled ||false;
+      this.editSource.advanceOpts.allowedOpt = source?.advanceSettings?.allowedOpt;
+      this.editSource.advanceOpts.blockedOpt = source?.advanceSettings?.blockedOpt;
+      this.editSource.advanceOpts.crawlEverything = source?.advanceSettings?.crawlEverything;
       if (source?.authorizationProfle) {
         this.editSource.authorizationProfle.sso_type = source?.authorizationProfle?.sso_type;
         this.editSource.authorizationProfle.testType = source?.authorizationProfle?.testType;
@@ -1168,7 +1196,8 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
           if (from == 'source') {
             this.deleteSource(record, dialogRef)
           } else {
-            this.deletePage(record, event, dialogRef)
+            this.isPageDelete = true;
+            this.deletePage(record, event, dialogRef);
           }
         } else if (result === 'no') {
           dialogRef.close();
@@ -1281,7 +1310,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
       sourceType: this.selectedSource.type
     }
     if (quaryparms.sourceType === 'web') {
-      quaryparms.contentType = 'pages'
+      quaryparms.contentType = 'pages';
     }
     if (quaryparms.sourceType === 'file') {
       quaryparms.contentType = 'docContent'
@@ -1291,11 +1320,14 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
       this.totalRecord = this.totalRecord - 1;
       this.pageination(this.totalRecord, true)
       this.notificationService.notify('Page deleted successsfully', 'success');
-      const deleteIndex = _.findIndex(this.selectedSource.pages, (pg) => {
+      // const deleteIndex = _.findIndex(this.selectedSource.pages, (pg) => {
+      //   return pg._id === page._id;
+      // })
+      const deleteIndex = _.findIndex(this.pagingData, (pg) => {
         return pg._id === page._id;
       })
       if (deleteIndex > -1) {
-        this.selectedSource.pages.splice(deleteIndex, 1);
+        this.pagingData.splice(deleteIndex, 1);
         this.getCrawledPages(this.limitpage, this.recordStr - 1);
       }
       this.getSourceList();
@@ -1591,11 +1623,14 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
     }, 500)
   }
   closeStatusModal() {
+    this.page = false;
+    this.editTitleFlag = false;
     // this.swapSlider('page') // Just to redirect to 1st page
     if (this.statusModalPopRef && this.statusModalPopRef.close) {
       this.statusModalPopRef.close();
     }
-    this.editTitleFlag = false;
+  
+    this.totalCrawledCount = 0;
     this.addFormField('cancel');
     this.addAuthorizationField('cancel');
   }
@@ -1947,6 +1982,7 @@ export class ContentSourceComponent implements OnInit, OnDestroy {
     this.getCrawledPages(10, 0);
   }
   focusoutSearch(isSearchSource?) {
+
     if (this.activeClose) {
       if (isSearchSource) {
         this.searchSources = '';

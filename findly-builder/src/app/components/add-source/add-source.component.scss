@@ -259,7 +259,7 @@
 
         .source_content_boxes {
             .crawlContent {
-                margin: 0 0 60px 0;
+                margin: 0 0 26px 0;
 
                 .main-title {
                     font-weight: 600;
@@ -468,7 +468,7 @@
                 padding: 20px;
                 font-family: Inter !important;
                 .content-scroll{
-                    height: 130px;
+                    max-height: 130px;
                 }
                 .content-title{
                     color: #202124;
@@ -476,6 +476,9 @@
                     margin-bottom: 15px;
                     .successfullyConnected{
                         margin-right: 5px;
+                    }
+                    &:last-child{
+                        margin-bottom: 0px;
                     }
                 }
             }
@@ -583,7 +586,7 @@
             text-align: left;
             display: block;
             height: auto;
-            padding: 10px 30px;
+            padding: 10px 30px 25px 30px;
             background: #FFFFFF;
             border-radius: 4px;
 

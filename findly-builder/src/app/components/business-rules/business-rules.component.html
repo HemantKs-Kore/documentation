@@ -1,6 +1,6 @@
 <div class="business-rules-wrapper">
     <div class="header-sec col-12 row m-0">
-        <div class="col-4 lef-sec p-0" *ngIf="!(selcectionObj?.selectedItems && selcectionObj?.selectedCount)">
+        <div class="col-4 lef-sec p-0 ">
             <app-useronboarding-journey [componentType]='componentType'></app-useronboarding-journey>
             <span class="title">{{"businessRules_business_rules"| translate}}
                 <span class="module-topic" tooltipClass="tooltip-global-" [container]="'body'" ngbTooltip='Topic Guide' 
@@ -9,19 +9,7 @@
                   </span>
             </span>
         </div>
-        <div class="col-4 lef-sec p-0" *ngIf="selcectionObj?.selectedItems && selcectionObj?.selectedCount">
-            <div class="selected-count" *ngIf="!selcectionObj.selectAll">
-                <span class="mr-1">
-                    <img (click)="selectAllFromPartial()" src="assets/icons/resultranking/selected-checkbox.svg" class="search-icon">
-                </span>
-                <span class="pl-3">{{ selcectionObj.selectedCount }} {{ (selcectionObj.selectedCount>1?"businessRules_rule_selected":"businessRules_rule_selected") | translate }}</span>
-            </div>
-            <div class="kr-sg-checkbox m-0" *ngIf="selcectionObj.selectAll">
-                <input id="checkbox-1" class="checkbox-custom" type="checkbox" [(ngModel)]="selcectionObj.selectAll" (change)="selectAll()" />
-                <label for="checkbox-1" class="checkbox-custom-label"></label>
-                <span class="allselected">{{ selcectionObj.selectedCount }} {{ (selcectionObj.selectedCount>1?"businessRules_rule_selected":"businessRules_rule_selected") | translate }}</span>
-            </div>
-        </div>
+        
         <div class="col-8 right-sec p-0" *ngIf="!( selcectionObj?.selectedItems && selcectionObj?.selectedCount)">
             <!-- <div class="clock"><img src="assets/icons/clock.svg" /></div> -->
         </div>
@@ -32,8 +20,8 @@
             <i class="si-help info-icon" placement="right" [ngbTooltip]="('businessRules.contextual_rules_allow'| translate)" [container]='"body"' tooltipClass="metrics_tooltips m-0"></i>
             <div class="tab-name-text" [ngClass]="{'active-tab-rule':selcectionObj?.ruleType==='nlp'}" (click)="selectRuleType('nlp')"><span>{{"businessRules_nlp"| translate}} {{"businessRules_rules"| translate}}</span></div>
         </div>
-        <div class="right-contnet col-8 p-0 justify-content-end" >
-            <div class="kr-sg-input-search">
+        <div class="right-contnet col-8 p-0 justify-content-end" *ngIf="rules.length!==0 || searchRules.length || isSearchClear">
+            <div class="kr-sg-input-search" *ngIf="!(selcectionObj?.selectedItems && selcectionObj?.selectedCount)">
                 <input type="text" placeholder="Search" maxlength="60" id="inputSearch" class="input-search"
                     (keyup)="searchByRule()" [ngClass]="{'pl-33':!searchRules,'pl-2':searchRules}" autocomplete="off"
                     [(ngModel)]="searchRules" (keyup)="filterRules(searchRules,'search')"
@@ -41,16 +29,21 @@
                     (mouseout)="searchFocusIn=false;searchImgSrc = 'assets/icons/search_gray.svg'"
                     (focus)="searchFocusIn=true;searchImgSrc = 'assets/icons/search_gray.svg'">
                 <img [src]="searchImgSrc" class="search-icon" *ngIf="!searchRules">
-                <img class="close-icon" src="assets/icons/close_icon.svg" [ngClass]="{'pr-22':searchRules,'d-none':searchRules.length===0}" (mouseover)="activeClose=true" (mouseout)="activeClose=false" (click)="focusoutSearch()">
+                <img class="close-icon" src="assets/icons/close_icon.svg" [ngClass]="{'pr-22':searchRules,'d-none':searchRules.length===0}" (mouseover)="activeClose=true" (mouseout)="activeClose=false" (click)="focusoutSearch(); isSearchClear=true;">
             </div>
-            <ng-container>
+            <ng-container *ngIf="!(selcectionObj?.selectedItems && selcectionObj?.selectedCount)">
                 <div class="add-rule-text" (click)="createNewRule()">
                     <i class="si-add-plus"></i>
                     <span>Add {{selcectionObj?.ruleType==='contextual'?("businessRules_contextual"| translate):("businessRules_nlp"| translate)}} {{"businessRules_rule"| translate}}</span>
                 </div>
             </ng-container>
+            <div class="lef-sec p-0" *ngIf="selcectionObj?.selectedItems && selcectionObj?.selectedCount">
+                <div class="selected-count">
+                    <span class="pl-3">{{ selcectionObj.selectedCount }} {{ "businessRules_selected" | translate }}</span>
+                </div>
+            </div>
             <div class="ml-3 pl-1" *ngIf="selcectionObj && selcectionObj.selectedItems && selcectionObj.selectedCount">
-                <button class="kr-sg-button-danger btn_lg" (click)="deleteMultiePop()"><i class="si-delete1 mr-2"></i>{{ "businessRules_delete" | translate }}</button>
+                <button class="kr-sg-button-danger btn_lg" (click)="deleteMultiePop()">{{ "businessRules_delete" | translate }}</button>
             </div>
         </div>
     </div>
@@ -61,23 +54,38 @@
     </div>
 
     <!-- Table default header -->
-    <div class="table_section" *ngIf="(!loadingContent && rules && beforeFilterRules && beforeFilterRules.length) || searchRules || showSearch">
+    <div class="table_section" *ngIf="(!loadingContent && rules && beforeFilterRules && beforeFilterRules.length) || searchRules || showSearch || (filterSystem.isRuleActiveFilter !== 'all')">
         <div class="header_sec row m-0">
-            <div class="col-3 content withcheckbox " (click)="sortByApi('ruleName')">
-                <!-- <div class="kr-sg-checkbox p-0 m-0">
-                    <input id="selectAllRules" class="checkbox-custom" type="checkbox" (change)="selectAll()" [(ngModel)]="selcectionObj.selectAll" />
-                    <label for="selectAllRules" class="checkbox-custom-label"></label>
-                </div>-->
-                <div class="d-flex align-items-center title cursor-pointer">
-                    <span class="d-flex align-items-center flex-column mr-1">
-                        <img [ngClass]="getSortIconVisibility('ruleName', 'down')" src="assets/icons/caretDown.svg" class="sortImg downArrow">
-                        <img [ngClass]="getSortIconVisibility('ruleName', 'up')" src="assets/icons/caretDown.svg" class="sortImg upArrow">
-                    </span>
-                    <!-- <img  src="assets/icons/sort_up_down.svg" class="pr-1" />
-                    <img   src="assets/icons/caretDown.svg" class="pr-1" /> -->
-                    {{ "businessRules_name_caps" | translate }}
+            <div class="col-3 br-p-l-10">
+                <div class="br-header-checkbox p-0" *ngIf="selcectionObj?.selectedItems && selcectionObj?.selectedCount">
+                    <div class="selected-count" *ngIf="!selcectionObj.selectAll">
+                        <span class="mr-1">
+                            <img (click)="selectAllFromPartial()" src="assets/icons/resultranking/selected-checkbox.svg" class="search-icon">
+                        </span>
+                    </div>
+                    <div class="kr-sg-checkbox m-0" *ngIf="selcectionObj.selectAll">
+                        <input id="checkbox-1" class="checkbox-custom" type="checkbox" [(ngModel)]="selcectionObj.selectAll" (change)="selectAll()" />
+                        <label for="checkbox-1" class="checkbox-custom-label"></label>
+                    </div>
+                </div>
+                <div class="content m-l-33" (click)="sortByApi('ruleName')">
+                    
+                    <!-- <div class="kr-sg-checkbox p-0 m-0">
+                        <input id="selectAllRules" class="checkbox-custom" type="checkbox" (change)="selectAll()" [(ngModel)]="selcectionObj.selectAll" />
+                        <label for="selectAllRules" class="checkbox-custom-label"></label>
+                    </div>-->
+                    <div class="d-flex align-items-center title cursor-pointer">
+                        <span class="d-flex align-items-center flex-column mr-1">
+                            <img [ngClass]="getSortIconVisibility('ruleName', 'down')" src="assets/icons/caretDown.svg" class="sortImg downArrow">
+                            <img [ngClass]="getSortIconVisibility('ruleName', 'up')" src="assets/icons/caretDown.svg" class="sortImg upArrow">
+                        </span>
+                        <!-- <img  src="assets/icons/sort_up_down.svg" class="pr-1" />
+                        <img   src="assets/icons/caretDown.svg" class="pr-1" /> -->
+                        {{ "businessRules_name_caps" | translate }}
+                    </div>
                 </div>
             </div>
+            
             <div class="col-3 content" *ngIf="selcectionObj?.ruleType === 'contextual'">{{ "businessRules_condition_caps" | translate }}</div>
             <div class="col-3 content" *ngIf="selcectionObj?.ruleType === 'nlp'">{{ "businessRules_tags" | translate }}</div>
             <div class="col-3 content">{{ "businessRules_outcome_caps" | translate }}</div>
@@ -111,130 +119,124 @@
     </div>
 
     <!-- Empty Page -->
-    <ng-container *ngIf="loadingContent1 && !(rules && beforeFilterRules && beforeFilterRules.length) && !searchRules && !showSearch">
-        <perfect-scrollbar class="empty-scroll">
-            <div class="rules-empty-data">
-                <div class="img-block">
-                    <img src="assets/icons/businessrules/b-rules-empty.svg">
-                </div>
-                <div class="empty-title">{{selcectionObj?.ruleType==='contextual'?("businessRules_no_contextual_rule"| translate):("businessRules_no_nlp_rule"| translate)}}</div>
-                <div>
-                    <button class="kr-sg-button-primary btn_lg" (click)="createNewRule()"><i class="si-add-plus-white mr-2"></i>{{"businessRules_add"| translate}} {{selcectionObj?.ruleType==='contextual'?("businessRules_contextual"| translate):("businessRules_nlp"| translate)}} {{"businessRules_rule"| translate}}</button>
-                </div>
-                <div class="info-data-box">
-                    <div class="text-info-empty" [ngClass]="{'d-none':(selcectionObj?.ruleType==='nlp')}">{{"businessRules_contextual_rules_allow"| translate}}<br/>{{"businessRules.contextual_rules_are"| translate}}</div>
-                    <div class="text-info-empty" [ngClass]="{'d-none':(selcectionObj?.ruleType==='contextual')}">{{"businessRules_try_adding_nlp"| translate}}</div>
-                    <div class="text-info-empty">{{"businessRules.not_sure_what_are"| translate}} {{selcectionObj?.ruleType==='contextual'?("businessRules_contextual"| translate):("businessRules_nlp"| translate)}} {{"businessRules_rules_small"| translate}}? {{"businessRules_visit_our"| translate}} <a [href]="selcectionObj.supportURL" target="blank">{{"businessRules_support"| translate}} <i class="si-external-horizantal"></i></a></div>
-                </div>
-            </div>
-        </perfect-scrollbar>
+    <ng-container *ngIf="loadingContent1 && !(rules && beforeFilterRules && beforeFilterRules.length) && !searchRules && !showSearch && (filterSystem.isRuleActiveFilter == 'all')">
+        <perfect-scrollbar class="empty-screen">
+            <app-empty-screen [title]="emptyScreen.TITLE" [desc]="emptyScreen.DESC" [imgName]="emptyScreen.IMG_NAME" (isImgLoading)="isEmptyScreenLoading($event)">
+                <div class="action-buttons">
+                <button class="kr-sg-button-primary btn_lg" (click)="createNewRule()">
+                    <i class="si-add-plus-white mr-2"></i>
+                    {{"businessRules_add"| translate}} {{selcectionObj?.ruleType==='contextual'?("businessRules_contextual"| translate):("businessRules_nlp"| translate)}} {{"businessRules_rule"| translate}}
+                </button>
+              </div>
+            </app-empty-screen>
+          </perfect-scrollbar>
     </ng-container>
 
 
     <!-- For business rules table -->
 
-    <div class="table_section" *ngIf="(!loadingContent && rules && beforeFilterRules && beforeFilterRules.length) || searchRules || showSearch">
+    <div class="table_section" *ngIf="(!loadingContent && rules && beforeFilterRules && beforeFilterRules.length) || searchRules || showSearch || filterSystem.isRuleActiveFilter !== 'all'|| isPaginating">
         <perfect-scrollbar class="scroll_table">
             <!-- <div class="body_sec row m-0" *ngFor="let ruleObj of rules | filter: [searchRules, 'ruleName']" [ngClass]="{ -->
-            <div class="body_sec row m-0" *ngFor="let ruleObj of rules" [ngClass]="{'selected':selcectionObj && selcectionObj.selectedItems && selcectionObj.selectedItems[ruleObj._id]}">
-                <div class="col-3 content withcheckbox align-items-start">
-                    <div class="kr-sg-checkbox p-0 m-0">
-                        <input id="{{ ruleObj._id }}" class="checkbox-custom selectRuleCheckBoxDiv" type="checkbox" (change)="checkUncheckfacets(ruleObj)" />
-                        <label for="{{ ruleObj._id }}" class="checkbox-custom-label"></label>
-                    </div>
-                    <div class="title text-truncate" [tooltipClass]="'whiteTooltip'" container="body" ngbTooltip="{{ ruleObj.ruleName }}">{{ ruleObj.ruleName }}</div>
-                </div>
-                <div class="col-3 content" *ngIf="selcectionObj?.ruleType === 'contextual'">
-                    <ng-container *ngFor="let rule of ruleObj.rules; let ruleIndex = index">
-                        <!-- <br *ngIf="ruleIndex > 0"> -->
-                        <div class="d-flex align-items-center flex-wrap">
-                            <span class="divider" *ngIf="ruleIndex > 0">{{"and_caps" | translate}}</span>
-                            <span class="tags-input mr-1 mb-1 contextCategory">
-                                <span class="small-text">{{ "businessRules." + rule.contextType | translate}} :</span>
-                                <span container="body" ngbTooltip='{{ "businessRules." + rule.contextCategory | translate }}'>{{rule.contextType!=='userContext'? ("businessRules." + rule.contextCategory | translate):rule.contextCategory}}</span>
-                            </span>
-                        </div>
-                        <div class="d-flex align-items-start mb-2">
-                            <div class="d-inline-block">
-                                <span class="outer-name mr-1 mb-1 ml-4 d-inline-block" [ngClass]="{'ml-4':ruleIndex > 0}">{{ rule.operator | titlecase}}</span>
+                <div *ngIf="(rules && rules.length); else noBusinessRules">
+                    <div class="body_sec row m-0" *ngFor="let ruleObj of rules; let i =index; " [ngClass]="{'selected':selcectionObj && selcectionObj.selectedItems && selcectionObj.selectedItems[ruleObj._id]}">
+                        <div class="col-3 content withcheckbox align-items-start">
+                            <div class="kr-sg-checkbox p-0 m-0">
+                                <input id="{{ ruleObj._id }}" class="checkbox-custom selectRuleCheckBoxDiv" type="checkbox" (change)="checkUncheckfacets(ruleObj)" />
+                                <label for="{{ ruleObj._id }}" class="checkbox-custom-label"></label>
                             </div>
-                            <div class="d-flex align-items-start flex-wrap">
-                                <ng-container *ngFor="let value of rule.value; let valueIndex = index">
-                                    <span class="tags-input mr-1 mb-1" *ngIf="value && !checkIsArray(value)" container="body" ngbTooltip="{{rule.dataType == 'date' ? (value | dateFormatPipe: 'DD MMM YYYY'):value}}">{{rule.dataType== 'date' ? (value | dateFormatPipe: 'DD MMM YYYY'):value}}</span>
-                                    <span class="tags-input mr-1 mb-1" *ngIf="value && value.length && checkIsArray(value)">
-                                        <span *ngFor="let num of value; let numIndex = index" container="body" ngbTooltip="{{rule.dataType == 'date' ? (num | dateFormatPipe: 'DD MMM YYYY'):num}}">{{rule.dataType== 'date' ? (num | dateFormatPipe: 'DD MMM YYYY'):num}}
-                                            <span *ngIf="!numIndex"> - </span>
+                            <div class="title text-truncate" [tooltipClass]="'whiteTooltip'" container="body" ngbTooltip="{{ ruleObj.ruleName }}">{{ ruleObj.ruleName }}</div>
+                        </div>
+                        <div class="col-3 content" *ngIf="selcectionObj?.ruleType === 'contextual'">
+                            <ng-container *ngFor="let rule of ruleObj.rules; let ruleIndex = index">
+                                <!-- <br *ngIf="ruleIndex > 0"> -->
+                                <div class="d-flex align-items-center flex-wrap">
+                                    <span class="divider" *ngIf="ruleIndex > 0">{{"and_caps" | translate}}</span>
+                                    <span class="tags-input mr-1 mb-1 contextCategory">
+                                        <span class="small-text">{{ "businessRules." + rule.contextType | translate}} :</span>
+                                        <span container="body" >{{rule.contextType!=='userContext'? ("businessRules." + rule.contextCategory | translate):rule.contextCategory}}</span>
+                                    </span>
+                                </div>
+                                <div class="d-flex align-items-start mb-2">
+                                    <div class="d-inline-block">
+                                        <span class="outer-name mr-1 mb-1 ml-4 d-inline-block" [ngClass]="{'ml-4':ruleIndex > 0}">{{ rule.operator | titlecase}}</span>
+                                    </div>
+                                    <div class="d-flex align-items-start flex-wrap">
+                                        <ng-container *ngFor="let value of rule.value; let valueIndex = index">
+                                            <span class="tags-input mr-1 mb-1" *ngIf="value && !checkIsArray(value)" container="body">{{rule.dataType== 'date' ? (value | dateFormatPipe: 'DD MMM YYYY'):value}}</span>
+                                            <span class="tags-input mr-1 mb-1" *ngIf="value && value.length && checkIsArray(value)">
+                                                <span *ngFor="let num of value; let numIndex = index" container="body" >{{rule.dataType== 'date' ? (num | dateFormatPipe: 'DD MMM YYYY'):num}}
+                                                    <span *ngIf="!numIndex"> - </span>
+                                                </span>
+                                            </span>
+                                            <span class="divider" *ngIf="valueIndex < rule.value.length - 1">{{ "businessRules_or_caps" |translate}}</span>
+                                        </ng-container>
+                                    </div>
+                                </div>
+                            </ng-container>
+                        </div>
+        
+                        <div class="col-3 content" *ngIf="selcectionObj?.ruleType === 'nlp'">
+                            <ng-container *ngFor="let chip of ruleObj.chips">
+                                <div class="d-flex align-items-center flex-wrap">
+                                    <span class="tags-input mr-1 mb-1 contextCategory">
+                                        <span container="body">{{chip}}</span>
+                                    </span>
+                                </div>
+                            </ng-container>
+                        </div>
+        
+                        <div class="col-3 content">
+                            <ng-container *ngFor="let outcome of ruleObj.outcomes">
+                                <div>
+                                    <span class="tags-input mr-1 mb-1">
+                                        <span *ngIf=" outcome.outcomeType === 'boost' ||  outcome.outcomeType === 'lower'">{{outcome.scale}}x</span>
+                                        {{"businessRules.action" + outcome.outcomeType | translate}}Result
+                                    </span>
+                                </div>
+                                <div class="d-inline-flex align-items-start">
+                                    <span class="outer-name mr-1 mb-1">{{"businessRules." + outcome.outcomeOperator |translate}}</span>
+                                    <span class="tags-input mr-1 mb-1 outcome-tags-input">{{ outcome.fieldName }}:
+                                        <span *ngFor="let value of outcome.outcomeValue;let valueIndex = index" container="body" >{{ value }}
+                                            <span *ngIf="valueIndex < outcome.outcomeValue.length - 1" class="divider ">{{"businessRules_or_caps" | translate }}</span>
                                         </span>
                                     </span>
-                                    <span class="divider" *ngIf="valueIndex < rule.value.length - 1">{{ "businessRules_or_caps" |translate}}</span>
-                                </ng-container>
+                                </div>
+                                <img class="pl-1 d-inline-flex"
+                                    *ngIf="outcome.showFieldWarning && outcome.showFieldWarning !== 'false'"
+                                    src="assets/icons/info-blue.svg" container="body"
+                                    ngbTooltip="{{fieldWarnings[outcome.showFieldWarning] || outcome.showFieldWarning}}"
+                                    tooltipClass="{{modifyFieldWarningMsg(outcome.showFieldWarning)?'my-custom-warning-class':'text-left-warning'}}" />
+                            </ng-container>
+                        </div>
+                        <div class="col-3 content actions">
+                            <div class="toggle_switch d-flex align-items-center">
+                                <label class="kr-sg-toggle">
+                                    <input type="checkbox" checked [(ngModel)]="ruleObj.isRuleActive" (click)="updateRuleStatus(ruleObj,$event, i)">
+                                    <div class="slider"></div>
+                                </label>
+                                <span class="active-status ml-2" *ngIf="ruleObj.isRuleActive"><span class="indication"></span>{{"businessRules_active" | translate }}</span>
+                                <span class="in-active-status ml-2" *ngIf="!ruleObj.isRuleActive"><span class="indication"></span>{{"businessRules_In-Active" | translate }}</span>
+                            </div>
+                            <div class="actions-icons">
+                                <span class="edit-icon" (click)="editRule(ruleObj)" ngbTooltip='Edit' [container]="'body'" tooltipClass="tooltip-global-" placement="top-center">
+                                    <i class="si-pencil-edit"></i>
+                                </span>
+                                <span class="delete-icon" (click)="deleteRulePop(ruleObj, ruleIndex)" ngbTooltip='Delete' [container]="'body'" tooltipClass="tooltip-global-" placement="top-center">
+                                    <i class="si-delete1"></i>
+                                </span>
                             </div>
                         </div>
-                    </ng-container>
-                </div>
-
-                <div class="col-3 content" *ngIf="selcectionObj?.ruleType === 'nlp'">
-                    <ng-container *ngFor="let chip of ruleObj.chips">
-                        <div class="d-flex align-items-center flex-wrap">
-                            <span class="tags-input mr-1 mb-1 contextCategory">
-                                <span container="body">{{chip}}</span>
-                            </span>
-                        </div>
-                    </ng-container>
-                </div>
-
-                <div class="col-3 content">
-                    <ng-container *ngFor="let outcome of ruleObj.outcomes">
-                        <div>
-                            <span class="tags-input mr-1 mb-1">
-                                <span *ngIf=" outcome.outcomeType === 'boost' ||  outcome.outcomeType === 'lower'">{{outcome.scale}}x</span>
-                                {{"businessRules.action" + outcome.outcomeType | translate}}Result
-                            </span>
-                        </div>
-                        <div class="d-inline-flex align-items-start">
-                            <span class="outer-name mr-1 mb-1">{{"businessRules." + outcome.outcomeOperator |translate}}</span>
-                            <span class="tags-input mr-1 mb-1 outcome-tags-input">{{ outcome.fieldName }}:
-                                <span *ngFor="let value of outcome.outcomeValue;let valueIndex = index" container="body" ngbTooltip="{{value}}">{{ value }}
-                                    <span *ngIf="valueIndex < outcome.outcomeValue.length - 1" class="divider ">{{"businessRules_or_caps" | translate }}</span>
-                                </span>
-                            </span>
-                        </div>
-                        <img class="pl-1 d-inline-flex"
-                            *ngIf="outcome.showFieldWarning && outcome.showFieldWarning !== 'false'"
-                            src="assets/icons/info-blue.svg" container="body"
-                            ngbTooltip="{{fieldWarnings[outcome.showFieldWarning] || outcome.showFieldWarning}}"
-                            tooltipClass="{{modifyFieldWarningMsg(outcome.showFieldWarning)?'my-custom-warning-class':'text-left-warning'}}" />
-                    </ng-container>
-                </div>
-                <div class="col-3 content actions">
-                    <div class="toggle_switch d-flex align-items-center">
-                        <label class="kr-sg-toggle">
-                            <input type="checkbox" checked [(ngModel)]="ruleObj.isRuleActive" (click)="updateRuleStatus(ruleObj,$event)">
-                            <div class="slider"></div>
-                        </label>
-                        <span class="active-status ml-2" *ngIf="ruleObj.isRuleActive"><span class="indication"></span>{{"businessRules_active" | translate }}</span>
-                        <span class="in-active-status ml-2" *ngIf="!ruleObj.isRuleActive"><span class="indication"></span>{{"businessRules_In-Active" | translate }}</span>
-                    </div>
-                    <div class="actions-icons">
-                        <span class="edit-icon" (click)="editRule(ruleObj)" ngbTooltip='Edit' [container]="'body'" tooltipClass="tooltip-global-" placement="top-center">
-                            <i class="si-pencil-edit"></i>
-                        </span>
-                        <span class="delete-icon" (click)="deleteRulePop(ruleObj, ruleIndex)" ngbTooltip='Delete' [container]="'body'" tooltipClass="tooltip-global-" placement="top-center">
-                            <i class="si-delete1"></i>
-                        </span>
                     </div>
                 </div>
-            </div>
-            <div class="divBlockEmptylastChild text-center">
-                <div class="desc">{{"businessRules_no_search_results"| translate}}</div>
-            </div>
-            <app-record-pagination *ngIf="totalRecord && totalRecord>10" [totalRecord]='totalRecord' [limitpage]='10' (pageChanged)="paginate($event)"></app-record-pagination>
+           
+            <ng-template #noBusinessRules>
+                <app-empty-screen [width]="100" [height]="100" [title]="emptyScreen.TITLE_SEARCH" [desc]="emptyScreen.DESC_SEARCH" [imgName]="emptyScreen.IMG_NAME">
+                </app-empty-screen>
+              </ng-template>
+            
+            <app-record-pagination *ngIf="totalRecord && totalRecord>10" [totalRecord]='totalRecord' [limitpage]='10' (pageChanged)="paginate($event); isPaginating=true;"></app-record-pagination>
         </perfect-scrollbar>
-        <div class="empty-rules" *ngIf="!loadingContent && !(rules && beforeFilterRules && beforeFilterRules.length)">
-            <img src="assets/images/icons/empty_ill.svg" />
-            <div class="heading">{{"businessRules_no_rules_found"| translate}}</div>
-            <div class="desc">{{"businessRules_plz_add_rules"| translate}}</div>
-        </div>
     </div>
 </div>
 
@@ -269,26 +271,26 @@
                         <div class="title-data">
                             <img src="assets/icons/business-rules/ifcondition.svg">
                             <div class="text-title">{{ "businessRules_condition" | translate }}</div>
-                            <span class="info-tooltip-data" *ngIf="selcectionObj?.ruleType==='contextual'">
+                            <!-- <span class="info-tooltip-data" *ngIf="selcectionObj?.ruleType==='contextual'">
                                 <i class="si-help"></i>
                                 <div class="conditon-info-tooltip">
-                                    <!-- <div class="left-data-info">
+                                    <div class="left-data-info">
                                         <div class="info-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit.
                                             Auctor posuere amet malesuada in. Et nullam.</div>
                                         <div class="info-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit.
                                             Auctor posuere amet malesuada in. Et nullam.</div>
-                                    </div> -->
+                                    </div> 
                                     <div class="img-data">
                                         <img src="assets/icons/business-rules/conditions.png">
                                     </div>
-                                    <!-- <div class="right-data-info">
+                                     <div class="right-data-info">
                                         <div class="info-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit.
                                             Auctor posuere amet malesuada in. Et nullam.</div>
                                         <div class="info-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit.
                                             Auctor posuere amet malesuada in. Et nullam.</div>
-                                    </div> -->
+                                    </div>
                                 </div>
-                            </span>
+                            </span> -->
                         </div>
                         <div class="sub-text text-truncate">{{"businessRules_the_context_selection"| translate}}</div>
                     </div>
@@ -395,26 +397,26 @@
                                                             *ngIf="ruleObj.value && ruleObj.value.length && (ruleObj.dataType !== 'date') && (ruleObj.dataType !== 'number')">
                                                             <ng-container
                                                                 *ngFor="let value of ruleObj.value; let index = index">
-                                                                <mat-chip [selectable]="selectable"
+                                                                <mat-chip [selectable]="selectable" class="text-truncate"
                                                                     (removed)="removeTag(ruleObj.value, tag,index)"
                                                                     [ngClass]="{'firstChip':index==0}">
-                                                                    <span class="mat-val" container="body"
+                                                                    <span class="mat-val text-truncate" container="body"
                                                                         ngbTooltip="{{value}}"
                                                                         *ngIf="value">{{value}}</span>
                                                                     <mat-icon matChipRemove><img
                                                                             src="assets/images/close.svg" /></mat-icon>
                                                                 </mat-chip>
-                                                                <span>{{"sa_or"| translate}}</span>
+                                                                <span class="px-1">{{"businessRules_or_caps"| translate}}</span>
                                                             </ng-container>
                                                         </ng-container>
                                                         <ng-container
                                                             *ngIf="ruleObj.value && ruleObj.value.length && (ruleObj.dataType === 'number')">
                                                             <ng-container
                                                                 *ngFor="let value of ruleObj.value; let index = index">
-                                                                <mat-chip [selectable]="selectable"
+                                                                <mat-chip [selectable]="selectable"  class="text-truncate"
                                                                     (removed)="removeTag(ruleObj.value, tag,index)"
                                                                     [ngClass]="{'firstChip':index==0}">
-                                                                    <span class="mat-val"
+                                                                    <span class="mat-val  text-truncate"
                                                                         *ngIf="value && value.length && checkIsArray(value)">
                                                                         <span
                                                                             *ngFor="let num of value; let numIndex = index"
@@ -422,14 +424,14 @@
                                                                             ngbTooltip="{{num}}">{{num}}<span
                                                                                 *ngIf="!numIndex"> - </span></span>
                                                                     </span>
-                                                                    <span class="mat-val"
+                                                                    <span class="mat-val  text-truncate"
                                                                         *ngIf="value && !checkIsArray(value)">
                                                                         <span>{{value}}</span>
                                                                     </span>
                                                                     <mat-icon matChipRemove><img
                                                                             src="assets/images/close.svg" /></mat-icon>
                                                                 </mat-chip>
-                                                                <span>{{"sa_or"| translate}}</span>
+                                                                <span class="px-1">{{"businessRules_or_caps"| translate}}</span>
                                                             </ng-container>
                                                         </ng-container>
                                                         <!-- <ng-container *ngIf="ruleObj.value && ruleObj.value.length && (ruleObj.dataType === 'date') && (ruleObj.operator !== 'between')">
@@ -458,10 +460,10 @@
                                                             *ngIf="ruleObj.value && ruleObj.value.length && (ruleObj.dataType === 'date')">
                                                             <ng-container
                                                                 *ngFor="let value of ruleObj.value; let index = index">
-                                                                <mat-chip [selectable]="selectable"
+                                                                <mat-chip [selectable]="selectable"  class="text-truncate"
                                                                     (removed)="removeTag(ruleObj.value, tag,index)"
                                                                     [ngClass]="{'firstChip':index==0}">
-                                                                    <span class="mat-val"
+                                                                    <span class="mat-val  text-truncate"
                                                                         *ngIf="value && value.length && checkIsArray(value)">
                                                                         <span
                                                                             *ngFor="let date of value; let dateIndex = index"
@@ -471,7 +473,7 @@
                                                                             <span *ngIf="!dateIndex"> - </span>
                                                                         </span>
                                                                     </span>
-                                                                    <span class="mat-val"
+                                                                    <span class="mat-val  text-truncate"
                                                                         *ngIf="value  && !checkIsArray(value)"
                                                                         container="body"
                                                                         ngbTooltip="{{value | dateFormatPipe: 'DD MMM YYYY'}}">{{value
@@ -480,7 +482,7 @@
                                                                     <mat-icon matChipRemove><img
                                                                             src="assets/images/close.svg" /></mat-icon>
                                                                 </mat-chip>
-                                                                <span>{{"sa_or"| translate}}</span>
+                                                                <span class="px-1">{{"businessRules_or_caps"| translate}}</span>
                                                             </ng-container>
                                                         </ng-container>
                                                         <ng-container
@@ -559,16 +561,16 @@
                                 <!-- <div class="label-text">NLP Annotator </div> -->
                                 <div class="title-data">
                                     <div class="text-title">{{"businessRules_nlp_annotator"| translate}}</div>
-                                    <span class="info-tooltip-data">
+                                    <!-- <span class="info-tooltip-data">
                                         <i class="si-help"></i>
                                         <div class="conditon-info-tooltip">
                                             <div class="img-data">
                                                 <img src="assets/icons/business-rules/conditions.png">
                                             </div>
                                         </div>
-                                    </span>
+                                    </span> -->
                                 </div>
-                                <div contenteditable="true" class="input-editable" id="contentText" data-ph="Start typing here..." (mouseup)="getDialogDiemensions($event)" (keydown)="eventDeleted($event)" (selectedIndex)="getSelectedIndex($event)" [innerHTML]="inputSentence" oncontextmenu="return false;" appSelectText></div>
+                                <div contenteditable="true" class="input-editable" id="contentText" data-ph="Start typing here..." (mouseup)="getDialogDiemensions($event)" [textContent]="entityObj.sentence" (input)="entityObj.sentence = $event.target.textContent" (keypress)="dynamicColorPreview('add',$event)" (keydown)="dynamicColorPreview('add',$event)" (selectedIndex)="getSelectedIndex($event)" oncontextmenu="return false;" appSelectText></div>
                             </div>
                             <div class="kr-sg-btn">
                                 <button class="kr-sg-buttonicon-secondary" (click)="AddSelectedEnity()">
@@ -578,6 +580,12 @@
                         </div>
                          <!-- nlp annotator text area end -->
                          <!-- nlp custom tag builder area start -->
+                         <div class="nlp-custom-tag-block" *ngIf="entityObj.colorSentence.length>0">
+                            <div class="nlp-tag-legend">{{"businessRules_preview"| translate}}:</div>
+                            <div class="nlp-custom-tag-dynamic">
+                                <span class="nlp-preview-text" ngbTooltip="" [innerHTML]="entityObj.colorSentence|safeHtml"></span>
+                            </div>
+                        </div>
                         <div class="nlp-custom-tag-block">
                             <div class="nlp-tag-legend">{{"businessRules_legend"| translate}}:</div>
                             <div class="nlp-custom-tag-dynamic">
@@ -597,8 +605,8 @@
                          <div class="nlp-custom-tag-generator-list" *ngIf="nlpAnnotatorObj.annotator?.length>0">
                             <div class="nlp-custom-tag-data-block" *ngFor="let annotator of nlpAnnotatorObj.annotator;let i=index;" [ngClass]="{'nlp-tag-edit':annotator.isEditable}">
                                 <div class="nlp-custom-tag-data-line">
-                                    <div contenteditable="false"  [innerHTML]="annotator.colorSentence" *ngIf="!annotator.isEditable"></div>
-                                    <div contenteditable="true" id="contentText{{i}}" class="div-editable" [innerHTML]="annotator.colorSentence" *ngIf="annotator.isEditable" (mouseup)="getDialogDiemensions($event)" (keydown)="eventDeleted($event)" (selectedIndex)="getSelectedIndex($event)" appSelectText></div>                                   
+                                    <div contenteditable="false"  [innerHTML]="annotator.colorSentence|safeHtml" *ngIf="!annotator.isEditable"></div>
+                                    <div contenteditable="true" id="contentText{{i}}" class="div-editable" [textContent]="annotator.sentence" (input)="annotator.sentence = $event.target.textContent" *ngIf="annotator.isEditable" (mouseup)="getDialogDiemensions($event)" (keypress)="dynamicColorPreview('edit',$event)" (keydown)="dynamicColorPreview('edit',$event)" (selectedIndex)="getSelectedIndex($event)" appSelectText></div>                                   
                                    <div class="nlp-custom-tag-overflow-menu" *ngIf="annotator.isEditable===false">
                                     <div class="dropdown nlp-overflow-menu">
                                         <button class="btn dropdown-toggle dropdown-btn" type="button" id="nlpOverflowMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -613,11 +621,14 @@
                                 </div>
                                 <div class="nlp-preview-block" *ngIf="annotator.isEditable">
                                     <div class="nlp-preview-header"></div> 
-                                    <span class="warning-span"><img src="assets/images/warning.svg" class="warning-icon" height="8" *ngIf="annotator?.legends?.length>0"/></span><span class="ml-1 mr-2">{{(annotator?.legends?.length>0)?'Please tag':''}}</span>  <span class="nlp-custom-tag"  *ngFor="let tag of annotator?.legends"  [ngClass]="{'nlp-system-entity':tag.type==='system_defined','nlp-index-entity':tag.type==='index_field','nlp-custom-entity':tag.type==='custom'}"><span class="nlp-tag">{{tag?.name}}</span></span>
+                                    <span class="warning-span"><img src="assets/images/warning.svg" class="warning-icon" height="8" *ngIf="annotator?.legends?.length>0"/></span><span class="ml-1 mr-2">{{(annotator?.legends?.length>0)?'Please tag':''}}</span>  <span class="nlp-custom-tag ml-2"  *ngFor="let tag of annotator?.legends"  [ngClass]="{'nlp-system-entity':tag.type==='system_defined','nlp-index-entity':tag.type==='index_field','nlp-custom-entity':tag.type==='custom'}"><span class="nlp-tag">{{tag?.name}}</span></span>
                                     <div class="nlp-preview-action-list">
                                         <div class="nlp-preview-action-done" (click)="AddSelectedEnity()"><span class="nlp-preview-action-span"><img src="assets/images/check-primary.svg" class="warning-icon "/></span> {{"sa_done"| translate}}</div>
                                         <div class="nlp-preview-action-cancel" (click)="cancelAnnotatorSentence(annotator)"><span class="nlp-preview-action-span"><img src="assets/images/close.svg" class="warning-icon "/></span> {{"sa_cancel"| translate}}</div>
                                     </div>
+                                </div>
+                                <div class="nlp-color-preview-block mt-1" *ngIf="annotator.isEditable">
+                                    <span class="nlp-color-preview-header">{{"businessRules_preview"| translate}}:</span> <span class="ml-2 nlp-color-preview-text" [innerHTML]="annotator.colorSentence|safeHtml"></span>                                     
                                 </div>
                             </div>
                           
@@ -746,11 +757,11 @@
                                                     <mat-chip-list #chipList [attr.aria-label]="'tag selection'">
                                                         <ng-container
                                                             *ngFor="let value of outcomeObj.outcomeValue; let valueindex = index">
-                                                            <mat-chip [selectable]="selectable" (removed)="removeTag(outcomeObj.outcomeValue, tag,valueindex)" [ngClass]="{'firstChip':valueindex==0}">
-                                                                <span class="mat-val" *ngIf="value" container="body" ngbTooltip="{{value}}">{{value}}</span>
+                                                            <mat-chip [selectable]="selectable"  class="text-truncate" (removed)="removeTag(outcomeObj.outcomeValue, tag,valueindex)" [ngClass]="{'firstChip':valueindex==0}">
+                                                                <span class="mat-val  text-truncate" *ngIf="value" container="body" ngbTooltip="{{value}}">{{value}}</span>
                                                                 <mat-icon matChipRemove><img src="assets/images/close.svg" /></mat-icon>
                                                             </mat-chip>
-                                                            <span>{{"businessRules_or"| translate}}</span>
+                                                            <span class="px-1">{{"businessRules_or_caps"| translate}}</span>
                                                         </ng-container>
                                                         <input #contextSuggestedImput
                                                         id="OutcomeInput"
@@ -760,7 +771,7 @@
                                                             (keyup)='buildCurrentContextSuggetions(outcomeObj)'
                                                             [matChipInputFor]="chipList" [matAutocomplete]="auto"
                                                             [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
-                                                            (matChipInputTokenEnd)="addOutcome($event, outcomeObj, (outcomeObj.outcomeValue.length))" />
+                                                            (matChipInputTokenEnd)="addOutcome($event, outcomeObj, (outcomeObj.outcomeValue.length))" [disabled]="outcomeObj.fieldId===''"/>
                                                             <img *ngIf="iconImageOut && submitted" id="infoWarningOut" src="assets/icons/warning_escalation.svg" style="top: 35%; position: absolute; right: 3%; display: block;" height="12" width="12" />
                                                     </mat-chip-list>
                                                     <mat-autocomplete #auto="matAutocomplete" class="mat_autofocus_dropdown {{outcomeObj.outcomeValueType==='static'?'hideAutoFocus':''}}" (optionSelected)="selected($event,outcomeObj,index)">
@@ -887,7 +898,9 @@
             (click)="closeModalPopup()">{{"businessRules_cancel"| translate}}</button>
     </div>
 
-   
+    <div class="overlay-bg" [ngStyle]="{'display':nlpAnnotatorObj?.showEntityPopup?'block':'none'}"></div>
+    <div class="tag-tooltip-text"></div>
+
 </kr-modal>
 
 <app-upgrade-plan #plans></app-upgrade-plan>

@@ -133,7 +133,8 @@ export class FacetsComponent implements OnInit, OnDestroy {
   @ViewChild('perfectScroll') perfectScroll: PerfectScrollbarComponent;
   emptySearchResults: boolean = false;
   SearchResults: boolean = false;
-  // noItems: boolean = true;
+  sortByArray:Array<String>=['label','count'];
+  orderArray:Array<Object>=[{key:'ascending',value:'asc'},{key:'descending',value:'desc'}];
 
   constructor(
     public workflowService: WorkflowService,

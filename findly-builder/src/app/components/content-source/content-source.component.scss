@@ -338,7 +338,8 @@
 
                     &:hover {
                         background: #F8F9FA;
-
+                        cursor: pointer;
+                        
                         .action_icon {
                             visibility: visible;
                         }
@@ -1479,6 +1480,13 @@
             line-height: 15px;
             color: #5F6368;
         }
+
+        .close-icon{
+            position: absolute;
+            right: 11px;
+            top: 12px;
+            cursor: pointer;
+        }
     }
 
     .inner-pages-content {
@@ -2100,8 +2108,6 @@
             cursor: pointer;
             position: absolute;
             left: calc(21% - 27px);
-            z-index: 1;
-
             &:hover {
                 .execute-log {
                     display: block;
@@ -2113,6 +2119,8 @@
                 font-weight: 400;
                 font-size: 14px;
                 line-height: 17px;
+                z-index: 1;
+                position: relative;
             }
 
             .execute-log {

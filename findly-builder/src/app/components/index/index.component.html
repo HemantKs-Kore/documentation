@@ -89,7 +89,7 @@
               <div class="stateIcon" *ngIf="!pipe?.enable">
                 <img src="assets/images/inActiveStage.svg" />
               </div>
-              <div class="title text-truncate">{{ pipe?.name }} <div class="beta-tag" *ngIf="pipe.type==='snippet_extraction'">{{'workbench_beta' | translate}}</div></div>
+              <div class="title text-truncate" [title]="pipe?.name">{{ pipe?.name || '&nbsp;'}}  <div class="beta-tag" *ngIf="pipe.type==='snippet_extraction'">{{'workbench_beta' | translate}}</div></div>
               <div class="close_icon" (click)="removeStage(i,pipe?.name)">
                 <img src="assets/icons/close_field.svg" />
               </div>
@@ -102,7 +102,6 @@
       <div class="empty-list">
         <ng-container>
           <img src="assets/images/icons/empty_ill.svg" />
-          <!-- <div class="heading">No Stages</div> -->
           <div class="desc">{{'workbench_no_stages_available' | translate}}</div>
         </ng-container>
       </div>
@@ -189,7 +188,7 @@
                 tooltipClass="workbench_tolltips m-0" class="pl-1" src="assets/icons/help_gray.svg" />
             </div>
             <input type="text" placeholder="{{'workbench_please_enter_stage_name' | translate}}"
-              (keyup)="changesDetected = true" autocomplete="off" class="input-text" [(ngModel)]="selectedStage.name" />
+              (keyup)="changesDetected = true" autocomplete="off" class="input-text" [value]="selectedStage.name" #stageName (input)="handleInput(stageName.value)"/>
           </div>
           <!-- <div class="kr-sg-input-text mb-2">
             <div class="label-text">
@@ -289,7 +288,7 @@
                       Operator':camelCaseNames(basic.operator)}}</button>
                     <ul class="dropdown-menu content-menu">
                       <li *ngFor="let operator of operators"
-                        (click)="basic.operator=operator.value;addCondition('update',i,'operator',basic.operator,'condition');">
+                        (click)="basic.operator=operator.value;addCondition('update',i,'operator',basic.operator,'condition');" [ngClass]="{'font-weight-bold':operator.value===basic.operator}">
                         <a>{{operator.name}}</a>
                       </li>
                     </ul>
@@ -1287,13 +1286,13 @@
                 (simulteObj.sourceType
                 ? (simulteObj.sourceType == 'faq'? 'FAQ': (simulteObj.sourceType =='data'?'Data':(simulteObj.sourceType
                 =='all'?'All':(simulteObj.sourceType =='file'?'File':(simulteObj.sourceType
-                =='web'?'Web':simulteObj.sourceType =='serviceNow'?'Service Now':simulteObj.sourceType =='confluenceCloud'?'Confluence Cloud':simulteObj.sourceType =='confluenceServer'?'Confluence Server':simulteObj.sourceType)))))
+                =='web'?'Web':simulteObj.sourceType =='serviceNow'?'Service Now':simulteObj.sourceType =='confluenceCloud'?'Confluence Cloud':simulteObj.sourceType =='confluenceServer'?'Confluence Server':simulteObj.sourceType?'Zendesk':simulteObj.sourceType =='zendesk'?'Share Point':simulteObj.sourceType =='sharepointOnline')))))
                 : "choose_an_option"
                 ) | translate
               }}
             </button>
             <ul class="dropdown-menu content-menu">
-              <li *ngFor="let source of sourceList" (click)="changeSimulate(source, 'source')"><a>{{'workbench.'+source | translate}}</a></li>
+              <li *ngFor="let source of sourceList" (click)="changeSimulate(source, 'source')"><a>{{'workbench_'+source | translate}}</a></li>
             </ul>
           </div>
         </div>

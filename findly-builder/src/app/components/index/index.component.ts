@@ -229,7 +229,7 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
     createdStages: [],
     deletedStages: []
   }
-  sourceList: any = ['all', 'faq', 'web', 'file', 'data', 'serviceNow', 'confluenceCloud', 'confluenceServer'];
+  sourceList: any = ['all', 'faq', 'web', 'file', 'data', 'serviceNow', 'confluenceCloud', 'confluenceServer','zendesk','sharepointOnline'];
   readonly separatorKeysCodes: number[] = [ENTER, COMMA];
   entityName: string;
   constructor(
@@ -764,6 +764,11 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
     }
     return indexArray.length;
   }
+
+  handleInput(value) {
+    this.selectedStage.name = value
+  }
+
   removeExcludeDocumentStage(indexArrayLength, isSaveConfig) {
     const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
       width: '530px',
@@ -960,10 +965,12 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
         // },1)
       }, errRes => {
         this.savingConfig = false;
+        if (errRes?.error.errors[0].msg) {
+          this.errorToaster(errRes, errRes.error.errors[0].msg);
+        }
         // this.errorToaster(errRes, 'Failed to save configurations');
         if (errRes && errRes.error && errRes.error.errors[0].code == 'FeatureAccessDenied' || errRes.error.errors[0].code == 'FeatureAccessLimitExceeded') {
           this.upgrade();
-          this.errorToaster(errRes, errRes.error.errors[0].msg);
           setTimeout(() => {
             // this.btnDisabled = false;
           }, 500)
@@ -1139,7 +1146,7 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
 
   }
   validation(save) {
-    if ((this.selectedStage.condition.mappings)) {
+    if ((this.selectedStage.condition.mappings && this.selectedStage.name )) {
       if ((Object.keys(this.newMappingObj).length == 0)) {
         if (save === true) {
           this.saveConfig();
@@ -1535,6 +1542,10 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
       }
 
     }
+    else{
+      this.notificationService.notify('Please enter the required Fileds','error');
+      return false
+    }
   }
 
   scriptTextFlow(plainScriptTxt) {
@@ -1573,7 +1584,7 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
         noOfDocuments: this.simulteObj.docCount || 5,
         // pipelineConfig: this.preparepayload()
       }
-      if (['serviceNow', 'confluenceCloud', 'confluenceServer'].includes(this.sourceType)) {
+      if (['serviceNow', 'confluenceCloud', 'confluenceServer','zendesk','sharepointOnline'].includes(this.sourceType)) {
         payload.connectorType = this.sourceType;
         payload.sourceType = 'connector';
       }

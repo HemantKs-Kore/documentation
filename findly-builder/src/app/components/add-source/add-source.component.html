@@ -226,11 +226,11 @@
                               {{"contentSource_error_upload" | translate}}</div>
                           </div>
                         </ng-container>
-                        <div class="drag-drop-text-info"
+                        <!-- <div class="drag-drop-text-info"
                           *ngIf="fileObj.fileName && selectedSourceType.sourceType=='content'">
                           <div class="main-text">{{"contentSource_drag_and_drop_desc" | translate}}</div>
                           <div class="secondary-text">{{"contentSource_maximum_upload_of_file" | translate}}</div>
-                        </div>
+                        </div> -->
                       </div>
                     </div>
                     <!-- Annotation Start Here -->
@@ -1152,12 +1152,15 @@
     <div class="modal_content" *ngIf="selectedSourceType">
       <div class="modal-header">{{selectedSourceType?.name}} <img src="assets/images/close.svg" (click)="closeStatusModal()"></div>
       <div class="modal-body">
+        
         <div class="success-check" *ngIf="statusObject?.status==='success'" [ngClass]="{'pb-4':(selectedSourceType?.sourceType==='faq')}">
           <img [src]="(selectedSourceType?.sourceType==='faq')?'assets/icons/successCheck.svg':'assets/icons/content/latest-content-icons/success-check-o.svg'">
         </div>
+
         <div class="error-check" *ngIf="(statusObject?.status==='failed')" [ngClass]="{'pb-4':(selectedSourceType?.sourceType==='faq')}">
           <img [src]="(selectedSourceType?.sourceType==='faq')?'assets/images/exclamationCircle-Red.svg':'assets/icons/content/latest-content-icons/failed-check-o.svg'">
         </div>
+
         <div class="status-body-check" *ngIf="selectedSourceType?.sourceType === 'content'&&statusObject?.status!=='failed'">
           <div class="success-check status-type-img"
             *ngIf="(statusObject?.isURLValid)||(selectedSourceType?.resourceType === 'file')">
@@ -1199,7 +1202,7 @@
           <div>{{importFaqInprogress?'Import':'Faq Extraction'}} In Progress</div>
           <div class="text-center">
             <mat-progress-bar mode="indeterminate" class="mat_progress_bar"></mat-progress-bar>
-            <div class="relaxNote">{{"contentSource_you_will_be_notified" | translate}} {{importFaqInprogress?'import':'extraction'}} {{"contentSource_progress_is_done | translate"}}</div>
+            <div class="relaxNote">{{"contentSource_you_will_be_notified" | translate}} {{importFaqInprogress?'import':'extraction'}} {{"contentSource_progress_is_done" | translate}}</div>
           </div>
         </div>
         <div class="configInProgress"

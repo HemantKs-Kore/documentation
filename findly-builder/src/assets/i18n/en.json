@@ -591,7 +591,7 @@
     },
     "experiments": {
         "name": "Experiments",
-        "add_btn": "Add Experiment",
+        "add_btn": "Add Experiments",
         "exp_name": "Experiment Name",
         "variants": "Variants",
         "status": "Status",
@@ -2090,7 +2090,7 @@
 
 
      "experiments_name":"Experiments",
-     "experiments_add_btn":"Add Experiment",
+     "experiments_add_btn":"Add Experiments",
      "experiments_exp_name":"Experiment Name",
      "experiments_variants":"Variants",
      "experiments_status":"Status",
@@ -2424,7 +2424,7 @@
     "businessRules_map_field": "Map Field",
     "businessRules_tag_save": "Tag & Save",
     "businessRules_save": "Save",
-    "businessRules_name_caps": "Name",
+    "businessRules_name_caps": "NAME",
     "businessRules_add_outcome": "Add Outcome",
     "businessRules_add_caps": "ADD",
 
@@ -2501,6 +2501,8 @@
     "workbench_serviceNow":"Service Now",
     "workbench_confluenceCloud":"Confluence Cloud",
     "workbench_confluenceServer":"Confluence Server",
+    "workbench_zendesk":"Zendesk",
+    "workbench_sharepointOnline":"Share Point",
     "workbench_beta":"BETA",
     "workbench_script":"Script",
     "workbench_choose_script_option":"On choosing the Script option, conditions defined here will only be applied.",
@@ -2991,8 +2993,8 @@
     "contentSource_last_updated":"Last Updated",
     "contentSource_results_preview":"Results Preview",
     "contentSource_structuredData":"Structured Data",
-
-
+    "contentSource_edit_configuration": "Edit Configuration",
+    
     "10Oct sample":"10Oct  Not Added---------------------------------------------------------------------------------------------------------------",
     
     "sa_please_wait":"Please Wait!",
@@ -3535,8 +3537,13 @@
     "home_enter_your_industry_name":"Enter your Industry name",
     "home_please_type_delete":"Please type DELETE to confirm",
     "home_welcome_to_search_assist":"Welcome to SearchAssist",
-    "home_watch_a_quick_desc":"Watch a quick introductory video on the SearchAssist’s features."
+    "home_watch_a_quick_desc":"Watch a quick introductory video on the SearchAssist’s features.",
+    "--------------Date-----------------------":"-----------------------------18-11-2022--------------------------------------------",
+    "businessRules_preview":"Preview",
+    "businessRules_selected":"Selected",
+    "connectors_tenant_id":"Tenant ID",
+    "connectors_enter_tenant_id":"Enter Tenant ID here",
+    "connectors_details":"Details"
 
 
 }
-

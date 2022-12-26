@@ -10,8 +10,8 @@ import { KRModalComponent } from 'src/app/shared/kr-modal/kr-modal.component';
 import { OnboardingComponentComponent } from 'src/app/components/onboarding-component/onboarding-component.component';
 import { SliderComponentComponent } from 'src/app/shared/slider-component/slider-component.component';
 import { Router } from '@angular/router';
-import { DELETE } from '@angular/cdk/keycodes';
 import { EMPTY_SCREEN } from 'src/app/modules/empty-screen/empty-screen.constants';
+declare const $:any;
 @Component({
   selector: 'app-connectors-source',
   templateUrl: './connectors-source.component.html',
@@ -55,16 +55,16 @@ export class ConnectorsSourceComponent implements OnInit {
       url: "https://www.zendesk.com/",
       doc_url: "https://developer.zendesk.com/documentation/",
       tag: "Engineering Awesome"
+    },
+    {
+      connector_name: "SharePoint",
+      description: "Please complete configuration",
+      type: "sharepointOnline",
+      image: "assets/icons/connectors/sharepoint.png",
+      url: "https://microsoft.sharepoint.com/",
+      doc_url: "https://learn.microsoft.com/en-us/sharepoint/dev/",
+      tag: "Empowering teamwork"
     }
-    // {
-    //   connector_name: "SharePoint",
-    //   description: "Please complete configuration",
-    //   type: "sharePoint",
-    //   image: "assets/icons/connectors/sharepoint.png",
-    //   url: "https://microsoft.sharepoint.com/",
-    //   doc_url: "https://learn.microsoft.com/en-us/sharepoint/dev/",
-    //   tag: "Empowering teamwork"
-    // }
   ];
   componentType = 'Connectors';
   selectedContent: string = 'list';
@@ -78,10 +78,10 @@ export class ConnectorsSourceComponent implements OnInit {
   sessionData: any = {};
   connectorsData: any = [];
   availableConnectorsData: any = [];
-  configurationObj: any = { name: '', clientId: '', clientSecret: '', hostUrl: '', hostDomainName: '', username: '', password: '' };
+  configurationObj: any = { name: '', clientId: '', clientSecret: '', hostUrl: '', hostDomainName: '', username: '', password: '',tenantId:'' };
   overViewData: any = { overview: [], coneten: [],jobs:[] };
   syncCount = { count: [], hours: 0, minutes: 0, days: 0 };
-  showProtecedText: Object = { isClientShow: false, isSecretShow: false, isPassword: false };
+  showProtecedText: Object = { isClientShow: false, isSecretShow: false, isPassword: false, istenantIdShow: false };
   isEditable: boolean = false;
   checkConfigButton: Boolean = true;
   isPopupDelete: boolean = true;
@@ -93,6 +93,7 @@ export class ConnectorsSourceComponent implements OnInit {
   pageLoading: boolean = false;
   total_records: number;
   onboardingOpened: boolean = false;
+  validation: boolean = false;
   currentRouteData: any = "";
   contentInputSearch:string='';
   addConnectorSteps: any = [{ name: 'instructions', isCompleted: true, display: 'Introduction' }, { name: 'configurtion', isCompleted: false, display: 'Configuration & Authentication' }];
@@ -152,7 +153,7 @@ export class ConnectorsSourceComponent implements OnInit {
   //change edit tabs
   changeEditTabs(type) {
     this.selectedTab = type;
-    this.showProtecedText = { isClientShow: false, isSecretShow: false, isPassword: false };
+    this.showProtecedText = { isClientShow: false, isSecretShow: false, isPassword: false, istenantIdShow: false  };
   }
 
   //get connector list
@@ -184,6 +185,7 @@ export class ConnectorsSourceComponent implements OnInit {
         this.availableConnectorsData = this.Connectors;
       }
       this.pageLoading = true;
+      this.validation = false;
     }, errRes => {
       this.errorToaster(errRes, 'Failed to get Connectors');
     });
@@ -217,6 +219,7 @@ export class ConnectorsSourceComponent implements OnInit {
       this.configurationObj.isActive = res?.isActive;
       this.configurationObj.username = res?.authDetails?.username;
       this.configurationObj.password = res?.authDetails?.password;
+      this.configurationObj.tenantId = res?.authDetails?.tenantId;
       this.getConentData();      
     }, errRes => {
       this.errorToaster(errRes, 'Connectors API Failed');
@@ -226,15 +229,24 @@ export class ConnectorsSourceComponent implements OnInit {
   //on change get content data using search function
   getDynamicSearchContent(type){
     const text = (type==='input')?this.contentInputSearch:'';
-    this.getConentData(0,text); 
-    if(type==='clear') this.contentInputSearch='';
+    setTimeout(()=>{
+      this.getConentData(0,text); 
+    },500)
+    if(type==='clear'){
+      if($('#pageInput').length) $('#pageInput')[0].value=1;
+      this.contentInputSearch='';
+    } 
   }
 
   //content pagination 
   paginate(event) {
-    this.getConentData(event?.skip);
+    if(this.contentInputSearch.length){
+      this.getConentData(event?.skip,this.contentInputSearch)
+    }
+    else {
+      this.getConentData(event?.skip)
+    }
   }
-
   //get content data api
   getConentData(offset?,text?) {
     const quaryparms: any = {
@@ -271,7 +283,7 @@ export class ConnectorsSourceComponent implements OnInit {
 
   //change page like list, add ,edit
   changeContent(page, data) {
-    this.showProtecedText = { isClientShow: false, isSecretShow: false, isPassword: false };
+    this.showProtecedText = { isClientShow: false, isSecretShow: false, isPassword: false, istenantIdShow: false  };
     this.selectedConnector = data;
     this.selectedContent = page;
     if (page === 'edit') {
@@ -315,7 +327,7 @@ export class ConnectorsSourceComponent implements OnInit {
       this.isAuthorizeStatus = false;
       this.isPopupDelete = true;
       this.syncCount = { count: [], hours: 0, minutes: 0, days: 0 };
-      this.configurationObj = { name: '', clientId: '', clientSecret: '', hostUrl: '', hostDomainName: '', username: '', password: '' };
+      this.configurationObj = { name: '', clientId: '', clientSecret: '', hostUrl: '', hostDomainName: '', username: '', password: '',tenantId:'' };
       this.addConnectorSteps = this.addConnectorSteps.map((item, index) => {
         if (index > 0) {
           return { ...item, isCompleted: false };
@@ -333,7 +345,7 @@ export class ConnectorsSourceComponent implements OnInit {
         this.navigatePage();
       }
       else if (this.selectAddContent === 'configurtion') {
-        if (this.fieldsValidation()) {
+        if (this.validationForConnetor()) {
           if (this.isEditable || this.connectorId !== '') {
             this.updateConnector();
           } else {
@@ -343,7 +355,6 @@ export class ConnectorsSourceComponent implements OnInit {
       }
     }
   }
-
   //navaigate to next page based on selectAddContent
   navigatePage() {
     this.selectAddContent = this.selectAddContent === 'instructions' ? 'configurtion' : 'instructions';
@@ -363,7 +374,35 @@ export class ConnectorsSourceComponent implements OnInit {
       return true;
     }
   }
-
+validationForConnetor(){
+  if(this.configurationObj.name && this.configurationObj.clientId && this.configurationObj.clientId){
+   if(['confluenceServer','confluenceCloud'].includes(this.selectedConnector.type)){
+      if(this.configurationObj.hostUrl && this.configurationObj.hostDomainName){
+        return true
+      }
+   }
+   else if (['serviceNow'].includes(this.selectedConnector.type)){
+    if(this.configurationObj.hostUrl && this.configurationObj.name && this.configurationObj.password){
+      return true
+    }
+   }
+   else if (['zendesk'].includes(this.selectedConnector.type)){
+    if(this.configurationObj.hostUrl ){
+      return true
+    }
+   }
+   else if (['sharepointOnline'].includes(this.selectedConnector.type)){
+    if(this.configurationObj.tenantId ){
+      return true
+    }
+   }
+  }
+  else {
+    this.validation = true;
+    this.notificationService.notify('Enter the Required Fields', 'error');
+    return false
+  }
+}
   //save connectors create api
   createConnector() {
     const quaryparms: any = {
@@ -385,7 +424,10 @@ export class ConnectorsSourceComponent implements OnInit {
       payload.authDetails.username = this.configurationObj.username;
       payload.authDetails.password = this.configurationObj.password;
     }
-    if (['zendesk','sharePoint'].includes(this.selectedConnector.type)) {
+    if (this.selectedConnector.type === 'sharepointOnline') {
+      payload.authDetails.tenantId = this.configurationObj.tenantId;
+    }
+    if (['zendesk','sharepointOnline'].includes(this.selectedConnector.type)) {
       delete payload.configuration.hostDomainName;   
     }
     this.service.invoke('post.connector', quaryparms, payload).subscribe(res => {
@@ -411,11 +453,10 @@ export class ConnectorsSourceComponent implements OnInit {
     this.service.invoke('post.authorizeConnector', quaryparms, payload).subscribe(res => {
       if (res) {
         this.isloadingBtn = false;
-        if (['confluenceCloud','zendesk','sharePoint'].includes(data?.type)) {
+        if (['confluenceCloud','zendesk','sharepointOnline'].includes(data?.type)) {
           window.open(res.url, '_self');
         }
         else {
-          this.appSelectionService.updateTourConfig('addData');
           if (dialogRef) {
             dialogRef.close();
             this.getConnectors();
@@ -427,6 +468,7 @@ export class ConnectorsSourceComponent implements OnInit {
           }
         }
       }
+      this.appSelectionService.updateTourConfig('addData');
     }, errRes => {
       this.isPopupDelete = false;
       this.isAuthorizeStatus = false;
@@ -497,7 +539,10 @@ export class ConnectorsSourceComponent implements OnInit {
       payload.authDetails.username = this.configurationObj.username;
       payload.authDetails.password = this.configurationObj.password;
     }
-    if (['zendesk','sharePoint'].includes(this.selectedConnector.type)) {
+    if (this.selectedConnector.type === 'sharepointOnline') {
+      payload.authDetails.tenantId = this.configurationObj.tenantId;
+    }
+    if (['zendesk','sharepointOnline'].includes(this.selectedConnector.type)) {
       delete  payload.configuration.hostDomainName
     }
     this.service.invoke('put.connector', quaryparms, payload).subscribe(res => {

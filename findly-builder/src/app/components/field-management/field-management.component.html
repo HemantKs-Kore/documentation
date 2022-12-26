@@ -61,7 +61,7 @@
                                 </button>
                                 <ul class="dropdown-menu content-menu type_sort_dropdown-content" ngbDropdownMenu>
                                     <li (click)="sourceFilter.close();filterTable('all','fieldDataType')"><span
-                                            class="list-name">{{sa_all | translate}}</span><img
+                                            class="list-name">{{'sa_all' | translate}}</span><img
                                             [ngClass]="{'hide': filterSystem.typefilter !== 'all'}"
                                             src="assets/icons/check-blue.svg"></li>
                                     <li *ngFor="let fieldDataType of fieldDataTypeArr"
@@ -89,7 +89,7 @@
                                 </button>
                                 <ul class="dropdown-menu content-menu type_sort_dropdown-content" ngbDropdownMenu>
                                     <li (click)="selectFilter.close();filterTable('all','isMultiValued')"><span
-                                            class="list-name">All</span><img
+                                            class="list-name">{{'sa_all' | translate}}</span><img
                                             [ngClass]="{'hide': filterSystem.isMultiValuedFilter !== 'all'}"
                                             src="assets/icons/check-blue.svg"></li>
                                     <li *ngFor="let docType of isMultiValuedArr"
@@ -118,7 +118,7 @@
                                 </button>
                                 <ul class="dropdown-menu content-menu type_sort_dropdown-content" ngbDropdownMenu>
                                     <li (click)="isRequiredFilter.close();filterTable('all','isRequired')"><span
-                                            class="list-name">All</span><img
+                                            class="list-name">{{'sa_all' | translate}}</span><img
                                             [ngClass]="{'hide': filterSystem.isRequiredFilter !== 'all'}"
                                             src="assets/icons/check-blue.svg"></li>
                                     <li *ngFor="let docType of isRequiredArr"
@@ -286,22 +286,7 @@
                                 <ul class="dropdown-menu content-menu dropdown_overflow">
                                     <perfect-scrollbar class="scroll-search-field-">
                                         <div class="scroll_">
-                                            <li (click)="selectFieldType('string')"><a>{{'fields_string' |
-                                                    translate}}</a></li>
-                                            <li (click)="selectFieldType('number')"><a>{{'fields_number' |
-                                                    translate}}</a></li>
-                                            <li (click)="selectFieldType('trait')"><a>{{'fields_trait' | translate}}</a>
-                                            </li>
-                                            <li (click)="selectFieldType('dense_vector')"><a>{{'fields_dense_vector' |
-                                                    translate}}</a></li>
-                                            <li (click)="selectFieldType('entity')"><a>{{'fields_entity' |
-                                                    translate}}</a></li>
-                                            <li (click)="selectFieldType('keyword')"><a>{{'fields_keyword' |
-                                                    translate}}</a></li>
-                                            <li (click)="selectFieldType('array')"><a>{{'fields_array' | translate}}</a>
-                                            </li>
-                                            <li (click)="selectFieldType('object')"><a>{{'fields_object' |
-                                                    translate}}</a></li>
+                                            <li *ngFor="let type of fieldTypesArray" [ngClass]="{'font-weight-bold':(type===newFieldObj?.fieldDataType)}" (click)="selectFieldType(type)"><a>{{'fields_'+type|translate}}</a></li>
                                         </div>
                                     </perfect-scrollbar>
                                 </ul>

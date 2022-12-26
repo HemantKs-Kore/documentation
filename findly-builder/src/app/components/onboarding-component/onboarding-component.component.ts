@@ -720,7 +720,7 @@ link:"https://docs.kore.ai/searchassist/concepts/designing-search-experience/des
 }]
 },
 {
-   display:"Team Management",
+   display:"Team",
    key:"team-management",
    icon:"",
    childData:[{
@@ -854,7 +854,7 @@ mediaObj:any = {};
    $('#topicGuideVideoModal').modal('show');   
    this.mediaObj.loadingMedia = true;
    this.showLoader1 = true;
-   this.topicGuideVideoUrl = this.sanitizer.bypassSecurityTrustUrl(payload.url); 
+   this.topicGuideVideoUrl = this.sanitizer.bypassSecurityTrustResourceUrl(payload.url); 
 };
 
   triggerFaq() {
@@ -997,10 +997,10 @@ mediaObj:any = {};
       this.breadcrumbNameFaq='Channels'
     }
     else if(this.breadcrumbNameFaq=='credentials-list'){
-      this.breadcrumbNameFaq='Credentials List'
+      this.breadcrumbNameFaq='Credentials'
     }
     else if(this.breadcrumbNameFaq=='team-management'){
-      this.breadcrumbNameFaq='Team Management'
+      this.breadcrumbNameFaq='Team'
     }
     else if(this.breadcrumbNameFaq=='pricing'){
       this.breadcrumbNameFaq='Pricing'

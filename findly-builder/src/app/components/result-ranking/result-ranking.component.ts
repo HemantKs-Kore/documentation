@@ -448,6 +448,7 @@ export class ResultRankingComponent implements OnInit, OnDestroy {
         actLog.selected  = false;
         actLog.drop = false;
         actLog.contentType = data.target.contentType;
+        actLog.contentId = data.target.contentId;
         if(data.target.contentType == 'web'){
           actLog.icon = "assets/icons/resultranking/copy.svg";
           actLog.title = data.target && data.target.contentInfo && data.target.contentInfo._source ? data.target.contentInfo._source.page_title : '';
@@ -545,7 +546,7 @@ export class ResultRankingComponent implements OnInit, OnDestroy {
       searchIndexId: searchIndex,
       queryPipelineId: this.queryPipelineId,
       rankingAndPinningId: this.selectedRecord._id,
-      contentId: actLog.target.contentId,
+      contentId: actLog?.contentId,
       indexPipelineId: this.workflowService.selectedIndexPipeline() || ''
     };
     this.remove_Record(quaryparms)
@@ -812,16 +813,17 @@ export class ResultRankingComponent implements OnInit, OnDestroy {
 class ActionLog {
   selected : boolean = false;
   drop : boolean = false;
-  contentType : string =""
-  icon : string = ""
-  title : string = ""
-  desc : string = ""
-  action : string = ""
-  actionIcon : string = ""
-  actionDesc : string = ""
-  value : string = ""
-  addedResult : string = ""
-  lMod : string = ""
-  createdOn : string =""
+  contentType : string ="";
+  icon : string = "";
+  title : string = "";
+  desc : string = "";
+  action : string = "";
+  actionIcon : string = "";
+  actionDesc : string = "";
+  value : string = "";
+  addedResult : string = "";
+  lMod : string = "";
+  createdOn : string ="";
+  contentId : String = "";
 }
 
