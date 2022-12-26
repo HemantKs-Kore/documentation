@@ -325,7 +325,7 @@
                                                         </div>
                                                     </perfect-scrollbar>
                                                     <div class="clear_icon text-right"
-                                                        [class.disabled]="(!dockersList.length || disableClearAll)"
+                                                        [class.disabled]="(disableClearAll || !dockersList.length)"
                                                         (click)="clearAllRecords()">{{'clear_all' | translate}}</div>
                                                 </div>
                                             </div>
