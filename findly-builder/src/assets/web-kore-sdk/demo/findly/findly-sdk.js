@@ -5956,6 +5956,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
               $('.bottom-up-search').val(_self.vars.enteredQuery);
             }
             _self.vars.isQueryEntered = false;
+            _self.suggestionSelectedByNavigationKeys(e);
           }
           if (code == 13) {
             if ($('body').hasClass('top-down')) {
@@ -20487,6 +20488,16 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           $('.bottom-up-search').val(querySuggestionId);
           $('.bottom-up-suggestion').val('');
           _self.vars.isQueryEntered = true;
+        }
+      }
+      if (e.keyCode === 27) {
+        $hlight.removeClass("highlightSuggestion")
+        $div.eq(0).addClass("highlightSuggestion");
+        if ($hlight.prev().length == 0 || $hlight.next().length == 0) {
+          $div.eq(0).addClass("highlightSuggestion");
+        }
+        if(!$('body').hasClass('top-down')){
+          $('.bottom-to-top-suggestion').scrollTop(0);
         }
       }
     }
