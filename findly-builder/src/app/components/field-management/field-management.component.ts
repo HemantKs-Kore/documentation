@@ -1,3 +1,4 @@
+import { EMPTY_SCREEN } from 'src/app/modules/empty-screen/empty-screen.constants';
 import { Component, ElementRef, OnInit, ViewChild, OnDestroy, AfterViewInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { NotificationService } from '@kore.services/notification.service';
@@ -24,6 +25,7 @@ declare const $: any;
   styleUrls: ['./field-management.component.scss']
 })
 export class FieldManagementComponent implements OnInit {
+  emptyScreen = EMPTY_SCREEN.INDICES_FIELD;
   showSearch = false;
   selectedApp;
   serachIndexId;
