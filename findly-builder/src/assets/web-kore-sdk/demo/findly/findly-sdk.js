@@ -20496,6 +20496,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         if ($hlight.prev().length == 0 || $hlight.next().length == 0) {
           $div.eq(0).addClass("highlightSuggestion");
         }
+        if(!$('body').hasClass('top-down')){
+          $('.bottom-to-top-suggestion').scrollTop(0);
+        }
       }
     }
     FindlySDK.prototype.clickNavigateToUrl = function (e) {
