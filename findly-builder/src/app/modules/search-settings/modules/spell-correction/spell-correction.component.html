@@ -29,10 +29,10 @@
                 </div>
                 <div class="toggle-count-btn width-15"> 
 
-                    <div class="toggle-count-sub" [ngClass]="{'disableminus':spellcorrectdata?.settings?.spellCorrect?.minCharThreshold<=0}"  (click)="mindecrementValue(spellcorrectdata?.settings?.spellCorrect?.minCharThreshold)">-
+                    <div class="toggle-count-sub" [ngClass]="{'disableminus':spellcorrectdata?.settings?.spellCorrect?.minCharThreshold<=1}"  (click)="mindecrementValue(spellcorrectdata?.settings?.spellCorrect?.minCharThreshold)">-
                     </div>
                     <div class="toggle-count-num">{{spellcorrectdata?.settings?.spellCorrect?.minCharThreshold}}</div>
-                    <div class="toggle-count-add" (click)="minincrementValue(spellcorrectdata?.settings?.spellCorrect?.minCharThreshold)">+
+                    <div class="toggle-count-add" [ngClass]="{'disableminus':spellcorrectdata?.settings?.spellCorrect?.minCharThreshold>=6}" (click)="minincrementValue(spellcorrectdata?.settings?.spellCorrect?.minCharThreshold)">+
                     </div>
                 </div>
             </div>
@@ -57,9 +57,9 @@
                 </div>
 
                 <div class="toggle-count-btn width-15">
-                    <div class="toggle-count-sub" [ngClass]="{'disableminus':spellcorrectdata?.settings?.spellCorrect?.maxTypoEdits<=0}" (click)="maxdecrementValue(spellcorrectdata?.settings?.spellCorrect?.maxTypoEdits)">-</div>
+                    <div class="toggle-count-sub" [ngClass]="{'disableminus':spellcorrectdata?.settings?.spellCorrect?.maxTypoEdits<=1}" (click)="maxdecrementValue(spellcorrectdata?.settings?.spellCorrect?.maxTypoEdits)">-</div>
                     <div class="toggle-count-num">{{spellcorrectdata?.settings?.spellCorrect?.maxTypoEdits}}</div>
-                    <div class="toggle-count-add" (click)="maxincrementValue(spellcorrectdata?.settings?.spellCorrect?.maxTypoEdits)">+</div>
+                    <div class="toggle-count-add" [ngClass]="{'disableminus':spellcorrectdata?.settings?.spellCorrect?.maxTypoEdits>=2}"(click)="maxincrementValue(spellcorrectdata?.settings?.spellCorrect?.maxTypoEdits)">+</div>
                 </div>
 
             </div>
