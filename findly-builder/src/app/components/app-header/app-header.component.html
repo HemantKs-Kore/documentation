@@ -578,12 +578,10 @@
                                 <div class="icon-tetx"  [ngStyle]="{'background-color':workspace.color}">
                                     <span class="alphabet">{{workspace.accountShortName}}</span>
                                 </div>
-                                <div class="content-data"
-                                [ngbTooltip]="workspace.displayName?workspace.displayName:workspace.accountName"
-                                placement="top-center" [container]="'body'">
-                                    <div class="w-name">{{workspace.displayName?workspace.displayName:workspace.accountName}}
+                                <div class="content-data">
+                                    <div class="w-name" placement="top-center" [container]="'body'" [ngbTooltip]="workspace?.displayName||workspace?.accountName">{{workspace?.displayName||workspace?.accountName}}
                                     </div>
-                                    <div class="member-count" style="white-space: nowrap;">{{"header_created_by" | translate}} {{workspace.userFullName}}</div>
+                                    <div class="member-count createdby" (mouseover)="hideparentTooltip($event)" [ngbTooltip]="workspace?.userFullName"  style="white-space: nowrap;">{{"header_created_by" | translate}} {{workspace?.userFullName}}</div>
                                     <div class="member-count">{{workspace.usersCount}} {{"header_members" | translate}}</div>
                                 </div>
                                 <!-- <img src="assets/icons/join-celebrations.gif" class="joined-animation"> -->
