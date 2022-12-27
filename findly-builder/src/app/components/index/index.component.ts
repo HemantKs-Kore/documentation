@@ -1,3 +1,4 @@
+import { EMPTY_SCREEN } from './../../modules/empty-screen/empty-screen.constants';
 import { Component, ElementRef, OnInit, ViewChild, OnDestroy, AfterViewInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ENTER, COMMA } from '@angular/cdk/keycodes';
@@ -26,6 +27,7 @@ declare const $: any;
   styleUrls: ['./index.component.scss']
 })
 export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
+  emptyScreen = EMPTY_SCREEN.INDICES_WORKBENCH;
   selectedApp: any = {};
   searchImgSrc: any = 'assets/icons/search_gray.svg';
   searchFocusIn = false;

@@ -1,3 +1,4 @@
+import { EmptyScreenModule } from './../../../empty-screen/empty-screen.module';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
@@ -17,7 +18,8 @@ import { MatIconModule } from '@angular/material/icon';
     FindlySharedModule,
     MatChipsModule,
     MatFormFieldModule,
-    MatIconModule
+    MatIconModule,
+    EmptyScreenModule
   ]
 })
 export class SynonymsModule { }
