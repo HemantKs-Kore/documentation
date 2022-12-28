@@ -4,6 +4,8 @@ import { PerfectScrollbarComponent, PerfectScrollbarDirective } from 'ngx-perfec
 import { isNgTemplate } from '@angular/compiler';
 import { MatDialog } from '@angular/material/dialog';
 import { ConfirmationDialogComponent } from 'src/app/helpers/components/confirmation-dialog/confirmation-dialog.component';
+import { ActivatedRoute, Router } from '@angular/router';
+import { HighlightingComponent } from 'src/app/modules/search-settings/modules/highlighting/highlighting.component';
 declare const $: any;
 
 @Component({
@@ -27,7 +29,9 @@ export class ListFieldsComponent implements OnInit {
   @Input() isaddLoading = false;
    page_number=0;
   constructor(
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    private route: ActivatedRoute,
+    private router: Router
   ) { }
 
   addFieldModalPopRef: any;
@@ -42,11 +46,12 @@ export class ListFieldsComponent implements OnInit {
   checksort='asc'
   isAsc = true;
   loadingContent = true;
+  showWarning=false
+  dataType:any;
+  fieldCheckArray=[]
 
   ngOnInit(): void {    
     this.modal_open=false;
-    console.log(this.tablefieldvalues);
-    console.log(this.popupfieldvalues);
     // if(this.tablefieldvalues && this.tablefieldvalues.length){
     //   this.loadingContent = false
     // }
@@ -186,6 +191,8 @@ export class ListFieldsComponent implements OnInit {
       item.isChecked = false;
       return item;
     })
+    this.fieldCheckArray=[];
+    this.showWarning=false
   }
     
 //** fetch the search value and emit it to the other components */
@@ -223,11 +230,19 @@ export class ListFieldsComponent implements OnInit {
     }    
   }
   //** for selecting and de selecting the checkboxes*/
-  addRecord(fields,event) {
+  addRecord(fields,event) { 
     if (event.target.checked) {
       fields.isChecked = true;
-    } else {
-      fields.isChecked = false;  
+      }
+    else {
+      fields.isChecked = false; 
+    }
+    console.log(this.popupfieldvalues)
+    this.fieldCheckArray=this.popupfieldvalues.filter(item => item.isChecked)
+    if(this.route.component['name'] === 'PresentableComponent'){      
+      this.showWarning=this.fieldCheckArray.some(item=>{
+       return item.fieldDataType==='html' || item.fieldDataType==='dense_vector'      
+      })
     }
   }
 

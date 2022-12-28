@@ -113,6 +113,11 @@ export class FieldManagementComponent implements OnInit {
   ngAfterViewInit() {
 
   }
+  applyDisableClass(fieldName){
+    return {
+      'disable-actionlinks':fieldName==='sys_content_type' || fieldName==='sys_racl' || fieldName==='sys_source_name'
+    };
+  }
   loadFileds() {
     this.indexPipelineId = this.workflowService.selectedIndexPipeline();
     if (this.indexPipelineId) {
@@ -161,8 +166,8 @@ export class FieldManagementComponent implements OnInit {
         fieldName: '',
         fieldDataType: 'string',
         previousFieldDataType: 'string',
-        isAutosuggest: true,
-        isSearchable: true,
+        isAutosuggest: false,
+        isSearchable: false,
       }
       this.mixpanel.postEvent('Enter Add field',{})
     }

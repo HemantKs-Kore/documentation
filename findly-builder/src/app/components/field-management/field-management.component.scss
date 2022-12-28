@@ -384,3 +384,7 @@ perfect-scrollbar .ps--active-y{
       }
 }
 }
+.disable-actionlinks{
+    opacity: 0.251;
+    pointer-events: none;
+}

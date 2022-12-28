@@ -275,7 +275,7 @@
                             <span class="field-value" [ngClass]="field.isAutosuggest ? 'yes' : 'no'">{{field.isAutosuggest?'Yes':'No'}}</span>
                         </div>
                         <div class="col-1">
-                            <div class="action_links text-right">
+                            <div class="action_links text-right" [ngClass]="applyDisableClass(field.fieldName)">
                                 <!-- <img src="assets/images/edit-pencil.svg" ngbTooltip="{{'fields.edit' | translate}}"
                                     [container]="'body'" placement="{{i==0?'bottom':'top'}}"
                                     (click)="addEditFiled(field)">
@@ -396,7 +396,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="option-selection-type">
+                    <div class="option-selection-type" [ngClass]="{'disable-actionlinks':(newFieldObj?.fieldDataType!=='string')}">
                         <div class="option-selection-hding"> {{'fields_auto_suggest' | translate}}</div>
                         <div class="option-selection-desc">  {{'fields_auto_suggest_desc' | translate}} </div>
                         <div class="option-selection-checkbox">
