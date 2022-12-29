@@ -46,9 +46,9 @@ export class ListFieldsComponent implements OnInit {
   checksort='asc'
   isAsc = true;
   loadingContent = true;
-  showWarning=false
-  dataType:any;
-  fieldCheckArray=[]
+  // showWarning=false
+  // dataType:any;
+  // fieldCheckArray=[]
 
   ngOnInit(): void {    
     this.modal_open=false;
@@ -191,8 +191,8 @@ export class ListFieldsComponent implements OnInit {
       item.isChecked = false;
       return item;
     })
-    this.fieldCheckArray=[];
-    this.showWarning=false
+    // this.fieldCheckArray=[];
+    // this.showWarning=false
   }
     
 //** fetch the search value and emit it to the other components */
@@ -237,14 +237,14 @@ export class ListFieldsComponent implements OnInit {
     else {
       fields.isChecked = false; 
     }
-    console.log(this.popupfieldvalues)
-    this.fieldCheckArray=this.popupfieldvalues.filter(item => item.isChecked)
-    if(this.route.component['name'] === 'PresentableComponent'){      
-      this.showWarning=this.fieldCheckArray.some(item=>{
-       return item.fieldDataType==='html' || item.fieldDataType==='dense_vector'      
-      })
+    // console.log(this.popupfieldvalues)
+    // this.fieldCheckArray=this.popupfieldvalues.filter(item => item.isChecked)
+    // if(this.route.component['name'] === 'PresentableComponent'){      
+    //   this.showWarning=this.fieldCheckArray.some(item=>{
+    //    return item.fieldDataType==='html' || item.fieldDataType==='dense_vector'      
+    //   })
     }
-  }
+  
 
   //** to delete the Field modal pop-up */
   deletefieldsDataPopup(record) {
