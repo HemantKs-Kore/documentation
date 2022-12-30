@@ -1038,24 +1038,6 @@ onMediaLoadedLoaded(){
    this.mediaObj.loadingMedia = false;
  });
 };
-
-  // openAccordiandata(index) {
-  //   $(document).ready(function(){
-  //     $(".data"+index).mouseenter(function(){
-  //        $(".data"+index).trigger( "click" );
-  //        $(".video"+index ).trigger( "play" );
-  //     });
-  // });
-  // }
-
-  // playPause(index) {
-  //   $(document).ready(function(){
-  //     $(".data"+index).mouseleave(function(){
-  //         $(".data"+index).trigger( "click" );
-  //         $(".video"+index ).trigger( "pause" );
-  //     });
-  // });
-  // }
   openAccordianFaq(index) {
     $(document).ready(function(){
       $(".dataFaq"+index).mouseover(function(){
