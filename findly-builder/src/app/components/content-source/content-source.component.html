@@ -163,7 +163,7 @@
               </div>
             
               <div class="col_ col-2">
-                <span>{{source?.recentStatus==='configured'?'--':source?.numPages}}</span>
+                <span>{{source?.recentStatus==='configured' && !source?.numPages?'--':source?.numPages}}</span>
               </div>
               <div class="col_ col-4">
                       <!-- Status==='success' -->
