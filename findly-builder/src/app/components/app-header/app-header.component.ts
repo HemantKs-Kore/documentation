@@ -592,9 +592,7 @@ export class AppHeaderComponent implements OnInit {
       }
     }
     //this.resetPreviousState(menu)
-    if (!skipRouterLink) {
-      this.router.navigate([menu], { skipLocationChange: true });
-    }
+    this.router.navigate([menu], { skipLocationChange: true });
 
     this.showMenu.emit(this.showMainMenu)
     this.settingMenu.emit(this.menuFlag)
