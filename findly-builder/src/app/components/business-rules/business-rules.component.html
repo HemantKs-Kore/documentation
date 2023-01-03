@@ -260,7 +260,7 @@
     <div class="modal-body">
         <div class="col-6 rule-name-input">
             <div class="kr-sg-input-text">
-                <div class="label-text">{{ "businessRules_rule_name" | translate }}</div>
+                <div class="label-text">{{ "businessRules_rule_name" | translate }}<sup class="field-mandatory">*</sup></div>
                 <input type="text" placeholder="Rule Name" class="input-text" maxlength="60" [(ngModel)]="addEditRuleObj.ruleName" [ngClass]="{'err-block' : (!addEditRuleObj.ruleName.length && submitted)}">
             </div>
         </div>
@@ -304,7 +304,7 @@
                                             <i class="si-close"></i>
                                         </div>
                                         <div class="row-input-data row col-12">
-                                            <div class="col-12 column-sec title-info">{{"businessRules_select_context"| translate}}</div>
+                                            <div class="col-12 column-sec title-info">{{"businessRules_select_context"| translate}}<sup class="field-mandatory">*</sup></div>
                                             <div class="col-4 column-sec">
                                                 <div class="kr-sg-dropdowns w-auto" ngbDropdown
                                                     [placement]="'bottom-right'">
@@ -324,7 +324,7 @@
                                             </div>
                                         </div>
                                         <div class="row-input-data row col-12">
-                                            <div class="col-12 column-sec title-info">{{"businessRules.set_parameters"| translate}}</div>
+                                            <div class="col-12 column-sec title-info">{{"businessRules_set_parameters"| translate}}<sup class="field-mandatory">*</sup></div>
                                             <div class="col-4 column-sec" *ngIf="ruleObj.contextType !=='userContext'">
                                                 <div class="kr-sg-dropdowns w-auto" ngbDropdown [placement]="'bottom-right'">
                                                     <div class="dropdown dropdown-open">
@@ -560,7 +560,7 @@
                             <div class="kr-sg-input-text-area">
                                 <!-- <div class="label-text">NLP Annotator </div> -->
                                 <div class="title-data">
-                                    <div class="text-title">{{"businessRules_nlp_annotator"| translate}}</div>
+                                    <div class="text-title">{{"businessRules_nlp_annotator"| translate}}<sup class="field-mandatory">*</sup></div>
                                     <!-- <span class="info-tooltip-data">
                                         <i class="si-help"></i>
                                         <div class="conditon-info-tooltip">
@@ -598,7 +598,7 @@
                          <!-- nlp annotator first time custom tag add start -->
                          <div class="nlp-first-custom-tag" *ngIf="nlpAnnotatorObj.annotator?.length===0">
                              <div class="nlp-first-custom-block">
-                                 <div class="nlp-first-custom-header">{{"businessRules_nlp_annotator"| translate}}</div>
+                                 <div class="nlp-first-custom-header">{{"businessRules_nlp_annotator"| translate}}<sup class="field-mandatory">*</sup></div>
                                  <div class="nlp-first-custom-tag-name">{{"businessRules_i_am_looking_for"| translate}}</div>
                              </div>
                          </div>
@@ -690,7 +690,7 @@
                                             </div>
                                         </div>
                                         <div class="row-input-data row col-12">
-                                            <div class="col-12 column-sec title-info">{{"businessRules_response"| translate}}</div>
+                                            <div class="col-12 column-sec title-info">{{"businessRules_response"| translate}}<sup class="field-mandatory">*</sup></div>
                                             <div class="col-4 column-sec">
                                                 <div class="kr-sg-dropdowns w-auto" ngbDropdown [placement]="'bottom-right'" (click)="currentEditInex = index">
                                                     <div class="dropdown dropdown-open">
