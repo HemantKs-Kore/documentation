@@ -170,7 +170,7 @@ createInit() {
       this.stopwordsList = _.filter(this.stopwordsList, (stopword) => {
         return stopword !== '';
       })
-      this.createStopWords(false,this.newStopWord);
+      this.createStopWords(false,this.stopwordsList);
       this.submitted = false;
     }
     else {
@@ -187,7 +187,7 @@ createInit() {
     const payload: any = {
       languageCode: 'en',
       defaultStopwords:type,
-      resetStopwords:reset,         //reset is to have only default Stop Words
+      resetStopwords:reset,        
       stopwords: stopwordsArr,
       removeDefault:removeDefault
     };
