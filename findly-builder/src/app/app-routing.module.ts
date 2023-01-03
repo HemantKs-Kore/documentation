@@ -121,7 +121,7 @@ const routes: Routes = [
       },
 
       { path: '', component: AppsListingComponent, pathMatch: 'full' },
-      // { path: '**', component: AppsListingComponent },
+      { path: '**', component: AppsListingComponent },
     ],
   },
 ];
