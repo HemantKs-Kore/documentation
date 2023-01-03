@@ -99,12 +99,15 @@
       </perfect-scrollbar>
     </div>
     <div class="table_sec" *ngIf="!(selectedStage && selectedStage.type) && !showNewStageType">
-      <div class="empty-list">
-        <ng-container>
-          <img src="assets/images/icons/empty_ill.svg" />
-          <div class="desc">{{'workbench_no_stages_available' | translate}}</div>
-        </ng-container>
-      </div>
+      <app-empty-screen class="empty-lg" [title]="emptyScreen.TITLE" [desc]="emptyScreen.DESC"
+        [width]="204" [height]="74" [imgName]="emptyScreen.IMG_NAME">
+        <div class="action-buttons">
+          <button class="kr-sg-button-primary btn_lg mr-2" (click)="showNewStageType=true;selectedStage={};setResetNewMappingsObj()">
+            <i class="si-add-plus"></i>
+            Add Stage
+          </button>
+        </div>
+      </app-empty-screen>
     </div>
     <div class="form_sec" *ngIf="showNewStageType">
       <perfect-scrollbar class="scroll_form">

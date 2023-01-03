@@ -177,12 +177,12 @@ export class WeightsComponent implements OnInit, OnDestroy
     const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
       width: '530px',
       height: 'auto',
-      panelClass: 'delete-popup-weights',
+      panelClass: 'delete-popup',
       data: {
         title: 'Restore weights',
         text: 'Are you sure you want to restore weights?',
-        newTitle: 'Resetting to default will reset the values of System defined fields to default values.',
-        body: 'Are you sure you want to continue ?',
+        newTitle: 'Are you sure you want to continue ?',
+        body: ' Reset to default will set the system-defined fields back to their default values',
         buttons: [{ key: 'yes', label: 'Continue' }, { key: 'no', label: 'Cancel' }],
         confirmationPopUp: true
       }
@@ -410,9 +410,9 @@ export class WeightsComponent implements OnInit, OnDestroy
       data: {
         title: 'Delete Rankable Field',
         text: 'Are you sure you want to delete selected rankable field?',
-        newTitle: 'Are you sure you want to delete ?',
-        body: 'Selected Searchable Field will be deleted',
-        buttons: [{ key: 'yes', label: 'Delete', type: 'danger' }, { key: 'no', label: 'Cancel' }],
+        newTitle:'Are you sure you want to Remove ?',
+        body:  record.fieldName+' field will be removed from weights',
+        buttons: [{ key: 'yes', label: 'Remove', type: 'danger' }, { key: 'no', label: 'Cancel' }],
         confirmationPopUp: true
       }
     });

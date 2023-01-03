@@ -31,10 +31,10 @@
                 </div>
             </div>
             <div class="empty-list"  *ngIf="!(filelds && filelds.length)">
-                <ng-container>
-                    <img src="assets/images/icons/empty_ill.svg">
-                    <div class="desc">{{'fields_no_fields_available' | translate}}</div>
-                </ng-container>
+
+              <app-empty-screen class="empty-sm" [width]="100" [height]="100" [title]="emptyScreen.TITLE_SEARCH_FIELD"
+                [desc]="emptyScreen.DESC_SEARCH_FIELD" [imgName]="emptyScreen.IMG_NAME">
+              </app-empty-screen>
             </div>
             <div>
                 <div class="table_data_content" *ngIf="filelds && filelds.length" >
