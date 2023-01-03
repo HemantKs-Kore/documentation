@@ -223,9 +223,10 @@ export class FieldManagementComponent implements OnInit {
       const resultArr = Object.entries(res).reduce((usedArr: any, [key, valObj]) => {
         if (valObj['used']) {
           if ((key === 'facets')) {
-            usedArr = [...usedArr, 'facet'];
+            usedArr = [...usedArr, 'Facet'];
           } else if (key === 'searchSettings') {
-            const msg = `<span class="based-on-selection" [ngbTooltip]="<b>HEYY</b> TEL ME">searchSettings</span>`;
+            // const msg =p `<span class="based-on-selection">searchSettings</span>`;
+            const msg = 'SearchSettings';
 
             searchSettingsRecord = valObj['records'][0];
 

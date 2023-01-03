@@ -416,6 +416,7 @@ perfect-scrollbar .ps--active-y{
                 font-size: 12px;
                 p{
                     margin-bottom: 5px;
+                    text-align: left;
                 }
                 ul{
                     padding: 0px 0 0 10px;
@@ -424,4 +425,8 @@ perfect-scrollbar .ps--active-y{
             }
         }
     }
+}
+
+.si-info{
+    cursor: pointer;
 }

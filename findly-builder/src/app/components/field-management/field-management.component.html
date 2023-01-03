@@ -415,7 +415,7 @@
                 </div> -->
                 <ng-template #tipContent>
                     <div class="inner-content-html">
-                        <p>IMPACTED SEARCH SETTINGS</p>
+                        <p>IMPACTED SETTINGS</p>
                         <ul>
                             <li *ngFor="let tip of tooltipArr">
                                 {{ tip }}
@@ -426,22 +426,17 @@
 
                 <div class="kr-sg-inline-notification kr-protip-basic align-items-start"
                 *ngIf="newFieldObj._id && (newFieldObj.previousFieldDataType !== newFieldObj.fieldDataType)">
-                
-                
-                
                 <div class="tost-text"> {{'fields.the_field_type_has_been_changed_from' | translate}}
                     {{newFieldObj.previousFieldDataType | translate}} {{'fields.to' | translate}}
                     {{newFieldObj.fieldDataType | translate}}.
-                    <span *ngIf="indexedWarningMessage" [innerHTML]="resultTest">
+                    <span class="pr-1" *ngIf="indexedWarningMessage" [innerHTML]="resultTest">
                     </span>
-                    <div class="bulb-icon">
-                        <!-- <img src="assets/icons/info-blue.svg"> -->
-    
+                    <span class="bulb-icon" [ngbTooltip]="tipContent">
+                        <!-- <img src="assets/icons/info-blue.svg"> -->    
                         <i *ngIf="!showSearchSettingsTooltip && !tooltipArr" class="si-info">
-    
                         </i>
-                        <i *ngIf="showSearchSettingsTooltip && tooltipArr.length" class="si-info" [ngbTooltip]="tipContent" placement="end"></i>
-                    </div>
+                        <i *ngIf="showSearchSettingsTooltip && tooltipArr.length" class="si-info"></i>
+                    </span>
                     <!-- <span class="based-on-selection" [ngbTooltip]="tipHtmlContent">Selected Text</span>
                     <ng-template #tipHtmlContent>
                         <div class="inner-content-html">
