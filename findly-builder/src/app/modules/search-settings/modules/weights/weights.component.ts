@@ -410,8 +410,8 @@ export class WeightsComponent implements OnInit, OnDestroy
       data: {
         title: 'Delete Rankable Field',
         text: 'Are you sure you want to delete selected rankable field?',
-        newTitle: 'Are you sure you want to Remove ?',
-        body: 'Selected Searchable Field will be deleted',
+        newTitle:'Are you sure you want to Remove ?',
+        body:  record.fieldName+' field will be removed from weights',
         buttons: [{ key: 'yes', label: 'Remove', type: 'danger' }, { key: 'no', label: 'Cancel' }],
         confirmationPopUp: true
       }
