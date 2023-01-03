@@ -16,6 +16,7 @@ import { InlineManualService } from '@kore.services/inline-manual.service';
 import { PerfectScrollbarComponent } from 'ngx-perfect-scrollbar';
 import { Router, ActivatedRoute } from '@angular/router';
 import { MixpanelServiceService } from '@kore.services/mixpanel-service.service';
+import { DomSanitizer } from '@angular/platform-browser';
 
 
 declare const $: any;
@@ -40,9 +41,13 @@ export class FieldManagementComponent implements OnInit {
   currentfieldUsage: any
   fetchingFieldUsage = false;
   value = 1 || -1 ;
-  indexedWarningMessage = '';
+  indexedWarningMessage: any = '';
+  resultTest;
+  tooltipArr = [];
+  showSearchSettingsTooltip = false;
   selectedSort = 'fieldName';
   isAsc = true;
+  underlineEnable=false
   fieldAutoSuggestion: any = [];
   fieldDataTypeArr: any = [];
   // isMultiValuedArr: any = [];
@@ -96,7 +101,8 @@ export class FieldManagementComponent implements OnInit {
     private appSelectionService: AppSelectionService,
     public inlineManual : InlineManualService,
     private router: Router,
-    public mixpanel: MixpanelServiceService
+    public mixpanel: MixpanelServiceService,
+    private sanitizer: DomSanitizer
   ) { }
 
   ngOnInit(): void {
@@ -198,73 +204,142 @@ export class FieldManagementComponent implements OnInit {
         facets: false,
         rules: false,
         //weights: false
-        searchFields: false,
+        searchSettings: false,
         resultTemplate: false,
         nlpRules:false,
         entites:false
       }
       let usageText = '';
-      //if (res && (res.facets && res.facets.used) || (res.rules && res.rules.used) || (res.weights && res.weights.used) || (res.resultTemplates && res.resultTemplates.used)) {
-      if (res && (res.facets && res.facets.used) || (res.rules && res.rules.used) || (res.searchFields && res.searchFields.used) || (res.resultTemplates && res.resultTemplates.used) || (res.nlpRules && res.nlpRules.used) || (res.entites && res.entites.used)) {
-        usageText = usageText + ' This will impact'
-        if (res && res.facets && res.facets.used) {
-          deps.facets = true;
-          usageText = usageText + ' facet'
-        }
-        // if (res && res.weights && res.weights.used) {
-        //   deps.weights = true;
-        //   if (deps.facets) {
-        //     usageText = usageText + ', ' + 'Weights'
-        //   } else {
-        //     usageText = usageText + ' Weights'
-        //   }
-        // }
-        if (res && res.searchFields && res.searchFields.used) {
-          deps.searchFields = true;
-          if (deps.facets) {
-            usageText = usageText + ', ' + 'searchFields'
-          } else {
-            usageText = usageText + ' searchFields'
-          }
-        }
-        if (res && res.rules && res.rules.used) {
-          deps.rules = true;
-          if (deps.facets || deps.searchFields) {
-            usageText = usageText + ' , ' + res.rules.records.length + ' Business Rule' + (res.rules.records.length > 1 ? 's' : '')
-          } else {
-            usageText = usageText + ' ' + res.rules.records.length + ' Business Rule' + (res.rules.records.length > 1 ? 's' : '')
+      let usedArr = [];
+      this.showSearchSettingsTooltip = false;
+      this.tooltipArr = [];
+
+      if (!res) {
+        return;
+      }
+
+      let searchSettingsRecord = [];
+
+      const resultArr = Object.entries(res).reduce((usedArr: any, [key, valObj]) => {
+        if (valObj['used']) {
+          if ((key === 'facets')) {
+            usedArr = [...usedArr, 'facet'];
+          } else if (key === 'searchSettings') {
+            const msg = `<span class="based-on-selection" [ngbTooltip]="<b>HEYY</b> TEL ME">searchSettings</span>`;
+
+            searchSettingsRecord = valObj['records'][0];
+
+            this.showSearchSettingsTooltip = true;
+            usedArr = [...usedArr, msg];
+          } else if(key === 'rules') {
+            const msg = res.rules.records.length + ' Business Rule' + (res.rules.records.length > 1 ? 's' : '');
+            usedArr = [...usedArr, msg];
+          } else if (key === 'resultTemplates') {
+            const msg = res.resultTemplates.records.length + ' Result Template' + (res.resultTemplates.records.length > 1 ? 's' : '');
+            usedArr = [...usedArr, msg]
+          } else if (key === 'nlpRules') {
+            const msg = res.nlpRules.records.length + ' nlp Rule' + (res.nlpRules.records.length > 1 ? 's' : '');
+            usedArr = [...usedArr, msg]
+          } else if (key === 'entites') {
+            const msg = res.entites.records.length + (res.entites.records.length == 1 ? 'entity' : '')  + (res.entites.records.length > 1 ? 'entities' : '');
+            usedArr = [...usedArr, msg];
           }
         }
 
-        if (res && res.resultTemplates && res.resultTemplates.used) {
-          deps.resultTemplate = true;
-          if (deps.facets || deps.searchFields || deps.rules) {
-            usageText = usageText + ' , ' + res.resultTemplates.records.length + ' Result Template' + (res.resultTemplates.records.length > 1 ? 's' : '');
-          } else {
-            usageText = usageText + ' will impact ' + res.resultTemplates.records.length + ' Result Template' + (res.resultTemplates.records.length > 1 ? 's' : '')
-          }
+        return usedArr;
+      }, []);
+      
+      if (searchSettingsRecord) {
+        if (searchSettingsRecord['highlight']?.value) {
+          this.tooltipArr = [...this.tooltipArr, 'highlight']
         }
-
-        if (res && res.nlpRules && res.nlpRules.used) {
-          deps.nlpRules = true;
-          if (deps.facets || deps.searchFields || deps.rules || deps.resultTemplate) {
-            usageText = usageText + ' , ' + res.nlpRules.records.length + ' nlp Rule' + (res.nlpRules.records.length > 1 ? 's' : '');
-          } else {
-            usageText = usageText + ' will impact ' + res.nlpRules.records.length + ' nlp Rule' + (res.nlpRules.records.length > 1 ? 's' : '')
-          }
+        if (searchSettingsRecord['weight']?.value) {
+          this.tooltipArr = [...this.tooltipArr, 'weight'];
         }
-
-        if (res && res.entites && res.entites.used) {
-          deps.entites = true;
-          if (deps.facets || deps.searchFields || deps.rules || deps.resultTemplate || deps.nlpRules) {
-            usageText = usageText + ' , ' + res.entites.records.length + (res.entites.records.length == 1 ? 'entity' : '')  + (res.entites.records.length > 1 ? 'entities' : '');
-          } else {
-            usageText = usageText + ' will impact ' + res.nlpRules.entites.length + (res.entites.records.length == 1 ? 'entity' : '') + (res.entites.records.length > 1 ? 'entities' : '');
-          }
+        if (searchSettingsRecord['presentable']?.value) {
+          this.tooltipArr = [...this.tooltipArr, 'presentable']
+        }
+        if (searchSettingsRecord['spellcorrect']?.value) {
+          this.tooltipArr = [...this.tooltipArr, 'spellcorrect']
         }
       }
-      usageText = this.replaceLast(",", " and", usageText) +','+'Please retrain the application for the change to take effect';
-      this.indexedWarningMessage = usageText;
+
+      let resultStr = `This will impact `;
+      if (resultArr.length === 1) {
+        resultStr += resultArr[0];
+      } else if (resultArr.length === 2) {
+        resultStr += `${resultArr.join(' and ')}`;
+      } else {
+        const lastVal = resultArr.slice(-1)[0]; 
+        resultStr += `${resultArr.slice(0, resultArr.length -1 ).join(', ')} and ${lastVal}`;
+      }
+      console.log(resultStr);
+      this.indexedWarningMessage = resultStr;
+      this.resultTest = this.sanitizer.bypassSecurityTrustHtml(resultStr);
+
+
+      // //if (res && (res.facets && res.facets.used) || (res.rules && res.rules.used) || (res.weights && res.weights.used) || (res.resultTemplates && res.resultTemplates.used)) {
+      // if (res && (res.facets && res.facets.used) || (res.rules && res.rules.used) || (res.searchSettings && res.searchSettings.used) || (res.resultTemplates && res.resultTemplates.used) || (res.nlpRules && res.nlpRules.used) || (res.entites && res.entites.used)) {
+      //   usageText = usageText + ' This will impact'
+      //   if (res && res.facets && res.facets.used) {
+      //     deps.facets = true;
+      //     usageText = usageText + ' facet'
+      //   }
+      //   // if (res && res.weights && res.weights.used) {
+      //   //   deps.weights = true;
+      //   //   if (deps.facets) {
+      //   //     usageText = usageText + ', ' + 'Weights'
+      //   //   } else {
+      //   //     usageText = usageText + ' Weights'
+      //   //   }
+      //   // }
+      //   if (res && res.searchSettings && res.searchSettings.used) {
+      //     deps.searchSettings = true;
+      //     if (deps.facets) {
+      //       usageText = usageText + ', ' + 'searchSettings'
+      //     } else {
+      //       usageText = usageText + ' searchSettings'
+      //     }
+      //     console.log(usageText);
+      //   }
+      //   if (res && res.rules && res.rules.used) {
+      //     deps.rules = true;
+      //     if (deps.facets || deps.searchSettings) {
+      //       usageText = usageText + ' , ' + res.rules.records.length + ' Business Rule' + (res.rules.records.length > 1 ? 's' : '')
+      //     } else {
+      //       usageText = usageText + ' ' + res.rules.records.length + ' Business Rule' + (res.rules.records.length > 1 ? 's' : '')
+      //     }
+      //   }
+
+      //   if (res && res.resultTemplates && res.resultTemplates.used) {
+      //     deps.resultTemplate = true;
+      //     if (deps.facets || deps.searchSettings || deps.rules) {
+      //       usageText = usageText + ' , ' + res.resultTemplates.records.length + ' Result Template' + (res.resultTemplates.records.length > 1 ? 's' : '');
+      //     } else {
+      //       usageText = usageText + ' will impact ' + res.resultTemplates.records.length + ' Result Template' + (res.resultTemplates.records.length > 1 ? 's' : '')
+      //     }
+      //   }
+
+      //   if (res && res.nlpRules && res.nlpRules.used) {
+      //     deps.nlpRules = true;
+      //     if (deps.facets || deps.searchSettings || deps.rules || deps.resultTemplate) {
+      //       usageText = usageText + ' , ' + res.nlpRules.records.length + ' nlp Rule' + (res.nlpRules.records.length > 1 ? 's' : '');
+      //     } else {
+      //       usageText = usageText + ' will impact ' + res.nlpRules.records.length + ' nlp Rule' + (res.nlpRules.records.length > 1 ? 's' : '')
+      //     }
+      //   }
+
+      //   if (res && res.entites && res.entites.used) {
+      //     deps.entites = true;
+      //     if (deps.facets || deps.searchSettings || deps.rules || deps.resultTemplate || deps.nlpRules) {
+      //       usageText = usageText + ' , ' + res.entites.records.length + (res.entites.records.length == 1 ? 'entity' : '')  + (res.entites.records.length > 1 ? 'entities' : '');
+      //     } else {
+      //       usageText = usageText + ' will impact ' + res.nlpRules.entites.length + (res.entites.records.length == 1 ? 'entity' : '') + (res.entites.records.length > 1 ? 'entities' : '');
+      //     }
+      //   }
+      // }
+      // usageText = this.replaceLast(",", " and", usageText)
+      // this.indexedWarningMessage = usageText;
     }, errRes => {
       this.fetchingFieldUsage = false;
     });
@@ -301,13 +376,13 @@ export class FieldManagementComponent implements OnInit {
         facets: false,
         rules: false,
         //weights: false
-        searchFields: false,
+        searchSettings: false,
         resultTemplate: false,
         nlpRules:false,
         entites:false
       }
       // let usageText1 = "This field is being used in Facets, Weights, and Rules (Dynamic). Deleting it will remove the associated Facets, Weights, and Rules.";
-      if (res && (res.facets && res.facets.used) || (res.rules && res.rules.used) || (res.searchFields && res.searchFields.used) || (res.resultTemplates && res.resultTemplates.used) || (res.nlpRules && res.nlpRules.used) || (res.entites && res.entites.used)) {
+      if (res && (res.facets && res.facets.used) || (res.rules && res.rules.used) || (res.searchSettings && res.searchSettings.used) || (res.resultTemplates && res.resultTemplates.used) || (res.nlpRules && res.nlpRules.used) || (res.entites && res.entites.used)) {
         isDisableDeleteBtn = true;
         let usageText1 = "";
         usageText1 = "This field is being used in";
@@ -318,17 +393,17 @@ export class FieldManagementComponent implements OnInit {
           deps.facets = true;
           usageText = usageText + ' Facets'
         }
-        if (res && res.searchFields && res.searchFields.used) {
-          deps.searchFields = true;
+        if (res && res.searchSettings && res.searchSettings.used) {
+          deps.searchSettings = true;          
           if (deps.facets) {
-            usageText = usageText + ', ' + 'searchFields'
+            usageText = usageText + ', ' + 'searchSettings'
           } else {
-            usageText = usageText + ' searchFields'
+            usageText = usageText + ' searchSettings'
           }
         }
         
         if (res && res.rules && res.rules.used) {
-          if (deps.facets || deps.searchFields) {
+          if (deps.facets || deps.searchSettings) {
             usageText = usageText + ' , ' + res.rules.records.length + ' Rule' + (res.rules.records.length > 1 ? 's' : '')
           } else {
             usageText = usageText + ' ' + res.rules.records.length + ' Rule' + (res.rules.records.length > 1 ? 's' : '')
@@ -336,7 +411,7 @@ export class FieldManagementComponent implements OnInit {
         }
         if (res && res.resultTemplates && res.resultTemplates.used) {
           deps.resultTemplate = true;
-          if (deps.facets || deps.searchFields || deps.rules) { 
+          if (deps.facets || deps.searchSettings || deps.rules) { 
             usageText = usageText + ' , ' + res.resultTemplates.records.length + ' Result Template' + (res.resultTemplates.records.length > 1 ? 's' : '')
           } else {
             usageText = usageText + ' ' + res.resultTemplates.records.length + ' Result Template' + (res.resultTemplates.records.length > 1 ? 's' : '')
@@ -344,7 +419,7 @@ export class FieldManagementComponent implements OnInit {
         }
         if (res && res.nlpRules && res.nlpRules.used) {
           deps.nlpRules = true;
-          if (deps.facets || deps.searchFields || deps.rules || deps.resultTemplate) { 
+          if (deps.facets || deps.searchSettings || deps.rules || deps.resultTemplate) { 
             usageText = usageText + ' , ' + res.nlpRules.records.length + 'nlpRule' + (res.nlpRules.records.length > 1 ? 's' : '')
           } else {
             usageText = usageText + ' ' + res.nlpRules.records.length + 'nlpRule' + (res.nlpRules.records.length > 1 ? 's' : '')
@@ -352,7 +427,7 @@ export class FieldManagementComponent implements OnInit {
         }
         if (res && res.entites && res.entites.used) {
           deps.entites = true;
-          if (deps.facets || deps.searchFields || deps.rules || deps.resultTemplate || deps.nlpRules) {
+          if (deps.facets || deps.searchSettings || deps.rules || deps.resultTemplate || deps.nlpRules) {
             usageText = usageText + ' , ' + res.entites.records.length + (res.entites.records.length == 1 ? 'entity' : '')  + (res.entites.records.length > 1 ? 'entities' : '');
           } else {
             usageText = usageText + ' will impact ' + res.nlpRules.entites.length + (res.entites.records.length == 1 ? 'entity' : '') + (res.entites.records.length > 1 ? 'entities' : '');

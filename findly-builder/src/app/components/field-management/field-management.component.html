@@ -413,14 +413,49 @@
                     <div class="tost-text">{{'fields.indexed_property_has_been_set_to_false' | translate}}
                         {{indexedWarningMessage?(indexedWarningMessage+'.'):indexedWarningMessage}}</div>
                 </div> -->
+                <ng-template #tipContent>
+                    <div class="inner-content-html">
+                        <p>IMPACTED SEARCH SETTINGS</p>
+                        <ul>
+                            <li *ngFor="let tip of tooltipArr">
+                                {{ tip }}
+                            </li>
+                        </ul>
+                    </div>
+                </ng-template>
 
-                <div class="kr-sg-inline-notification align-items-start"
+                <div class="kr-sg-inline-notification kr-protip-basic align-items-start"
                 *ngIf="newFieldObj._id && (newFieldObj.previousFieldDataType !== newFieldObj.fieldDataType)">
-                <div class="bulb-icon"><img src="assets/icons/info-blue.svg"></div>
-                <div class="tost-text">{{'fields.the_field_type_has_been_changed_from' | translate}}
+                
+                
+                
+                <div class="tost-text"> {{'fields.the_field_type_has_been_changed_from' | translate}}
                     {{newFieldObj.previousFieldDataType | translate}} {{'fields.to' | translate}}
                     {{newFieldObj.fieldDataType | translate}}.
-                    {{indexedWarningMessage?(indexedWarningMessage+'.'):indexedWarningMessage}}</div>
+                    <span *ngIf="indexedWarningMessage" [innerHTML]="resultTest">
+                    </span>
+                    <div class="bulb-icon">
+                        <!-- <img src="assets/icons/info-blue.svg"> -->
+    
+                        <i *ngIf="!showSearchSettingsTooltip && !tooltipArr" class="si-info">
+    
+                        </i>
+                        <i *ngIf="showSearchSettingsTooltip && tooltipArr.length" class="si-info" [ngbTooltip]="tipContent" placement="end"></i>
+                    </div>
+                    <!-- <span class="based-on-selection" [ngbTooltip]="tipHtmlContent">Selected Text</span>
+                    <ng-template #tipHtmlContent>
+                        <div class="inner-content-html">
+                            <p>IMPACTED SETTINGS</p>
+                            <ul>
+                             <li>Weights</li>
+                             <li>Presentable</li>
+                             <li>Highlights</li>
+                             <li>Spell Correction</li>
+                             <li>Result Templates</li>
+                            </ul>
+                        </div>
+                    </ng-template> -->
+                </div>
                </div>
 
                 <div class="bottom_sec d-none">
