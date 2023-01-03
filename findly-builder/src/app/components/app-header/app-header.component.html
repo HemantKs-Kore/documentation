@@ -10,38 +10,38 @@
                     (click)="analyticsClick('apps',true);closeUserMetaTagsSlider()">
                 </span>
                 <div class="headerTabsContainer">
-                    <div class="headerMenuTab " [ngClass]="{'active' : mainMenu == '/summary','disable_btn':isRouteDisabled}" skipLocationChange routerLinkActive="active" (click)="analyticsClick('/summary');closeUserMetaTagsSlider()">
+                    <div class="headerMenuTab " [ngClass]="{'active' : mainMenu == '/summary','disable_btn':isRouteDisabled}"  routerLinkActive="active" (click)="analyticsClick('/summary');closeUserMetaTagsSlider()">
                         <span>{{ 'header_overview' | translate }}</span>
-                        <span routerLink="/summary" class="d-none"></span>
+                        <span routerLink="/summary" skipLocationChange class="d-none"></span>
                     </div>
-                    <div class="headerMenuTab" [ngClass]="{'active' : menuItems?.sources?.includes(mainMenu)}" skipLocationChange routerLinkActive="active" (click)="analyticsClick('/sources');closeUserMetaTagsSlider()">
+                    <div class="headerMenuTab" [ngClass]="{'active' : menuItems?.sources?.includes(mainMenu)}" routerLinkActive="active" (click)="analyticsClick('/sources');closeUserMetaTagsSlider()">
                         <span>{{ 'header_sources' | translate }}</span>
-                        <span routerLink="/sources" class="d-none"></span>
-                        <span routerLink="/content" class="d-none"></span>
-                        <span routerLink="/faqs" class="d-none"></span>
-                        <span routerLink="/botActions" class="d-none"></span>
-                        <span routerLink="/structuredData" class="d-none"></span>
-                        <span routerLink="/connectors" class="d-none"></span>
+                        <span routerLink="/sources" skipLocationChange class="d-none"></span>
+                        <span routerLink="/content" skipLocationChange class="d-none"></span>
+                        <span routerLink="/faqs" skipLocationChange class="d-none"></span>
+                        <span routerLink="/botActions" skipLocationChange class="d-none"></span>
+                        <span routerLink="/structuredData" skipLocationChange class="d-none"></span>
+                        <span routerLink="/connectors" skipLocationChange class="d-none"></span>
                     </div>
                     <div class="headerMenuTab" id="sourceTab" [ngClass]="{'active' : menuItems?.indices?.includes(mainMenu),'disable_btn':isRouteDisabled}"
-                        skipLocationChange routerLinkActive="active"
+                         routerLinkActive="active"
                         (click)="analyticsClick('/FieldManagementComponent');closeUserMetaTagsSlider()">
                         <span>{{ 'header_indices' | translate }}</span>
-                        <span routerLink="/resultTemplate" class="d-none"></span>
-                        <span routerLink="/search-experience" class="d-none"></span>
-                        <span routerLink="/indices" class="d-none"></span>
-                        <span routerLink="/synonyms" class="d-none"></span>
-                        <span routerLink="/stopWords" class="d-none"></span>
-                        <span routerLink="/ml-threshold" class="d-none"></span>
-                        <span routerLink="/traits" class="d-none"></span>
-                        <span routerLink="/rules" class="d-none"></span>
-                        <span routerLink="/index" class="d-none"></span>
-                        <span routerLink="/query" class="d-none"></span>
-                        <span routerLink="/attributes" class="d-none"></span>
-                        <span routerLink="/weights" class="d-none"></span>
-                        <span routerLink="/resultranking" class="d-none"></span>
-                        <span routerLink="/facets" class="d-none"></span>
-                        <span routerLink="/FieldManagementComponent" class="d-none"></span>
+                        <span routerLink="/resultTemplate" skipLocationChange class="d-none"></span>
+                        <span routerLink="/search-experience" skipLocationChange class="d-none"></span>
+                        <span routerLink="/indices" skipLocationChange class="d-none"></span>
+                        <span routerLink="/synonyms" skipLocationChange class="d-none"></span>
+                        <span routerLink="/stopWords" skipLocationChange class="d-none"></span>
+                        <span routerLink="/ml-threshold" skipLocationChange class="d-none"></span>
+                        <span routerLink="/traits" skipLocationChange class="d-none"></span>
+                        <span routerLink="/rules" skipLocationChange class="d-none"></span>
+                        <span routerLink="/index" skipLocationChange class="d-none"></span>
+                        <span routerLink="/query" skipLocationChange class="d-none"></span>
+                        <span routerLink="/attributes" skipLocationChange class="d-none"></span>
+                        <span routerLink="/weights" skipLocationChange class="d-none"></span>
+                        <span routerLink="/resultranking" skipLocationChange class="d-none"></span>
+                        <span routerLink="/facets" skipLocationChange class="d-none"></span>
+                        <span routerLink="/FieldManagementComponent" skipLocationChange class="d-none"></span>
                     </div>
                     <div class="kr-sg-dropdowns headerMenuTab" [ngClass]="{'active' : menuItems?.anlytics?.includes(mainMenu),'disable_btn':isRouteDisabled}">
                         <div class="dropdown dropdown-open">
@@ -65,18 +65,18 @@
                         </div>
                     </div>
                     <div class="headerMenuTab" id='channelsTab' [ngClass]="{'active' :menuItems?.manage?.includes(mainMenu)}"
-                        skipLocationChange routerLinkActive="active"
+                         routerLinkActive="active"
                         (click)="analyticsClick('/generalSettings');closeUserMetaTagsSlider()">
                         <span>{{ 'header_manage' | translate }}</span>
-                        <span routerLink="/actions" class="d-none"></span>
-                        <span routerLink="/smallTalk" class="d-none"></span>
-                        <span routerLink="/settings" class="d-none"></span>
-                        <span routerLink="/credentials-list" class="d-none"></span>
-                        <span routerLink="/team-management" class="d-none"></span>
-                        <span routerLink="/pricing" class="d-none"></span>
-                        <span routerLink="/usageLog" class="d-none"></span>
-                        <span routerLink="/invoices" class="d-none"></span>
-                        <span routerLink="/generalSettings" class="d-none"></span>
+                        <span routerLink="/actions" skipLocationChange class="d-none"></span>
+                        <span routerLink="/smallTalk" skipLocationChange class="d-none"></span>
+                        <span routerLink="/settings" skipLocationChange class="d-none"></span>
+                        <span routerLink="/credentials-list" skipLocationChange class="d-none"></span>
+                        <span routerLink="/team-management" skipLocationChange class="d-none"></span>
+                        <span routerLink="/pricing" skipLocationChange class="d-none"></span>
+                        <span routerLink="/usageLog" skipLocationChange class="d-none"></span>
+                        <span routerLink="/invoices" skipLocationChange class="d-none"></span>
+                        <span routerLink="/generalSettings" skipLocationChange class="d-none"></span>
                     </div>
                 </div>
             </div>
