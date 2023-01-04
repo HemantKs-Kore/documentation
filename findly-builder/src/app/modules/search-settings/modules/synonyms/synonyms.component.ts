@@ -82,7 +82,7 @@ export class SynonymsComponent implements OnInit, OnDestroy {
     value: 1,
   };
   filterObject = {
-    type: '',
+    type: 'all',
     header: '',
   };
   // synonym;
@@ -333,10 +333,11 @@ export class SynonymsComponent implements OnInit, OnDestroy {
     const input = event.input;
     const value = event.value;
     if ((value || '').trim()) {
+      let synObj = type == 'add'?this.addNewSynonymObj.synonyms:this.editSynonymObj.synonyms
       if (
         !this.checkDuplicateTags(
           (value || '').trim(),
-          this.addNewSynonymObj.synonyms
+          synObj
         )
       ) {
         this.notificationService.notify(
