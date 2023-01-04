@@ -1160,7 +1160,7 @@ onMediaLoadedLoaded(){
        this.appVersion= res.APP_VERSION;
      }
     }, errRes => {
-      this.notificationService.notify('Something has gone wrong.', 'error');      
+      //this.notificationService.notify('Something has gone wrong.', 'error');      
     });
   }
 
