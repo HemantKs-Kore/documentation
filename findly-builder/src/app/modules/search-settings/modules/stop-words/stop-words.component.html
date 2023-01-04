@@ -59,7 +59,7 @@
         <div class="col-7 p-0" >
           <div class="m-0 row addStopWordsBlock" >
             <div class="kr-sg-input-text">
-                <input [class.err-block]="((!newStopWord || !newStopWord.length) && submitted)" type="text" autocomplete="off" (keyup)="validate($event)" placeholder="Add Stopwords and Press Enter"  maxlength="60" class="input-text" [(ngModel)]="newStopWord"  [ngClass]="{'error':validation.spaceFound || validation.duplicate}">
+                <input [class.err-block]="((!newStopWord || !newStopWord.length) && submitted)" type="text" autocomplete="off" (keyup)="validate($event)" placeholder="Multiple words can be added with comma separation"  maxlength="60" class="input-text" [(ngModel)]="newStopWord"  [ngClass]="{'error':validation.spaceFound || validation.duplicate}">
                 <img *ngIf="(!newStopWord || !newStopWord.length) && submitted" id="searchTermWarning" src="assets/icons/warning_escalation.svg" style="top: 29%; position: absolute; right: 1.5%; display: block;" height="12" width="12" />
                 <div class="error-msg" *ngIf="validation.duplicate"><img class="pr-1" src="assets/icons/warning_escalation.svg">{{'stopWords_stop_word_already_added'| translate}}</div>
                 <div class="error-msg" *ngIf="validation.spaceFound"><img class="pr-1" src="assets/icons/warning_escalation.svg">{{'stopWords_stop_word_should_not_have_space_in_between'| translate}}</div>

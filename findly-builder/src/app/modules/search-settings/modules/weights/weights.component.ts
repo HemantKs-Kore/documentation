@@ -182,7 +182,7 @@ export class WeightsComponent implements OnInit, OnDestroy
         title: 'Restore weights',
         text: 'Are you sure you want to restore weights?',
         newTitle: 'Are you sure you want to continue ?',
-        body: ' Reset to default will set the system-defined fields back to their default values',
+        body: 'Reset to default will set the system-defined fields back to their default values',
         buttons: [{ key: 'yes', label: 'Continue' }, { key: 'no', label: 'Cancel' }],
         confirmationPopUp: true
       }

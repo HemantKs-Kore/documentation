@@ -90,7 +90,7 @@
               <i  [ngClass]="getSortIconVisibility('type', 'up')" class="si-chev-down icon-down"></i>
             </span>
             {{"synonyms_type" | translate}}
-            <div class="kr-sg-dropdowns type_sort_dropdown" #synonymFilter="ngbDropdown" ngbDropdown [container]="'body'"
+            <div class="kr-sg-dropdowns type_sort_dropdown pl-2 pt-1" #synonymFilter="ngbDropdown" ngbDropdown [container]="'body'"
             [autoClose]="true" [placement]="'bottom-right'">
             <div class="dropdown dropdown-open">
                 <button class="dropdown-toggle dropdown-input" ngbDropdownToggle
@@ -100,19 +100,19 @@
                 </button>
 
                     <ul class="dropdown-menu data-type-dropdown content-menu type_sort_dropdown-content" ngbDropdownMenu>
-                        <li [ngClass]="{'selected-list': filterSystem.typefilter == 'all'}" (click)="filterTable('all');synonymFilter.close()"><span
+                        <li [ngClass]="{'selected-list': filterObject.type == 'all'}" (click)="filterTable('all');synonymFilter.close()"><span
                                 class="list-name">{{'fields_all' | translate}} </span><img
-                                [ngClass]="{'hide': filterSystem.typefilter !== 'all'}"
+                                [ngClass]="{'d-none': filterObject.type !== 'all'}"
                                 src="assets/icons/check-blue.svg"></li>
 
-                            <li [ngClass]="{'selected-list': filterSystem.typefilter == type}"  (click)="filterTable(type,'synonym');synonymFilter.close()">
+                            <li [ngClass]="{'selected-list': filterObject.type == 'synonym'}"  (click)="filterTable('synonym','synonym');synonymFilter.close()">
                                 <span class="list-name">{{"synonyms_synonym" | translate}}</span><img
-                                [ngClass]="{'hide': filterSystem.typefilter !== type}"
+                                [ngClass]="{'d-none': filterObject.type !== 'synonym'}"
                                     src="assets/icons/check-blue.svg">
                             </li>
-                            <li [ngClass]="{'selected-list': filterSystem.typefilter == type}"  (click)="filterTable(type,'oneWaySynonym');synonymFilter.close()">
+                            <li [ngClass]="{'selected-list': filterObject.type == 'oneWaySynonym'}"  (click)="filterTable('oneWaySynonym','oneWaySynonym');synonymFilter.close()">
                                 <span class="list-name">{{"synonyms_one_way_synonym" | translate}}</span><img
-                                [ngClass]="{'hide': filterSystem.typefilter !== type}"
+                                [ngClass]="{'d-none': filterObject.type !== 'oneWaySynonym'}"
                                     src="assets/icons/check-blue.svg">
                             </li>
                     </ul>
