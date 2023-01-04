@@ -30,7 +30,6 @@ import { UsageLogComponent } from './components/usage-log/usage-log.component';
 import { GeneralSettingsComponent } from './components/general-settings/general-settings.component';
 import { ResultTemplatesComponent } from './components/result-templates/result-templates.component';
 import { IndexConfigurationSettingsComponent } from './components/index-configuration-settings/index-configuration-settings.component';
-import { SourcesModule } from './modules/sources/sources.module';
 
 const routes: Routes = [
   {
@@ -84,7 +83,10 @@ const routes: Routes = [
       },
       {
         path: 'sources',
-        component: SourcesModule
+        loadChildren: () =>
+          import('./modules/sources/sources.module').then(
+            (m) => m.SourcesModule
+          ),
       },
       {
         path: 'content',
