@@ -304,7 +304,7 @@ export class FaqsComponent implements OnInit, AfterViewInit, OnDestroy {
     this.extractedResources = sortedData;
   }
   addNewContentSource(type) {
-    this.router.navigate(['/source'], {
+    this.router.navigate(['/sources'], {
       skipLocationChange: true,
       queryParams: { sourceType: type },
     });
@@ -1569,7 +1569,7 @@ export class FaqsComponent implements OnInit, AfterViewInit, OnDestroy {
       this.showAddFaqSection = true;
       // this.router.navigate(['/faqsManual'], { skipLocationChange: true });
     } else {
-      this.router.navigate(['/source'], {
+      this.router.navigate(['/sources'], {
         skipLocationChange: true,
         queryParams: { sourceType: type },
       });
