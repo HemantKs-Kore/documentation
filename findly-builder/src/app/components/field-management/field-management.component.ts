@@ -17,6 +17,7 @@ import { PerfectScrollbarComponent } from 'ngx-perfect-scrollbar';
 import { Router, ActivatedRoute } from '@angular/router';
 import { MixpanelServiceService } from '@kore.services/mixpanel-service.service';
 import { DomSanitizer } from '@angular/platform-browser';
+import { IndexFieldsComfirmationDialogComponent } from 'src/app/helpers/components/index-fields-comfirmation-dialog/index-fields-comfirmation-dialog.component';
 
 
 declare const $: any;
@@ -382,83 +383,149 @@ export class FieldManagementComponent implements OnInit {
         nlpRules:false,
         entites:false
       }
-      // let usageText1 = "This field is being used in Facets, Weights, and Rules (Dynamic). Deleting it will remove the associated Facets, Weights, and Rules.";
-      if (res && (res.facets && res.facets.used) || (res.rules && res.rules.used) || (res.searchSettings && res.searchSettings.used) || (res.resultTemplates && res.resultTemplates.used) || (res.nlpRules && res.nlpRules.used) || (res.entites && res.entites.used)) {
-        isDisableDeleteBtn = true;
-        let usageText1 = "";
-        usageText1 = "This field is being used in";
-        usageText = '';
-        // let usageText2 = 'Deleting it will remove the associated';
-        let usageText2 ='Please remove the dependency before deleting the field'
-        if (res && res.facets && res.facets.used) {
-          deps.facets = true;
-          usageText = usageText + ' Facets'
-        }
-        if (res && res.searchSettings && res.searchSettings.used) {
-          deps.searchSettings = true;          
-          if (deps.facets) {
-            usageText = usageText + ', ' + 'searchSettings'
-          } else {
-            usageText = usageText + ' searchSettings'
-          }
-        }
-        
-        if (res && res.rules && res.rules.used) {
-          if (deps.facets || deps.searchSettings) {
-            usageText = usageText + ' , ' + res.rules.records.length + ' Rule' + (res.rules.records.length > 1 ? 's' : '')
-          } else {
-            usageText = usageText + ' ' + res.rules.records.length + ' Rule' + (res.rules.records.length > 1 ? 's' : '')
-          }
-        }
-        if (res && res.resultTemplates && res.resultTemplates.used) {
-          deps.resultTemplate = true;
-          if (deps.facets || deps.searchSettings || deps.rules) { 
-            usageText = usageText + ' , ' + res.resultTemplates.records.length + ' Result Template' + (res.resultTemplates.records.length > 1 ? 's' : '')
-          } else {
-            usageText = usageText + ' ' + res.resultTemplates.records.length + ' Result Template' + (res.resultTemplates.records.length > 1 ? 's' : '')
-          }
-        }
-        if (res && res.nlpRules && res.nlpRules.used) {
-          deps.nlpRules = true;
-          if (deps.facets || deps.searchSettings || deps.rules || deps.resultTemplate) { 
-            usageText = usageText + ' , ' + res.nlpRules.records.length + 'nlpRule' + (res.nlpRules.records.length > 1 ? 's' : '')
-          } else {
-            usageText = usageText + ' ' + res.nlpRules.records.length + 'nlpRule' + (res.nlpRules.records.length > 1 ? 's' : '')
-          }
-        }
-        if (res && res.entites && res.entites.used) {
-          deps.entites = true;
-          if (deps.facets || deps.searchSettings || deps.rules || deps.resultTemplate || deps.nlpRules) {
-            usageText = usageText + ' , ' + res.entites.records.length + (res.entites.records.length == 1 ? 'entity' : '')  + (res.entites.records.length > 1 ? 'entities' : '');
-          } else {
-            usageText = usageText + ' will impact ' + res.nlpRules.entites.length + (res.entites.records.length == 1 ? 'entity' : '') + (res.entites.records.length > 1 ? 'entities' : '');
-          }
-        }
-        usageText = this.replaceLast(",", " and", usageText);
-        // usageText = usageText1 + usageText + '. ' + usageText2 + usageText + '.';
-        usageText = usageText1 + usageText + '. ' + usageText2 +'.';
+
+      this.showSearchSettingsTooltip = false;
+      this.tooltipArr = [];
+      if (!res) {
+        return;
       }
-      const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
-        width: '446px',
+
+      let searchSettingsRecord = [];
+
+      const resultArr = Object.entries(res).reduce((usedArr: any, [key, valObj]) => {
+        if (valObj['used']) {
+          if ((key === 'facets')) {
+            usedArr = [...usedArr, 'Facet'];
+          } else if (key === 'searchSettings') {
+            // const msg =p `<span class="based-on-selection">searchSettings</span>`;
+            const msg = `SearchSettings`;
+
+            searchSettingsRecord = valObj['records'][0];
+
+            this.showSearchSettingsTooltip = true;
+            usedArr = [...usedArr, msg];
+          } else if(key === 'rules') {
+            const msg = res.rules.records.length + ' Business Rule' + (res.rules.records.length > 1 ? 's' : '');
+            usedArr = [...usedArr, msg];
+          } else if (key === 'resultTemplates') {
+            const msg = res.resultTemplates.records.length + ' Result Template' + (res.resultTemplates.records.length > 1 ? 's' : '');
+            usedArr = [...usedArr, msg]
+          } else if (key === 'nlpRules') {
+            const msg = res.nlpRules.records.length + ' nlp Rule' + (res.nlpRules.records.length > 1 ? 's' : '');
+            usedArr = [...usedArr, msg]
+          } else if (key === 'entites') {
+            const msg = res.entites.records.length + (res.entites.records.length == 1 ? 'entity' : '')  + (res.entites.records.length > 1 ? 'entities' : '');
+            usedArr = [...usedArr, msg];
+          }
+        }
+
+        return usedArr;
+      }, []);
+      
+      if (searchSettingsRecord) {
+        if (searchSettingsRecord['highlight']?.value) {
+          this.tooltipArr = [...this.tooltipArr, 'highlight']
+        }
+        if (searchSettingsRecord['weight']?.value) {
+          this.tooltipArr = [...this.tooltipArr, 'weight'];
+        }
+        if (searchSettingsRecord['presentable']?.value) {
+          this.tooltipArr = [...this.tooltipArr, 'presentable']
+        }
+        if (searchSettingsRecord['spellcorrect']?.value) {
+          this.tooltipArr = [...this.tooltipArr, 'spellcorrect']
+        }
+      }
+      let resultStr = `This field is being used in `;
+      if (resultArr.length === 1) {
+        resultStr += resultArr[0];
+      } else if (resultArr.length === 2) {
+        resultStr += `${resultArr.join(' and ')}`;
+      } else {
+        const lastVal = resultArr.slice(-1)[0]; 
+        resultStr += `${resultArr.slice(0, resultArr.length -1 ).join(', ')} and ${lastVal}`;
+      }
+      resultStr += '. Deleting it will remove all the associated settings'
+      console.log(resultStr);
+      // let usageText1 = "This field is being used in Facets, Weights, and Rules (Dynamic). Deleting it will remove the associated Facets, Weights, and Rules.";
+      // if (res && (res.facets && res.facets.used) || (res.rules && res.rules.used) || (res.searchSettings && res.searchSettings.used) || (res.resultTemplates && res.resultTemplates.used) || (res.nlpRules && res.nlpRules.used) || (res.entites && res.entites.used)) {
+      //   isDisableDeleteBtn = true;
+      //   let usageText1 = "";
+      //   usageText1 = "This field is being used in";
+      //   usageText = '';
+      //   // let usageText2 = 'Deleting it will remove the associated';
+      //   let usageText2 ='Please remove the dependency before deleting the field'
+      //   if (res && res.facets && res.facets.used) {
+      //     deps.facets = true;
+      //     usageText = usageText + ' Facets'
+      //   }
+      //   if (res && res.searchSettings && res.searchSettings.used) {
+      //     deps.searchSettings = true;          
+      //     if (deps.facets) {
+      //       usageText = usageText + ', ' + 'searchSettings'
+      //     } else {
+      //       usageText = usageText + ' searchSettings'
+      //     }
+      //   }
+        
+      //   if (res && res.rules && res.rules.used) {
+      //     if (deps.facets || deps.searchSettings) {
+      //       usageText = usageText + ' , ' + res.rules.records.length + ' Rule' + (res.rules.records.length > 1 ? 's' : '')
+      //     } else {
+      //       usageText = usageText + ' ' + res.rules.records.length + ' Rule' + (res.rules.records.length > 1 ? 's' : '')
+      //     }
+      //   }
+      //   if (res && res.resultTemplates && res.resultTemplates.used) {
+      //     deps.resultTemplate = true;
+      //     if (deps.facets || deps.searchSettings || deps.rules) { 
+      //       usageText = usageText + ' , ' + res.resultTemplates.records.length + ' Result Template' + (res.resultTemplates.records.length > 1 ? 's' : '')
+      //     } else {
+      //       usageText = usageText + ' ' + res.resultTemplates.records.length + ' Result Template' + (res.resultTemplates.records.length > 1 ? 's' : '')
+      //     }
+      //   }
+      //   if (res && res.nlpRules && res.nlpRules.used) {
+      //     deps.nlpRules = true;
+      //     if (deps.facets || deps.searchSettings || deps.rules || deps.resultTemplate) { 
+      //       usageText = usageText + ' , ' + res.nlpRules.records.length + 'nlpRule' + (res.nlpRules.records.length > 1 ? 's' : '')
+      //     } else {
+      //       usageText = usageText + ' ' + res.nlpRules.records.length + 'nlpRule' + (res.nlpRules.records.length > 1 ? 's' : '')
+      //     }
+      //   }
+      //   if (res && res.entites && res.entites.used) {
+      //     deps.entites = true;
+      //     if (deps.facets || deps.searchSettings || deps.rules || deps.resultTemplate || deps.nlpRules) {
+      //       usageText = usageText + ' , ' + res.entites.records.length + (res.entites.records.length == 1 ? 'entity' : '')  + (res.entites.records.length > 1 ? 'entities' : '');
+      //     } else {
+      //       usageText = usageText + ' will impact ' + res.nlpRules.entites.length + (res.entites.records.length == 1 ? 'entity' : '') + (res.entites.records.length > 1 ? 'entities' : '');
+      //     }
+      //   }
+      //   usageText = this.replaceLast(",", " and", usageText);
+      //   // usageText = usageText1 + usageText + '. ' + usageText2 + usageText + '.';
+      //   usageText = usageText1 + usageText + '. ' + usageText2 +'.';
+      // }
+      const dialogRef = this.dialog.open(IndexFieldsComfirmationDialogComponent, {
+        width: '530px',
         height: 'auto',
         panelClass: 'delete-popup',
         data: {
           newTitle: 'Are you sure you want to delete?',
-          body: usageText,
-          buttons: [{ key: 'yes', label: 'Delete', type: 'danger' }, { key: 'no', label: 'Cancel' }],
+          body: resultArr,
+          tooltipArr: this.tooltipArr,
+          resultArr,
+          buttons: [{ key: 'yes', label: 'Confirm', type: 'danger' }, { key: 'no', label: 'Cancel' }],
           confirmationPopUp: true
         }
       });
 
-      dialogRef.componentInstance.onSelect
-        .subscribe(result => {
-          if (result === 'yes') {
-            this.deleteIndField(record, dialogRef);
-          } else if (result === 'no') {
-            dialogRef.close();
-            // console.log('deleted')
-          }
-        })
+      // dialogRef.componentInstance.onSelect
+      //   .subscribe(result => {
+      //     if (result === 'yes') {
+      //       this.deleteIndField(record, dialogRef);
+      //     } else if (result === 'no') {
+      //       dialogRef.close();
+      //       // console.log('deleted')
+      //     }
+      //   })
     }, errRes => {
       this.fetchingFieldUsage = false;
     });
@@ -1278,4 +1345,105 @@ export class FieldManagementComponent implements OnInit {
     this.appSelectionService.topicGuideShow.next();
   }
 
+  //Seachable Checkboc Validation
+  searchableValidation(searchableCheckbox){
+    console.log(searchableCheckbox)
+    if(searchableCheckbox){
+      return
+    }
+    else{
+  //     const quaryparms: any = {
+  //       searchIndexID: this.serachIndexId,
+  //       indexPipelineId: this.indexPipelineId,
+  //       queryPipelineId: this.workflowService.selectedQueryPipeline()._id,
+  //       fieldId: record._id,
+  //     };
+    
+  // this.service.invoke('get.getFieldUsage', quaryparms).subscribe(res => {
+  //       this.currentfieldUsage = res;
+  //       this.fetchingFieldUsage = false;
+  //       const deps: any = {
+  //         facets: false,
+  //         rules: false,
+  //         //weights: false
+  //         searchSettings: false,
+  //         resultTemplate: false,
+  //         nlpRules:false,
+  //         entites:false
+  //       }
+  //       let usageText = '';
+  //       let usedArr = [];
+  //       this.showSearchSettingsTooltip = false;
+  //       this.tooltipArr = [];
+  
+  //       if (!res) {
+  //         return;
+  //       }
+  
+  //       let searchSettingsRecord = [];
+  
+  //       const resultArr = Object.entries(res).reduce((usedArr: any, [key, valObj]) => {
+  //         if (valObj['used']) {
+  //           if ((key === 'facets')) {
+  //             usedArr = [...usedArr, 'Facet'];
+  //           } else if (key === 'searchSettings') {
+  //             // const msg =p `<span class="based-on-selection">searchSettings</span>`;
+  //             const msg = 'SearchSettings';
+  
+  //             searchSettingsRecord = valObj['records'][0];
+  
+  //             this.showSearchSettingsTooltip = true;
+  //             usedArr = [...usedArr, msg];
+  //           } else if(key === 'rules') {
+  //             const msg = res.rules.records.length + ' Business Rule' + (res.rules.records.length > 1 ? 's' : '');
+  //             usedArr = [...usedArr, msg];
+  //           } else if (key === 'resultTemplates') {
+  //             const msg = res.resultTemplates.records.length + ' Result Template' + (res.resultTemplates.records.length > 1 ? 's' : '');
+  //             usedArr = [...usedArr, msg]
+  //           } else if (key === 'nlpRules') {
+  //             const msg = res.nlpRules.records.length + ' nlp Rule' + (res.nlpRules.records.length > 1 ? 's' : '');
+  //             usedArr = [...usedArr, msg]
+  //           } else if (key === 'entites') {
+  //             const msg = res.entites.records.length + (res.entites.records.length == 1 ? 'entity' : '')  + (res.entites.records.length > 1 ? 'entities' : '');
+  //             usedArr = [...usedArr, msg];
+  //           }
+  //         }
+  
+  //         return usedArr;
+  //       }, []);
+        
+  //       if (searchSettingsRecord) {
+  //         if (searchSettingsRecord['highlight']?.value) {
+  //           this.tooltipArr = [...this.tooltipArr, 'highlight']
+  //         }
+  //         if (searchSettingsRecord['weight']?.value) {
+  //           this.tooltipArr = [...this.tooltipArr, 'weight'];
+  //         }
+  //         if (searchSettingsRecord['presentable']?.value) {
+  //           this.tooltipArr = [...this.tooltipArr, 'presentable']
+  //         }
+  //         if (searchSettingsRecord['spellcorrect']?.value) {
+  //           this.tooltipArr = [...this.tooltipArr, 'spellcorrect']
+  //         }
+  //       }
+  
+  //       let resultStr = `This will impact `;
+  //       if (resultArr.length === 1) {
+  //         resultStr += resultArr[0];
+  //       } else if (resultArr.length === 2) {
+  //         resultStr += `${resultArr.join(' and ')}`;
+  //       } else {
+  //         const lastVal = resultArr.slice(-1)[0]; 
+  //         resultStr += `${resultArr.slice(0, resultArr.length -1 ).join(', ')} and ${lastVal}`;
+  //       }
+  //       console.log(resultStr);
+  //       this.indexedWarningMessage = resultStr;
+  //       this.resultTest = this.sanitizer.bypassSecurityTrustHtml(resultStr);
+  
+  //     }, errRes => {
+  //       this.fetchingFieldUsage = false;
+  //     });
+  //   }
+   }
+ }
 }

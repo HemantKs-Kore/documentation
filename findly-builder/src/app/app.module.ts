@@ -105,6 +105,7 @@ import { SearchRelevanceComponent } from './components/search-relevance/search-r
 import { FindlySharedModule } from './modules/findly-shared/findly-shared.module';
 import { EmptyScreenModule } from './modules/empty-screen/empty-screen.module';
 import { SmallTalkModule } from './modules/search-settings/modules/small-talk/small-talk.module';
+import { IndexFieldsComfirmationDialogComponent } from './helpers/components/index-fields-comfirmation-dialog/index-fields-comfirmation-dialog.component';
 export function HttpLoaderFactory(httpClient: HttpClient) {
   return new TranslateHttpLoader(httpClient, 'assets/i18n/', '.json');
 }
@@ -167,6 +168,7 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
     EllipsisActiveDirective,
     IndexConfigurationSettingsComponent,
     SearchRelevanceComponent,
+    IndexFieldsComfirmationDialogComponent,
   ],
   imports: [
     FindlySharedModule,
@@ -223,6 +225,7 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
   // tslint:disable-next-line:max-line-length
   entryComponents: [
     ConfirmationDialogComponent,
+    IndexFieldsComfirmationDialogComponent,
     ImportFaqsModalComponent,
     EditorUrlDialogComponent,
   ],
