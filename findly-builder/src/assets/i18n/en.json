@@ -3609,7 +3609,7 @@
     "search_settings_highlight_appearnce":"Highlight Appearance",
     "search_settings_enable_highlight_identify_query_matches":"Enable Highlighting to highlight the query matches in the search results. It improves readability and helps users easily identify where the query matches are in the search results.",
     "search_settings_spell_correction":"Spell Correction",
-    "search_settings_spell_correction_desc":"Enable spell correction to identify and correct the misspellings in the user’s query and improve the search results",
+    "search_settings_spell_correction_desc":"Enable this option to identify and correct the misspellings in the user’s query and improve the search results.",
     "search_settings_minimum_char_threshold":"Minimum Character Threshold",
     "search_settings_set_value_minimum_no_of_char":"Set value for the minimum number of characters a word should have to be spell corrected",
     "search_settings_minus":"-",
@@ -3674,7 +3674,7 @@
 
 
     "snippets_Snippets":"Snippets",
-    "snippets_header_desc":"A snippet is the description, summary or short answers from the most relevant search result. Snippets appear at the top of the search results and provide users with a quick answer to their questions.",
+    "snippets_header_desc":"A snippet is a short concise answer that appears at the top of the search results and provides a quick answer to the user’s query.",
     "snippets_virtual_assistant":"Virtual Assistant",
     "snippets_Searchbar":"Search Bar",
 

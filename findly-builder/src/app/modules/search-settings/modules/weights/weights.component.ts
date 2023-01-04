@@ -55,6 +55,7 @@ export class WeightsComponent implements OnInit, OnDestroy
     NOT_EXISTS: 'Associated field has been deleted'
   }
   submitted: boolean = false;
+  isAddLoading: boolean = false;
   @ViewChild('autocompleteInput') autocompleteInput: ElementRef<HTMLInputElement>;
   @ViewChild('addDditWeightPop') addDditWeightPop: KRModalComponent;
   @ViewChild('perfectScroll') perfectScroll: PerfectScrollbarComponent;
@@ -361,6 +362,7 @@ export class WeightsComponent implements OnInit, OnDestroy
    }
   }
   addOrUpddate(weight, dialogRef?, type?,index?) {
+    this.isAddLoading = true;
     const quaryparms: any = {
       streamId: this.selectedApp._id,
       queryPipelineId: this.queryPipelineId,
@@ -389,6 +391,7 @@ export class WeightsComponent implements OnInit, OnDestroy
         dialogRef.close();
       }
     else  {
+          setTimeout(() => { this.isAddLoading = false; }, 200);
           this.closeAddEditWeight();
      }
     }, errRes =>
@@ -411,7 +414,7 @@ export class WeightsComponent implements OnInit, OnDestroy
         title: 'Delete Rankable Field',
         text: 'Are you sure you want to delete selected rankable field?',
         newTitle:'Are you sure you want to Remove ?',
-        body:  record.fieldName+' field will be removed from weights',
+        body:  record.fieldName+' Searchable Field will be removed',
         buttons: [{ key: 'yes', label: 'Remove', type: 'danger' }, { key: 'no', label: 'Cancel' }],
         confirmationPopUp: true
       }

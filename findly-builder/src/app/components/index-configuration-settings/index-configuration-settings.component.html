@@ -96,7 +96,7 @@
                 {{"index_Settings_selected" | translate}}
             </div>
             <div>
-                <button id="sa_index_settings_save_language" type="button" class="kr-sg-button-primary btn_lg float-right" (click)="addLang()">{{"sa_save" | translate}}</button>
+                <button id="sa_index_settings_save_language" type="button" class="kr-sg-button-primary btn_lg float-right" (click)="addLang()"><span class="loader-spin-inside-btn" *ngIf="isAddLoading"></span>{{"sa_save" | translate}}</button>
                 <button id="sa_index_settings_cancel_langauge" type="button" class="kr-sg-button-secondary btn_lg float-right" (click)="closeModalPopup()">{{"sa_cancel" | translate}}</button>
             </div>
         </div>

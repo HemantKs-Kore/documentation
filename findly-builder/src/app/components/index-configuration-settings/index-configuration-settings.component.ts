@@ -32,6 +32,7 @@ export class IndexConfigurationSettingsComponent implements OnInit {
   serachIndexId;
   seedData;
   saveLanguages:boolean = false
+  isAddLoading:boolean = false
   configurationsSubscription : Subscription;
   supportedLanguages:any = [];
   listOfLanguages:any = [];
@@ -93,6 +94,7 @@ export class IndexConfigurationSettingsComponent implements OnInit {
     this.saveLanguages = false;
     this.clearCheckbox();
     this.searchLanguages = '';
+    setTimeout(() => { this.isAddLoading = false; }, 200);
   }
   //geting the seedData
   getAvilableLanguages(){
@@ -140,6 +142,7 @@ export class IndexConfigurationSettingsComponent implements OnInit {
   }
   //add or edit Language
   saveLanguage(dialogRef?,langArr?){
+     this.isAddLoading = true;
         let queryParams = {
           streamId:this.selectedApp._id,
           indexPipelineId:this.indexPipelineId
@@ -157,6 +160,7 @@ export class IndexConfigurationSettingsComponent implements OnInit {
             if (dialogRef && dialogRef.close) {
               dialogRef.close();
             }
+            this.closeModalPopup();
             this.notificationService.notify('Language Saved Successfully', 'success');
           },
           errRes => {
@@ -165,9 +169,9 @@ export class IndexConfigurationSettingsComponent implements OnInit {
             } else {
               this.notificationService.notify('Failed To Add Language', 'error');
             }
+            this.isAddLoading = false;
           }
         );
-    this.closeModalPopup();
   }
   //selection and deselection method
   unCheck(){
