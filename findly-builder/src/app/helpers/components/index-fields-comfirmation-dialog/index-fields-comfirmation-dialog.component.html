@@ -1,0 +1,40 @@
+<div class="new-delete-popup" *ngIf="data.confirmationPopUp">
+	<div class="header-sec row m-0">
+	  <div class="title col-10 pl-0 pr-3">{{data.newTitle || data.title}}</div>
+	  <div class="col-2 p-0 close-popup" (click)="onClickOption(crossIconItem)"><img src="assets/icons/close.svg"></div>
+	</div>
+	<div class="body-info" >
+		<ng-template #tipContent>
+			<div class="inner-content-html">
+				<p>IMPACTED SETTINGS</p>
+				<ul>
+					<li *ngFor="let tip of data.tooltipArr">
+						{{ tip }}
+					</li>
+				</ul>
+			</div>
+		</ng-template>
+
+		This field is being used in 
+		<span *ngFor="let item of data.resultArr">
+
+			{{ item }} 
+			
+			<i class="si-info" *ngIf="item === 'SearchSettings'" [ngbTooltip]="tipContent">
+			</i>,
+		</span>
+		 and 2 Business Rules. Deleting it will remove all the associated settings
+
+	</div>
+	<div class="btns-data">
+	  <!-- <button class="kr-sg-button-primary btn_lg mr-10">Confirm</button>
+	  <button class="kr-sg-button-secondary btn_lg mr-10">Cancel</button> -->
+	  <button *ngFor="let item of data.buttons" [disabled]="isSelected || item.disabled" (click)="onClickOption(item)" class="kr-sg-button-primary btn_md" [ngClass]="{'kr-sg-button-secondary': (item.label==='Cancel') || (item.primaryBtn),'dangerBtn':item.label==='Delete'}">      
+		<ng-template #cancel>
+		  {{item.label}} 
+	   </ng-template>
+	   <span *ngIf="item.label=='Delete'|| item.label=='OK'; else cancel">{{item.label}}</span>      
+		<div class="loader-in-button ml-2"*ngIf="item.key === 'save' && isSelected" style="display: inline-block"><img src="assets/images/icons/fa-spinner.svg"></div>
+	  </button>
+	</div>
+  </div>
