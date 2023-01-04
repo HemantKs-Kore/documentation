@@ -210,7 +210,7 @@ export class IndexConfigurationSettingsComponent implements OnInit {
           title: 'Delete Language',
           text: 'Are you sure you want to remove?',
           newTitle: 'Are you sure you want to remove?',
-          body: 'The'+list.language+ 'language will be removed.'+list.language+'content will be searched using English language analyzers.' ,
+          body: 'The '+'"'+'<b>'+list.language+'</b>'+'"'+ ' language will be removed. '+'"'+'<b>'+list.language+'</b>'+'"'+ ' content will be searched using '+'"'+'<b>'+'English'+'</b>'+'"'+' language analyzers.' ,
           buttons: [{ key: 'yes', label: 'Delete', type: 'danger' }, { key: 'no', label: 'Cancel' }],
           confirmationPopUp: true
         }

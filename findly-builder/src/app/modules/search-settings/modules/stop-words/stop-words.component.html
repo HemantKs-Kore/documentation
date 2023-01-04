@@ -13,7 +13,7 @@
   
       <div class="landing-page-toggle">
         <label class="kr-sg-toggle with-label" >
-            <input type="checkbox"  (change)="enableStopWords($event)" [checked]="stopwordData?.enable">
+            <input type="checkbox"  (change)="sildervaluechanged($event)" [checked]="stopwordData?.enable">
             <div class="slider">
                 <span class="no">{{"sa_disable" | translate}}</span>
                 <span class="yes">{{"sa_enable" | translate}}</span>
@@ -27,7 +27,7 @@
       <div class="page-sub-hding">{{"stopwords_add_stop_words"| translate}}</div>
       <div class="page-sub-desc">{{"stopwords_How_would_you_like_to_start" | translate}}</div>
     </div>
-    <div class="stop-words-wrapper" [ngClass]="{'stop-words-no-border': !(stopwordsList && stopwordsList.length)}">
+    <div class="stop-words-wrapper" [ngClass]="{'stop-words-no-border': !(stopwordsList?.length || (stopWordsIntiType == 'scratch' && createFromScratch))}">
       <app-useronboarding-journey [componentType]='componentType'></app-useronboarding-journey>
      <div class="empty-stopwords" *ngIf="!stopwordsList?.length && !createFromScratch">
       <div class="radio-sec">

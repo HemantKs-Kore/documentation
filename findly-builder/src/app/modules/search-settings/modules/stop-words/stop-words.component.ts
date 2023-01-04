@@ -292,35 +292,6 @@ createInit() {
         }
       })
   }
-  enableStopWords(event) {
-    const modalData: any = {
-      newTitle: 'Are you sure you want to Enable ?',
-      body: 'Stopwords will be enabled.',
-      buttons: [{ key: 'yes', label: 'Enable' }, { key: 'no', label: 'Cancel' }],
-      confirmationPopUp: true
-    }
-    if (this.stopwordData.enable) {
-      modalData.newTitle = 'Are you sure you want to disable?'
-      modalData.body = 'Stopwords will be disabled. ';
-      modalData.buttons[0].label = 'Disable';
-    }
-    const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
-      width: '530px',
-      height: 'auto',
-      panelClass: 'delete-popup',
-      data: modalData,
-
-    });
-    dialogRef.componentInstance.onSelect
-      .subscribe(result => {
-        if (result === 'yes') {
-          this.sildervaluechanged(event,dialogRef);
-        } else if (result === 'no') {
-          this.enabled = !this.enabled;
-          dialogRef.close();
-        }
-      })
-  }
   getQuerypipeline(){
     const quaryparms: any = {
       searchIndexID: this.serachIndexId,
@@ -339,7 +310,7 @@ createInit() {
       }
     );
   }
-   sildervaluechanged(event,dialogRef?){
+   sildervaluechanged(event){
     const quaryparms:any={
       indexPipelineId:this.workflowService.selectedIndexPipeline(),
       queryPipelineId:this.workflowService.selectedQueryPipeline() ? this.workflowService.selectedQueryPipeline()._id : '',
@@ -354,9 +325,6 @@ createInit() {
     }
     this.service.invoke('put.queryPipeline', quaryparms,payload).subscribe(res => {
       this.stopwordData.enable=res.settings.stopwords.enable
-      if (dialogRef && dialogRef.close) {
-        dialogRef.close();
-      }
       this.notificationService.notify("updated successfully",'success');
     }, errRes => {
       this.notificationService.notify("Failed to update",'error');
