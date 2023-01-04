@@ -15,15 +15,31 @@
 			</div>
 		</ng-template>
 
-		This field is being used in 
-		<span *ngFor="let item of data.resultArr">
+		<span>This field is being used in </span>
 
-			{{ item }} 
+		<ng-container *ngIf="data.resultArr.length === 1">{{ data.resultArr[0] }} 
+			<i *ngIf="data.resultArr[0] == 'SearchSettings'" class="si-info"  [ngbTooltip]="tipContent"></i>
+		</ng-container>
+		<ng-container *ngIf="data.resultArr.length === 2">{{ data.resultArr[0] }} and  {{ data.resultArr[1] }}
+			<i *ngIf="data.resultArr[1] == 'SearchSettings'" class="si-info"  [ngbTooltip]="tipContent"></i>
+		</ng-container>
+		<ng-container *ngIf="data.resultArr.length > 2">
+			<span *ngFor="let item of data.resultArr; last as isLast">
+
+				
+
+				<ng-container *ngIf="!isLast">{{ item }}
+					<i *ngIf="item == 'SearchSettings'" class="si-info"  [ngbTooltip]="tipContent"></i>,</ng-container>
 			
-			<i class="si-info" *ngIf="item === 'SearchSettings'" [ngbTooltip]="tipContent">
-			</i>,
-		</span>
-		 and 2 Business Rules. Deleting it will remove all the associated settings
+				
+			<ng-container *ngIf="isLast">
+				 and {{ item }} 
+				 <i *ngIf="item == 'SearchSettings'" class="si-info"  [ngbTooltip]="tipContent"></i>
+			</ng-container>
+
+			</span>			
+		</ng-container>
+		. Deleting it will remove all the associated settings
 
 	</div>
 	<div class="btns-data">

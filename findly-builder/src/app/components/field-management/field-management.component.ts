@@ -261,7 +261,7 @@ export class FieldManagementComponent implements OnInit {
         if (searchSettingsRecord['presentable']?.value) {
           this.tooltipArr = [...this.tooltipArr, 'presentable']
         }
-        if (searchSettingsRecord['spellcorrect']?.value) {
+        if (searchSettingsRecord['spellCorrect']?.value) {
           this.tooltipArr = [...this.tooltipArr, 'spellcorrect']
         }
       }
@@ -432,7 +432,7 @@ export class FieldManagementComponent implements OnInit {
         if (searchSettingsRecord['presentable']?.value) {
           this.tooltipArr = [...this.tooltipArr, 'presentable']
         }
-        if (searchSettingsRecord['spellcorrect']?.value) {
+        if (searchSettingsRecord['spellCorrect']?.value) {
           this.tooltipArr = [...this.tooltipArr, 'spellcorrect']
         }
       }
@@ -517,15 +517,15 @@ export class FieldManagementComponent implements OnInit {
         }
       });
 
-      // dialogRef.componentInstance.onSelect
-      //   .subscribe(result => {
-      //     if (result === 'yes') {
-      //       this.deleteIndField(record, dialogRef);
-      //     } else if (result === 'no') {
-      //       dialogRef.close();
-      //       // console.log('deleted')
-      //     }
-      //   })
+      dialogRef.componentInstance.onSelect
+        .subscribe(result => {
+          if (result === 'yes') {
+            this.deleteIndField(record, dialogRef);
+          } else if (result === 'no') {
+            dialogRef.close();
+            // console.log('deleted')
+          }
+        })
     }, errRes => {
       this.fetchingFieldUsage = false;
     });
