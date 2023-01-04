@@ -191,6 +191,8 @@ export class HighlightingComponent implements OnInit {
   //** close the add pop-up */
   closeModalPopup() {
     this.highlightAppearanceModalPopRef.close();
+    this.pre_tag=this.home_pre_tag
+    this.post_tag=this.home_post_tag
   }
 
   //** open show more  container */
@@ -222,12 +224,13 @@ export class HighlightingComponent implements OnInit {
           }
       }
    }
+   
     
     this.service.invoke('put.queryPipeline', quaryparms,payload).subscribe(res => {
-      this.home_pre_tag=res.settings.highlight.highlightAppearance.preTag
-      this.home_post_tag=res.settings.highlight.highlightAppearance.postTag
-      this.highlightdata.highlightAppearance.preTag=res.settings.highlight.highlightAppearance.preTag
-      this.highlightdata.highlightAppearance.postTag=res.settings.highlight.highlightAppearance.postTag
+      this.home_pre_tag=res?.settings?.highlight?.highlightAppearance?.preTag
+      this.home_post_tag=res.settings?.highlight?.highlightAppearance?.postTag
+      this.highlightdata.highlightAppearance.preTag=res?.settings?.highlight?.highlightAppearance?.preTag
+      this.highlightdata.highlightAppearance.postTag=res?.settings?.highlight?.highlightAppearance?.postTag
       this.notificationService.notify("updated successfully",'success');
     }, errRes => {
       this.notificationService.notify("Failed to update",'error');
