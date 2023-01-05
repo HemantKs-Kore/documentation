@@ -2,7 +2,13 @@
   <!-- Header  start from here -->
   <div class="landing-page-header">
     <div class="widget-header-block">
-      <div class="widget-header">{{"synonyms_Synonymns" | translate}}</div>
+      <div class="widget-header">{{"synonyms_Synonymns" | translate}}
+        <span class="module-topic" tooltipClass="tooltip-global-" [container]="'body'"
+        ngbTooltip="{{'contentSource_topic_guide' | translate}}" placement="right-center"
+        (click)="openUserMetaTagsSlider()">
+        <i class="si-topic-guide-1"></i>
+      </span>
+      </div>
       <div class="widget-desc">{{"synonyms_header_desc" | translate}}</div>
     </div>
     <div class="landing-page-search" *ngIf="true">
@@ -120,7 +126,7 @@
         </div>
           </div>
           <div class="col_ col-2 title d-flex align-items-center justify-content-start">
-            {{"synonyms_type_action" | translate}}
+            <!-- {{"synonyms_type_action" | translate}} -->
           </div>
         </div>
         <perfect-scrollbar class="table_body_content">
@@ -151,10 +157,10 @@
                 <div class="col-2 p-0 text-left">
                   <div class="action_links">
                     <span class="action_link-icon">
-                      <i (click)="editSynonymn(i,synonymObj)" class="si-pencil-edit mr-2"></i>
+                      <i (click)="editSynonymn(i,synonymObj)" ngbTooltip="{{'sa_edit' | translate}}" class="si-pencil-edit mr-2"></i>
                     </span>
                     <span class="action_link-icon link-delete">
-                      <i (click)="deleteSynonymnConfirmationPopUp(synonymObj,i)" class="si-delete1"></i>
+                      <i (click)="deleteSynonymnConfirmationPopUp(synonymObj,i)" ngbTooltip="{{'sa_delete' | translate}}" class="si-delete1"></i>
                     </span>
                   </div>
                 </div>

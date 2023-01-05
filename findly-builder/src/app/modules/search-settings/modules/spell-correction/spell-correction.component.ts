@@ -99,7 +99,10 @@ export class SpellCorrectionComponent implements OnInit {
         this.getAllspellcorrectFields();
       });
   }
-
+  //open topic guide
+  openUserMetaTagsSlider() {
+    this.appSelectionService.topicGuideShow.next();
+  }
   //**to fetch the fields for spellcorrect table and pop-up */
   getAllspellcorrectFields() {
     this.getSpellcorrect(true);

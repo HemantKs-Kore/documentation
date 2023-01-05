@@ -69,7 +69,7 @@
                             <div class="text-truncate">{{weightModal.fieldName}} </div>
                         </div>
                         <div class="col-4 desc text-truncate">
-                            <span>{{weightModal.fieldDataType}}</span>
+                            <span>{{'sa_'+weightModal.fieldDataType | translate}}</span>
                         </div>
                         <div class="col-4 sliderContainer">
                             <div class="range-slider">
@@ -155,8 +155,8 @@
         <button id="btn_weightsSave" type="button" class="kr-sg-button-danger btn_lg float-left"
             *ngIf="currentEditIndex>-1"
             (click)="deleteWeightPopUp(addEditWeighObj,$event,currentEditIndex)">{{'sa_delete' | translate}}</button>
-        <button id="btn_weightseditSave" type="button" class="kr-sg-button-primary btn_lg mr-0 float-right"
-            (click)="addEditWeight(addEditWeighObj)">{{(currentEditIndex>-1)?'Update':'Add'}}</button>
+        <button [disabled]="isAddLoading" id="btn_weightseditSave" type="button" class="kr-sg-button-primary btn_lg mr-0 float-right"
+            (click)="addEditWeight(addEditWeighObj)"><span class="loader-spin-inside-btn" *ngIf="isAddLoading"></span>{{(currentEditIndex>-1)?'Update':'Add'}}</button>
         <!-- [disabled]="!addEditWeighObj.name" -->
         <button id="btn_weightsClose" type="button" class="kr-sg-button-secondary btn_lg float-right"
             (click)="closeAddEditWeight()">{{'sa_cancel'| translate}}</button>

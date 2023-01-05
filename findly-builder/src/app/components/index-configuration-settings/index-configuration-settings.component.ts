@@ -32,6 +32,7 @@ export class IndexConfigurationSettingsComponent implements OnInit {
   serachIndexId;
   seedData;
   saveLanguages:boolean = false
+  isAddLoading:boolean = false
   configurationsSubscription : Subscription;
   supportedLanguages:any = [];
   listOfLanguages:any = [];
@@ -93,6 +94,7 @@ export class IndexConfigurationSettingsComponent implements OnInit {
     this.saveLanguages = false;
     this.clearCheckbox();
     this.searchLanguages = '';
+    setTimeout(() => { this.isAddLoading = false; }, 200);
   }
   //geting the seedData
   getAvilableLanguages(){
@@ -140,6 +142,7 @@ export class IndexConfigurationSettingsComponent implements OnInit {
   }
   //add or edit Language
   saveLanguage(dialogRef?,langArr?){
+     this.isAddLoading = true;
         let queryParams = {
           streamId:this.selectedApp._id,
           indexPipelineId:this.indexPipelineId
@@ -157,6 +160,7 @@ export class IndexConfigurationSettingsComponent implements OnInit {
             if (dialogRef && dialogRef.close) {
               dialogRef.close();
             }
+            this.closeModalPopup();
             this.notificationService.notify('Language Saved Successfully', 'success');
           },
           errRes => {
@@ -165,9 +169,9 @@ export class IndexConfigurationSettingsComponent implements OnInit {
             } else {
               this.notificationService.notify('Failed To Add Language', 'error');
             }
+            this.isAddLoading = false;
           }
         );
-    this.closeModalPopup();
   }
   //selection and deselection method
   unCheck(){
@@ -206,7 +210,7 @@ export class IndexConfigurationSettingsComponent implements OnInit {
           title: 'Delete Language',
           text: 'Are you sure you want to remove?',
           newTitle: 'Are you sure you want to remove?',
-          body: 'The'+list.language+ 'language will be removed.'+list.language+'content will be searched using English language analyzers.' ,
+          body: 'The '+'"'+'<b>'+list.language+'</b>'+'"'+ ' language will be removed. '+'"'+'<b>'+list.language+'</b>'+'"'+ ' content will be searched using '+'"'+'<b>'+'English'+'</b>'+'"'+' language analyzers.' ,
           buttons: [{ key: 'yes', label: 'Delete', type: 'danger' }, { key: 'no', label: 'Cancel' }],
           confirmationPopUp: true
         }

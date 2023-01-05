@@ -39,7 +39,10 @@ export class BotActionsComponent implements OnInit {
   })
   this.getQuerypipeline()
 }
-
+  //open topic guide
+  openUserMetaTagsSlider() {
+    this.appSelectionService.topicGuideShow.next();
+  }
 //** get querypipeline API call*/
 getQuerypipeline() {
   const quaryparms: any = {

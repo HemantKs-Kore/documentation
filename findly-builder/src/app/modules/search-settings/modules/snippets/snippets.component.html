@@ -1,6 +1,12 @@
 <div class="landing-page-common-block">
   <div class="widget-header-block">
-    <div class="widget-header">{{"snippets_Snippets" | translate}}</div>
+    <div class="widget-header">{{"snippets_Snippets" | translate}}
+      <span class="module-topic" tooltipClass="tooltip-global-" [container]="'body'"
+      ngbTooltip="{{'contentSource_topic_guide' | translate}}" placement="right-center"
+      (click)="openUserMetaTagsSlider()">
+      <i class="si-topic-guide-1"></i>
+    </span>
+    </div>
     <div class="widget-desc">{{"snippets_header_desc" | translate }}</div>
   </div>
   <div class="landing-page-toggle">

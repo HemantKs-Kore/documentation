@@ -116,6 +116,10 @@ export class PresentableComponent implements OnInit {
     this.notificationService.notify("Failed to remove Fields",'error');
   });
  }
+   //open topic guide
+   openUserMetaTagsSlider() {
+    this.appSelectionService.topicGuideShow.next();
+  }
   /** Add to Prescentable */
  addRecords(addData){
   this.isaddLoading=true;

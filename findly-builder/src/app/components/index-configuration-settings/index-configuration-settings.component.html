@@ -77,8 +77,8 @@
                         <div *ngFor="let language of languageList | filter : [ searchLanguages, 'language',''];let i = index" class="table_body row m-0">
                             <div class="col-3">
                                 <div class="kr-sg-checkbox">
-                                    <input id="sa_index_settings_checkbox{{i}}" class="checkbox-custom" type="checkbox"
-                                    [checked]="language.selected" (click)="addLanguage(i)">
+                                    <input [disabled]="language.languageCode ==='en'" id="sa_index_settings_checkbox{{i}}" class="checkbox-custom" type="checkbox"
+                                    [checked]="language.selected" (click)="language.code!=='en'?addLanguage(i):''">
                                     <label for="sa_index_settings_checkbox{{i}}" class="checkbox-custom-label"></label>
                                 </div>
                             </div>
@@ -96,7 +96,7 @@
                 {{"index_Settings_selected" | translate}}
             </div>
             <div>
-                <button id="sa_index_settings_save_language" type="button" class="kr-sg-button-primary btn_lg float-right" (click)="addLang()">{{"sa_save" | translate}}</button>
+                <button [disabled]="isAddLoading" id="sa_index_settings_save_language" type="button" class="kr-sg-button-primary btn_lg float-right" (click)="addLang()"><span class="loader-spin-inside-btn" *ngIf="isAddLoading"></span>{{"sa_save" | translate}}</button>
                 <button id="sa_index_settings_cancel_langauge" type="button" class="kr-sg-button-secondary btn_lg float-right" (click)="closeModalPopup()">{{"sa_cancel" | translate}}</button>
             </div>
         </div>

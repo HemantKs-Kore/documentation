@@ -1,5 +1,11 @@
 <div class="widget-header-block">
-    <div class="widget-header" id="sa_widget_header">{{"search_settings_highlighting" |translate}}</div>
+    <div class="widget-header" id="sa_widget_header">{{"search_settings_highlighting" |translate}}
+        <span class="module-topic" tooltipClass="tooltip-global-" [container]="'body'"
+        ngbTooltip="{{'contentSource_topic_guide' | translate}}" placement="right-center"
+        (click)="openUserMetaTagsSlider()">
+        <i class="si-topic-guide-1"></i>
+      </span>
+    </div>
     <div class="widget-desc" id="sa_widget_desc">{{"search_settings_highlighting_desc" |translate}}</div>
 </div>
 <div class="highlighting-block">
