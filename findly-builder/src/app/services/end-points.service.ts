@@ -161,7 +161,7 @@ export class EndPointsService {
     //
     this.serviceList['add.sourceMaterial'] = {
       //endpoint:this.API_SERVER_URL + '/findly/:searchIndexId/extract?extractionType=:resourceType',
-      //endpoint:this.API_SERVER_URL + '/findly/:searchIndexId/:type/source',
+      //endpoint:this.API_SERVER_URL + '/findly/:searchIndexId/:type/sources',
       endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/extract?extractionType=:resourceType',
       method: 'post'
     };
@@ -899,7 +899,7 @@ export class EndPointsService {
     }
     this.serviceList['put.dockStatus'] = {
       /**updated below endpoint as per new contract for put.docstatus & execution histroy on 10/03 */
-      // endpoint: this.API_SERVER_URL + '/builder/streams/:streamId/dockStatus/:dockId',      
+      // endpoint: this.API_SERVER_URL + '/builder/streams/:streamId/dockStatus/:dockId',
       endpoint: this.API_SERVER_URL + '/findly/:sidx/jobs/:jobId',
       method: 'put'
     }
@@ -1009,11 +1009,11 @@ export class EndPointsService {
     }
     //  this.serviceList['export.dockstatus'] = {
     //   endpoint: this.API_SERVER_URL + '/findly/streams/:streamId/dockStatus/:notificationsId',
-    //   method: 'post'      
+    //   method: 'post'
     //  }
     //  this.serviceList['export.url'] = {
     //   endpoint: this.API_SERVER_URL + '/attachment/file/:fileId/url',
-    //   method: 'get'      
+    //   method: 'get'
     //  }
 
     /** APIs for Search Interface Old API*/
@@ -1367,10 +1367,10 @@ export class EndPointsService {
     this.serviceList['delete.spellcorrectFields'] = {
       endpoint: this.API_SERVER_URL +'/findly/stream/:streamId/indexPipeline/:indexPipelineId/queryPipeline/:queryPipelineId/spell-correct/field/:fieldId',
       method: 'delete'
-    }   
-    //Apis for Index settings module 
+    }
+    //Apis for Index settings module
 
-    //Api request for seedDAta of Languages Available 
+    //Api request for seedDAta of Languages Available
     this.serviceList['get.indexAvailableLanguages'] = {
       endpoint:  this.API_SERVER_URL +'/findly/seed_data?languages=true',
       method: 'get'
@@ -1380,11 +1380,11 @@ export class EndPointsService {
       method: 'put'
     }
 
-    //Apis for Index settings module ends 
+    //Apis for Index settings module ends
 
     //Apis for Weights module starts
 
-    //API request for getting List of Weights 
+    //API request for getting List of Weights
     this.serviceList['get.weightsList'] = {
       // endpoint: this.API_SERVER_URL +'/findly/stream/:streamId/indexPipeline/:indexPipelineId/queryPipeline/:queryPipelineId/weights?page=:pageNo&limit=:noOfRecords&isSelected=:isSelected',
       endpoint: this.API_SERVER_URL +'/findly/stream/:streamId/indexPipeline/:indexPipelineId/queryPipeline/:queryPipelineId/weights?isSelected=:isSelected&orderBy=:orderType&sortBy=:sortField',
@@ -1419,7 +1419,7 @@ export class EndPointsService {
     ////Apis for Weights module  ends
 
     //Apis for Stop Words module starts
-    
+
     //Api for getting stopwords List
     this.serviceList['get.stopWordsList'] = {
       endpoint: this.API_SERVER_URL +'/findly/stream/:streamId/indexPipeline/:indexPipelineId/queryPipeline/:queryPipelineId/stopwords?languageCode=:code',

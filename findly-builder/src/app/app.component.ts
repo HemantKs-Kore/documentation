@@ -58,7 +58,7 @@ export class AppComponent implements OnInit, OnDestroy {
   pathsObj: any = {
     '/faq': 'Faqs',
     '/content': 'Contnet',
-    '/source': 'Source',
+    '/sources': 'Source',
     '/botActions': 'Bot Actions'
   };
   topDownSearchInstance: any;
@@ -91,7 +91,7 @@ export class AppComponent implements OnInit, OnDestroy {
       let lang = window.location.href.split("home/")[1];
       translate.setDefaultLang(lang);
     }
-    
+
   }
 
   ngOnInit() {
@@ -110,8 +110,8 @@ export class AppComponent implements OnInit, OnDestroy {
       this.getSearchExperience();
     });
     this.queryConfigsSubscription = this.appSelectionService.queryConfigSelected.subscribe(res => {
-      /** 
-       * res.length > 1 - its only query Details 
+      /**
+       * res.length > 1 - its only query Details
        *  res.length == 1- its from Index pipeline and then to query Details.
        * **/
         this.indexPipelineId = this.workflowService.selectedIndexPipeline()
@@ -321,7 +321,7 @@ export class AppComponent implements OnInit, OnDestroy {
       this.loading = false;
     }
   }
-  //open search SDK from header 
+  //open search SDK from header
   searchSDKHeader() {
     if (this.searchExperienceConfig) {
       //this.isDemoApp = false;
