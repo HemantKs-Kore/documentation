@@ -101,7 +101,6 @@ import { SearchFieldPropertiesComponent } from './components/search-field-proper
 import { SelectTextDirective } from './helpers/directives/select-text.directive';
 import { EllipsisActiveDirective } from './helpers/directives/ellipsis-active.directive';
 import { IndexConfigurationSettingsComponent } from './components/index-configuration-settings/index-configuration-settings.component';
-import { SearchRelevanceComponent } from './components/search-relevance/search-relevance.component';
 import { FindlySharedModule } from './modules/findly-shared/findly-shared.module';
 import { EmptyScreenModule } from './modules/empty-screen/empty-screen.module';
 import { SmallTalkModule } from './modules/search-settings/modules/small-talk/small-talk.module';
@@ -166,7 +165,6 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
     SelectTextDirective,
     EllipsisActiveDirective,
     IndexConfigurationSettingsComponent,
-    SearchRelevanceComponent,
   ],
   imports: [
     FindlySharedModule,

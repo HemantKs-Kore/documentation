@@ -7,7 +7,12 @@
     <div class="landing-page-header">
 
       <div class="widget-header-block">
-        <div class="widget-header">{{'stopWords_stop_words'| translate}}</div>
+        <div class="widget-header">{{'stopWords_stop_words'| translate}}<span class="module-topic" tooltipClass="tooltip-global-" [container]="'body'"
+          ngbTooltip="{{'contentSource_topic_guide' | translate}}" placement="right-center"
+          (click)="openUserMetaTagsSlider()">
+          <i class="si-topic-guide-1"></i>
+        </span>
+      </div>
         <div class="widget-desc">{{'stopwords_desc'| translate}}</div>
       </div>
   

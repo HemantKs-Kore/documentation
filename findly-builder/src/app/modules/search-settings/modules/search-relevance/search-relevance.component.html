@@ -1,5 +1,11 @@
 <div class="widget-header-block" id="sa_widget_header">
-    <div class="widget-header" id="sa_widget_header-sec">{{"search_settings_search_relevance_threshold_match" |translate}}</div>
+    <div class="widget-header" id="sa_widget_header-sec">{{"search_settings_search_relevance_threshold_match" |translate}}
+      <span class="module-topic" tooltipClass="tooltip-global-" [container]="'body'"
+        ngbTooltip="{{'contentSource_topic_guide' | translate}}" placement="right-center"
+        (click)="openUserMetaTagsSlider()">
+        <i class="si-topic-guide-1"></i>
+      </span>
+    </div>
     <div class="widget-desc" id="sa_widget_header_desc">{{"search_settings_search_relevance_define_perecent_tokens" |translate}}</div>
 </div>
 
