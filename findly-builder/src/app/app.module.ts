@@ -1,4 +1,4 @@
-import { globalErrorProviders } from './services/inteceptors/index';
+import { globalProviders } from './services/inteceptors/index';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { MaterialModule } from './modules/material.module';
@@ -264,7 +264,7 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
   // tslint:disable-next-line:max-line-length
   entryComponents: [ConfirmationDialogComponent, ImportFaqsModalComponent, EditorUrlDialogComponent],
   providers: [
-    globalErrorProviders,
+    globalProviders,
     { provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: { appearance: 'fill' } },
     SortPipe,
     AuthGuard,

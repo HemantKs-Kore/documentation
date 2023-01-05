@@ -5,9 +5,11 @@ import { ErrorService } from '../error.service';
 import { NotificationService } from '../notification.service';
 
 @Injectable()
-export class GlobalErrorHandler implements ErrorHandler {
+export class GlobalErrorHandler extends ErrorHandler {
 
-  constructor(private injector: Injector) { }
+  constructor(private injector: Injector) {
+    super();
+  }
 
   handleError(error: Error | HttpErrorResponse) {
     const errorService = this.injector.get(ErrorService);
@@ -29,6 +31,9 @@ export class GlobalErrorHandler implements ErrorHandler {
     notifier.notify(message, 'error');
 
     // Always log errors
-    logger.logError(message, stackTrace);
+    // logger.logError(message, stackTrace);
+
+    // Let's not supress console error as it helps dev a lot
+    super.handleError(error);
   }
 }
