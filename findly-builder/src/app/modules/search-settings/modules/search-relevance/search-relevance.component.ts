@@ -60,6 +60,10 @@ export class SearchRelevanceComponent implements OnInit {
     
     
   }
+    //open topic guide
+    openUserMetaTagsSlider() {
+      this.appSelectionService.topicGuideShow.next();
+    }
   //** to fetch the threshold range slider value */
   prepareThreshold(){ 
     const quaryparms: any = {

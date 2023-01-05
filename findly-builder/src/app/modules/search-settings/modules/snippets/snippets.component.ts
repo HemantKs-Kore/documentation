@@ -40,7 +40,10 @@ export class SnippetsComponent implements OnInit {
       this.getQuerypipeline();
     })
   }
-
+  //open topic guide
+  openUserMetaTagsSlider() {
+    this.appSelectionService.topicGuideShow.next();
+  }
 
   getQuerypipeline(){
     const quaryparms: any = {
