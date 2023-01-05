@@ -117,7 +117,7 @@
                             </div>
                         </div>
                         <perfect-scrollbar class="table_body_content" id="sa_table_body">
-                                    <div class="table_body row m-0" *ngFor="let fields of popupfieldvalues;let i = index" >
+                                    <div class="table_body row m-0" *ngFor="let fields of checkValues();let i = index" >
                                         <div class="col-2">
                                             <div class="kr-sg-checkbox" id="sa_checkbox" >
                                                 <input id="{{ fields._id }}"  class="checkbox-custom" [checked]="fields.isChecked" type="checkbox" (click)="addRecord(fields,$event)">

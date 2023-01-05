@@ -42,7 +42,7 @@ export class ListFieldsComponent implements OnInit {
   checksort='asc'
   isAsc = true;
   loadingContent = true;
-
+  selectedList = [];
   ngOnInit(): void {    
     this.modal_open=false;
     console.log(this.tablefieldvalues);
@@ -50,6 +50,19 @@ export class ListFieldsComponent implements OnInit {
     // if(this.tablefieldvalues && this.tablefieldvalues.length){
     //   this.loadingContent = false
     // }
+  }
+  /** To cehck for the Selected Values */
+  checkValues(){
+    if(this.selectedList.length){
+      this.selectedList.forEach(selectedElement => {
+        this.popupfieldvalues.forEach(popupElement => {
+          if(selectedElement._id == popupElement._id){
+            popupElement.isChecked = true;
+          }
+        });
+      });
+    }
+    return this.popupfieldvalues;
   }
   //**Sort icon visibility */
   getSortIconVisibility(sortingField: string, type: string,component: string) {
@@ -182,6 +195,7 @@ export class ListFieldsComponent implements OnInit {
   clearReocrd() {
     //this.searchType = '';
     this.search_value = '';
+    this.selectedList = [];
     this.popupfieldvalues = this.popupfieldvalues.map(item => {
       item.isChecked = false;
       return item;
@@ -226,8 +240,12 @@ export class ListFieldsComponent implements OnInit {
   addRecord(fields,event) {
     if (event.target.checked) {
       fields.isChecked = true;
+      this.selectedList.push(fields); // this will hold the slected data for the Instance
     } else {
-      fields.isChecked = false;  
+      fields.isChecked = false;
+      this will hold the slected data for the Instance
+      const objWithIdIndex = this.selectedList.findIndex((obj) => obj._id === fields._id);
+      this.selectedList.splice(objWithIdIndex, 1);
     }
   }
 
