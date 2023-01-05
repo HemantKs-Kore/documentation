@@ -243,7 +243,6 @@ export class ListFieldsComponent implements OnInit {
       this.selectedList.push(fields); // this will hold the slected data for the Instance
     } else {
       fields.isChecked = false;
-      this will hold the slected data for the Instance
       const objWithIdIndex = this.selectedList.findIndex((obj) => obj._id === fields._id);
       this.selectedList.splice(objWithIdIndex, 1);
     }
