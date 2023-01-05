@@ -194,7 +194,10 @@ export class HighlightingComponent implements OnInit {
     this.pre_tag=this.home_pre_tag
     this.post_tag=this.home_post_tag
   }
-
+  //open topic guide
+  openUserMetaTagsSlider() {
+    this.appSelectionService.topicGuideShow.next();
+  }
   //** open show more  container */
   openContainer(){
     this.more_options=true;

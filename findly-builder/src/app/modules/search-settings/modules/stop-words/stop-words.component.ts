@@ -292,6 +292,7 @@ createInit() {
         }
       })
   }
+  
   getQuerypipeline(){
     const quaryparms: any = {
       searchIndexID: this.serachIndexId,
@@ -331,6 +332,7 @@ createInit() {
     });
    
   }
+  
   // -----------------------------(AUTHOR:BHARADWAJ)
   ngOnDestroy() {
     this.subscription ? this.subscription.unsubscribe() : false;
