@@ -391,7 +391,7 @@
                         <div class="option-selection-desc"> {{'fields_searchable_desc' | translate}}</div>
                         <div class="option-selection-checkbox">
                             <div class="kr-sg-checkbox">
-                                <input id="searchable_option" class="checkbox-custom" type="checkbox" (click)="searchableValidation(newFieldObj.isSearchable)" [(ngModel)]="newFieldObj.isSearchable">
+                                <input id="searchable_option" class="checkbox-custom" type="checkbox" (click)="searchableValidation(newFieldObj)" [(ngModel)]="newFieldObj.isSearchable">
                                 <label for="searchable_option" class="checkbox-custom-label"></label>
                             </div>
                         </div>
@@ -440,10 +440,9 @@
                 </div>
                </div>
 
-               <div class="kr-sg-inline-notification kr-protip-basic align-items-start">
-               <div class="tost-text"> {{'fields.the_field_type_has_been_changed_from' | translate}}
-                   {{newFieldObj.previousFieldDataType | translate}} {{'fields.to' | translate}}
-                   {{newFieldObj.fieldDataType | translate}}.
+               <div class="kr-sg-inline-notification kr-protip-basic align-items-start"
+               *ngIf="!newFieldObj.isSearchable">
+               <div class="tost-text"> 
                    <span class="pr-1" *ngIf="indexedWarningMessage" [innerHTML]="resultTest">
                    </span>
                    <span class="bulb-icon" [ngbTooltip]="tipContent">

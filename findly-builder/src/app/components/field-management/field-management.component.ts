@@ -1348,102 +1348,93 @@ export class FieldManagementComponent implements OnInit {
   //Seachable Checkboc Validation
   searchableValidation(searchableCheckbox){
     console.log(searchableCheckbox)
-    if(searchableCheckbox){
+    if(!searchableCheckbox.isSearchable){
       return
     }
     else{
-  //     const quaryparms: any = {
-  //       searchIndexID: this.serachIndexId,
-  //       indexPipelineId: this.indexPipelineId,
-  //       queryPipelineId: this.workflowService.selectedQueryPipeline()._id,
-  //       fieldId: record._id,
-  //     };
+      const quaryparms: any = {
+        searchIndexID: this.serachIndexId,
+        indexPipelineId: this.indexPipelineId,
+        queryPipelineId: this.workflowService.selectedQueryPipeline()._id,
+        fieldId: searchableCheckbox._id,
+      };
     
-  // this.service.invoke('get.getFieldUsage', quaryparms).subscribe(res => {
-  //       this.currentfieldUsage = res;
-  //       this.fetchingFieldUsage = false;
-  //       const deps: any = {
-  //         facets: false,
-  //         rules: false,
-  //         //weights: false
-  //         searchSettings: false,
-  //         resultTemplate: false,
-  //         nlpRules:false,
-  //         entites:false
-  //       }
-  //       let usageText = '';
-  //       let usedArr = [];
-  //       this.showSearchSettingsTooltip = false;
-  //       this.tooltipArr = [];
+    
+      this.service.invoke('get.getFieldUsage', quaryparms).subscribe(res => {
+        let usageText = '';
+        let usedArr = [];
+        this.showSearchSettingsTooltip = false;
+        this.tooltipArr = [];
   
-  //       if (!res) {
-  //         return;
-  //       }
+        if (!res) {
+          return;
+        }
   
-  //       let searchSettingsRecord = [];
+        let searchSettingsRecord = [];
   
-  //       const resultArr = Object.entries(res).reduce((usedArr: any, [key, valObj]) => {
-  //         if (valObj['used']) {
-  //           if ((key === 'facets')) {
-  //             usedArr = [...usedArr, 'Facet'];
-  //           } else if (key === 'searchSettings') {
-  //             // const msg =p `<span class="based-on-selection">searchSettings</span>`;
-  //             const msg = 'SearchSettings';
+        const resultArr = Object.entries(res).reduce((usedArr: any, [key, valObj]) => {
+          if (valObj['used']) {
+            if ((key === 'facets')) {
+              usedArr = [...usedArr, 'Facet'];
+            } else if (key === 'searchSettings') {
+              // const msg =p `<span class="based-on-selection">searchSettings</span>`;
+              const msg = 'SearchSettings';
   
-  //             searchSettingsRecord = valObj['records'][0];
+              searchSettingsRecord = valObj['records'][0];
   
-  //             this.showSearchSettingsTooltip = true;
-  //             usedArr = [...usedArr, msg];
-  //           } else if(key === 'rules') {
-  //             const msg = res.rules.records.length + ' Business Rule' + (res.rules.records.length > 1 ? 's' : '');
-  //             usedArr = [...usedArr, msg];
-  //           } else if (key === 'resultTemplates') {
-  //             const msg = res.resultTemplates.records.length + ' Result Template' + (res.resultTemplates.records.length > 1 ? 's' : '');
-  //             usedArr = [...usedArr, msg]
-  //           } else if (key === 'nlpRules') {
-  //             const msg = res.nlpRules.records.length + ' nlp Rule' + (res.nlpRules.records.length > 1 ? 's' : '');
-  //             usedArr = [...usedArr, msg]
-  //           } else if (key === 'entites') {
-  //             const msg = res.entites.records.length + (res.entites.records.length == 1 ? 'entity' : '')  + (res.entites.records.length > 1 ? 'entities' : '');
-  //             usedArr = [...usedArr, msg];
-  //           }
-  //         }
+              this.showSearchSettingsTooltip = true;
+              usedArr = [...usedArr, msg];
+            } else if(key === 'rules') {
+              const msg = res.rules.records.length + ' Business Rule' + (res.rules.records.length > 1 ? 's' : '');
+              usedArr = [...usedArr, msg];
+            } else if (key === 'resultTemplates') {
+              const msg = res.resultTemplates.records.length + ' Result Template' + (res.resultTemplates.records.length > 1 ? 's' : '');
+              usedArr = [...usedArr, msg]
+            } else if (key === 'nlpRules') {
+              const msg = res.nlpRules.records.length + ' nlp Rule' + (res.nlpRules.records.length > 1 ? 's' : '');
+              usedArr = [...usedArr, msg]
+            } else if (key === 'entites') {
+              const msg = res.entites.records.length + (res.entites.records.length == 1 ? 'entity' : '')  + (res.entites.records.length > 1 ? 'entities' : '');
+              usedArr = [...usedArr, msg];
+            }
+          }
   
-  //         return usedArr;
-  //       }, []);
+          return usedArr;
+        }, []);
         
-  //       if (searchSettingsRecord) {
-  //         if (searchSettingsRecord['highlight']?.value) {
-  //           this.tooltipArr = [...this.tooltipArr, 'highlight']
-  //         }
-  //         if (searchSettingsRecord['weight']?.value) {
-  //           this.tooltipArr = [...this.tooltipArr, 'weight'];
-  //         }
-  //         if (searchSettingsRecord['presentable']?.value) {
-  //           this.tooltipArr = [...this.tooltipArr, 'presentable']
-  //         }
-  //         if (searchSettingsRecord['spellcorrect']?.value) {
-  //           this.tooltipArr = [...this.tooltipArr, 'spellcorrect']
-  //         }
-  //       }
+        if (searchSettingsRecord) {
+          if (searchSettingsRecord['highlight']?.value) {
+            this.tooltipArr = [...this.tooltipArr, 'highlight']
+          }
+          if (searchSettingsRecord['weight']?.value) {
+            this.tooltipArr = [...this.tooltipArr, 'weight'];
+          }
+          if (searchSettingsRecord['presentable']?.value) {
+            this.tooltipArr = [...this.tooltipArr, 'presentable']
+          }
+          if (searchSettingsRecord['spellCorrect']?.value) {
+            this.tooltipArr = [...this.tooltipArr, 'spellcorrect']
+          }
+        }
   
-  //       let resultStr = `This will impact `;
-  //       if (resultArr.length === 1) {
-  //         resultStr += resultArr[0];
-  //       } else if (resultArr.length === 2) {
-  //         resultStr += `${resultArr.join(' and ')}`;
-  //       } else {
-  //         const lastVal = resultArr.slice(-1)[0]; 
-  //         resultStr += `${resultArr.slice(0, resultArr.length -1 ).join(', ')} and ${lastVal}`;
-  //       }
-  //       console.log(resultStr);
-  //       this.indexedWarningMessage = resultStr;
-  //       this.resultTest = this.sanitizer.bypassSecurityTrustHtml(resultStr);
+        let resultStr = `Searchable property has been set to false this will impact `;
+        if (resultArr.length === 1) {
+          resultStr += resultArr[0];
+        } else if (resultArr.length === 2) {
+          resultStr += `${resultArr.join(' and ')}`;
+        } else {
+          const lastVal = resultArr.slice(-1)[0]; 
+          resultStr += `${resultArr.slice(0, resultArr.length -1 ).join(', ')} and ${lastVal}`;
+        }
+        console.log(resultStr);
+        this.indexedWarningMessage = resultStr;
+        this.resultTest = this.sanitizer.bypassSecurityTrustHtml(resultStr);
   
-  //     }, errRes => {
-  //       this.fetchingFieldUsage = false;
-  //     });
-  //   }
+  
+      }, errRes => {
+        this.fetchingFieldUsage = false;
+      });
+  
    }
  }
 }
