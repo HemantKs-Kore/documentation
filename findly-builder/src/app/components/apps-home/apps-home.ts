@@ -113,7 +113,7 @@ export class AppsListingComponent implements OnInit {
     setTimeout(() => {
       $('#serachInputBox').focus();
     }, 100);
-    // this.buildCarousel();    
+    // this.buildCarousel();
   }
    //Checks whether user is new or not
    checkForNewUser(){
@@ -135,7 +135,7 @@ export class AppsListingComponent implements OnInit {
         this.newUser = !res.isInitialAppCreated;
       }, errRes => {
         this.notificationService.notify('Checking for New User has gone wrong ', 'error');
-      });  
+      });
     }
    }
 
@@ -226,7 +226,7 @@ export class AppsListingComponent implements OnInit {
       this.steps = 'showSearchExperience'
       this.SearchExperianceType ='top';
       this.progressBarFun(4, 3)
-      this.mixpanelEventValues();  
+      this.mixpanelEventValues();
     }
     else if (this.steps == 'showSearchExperience'){
       this.steps = 'displayApp'
@@ -517,7 +517,7 @@ export class AppsListingComponent implements OnInit {
     this.openApp(res)
     this.displayApp = false;
     this.workflowService.showAppCreationHeader(true);
-    // this.appSelectionService.routeChanged.next({ name: 'pathchanged', path: '/source' });
+    // this.appSelectionService.routeChanged.next({ name: 'pathchanged', path: '/sources' });
     this.closeCreateApp();
     const toogleObj = {
       title: '',

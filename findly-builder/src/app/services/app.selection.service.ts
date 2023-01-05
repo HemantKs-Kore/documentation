@@ -164,7 +164,7 @@ export class AppSelectionService {
         path.route = route
         window.localStorage.setItem('krPreviousState', JSON.stringify(path));
         const appInfo = this.workflowService.selectedApp();
-        this.routeChanged.next({ name: 'pathchanged', path: (appInfo?.disabled&&route==='/generalSettings')?'/source':route, disable: appInfo?.disabled?true:false });
+        this.routeChanged.next({ name: 'pathchanged', path: (appInfo?.disabled&&route==='/generalSettings')?'/sources':route, disable: appInfo?.disabled?true:false });
       }
     } else {
       window.localStorage.removeItem('krPreviousState');
@@ -202,12 +202,12 @@ export class AppSelectionService {
       title: '',
     };
     this.headerService.toggle(toogleObj);
-    this.routeChanged.next({ name: 'pathchanged', path: app?.disabled?(isUpgrade?'/pricing':'/source'):'/summary', disable: app?.disabled?true:false });
+    this.routeChanged.next({ name: 'pathchanged', path: app?.disabled?(isUpgrade?'/pricing':'/sources'):'/summary', disable: app?.disabled?true:false });
     this.getInlineManualcall();
     if (isDemo){
       this.openSDKApp.next();
       this.routeChanged.next({ name: 'pathchanged', path: '/summary' , isDemo:true});
-    } 
+    }
   }
   //get current subscription data
   getCurrentSubscriptionData() {
@@ -400,6 +400,6 @@ export class AppSelectionService {
         reject(errRes);
         this.queryList = null;
       });
-    })    
+    })
   }
 }
