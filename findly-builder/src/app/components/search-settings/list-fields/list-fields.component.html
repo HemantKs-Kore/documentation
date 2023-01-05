@@ -7,17 +7,6 @@
         <!-- Search -->
         <app-search-filter (searchkey)="getsearchvalue($event,'datatable')"></app-search-filter>
         <!-- Search ends-->
-        <!-- <div class="pt-search" id="pt-search">
-            <div class="kr-sg-input-inline-search" id="inline-search">                               
-                <input type="text" placeholder="{{'sa_search' | translate}}"  class="input-search">
-                <span class="search-icon close-icon" id="close-icon">
-                    <i class="si-close"></i>
-                </span>
-                <span class="search-icon" id="search-icon">
-                    <i class="si-search"></i>
-                </span>                                   
-            </div>
-        </div> -->
     </div>
 
     <div class="mainLoadingSpinner" *ngIf="isLoading">

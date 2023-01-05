@@ -1,7 +1,6 @@
 import { Component, IterableDiffers, OnInit, ViewChild,Output,Input,EventEmitter } from '@angular/core';
 import { KRModalComponent } from 'src/app/shared/kr-modal/kr-modal.component';
-import { PerfectScrollbarComponent, PerfectScrollbarDirective } from 'ngx-perfect-scrollbar';
-import { isNgTemplate } from '@angular/compiler';
+import { PerfectScrollbarComponent, PerfectScrollbarDirective } from 'ngx-perfect-scrollbar';;
 import { MatDialog } from '@angular/material/dialog';
 import { ConfirmationDialogComponent } from 'src/app/helpers/components/confirmation-dialog/confirmation-dialog.component';
 declare const $: any;
@@ -244,7 +243,7 @@ export class ListFieldsComponent implements OnInit {
     } else {
       fields.isChecked = false;
       const objWithIdIndex = this.selectedList.findIndex((obj) => obj._id === fields._id);
-      this.selectedList.splice(objWithIdIndex, 1);
+      if(objWithIdIndex > -1) this.selectedList.splice(objWithIdIndex, 1);           
     }
   }
 
@@ -263,16 +262,13 @@ export class ListFieldsComponent implements OnInit {
     });
     dialogRef.componentInstance.onSelect.subscribe(res => {
       if (res === 'yes') {
-        dialogRef.close();
         this.emitRecord.emit({
           record :[record._id],
           type : 'delete'
         });
         //this.deleteStructuredData(record);
       }
-      else if (res === 'no') {
-        dialogRef.close();
-      }
+      dialogRef.close();
     });
   }
 }

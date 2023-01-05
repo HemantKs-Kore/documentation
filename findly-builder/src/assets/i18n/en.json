@@ -3702,7 +3702,11 @@
     "synonyms_header_desc":"Add synonyms to expand the search queries to retrieve better search results",
     "synonyms_search_terms":"Search Terms",
     "synonyms_type_synonym_and_enter":"Type Synonym and Press Enter",
-    "synonyms_type_action":"ACTION"
+    "synonyms_type_action":"ACTION",
+
+    "highlight_fields_for_highlight":"Fields for highlight",
+    "highlight_fields_for_highlight_desc":"Add fields to be used for highlighting in the search results."
+
     
  
 }

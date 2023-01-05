@@ -98,7 +98,6 @@ import { ResultTemplatesComponent } from './components/result-templates/result-t
 import { OnboardingComponentComponent } from './components/onboarding-component/onboarding-component.component';
 import { AnalyticsDropdownComponent } from './helpers/components/analytics-dropdown/analytics-dropdown.component';
 import { SearchFieldPropertiesComponent } from './components/search-field-properties/search-field-properties.component';
-import { SelectTextDirective } from './helpers/directives/select-text.directive';
 import { EllipsisActiveDirective } from './helpers/directives/ellipsis-active.directive';
 import { IndexConfigurationSettingsComponent } from './components/index-configuration-settings/index-configuration-settings.component';
 import { FindlySharedModule } from './modules/findly-shared/findly-shared.module';
@@ -162,7 +161,6 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
     AnalyticsDropdownComponent,
     OnboardingComponentComponent,
     SearchFieldPropertiesComponent,
-    SelectTextDirective,
     EllipsisActiveDirective,
     IndexConfigurationSettingsComponent,
   ],
