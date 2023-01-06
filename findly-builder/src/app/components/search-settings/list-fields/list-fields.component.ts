@@ -31,6 +31,7 @@ export class ListFieldsComponent implements OnInit {
 
   addFieldModalPopRef: any;
   search_value: any;
+  shouldClear = false;
   fieldsArr_backup:any;
   recordArray = [];
   fieldsAr:any = []
@@ -176,6 +177,7 @@ export class ListFieldsComponent implements OnInit {
   //** open add field modal pop up */
   openModalPopup() {
     let flag=false;
+    this.shouldClear = false;
     this.calladdApi.emit(flag);
     this.addFieldModalPopRef = this.addFieldModalPop.open();
     this.modal_open=true
@@ -186,6 +188,8 @@ export class ListFieldsComponent implements OnInit {
   }
   //** to close the modal pop-up */
   closeModalPopup() {
+    this.shouldClear = true;
+    this.search_value = '';
     this.addFieldModalPopRef.close();
     this.clearReocrd();
   }

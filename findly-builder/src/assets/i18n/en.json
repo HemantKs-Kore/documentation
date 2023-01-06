@@ -3705,7 +3705,8 @@
     "synonyms_type_action":"ACTION",
 
     "highlight_fields_for_highlight":"Fields for highlight",
-    "highlight_fields_for_highlight_desc":"Add fields to be used for highlighting in the search results."
+    "highlight_fields_for_highlight_desc":"Add fields to be used for highlighting in the search results.",
+    "highlight_fields_minimum_char_threshold":"Minimum Character Threshold"
 
     
  
