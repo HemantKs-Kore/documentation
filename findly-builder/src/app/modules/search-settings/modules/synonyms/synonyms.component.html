@@ -136,7 +136,7 @@
                 <div class="col-8 title text-left">
                   <div class="table-row-view">
                     <div class="synonym-view-data row col-12 p-0 m-0">
-                      <div class="synonym-name col-2 p-0" *ngIf="synonymObj.type == 'oneWaySynonym'">{{synonymObj.keyword}}</div>
+                    <div class="synonym-name col-2 p-0 text-truncate" title="{{synonymObj.keyword}}" *ngIf="synonymObj.type == 'oneWaySynonym'">{{synonymObj.keyword}}</div>
                       <i *ngIf="synonymObj.type === 'oneWaySynonym'" class="col-1 si-right-arrow-large arrow_divider"></i>
                       <div class="synonym-type-list col-8 p-0" [ngClass]="{'col-12':synonymObj.type !== 'oneWaySynonym'}">
                         <div class="d-flex align-items-center" *ngFor="let synonym of synonymObj.synonyms;let synIndex = index">
