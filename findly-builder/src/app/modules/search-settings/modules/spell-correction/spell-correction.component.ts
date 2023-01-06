@@ -1,14 +1,11 @@
 import {
   Component,
   OnInit,
-  Output,
-  Input,
-  EventEmitter,
-  ViewChild,
+  Input
 } from '@angular/core';
 import { WorkflowService } from '@kore.services/workflow.service';
 import { AppSelectionService } from '@kore.services/app.selection.service';
-import { of, interval, Subject, Subscription } from 'rxjs';
+import {Subscription} from 'rxjs';
 
 import { NotificationService } from '@kore.services/notification.service';
 import { ServiceInvokerService } from '@kore.services/service-invoker.service';
@@ -71,12 +68,6 @@ export class SpellCorrectionComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    // this.selectedApp = this.workflowService.selectedApp();
-    // this.serachIndexId = this.selectedApp.searchIndexes[0]._id;
-    // this.indexPipelineId = this.workflowService.selectedIndexPipeline();
-    // this.queryPipelineId = this.workflowService.selectedQueryPipeline()
-    //   ? this.workflowService.selectedQueryPipeline()._id
-    //   : '';
     
     this.more_options = false;
     this.max_threshold = 0;
@@ -180,13 +171,6 @@ export class SpellCorrectionComponent implements OnInit {
             // }
           });
         }
-        // this.allspellCorrect.forEach(element => {
-        //   if(element.spellCorrect.value){
-        //     this.spellcorrect.push(element)
-        //   }else{
-        //     this.nonspellcorrect.push(element)
-        //   }
-        // });
       },
       (errRes) => {
         this.notificationService.notify(

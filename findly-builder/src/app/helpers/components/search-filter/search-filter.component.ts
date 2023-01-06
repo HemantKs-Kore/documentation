@@ -8,6 +8,12 @@ declare const $: any;
   styleUrls: ['./search-filter.component.scss']
 })
 export class SearchFilterComponent implements OnInit {
+  @Input() set shouldClear(val) {
+    if (val) {
+      this.searchFields = '';
+      this.searchkey.emit('');
+    }
+  }
   searchFields: any = '';
   searchImgSrc: any = 'assets/icons/search_gray.svg';
   searchFocusIn = false;
