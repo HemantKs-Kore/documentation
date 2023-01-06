@@ -236,7 +236,6 @@ export class IndexConfigurationSettingsComponent implements OnInit {
   clearSearch(){
     this.searchLanguages = '';
   }
-    //Use a better Apporch so that we can restrict this call for IndexPipline - use Observable
   getIndexPipeline() {
       const header: any = {
         'x-timezone-offset': '-330'
