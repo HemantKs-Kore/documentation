@@ -45,8 +45,6 @@ export class ListFieldsComponent implements OnInit {
   selectedList = [];
   ngOnInit(): void {    
     this.modal_open=false;
-    console.log(this.tablefieldvalues);
-    console.log(this.popupfieldvalues);
     // if(this.tablefieldvalues && this.tablefieldvalues.length){
     //   this.loadingContent = false
     // }
