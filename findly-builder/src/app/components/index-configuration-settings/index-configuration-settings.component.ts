@@ -9,6 +9,8 @@ import { Subscription } from 'rxjs';
 import { ValueConverter } from '@angular/compiler/src/render3/view/template';
 import { ConfirmationDialogComponent } from 'src/app/helpers/components/confirmation-dialog/confirmation-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
+import { DockStatusService } from '../../services/dockstatusService/dock-status.service';
+
 
 
 
@@ -52,6 +54,7 @@ export class IndexConfigurationSettingsComponent implements OnInit {
     private notificationService: NotificationService,
     private appSelectionService: AppSelectionService,
     public dialog: MatDialog,
+    public dockService: DockStatusService,
   ) { }
 
   ngOnInit(): void {

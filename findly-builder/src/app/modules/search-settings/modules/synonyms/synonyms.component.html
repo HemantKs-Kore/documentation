@@ -47,7 +47,7 @@
       <div class="form-search-synonym col-3 pl-0" *ngIf="addNewSynonymObj.type === 'oneWaySynonym'">
         <div class="kr-sg-input-text">
           <input  [class.err-block]="((!addNewSynonymObj.keyword || !addNewSynonymObj.keyword.length) && submitted)" type="text"
-          id="synonymName" name="synonymName" autocomplete="off"  (click)="synonymChanged()" [(ngModel)]="addNewSynonymObj.keyword"
+          id="synonymName" name="synonymName" autocomplete="off"  [(ngModel)]="addNewSynonymObj.keyword"
             [ngModelOptions]="{standalone: true}" placeholder="{{'synonyms_search_terms' | translate}}" required class="input-text">
         </div>
       </div>
@@ -55,7 +55,7 @@
         <div class="tags">
           <div class="chip-sys-data">
             <mat-form-field class="example-chip-list"
-              [class.err-block]="((!synonymObj.synonyms || !synonymObj.synonyms.length) && submitted)"
+              [class.err-block]="((!synonymObj?.synonyms?.length) && submitted)"
               [floatLabel]="'never'">
               <mat-chip-list #chipList>
                 <perfect-scrollbar class="mat-chip-scroll">
@@ -74,7 +74,7 @@
         </div>
       </div>
       <div class="form-add-btn-synonym col-2 text-center pr-0">
-        <button (click)="addSynonym()" class="kr-sg-button-primary"><span class="add-icon"><i class="si-add-plus"></i></span>Add</button>
+        <button (click)="addSynonym()" class="kr-sg-button-primary"><span class="add-icon"><i class="si-add-plus"></i></span>{{"sa_add" | translate}}</button>
       </div>
     </div>
   </div>
@@ -142,7 +142,7 @@
                         <div class="d-flex align-items-center" *ngFor="let synonym of synonymObj.synonyms;let synIndex = index">
                           <div class="synonym-type-list-name">{{synonym}}</div>
                           <div *ngIf="(synonymObj.type == 'oneWaySynonym') && (synIndex<synonymObj.synonyms.length-1)"
-                            class="synonym-type-list-and-or">OR</div>
+                            class="synonym-type-list-and-or">{{"sa_OR" | translate}}</div>
                           <div class="icon-one-or-two-way"
                             *ngIf="(synonymObj.type !== 'oneWaySynonym') && (synIndex<synonymObj.synonyms.length-1)"><i
                               class="si-arrow-two-way arrow_divider"></i></div>
@@ -171,10 +171,10 @@
                     <div class="synonym-view-data row col-12 p-0 m-0">
                       <div class="synonym-name col-3 p-0" *ngIf="editSynonymObj?.type !== 'synonym'">
                         <div class="kr-sg-input-text">
-                          <input [class.err-block]="((!editSynonymObj.keyword || !editSynonymObj.keyword.length) && Editsubmitted)"
+                          <input [class.err-block]="((!editSynonymObj.keyword || !editSynonymObj.keyword.length) && editSubmitted)"
                             type="text" id="synonymName" name="synonymName" autocomplete="off" [(ngModel)]="editSynonymObj.keyword"
                             [ngModelOptions]="{standalone: true}" placeholder="Search Term" required class="input-text">
-                          <i *ngIf="(editSynonymObj.type === 'oneWaySynonym') && (!editSynonymObj.keyword || !editSynonymObj.keyword.length) && Editsubmitted"
+                          <i *ngIf="(editSynonymObj.type === 'oneWaySynonym') && (!editSynonymObj.keyword || !editSynonymObj.keyword.length) && editSubmitted"
                             class="si-right-arrow-large" style="top: 29%; position: absolute; right: 1.5%; display: block;"
                             height="12" width="12"></i>
                         </div>
@@ -185,7 +185,7 @@
                         <div class="tags">
                           <div class="chip-sys-data">
                             <mat-form-field class="example-chip-list"
-                              [class.err-block]="((!editSynonymObj.synonyms || !editSynonymObj.synonyms.length) && Editsubmitted)"
+                              [class.err-block]="((!editSynonymObj?.synonyms?.length) && editSubmitted)"
                               [floatLabel]="'never'">
                               <mat-chip-list #chipList1>
                                 <perfect-scrollbar class="mat-chip-scroll">
@@ -200,7 +200,7 @@
                                     (matChipInputTokenEnd)="add($event,'edit')" autocomplete="off">
                                 </perfect-scrollbar>
                               </mat-chip-list>
-                              <img *ngIf="(!editSynonymObj.synonyms || !editSynonymObj.synonyms.length) && Editsubmitted"
+                              <img *ngIf="(!editSynonymObj.synonyms || !editSynonymObj.synonyms.length) && editSubmitted"
                                 id="valuesWarningWarning" src="assets/icons/warning_escalation.svg"
                                 style="top: 29%; position: absolute; right: 1.5%; display: block;" height="12" width="12" />
                             </mat-form-field>

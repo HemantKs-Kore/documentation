@@ -83,10 +83,7 @@
             (mouseout)="searchFocusIn=false;searchImgSrc = 'assets/icons/search_gray.svg'" 
             (focus)="searchFocusIn=true;searchImgSrc = 'assets/icons/search_gray.svg'">
           <span class="search-icon" *ngIf="!searchStopwords && stopwordsList?.length"><i class="si-search"></i></span>
-          <span class="close-icon d-none" *ngIf="searchStopwords.length" [ngClass]="{'pr-22':searchStopwords}"
-            (mouseover)="activeClose=true" (mouseout)="activeClose=false" (click)="focusoutSearch()"
-            placement="top-center" container='body' ngbTooltip="Cancel"
-            tooltipClass="ngb_tooltip_custom_class sampleJson"><i class="si-close"></i></span>
+          <span class="close-icon" *ngIf="searchStopwords.length" (click)="searchStopwords = ''"><i class="si-close"></i></span>
         </div> 
         <div class="seach-block" (click)="showSearch=!showSearch;focusinSearch('inputSearch')" *ngIf="(stopwords && stopwords.length)">
           <span class="in-search" [ngClass]="{'d-none': showSearch}" id="btn_toggle_search_structured_data">
@@ -96,19 +93,21 @@
       </ng-container>
           <div class="kr-sg-dropdowns w-auto exportdropdown" ngbDropdown [container]="'body'" [placement]="'bottom-right'">                                        
             <div class="dropdown dropdown-open">
-                <button class="dropdown-toggle dropdown-input p-0 border-0" ngbDropdownToggle>
+                <button (click)="checkForDefaultStopWords()" class="dropdown-toggle dropdown-input p-0 border-0" ngbDropdownToggle>
                   <span class="elipse-span"><i class="si-overflow-menu"></i></span>
                 </button>                                            
                 <ul class="dropdown-menu content-menu faq-filter-add" ngbDropdownMenu>
-                  <li *ngIf="stopwordsList?.length" class="restoreDefaults" (click)="createStopWords(false,'',false,true)">
+                  <li *ngIf="haveDefaultStopwords && stopWordsIntiType !== 'default'" class="restoreDefaults" (click)="createStopWords(false,'',false,true)">
                     <span class="li-icon-span"><i class="si-minus-circle-o"></i></span><span class="label_txt">{{"stopwords_Remove_Default_Stop_Words" | translate}}</span>              
                   </li> 
-                  <li *ngIf="stopwordsList?.length" class="restoreDefaults" (click)="createStopWords(false,'',true)">
+                  <li *ngIf="stopWordsIntiType === 'default'" class="restoreDefaults" (click)="resetToDefault($event)">
                     <span class="li-icon-span"><i class="si-recall"></i></span><span class="label_txt">{{"stopwords_reset_to_default" | translate}}</span>              
                   </li> 
-                  <li class="restoreDefaults" (click)="createStopWords(true)">
+                  <hr class="mt-0 mb-0" *ngIf="createFromScratch &&  !haveDefaultStopwords">
+                  <li *ngIf="createFromScratch &&  !haveDefaultStopwords" class="restoreDefaults" (click)="createStopWords(true)">
                     <span class="li-icon-span"><i class="si-add-plus-square"></i></span><span class="label_txt">{{"stopwords_add_defalut" | translate}}</span>              
-                  </li>                
+                  </li> 
+                  <hr class="mt-0 mb-0" *ngIf="stopwordsList?.length">               
                   <li *ngIf="stopwordsList?.length" class="restoreDefaults clear-all-btn" (click)='deleteAllConfirmationPopUp($event)'>
                     <span class="li-icon-span"><i class="si-close-red"></i></span><span class="label_txt">{{"stopwords_clear_all" | translate}}</span>              
                   </li>        

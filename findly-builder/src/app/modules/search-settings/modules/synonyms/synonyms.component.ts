@@ -50,7 +50,7 @@ export class SynonymsComponent implements OnInit, OnDestroy {
   removable = true;
   addOnBlur = true;
   queryPipelineId;
-  Editsubmitted: boolean = false;
+  editSubmitted: boolean = false;
   // showSynonym:boolean
   indexPipelineId;
   isAsc = true;
@@ -404,6 +404,7 @@ export class SynonymsComponent implements OnInit, OnDestroy {
     this.addNewSynonymObj.synonyms = [];
     this.synonymObj.synonyms = [];
     this.addNewSynonymObj.keyword = [];
+    this.submitted = false;
   }
   addSynonym() {
     this.submitted = true;
@@ -457,8 +458,7 @@ export class SynonymsComponent implements OnInit, OnDestroy {
     };
     var url: any = '';
     if (synonymData.type == 'synonym') delete payload.keyword;
-    if (type == 'add') url = 'put.addSynonym';
-    if (type == 'edit') url = 'put.EditSynonym';
+      url =  type == 'add'?'put.addSynonym':'put.EditSynonym';
     this.service.invoke(url, quaryparms, payload).subscribe(
       (res) => {
         this.getSynonyms();
@@ -544,7 +544,7 @@ export class SynonymsComponent implements OnInit, OnDestroy {
     this.editSynonymObj = this.synonymData[index];
   }
   addEditedSynonym(synonymn) {
-    this.Editsubmitted = true;
+    this.editSubmitted = true;
     if (
       !this.editSynonymObj ||
       (this.editSynonymObj.synonyms && !this.editSynonymObj.synonyms.length)

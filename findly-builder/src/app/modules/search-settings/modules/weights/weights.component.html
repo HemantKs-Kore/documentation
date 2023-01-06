@@ -19,9 +19,6 @@
                         <i class="si-re-fresh icon-refresh"></i>
                         {{'weights_reset_to_default' | translate}}
                     </div>
-                    <span class="clock_img d-none">
-                        <img src="assets/icons/clock.svg">
-                    </span>
                     <div id="sa_weights_searchable_field" class="lable_text mr-4 add-searchable" id="btn_openWeight" (click)="openAddNewWeight()">
                         <!-- <img src="assets/icons/editor/plus-add.svg" class="mr-2"> -->
                         <i class="si-add-plus icon-add-plus"></i>
@@ -78,7 +75,7 @@
                             </div>
                             <div class="sliderVal">{{weightModal?.sliderObj.default}}</div>
                             <div class="action_links">
-                                <span id="sa_weights_delete{{i}}" class="actions-links" id="btn_deleteWeight" ngbTooltip='Delete'
+                                <span id="sa_weights_delete{{i}}" class="actions-links" id="btn_deleteWeight" ngbTooltip='{{"sa_remove" | translate}}'
                                     [container]="'body'" (click)="deleteWeightPopUp(weightModal,$event,i)">
                                     <!-- <img class="action_icon" src="assets/icons/delete.svg"> -->
                                     <i class="si-delete1 icon-delete"></i>
@@ -105,7 +102,7 @@
                     <div class="kr-sg-dropdowns col-12 p-0" ngbDropdown>
                         <div class="dropdown dropdown-open">
                             <button id="sa_weights_drop_down" [ngClass]="{'error':submitted && !search_FieldName.length}" class="dropdown-toggle dropdown-input" id="dropdownBasic1" data-toggle="dropdown"
-                                ngbDropdownAnchor (click)="clearcontentSrcW()">
+                                ngbDropdownAnchor (click)="clearSearchtext()">
 
                                 {{addEditWeighObj.fieldName? addEditWeighObj.fieldName :"Choose field"}}
 

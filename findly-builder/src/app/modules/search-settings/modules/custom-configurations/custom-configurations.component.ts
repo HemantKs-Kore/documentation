@@ -53,7 +53,6 @@ getQuerypipeline() {
     queryPipelineId: this.queryPipelineId,
     indexPipelineId: this.indexPipelineId,
   };
-
   this.isLoading = true;
   this.service.invoke('get.queryPipeline', quaryparms).subscribe(
     (res) => {
@@ -108,7 +107,10 @@ getQuerypipeline() {
       }
     );
   }
-
+  // open Slider
+  openUserMetaTagsSlider() {
+    this.appSelectionService.topicGuideShow.next();
+  }
 
   //**delete the custom config data */
 deleteCustomConfig(data) {

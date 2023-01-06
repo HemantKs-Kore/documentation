@@ -1419,7 +1419,11 @@ export class EndPointsService {
     ////Apis for Weights module  ends
 
     //Apis for Stop Words module starts
-
+    // Api for default stop wrods
+    this.serviceList['get.defaultStopWords'] = {
+      endpoint:  this.API_SERVER_URL +'/findly/seed_data?stopwords=true',
+      method: 'get'
+    }
     //Api for getting stopwords List
     this.serviceList['get.stopWordsList'] = {
       endpoint: this.API_SERVER_URL +'/findly/stream/:streamId/indexPipeline/:indexPipelineId/queryPipeline/:queryPipelineId/stopwords?languageCode=:code',
