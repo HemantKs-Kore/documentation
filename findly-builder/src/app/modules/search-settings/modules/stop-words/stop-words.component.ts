@@ -302,7 +302,7 @@ createInit() {
         title: 'Delete Stop Word',
         text: 'Are you sure you want to delete selected Stop Word?',
         newTitle: 'Are you sure you want to delete ?',
-        body: word + ' will be removed from stopword list',
+        body: '"'+'<b>'+word+'</b>'+'"' + ' will be removed from stopword list',
         buttons: [{ key: 'yes', label: 'Delete', type: 'danger' }, { key: 'no', label: 'Cancel' }],
         confirmationPopUp: true
       }
