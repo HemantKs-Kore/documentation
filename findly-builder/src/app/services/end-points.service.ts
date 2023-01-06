@@ -1460,9 +1460,9 @@ export class EndPointsService {
     //Apis for Synonyms module ends
 
     //Search Settings Usage API for presenatble,highlight,spellcorrect
-    this.serviceList['get.searchusage'] = {                                                                                                 
-      endpoint: this.API_SERVER_URL +'/findly/stream/:streamId/indexPipeline/:indexPipelineId/queryPipeline/:queryPipelineId/searchField/:fieldId/:usage',
-      method: 'delete'
+    this.serviceList['get.searchSettingsUsage'] = {                                                                                                 
+      endpoint: this.API_SERVER_URL +'/findly/stream/:streamId/indexPipeline/:indexPipelineId/queryPipeline/:queryPipelineId/searchField/:fieldId/usage',
+      method: 'get'
     }
  }
 }

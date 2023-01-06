@@ -1345,7 +1345,7 @@ export class FieldManagementComponent implements OnInit {
     this.appSelectionService.topicGuideShow.next();
   }
 
-  //Seachable Checkboc Validation
+  //Searchable Checkbox Validation
   searchableValidation(searchableCheckbox){
     console.log(searchableCheckbox)
     if(!searchableCheckbox.isSearchable){

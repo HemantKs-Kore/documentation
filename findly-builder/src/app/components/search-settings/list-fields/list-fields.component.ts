@@ -1,10 +1,15 @@
 import { Component, IterableDiffers, OnInit, ViewChild,Output,Input,EventEmitter } from '@angular/core';
+import { WorkflowService } from '@kore.services/workflow.service';
+import { AppSelectionService } from '@kore.services/app.selection.service';
 import { KRModalComponent } from 'src/app/shared/kr-modal/kr-modal.component';
 import { PerfectScrollbarComponent, PerfectScrollbarDirective } from 'ngx-perfect-scrollbar';
 import { isNgTemplate } from '@angular/compiler';
 import { MatDialog } from '@angular/material/dialog';
 import { ConfirmationDialogComponent } from 'src/app/helpers/components/confirmation-dialog/confirmation-dialog.component';
 import { ActivatedRoute, Router } from '@angular/router';
+import { Subscription } from 'rxjs';
+import { ServiceInvokerService } from '@kore.services/service-invoker.service';
+import { NotificationService } from '@kore.services/notification.service';
 import { HighlightingComponent } from 'src/app/modules/search-settings/modules/highlighting/highlighting.component';
 declare const $: any;
 
@@ -29,9 +34,13 @@ export class ListFieldsComponent implements OnInit {
   @Input() isaddLoading = false;
    page_number=0;
   constructor(
+    public workflowService: WorkflowService,
+    private appSelectionService: AppSelectionService,
     public dialog: MatDialog,
     private route: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    private service: ServiceInvokerService,
+    private notificationService: NotificationService
   ) { }
 
   addFieldModalPopRef: any;
@@ -44,8 +53,14 @@ export class ListFieldsComponent implements OnInit {
   selectedSort = 'fieldName';
   componenttype;
   checksort='asc'
+  querySubscription : Subscription;
   isAsc = true;
+  streamId: any;
+  indexPipelineId: any;
+  queryPipelineId:any;
+  selectedApp;
   loadingContent = true;
+  usageArr = [];
   // showWarning=false
   // dataType:any;
   // fieldCheckArray=[]
@@ -55,6 +70,14 @@ export class ListFieldsComponent implements OnInit {
     // if(this.tablefieldvalues && this.tablefieldvalues.length){
     //   this.loadingContent = false
     // }
+    this.selectedApp = this.workflowService?.selectedApp();
+    //console.log(this.presentabledata);
+    this.indexPipelineId = this.workflowService.selectedIndexPipeline();
+    this.queryPipelineId = this.workflowService.selectedQueryPipeline() ? this.workflowService.selectedQueryPipeline()._id : '';
+    this.querySubscription = this.appSelectionService.queryConfigSelected.subscribe(res => {
+      this.indexPipelineId = this.workflowService.selectedIndexPipeline();
+      this.queryPipelineId = this.workflowService.selectedQueryPipeline() ? this.workflowService.selectedQueryPipeline()._id : ''
+   })
   }
   //**Sort icon visibility */
   getSortIconVisibility(sortingField: string, type: string,component: string) {
@@ -244,17 +267,51 @@ export class ListFieldsComponent implements OnInit {
     //    return item.fieldDataType==='html' || item.fieldDataType==='dense_vector'      
     //   })
     }
-  
+  //** To get the Field usage and impacted areas */
+  getFieldUsage(record){
+    const quaryparms: any = {
+      indexPipelineId:this.indexPipelineId,
+      streamId:this.selectedApp._id,
+      queryPipelineId:this.queryPipelineId,
+      fieldId:record._id
+    };
+    this.service.invoke('get.searchSettingsUsage', quaryparms).subscribe(res => {
+      this.usageArr=Object.keys(res).filter(item => {
+        if (res[item]){
+            return true;
+        }
+    })
+    }, errRes => {
+      this.notificationService.notify("Failed to fields usage",'error');
+    });
+    return this.usageArr
+  }
 
   //** to delete the Field modal pop-up */
   deletefieldsDataPopup(record) {
+     this.getFieldUsage(record)
+    let resultStr = `The field is used in `;
+    let endstr=''
+    if (this.usageArr.length === 1) {
+      resultStr += this.usageArr[0];
+      endstr += this.usageArr[0];
+    } else if (this.usageArr.length === 2) {
+      resultStr += `${this.usageArr.join(' and ')}`;
+      endstr += `${this.usageArr.join(' and ')}`;
+    } else {
+      const lastVal = this.usageArr.slice(-1)[0]; 
+      resultStr += `${this.usageArr.slice(0, this.usageArr.length -1 ).join(', ')} and ${lastVal}`;
+      endstr += `${this.usageArr.slice(0, this.usageArr.length -1 ).join(', ')} and ${lastVal}`;
+    }
+    resultStr += ' The action will remove it from ' + endstr
+    console.log(resultStr);
     const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
       width: '530px',
       height: 'auto',
       panelClass: 'delete-popup',
       data: {
-        newTitle: 'Are you sure you want to delete?',
-        body: 'Selected data will be permanently deleted.',
+        newTitle: 'Are you sure you want to remove the field?',
+        body: resultStr,
         buttons: [{ key: 'yes', label: 'Delete', type: 'danger', class: 'deleteBtn' }, { key: 'no', label: 'Cancel' }],
         confirmationPopUp: true,
       }
@@ -273,4 +330,9 @@ export class ListFieldsComponent implements OnInit {
       }
     });
   }
+
+   //**unsubcribing the query subsciption */
+   ngOnDestroy() {
+    this.querySubscription ? this.querySubscription.unsubscribe() : false;
+  }s
 }
