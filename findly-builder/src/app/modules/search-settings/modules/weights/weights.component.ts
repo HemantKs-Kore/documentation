@@ -104,7 +104,6 @@ export class WeightsComponent implements OnInit, OnDestroy
   selectedField(event) {
     this.addEditWeighObj.fieldName = event.fieldName;
     this.addEditWeighObj.fieldId = event._id;
-    // this.addEditWeighObj.name = event.fieldName;
   }
   clearField()
   {
@@ -427,17 +426,6 @@ export class WeightsComponent implements OnInit, OnDestroy
          this.loadingContent = false;
          this.errorToaster(errRes, 'Failed to Delete weight');
       });
-  }
-  modifyFieldWarningMsg(warningMessage)
-  {
-    let index = warningMessage.indexOf("changed");
-    if (index > -1)
-    {
-      return true;
-    } else
-    {
-      return false;
-    }
   }
   clearSearchtext()
   {

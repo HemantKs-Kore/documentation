@@ -101,16 +101,16 @@
                 <div class="row m-0 align-items-center">
                     <div class="kr-sg-dropdowns col-12 p-0" ngbDropdown>
                         <div class="dropdown dropdown-open">
-                            <button id="sa_weights_drop_down" [ngClass]="{'error':submitted && !search_FieldName.length}" class="dropdown-toggle dropdown-input" id="dropdownBasic1" data-toggle="dropdown"
+                            <button id="sa_weights_drop_down" [ngClass]="{'error':submitted && !search_FieldName?.length}" class="dropdown-toggle dropdown-input" id="dropdownBasic1" data-toggle="dropdown"
                                 ngbDropdownAnchor (click)="clearSearchtext()">
 
-                                {{addEditWeighObj.fieldName? addEditWeighObj.fieldName :"Choose field"}}
+                                {{addEditWeighObj?.fieldName? addEditWeighObj.fieldName :('sa_choose_field' | translate)}}
 
                             </button>
                             <ul class="dropdown-menu content-menu faq-filter-add col-12 mw-100"
                                 style="overflow-y: hidden;" ngbDropdownMenu>
                                 <li class="search-box" ngbDropdownItem>
-                                    <input id="sa_weights_add_search" id="searchBoxIdW" autocomplete="off" type="text" placeholder="Search"
+                                    <input id="sa_weights_add_search" id="searchBoxIdW" autocomplete="off" type="text" placeholder="{{'sa_search' | translate }}"
                                         class="seach-input" autofocus [(ngModel)]="search_FieldName" />
                                 </li>
                                 <perfect-scrollbar class="scroll-search-field h-178">
@@ -118,10 +118,10 @@
                                         <li id="sa_weights_sropdown_vales{{i}}" ngbDropdownItem
                                             *ngFor="let suggesition of fieldsList | filter : [search_FieldName, 'fieldName']"
                                             (click)="addEditWeighObj.fieldName=suggesition.fieldName;selectedField(suggesition)"
-                                            [ngClass]="{'highlight':addEditWeighObj.fieldName == suggesition}">
+                                            [ngClass]="{'highlight':addEditWeighObj.fieldName == suggesition.fieldName}">
                                             {{ suggesition.fieldName}}
                                         </li>
-                                        <li *ngIf="fieldsList && fieldsList.length===0">{{"weights_please_add" | translate}}</li>
+                                        <li *ngIf="fieldsList?.length===0">{{"weights_please_add" | translate}}</li>
                                     </ng-container>
                                 </perfect-scrollbar>
                             </ul>
