@@ -292,7 +292,7 @@
                                             <div class="col-4 pr-0">
                                               <div class="kr-sg-dropdowns w-auto" ngbDropdown (click)="currentEditInex = index" *ngIf="ruleObj.contextType !=='userContext'">
                                                   <div class="dropdown dropdown-open">
-                                                      <button class="dropdown-toggle dropdown-input" id="dropdownBasic1" ngbDropdownToggle>
+                                                      <button class="dropdown-toggle dropdown-input" id="dropdownBasic1" ngbDropdownToggle  data-toggle="dropdown">
                               {{"businessRules." + ruleObj.contextCategory | translate}}
                               </button>
                                                       <ul class="dropdown-menu content-menu faq-filter-add" ngbDropdownMenu>
@@ -310,7 +310,7 @@
                                           <div class="col-3 pr-0">
                                             <div class="kr-sg-dropdowns d-inline-block" ngbDropdown (click)="currentEditInex = index">
                                                 <div class="dropdown dropdown-open">
-                                                    <button class="dropdown-toggle dropdown-input" id="dropdownBasic1" ngbDropdownToggle>{{((ruleObj.dataType)?("businessRules." + ruleObj.dataType): 'choose_an_option')  | translate}}</button>
+                                                    <button class="dropdown-toggle dropdown-input"  data-toggle="dropdown" id="dropdownBasic1" ngbDropdownToggle>{{((ruleObj.dataType)?("businessRules." + ruleObj.dataType): 'choose_an_option')  | translate}}</button>
                                                     <ul class="dropdown-menu content-menu faq-filter-add" ngbDropdownMenu>
                                                       <ng-container *ngFor="let dataType of ruleOptions.dataTypes">
                                                         <li ngbDropdownItem [hidden]="(dataType == 'date' || dataType == 'number') && ruleObj.contextType =='searchContext'" (click)="ruleSelection(ruleObj,dataType,'dataType')" [ngClass]="{'active':ruleObj.dataType===dataType}">{{"businessRules." + dataType | translate}}
@@ -323,7 +323,7 @@
                                         <div class="col-3 pr-0">
                                           <div class="kr-sg-dropdowns d-inline-block" ngbDropdown (click)="currentEditInex = index">
                                               <div class="dropdown dropdown-open">
-                                                  <button class="dropdown-toggle dropdown-input" id="dropdownBasic1" ngbDropdownToggle>{{((ruleObj.operator)?("businessRules." + ruleObj.operator):'choose_an_option')  | translate}}</button>
+                                                  <button class="dropdown-toggle dropdown-input"  data-toggle="dropdown" id="dropdownBasic1" ngbDropdownToggle>{{((ruleObj.operator)?("businessRules." + ruleObj.operator):'choose_an_option')  | translate}}</button>
                                                   <ul class="dropdown-menu content-menu faq-filter-add" ngbDropdownMenu>
                                                       <ng-container *ngIf="ruleObj.dataType && conditions[ruleObj.dataType]">
                                                           <li ngbDropdownItem *ngFor="let operator of conditions[ruleObj.dataType]" (click)="ruleSelection(ruleObj,operator,'operator')" [ngClass]="{'active':ruleObj.operator===operator}">{{"businessRules." + operator | translate}} </li>
