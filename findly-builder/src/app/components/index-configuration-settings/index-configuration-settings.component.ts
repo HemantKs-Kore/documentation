@@ -5,11 +5,13 @@ import { ServiceInvokerService } from '@kore.services/service-invoker.service';
 import { NotificationService } from '@kore.services/notification.service';
 import { AppSelectionService } from '@kore.services/app.selection.service';
 import { WorkflowService } from '@kore.services/workflow.service';
-import { Subscription } from 'rxjs';
+import { from, interval, Subject, Subscription } from 'rxjs';
 import { ValueConverter } from '@angular/compiler/src/render3/view/template';
 import { ConfirmationDialogComponent } from 'src/app/helpers/components/confirmation-dialog/confirmation-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
 import { DockStatusService } from '../../services/dockstatusService/dock-status.service';
+import { startWith, elementAt, filter } from 'rxjs/operators';
+import * as _ from 'underscore';
 
 declare const $: any;
 @Component({
@@ -36,8 +38,9 @@ export class IndexConfigurationSettingsComponent implements OnInit {
     code: "en"
     }]
   languageList:any = [];
-
-
+  public pollingSubscriber : any;
+  docStatusObject : any = {};
+  isTrainStatusInprogress = false;
   @ViewChild('addLangModalPop') addLangModalPop: KRModalComponent;
   @ViewChild('perfectScroll') perfectScroll: PerfectScrollbarComponent;
 
@@ -62,6 +65,9 @@ export class IndexConfigurationSettingsComponent implements OnInit {
         this.queryPipelineId = this.workflowService.selectedQueryPipeline() ? this.workflowService.selectedQueryPipeline()._id : ''
         this.supportedLanguages = this.workflowService.supportedLanguages.values;
       })
+
+      this.poling();
+     
   } 
 // toaster message 
   errorToaster(errRes, message) {
@@ -83,10 +89,6 @@ export class IndexConfigurationSettingsComponent implements OnInit {
         } 
       }); 
     });
-    setTimeout(() => {
-      this.perfectScroll.directiveRef.update();
-      this.perfectScroll.directiveRef.scrollTo(25,50,500)
-    }, 500)
   }
 // close pop for add and edit 
   closeModalPopup() {
@@ -161,6 +163,7 @@ export class IndexConfigurationSettingsComponent implements OnInit {
               dialogRef.close();
             }
             this.dockService.trigger(true);
+            this.poling();
             this.closeModalPopup();
             this.notificationService.notify('Language Saved Successfully', 'success');
           },
@@ -174,13 +177,13 @@ export class IndexConfigurationSettingsComponent implements OnInit {
           }
         );
   }
-
-  getTrainIsInprogress(){
-    if($('.notification-block').find('.inProgress.notification-icon').is(":visible")){
+//get train status
+getTrainIsInprogress(){
+    if($('.train-btn-icons').find('.training-pending-icon').is(":visible")){
       return true;
     }
-    return false;
-  }
+    else false;
+}
   // get selected language count
   getSelectedCount(){
     return this.languageList.filter(e=>e.selected).length;
@@ -270,7 +273,37 @@ export class IndexConfigurationSettingsComponent implements OnInit {
         }
       });
   }
+  poling() {
+    this.isTrainStatusInprogress  = true;
+    if (this.pollingSubscriber) {
+      this.pollingSubscriber.unsubscribe();
+    }
+    const queryParms ={
+      searchIndexId:this.workflowService.selectedSearchIndexId
+    }
+    this.pollingSubscriber = interval(10000).pipe(startWith(0)).subscribe(() => {
+      this.service.invoke('get.dockStatus', queryParms).subscribe(res => {
+          const queuedDoc = _.find(res, (source) => {
+          return (source?.jobType == "TRAINING" && source?.status == "INPROGRESS");
+        });
+        if (queuedDoc && (queuedDoc.status == "INPROGRESS")) {
+          this.isTrainStatusInprogress = true;
+        } else {
+          this.isTrainStatusInprogress = false;
+          this.pollingSubscriber.unsubscribe();
+        }
+      }, errRes => {
+        this.isTrainStatusInprogress = false;
+        this.pollingSubscriber.unsubscribe();
+      });
+    }
+    )
+  }
   ngOnDestroy() {
     this.configurationsSubscription ? this.configurationsSubscription.unsubscribe() : false;
+    if(this.pollingSubscriber){
+      this.pollingSubscriber.unsubscribe();
+    }
   }
+ 
 }

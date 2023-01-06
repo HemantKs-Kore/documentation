@@ -17,7 +17,7 @@
                 <div class="body-header-tag"> {{"index_Settings_index_languages" | translate}} </div>
                 <div class="body-header-desc">  {{"index_Settings_multilangual_support_desc" | translate}} </div>
             </div>
-            <div id="sa_index_settings_add_language" [ngClass]="getTrainIsInprogress()?'disable-add-btn':''" id="sa_open_add_langauge" class="body-header-link-btn" (click)="openModalPopup()">
+            <div id="sa_index_settings_add_language" [ngClass]="getTrainIsInprogress()||isTrainStatusInprogress?'disable-add-btn':''" id="sa_open_add_langauge" class="body-header-link-btn" (click)="openModalPopup()">
                 <span class="icon-add-span"><i class="si-add-plus icon-add"></i></span>
                 {{"index_Settings_add_language" | translate}}
             </div>
