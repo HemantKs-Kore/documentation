@@ -11,14 +11,7 @@ import { ConfirmationDialogComponent } from 'src/app/helpers/components/confirma
 import { MatDialog } from '@angular/material/dialog';
 import { DockStatusService } from '../../services/dockstatusService/dock-status.service';
 
-
-
-
-
-
-
-
-
+declare const $: any;
 @Component({
   selector: 'app-index-configuration-settings',
   templateUrl: './index-configuration-settings.component.html',
@@ -54,7 +47,7 @@ export class IndexConfigurationSettingsComponent implements OnInit {
     private notificationService: NotificationService,
     private appSelectionService: AppSelectionService,
     public dialog: MatDialog,
-    public dockService: DockStatusService,
+    public dockService: DockStatusService
   ) { }
 
   ngOnInit(): void {
@@ -90,6 +83,10 @@ export class IndexConfigurationSettingsComponent implements OnInit {
         } 
       }); 
     });
+    setTimeout(() => {
+      this.perfectScroll.directiveRef.update();
+      this.perfectScroll.directiveRef.scrollTo(25,50,500)
+    }, 500)
   }
 // close pop for add and edit 
   closeModalPopup() {
@@ -163,6 +160,7 @@ export class IndexConfigurationSettingsComponent implements OnInit {
             if (dialogRef && dialogRef.close) {
               dialogRef.close();
             }
+            this.dockService.trigger(true);
             this.closeModalPopup();
             this.notificationService.notify('Language Saved Successfully', 'success');
           },
@@ -176,6 +174,18 @@ export class IndexConfigurationSettingsComponent implements OnInit {
           }
         );
   }
+
+  getTrainIsInprogress(){
+    if($('.notification-block').find('.inProgress.notification-icon').is(":visible")){
+      return true;
+    }
+    return false;
+  }
+  // get selected language count
+  getSelectedCount(){
+    return this.languageList.filter(e=>e.selected).length;
+  }
+
   //selection and deselection method
   unCheck(){
     this.supportedLanguages.forEach(element => {

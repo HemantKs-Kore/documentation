@@ -74,6 +74,9 @@
                         }
                     }
                 }
+                &.disable-add-btn{
+                    pointer-events: none;
+                }
             }
         }
     }
