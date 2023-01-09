@@ -399,8 +399,8 @@ export class WeightsComponent implements OnInit, OnDestroy
     };
     this.service.invoke('delete.Weight', quaryparms).subscribe(res => {
      if(res){
-      this.getWeights();
-         //this.weightsList.splice(index, 1);
+      //this.getWeights();
+         this.weightsList.splice(index, 1);
          this.notificationService.notify('Field From Weight Removed Successfully', 'success');
         }
       }, errRes => {

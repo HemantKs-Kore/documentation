@@ -198,7 +198,7 @@ export class ResultTemplatesComponent implements OnInit {
     //   indexPipelineId: this.indexPipelineId,
     //   query
     // };
-   // const url = '';
+   // const url = 'get.getFieldAutocomplete';
     const url = 'get.presentableFields'
     const quaryparms: any = {
       isSelected:true,

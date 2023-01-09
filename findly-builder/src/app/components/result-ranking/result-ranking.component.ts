@@ -134,14 +134,25 @@ export class ResultRankingComponent implements OnInit, OnDestroy {
   }
   getFieldAutoComplete() {
     let query: any = '';
+    // const quaryparms: any = {
+    //   searchIndexID: this.serachIndexId,
+    //   indexPipelineId: this.indexPipelineId,
+    //   query,
+    // };
+    // const url = 'get.getFieldAutocomplete'
+    const url = 'get.presentableFields'
     const quaryparms: any = {
-      searchIndexID: this.serachIndexId,
-      indexPipelineId: this.indexPipelineId,
-      query,
+      isSelected:true,
+      sortField: "fieldName",
+      orderType: 'asc', //desc,
+      indexPipelineId:this.indexPipelineId,
+      streamId:this.selectedApp._id,
+      queryPipelineId:this.queryPipelineId,
+      searchKey:''
     };
-    this.service.invoke('get.getFieldAutocomplete', quaryparms).subscribe(
+    this.service.invoke(url, quaryparms).subscribe(
       (res) => {
-        this.fieldData = res;
+        this.fieldData = res.data;
         this.getSettings('fullSearch');
       },
       (errRes) => {
