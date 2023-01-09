@@ -83,15 +83,6 @@ export class StopWordsComponent implements OnInit, OnDestroy {
       }
     }
   }
-  toggleSearch() {
-    if (this.showSearch && this.searchStopwords) {
-      this.searchStopwords = '';
-    }
-    this.showSearch = !this.showSearch
-  }
-  getActiveSearch() {
-    return $('.stopwordBlock').length;
-  }
   errorToaster(errRes, message) {
     if (errRes && errRes.error && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0].msg) {
       this.notificationService.notify(errRes.error.errors[0].msg, 'error');
@@ -139,7 +130,7 @@ createInit() {
       code:'en'
     };
     this.service.invoke('get.stopWordsList', quaryparms).subscribe(res => {
-      if(res && res.stopwords){
+      if(res?.stopwords){
         this.stopwordsList = res.stopwords;
       }
     }, errRes => {
@@ -223,12 +214,12 @@ createInit() {
     }
     this.service.invoke('put.createStopWords',quaryparms,payload).subscribe(res => {
        this.stopwordsList = res.stopwords // updating Display Array
-       this.notificationService.notify('Stopwords Added Successfully', 'success');
+       let message = reset?'Resetting Stop Words Successfully':removeDefault?'Default Stop Words Removed Succesfully':'Default Stop Words Added Succesfully';
+       this.notificationService.notify(message, 'success');
        this.newStopWord = '';
        this.checkForDefaultStopWords()
     }, errRes => {
-      if(type == true) this.notificationService.notify('Failed To Add Stopwords', 'success')
-      if(type == false) this.notificationService.notify('Failed To Add Stopword', 'success')   
+      if(type) this.notificationService.notify('Failed To Add Stopwords', 'success')
     });
   }
   // DELETING AND UPDATING THE STOPWORDS (DELETE API CALL)
@@ -376,14 +367,13 @@ createInit() {
       }    
     }
     this.service.invoke('put.queryPipeline', quaryparms,payload).subscribe(res => {
-      this.stopwordData.enable=res.settings.stopwords.enable
-      this.notificationService.notify("updated successfully",'success');
+      this.stopwordData.enable=res?.settings?.stopwords.enable
+      this.stopwordData.enable?this.notificationService.notify("Stop Words Enabled",'success'):this.notificationService.notify("Stop Words Disabled",'success')
     }, errRes => {
       this.notificationService.notify("Failed to update",'error');
     });
    
-  }
-  
+  } 
   // -----------------------------(AUTHOR:BHARADWAJ)
   ngOnDestroy() {
     this.subscription ? this.subscription.unsubscribe() : false;

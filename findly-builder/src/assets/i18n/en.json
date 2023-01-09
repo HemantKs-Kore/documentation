@@ -3060,6 +3060,8 @@
     "sa_keyword": "Keyword",
     "sa_array": "Array",
     "sa_object": "Object",
+    "sa_checkbox": "checkbox",
+    "sa_update": "Update",
 
 
     
@@ -3689,6 +3691,7 @@
     "stopwords_add_defalut":"Add Defalut Stop Words",
     "stopwords_clear_all":"Clear All",
     "stopwords_Get_Started":"Get Started",
+    "stopwords_multiple_words_can_be_added":"Multiple words can be added with comma separation",
 
 
     "snippets_Snippets":"Snippets",
@@ -3704,6 +3707,7 @@
     "synonyms_search_terms":"Search Terms",
     "synonyms_type_synonym_and_enter":"Type Synonyms, press Enter, and then click Add",
     "synonyms_type_action":"ACTION",
+    "synonyms_search_term":"Search Term",
 
     "highlight_fields_for_highlight":"Fields for highlight",
     "highlight_fields_for_highlight_desc":"Add fields to be used for highlighting in the search results.",

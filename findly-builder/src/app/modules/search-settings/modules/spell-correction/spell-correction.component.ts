@@ -267,8 +267,8 @@ export class SpellCorrectionComponent implements OnInit {
     };
     this.service.invoke('put.queryPipeline', quaryparms, payload).subscribe(
       (res) => {
-        this.spellcorrectdata.settings.spellCorrect.enable = res?.settings?.spellcorrectdata?.enable;
-        this.notificationService.notify('updated successfully', 'success');
+        this.spellcorrectdata.settings.spellCorrect.enable = res?.settings?.spellCorrect?.enable;
+        this.spellcorrectdata.settings.spellCorrect.enable?this.notificationService.notify("Spell Correction Enabled",'success'):this.notificationService.notify("Spell Correction Disabled",'success');
       },
       (errRes) => {
         this.notificationService.notify('Failed to update', 'error');
