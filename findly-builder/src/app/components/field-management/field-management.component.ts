@@ -445,7 +445,7 @@ export class FieldManagementComponent implements OnInit {
         const lastVal = resultArr.slice(-1)[0]; 
         resultStr += `${resultArr.slice(0, resultArr.length -1 ).join(', ')} and ${lastVal}`;
       }
-      resultStr += '. Deleting it will remove all the associated settings'
+      resultStr += '.'+'<div>' +'Deleting it will remove all the associated settings' +'</div>'
       console.log(resultStr);
       // let usageText1 = "This field is being used in Facets, Weights, and Rules (Dynamic). Deleting it will remove the associated Facets, Weights, and Rules.";
       // if (res && (res.facets && res.facets.used) || (res.rules && res.rules.used) || (res.searchSettings && res.searchSettings.used) || (res.resultTemplates && res.resultTemplates.used) || (res.nlpRules && res.nlpRules.used) || (res.entites && res.entites.used)) {
@@ -512,7 +512,7 @@ export class FieldManagementComponent implements OnInit {
           body: resultArr,
           tooltipArr: this.tooltipArr,
           resultArr,
-          buttons: [{ key: 'yes', label: 'Confirm', type: 'danger' }, { key: 'no', label: 'Cancel' }],
+          buttons: [{ key: 'yes', label: 'Delete', type: 'danger', class: 'deleteBtn' }, { key: 'no', label: 'Cancel' }],
           confirmationPopUp: true
         }
       });

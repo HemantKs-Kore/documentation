@@ -1,12 +1,12 @@
-<div class="new-delete-popup" *ngIf="data.confirmationPopUp">
+<div class="new-delete-popup" *ngIf="data.confirmationPopUp" id="sa_delete_pop_up">
 	<div class="header-sec row m-0">
 	  <div class="title col-10 pl-0 pr-3">{{data.newTitle || data.title}}</div>
 	  <div class="col-2 p-0 close-popup" (click)="onClickOption(crossIconItem)"><img src="assets/icons/close.svg"></div>
 	</div>
-	<div class="body-info" >
+	<div class="body-info" id="sa_delete_body_info">
 		<ng-template #tipContent>
 			<div class="inner-content-html">
-				<p>IMPACTED SETTINGS</p>
+				<p>{{"search_settings_impacted_settings" |translate}}</p>
 				<ul>
 					<li *ngFor="let tip of data.tooltipArr">
 						{{ tip }}
@@ -15,12 +15,12 @@
 			</div>
 		</ng-template>
 
-		<span>This field is being used in </span>
+		<span>{{"search_settings_field_used" |translate}} </span>
 
 		<ng-container *ngIf="data.resultArr.length === 1">{{ data.resultArr[0] }} 
 			<i *ngIf="data.resultArr[0] == 'SearchSettings'" class="si-info"  [ngbTooltip]="tipContent"></i>
 		</ng-container>
-		<ng-container *ngIf="data.resultArr.length === 2">{{ data.resultArr[0] }} and  {{ data.resultArr[1] }}
+		<ng-container *ngIf="data.resultArr.length === 2">{{ data.resultArr[0] }} {{"sa_and" |translate}}  {{ data.resultArr[1] }}
 			<i *ngIf="data.resultArr[1] == 'SearchSettings'" class="si-info"  [ngbTooltip]="tipContent"></i>
 		</ng-container>
 		<ng-container *ngIf="data.resultArr.length > 2">
@@ -33,16 +33,16 @@
 			
 				
 			<ng-container *ngIf="isLast">
-				 and {{ item }} 
+				{{"sa_and" |translate}} {{ item }} 
 				 <i *ngIf="item == 'SearchSettings'" class="si-info"  [ngbTooltip]="tipContent"></i>
 			</ng-container>
 
 			</span>			
 		</ng-container>
-		. Deleting it will remove all the associated settings
+		{{"search_settings_deleting_will_remove_associated" |translate}}
 
 	</div>
-	<div class="btns-data">
+	<div class="btns-data" id="sa_btns_data">
 	  <!-- <button class="kr-sg-button-primary btn_lg mr-10">Confirm</button>
 	  <button class="kr-sg-button-secondary btn_lg mr-10">Cancel</button> -->
 	  <button *ngFor="let item of data.buttons" [disabled]="isSelected || item.disabled" (click)="onClickOption(item)" class="kr-sg-button-primary btn_md" [ngClass]="{'kr-sg-button-secondary': (item.label==='Cancel') || (item.primaryBtn),'dangerBtn':item.label==='Delete'}">      

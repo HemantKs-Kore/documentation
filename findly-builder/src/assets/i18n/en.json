@@ -3685,7 +3685,12 @@
     "synonyms_header_desc":"Add synonyms to expand the search queries to retrieve better search results",
     "synonyms_search_terms":"Search Terms",
     "synonyms_type_synonym_and_enter":"Type Synonym and Press Enter",
-    "synonyms_type_action":"ACTION"
+    "synonyms_type_action":"ACTION",
+
+    "search_settings_impacted_settings":"IMPACTED SETTINGS",
+    "search_settings_field_used":"This field is being used in",
+    "sa_and":"and",
+    "search_settings_deleting_will_remove_associated":". Deleting it will remove all the associated settings"
     
  
 }
