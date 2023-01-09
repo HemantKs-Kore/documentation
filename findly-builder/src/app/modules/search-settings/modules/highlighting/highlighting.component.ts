@@ -66,7 +66,7 @@ export class HighlightingComponent implements OnInit {
     this.indexPipelineId = this.workflowService.selectedIndexPipeline();
     this.queryPipelineId = this.workflowService.selectedQueryPipeline() ? this.workflowService.selectedQueryPipeline()._id : '';
     this.getAllHighlightFields()
-    //this.getQuerypipeline();
+    this.getQuerypipeline();
 
     this.querySubscription = this.appSelectionService.queryConfigSelected.subscribe(res => {
       this.indexPipelineId = this.workflowService.selectedIndexPipeline();
