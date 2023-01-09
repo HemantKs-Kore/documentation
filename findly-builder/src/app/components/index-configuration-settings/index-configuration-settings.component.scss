@@ -143,6 +143,9 @@
                     }
                 }
                 .action_links{
+                    &.disable-add-btn{
+                        pointer-events: none;
+                    }
                     padding: 0 5px;
                     visibility: hidden;
                     .field-edit-mode{
@@ -195,6 +198,9 @@
         }
     }
 
+}
+.disable-add-btn{
+    pointer-events: none;
 }
 
 ::ng-deep ngb-modal-window{

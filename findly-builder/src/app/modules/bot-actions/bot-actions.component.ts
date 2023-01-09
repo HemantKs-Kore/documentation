@@ -259,7 +259,6 @@ export class BotActionsComponent implements OnInit {
       this.botBulilderUrl = (res || {}).botsPlatformUrl;
     });
   }
-  loadingContent1: boolean;
   loadImageText: boolean = false;
 
   getdialog() {
@@ -610,9 +609,6 @@ export class BotActionsComponent implements OnInit {
                 if (res.length > 0) {
                   this.loadingContent = false;
                   this.checkListBots();
-                  this.loadingContent1 = true;
-                } else {
-                  this.loadingContent1 = true;
                 }
 
                 if (dialogsArr.length > 0) {
