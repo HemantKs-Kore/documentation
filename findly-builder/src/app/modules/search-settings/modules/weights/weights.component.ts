@@ -197,7 +197,7 @@ export class WeightsComponent implements OnInit, OnDestroy
     };
     this.service.invoke('get.weightsList', quaryparms).subscribe(res =>
     {
-      this.weights = res.data || {};
+      this.weights = res.data || [];
       this.prepereWeights();
       if (!this.inlineManual.checkVisibility('WEIGHTS')) {
         this.inlineManual.openHelp('WEIGHTS')
@@ -421,6 +421,7 @@ export class WeightsComponent implements OnInit, OnDestroy
     this.service.invoke('delete.Weight', quaryparms).subscribe(res => {
      if(res){
          this.weightsList.splice(index, 1);
+         this.getWeights(); // To update the Slider -- afer delete / Update
          this.notificationService.notify('Deleted Successfully', 'success');
         }
       }, errRes => {
