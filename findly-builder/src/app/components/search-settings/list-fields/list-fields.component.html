@@ -53,7 +53,7 @@
                 
                 <!-- Table Records/Body -->
                 <!-- <perfect-scrollbar class="table_body_content" id="sa_table_body_ps" (psYReachStart)="onYReachStart($event)" (psYReachEnd)="onYReachEnd($event)"> -->
-                    <perfect-scrollbar class="table_body_content" id="sa_table_body_ps">
+                    <perfect-scrollbar class="table_body_content"  id="sa_table_body_ps">
                         <div class="empty-table" *ngIf="!tablefieldvalues.length">
                             <!-- <img src="assets/images/icons/empty_ill.svg"> -->
                             <div class="heading">{{'search_settings_empty_table_data'| translate}}</div>
@@ -117,7 +117,7 @@
                                 {{"search_settings_type" |translate}}
                             </div>
                         </div>
-                        <perfect-scrollbar class="table_body_content" id="sa_table_body">
+                        <perfect-scrollbar class="table_body_content" id="sa_table_body" [ngClass]="!showWarning?'no-warning-msg':''">
                                     <div class="table_body row m-0" *ngFor="let fields of popupfieldvalues;let i = index" >
                                         <div class="col-2">
                                             <div class="kr-sg-checkbox" id="sa_checkbox" >
@@ -137,12 +137,12 @@
                     </div>
                 </div>
             </div>
-            <div class="kr-sg-inline-notification kr-protip-basic align-items-start">
+            <div class="kr-sg-inline-notification kr-protip-basic align-items-start" *ngIf="showWarning">
                 <div class="bulb-icon">
                     <i class="si-info"></i>
                 </div>
                 <div class="tost-text">
-                    Selected field faq_question is not marked as presentable, adding this fields for highlighting will make it presentable
+                    {{this.highlightMsg}}
                 </div>
                </div>
 

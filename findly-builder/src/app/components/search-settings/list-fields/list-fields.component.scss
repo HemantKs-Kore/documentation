@@ -238,6 +238,9 @@
                                         }
                                     }
                                 }
+                                &.no-warning-msg{
+                                    height: calc(100vh - 336px) !important;
+                                }
                             }
                         }
                     }

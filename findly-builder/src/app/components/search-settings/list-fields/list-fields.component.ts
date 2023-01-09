@@ -7,7 +7,7 @@ import { isNgTemplate } from '@angular/compiler';
 import { MatDialog } from '@angular/material/dialog';
 import { ConfirmationDialogComponent } from 'src/app/helpers/components/confirmation-dialog/confirmation-dialog.component';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Subscription } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { ServiceInvokerService } from '@kore.services/service-invoker.service';
 import { NotificationService } from '@kore.services/notification.service';
 import { HighlightingComponent } from 'src/app/modules/search-settings/modules/highlighting/highlighting.component';
@@ -33,6 +33,7 @@ export class ListFieldsComponent implements OnInit {
   @Input() isLoading = false;
   @Input() isaddLoading = false;
    page_number=0;
+   highlightMsg:string = '';
   constructor(
     public workflowService: WorkflowService,
     private appSelectionService: AppSelectionService,
@@ -61,7 +62,8 @@ export class ListFieldsComponent implements OnInit {
   selectedApp;
   loadingContent = true;
   usageArr = [];
-  // showWarning=false
+  selectedFields=[];
+  showWarning=false
   // dataType:any;
   // fieldCheckArray=[]
 
@@ -195,6 +197,9 @@ export class ListFieldsComponent implements OnInit {
     this.calladdApi.emit(flag);
     this.addFieldModalPopRef = this.addFieldModalPop.open();
     this.modal_open=true
+    this.highlightMsg=  '';
+    this.showWarning = false;
+    this.selectedFields = [];
     setTimeout(() => {
       this.perfectScroll.directiveRef.update();
       this.perfectScroll.directiveRef.scrollToTop();
@@ -256,83 +261,131 @@ export class ListFieldsComponent implements OnInit {
   addRecord(fields,event) { 
     if (event.target.checked) {
       fields.isChecked = true;
+      if(this.route.component['name'] === 'HighlightingComponent'){      
+        this.getFieldUsage(fields).subscribe(res => {
+          if(!res['presentable']) this.selectedFields.push(fields.fieldName);
+          if(this.selectedFields?.length){
+            this.prepareWarningMsg();
+          }else{
+            this.showWarning = false;
+          }
+         });
+      }
       }
     else {
-      fields.isChecked = false; 
+      fields.isChecked = false;
+      if (this.selectedFields?.length) {
+        const fieldIndex = this.selectedFields.findIndex(item => item == fields.fieldName);
+        if (fieldIndex > -1) this.selectedFields.splice(fieldIndex, 1);
+        if (this.selectedFields.length) {
+          this.prepareWarningMsg();
+        } else {
+          this.showWarning = false;
+        }
+      } else {
+        this.showWarning = false;
+      }
     }
-    // console.log(this.popupfieldvalues)
-    // this.fieldCheckArray=this.popupfieldvalues.filter(item => item.isChecked)
-    // if(this.route.component['name'] === 'PresentableComponent'){      
-    //   this.showWarning=this.fieldCheckArray.some(item=>{
-    //    return item.fieldDataType==='html' || item.fieldDataType==='dense_vector'      
-    //   })
+    }
+
+    prepareWarningMsg(){
+      let resultStr = `Selected field `;
+        if (this.selectedFields.length === 1) {
+          resultStr += this.selectedFields[0];
+        } else if (this.selectedFields.length === 2) {
+          resultStr += `${this.selectedFields.join(' and ')}`;
+        } else {
+          const lastVal = this.selectedFields.slice(-1)[0]; 
+          resultStr += `${this.selectedFields.slice(0, this.selectedFields.length -1 ).join(', ')} and ${lastVal}`;
+        }
+        resultStr += ` is not marked as presentable, adding this fields for highlighting will make it presentable`;
+        this.highlightMsg =  resultStr;
+        this.showWarning = this.selectedFields.length?true:false;
     }
   //** To get the Field usage and impacted areas */
-  getFieldUsage(record){
+  getFieldUsage(record): any {
     const quaryparms: any = {
       indexPipelineId:this.indexPipelineId,
       streamId:this.selectedApp._id,
       queryPipelineId:this.queryPipelineId,
       fieldId:record._id
     };
-    this.service.invoke('get.searchSettingsUsage', quaryparms).subscribe(res => {
-      this.usageArr=Object.keys(res).filter(item => {
-        if (res[item]){
-            return true;
-        }
-    })
-    }, errRes => {
-      this.notificationService.notify("Failed to fields usage",'error');
-    });
-    return this.usageArr
+    return this.service.invoke('get.searchSettingsUsage', quaryparms);
   }
 
   //** to delete the Field modal pop-up */
   deletefieldsDataPopup(record) {
-     this.getFieldUsage(record)
-    let resultStr = `The field is used in `;
-    let endstr=''
-    if (this.usageArr.length === 1) {
-      resultStr += this.usageArr[0];
-      endstr += this.usageArr[0];
-    } else if (this.usageArr.length === 2) {
-      resultStr += `${this.usageArr.join(' and ')}`;
-      endstr += `${this.usageArr.join(' and ')}`;
-    } else {
-      const lastVal = this.usageArr.slice(-1)[0]; 
-      resultStr += `${this.usageArr.slice(0, this.usageArr.length -1 ).join(', ')} and ${lastVal}`;
-      endstr += `${this.usageArr.slice(0, this.usageArr.length -1 ).join(', ')} and ${lastVal}`;
-    }
-    resultStr += ' The action will remove it from ' + endstr
-    console.log(resultStr);
-    const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
-      width: '530px',
-      height: 'auto',
-      panelClass: 'delete-popup',
-      data: {
-        newTitle: 'Are you sure you want to remove the field?',
-        body: resultStr,
-        buttons: [{ key: 'yes', label: 'Delete', type: 'danger', class: 'deleteBtn' }, { key: 'no', label: 'Cancel' }],
-        confirmationPopUp: true,
-      }
-    });
-    dialogRef.componentInstance.onSelect.subscribe(res => {
-      if (res === 'yes') {
-        dialogRef.close();
-        this.emitRecord.emit({
-          record :[record._id],
-          type : 'delete'
+    let dialogRef
+    if(this.route.component['name'] !== "SpellCorrectionComponent"){
+      this.getFieldUsage(record).subscribe(res => {
+
+        const usageArr = Object.keys(res).filter(item => {
+          if (res[item]){
+              return true;
+          }
         });
-        //this.deleteStructuredData(record);
-      }
-      else if (res === 'no') {
-        dialogRef.close();
-      }
-    });
+        let resultStr = `The field is used in `;
+        let endstr=''
+        if (usageArr.length === 1) {
+          resultStr += usageArr[0];
+          endstr += usageArr[0];
+        } else if (usageArr.length === 2) {
+          resultStr += `${usageArr.join(' and ')}`;
+          endstr += `${usageArr.join(' and ')}`;
+        } else {
+          const lastVal = usageArr.slice(-1)[0]; 
+          resultStr += `${usageArr.slice(0, usageArr.length -1 ).join(', ')} and ${lastVal}`;
+          endstr += `${usageArr.slice(0, usageArr.length -1 ).join(', ')} and ${lastVal}`;
+        }
+        resultStr += ' The action will remove it from ' + endstr;
+         dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+          width: '530px',
+          height: 'auto',
+          panelClass: 'delete-popup',
+          data: {
+            newTitle: 'Are you sure you want to remove the field?',
+            body: resultStr,
+            buttons: [{ key: 'yes', label: 'Delete', type: 'danger', class: 'deleteBtn' }, { key: 'no', label: 'Cancel' }],
+            confirmationPopUp: true,
+          }
+        });
+        dialogRef.componentInstance.onSelect.subscribe(res => {
+          if (res === 'yes') {
+            this.emitRecord.emit({
+              record :[record._id],
+              type : 'delete'
+            });
+          }
+            dialogRef.close();
+        });
+       });
+    }else{
+      dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+        width: '530px',
+        height: 'auto',
+        panelClass: 'delete-popup',
+        data: {
+          newTitle: 'Are you sure you want to remove the field?',
+          body: `<b>`+ record.fieldName+`</b>` + ' will not be used for spell correction',
+          buttons: [{ key: 'yes', label: 'Delete', type: 'danger', class: 'deleteBtn' }, { key: 'no', label: 'Cancel' }],
+          confirmationPopUp: true,
+        }
+      });
+      dialogRef.componentInstance.onSelect.subscribe(res => {
+        if (res === 'yes') {
+          this.emitRecord.emit({
+            record :[record._id],
+            type : 'delete'
+          });
+        }
+          dialogRef.close();
+      });
+    }
+    
   }
 
    //**unsubcribing the query subsciption */
    ngOnDestroy() {
     this.querySubscription ? this.querySubscription.unsubscribe() : false;
-  }s
+  }
 }
