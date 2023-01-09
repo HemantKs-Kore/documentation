@@ -50,7 +50,7 @@ export class SearchSettingsComponent implements OnInit {
     this.queryPipelineId = this.workflowService.selectedQueryPipeline()
       ? this.workflowService.selectedQueryPipeline()._id
       : '';
-    this.queryPipelineId || this.indexPipelineId ? this.getQuerypipeline() : null; // Use Async for this
+    if(this.indexPipelineId  && this.queryPipelineId ){ this.getQuerypipeline()}// Use Async for this
     this.querySubscription =
       this.appSelectionService.queryConfigSelected.subscribe((res) => {
         this.indexPipelineId = this.workflowService.selectedIndexPipeline();

@@ -82,7 +82,7 @@ export class SpellCorrectionComponent implements OnInit {
       ? this.workflowService.selectedQueryPipeline()._id
       : '';
     this.getAllspellcorrectFields();
-    this.getQuerypipeline();
+    // this.getQuerypipeline();
 
     this.querySubscription =
       this.appSelectionService.queryConfigSelected.subscribe((res) => {
