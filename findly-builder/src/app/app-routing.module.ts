@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
+import { Routes, RouterModule, PreloadAllModules  } from '@angular/router';
 import { AuthGuard } from '@kore.services/auth.guard';
 import { AppDataResolver } from '@kore.services/resolvers/app.data.resolve';
 import { AppsListingComponent } from './components/apps-home/apps-home';
@@ -127,7 +127,7 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
+  imports: [RouterModule.forRoot(routes, { preloadingStrategy: PreloadAllModules })],
   exports: [RouterModule]
 })
 export class AppRoutingModule { }
