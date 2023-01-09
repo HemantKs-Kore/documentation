@@ -60,7 +60,7 @@ export class IndexConfigurationSettingsComponent implements OnInit {
       this.configurationsSubscription = this.appSelectionService.queryConfigSelected.subscribe(res => {
         this.indexPipelineId = this.workflowService.selectedIndexPipeline();
         this.queryPipelineId = this.workflowService.selectedQueryPipeline() ? this.workflowService.selectedQueryPipeline()._id : ''
-        this.supportedLanguages = this.workflowService.supportedLanguages.values;
+        this.supportedLanguages = this.workflowService?.supportedLanguages?.values;
       })
   } 
 // toaster message 

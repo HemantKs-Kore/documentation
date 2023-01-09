@@ -325,8 +325,8 @@ export class HighlightingComponent implements OnInit {
     }    
     }
     this.service.invoke('put.queryPipeline', quaryparms,payload).subscribe(res => {
-      this.highlightdata.enable=res.settings.highlight.enable
-      this.notificationService.notify("updated successfully",'success');
+      this.highlightdata.enable=res.settings.highlight.enable;
+      this.highlightdata.enable?this.notificationService.notify("Highlighting Enabled",'success'):this.notificationService.notify("Highlighting Disabled",'success');
     }, errRes => {
       this.notificationService.notify("Failed to update",'error');
     });

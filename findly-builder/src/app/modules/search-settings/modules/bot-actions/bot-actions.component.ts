@@ -79,9 +79,8 @@ getQuerypipeline() {
       }    
     }
     this.service.invoke('put.queryPipeline', quaryparms,payload).subscribe(res => {
-      this.botactionsdata.enable=res.settings.botActions.enable
-      //this.getQuerypipeline()
-      this.notificationService.notify("updated successfully",'success');
+      this.botactionsdata.enable=res.settings.botActions.enable;
+      this.botactionsdata.enable?this.notificationService.notify("Bot Action Enabled",'success'):this.notificationService.notify("Bot Action Disabled",'success');
     }, errRes => {
       this.notificationService.notify("Failed to update",'error');
     });
