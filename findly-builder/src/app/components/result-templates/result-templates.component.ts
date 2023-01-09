@@ -193,27 +193,38 @@ export class ResultTemplatesComponent implements OnInit {
   /** Fields Data for options  */
   getFieldAutoComplete() {
     let query: any = '';
+    // const quaryparms: any = {
+    //   searchIndexID: this.serachIndexId,
+    //   indexPipelineId: this.indexPipelineId,
+    //   query
+    // };
+   // const url = '';
+    const url = 'get.presentableFields'
     const quaryparms: any = {
-      searchIndexID: this.serachIndexId,
-      indexPipelineId: this.indexPipelineId,
-      query
+      isSelected:true,
+      sortField: "fieldName",
+      orderType: 'asc', //desc,
+      indexPipelineId:this.indexPipelineId,
+      streamId:this.selectedApp._id,
+      queryPipelineId:this.queryPipelineId,
+      searchKey:''
     };
-    this.service.invoke('get.getFieldAutocomplete', quaryparms).subscribe(res => {
-      this.heading_fieldData = [...res];
-      this.desc_fieldData = [...res];
-      this.desc_fieldData1 = [...res];
-      this.label1_fieldData = [...res];
-      this.label2_fieldData = [...res];
-      this.rate_fieldData = [...res];
-      this.Strikedrate_fieldData = [...res];
-      this.img_fieldData = [...res];
-      this.url_fieldData = [...res];
-      this.icon_fieldData = [...res];
-      this.textField1_fieldData = [...res];
-      this.textField2_fieldData = [...res];
-      this.chips_fieldData = [...res];
-      this.rating_fieldData = [...res];
-      this.fieldData = [...res];
+    this.service.invoke(url, quaryparms).subscribe(res => {
+      this.heading_fieldData = [...res.data];
+      this.desc_fieldData = [...res.data];
+      this.desc_fieldData1 = [...res.data];
+      this.label1_fieldData = [...res.data];
+      this.label2_fieldData = [...res.data];
+      this.rate_fieldData = [...res.data];
+      this.Strikedrate_fieldData = [...res.data];
+      this.img_fieldData = [...res.data];
+      this.url_fieldData = [...res.data];
+      this.icon_fieldData = [...res.data];
+      this.textField1_fieldData = [...res.data];
+      this.textField2_fieldData = [...res.data];
+      this.chips_fieldData = [...res.data];
+      this.rating_fieldData = [...res.data];
+      this.fieldData = [...res.data];
       this.allFieldData = res;
       // console.log('Field Data ....', res)
     }, errRes => {

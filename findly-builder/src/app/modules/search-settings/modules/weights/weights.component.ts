@@ -105,9 +105,8 @@ export class WeightsComponent implements OnInit, OnDestroy
     this.addEditWeighObj.fieldName = event.fieldName;
     this.addEditWeighObj.fieldId = event._id;
   }
-  prepereWeights(updatedWeights?){
+  prepereWeights(){
     let weightArr = [];
-    //updatedWeights ? this.weights = updatedWeights : this.weights;
     if (this.weights){
       this.weights.forEach((element, i) => {
         const name = (element.fieldName || '').replace(/[^\w]/gi, '')
@@ -400,8 +399,8 @@ export class WeightsComponent implements OnInit, OnDestroy
     };
     this.service.invoke('delete.Weight', quaryparms).subscribe(res => {
      if(res){
-         this.weightsList.splice(index, 1);
-         this.prepereWeights(this.weightsList); // To update the Slider -- afer delete / Update
+      this.getWeights();
+         //this.weightsList.splice(index, 1);
          this.notificationService.notify('Field From Weight Removed Successfully', 'success');
         }
       }, errRes => {
