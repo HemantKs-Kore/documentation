@@ -399,6 +399,7 @@ export class WeightsComponent implements OnInit, OnDestroy
     this.service.invoke('delete.Weight', quaryparms).subscribe(res => {
      if(res){
          this.weightsList.splice(index, 1);
+         this.getWeights(); // To update the Slider -- afer delete / Update
          this.notificationService.notify('Field From Weight Removed Successfully', 'success');
         }
       }, errRes => {

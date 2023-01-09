@@ -23,6 +23,7 @@ export class SpellCorrectionComponent implements OnInit {
   querySubscription: Subscription;
   more_options: boolean = false;
   checksort: string = 'fieldName';
+  isSpinner=false
   selectedSort: string = 'asc';
   isSearchable: boolean = true;
   limit: number = 10;
@@ -54,8 +55,10 @@ export class SpellCorrectionComponent implements OnInit {
       queryPipelineId: this.queryPipelineId,
       indexPipelineId: this.indexPipelineId,
     };
+    this.isSpinner=true
     this.service.invoke('get.queryPipeline', quaryparms).subscribe(
       (res) => {
+        this.isSpinner=false
         this.spellcorrectdata = res;
       },
       (errRes) => {

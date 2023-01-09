@@ -31,6 +31,7 @@ export class HighlightingComponent implements OnInit {
    selectedSort:string='asc';
    checksort:string='fieldName';
    selectionflag:boolean=true;
+   isSpinner=false
   //  isSearchable:boolean=true;
    page:number=0;
    limit:number=10;
@@ -81,8 +82,10 @@ export class HighlightingComponent implements OnInit {
         queryPipelineId: this.queryPipelineId,
         indexPipelineId: this.indexPipelineId,
       };
-      this.service.invoke('get.queryPipeline', quaryparms).subscribe(
+      this.isSpinner=true
+      this.service.invoke('get.queryPipeline', quaryparms).subscribe(      
         (res) => {
+          this.isSpinner=false
           this.highlightdata = res;
           this.home_pre_tag=this.highlightdata.settings.highlight.highlightAppearance.preTag
           this.home_post_tag=this.highlightdata.settings.highlight.highlightAppearance.postTag

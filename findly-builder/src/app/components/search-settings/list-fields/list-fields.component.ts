@@ -45,14 +45,12 @@ export class ListFieldsComponent implements OnInit {
   selectedList = [];
   ngOnInit(): void {    
     this.modal_open=false;
-    console.log(this.tablefieldvalues);
-    console.log(this.popupfieldvalues);
     // if(this.tablefieldvalues && this.tablefieldvalues.length){
     //   this.loadingContent = false
     // }
   }
-  /** To cehck for the Selected Values */
-  checkValues(){
+  /** To cehck for the Selected fileds - > use 'checkPopupfieldvalues()' to loop the slected fields on retun */
+  checkPopupfieldvalues(){
     if(this.selectedList.length){
       this.selectedList.forEach(selectedElement => {
         this.popupfieldvalues.forEach(popupElement => {

@@ -9,17 +9,24 @@
     <div class="widget-desc" id="sa_widget-desc">{{"search_settings_spell_correction_desc" |translate}}</div>
 </div>
 
-<div class="landing-page-block" id="sa-landing-page-block">
-    <div class="landing-page-toggle" id="sa-landing-page-toggle">
-        <label class="kr-sg-toggle with-label" id="kr-sg-toggle-with-label">
-            <input type="checkbox" [checked]="spellcorrectdata?.settings?.spellCorrect?.enable" id="sa_checkbox_1"
-                (change)="silderValuechanged($event)">
-            <div class="slider" id="sa_slider_1">
-                <span class="no" id="sa_no_1">{{"search_settings_disable" |translate}}</span>
-                <span class="yes" id="sa_yes_1">{{"search_settings_enable"|translate}}</span>
-            </div>
-        </label>
-    </div>
+<div class="mainLoadingSpinner" *ngIf="isSpinner">
+    <mat-spinner diameter="18" strokeWidth="2"></mat-spinner>
+    <span class="please-wait-message">{{'sa_please_wait'| translate}}</span>
+</div>
+<ng-container *ngIf="!isSpinner">
+    <div class="landing-page-block" id="sa-landing-page-block">
+    
+        <div class="landing-page-toggle" id="sa-landing-page-toggle">
+            <label class="kr-sg-toggle with-label" id="kr-sg-toggle-with-label">
+                <input type="checkbox" [checked]="spellcorrectdata?.settings?.spellCorrect?.enable" id="sa_checkbox_1"
+                    (change)="silderValuechanged($event)">
+                <div class="slider" id="sa_slider_1">
+                    <span class="no" id="sa_no_1">{{"search_settings_disable" |translate}}</span>
+                    <span class="yes" id="sa_yes_1">{{"search_settings_enable"|translate}}</span>
+                </div>
+            </label>
+        </div>
+
 
     <!-- show hide content start from here -->
     <div class="show-hide-container" [ngClass]="{'showmore' : more_options}">
@@ -101,3 +108,4 @@
     </app-list-fields>
 
 </div>
+</ng-container>
