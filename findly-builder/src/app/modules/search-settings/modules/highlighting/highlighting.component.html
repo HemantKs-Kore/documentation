@@ -1,93 +1,107 @@
 <div class="widget-header-block">
-    <div class="widget-header" id="sa_widget_header">{{"search_settings_highlighting" |translate}}</div>
+    <div class="widget-header" id="sa_widget_header">{{"search_settings_highlighting" |translate}}
+        <span class="module-topic" tooltipClass="tooltip-global-" [container]="'body'"
+        ngbTooltip="{{'contentSource_topic_guide' | translate}}" placement="right-center"
+        (click)="openUserMetaTagsSlider()">
+        <i class="si-topic-guide-1"></i>
+      </span>
+    </div>
     <div class="widget-desc" id="sa_widget_desc">{{"search_settings_highlighting_desc" |translate}}</div>
 </div>
-<div class="highlighting-block">
 
-    <div class="highlighting-toggle">
-        <label class="kr-sg-toggle with-label">
-            <input type="checkbox" [checked]="highlightdata?.settings?.highlight?.enable" (change)="sildervalueChanged($event,'highlight')">
-            <div class="slider" id="sa_slider">
-                <span class="no">{{"search_settings_disable" |translate}}</span>
-                <span class="yes">{{"search_settings_enable" |translate}}</span>
-            </div>
-        </label>
-    </div>
-
-    <!-- show hide content start from here -->
-    <div class="show-hide-container" [ngClass]="{'showmore' : more_options}">
-        <div class="show-hide-block block-1">
-            <div class="toggle-block">
-                <div class="toggle-block-header" id="sa_block_header">
-                    <div class="toggle-block-hding" id="sa_toggle_block_heading">{{"search_settings_synonyms_highlight" |translate}}</div>
-                    <div class="toggle-block-desc" id="sa_toggle_block_desc">{{"search_settings_loren_ipsum" |translate}}</div>
-                </div>
-                <div class="toggle-block-btn">
-                    <label class="kr-sg-toggle with-label">
-                        <input type="checkbox" [checked]="highlightdata?.settings?.highlight?.synonymsHighlight" (change)="sildervalueChanged($event,'synonyms')">
-                        <div class="slider" id="sa_slider">
-                            <span class="yes">{{"search_settings_no" |translate}}</span>
-                        </div>
-                    </label>
-                </div>
-            </div>
-        </div>
-        <div class="show-hide-block block-2">
-            <div class="toggle-block">
-                <div class="toggle-block-header" id="sa_toggle_header">
-                    <div class="toggle-block-hding" id="sa_toggle_heading_1">{{"search_highlight_appearance" |translate}}</div>
-                    <div class="toggle-block-desc" id="sa_block_desc_1">{{"search_settings_enable_highlight_to_highlight_desc" |translate}}</div>
-                </div>
-            </div>
-            <div class="form-block">
-                <div class="row m-0 p-0 col-12">
-                    <div class="col-5 pl-0">
-                        <div class="kr-sg-input-text">
-                            <div class="label-text" id="sa_label_text">{{"search_settings_pre_tag" |translate}}</div>
-                            <!-- <input type="text" placeholder="Placeholder text" value="<span class='highlightText'>" -->
-                            <input type="text" [(ngModel)]="home_pre_tag"
-                                class="input-text">
-                        </div>
-                    </div>
-                    <div class="col-5 pl-0">
-                        <div class="kr-sg-input-text">
-                            <div class="label-text" id="sa_label_text">{{"search_settings_post_tag" |translate}}</div>
-                            <!-- <input type="text" placeholder="Placeholder text" value="</span>" class="input-text"> -->
-                            <input type="text"  [(ngModel)]="home_post_tag" class="input-text">
-                        </div>
-                    </div>
-                    <div class="col-2 p-0">
-                        <div class="form-edit-btn" (click)="openModalPopup();" id="sa_form_edit"><span><i class="si-pencil-edit"></i>
-                            {{"sa_edit" |translate}}</span></div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- show hide content ends here -->
-
-    <div class="show-more-less-link-btn">
-        <span class="icon-add-span d-flex align-items-center flex-column">
-            <i class="si-chev-down icon-down-1" *ngIf="!more_options" (click)="openContainer()"></i>
-            <i class="si-chev-down icon-down-2"  *ngIf="!more_options" (click)="openContainer()"></i>
-            <i class="si-chev-up icon-down-1" *ngIf="more_options" (click)="closeContainer()"></i>
-            <i class="si-chev-up icon-down-2"  *ngIf="more_options" (click)="closeContainer()"></i>
-        </span>
-        <span class="show-more-less-txt" id="sa_show-more_less" (click)="openContainer()" *ngIf="!more_options">{{"search_settings_more_options" |translate}}</span>
-        <span class="show-more-less-txt" id="sa_show-more_less" (click)="closeContainer()" *ngIf="more_options">{{"search_settings_less_options" |translate}}</span>
-    </div>
-
-    <div class="block-separate-line"></div>
-    <div class="page-sub-header">
-        <div class="header-title">Fields for highlight</div>
-        <div class="header-desc">Add fields which are to be used for highlighting the  in the search results</div>    
-    </div>
-    
-    <!-- <app-list-fields [tablefieldvalues]="highlight" [popupfieldvalues]="nonhighlight" [maxpageno]="max_pageno" (emitRecord)="getrecord($event)" (sort)="highlightsort($event)" (searchModel)="highlightsearch($event)" (pageno)="highlightPage($event)"></app-list-fields> -->
-    <app-list-fields [tablefieldvalues]="highlight" [popupfieldvalues]="nonhighlight" [maxpageno]="max_pageno" (emitRecord)="getRecord($event)" (sort)="highlightSort($event)" (searchModel)="highlightSearch($event)"
-     [isLoading]="isLoading" (calladdApi)="getAddpopuphighlightField($event)" [isaddLoading]="isaddLoading"></app-list-fields>
-
+<div class="mainLoadingSpinner" *ngIf="isSpinner">
+    <mat-spinner diameter="18" strokeWidth="2"></mat-spinner>
+    <span class="please-wait-message">{{'sa_please_wait'| translate}}</span>
 </div>
+
+<ng-container *ngIf="!isSpinner">
+    <div class="highlighting-block">
+
+        <div class="highlighting-toggle">
+            <label class="kr-sg-toggle with-label">
+                <input type="checkbox" [checked]="highlightdata?.settings?.highlight?.enable" (change)="sildervalueChanged($event,'highlight')">
+                <div class="slider" id="sa_slider">
+                    <span class="no">{{"search_settings_disable" |translate}}</span>
+                    <span class="yes">{{"search_settings_enable" |translate}}</span>
+                </div>
+            </label>
+        </div>
+
+        <!-- show hide content start from here -->
+        <div class="show-hide-container" [ngClass]="{'showmore' : more_options}">
+            <div class="show-hide-block block-1">
+                <div class="toggle-block">
+                    <div class="toggle-block-header" id="sa_block_header">
+                        <div class="toggle-block-hding" id="sa_toggle_block_heading">{{"search_settings_synonyms_highlight" |translate}}</div>
+                        <div class="toggle-block-desc" id="sa_toggle_block_desc">{{"search_settings_loren_ipsum" |translate}}</div>
+                    </div>
+                    <div class="toggle-block-btn">
+                        <label class="kr-sg-toggle with-label">
+                            <input type="checkbox" [checked]="highlightdata?.settings?.highlight?.synonymsHighlight" (change)="sildervalueChanged($event,'synonyms')">
+                            <div class="slider" id="sa_slider">
+                                <span class="yes">{{"search_settings_no" |translate}}</span>
+                            </div>
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="show-hide-block block-2">
+                <div class="toggle-block">
+                    <div class="toggle-block-header" id="sa_toggle_header">
+                        <div class="toggle-block-hding" id="sa_toggle_heading_1">{{"search_highlight_appearance" |translate}}</div>
+                        <div class="toggle-block-desc" id="sa_block_desc_1">{{"search_settings_enable_highlight_to_highlight_desc" |translate}}</div>
+                    </div>
+                </div>
+                <div class="form-block">
+                    <div class="row m-0 p-0 col-12">
+                        <div class="col-5 pl-0">
+                            <div class="kr-sg-input-text">
+                                <div class="label-text" id="sa_label_text">{{"search_settings_pre_tag" |translate}}</div>
+                                <!-- <input type="text" placeholder="Placeholder text" value="<span class='highlightText'>" -->
+                                <input type="text" [(ngModel)]="home_pre_tag"
+                                    class="input-text">
+                            </div>
+                        </div>
+                        <div class="col-5 pl-0">
+                            <div class="kr-sg-input-text">
+                                <div class="label-text" id="sa_label_text">{{"search_settings_post_tag" |translate}}</div>
+                                <!-- <input type="text" placeholder="Placeholder text" value="</span>" class="input-text"> -->
+                                <input type="text"  [(ngModel)]="home_post_tag" class="input-text">
+                            </div>
+                        </div>
+                        <div class="col-2 p-0">
+                            <div class="form-edit-btn" (click)="openModalPopup();" id="sa_form_edit"><span><i class="si-pencil-edit"></i>
+                                {{"sa_edit" |translate}}</span></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- show hide content ends here -->
+
+        <div class="show-more-less-link-btn">
+            <span class="icon-add-span d-flex align-items-center flex-column">
+                <i class="si-chev-down icon-down-1" *ngIf="!more_options" (click)="openContainer()"></i>
+                <i class="si-chev-down icon-down-2"  *ngIf="!more_options" (click)="openContainer()"></i>
+                <i class="si-chev-up icon-down-1" *ngIf="more_options" (click)="closeContainer()"></i>
+                <i class="si-chev-up icon-down-2"  *ngIf="more_options" (click)="closeContainer()"></i>
+            </span>
+            <span class="show-more-less-txt" id="sa_show-more_less" (click)="openContainer()" *ngIf="!more_options">{{"search_settings_more_options" |translate}}</span>
+            <span class="show-more-less-txt" id="sa_show-more_less" (click)="closeContainer()" *ngIf="more_options">{{"search_settings_less_options" |translate}}</span>
+        </div>
+
+        <div class="block-separate-line"></div>
+        <div class="page-sub-header">
+            <div class="header-title">{{"highlight_fields_for_highlight" |translate}}</div>
+            <div class="header-desc">{{"highlight_fields_for_highlight_desc" |translate}}</div>    
+        </div>
+        
+        <!-- <app-list-fields [tablefieldvalues]="highlight" [popupfieldvalues]="nonhighlight" [maxpageno]="max_pageno" (emitRecord)="getrecord($event)" (sort)="highlightsort($event)" (searchModel)="highlightsearch($event)" (pageno)="highlightPage($event)"></app-list-fields> -->
+        <app-list-fields [tablefieldvalues]="highlight" [popupfieldvalues]="nonhighlight" [maxpageno]="max_pageno" (emitRecord)="getRecord($event)" (sort)="highlightSort($event)" (searchModel)="highlightSearch($event)"
+        [isLoading]="isLoading" (calladdApi)="getAddpopuphighlightField($event)" [isaddLoading]="isaddLoading"></app-list-fields>
+
+    </div>
+</ng-container>
 
 <kr-modal modalType="center"
     modalClass="modal_popups_ highlightAppearanceModalPop highlightAppearanceModalPopup highlightAppearanceModal"

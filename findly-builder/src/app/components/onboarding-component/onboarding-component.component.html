@@ -58,20 +58,7 @@
                       <i class="si-carrotup" (click)="goToLink(data.link)"></i>
                     </div>
                   </div>
-                </div>
-                  <!-- <div class="action-block-data whats-new">
-                    <div class="dummy-border-left"></div>
-                    <div class="img-block">
-                      <img src="assets/icons/onboarding/whatsnew.svg">
-                    </div>
-                    <div class="content-block">
-                      <div class="title">What's new</div>
-                      <div class="desc-text">Check out what's new in the latest release of SearchAssist</div>
-                    </div>
-                    <div class="arrow-icon">
-                      <i class="si-carrotup"></i>
-                    </div>
-                  </div>-->
+                </div>                  
 
                   <!-- Support tab child Data -->
                 <div class="dynamic-state-data" *ngIf="!supportParentData">
@@ -133,104 +120,6 @@
               <i class="si-search"></i>
             </div> -->
           </div>
-          <!-- <perfect-scrollbar class="scroll-content-data">
-            <div class="data-inner-content">
-              <div class="default-state-faq" *ngIf="supportParentfaq"> -->
-                <!-- <div class="action-block-data">
-                  <div class="dummy-border-left"></div>
-                  <div class="img-block">
-                    <img src="assets/icons/onboarding/help.svg">
-                  </div>
-                  <div class="content-block">
-                    <div class="title">Lorem Ipsum</div>
-                  </div>
-                  <div class="arrow-icon">
-                    <i class="si-carrotup"></i>
-                  </div>
-                </div>-->
-
-                <!-- FAQ Parent Template-->
-                <!-- <div (click)="triggerChildFaq(faq);closeFaqSearch()" class="action-block-data" *ngFor="let faq of faqData | filter : [faq_Search,'display']">
-                  <div class="dummy-border-left"></div>
-                  <div class="img-block">
-                    <img src="assets/icons/onboarding/help.svg">
-                  </div>
-                  <div class="content-block">
-                    <div class="title">{{faq.display}}</div>
-                  </div>
-                  <div class="arrow-icon">
-                    <i class="si-carrotup"></i>
-                  </div>
-                </div>
-              </div>
-              <div id="accordion" *ngIf="!supportParentfaq"> -->
-                <!-- <div class="accor-card">
-                  <div class="card_header">
-                    <div class="card_link collapsed" data-toggle="collapse" href="#collapseOne">
-                        <div class="img-block">
-                          <i class="si-help"></i>
-                        </div>
-                        <div class="content-block">Simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text?</div>
-                        <div class="ext-icon">
-                          <i class="si-externallink"></i>
-                        </div>
-                        <div class="arrow-icon">
-                          <i class="si-carrotup"></i>
-                        </div>
-                    </div>
-                  </div>
-                  <div id="collapseOne" class="collapse" data-parent="#accordion">
-                    <div class="card-body">
-                      Ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It <a>Click here</a> to watch reference video
-                    </div>
-                  </div>
-                </div>
-                <div class="accor-card">
-                  <div class="card_header">
-                    <div class="card_link collapsed" data-toggle="collapse" href="#collapse2">
-                        <div class="img-block">
-                          <i class="si-help"></i>
-                        </div>
-                        <div class="content-block">Simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text?</div>
-                        <div class="ext-icon">
-                          <i class="si-externallink"></i>
-                        </div>
-                        <div class="arrow-icon">
-                          <i class="si-carrotup"></i>
-                        </div>
-                    </div>
-                  </div>
-                  <div id="collapse2" class="collapse" data-parent="#accordion">
-                    <div class="card-body">
-                      Ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It <a>Click here</a> to watch reference video
-                    </div>
-                  </div>
-                </div> -->
-                <!-- <div class="accor-card"  *ngFor="let childfaq of supportChildfaq| filter : [faq_Search,'ques'];let i=index ">
-                  <div class="card_header">
-                    <a class="card_link collapsed dataFaq{{i}}" data-toggle="collapse"  href="#collapseFaq_{{i}}">
-                      <div class="dummy-border-left"></div>
-                        <div class="img-block">
-                          <i class="si-help"></i>
-                        </div>
-                        <div class="content-block">{{childfaq.ques}}</div>
-                        <div class="ext-icon">
-                          <i class="si-externallink" (click)="goToLink(childfaq.link)"></i>
-                        </div>
-                        <div class="arrow-icon">
-                          <i class="si-carrotup" (click)="goToLink(childfaq.link)"></i>
-                        </div> 
-                      </a>
-                    </div>
-                  <div *ngIf="!childfaq.link"  id="collapseFaq_{{i}}" class="collapse" data-parent="#accordion">
-                    <div class="card-body">
-                      {{childfaq.ans}}
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </perfect-scrollbar> -->
           <div class="loader w-100" *ngIf="showLoader">
             <!-- <img src="assets/images/logoIcon.png" class="loaderLogoImage"> -->
             <mat-spinner diameter="18" strokeWidth="2"></mat-spinner>

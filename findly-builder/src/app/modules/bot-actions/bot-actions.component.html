@@ -1,5 +1,5 @@
 <div class="bot-actions-container">
-  <div class="mainLoadingSpinner" *ngIf="loadingContent || loadingContent1">
+  <div class="mainLoadingSpinner" *ngIf="loadingContent">
     <mat-spinner diameter="18" strokeWidth="2"></mat-spinner>
     <span class="please-wait-message">{{'Please Wait!' | translate}}</span>
   </div>
@@ -8,10 +8,11 @@
   <div class="header-sec col-12 row m-0" *ngIf="!loadingContent">
     <app-useronboarding-journey [componentType]='componentType'></app-useronboarding-journey>
     <div class="col-4 p-0 title-header">{{'botAction_bot_actions' | translate}}
-      <span class="module-topic" tooltipClass="tooltip-global-" [container]="'body'" ngbTooltip='Topic Guide'
-        placement="right-center" (click)="openUserMetaTagsSlider()">
-        <i class="si-topic-guide-1"></i>
-      </span>
+      <span class="module-topic" tooltipClass="tooltip-global-" [container]="'body'"
+      ngbTooltip="{{'contentSource_topic_guide' | translate}}" placement="right-center"
+      (click)="openUserMetaTagsSlider()">
+      <i class="si-topic-guide-1"></i>
+    </span>
     </div>
     <div class="col-8 right-sec p-0">
       <div *ngIf="linkedBotID" class="view-all-bots m-0" (click)="openBotsModalElement()">{{'botAction_view_all_bots' |
@@ -36,7 +37,7 @@
   </ng-container>
 
 
-  <ng-container *ngIf="linkedBotID && loadingContent1">
+  <ng-container *ngIf="linkedBotID && loadingContent">
     <div class="linked-bot-data">
       <div class="box-content-linked row col-12">
         <div class="left-sec col-11">

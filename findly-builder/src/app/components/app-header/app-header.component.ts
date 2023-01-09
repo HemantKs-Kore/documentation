@@ -108,12 +108,12 @@ export class AppHeaderComponent implements OnInit {
   availableRouts = [
     { displayName: 'Summary', routeId: '/summary', quaryParms: {} },
     { displayName: 'Overview', routeId: '/summary', quaryParms: {} },
-    { displayName: 'Add Sources', routeId: '/source', quaryParms: {} },
-    { displayName: 'Crawl Web Domain', routeId: '/source', quaryParms: { sourceType: 'contentWeb' } },
-    { displayName: 'Extract Document', routeId: '/source', quaryParms: { sourceType: 'contentDoc' } },
-    { displayName: 'Add FAQs Manually', routeId: '/source', quaryParms: { sourceType: 'manual' } },
+    { displayName: 'Add Sources', routeId: '/sources', quaryParms: {} },
+    { displayName: 'Crawl Web Domain', routeId: '/sources', quaryParms: { sourceType: 'contentWeb' } },
+    { displayName: 'Extract Document', routeId: '/sources', quaryParms: { sourceType: 'contentDoc' } },
+    { displayName: 'Add FAQs Manually', routeId: '/sources', quaryParms: { sourceType: 'manual' } },
     { displayName: 'Extract FAQs from Document', routeId: '/faqs', quaryParms: { sourceType: 'faqDoc' } },
-    { displayName: 'Extract FAQs from Webdomain', routeId: '/source', quaryParms: { sourceType: 'faqWeb' } },
+    { displayName: 'Extract FAQs from Webdomain', routeId: '/sources', quaryParms: { sourceType: 'faqWeb' } },
     { displayName: 'FAQs', routeId: '/faqs', quaryParms: { sourceType: 'faqWeb' } },
     { displayName: 'Content', routeId: '/content', quaryParms: { sourceType: 'faqWeb' } },
     { displayName: 'Structured Data', routeId: '/structuredData', quaryParms: {} },
@@ -874,15 +874,12 @@ export class AppHeaderComponent implements OnInit {
   }
   // CHECK FOR THE INPROGRESS JOB
   checkJObStatus(dockersList){
+    let statusArr:any =[]
     dockersList.forEach(element => {
-      if((element.status === 'IN_PROGRESS' || element.status === 'INPROGRESS' || element.status === 'in_progress' || element.status === 'inprogress'
-      || element.status === 'running' || element.status === 'RUNNING')){
-        this.disableClearAll = true;
-      }
-      else {
-        this.disableClearAll = false;
-      }
+      statusArr.push(element.status);
     });
+     const Statisvalues = 'SUCCESS'||'FAILED'||'HALTED'||'STOPPED'||'CONFIGURED';
+     this.disableClearAll = !statusArr.includes(Statisvalues);
   }
 
   getStatusView(status, other?) {
@@ -1634,6 +1631,10 @@ export class AppHeaderComponent implements OnInit {
       this.accountIdRef = res[0].accountId;
     }, errRes => {
     });
+  }
+  hideparentTooltip(event){
+    event.stopImmediatePropagation();
+    event.preventDefault();
   }
 }
 

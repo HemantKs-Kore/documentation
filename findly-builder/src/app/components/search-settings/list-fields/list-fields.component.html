@@ -7,17 +7,6 @@
         <!-- Search -->
         <app-search-filter (searchkey)="getsearchvalue($event,'datatable')"></app-search-filter>
         <!-- Search ends-->
-        <!-- <div class="pt-search" id="pt-search">
-            <div class="kr-sg-input-inline-search" id="inline-search">                               
-                <input type="text" placeholder="{{'sa_search' | translate}}"  class="input-search">
-                <span class="search-icon close-icon" id="close-icon">
-                    <i class="si-close"></i>
-                </span>
-                <span class="search-icon" id="search-icon">
-                    <i class="si-search"></i>
-                </span>                                   
-            </div>
-        </div> -->
     </div>
 
     <div class="mainLoadingSpinner" *ngIf="isLoading">
@@ -46,7 +35,6 @@
                             {{"search_settings_type" |translate}}
                         </div>
                         <div class="col_ col-2 title d-flex align-items-center justify-content-start"> 
-                            {{"search_settings_action_caps" |translate}}
                         </div>
                     </div>
                 <!-- table header end from here -->
@@ -65,7 +53,7 @@
                                     {{fields.fieldName}}
                                 </div>
                                 <div class="col-5 title text-left p-0">
-                                    {{fields.fieldDataType}}
+                                    {{'sa_'+fields.fieldDataType | translate}}
                                 </div>
                                 <div class="col-2 p-0 text-left">
                                     <div class="action_links">
@@ -73,7 +61,7 @@
                                             <i class="si-pencil-edit"></i> Edit
                                         </span> -->
                                         <span class="action_link-icon link-delete" (click)="deletefieldsDataPopup(fields)">
-                                            <i class="si-delete1 mr-1"></i> Remove
+                                            <i class="si-delete1 mr-1" container="body" ngbTooltip="{{'sa_remove'| translate}}" placement="auto"  ></i> 
                                         </span>
                                     </div>
                                 </div>
@@ -95,7 +83,7 @@
     </div>
     <ng-container>        
             <div class="modal-body">
-                <app-search-filter (searchkey)="getsearchvalue($event,'addFieldModalPop')"></app-search-filter>
+                <app-search-filter [shouldClear]="shouldClear" (searchkey)="getsearchvalue($event,'addFieldModalPop')"></app-search-filter>
                 <div class="index-config-lang-table" id="sa_index_config_lang_table">
                     <div class="table_data_content">
                         <div class="table_header row m-0" id="sa_table_data_content">
@@ -118,7 +106,7 @@
                             </div>
                         </div>
                         <perfect-scrollbar class="table_body_content" id="sa_table_body" [ngClass]="!showWarning?'no-warning-msg':''">
-                                    <div class="table_body row m-0" *ngFor="let fields of popupfieldvalues;let i = index" >
+                                    <div class="table_body row m-0" *ngFor="let fields of checkPopupfieldvalues();let i = index" >
                                         <div class="col-2">
                                             <div class="kr-sg-checkbox" id="sa_checkbox" >
                                                 <input id="{{ fields._id }}"  class="checkbox-custom" [checked]="fields.isChecked" type="checkbox" (click)="addRecord(fields,$event)">
@@ -129,10 +117,9 @@
                                             {{fields.fieldName}} 
                                         </div>
                                         <div class="col-3 title text-left p-0" >
-                                            {{fields.fieldDataType}}
-                                        </div>                                        
-                                    </div>  
-                                    <!-- <div class="inline-notify" *ngIf="showWarning"><span class="bulb-icon"><img src="assets/icons/info-blue.svg"></span><span class="impact-text-notification">selected field belongs to html/dense_vector this will impact</span></div>                                   -->
+                                            {{'sa_'+fields.fieldDataType | translate}}
+                                        </div>
+                                    </div>
                         </perfect-scrollbar>
                     </div>
                 </div>

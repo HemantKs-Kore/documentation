@@ -16,9 +16,11 @@ import { CommonModule } from '@angular/common';
 import { TranslateModule } from '@ngx-translate/core';
 import { MatChipsModule } from '@angular/material/chips';
 import { NgxDaterangepickerMd } from 'ngx-daterangepicker-material';
+import { SelectTextDirective } from 'src/app/helpers/directives/select-text.directive';
 
 @NgModule({
-  declarations: [BusinessRulesComponent],
+  declarations: [BusinessRulesComponent,
+    SelectTextDirective],
   imports: [
     CommonModule,
     UpgradePlanModule,
@@ -37,6 +39,7 @@ import { NgxDaterangepickerMd } from 'ngx-daterangepicker-material';
     NgxDaterangepickerMd,
     FindlySharedModule,
     EmptyScreenModule
+    
   ],
   exports: [BusinessRulesComponent],
 })

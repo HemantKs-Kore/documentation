@@ -74,6 +74,9 @@
                         }
                     }
                 }
+                &.disable-add-btn{
+                    pointer-events: none;
+                }
             }
         }
     }
@@ -118,6 +121,7 @@
                     .action_links{
                         visibility: visible;
                         .action_link-icon{
+                            color: #DD3646;
                             cursor: pointer;
                         }
                     }
@@ -139,6 +143,9 @@
                     }
                 }
                 .action_links{
+                    &.disable-add-btn{
+                        pointer-events: none;
+                    }
                     padding: 0 5px;
                     visibility: hidden;
                     .field-edit-mode{
@@ -191,6 +198,9 @@
         }
     }
 
+}
+.disable-add-btn{
+    pointer-events: none;
 }
 
 ::ng-deep ngb-modal-window{

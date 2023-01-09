@@ -2,7 +2,7 @@ import {  Component, OnInit,Output,Input,EventEmitter ,ViewChild } from '@angula
 import { KRModalComponent } from 'src/app/shared/kr-modal/kr-modal.component';
 import { WorkflowService } from '@kore.services/workflow.service';
 import { AppSelectionService } from '@kore.services/app.selection.service';
-import { of, interval, Subject, Subscription } from 'rxjs';
+import { Subscription } from 'rxjs';
 import { PerfectScrollbarComponent, PerfectScrollbarDirective } from 'ngx-perfect-scrollbar';
 import { NotificationService } from '@kore.services/notification.service';
 import { ServiceInvokerService } from '@kore.services/service-invoker.service';
@@ -33,6 +33,7 @@ export class HighlightingComponent implements OnInit {
    selectedSort:string='asc';
    checksort:string='fieldName';
    selectionflag:boolean=true;
+   isSpinner=false
   //  isSearchable:boolean=true;
    page:number=0;
    limit:number=10;
@@ -67,7 +68,7 @@ export class HighlightingComponent implements OnInit {
     this.indexPipelineId = this.workflowService.selectedIndexPipeline();
     this.queryPipelineId = this.workflowService.selectedQueryPipeline() ? this.workflowService.selectedQueryPipeline()._id : '';
     this.getAllHighlightFields()
-    this.getQuerypipeline();
+    //this.getQuerypipeline();
 
     this.querySubscription = this.appSelectionService.queryConfigSelected.subscribe(res => {
       this.indexPipelineId = this.workflowService.selectedIndexPipeline();
@@ -83,8 +84,10 @@ export class HighlightingComponent implements OnInit {
         queryPipelineId: this.queryPipelineId,
         indexPipelineId: this.indexPipelineId,
       };
-      this.service.invoke('get.queryPipeline', quaryparms).subscribe(
+      this.isSpinner=true
+      this.service.invoke('get.queryPipeline', quaryparms).subscribe(      
         (res) => {
+          this.isSpinner=false
           this.highlightdata = res;
           this.home_pre_tag=this.highlightdata.settings.highlight.highlightAppearance.preTag
           this.home_post_tag=this.highlightdata.settings.highlight.highlightAppearance.postTag
@@ -102,7 +105,6 @@ export class HighlightingComponent implements OnInit {
   //** to get the data for the highlight table and add highlight pop-up sending true and false for get api */
   getAllHighlightFields(){
     this.getHighlightFields(true);
-    //this.getHighlightFields(false);
   }
     /** get highlight fields api call with false value to get data for add pop-up*/
     getAddpopuphighlightField(event){
@@ -195,8 +197,13 @@ export class HighlightingComponent implements OnInit {
   //** close the add pop-up */
   closeModalPopup() {
     this.highlightAppearanceModalPopRef.close();
+    this.pre_tag=this.home_pre_tag
+    this.post_tag=this.home_post_tag
   }
-
+  //open topic guide
+  openUserMetaTagsSlider() {
+    this.appSelectionService.topicGuideShow.next();
+  }
   //** open show more  container */
   openContainer(){
     this.more_options=true;
@@ -254,12 +261,13 @@ export class HighlightingComponent implements OnInit {
           }
       }
    }
+   
     
     this.service.invoke('put.queryPipeline', quaryparms,payload).subscribe(res => {
-      this.home_pre_tag=res.settings.highlight.highlightAppearance.preTag
-      this.home_post_tag=res.settings.highlight.highlightAppearance.postTag
-      this.highlightdata.settings.highlight.highlightAppearance.preTag=res.settings.highlight.highlightAppearance.preTag
-      this.highlightdata.settings.highlight.highlightAppearance.postTag=res.settings.highlight.highlightAppearance.postTag
+      this.home_pre_tag=res?.settings?.highlight?.highlightAppearance?.preTag
+      this.home_post_tag=res.settings?.highlight?.highlightAppearance?.postTag
+      this.highlightdata.highlightAppearance.preTag=res?.settings?.highlight?.highlightAppearance?.preTag
+      this.highlightdata.highlightAppearance.postTag=res?.settings?.highlight?.highlightAppearance?.postTag
       this.notificationService.notify("updated successfully",'success');
       this.highlightAppearanceModalPopRef.close();
     }, errRes => {
@@ -353,8 +361,8 @@ export class HighlightingComponent implements OnInit {
     }    
     }
     this.service.invoke('put.queryPipeline', quaryparms,payload).subscribe(res => {
-      this.highlightdata.enable=res.settings.highlight.enable
-      this.notificationService.notify("updated successfully",'success');
+      this.highlightdata.enable=res.settings.highlight.enable;
+      this.highlightdata.enable?this.notificationService.notify("Highlighting Enabled",'success'):this.notificationService.notify("Highlighting Disabled",'success');
     }, errRes => {
       this.notificationService.notify("Failed to update",'error');
     });

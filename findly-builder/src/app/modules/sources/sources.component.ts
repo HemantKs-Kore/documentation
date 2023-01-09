@@ -427,7 +427,7 @@ export class SourcesComponent implements OnInit {
       this.mixpanel.postEvent('Enter Crawl web domain', {
         'Crawl web CTA spurce': 'Sources',
       });
-    } else if (this.router?.url === '/source') {
+    } else if (this.router?.url === '/sources') {
       this.mixpanel.postEvent('Enter Crawl web domain', {
         'Crawl web CTA spurce': 'Setup guide',
       });

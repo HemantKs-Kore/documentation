@@ -3027,7 +3027,7 @@ display: none !important;
   border-radius: 8px;
   padding: 11px 15px;
   margin-bottom: 10px;
-  cursor: pointer;
+  cursor: default;
   display: inline-block;
   width: 100%;
 }

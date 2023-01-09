@@ -34,7 +34,7 @@ export class CustomConfigurationsComponent implements OnInit {
     this.serachIndexId = this.selectedApp.searchIndexes[0]._id;
     this.indexPipelineId = this.workflowService.selectedIndexPipeline();
     this.queryPipelineId = this.workflowService.selectedQueryPipeline() ? this.workflowService.selectedQueryPipeline()._id : '';
-    this.getcustomConfigList()
+    if(this.indexPipelineId && this.queryPipelineId )this.getcustomConfigList()
     this.querySubscription = this.appSelectionService.queryConfigSelected.subscribe(res => {
       this.indexPipelineId = this.workflowService.selectedIndexPipeline();
       this.queryPipelineId = this.workflowService.selectedQueryPipeline() ? this.workflowService.selectedQueryPipeline()._id : ''   
@@ -53,7 +53,6 @@ getQuerypipeline() {
     queryPipelineId: this.queryPipelineId,
     indexPipelineId: this.indexPipelineId,
   };
-
   this.isLoading = true;
   this.service.invoke('get.queryPipeline', quaryparms).subscribe(
     (res) => {
@@ -108,7 +107,10 @@ getQuerypipeline() {
       }
     );
   }
-
+  // open Slider
+  openUserMetaTagsSlider() {
+    this.appSelectionService.topicGuideShow.next();
+  }
 
   //**delete the custom config data */
 deleteCustomConfig(data) {

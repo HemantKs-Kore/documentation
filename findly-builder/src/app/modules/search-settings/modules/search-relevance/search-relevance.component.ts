@@ -20,6 +20,7 @@ export class SearchRelevanceComponent implements OnInit {
   streamId: any;
   serachIndexId
   queryPipelineId;
+  isLoading=false
   querySubscription : Subscription;
   weightModal = {
       "fieldName": "",
@@ -51,23 +52,31 @@ export class SearchRelevanceComponent implements OnInit {
     this.serachIndexId = this.selectedApp.searchIndexes[0]._id;
     this.indexPipelineId = this.workflowService.selectedIndexPipeline();
     this.queryPipelineId = this.workflowService.selectedQueryPipeline() ? this.workflowService.selectedQueryPipeline()._id : '';
-    this.prepareThreshold()
+    if(this.indexPipelineId && this.queryPipelineId )this.prepareThreshold('menu')
     this.querySubscription = this.appSelectionService.queryConfigSelected.subscribe(res => {
       this.indexPipelineId = this.workflowService.selectedIndexPipeline();
       this.queryPipelineId = this.workflowService.selectedQueryPipeline() ? this.workflowService.selectedQueryPipeline()._id : ''
-      this.prepareThreshold()
+      this.prepareThreshold('menu')
     })   
     
     
   }
+    //open topic guide
+    openUserMetaTagsSlider() {
+      this.appSelectionService.topicGuideShow.next();
+    }
   //** to fetch the threshold range slider value */
-  prepareThreshold(){ 
+  prepareThreshold(comingFrom){ 
     const quaryparms: any = {
       searchIndexID: this.serachIndexId,
       queryPipelineId: this.queryPipelineId,
       indexPipelineId: this.indexPipelineId
     };
+    if(comingFrom=='menu'){
+      this.isLoading=true;
+    }    
     this.service.invoke('get.queryPipeline', quaryparms).subscribe(res => {
+      this.isLoading=false;
       this.searchrelevancedata = res.settings.searchRelevance;
       this.searchRelevanceConfig= res.settings.searchRelevance.languages.find(item=>item.languageCode==this.selectedLanguage)      
       const name = ('matchThreshold' || '').replace(/[^\w]/gi, '')
@@ -111,7 +120,7 @@ export class SearchRelevanceComponent implements OnInit {
     this.service.invoke('put.queryPipeline', quaryparms,payload).subscribe(res => {
       this.searchrelevancedata.enable=res?.settings?.searchRelevance?.enable
       this.notificationService.notify("updated successfully",'success');
-      this.prepareThreshold()
+      this.prepareThreshold('self')
     }, errRes => {
       this.notificationService.notify("Failed to update",'error');
     });
@@ -133,7 +142,6 @@ export class SearchRelevanceComponent implements OnInit {
       }    
     }
     this.service.invoke('put.queryPipeline', quaryparms,payload).subscribe(res => {
-      //this.prepareThreshold()
 
       //this.notificationService.notify("updated successfully",'success');
     }, errRes => {
