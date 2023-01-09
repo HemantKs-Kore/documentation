@@ -1,7 +1,13 @@
 <div class="cc-landing-page-block">
   <div class="splitter-header">
     <div class="widget-header-block">
-      <div class="widget-header">	{{"search_settings_custom_configurations" |translate}}</div>
+      <div class="widget-header">	{{"search_settings_custom_configurations" |translate}}
+        <span class="module-topic" tooltipClass="tooltip-global-" [container]="'body'"
+        ngbTooltip="{{'contentSource_topic_guide' | translate}}" placement="right-center"
+        (click)="openUserMetaTagsSlider()">
+        <i class="si-topic-guide-1"></i>
+      </span>
+      </div>
       <div class="widget-desc">{{"search_settings_key_value_pair" |translate}}</div>
     </div>
     <div class="add-field-link-btn"><span class="icon-add-span"><i class="si-add-plus icon-add"></i></span>

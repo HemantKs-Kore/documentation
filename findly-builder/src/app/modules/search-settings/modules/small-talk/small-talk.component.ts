@@ -84,6 +84,10 @@ export class SmallTalkComponent implements OnInit {
    },
      (err) => { this.notificationService.notify("Task Enabling Failed", 'error') });
  }
+ //Open slider
+ openUserMetaTagsSlider() {
+  this.appSelectionService.topicGuideShow.next();
+}
  getQuerypipeline(){
   const quaryparms: any = {
     searchIndexID: this.serachIndexId,

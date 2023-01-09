@@ -19,6 +19,7 @@ export class StopWordsComponent implements OnInit, OnDestroy {
   loadingContent: any = true;
   stopwords: any = [];
   stopwordsList: any = [];
+  defaultStopwordsList: any = [];
   searchStopwords: any = '';
   newStopWord: any = '';
   stopwordData:any;
@@ -27,6 +28,7 @@ export class StopWordsComponent implements OnInit, OnDestroy {
   searchFocusIn = false;
   activeClose = false;
   checkStopwords:boolean = false;
+  haveDefaultStopwords:boolean = false;
   enabled = false;
   validation: any = {
     duplicate: false,
@@ -58,6 +60,7 @@ export class StopWordsComponent implements OnInit, OnDestroy {
     this.subscription = this.appSelectionService.queryConfigs.subscribe(res => {
       this.loadStopwords();
     })
+    this.getDefaultStopWords();
   }
   loadImageText: boolean = false;
   loadingContent1: boolean
@@ -99,6 +102,26 @@ export class StopWordsComponent implements OnInit, OnDestroy {
     }
   }
 //-----------------------------(AUTHOR:BHARADWAJ)
+//Checking for Default Stopwords
+checkForDefaultStopWords(){
+  this.haveDefaultStopwords = this.defaultStopwordsList.every((e) => this.stopwordsList.includes(e));
+}
+//GET DEFALUT STOPWORDS
+getDefaultStopWords(){
+  let  url = 'get.defaultStopWords'
+  this.service.invoke(url).subscribe(
+    res => {
+     this.defaultStopwordsList = res.stopwords.en;
+    },
+    errRes => {
+      if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
+        this.notificationService.notify(errRes.error.errors[0].msg, 'error');
+      } else {
+        this.notificationService.notify('Failed To Get default Stop words Languages', 'error');
+      }
+    }
+  );
+}
 //ADD DEFAULT OR START FROM SCRATCH
 createInit() {
   if (this.stopWordsIntiType === 'default') {
@@ -202,6 +225,7 @@ createInit() {
        this.stopwordsList = res.stopwords // updating Display Array
        this.notificationService.notify('Stopwords Added Successfully', 'success');
        this.newStopWord = '';
+       this.checkForDefaultStopWords()
     }, errRes => {
       if(type == true) this.notificationService.notify('Failed To Add Stopwords', 'success')
       if(type == false) this.notificationService.notify('Failed To Add Stopword', 'success')   
@@ -223,7 +247,8 @@ createInit() {
     };
     this.service.invoke('delete.deleteStopWords',quaryparms,payload).subscribe(res => {
     if(type == false){
-      this.stopwordsList.splice(index,1);
+      this.stopwordsList = this.stopwordsList.filter(e => e !== `${word}`);
+      // this.stopwordsList.splice(index,1);
       this.notificationService.notify(`${word} Stop Word Deleted successfully`, 'success')
     }
     else {
@@ -277,7 +302,7 @@ createInit() {
         title: 'Delete Stop Word',
         text: 'Are you sure you want to delete selected Stop Word?',
         newTitle: 'Are you sure you want to delete ?',
-        body: word + ' will be removed from stopword list',
+        body: '"'+'<b>'+word+'</b>'+'"' + ' will be removed from stopword list',
         buttons: [{ key: 'yes', label: 'Delete', type: 'danger' }, { key: 'no', label: 'Cancel' }],
         confirmationPopUp: true
       }
@@ -292,7 +317,33 @@ createInit() {
         }
       })
   }
-  
+  resetToDefault(event) {
+    if (event) {
+      event.stopImmediatePropagation();
+      event.preventDefault();
+    }
+    const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+      width: '530px',
+      height: 'auto',
+      panelClass: 'delete-popup',
+      data: {
+        title: 'Delete  All StopWords',
+        newTitle: 'Are you sure you want to reset ?',
+        body: 'Stop words will be reset to system-defined values.',
+        buttons: [{ key: 'yes', label: 'Reset', type: 'danger' }, { key: 'no', label: 'Cancel' }],
+        confirmationPopUp: true
+      }
+    });
+    dialogRef.componentInstance.onSelect
+      .subscribe(result => {
+        if (result === 'yes') {
+          this.createStopWords(false,'',true)
+          dialogRef.close();
+        } else if (result === 'no') {
+          dialogRef.close();
+        }
+      })
+  }
   getQuerypipeline(){
     const quaryparms: any = {
       searchIndexID: this.serachIndexId,

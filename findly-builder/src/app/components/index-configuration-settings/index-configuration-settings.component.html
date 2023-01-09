@@ -17,7 +17,7 @@
                 <div class="body-header-tag"> {{"index_Settings_index_languages" | translate}} </div>
                 <div class="body-header-desc">  {{"index_Settings_multilangual_support_desc" | translate}} </div>
             </div>
-            <div id="sa_index_settings_add_language" id="sa_open_add_langauge" class="body-header-link-btn" (click)="openModalPopup()">
+            <div id="sa_index_settings_add_language" [ngClass]="getTrainIsInprogress()||isTrainStatusInprogress?'disable-add-btn':''" id="sa_open_add_langauge" class="body-header-link-btn" (click)="openModalPopup()">
                 <span class="icon-add-span"><i class="si-add-plus icon-add"></i></span>
                 {{"index_Settings_add_language" | translate}}
             </div>
@@ -25,18 +25,18 @@
         <div class="index-config-lang-table row m-0">
             <div class="table_data_content col-6">
                 <div class="table_header row m-0">
-                    <div class="col_ col-8 title d-flex align-items-center justify-content-start">{{"index_Settings_language" | translate}}</div>
+                    <div class="col_ col-8 pl-2 title d-flex align-items-center justify-content-start">{{"index_Settings_language" | translate}}</div>
                     <div class="col_ col-1 title d-flex align-items-center justify-content-start"> {{"index_Settings_code" | translate}} </div>
                 </div>
              <!-- List of Languages starts  -->
                 <perfect-scrollbar class="table_body_content">
                     <div *ngFor="let list of supportedLanguages;let i = index" class="table_body row m-0">
-                                <div class="col-8 title text-left p-0">  {{list.language}} </div>
+                                <div class="col-8 pl-2 title text-left p-0">  {{list.language}} </div>
                                 <div class="col-1 title text-left p-0"> {{list.languageCode}}  </div>
                                 <div class="col-1">
                                     <div *ngIf="i>0" class="action_links text-right">
                                         <!-- <span class="action_link-icon"> <i class="si-pencil-edit"  (click)="editLanguages(i)"></i> </span> -->
-                                        <span id="sa_index_settings_delete{{i}}" class="action_link-icon ml-3"> <i  class="si-delete1" (click)="i===0?'':deleteLanguagesPop($event,list)"></i> </span>
+                                        <span id="sa_index_settings_delete{{i}}" class="action_link-icon ml-3"> <i ngbTooltip="{{'sa_delete' | translate}}" class="si-delete1" (click)="i===0?'':deleteLanguagesPop($event,list)"></i> </span>
                                     </div>
                                 </div>
                     </div>
@@ -92,7 +92,7 @@
     <div class="modal-footer">
         <div class="modal-footer-with-selected-count">
             <div class="slected-count">
-                <span class="slected-count-num">{{supportedLanguages.length}}</span> / <span class="slected-count-num">{{languageList.length}}</span> 
+                <span class="slected-count-num">{{getSelectedCount()}}</span> / <span class="slected-count-num">{{languageList.length}}</span> 
                 {{"index_Settings_selected" | translate}}
             </div>
             <div>

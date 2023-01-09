@@ -2,7 +2,7 @@ import {  Component, OnInit,Output,Input,EventEmitter ,ViewChild } from '@angula
 import { KRModalComponent } from 'src/app/shared/kr-modal/kr-modal.component';
 import { WorkflowService } from '@kore.services/workflow.service';
 import { AppSelectionService } from '@kore.services/app.selection.service';
-import { of, interval, Subject, Subscription } from 'rxjs';
+import { Subscription } from 'rxjs';
 import { PerfectScrollbarComponent, PerfectScrollbarDirective } from 'ngx-perfect-scrollbar';
 import { NotificationService } from '@kore.services/notification.service';
 import { ServiceInvokerService } from '@kore.services/service-invoker.service';
@@ -31,6 +31,7 @@ export class HighlightingComponent implements OnInit {
    selectedSort:string='asc';
    checksort:string='fieldName';
    selectionflag:boolean=true;
+   isSpinner=false
   //  isSearchable:boolean=true;
    page:number=0;
    limit:number=10;
@@ -81,8 +82,10 @@ export class HighlightingComponent implements OnInit {
         queryPipelineId: this.queryPipelineId,
         indexPipelineId: this.indexPipelineId,
       };
-      this.service.invoke('get.queryPipeline', quaryparms).subscribe(
+      this.isSpinner=true
+      this.service.invoke('get.queryPipeline', quaryparms).subscribe(      
         (res) => {
+          this.isSpinner=false
           this.highlightdata = res;
           this.home_pre_tag=this.highlightdata.settings.highlight.highlightAppearance.preTag
           this.home_post_tag=this.highlightdata.settings.highlight.highlightAppearance.postTag
@@ -100,7 +103,6 @@ export class HighlightingComponent implements OnInit {
   //** to get the data for the highlight table and add highlight pop-up sending true and false for get api */
   getAllHighlightFields(){
     this.getHighlightFields(true);
-    //this.getHighlightFields(false);
   }
     /** get highlight fields api call with false value to get data for add pop-up*/
     getAddpopuphighlightField(event){

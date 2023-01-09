@@ -39,13 +39,13 @@
             <div>
                 <div class="table_data_content" *ngIf="filelds && filelds.length" >
                     <div class="table_header row m-0" *ngIf="!(filelds && filelds.length) || filelds && filelds.length" >
-                        <div class="col_ col-4 title d-flex align-items-center justify-content-start" (click)="sortByApi('fieldName')" > <!--(click)="sortByApi('fieldName')"-->
+                        <div class="col_ col-3 title d-flex align-items-center justify-content-start" (click)="sortByApi('fieldName')" > <!--(click)="sortByApi('fieldName')"-->
                             <span class="d-flex align-items-center flex-column mr-1">
                                 <img  [ngClass]="getSortIconVisibility('fieldName', 'down')"   src="assets/icons/caretDown.svg" class="ml-1 sortImg downArrow">
                                 <img [ngClass]="getSortIconVisibility('fieldName', 'up')"  src="assets/icons/caretDown.svg" class="ml-1 sortImg upArrow">
                               </span>
                               {{'fields_field_name' | translate}}</div>
-                        <div class="col_  col-2 title d-flex align-items-center" (click)="sortByApi('fieldDataType')">
+                        <div class="col_  col-3 title d-flex align-items-center" (click)="sortByApi('fieldDataType')">
                             <span class="d-flex align-items-center flex-column mr-1">
                                 <img  [ngClass]="getSortIconVisibility('fieldDataType', 'down')"   src="assets/icons/caretDown.svg" class="ml-1 sortImg downArrow">
                                 <img [ngClass]="getSortIconVisibility('fieldDataType', 'up')"  src="assets/icons/caretDown.svg" class="ml-1 sortImg upArrow">
@@ -264,8 +264,8 @@
                 <perfect-scrollbar class="table_body_content">
                     <div class="table_body row m-0" *ngFor="let field of filelds;let i=index">
                         <!-- <div class="table_body row m-0" *ngFor="let field of filelds | fieldsFilter: [ searchFields, 'fieldName'];let i=index"> -->
-                        <div class="col-4 title text-left" [title]="field.fieldName">{{field.fieldName}}</div>
-                        <div class="col-2 title">{{field.fieldDataType | translate}}</div>
+                        <div class="col-3 title text-left" [title]="field.fieldName">{{field.fieldName}}</div>
+                        <div class="col-3 title">{{field.fieldDataType | translate}}</div>
                         <div class="col-3 title">
                             <span class="field-value" [ngClass]="field.isSearchable ? 'yes' : 'no'">{{field.isSearchable?'Yes':'No'}}</span>
                         </div>
@@ -288,7 +288,7 @@
                                     [container]="'body'" placement="{{i==0?'bottom':'top'}}"
                                     (click)="addEditFiled(field)"><i class="si-pencil-edit"></i></span>
 
-                                    <span ngbTooltip="{{'fields.delete' | translate}}"
+                                    <span ngbTooltip="{{'sa_delete' | translate}}"
                                     [container]="'body'" placement="{{i==0?'bottom':'top'}}" class="action_link-icon ml-3"
                                     (click)="deleteFieldPop(field)"><i class="si-delete1"></i></span>
                             </div>

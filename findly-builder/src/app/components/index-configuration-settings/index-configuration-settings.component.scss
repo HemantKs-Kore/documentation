@@ -74,6 +74,9 @@
                         }
                     }
                 }
+                &.disable-add-btn{
+                    pointer-events: none;
+                }
             }
         }
     }
@@ -118,6 +121,7 @@
                     .action_links{
                         visibility: visible;
                         .action_link-icon{
+                            color: #DD3646;
                             cursor: pointer;
                         }
                     }

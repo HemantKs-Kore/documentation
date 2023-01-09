@@ -7,17 +7,6 @@
         <!-- Search -->
         <app-search-filter (searchkey)="getsearchvalue($event,'datatable')"></app-search-filter>
         <!-- Search ends-->
-        <!-- <div class="pt-search" id="pt-search">
-            <div class="kr-sg-input-inline-search" id="inline-search">                               
-                <input type="text" placeholder="{{'sa_search' | translate}}"  class="input-search">
-                <span class="search-icon close-icon" id="close-icon">
-                    <i class="si-close"></i>
-                </span>
-                <span class="search-icon" id="search-icon">
-                    <i class="si-search"></i>
-                </span>                                   
-            </div>
-        </div> -->
     </div>
 
     <div class="mainLoadingSpinner" *ngIf="isLoading">
@@ -72,7 +61,7 @@
                                             <i class="si-pencil-edit"></i> Edit
                                         </span> -->
                                         <span class="action_link-icon link-delete" (click)="deletefieldsDataPopup(fields)">
-                                            <i class="si-delete1 mr-1" ngbTooltip="{{'sa_remove'| translate}}" placement="auto"  ></i> 
+                                            <i class="si-delete1 mr-1" container="body" ngbTooltip="{{'sa_remove'| translate}}" placement="auto"  ></i> 
                                         </span>
                                     </div>
                                 </div>
@@ -94,7 +83,7 @@
     </div>
     <ng-container>        
             <div class="modal-body">
-                <app-search-filter (searchkey)="getsearchvalue($event,'addFieldModalPop')"></app-search-filter>
+                <app-search-filter [shouldClear]="shouldClear" (searchkey)="getsearchvalue($event,'addFieldModalPop')"></app-search-filter>
                 <div class="index-config-lang-table" id="sa_index_config_lang_table">
                     <div class="table_data_content">
                         <div class="table_header row m-0" id="sa_table_data_content">

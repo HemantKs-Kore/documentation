@@ -112,25 +112,6 @@ export class WeightsComponent implements OnInit, OnDestroy
     this.addEditWeighObj.fieldId = '';
     this.addEditWeighObj.name = '';
   }
-  getFieldAutoComplete(query) // not using any where
-  {
-    if (/^\d+$/.test(this.searchField))
-    {
-      query = parseInt(query, 10);
-    }
-    const quaryparms: any = {
-      searchIndexID: this.serachIndexId,
-      indexPipelineId: this.indexPipelineId,
-      query
-    };
-    this.service.invoke('get.getFieldAutocomplete', quaryparms).subscribe(res =>
-    {
-      this.fields = res || [];
-    }, errRes =>
-    {
-      this.errorToaster(errRes, 'Failed to get fields');
-    })
-  }
   prepereWeights(){
     let weightArr = [];
     if (this.weights){
@@ -285,7 +266,6 @@ export class WeightsComponent implements OnInit, OnDestroy
       fieldId:'',
       sliderObj: new RangeSlider(0, 10, 1, 2, 'editSlider','',true)
     };
-    // this. getFieldAutoComplete(''); 
     this.openAddEditWeight();
   }
   closeAddEditWeight()
@@ -333,7 +313,6 @@ export class WeightsComponent implements OnInit, OnDestroy
     this.submitted = true;
     if (this.validateWeights())
     {
-      // const weights = JSON.parse(JSON.stringify(this.weights));
       this.addOrUpddate(addEditWeighObj, null, 'add');
     }
     else
@@ -449,7 +428,6 @@ export class WeightsComponent implements OnInit, OnDestroy
          this.errorToaster(errRes, 'Failed to Delete weight');
       });
   }
-  sort
   modifyFieldWarningMsg(warningMessage)
   {
     let index = warningMessage.indexOf("changed");
@@ -461,7 +439,7 @@ export class WeightsComponent implements OnInit, OnDestroy
       return false;
     }
   }
-  clearcontentSrcW()
+  clearSearchtext()
   {
     if ($('#searchBoxIdW') && $('#searchBoxIdW').length)
     {
@@ -469,29 +447,40 @@ export class WeightsComponent implements OnInit, OnDestroy
       this.search_FieldName = '';
     }
   }
-sortByApi(sort){
-  this.selectedSort = sort;
-  if (this.selectedSort !== sort) {
-    this.isAsc = true;
-  } else {
-    this.isAsc = !this.isAsc;
+  sortByApi(sort){
+    this.selectedSort = sort;
+    if (this.selectedSort !== sort) {
+      this.isAsc = true;
+    } else {
+      this.isAsc = !this.isAsc;
+    }
+    let naviagtionArrow ='';
+    //var checkSortValue= 1;
+    if(this.isAsc){
+      naviagtionArrow= 'up';
+      this.checksort='asc'
+    }
+    else{
+      naviagtionArrow ='down';
+      //checkSortValue = -1;
+      this.checksort='desc'
+    }
+    this.getWeights();
   }
-  let naviagtionArrow ='';
-  //var checkSortValue= 1;
-  if(this.isAsc){
-    naviagtionArrow= 'up';
-    this.checksort='asc'
-  }
-  else{
-    naviagtionArrow ='down';
-    //checkSortValue = -1;
-    this.checksort='desc'
-  }
-  this.getWeights();
-}
 getSortIconVisibility(sortingField: string, type: string,component: string) {
       switch (this.selectedSort) {
         case "fieldName": {
+            if (this.selectedSort == sortingField) {
+                    if (this.isAsc == false && type == 'down') {
+                return "display-block";
+              }
+                    if (this.isAsc == true && type == 'up') {
+                      return "display-block";
+                    }
+              return "display-none"
+            }
+          }
+          case "fieldDataType": {
           if (this.selectedSort == sortingField) {
             if (this.isAsc == false && type == 'down') {
               return "display-block";
@@ -501,8 +490,8 @@ getSortIconVisibility(sortingField: string, type: string,component: string) {
             }
             return "display-none"
           }
-        }
-        case "fieldDataType": {
+          }
+          case "weight.value": {
           if (this.selectedSort == sortingField) {
             if (this.isAsc == false && type == 'down') {
               return "display-block";
@@ -512,19 +501,8 @@ getSortIconVisibility(sortingField: string, type: string,component: string) {
             }
             return "display-none"
           }
-        }
-        case "weight.value": {
-          if (this.selectedSort == sortingField) {
-            if (this.isAsc == false && type == 'down') {
-              return "display-block";
-            }
-            if (this.isAsc == true && type == 'up') {
-              return "display-block";
-            }
-            return "display-none"
           }
         }
-      }
   }
   openUserMetaTagsSlider() {
     this.appSelectionService.topicGuideShow.next();

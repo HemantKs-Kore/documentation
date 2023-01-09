@@ -3,7 +3,7 @@ import { WorkflowService } from '@kore.services/workflow.service';
 import { AppSelectionService } from '@kore.services/app.selection.service';
 import { NotificationService } from '@kore.services/notification.service';
 import { ServiceInvokerService } from '@kore.services/service-invoker.service';
-import { of, interval, Subject, Subscription } from 'rxjs';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-bot-actions',
@@ -20,6 +20,7 @@ export class BotActionsComponent implements OnInit {
   serachIndexId
   queryPipelineId
   querySubscription : Subscription;
+  isLoading=false
 
   constructor(
     public workflowService: WorkflowService,
@@ -50,9 +51,11 @@ getQuerypipeline() {
     queryPipelineId: this.queryPipelineId,
     indexPipelineId: this.indexPipelineId,
   };
+  this.isLoading=true
   this.service.invoke('get.queryPipeline', quaryparms).subscribe(
     (res) => {
       this.botactionsdata = res.settings.botActions;
+      this.isLoading=false
     },
     (errRes) => {
       this.notificationService.notify(
@@ -95,24 +98,14 @@ getQuerypipeline() {
       queryPipelineId:this.workflowService.selectedQueryPipeline() ? this.workflowService.selectedQueryPipeline()._id : '',
       searchIndexId:this.serachIndexId
     }
-    if(type=='execute'){
-        var payload:any={
+    let payload:any={
           settings: {
             botActions: {
-              executeIntents:true
+              executeIntents:type=='execute'?true:false
           }
         }    
       }
-    }
-    else{
-      var  payload:any={
-        settings: {
-          botActions: {
-            executeIntents:false
-        }
-      }    
-    }
-    }
+    
 
     this.service.invoke('put.queryPipeline', quaryparms,payload).subscribe(res => {
       this.botactionsdata.enable=res.settings.botActions.enable
