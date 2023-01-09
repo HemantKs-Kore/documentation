@@ -16,6 +16,7 @@ import { IndexComponent } from './index.component';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatChipsModule } from '@angular/material/chips';
+import { DragDropModule } from '@angular/cdk/drag-drop';
 
 @NgModule({
   declarations: [IndexComponent],
@@ -36,7 +37,8 @@ import { MatChipsModule } from '@angular/material/chips';
     MatIconModule,
     ReactiveFormsModule,
     FindlySharedModule,
-    EmptyScreenModule
+    EmptyScreenModule,
+    DragDropModule
   ],
   exports: [IndexComponent],
 })
