@@ -413,9 +413,9 @@
                     <div class="tost-text">{{'fields.indexed_property_has_been_set_to_false' | translate}}
                         {{indexedWarningMessage?(indexedWarningMessage+'.'):indexedWarningMessage}}</div>
                 </div> -->
-                <ng-template #tipContent>
+                <ng-template #tipContent container="body">
                     <div class="inner-content-html">
-                        <p>IMPACTED SETTINGS</p>
+                        <p>{{"search_settings_impacted_settings" |translate}}</p>
                         <ul>
                             <li *ngFor="let tip of tooltipArr">
                                 {{ tip }}
