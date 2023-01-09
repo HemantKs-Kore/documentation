@@ -1,3 +1,4 @@
+import { CacheInterceptor } from './services/inteceptors/cache.interceptor';
 import { PricingModule } from './components/pricing/pricing.module';
 import { IndexModule } from './components/index/index.module';
 import { BusinessRulesModule } from './components/business-rules/business-rules.module';
@@ -232,6 +233,7 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
       provide: MAT_FORM_FIELD_DEFAULT_OPTIONS,
       useValue: { appearance: 'fill' },
     },
+    { provide: HTTP_INTERCEPTORS, useClass: CacheInterceptor, multi: true },
     SortPipe,
     AuthGuard,
     AppDataResolver,
