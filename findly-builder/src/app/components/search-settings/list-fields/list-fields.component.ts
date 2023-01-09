@@ -51,8 +51,8 @@ export class ListFieldsComponent implements OnInit {
     //   this.loadingContent = false
     // }
   }
-  /** To cehck for the Selected Values */
-  checkValues(){
+  /** To cehck for the Selected fileds - > use 'checkPopupfieldvalues()' to loop the slected fields on retun */
+  checkPopupfieldvalues(){
     if(this.selectedList.length){
       this.selectedList.forEach(selectedElement => {
         this.popupfieldvalues.forEach(popupElement => {
