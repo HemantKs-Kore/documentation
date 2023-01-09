@@ -44,6 +44,7 @@ export class FieldManagementComponent implements OnInit {
   value = 1 || -1 ;
   indexedWarningMessage: any = '';
   resultTest;
+  editresultTest
   tooltipArr = [];
   showSearchSettingsTooltip = false;
   selectedSort = 'fieldName';
@@ -266,18 +267,18 @@ export class FieldManagementComponent implements OnInit {
         }
       }
 
-      let resultStr = `This will impact `;
+      let resultStr1 = `This will impact `;
       if (resultArr.length === 1) {
-        resultStr += resultArr[0];
+        resultStr1 += resultArr[0];
       } else if (resultArr.length === 2) {
-        resultStr += `${resultArr.join(' and ')}`;
+        resultStr1 += `${resultArr.join(' and ')}`;
       } else {
         const lastVal = resultArr.slice(-1)[0]; 
-        resultStr += `${resultArr.slice(0, resultArr.length -1 ).join(', ')} and ${lastVal}`;
+        resultStr1 += `${resultArr.slice(0, resultArr.length -1 ).join(', ')} and ${lastVal}`;
       }
-      console.log(resultStr);
-      this.indexedWarningMessage = resultStr;
-      this.resultTest = this.sanitizer.bypassSecurityTrustHtml(resultStr);
+      console.log(resultStr1);
+      this.indexedWarningMessage = resultStr1;
+      this.editresultTest = this.sanitizer.bypassSecurityTrustHtml(resultStr1);
 
 
       // //if (res && (res.facets && res.facets.used) || (res.rules && res.rules.used) || (res.weights && res.weights.used) || (res.resultTemplates && res.resultTemplates.used)) {
