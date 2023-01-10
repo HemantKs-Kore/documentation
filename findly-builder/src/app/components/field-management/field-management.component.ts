@@ -123,7 +123,7 @@ export class FieldManagementComponent implements OnInit {
   }
   applyDisableClass(fieldName){
     return {
-      'disable-actionlinks':fieldName==='sys_content_type' || fieldName==='sys_racl' || fieldName==='sys_source_name'
+      'disable-delete':fieldName==='sys_content_type' || fieldName==='sys_racl' || fieldName==='sys_source_name'
     };
   }
   loadFileds() {

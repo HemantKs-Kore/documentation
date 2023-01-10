@@ -404,9 +404,12 @@ perfect-scrollbar .ps--active-y{
 }
 }
 .disable-actionlinks{
-    // opacity: 0.251;
-    // pointer-events: none;
-    display:none
+    opacity: 0.251;
+    pointer-events: none;
+}
+
+.disable-delete{
+    display: none;
 }
 
 
