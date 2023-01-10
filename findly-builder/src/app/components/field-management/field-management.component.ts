@@ -287,71 +287,7 @@ export class FieldManagementComponent implements OnInit {
       }
       console.log(resultStr1);
       this.indexedWarningMessage = resultStr1;
-      this.editresultTest = this.sanitizer.bypassSecurityTrustHtml(resultStr1);
-
-
-      // //if (res && (res.facets && res.facets.used) || (res.rules && res.rules.used) || (res.weights && res.weights.used) || (res.resultTemplates && res.resultTemplates.used)) {
-      // if (res && (res.facets && res.facets.used) || (res.rules && res.rules.used) || (res.searchSettings && res.searchSettings.used) || (res.resultTemplates && res.resultTemplates.used) || (res.nlpRules && res.nlpRules.used) || (res.entites && res.entites.used)) {
-      //   usageText = usageText + ' This will impact'
-      //   if (res && res.facets && res.facets.used) {
-      //     deps.facets = true;
-      //     usageText = usageText + ' facet'
-      //   }
-      //   // if (res && res.weights && res.weights.used) {
-      //   //   deps.weights = true;
-      //   //   if (deps.facets) {
-      //   //     usageText = usageText + ', ' + 'Weights'
-      //   //   } else {
-      //   //     usageText = usageText + ' Weights'
-      //   //   }
-      //   // }
-      //   if (res && res.searchSettings && res.searchSettings.used) {
-      //     deps.searchSettings = true;
-      //     if (deps.facets) {
-      //       usageText = usageText + ', ' + 'searchSettings'
-      //     } else {
-      //       usageText = usageText + ' searchSettings'
-      //     }
-      //     console.log(usageText);
-      //   }
-      //   if (res && res.rules && res.rules.used) {
-      //     deps.rules = true;
-      //     if (deps.facets || deps.searchSettings) {
-      //       usageText = usageText + ' , ' + res.rules.records.length + ' Business Rule' + (res.rules.records.length > 1 ? 's' : '')
-      //     } else {
-      //       usageText = usageText + ' ' + res.rules.records.length + ' Business Rule' + (res.rules.records.length > 1 ? 's' : '')
-      //     }
-      //   }
-
-      //   if (res && res.resultTemplates && res.resultTemplates.used) {
-      //     deps.resultTemplate = true;
-      //     if (deps.facets || deps.searchSettings || deps.rules) {
-      //       usageText = usageText + ' , ' + res.resultTemplates.records.length + ' Result Template' + (res.resultTemplates.records.length > 1 ? 's' : '');
-      //     } else {
-      //       usageText = usageText + ' will impact ' + res.resultTemplates.records.length + ' Result Template' + (res.resultTemplates.records.length > 1 ? 's' : '')
-      //     }
-      //   }
-
-      //   if (res && res.nlpRules && res.nlpRules.used) {
-      //     deps.nlpRules = true;
-      //     if (deps.facets || deps.searchSettings || deps.rules || deps.resultTemplate) {
-      //       usageText = usageText + ' , ' + res.nlpRules.records.length + ' nlp Rule' + (res.nlpRules.records.length > 1 ? 's' : '');
-      //     } else {
-      //       usageText = usageText + ' will impact ' + res.nlpRules.records.length + ' nlp Rule' + (res.nlpRules.records.length > 1 ? 's' : '')
-      //     }
-      //   }
-
-      //   if (res && res.entites && res.entites.used) {
-      //     deps.entites = true;
-      //     if (deps.facets || deps.searchSettings || deps.rules || deps.resultTemplate || deps.nlpRules) {
-      //       usageText = usageText + ' , ' + res.entites.records.length + (res.entites.records.length == 1 ? 'entity' : '')  + (res.entites.records.length > 1 ? 'entities' : '');
-      //     } else {
-      //       usageText = usageText + ' will impact ' + res.nlpRules.entites.length + (res.entites.records.length == 1 ? 'entity' : '') + (res.entites.records.length > 1 ? 'entities' : '');
-      //     }
-      //   }
-      // }
-      // usageText = this.replaceLast(",", " and", usageText)
-      // this.indexedWarningMessage = usageText;
+      this.editresultTest = this.sanitizer.bypassSecurityTrustHtml(resultStr1); 
     }, errRes => {
       this.fetchingFieldUsage = false;
     });
@@ -456,63 +392,7 @@ export class FieldManagementComponent implements OnInit {
         resultStr += `${resultArr.slice(0, resultArr.length -1 ).join(', ')} and ${lastVal}`;
       }
       resultStr += '.'+'<div>' +'Deleting it will remove all the associated settings' +'</div>'
-      console.log(resultStr);
-      // let usageText1 = "This field is being used in Facets, Weights, and Rules (Dynamic). Deleting it will remove the associated Facets, Weights, and Rules.";
-      // if (res && (res.facets && res.facets.used) || (res.rules && res.rules.used) || (res.searchSettings && res.searchSettings.used) || (res.resultTemplates && res.resultTemplates.used) || (res.nlpRules && res.nlpRules.used) || (res.entites && res.entites.used)) {
-      //   isDisableDeleteBtn = true;
-      //   let usageText1 = "";
-      //   usageText1 = "This field is being used in";
-      //   usageText = '';
-      //   // let usageText2 = 'Deleting it will remove the associated';
-      //   let usageText2 ='Please remove the dependency before deleting the field'
-      //   if (res && res.facets && res.facets.used) {
-      //     deps.facets = true;
-      //     usageText = usageText + ' Facets'
-      //   }
-      //   if (res && res.searchSettings && res.searchSettings.used) {
-      //     deps.searchSettings = true;          
-      //     if (deps.facets) {
-      //       usageText = usageText + ', ' + 'searchSettings'
-      //     } else {
-      //       usageText = usageText + ' searchSettings'
-      //     }
-      //   }
-        
-      //   if (res && res.rules && res.rules.used) {
-      //     if (deps.facets || deps.searchSettings) {
-      //       usageText = usageText + ' , ' + res.rules.records.length + ' Rule' + (res.rules.records.length > 1 ? 's' : '')
-      //     } else {
-      //       usageText = usageText + ' ' + res.rules.records.length + ' Rule' + (res.rules.records.length > 1 ? 's' : '')
-      //     }
-      //   }
-      //   if (res && res.resultTemplates && res.resultTemplates.used) {
-      //     deps.resultTemplate = true;
-      //     if (deps.facets || deps.searchSettings || deps.rules) { 
-      //       usageText = usageText + ' , ' + res.resultTemplates.records.length + ' Result Template' + (res.resultTemplates.records.length > 1 ? 's' : '')
-      //     } else {
-      //       usageText = usageText + ' ' + res.resultTemplates.records.length + ' Result Template' + (res.resultTemplates.records.length > 1 ? 's' : '')
-      //     }
-      //   }
-      //   if (res && res.nlpRules && res.nlpRules.used) {
-      //     deps.nlpRules = true;
-      //     if (deps.facets || deps.searchSettings || deps.rules || deps.resultTemplate) { 
-      //       usageText = usageText + ' , ' + res.nlpRules.records.length + 'nlpRule' + (res.nlpRules.records.length > 1 ? 's' : '')
-      //     } else {
-      //       usageText = usageText + ' ' + res.nlpRules.records.length + 'nlpRule' + (res.nlpRules.records.length > 1 ? 's' : '')
-      //     }
-      //   }
-      //   if (res && res.entites && res.entites.used) {
-      //     deps.entites = true;
-      //     if (deps.facets || deps.searchSettings || deps.rules || deps.resultTemplate || deps.nlpRules) {
-      //       usageText = usageText + ' , ' + res.entites.records.length + (res.entites.records.length == 1 ? 'entity' : '')  + (res.entites.records.length > 1 ? 'entities' : '');
-      //     } else {
-      //       usageText = usageText + ' will impact ' + res.nlpRules.entites.length + (res.entites.records.length == 1 ? 'entity' : '') + (res.entites.records.length > 1 ? 'entities' : '');
-      //     }
-      //   }
-      //   usageText = this.replaceLast(",", " and", usageText);
-      //   // usageText = usageText1 + usageText + '. ' + usageText2 + usageText + '.';
-      //   usageText = usageText1 + usageText + '. ' + usageText2 +'.';
-      // }
+      console.log(resultStr);      
       const dialogRef = this.dialog.open(IndexFieldsComfirmationDialogComponent, {
         width: '530px',
         height: 'auto',

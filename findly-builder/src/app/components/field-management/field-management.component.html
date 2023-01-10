@@ -444,8 +444,7 @@
                <div class="tost-text"> 
                    <span class="pr-1" *ngIf="indexedWarningMessage" [innerHTML]="resultTest">
                    </span>
-                   <span class="bulb-icon" [ngbTooltip]="tipContent">
-                       <!-- <img src="assets/icons/info-blue.svg"> -->    
+                   <span class="bulb-icon" [ngbTooltip]="tipContent">  
                        <i *ngIf="!showSearchSettingsTooltip && !tooltipArr" class="si-info">
                        </i>
                        <i *ngIf="showSearchSettingsTooltip && tooltipArr.length" class="si-info"></i>

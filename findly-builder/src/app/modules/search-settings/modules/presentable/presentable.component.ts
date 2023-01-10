@@ -42,7 +42,6 @@ export class PresentableComponent implements OnInit {
 
   ngOnInit(): void {
     this.selectedApp = this.workflowService.selectedApp();
-    //console.log(this.presentabledata);
     this.indexPipelineId = this.workflowService.selectedIndexPipeline();
     this.queryPipelineId = this.workflowService.selectedQueryPipeline() ? this.workflowService.selectedQueryPipeline()._id : '';
     this.getAllpresentableFields()
