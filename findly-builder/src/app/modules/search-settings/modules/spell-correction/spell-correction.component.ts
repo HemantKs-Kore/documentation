@@ -82,7 +82,7 @@ export class SpellCorrectionComponent implements OnInit {
       ? this.workflowService.selectedQueryPipeline()._id
       : '';
     this.getAllspellcorrectFields();
-    // this.getQuerypipeline();
+    if(this.indexPipelineId  && this.queryPipelineId && this.serachIndexId){ this.getQuerypipeline()}
 
     this.querySubscription =
       this.appSelectionService.queryConfigSelected.subscribe((res) => {
@@ -310,7 +310,7 @@ export class SpellCorrectionComponent implements OnInit {
           this.spellcorrectdata.settings.spellCorrect.maxTypoEdits =
             res?.settings?.spellCorrect?.maxTypoEdits;
           if (this.max_threshold > 0) {
-            this.notificationService.notify('updated successfully', 'success');
+            this.notificationService.notify('Maximum Typo Edits updated successfully', 'success');
           }
         },
         (errRes) => {
@@ -341,7 +341,7 @@ export class SpellCorrectionComponent implements OnInit {
         (res) => {
           this.spellcorrectdata.settings.spellCorrect.maxTypoEdits =
             res?.settings?.spellCorrect?.maxTypoEdits;
-          this.notificationService.notify('updated successfully', 'success');
+          this.notificationService.notify('Maximum Typo Edits updated successfully', 'success');
         },
         (errRes) => {
           this.notificationService.notify('Failed to update', 'error');
@@ -375,7 +375,7 @@ export class SpellCorrectionComponent implements OnInit {
             this.spellcorrectdata.settings.spellCorrect.minCharThreshold =
               res?.settings?.spellCorrect?.minCharThreshold;
             if (this.min_threshold > 0) {
-              this.notificationService.notify('updated successfully', 'success');
+              this.notificationService.notify('Minimum Character Threshold updated successfully', 'success');
             }
           },
           (errRes) => {
@@ -409,7 +409,7 @@ export class SpellCorrectionComponent implements OnInit {
         (res) => {
           this.spellcorrectdata.settings.spellCorrect.minCharThreshold =
           res?.settings?.spellCorrect?.minCharThreshold;
-          this.notificationService.notify('updated successfully', 'success');
+          this.notificationService.notify('Minimum Character Threshold updated successfully', 'success');
         },
         (errRes) => {
           this.notificationService.notify('Failed to update', 'error');

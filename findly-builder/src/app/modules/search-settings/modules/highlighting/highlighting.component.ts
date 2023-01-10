@@ -68,7 +68,7 @@ export class HighlightingComponent implements OnInit {
     this.indexPipelineId = this.workflowService.selectedIndexPipeline();
     this.queryPipelineId = this.workflowService.selectedQueryPipeline() ? this.workflowService.selectedQueryPipeline()._id : '';
     this.getAllHighlightFields()
-    //this.getQuerypipeline();
+    if(this.indexPipelineId  && this.queryPipelineId && this.serachIndexId){ this.getQuerypipeline()}
 
     this.querySubscription = this.appSelectionService.queryConfigSelected.subscribe(res => {
       this.indexPipelineId = this.workflowService.selectedIndexPipeline();
@@ -266,14 +266,13 @@ export class HighlightingComponent implements OnInit {
     this.service.invoke('put.queryPipeline', quaryparms,payload).subscribe(res => {
       this.home_pre_tag=res?.settings?.highlight?.highlightAppearance?.preTag
       this.home_post_tag=res.settings?.highlight?.highlightAppearance?.postTag
+      this.notificationService.notify("Tags updated successfully",'success');
       this.highlightdata.highlightAppearance.preTag=res?.settings?.highlight?.highlightAppearance?.preTag
-      this.highlightdata.highlightAppearance.postTag=res?.settings?.highlight?.highlightAppearance?.postTag
-      this.notificationService.notify("updated successfully",'success');
-      this.highlightAppearanceModalPopRef.close();
+      this.highlightdata.highlightAppearance.postTag=res?.settings?.highlight?.highlightAppearance?.postTag      
     }, errRes => {
       this.notificationService.notify("Failed to update",'error');
     });   
-    
+    this.highlightAppearanceModalPopRef.close();
   }
   
    /** Emited Value for Operation (Add/Delete)  */
@@ -347,7 +346,8 @@ export class HighlightingComponent implements OnInit {
   }
   this.service.invoke('put.queryPipeline', quaryparms,payload).subscribe(res => {
     this.highlightdata.synonymsHighlight=res.settings.highlight.enable
-    this.notificationService.notify("updated successfully",'success');
+    this.highlightdata.synonymsHighlight ? this.notificationService.notify("Synonyms highlighting enabled",'success') : this.notificationService.notify("Synonyms highlighting disabled",'success')
+    
   }, errRes => {
     this.notificationService.notify("Failed to update",'error');
   });
