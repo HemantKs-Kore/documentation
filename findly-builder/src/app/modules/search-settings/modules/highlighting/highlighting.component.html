@@ -123,12 +123,12 @@
                     <div class="label-text" id="sa_label_text_1">{{"search_settings_pre_tag" |translate}}</div>
                     <!-- <input type="text" placeholder="Placeholder text" value="<span class='highlightText'>" -->
                     <input type="text" [(ngModel)]="pre_tag"
-                        class="input-text" id="sa_input_field_1">
+                        class="input-text" [ngClass]="{'err-block': pre_tag_flag}"  id="sa_input_field_1">
                 </div>
                 <div class="kr-sg-input-text form-group">
-                    <div class="label-text" id="sa_label_text_2">{{"search_settings_post_tag" |translate}}</div>
+                    <div class="label-text " id="sa_label_text_2">{{"search_settings_post_tag" |translate}}</div>
                     <!-- <input type="text" placeholder="Placeholder text" value="</span>" class="input-text" id="sa_input_2"> -->
-                    <input type="text" [(ngModel)]="post_tag"  class="input-text" id="sa_input_2">
+                    <input type="text " [(ngModel)]="post_tag"  class="input-text" [ngClass]="{'err-block': post_tag_flag}" id="sa_input_2">
                 </div>
             </div>
         </div>

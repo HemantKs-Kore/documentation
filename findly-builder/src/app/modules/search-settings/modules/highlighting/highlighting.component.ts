@@ -21,13 +21,15 @@ export class HighlightingComponent implements OnInit {
   querySubscription : Subscription;
   synonymsHighlight
   highlightenable
-  highlightdata;
+  highlightdata:any ={};
   @Input() selectedcomponent
    more_options:boolean=false;
    home_pre_tag
    home_post_tag
-   pre_tag
-   post_tag
+   pre_tag=''
+   post_tag=''
+   pre_tag_flag=false;
+   post_tag_flag=false;
    selectedSort:string='asc';
    checksort:string='fieldName';
    selectionflag:boolean=true;
@@ -185,8 +187,10 @@ export class HighlightingComponent implements OnInit {
   openModalPopup() {
     this.highlightAppearanceModalPopRef = this.highlightAppearanceModalPop.open();
     setTimeout(() => {
-      this.perfectScroll.directiveRef.update();
-      this.perfectScroll.directiveRef.scrollToTop();
+      if(this.perfectScroll?.directiveRef){
+        this.perfectScroll.directiveRef.update();
+        this.perfectScroll.directiveRef.scrollToTop();
+      }
     }, 500)
   }
   
@@ -212,8 +216,36 @@ export class HighlightingComponent implements OnInit {
     this.perfectScroll?.directiveRef?.scrollTo(25,50,500)
   }
 
+    //**Validation Check function */
+    tagValidation(pre_tag,post_tag){
+
+    
+    }
+
   //** highlight appearance pre and post tag api call for binding pre and post tag*/
   addTags(pretag,posttag){
+    //validation logic
+    if(!pretag?.length && !posttag?.length){
+      this.pre_tag_flag=true;
+      this.post_tag_flag=true;    
+      this.notificationService.notify('Please enter the required fields to proceed', 'error');
+      return  
+    }
+    else if(!pretag?.length){
+      this.pre_tag_flag=true;
+      this.post_tag_flag=false;
+      this.notificationService.notify('Please enter the required fields to proceed', 'error');
+      return   
+    }
+    else if(!posttag?.length){
+      this.post_tag_flag=true;
+      this.pre_tag_flag=false;
+      this.notificationService.notify('Please enter the required fields to proceed', 'error');
+      return 
+    } else{
+      this.post_tag_flag=false;
+      this.pre_tag_flag=false;
+    }
     const quaryparms:any={
       indexPipelineId:this.workflowService.selectedIndexPipeline(),
       queryPipelineId:this.workflowService.selectedQueryPipeline() ? this.workflowService.selectedQueryPipeline()._id : '',
