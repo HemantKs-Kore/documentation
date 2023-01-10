@@ -131,7 +131,7 @@ export class WeightsComponent implements OnInit, OnDestroy
     };
     this.service.invoke('put.restoreWeights', quaryparms).subscribe(res =>
     {
-      this.notificationService.notify('Updated Successfully', 'success');
+      this.notificationService.notify('Weights has been restored', 'success');
       this.getWeights();
       if (dialogRef && dialogRef.close)
       {
@@ -341,7 +341,7 @@ export class WeightsComponent implements OnInit, OnDestroy
       else if (type == 'edit') {
           this.weightsList[index] = this.getWeightsPayload(weight);
           //this.getWeights();
-          this.notificationService.notify(' Updated Successfully', 'success');
+          this.notificationService.notify('Weight has been updated', 'success');
           this.appSelectionService.updateTourConfig(this.componentType);
        }
       }

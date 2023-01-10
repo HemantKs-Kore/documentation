@@ -80,7 +80,7 @@ export class SnippetsComponent implements OnInit {
     this.service.invoke('put.queryPipeline', quaryparms,payload).subscribe(res => {
       this.snippetsData=res.settings.snippet.enable
       // this.getQuerypipeline();
-      this.notificationService.notify("updated successfully",'success');
+      this.snippetsData?this.notificationService.notify("Snippets Enabled",'success'):this.notificationService.notify("Snippets Disabled",'success')
     }, errRes => {
       this.notificationService.notify("Failed to update",'error');
     });

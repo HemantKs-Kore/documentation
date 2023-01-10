@@ -7,7 +7,7 @@ import { of, interval, Subject, Subscription } from 'rxjs';
 import { RangeSlider } from 'src/app/helpers/models/range-slider.model';
 import { FindlySharedModule } from 'src/app/modules/findly-shared/findly-shared.module';
 
-
+declare const $: any;
 @Component({
   selector: 'app-search-relevance',
   templateUrl: './search-relevance.component.html',
@@ -36,7 +36,9 @@ export class SearchRelevanceComponent implements OnInit {
           "enable": true
       }
   };
+  searchrelevanceToggle
   searchRelevanceConfig;
+  slider_value_payload:boolean;
   selectedLanguage='en';
 
   constructor(
@@ -78,6 +80,7 @@ export class SearchRelevanceComponent implements OnInit {
     this.service.invoke('get.queryPipeline', quaryparms).subscribe(res => {
       this.isLoading=false;
       this.searchrelevancedata = res.settings.searchRelevance;
+      this.searchrelevanceToggle=res.settings.searchRelevance.enable
       this.searchRelevanceConfig= res.settings.searchRelevance.languages.find(item=>item.languageCode==this.selectedLanguage)      
       const name = ('matchThreshold' || '').replace(/[^\w]/gi, '')
       const obj = {
@@ -109,17 +112,25 @@ export class SearchRelevanceComponent implements OnInit {
       indexPipelineId:this.workflowService.selectedIndexPipeline(),
       queryPipelineId:this.workflowService.selectedQueryPipeline() ? this.workflowService.selectedQueryPipeline()._id : '',
       searchIndexId:this.serachIndexId
-    }
+    } 
+         this.slider_value_payload=$('#sa_slider_enable_disable:checkbox:checked').length?true:false;
           const payload:any=  {
             settings: {
               searchRelevance: {
+                enable:this.slider_value_payload,
                 languages: this.getUpdateItem(type, event)  
               }
             }
           };
     this.service.invoke('put.queryPipeline', quaryparms,payload).subscribe(res => {
       this.searchrelevancedata.enable=res?.settings?.searchRelevance?.enable
-      this.notificationService.notify("updated successfully",'success');
+      if(type==='enable'){
+        this.searchrelevancedata.enable?this.notificationService.notify("Search Relevance Enabled",'success'):this.notificationService.notify("Search Relevance Disabled",'success')
+      }
+      else{
+        this.notificationService.notify("Search Relevance Language keys updated",'success')
+      }
+      
       this.prepareThreshold('self')
     }, errRes => {
       this.notificationService.notify("Failed to update",'error');
