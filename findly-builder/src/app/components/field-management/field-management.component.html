@@ -439,9 +439,8 @@
                     </span>
                 </div>
                </div>
-
                <div class="kr-sg-inline-notification kr-protip-basic align-items-start"
-               *ngIf="!newFieldObj.isSearchable">
+               *ngIf="!newFieldObj.isSearchable && showSearchableToaster">
                <div class="tost-text"> 
                    <span class="pr-1" *ngIf="indexedWarningMessage" [innerHTML]="resultTest">
                    </span>

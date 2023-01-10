@@ -87,6 +87,8 @@ export class FieldManagementComponent implements OnInit {
     'position':'up',
     "value": 1,
   }
+  showSearchableToaster:boolean=false
+  deSelectCheckbox:boolean;
   filterObject={
     'type': '',
     'header':''
@@ -152,15 +154,22 @@ export class FieldManagementComponent implements OnInit {
     //   this.newFieldObj.fieldDataType = type
     // } else {
     this.newFieldObj.fieldDataType = type
+    if(type!='string'){
+      $("#auto_suggest_option").prop("checked", false);
+      this.newFieldObj.isAutosuggest =false
+    }
+    
     // }
   }
   addEditFiled(field?) {
     if (field) {
+      this.showSearchableToaster=true
       this.newFieldObj = JSON.parse(JSON.stringify(field));
       this.newFieldObj.previousFieldDataType = field.fieldDataType;
       this.getFieldAutoComplete(field.fieldName);
       this.getFieldUsageData(field)
     } else {
+      this.showSearchableToaster=false
       // this.newFieldObj = {
       //   fieldName: '',
       //   fieldDataType: 'string',
@@ -254,16 +263,16 @@ export class FieldManagementComponent implements OnInit {
       
       if (searchSettingsRecord) {
         if (searchSettingsRecord['highlight']?.value) {
-          this.tooltipArr = [...this.tooltipArr, 'highlight']
+          this.tooltipArr = [...this.tooltipArr, 'Highlight']
         }
         if (searchSettingsRecord['weight']?.value) {
-          this.tooltipArr = [...this.tooltipArr, 'weight'];
+          this.tooltipArr = [...this.tooltipArr, 'Weight'];
         }
         if (searchSettingsRecord['presentable']?.value) {
-          this.tooltipArr = [...this.tooltipArr, 'presentable']
+          this.tooltipArr = [...this.tooltipArr, 'Presentable']
         }
         if (searchSettingsRecord['spellCorrect']?.value) {
-          this.tooltipArr = [...this.tooltipArr, 'spellcorrect']
+          this.tooltipArr = [...this.tooltipArr, 'Spellcorrect']
         }
       }
 
@@ -425,16 +434,16 @@ export class FieldManagementComponent implements OnInit {
       
       if (searchSettingsRecord) {
         if (searchSettingsRecord['highlight']?.value) {
-          this.tooltipArr = [...this.tooltipArr, 'highlight']
+          this.tooltipArr = [...this.tooltipArr, 'Highlight']
         }
         if (searchSettingsRecord['weight']?.value) {
-          this.tooltipArr = [...this.tooltipArr, 'weight'];
+          this.tooltipArr = [...this.tooltipArr, 'Weight'];
         }
         if (searchSettingsRecord['presentable']?.value) {
-          this.tooltipArr = [...this.tooltipArr, 'presentable']
+          this.tooltipArr = [...this.tooltipArr, 'Presentable']
         }
         if (searchSettingsRecord['spellCorrect']?.value) {
-          this.tooltipArr = [...this.tooltipArr, 'spellcorrect']
+          this.tooltipArr = [...this.tooltipArr, 'Spellcorrect']
         }
       }
       let resultStr = `This field is being used in `;
@@ -1405,16 +1414,16 @@ export class FieldManagementComponent implements OnInit {
         
         if (searchSettingsRecord) {
           if (searchSettingsRecord['highlight']?.value) {
-            this.tooltipArr = [...this.tooltipArr, 'highlight']
+            this.tooltipArr = [...this.tooltipArr, 'Highlight']
           }
           if (searchSettingsRecord['weight']?.value) {
-            this.tooltipArr = [...this.tooltipArr, 'weight'];
+            this.tooltipArr = [...this.tooltipArr, 'Weight'];
           }
           if (searchSettingsRecord['presentable']?.value) {
-            this.tooltipArr = [...this.tooltipArr, 'presentable']
+            this.tooltipArr = [...this.tooltipArr, 'Presentable']
           }
           if (searchSettingsRecord['spellCorrect']?.value) {
-            this.tooltipArr = [...this.tooltipArr, 'spellcorrect']
+            this.tooltipArr = [...this.tooltipArr, 'Spellcorrect']
           }
         }
   
