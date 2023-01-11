@@ -37,7 +37,7 @@ export class AppHeaderComponent implements OnInit {
   currentRouteData: any = "";
   displyStatusBar: boolean = true;
   onboardingOpened: boolean = false;
-  tourData: any;
+  tourData: any = [];
   browseWorkspaceRef: any;
   tourConfigData: any = [];
   checklistCount: any;
@@ -108,12 +108,12 @@ export class AppHeaderComponent implements OnInit {
   availableRouts = [
     { displayName: 'Summary', routeId: '/summary', quaryParms: {} },
     { displayName: 'Overview', routeId: '/summary', quaryParms: {} },
-    { displayName: 'Add Sources', routeId: '/source', quaryParms: {} },
-    { displayName: 'Crawl Web Domain', routeId: '/source', quaryParms: { sourceType: 'contentWeb' } },
-    { displayName: 'Extract Document', routeId: '/source', quaryParms: { sourceType: 'contentDoc' } },
-    { displayName: 'Add FAQs Manually', routeId: '/source', quaryParms: { sourceType: 'manual' } },
+    { displayName: 'Add Sources', routeId: '/sources', quaryParms: {} },
+    { displayName: 'Crawl Web Domain', routeId: '/sources', quaryParms: { sourceType: 'contentWeb' } },
+    { displayName: 'Extract Document', routeId: '/sources', quaryParms: { sourceType: 'contentDoc' } },
+    { displayName: 'Add FAQs Manually', routeId: '/sources', quaryParms: { sourceType: 'manual' } },
     { displayName: 'Extract FAQs from Document', routeId: '/faqs', quaryParms: { sourceType: 'faqDoc' } },
-    { displayName: 'Extract FAQs from Webdomain', routeId: '/source', quaryParms: { sourceType: 'faqWeb' } },
+    { displayName: 'Extract FAQs from Webdomain', routeId: '/sources', quaryParms: { sourceType: 'faqWeb' } },
     { displayName: 'FAQs', routeId: '/faqs', quaryParms: { sourceType: 'faqWeb' } },
     { displayName: 'Content', routeId: '/content', quaryParms: { sourceType: 'faqWeb' } },
     { displayName: 'Structured Data', routeId: '/structuredData', quaryParms: {} },
@@ -150,7 +150,7 @@ export class AppHeaderComponent implements OnInit {
     { displayName: 'Analytics(Search Insights)', routeId: '/searchInsights', quaryParms: {} },
     { displayName: 'Analytics(Result Insights)', routeId: '/resultInsights', quaryParms: {} },
   ];
-  menuItems:any={sources:['/source','/content','/faqs','/botActions','/structuredData','/connectors'],indices:['/FieldManagementComponent','/traits','/index','/weights','/synonyms','/stopWords','/resultranking','/facets','/rules','/search-experience','/resultTemplate'],anlytics:['/dashboard','/userEngagement','/searchInsights','/experiments','/resultInsights'],manage:['/settings','/credentials-list','/actions','/team-management','/smallTalk','/pricing','/usageLog','/invoices','/generalSettings']};
+  menuItems:any={sources:['/sources','/content','/faqs','/botActions','/structuredData','/connectors'],indices:['/FieldManagementComponent','/traits','/index','/weights','/synonyms','/stopWords','/resultranking','/facets','/rules','/search-experience','/resultTemplate'],anlytics:['/dashboard','/userEngagement','/searchInsights','/experiments','/resultInsights'],manage:['/settings','/credentials-list','/actions','/team-management','/smallTalk','/pricing','/usageLog','/invoices','/generalSettings']};
   public dockersList: Array<any> = [];
   public pollingSubscriber: any;
   public dockServiceSubscriber: any;
@@ -595,7 +595,7 @@ export class AppHeaderComponent implements OnInit {
     if (!skipRouterLink) {
       this.router.navigate([menu], { skipLocationChange: true });
     }
-    
+
     this.showMenu.emit(this.showMainMenu)
     this.settingMenu.emit(this.menuFlag)
     this.showSourceMenu.emit(this.sourcesFlag);
@@ -665,7 +665,7 @@ export class AppHeaderComponent implements OnInit {
     this.fromCallFlow = '';
     this.ref.detectChanges();
   }
-  //FOR TRAINING 
+  //FOR TRAINING
   train() {
     if(!this.training){
       const selectedApp = this.workflowService.selectedApp();
@@ -694,10 +694,10 @@ export class AppHeaderComponent implements OnInit {
       this.notificationService.notify('Stoping Train Initiated', 'success');
     }
   }
-  //SHOWING STOP BUTTON 
+  //SHOWING STOP BUTTON
   displayStopTrain(){
     if(this.training){
-    this.countTrainAction = this.countTrainAction+1; 
+    this.countTrainAction = this.countTrainAction+1;
     this.countTrainAction>1?this.showClose=true:this.showClose=false;
     }
     else {
@@ -748,7 +748,7 @@ export class AppHeaderComponent implements OnInit {
     this.training = ((trainStatus[0]?.status !== 'INPROGRESS' && this.training))?false:true;
     if (trainStatus[0]?.status == 'SUCCESS') this.notificationService.notify('Training Successfully', 'success');
   }
-  
+
   poling(recordStatistics?, updateRecordsWithRead?) {
     if (this.pollingSubscriber) {
       this.pollingSubscriber.unsubscribe();
@@ -872,17 +872,14 @@ export class AppHeaderComponent implements OnInit {
     }
     )
   }
-  // CHECK FOR THE INPROGRESS JOB 
+  // CHECK FOR THE INPROGRESS JOB
   checkJObStatus(dockersList){
+    let statusArr:any =[]
     dockersList.forEach(element => {
-      if((element.status === 'IN_PROGRESS' || element.status === 'INPROGRESS' || element.status === 'in_progress' || element.status === 'inprogress'
-      || element.status === 'running' || element.status === 'RUNNING')){
-        this.disableClearAll = true;
-      }
-      else {
-        this.disableClearAll = false;
-      }
+      statusArr.push(element.status);
     });
+     const Statisvalues = 'SUCCESS'||'FAILED'||'HALTED'||'STOPPED'||'CONFIGURED';
+     this.disableClearAll = !statusArr.includes(Statisvalues);
   }
 
   getStatusView(status, other?) {
@@ -1634,6 +1631,10 @@ export class AppHeaderComponent implements OnInit {
       this.accountIdRef = res[0].accountId;
     }, errRes => {
     });
+  }
+  hideparentTooltip(event){
+    event.stopImmediatePropagation();
+    event.preventDefault();
   }
 }
 

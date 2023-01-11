@@ -1,0 +1,1533 @@
+<div class="contentContainer" *ngIf="loadFullComponent"
+    [ngClass]="{'fullHeight':!selectedSourceType || (selectedSourceType && (selectedSourceType.resourceType === 'manual')),'modalBody':resourceIDToOpen}">
+    <div class="modal-type-header" *ngIf="resourceIDToOpen">
+        <div class="title">{{selectedSourceType?.name}}</div>
+        <div class="close_icon" (click)='cancleSourceAddition()'><img src="assets/icons/modal-close.svg"></div>
+    </div>
+    <perfect-scrollbar
+        [ngClass]="{'fullHeightPS':!selectedSourceType || (selectedSourceType && (selectedSourceType.resourceType === 'manual'))}">
+        <div class="h-100 position-relative addNewSource">
+            <div class="source_content_boxes" *ngIf="!selectedSourceType">
+                <div class="crawlContent row" *ngFor="let sourceCatagory of availableSources">
+                    <div class="main-title col-12 p-0">{{sourceCatagory.title}}</div>
+                    <div class="card-data" (click)="selectSource(source)" *ngFor="let source of sourceCatagory.sources">
+                        <div class="img-block"><img src="{{source.icon}}"></div>
+                        <div class="titles-sec">
+                            <div class="p-title text-truncate" title="{{source.name}}">{{source.name}}</div>
+                            <div class="s-title text-truncate" title="{{source.description}}">{{source.description}}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </perfect-scrollbar>
+</div>
+
+<!-- Manual FAQ Modal -->
+<kr-modal modalType="center" modalClass="modal_popups_ addfaq" #addManualFaqModalPop>
+    <ng-container *ngIf="selectedSourceType && selectedSourceType.resourceType === 'manual'">
+        <div class="modal-header">
+            <div class="title">Add FAQ</div>
+            <div class="close_icon"><img (click)="cancleSourceAddition()" src="assets/icons/modal-close.svg"></div>
+        </div>
+        <perfect-scrollbar class="perfect-scroll-modal-body" #perfectScroll3>
+            <div class="modal-body">
+                <app-add-faq [faqUpdate]="faqUpdate.asObservable()" (addFaq)="addManualFaq($event)"
+                    (cancelfaqEvent)="faqCancle()"></app-add-faq>
+            </div>
+        </perfect-scrollbar>
+        <div class="modal-footer">
+            <button class="kr-sg-button-primary btn_lg" (click)="faqUpdateEvent()">{{"sa_save" | translate}}</button>
+            <button class="kr-sg-button-secondary btn_lg" (click)="faqCancle();">{{"sa_cancel" | translate}}</button>
+        </div>
+    </ng-container>
+</kr-modal>
+
+<!-- FAQ and content upload file modal -->
+<kr-modal modalType="center" modalClass="modal_popups_ addfaq" #addSourceModalPop>
+  <ng-container *ngIf="selectedSourceType">
+    <form #sourceCreation="ngForm">
+      <div class="modal-header">
+        <div class="title">{{selectedSourceType.name}}</div>
+        <div class="close_icon"><img (click)="cancleSourceAddition()" src="assets/icons/modal-close.svg"></div>
+      </div>
+      <perfect-scrollbar class="addSourceModalBody addNewSource" #perfectScroll>
+        <div class="modal-body">
+          <div *ngIf="selectedSourceType" class="crerateWebCrawl" [ngClass]="{'pr-0': resourceIDToOpen}">
+            <div class="crawl-form-title" *ngIf="!resourceIDToOpen"></div>
+            <div class="kr-sg-input-text mb-4"
+              *ngIf="(selectedSourceType.sourceType==='faq') || (selectedSourceType.resourceType==='web')|| (showSourceTitle)">
+              <div class="label-text">{{"contentSource_source_title_caps" | translate}}<sup
+                  class="field-mandatory">*</sup></div>
+              <input type="url" autocomplete="off" maxlength="60" id="addSourceTitleInput" name="sourceTitle"
+                placeholder="Enter Title" [(ngModel)]="newSourceObj.name" (change)="inputChanged('title')"
+                class="input-text" required>
+              <img id="infoWarning" src="assets/icons/warning_escalation.svg" style="display: none;" height="12"
+                width="12" />
+            </div>
+            <div class="kr-sg-input-text-area mb-3 " *ngIf="(selectedSourceType.resourceType === 'web') || showDesc">
+              <div class="label-text">{{"contentSource_description" | translate}}</div>
+              <textarea autocomplete="off" [(ngModel)]="newSourceObj.desc" name="sourceDesc" maxlength="250"
+                placeholder="Enter Description" class="input-text pt-2"></textarea>
+            </div>
+            <div *ngIf="(selectedSourceType.resourceType === 'web')">
+              <div class="kr-sg-input-text mb-4">
+                <div class="label-text">{{"contentSource_source_url" | translate}}</div>
+                <input type="text" autocomplete="off" name="url" (keyup)="urlChange()" (change)="urlChange()"
+                  [disabled]="fileObj.fileId || fileObj.fileName" placeholder="{{'contentSource_https' | translate}}"
+                  [(ngModel)]="newSourceObj.url" class="input-text">
+              </div>
+            </div>
+            <div class="container-import"
+              *ngIf="(selectedSourceType.sourceType==='faq') && (selectedSourceType.id=== 'faqDoc')">
+              <div class="import">{{"contentSource_import_from_file" | translate}}</div>
+            </div>
+            <!-- File uploader with Drag & Drop START HERE -->
+
+            <div class="browse-file-tabs-container"
+              *ngIf="(selectedSourceType.sourceType==='faq') || (selectedSourceType.resourceType==='file')">
+              <ul class="nav nav-tabs" *ngIf=" (selectedSourceType.id !='faqDoc')" role="tablist">
+                <li class="nav-item">
+                  <a class="nav-link active" data-toggle="tab" href="#fromfile"
+                    (click)="selectExtract('file')">{{"contentSource_extract_from_file" | translate}}</a>
+                </li>
+                <li class="nav-item ">
+                  <a class="nav-link" data-toggle="tab" href="#fromurl"
+                    (click)="selectExtract('url')">{{"contentSource_extract_from_url" | translate}}</a>
+                </li>
+              </ul>
+              <!-- Tab panes -->
+              <div class="tab-content">
+                <div id="fromfile" class="tab-pane browsebyfile active">
+                  <div class="col-12 row mb-3 top-sec p-0 ml-0 mr-0" *ngIf="(selectedSourceType.id==='faqDoc')">
+                    <div class="title-data col-6 p-0">{{"contentSource_browse_file" | translate}}</div>
+                    <div class="actions-data col-6 p-0 d-flex align-items-center justify-content-end">
+                      <span class="sample-text pr-2" (click)='downloadSampleData("json")'><img class="image mr-2"
+                          src="assets/icons/docker/download.svg">{{"contentSource_sample_json" | translate}}</span>
+                      <span class="sample-text pl-2" (click)='downloadSampleData("csv")'><img class="image mr-2"
+                          src="assets/icons/docker/download.svg">{{"contentSource_sample_csv" | translate}}</span>
+                    </div>
+                    <div class="data">{{"contentSource_you_can_upload_desc" | translate}}</div>
+                  </div>
+                  <div class="kr-sg-input-text-area mb-4">
+                    <div class="note-info" *ngIf="selectedSourceType.resourceType === 'file'">
+                      <img src="assets/images/warning.svg"><b>{{"contentSource_note" | translate}}</b>
+                      {{"contentSource_title_are_derived_from_desc" | translate}}
+                    </div>
+                    <div class="kr-sg-file-drag-drop">
+                      <div class="drag-drop-sec"
+                        [ngClass]="{'after-selection-items':(fileObj.fileName && selectedSourceType.sourceType=='content')}">
+                        <ng-container *ngIf="!fileObj.fileName">
+                          <input *ngIf="(selectedSourceType.resourceType ==='')" type="file" id="sourceFileUploader"
+                            class="custom-file-input " (change)="fileChangeListener($event)"
+                            aria-describedby="inputGroupFileAddon01" accept=".pdf">
+                          <input *ngIf="(selectedSourceType.resourceType ==='importfaq')" type="file"
+                            id="sourceFileUploader" class="custom-file-input " (change)="fileChangeListener($event)"
+                            aria-describedby="inputGroupFileAddon01" accept=".csv,.json">
+                          <input
+                            *ngIf="(selectedSourceType.sourceType=='content' && selectedSourceType.resourceType =='file')"
+                            type="file" id="sourceFileUploader" class="custom-file-input "
+                            (change)="fileChangeListener($event)" aria-describedby="inputGroupFileAddon01"
+                            accept=".pdf,.doc,.ppt,.xlsx,.txt,.docx,.jpeg,.jpg,.png" multiple>
+                          <div class="imageDiv">
+                            <img src="assets/images/source-icos/drog_frop.svg">
+                          </div>
+                          <div class="info_text"
+                            *ngIf="(selectedSourceType.resourceType !='importfaq'&&selectedSourceType.resourceType !='')">
+                            {{"contentSource_drag_and_drop_desc" | translate}}</div>
+                          <div class="info_text"
+                            *ngIf="(selectedSourceType.sourceType=='faq'&&selectedSourceType.resourceType =='')">
+                            {{"contentSource_drag_and_drop_a" | translate}}<strong>{{"contentSource_pdf_file" |
+                              translate}}</strong> {{"contentSource_anywhere_on_this_sec" | translate}}</div>
+                          <div class="info_text" *ngIf="(selectedSourceType.resourceType ==='importfaq')">
+                            {{"contentSource_drag_and_drop_desc" | translate}}</div>
+                          <div class="or-divider">{{"contentSource_anywhere_or" | translate}}</div>
+                          <div class="custom-file">
+
+                            <!-- <input type="file" id="sourceFileUploader" class="custom-file-input "
+                                (change)="fileChangeListener($event)" aria-describedby="inputGroupFileAddon01" accept=".csv,.pdf"> -->
+                          </div>
+                          <label for="sourceFileUploader" class="drag-label adjust_z_index">
+                            <span class="browse">{{"contentSource_browse_file" | translate}}</span>
+                          </label>
+                          <br />
+                          <div class="info_help_text"
+                            *ngIf="(selectedSourceType.sourceType=='content' && selectedSourceType.resourceType =='file')">
+                            <img src="assets/icons/info.svg"> {{"contentSource_support_pdf_docx_ppt_etc" | translate}}
+                          </div>
+                          <div *ngIf="selectedSourceType.sourceType=='content'" class="not-limit-size">
+                            {{"contentSource_maximum_upload_of_file" | translate}}</div>
+                        </ng-container>
+
+                        <ng-container *ngIf="fileObj.fileName && selectedSourceType.sourceType=='faq'">
+                          <div class="kr-sg-file-drag-drop w-100">
+                            <div class="uploaded-file-name"
+                              [ngClass]="{'error':(fileObj.fileUploadError && !fileObj.fileUploadInProgress)}">
+                              <div class="file-close-text">
+                                <div class="d-flex align-items-center">
+                                  <img *ngIf="fileObj.fileName.substring(fileObj.fileName.lastIndexOf('.')) === '.pdf'"
+                                    class="type_img" src="assets/icons/file_type_image.svg">
+                                  <img *ngIf="fileObj.fileName.substring(fileObj.fileName.lastIndexOf('.')) === '.docx'"
+                                    class="type_img" src="assets/icons/doc_logo.svg">
+                                  <img *ngIf="fileObj.fileName.substring(fileObj.fileName.lastIndexOf('.')) === '.txt'"
+                                    class="type_img" src="assets/icons/txt_icon.svg">
+                                  <img *ngIf="fileObj.fileName.substring(fileObj.fileName.lastIndexOf('.')) === '.xlsx'"
+                                    class="type_img" src="assets/icons/excel_logo.svg">
+                                  <img *ngIf="fileObj.fileName.substring(fileObj.fileName.lastIndexOf('.')) === '.ppt'"
+                                    class="type_img" src="assets/icons/ppt_logo.svg">
+                                  <div class="file-name" [innerHTML]="fileObj.fileName"></div>
+                                </div>
+                                <img src="assets/images/close.svg" class="close-file adjust_z_index"
+                                  (click)="removeFile()">
+                              </div>
+                              <div class="progress-status">
+                                <img *ngIf="fileObj.fileUploadInProgress" class="progSpinner"
+                                  src="assets/icons/spinner.svg">
+                                <img *ngIf="fileObj.fileUploadError && !fileObj.fileUploadInProgress"
+                                  src="assets/icons/info.svg">
+                              </div>
+                            </div>
+                            <div class="error-text" *ngIf="fileObj.fileUploadError && !fileObj.fileUploadInProgress">
+                              {{"contentSource_error_upload" | translate}}</div>
+                          </div>
+                        </ng-container>
+                        <ng-container *ngIf="fileObj.fileName && selectedSourceType.sourceType=='content'">
+                          <div class="upload-files-radio-data">
+                            <div class="title">{{"contentSource_upload_files" | translate}}</div>
+                          </div>
+                          <div class="kr-sg-file-drag-drop w-100">
+                            <div class="uploaded-file-name" *ngFor="let file of filesListData;let index = index"
+                              [ngClass]="{'error':(fileObj.fileUploadError && !fileObj.fileUploadInProgress)}">
+                              <div class="file-close-text">
+                                <div class="d-flex align-items-center img-block-data">
+                                  <img *ngIf="file.name.substring(file.name.lastIndexOf('.'))=== '.pdf'"
+                                    class="type_img" src="assets/icons/file_type_image.svg">
+                                  <img *ngIf="file.name.substring(file.name.lastIndexOf('.')) === '.doc'"
+                                    class="type_img" src="assets/icons/doc_logo.svg">
+                                  <img *ngIf="file.name.substring(file.name.lastIndexOf('.')) === '.docx'"
+                                    class="type_img" src="assets/icons/doc_logo.svg">
+                                  <img *ngIf="file.name.substring(file.name.lastIndexOf('.')) === '.txt'"
+                                    class="type_img" src="assets/icons/txt_icon.svg">
+                                  <img *ngIf="file.name.substring(file.name.lastIndexOf('.')) === '.xlsx'"
+                                    class="type_img" src="assets/icons/excel_logo.svg">
+                                  <img *ngIf="file.name.substring(file.name.lastIndexOf('.')) === '.ppt'"
+                                    class="type_img" src="assets/icons/ppt_logo.svg">
+                                </div>
+                                <div class="text-content">
+                                  <div class="file-name" [innerHTML]="file.name"></div>
+                                  <div *ngIf="file.showProgressBar" class="progress-bar-data">
+                                    <img src="assets/images/progressBar.gif">
+                                  </div>
+                                  <!-- <mat-progress-bar mode="indeterminate" class="progress-bar-data"></mat-progress-bar> -->
+                                </div>
+                                <img src="assets/images/close.svg" class="close-file adjust_z_index"
+                                  (click)="removeMultipleFile(index)">
+                              </div>
+                              <!-- <div class="progress-status">
+                                <img *ngIf="fileObj.fileUploadInProgress" class="progSpinner"
+                                  src="assets/icons/spinner.svg">
+                                <img *ngIf="fileObj.fileUploadError && !fileObj.fileUploadInProgress"
+                                  src="assets/icons/info.svg">
+                              </div> -->
+                            </div>
+                            <div class="error-text" *ngIf="fileObj.fileUploadError && !fileObj.fileUploadInProgress">
+                              {{"contentSource_error_upload" | translate}}</div>
+                          </div>
+                        </ng-container>
+                        <!-- <div class="drag-drop-text-info"
+                          *ngIf="fileObj.fileName && selectedSourceType.sourceType=='content'">
+                          <div class="main-text">{{"contentSource_drag_and_drop_desc" | translate}}</div>
+                          <div class="secondary-text">{{"contentSource_maximum_upload_of_file" | translate}}</div>
+                        </div> -->
+                      </div>
+                    </div>
+                    <!-- Annotation Start Here -->
+                    <div class="pt2 annotation" *ngIf="selectedSourceType.resourceType == ''">
+                      <div class="kr-sg-checkbox">
+                        <input id="checkbox-1" class="checkbox-custom" type="checkbox"
+                          (change)="annotateChange($event)">
+                        <label for="checkbox-1" class="checkbox-custom-label">{{"contentSource_annotate_extract" |
+                          translate}}
+                        </label>
+                        <span class="tooltip-text"><img src="assets/icons/help-annotation.svg">
+                          <span class="tooltiptext">
+                            <div class="t-text">{{"contentSource_use_the_annotate_desc" | translate}}</div>
+                            <div class="learn_more"><a
+                                href="https://docs.kore.ai/searchassist/source-management/faqs/#Annotate_Extract"
+                                target="_blank">{{"contentSource_learn_more" | translate}}</a></div>
+                          </span>
+                        </span>
+
+                      </div>
+                    </div>
+                    <!-- Annotation End Here -->
+                    <!-- <div class="kr-sg-input-text mb-4" *ngIf="(selectedSourceType.sourceType==='faq')">
+                        <div class="label_text mt-3 text-center">or</div>
+                      </div> -->
+                  </div>
+                </div>
+                <div id="fromurl" class="tab-pane fade browserbyurl">
+                  <div class="input-url-block">
+                    <div class="kr-sg-input-text">
+                      <div class="label-text">{{"contentSource_enter_url" | translate}}<sup
+                          class="field-mandatory">*</sup></div>
+                      <input type="text" id="extractUrl" placeholder="{{'contentSource_https' | translate}}"
+                        class="input-text" autocomplete="off" name="url" (keyup)="urlChange()"
+                        (change)="urlChange();inputChanged('extractURL')"
+                        [disabled]="fileObj.fileId || fileObj.fileName"
+                        placeholder="{{'contentSource_https' | translate}}" [(ngModel)]="newSourceObj.url"
+                        class="input-text">
+                      <img id="infoWarning1" src="assets/icons/warning_escalation.svg" style="display: none;"
+                        height="12" width="12" />
+                      <!-- <input type="text" placeholder="https://" class="input-text"> -->
+                      <!-- <div class="error-msg">Error message here</div> -->
+                    </div>
+                    <div class="info-upload-pdf d-none"><img
+                        src="assets/icons/Info-pdf.svg">{{"contentSource_upload_pdf_files_only" | translate}}</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- File uploader with Drag & Drop ENDS HERE -->
+            <div *ngIf="(selectedSourceType.sourceType==='faq') || (selectedSourceType.resourceType === 'web')">
+
+              <div class="kr-sg-input-text-area mb-4 radio-pad"
+                *ngIf="(selectedSourceType.sourceType==='faq') && (selectedSourceType.resourceAdded) && false">
+                <!-- Not supporting for now-->
+                <div class="kr-sg-radiobutton d-block">
+                  <input id="radio-17" name="radio" class="radio-custom" type="radio">
+                  <label for="radio-17" class="radio-custom-label">{{"contentSource_index_automatically" |
+                    translate}}</label>
+                </div>
+                <div class="kr-sg-radiobutton d-block">
+                  <input id="radio-18" name="radio" class="radio-custom" type="radio">
+                  <label for="radio-18" class="radio-custom-label">{{"contentSource_extraxt_&_review" |
+                    translate}}</label>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </perfect-scrollbar>
+      <div class="modal-footer">
+        <!-- [disabled]="sourceCreation.invalid || !selectedSourceType.resourceAdded" -->
+        <button class="kr-sg-button-primary btn_lg mr-3" (click)="validateSource()"
+          [disabled]="btnDisabled">{{"contentSource_proceed" | translate}}</button>
+        <button class="kr-sg-button-secondary backbtn btn_md mr-2" (click)="cancleSourceAddition()">{{"sa_cancel" |
+          translate}}</button>
+      </div>
+    </form>
+  </ng-container>
+</kr-modal>
+
+<!-- Content crawl authentication Modal -->
+<kr-modal modalType="center" modalClass="modal_popups_ addfaq" #addSourceModalPopDummy>
+    <div class="modal-header">
+        <div class="title">{{"contentSource_craw_web_domain" | translate}}</div>
+        <div class="close_icon"><img (click)="closeAddContentModal(true)" src="assets/icons/modal-close.svg"></div>
+    </div>
+    <perfect-scrollbar class="perfect-scroll-modal-body" #perfectScroll6>
+        <div class="modal-body">
+            <div class="new-crawl-web-form">
+
+                <div class="new-crawl-web-form-details">
+                    <div class="new-crawl-details">
+                        <div class="new-crawl-details-header">{{"contentSource_DETAILS" | translate}}</div>
+                        <div class="details-form">
+                            <div class="details-left">
+                                <div class="kr-sg-input-text mar-bot-15">
+                                    <div class="label-text">{{"contentSource_source_title" | translate}}<sup
+                                            class="field-mandatory">*</sup></div>
+                                    <input type="url" autocomplete="off" maxlength="60" id="addSourceTitleInput"
+                                        name="sourceTitle" placeholder="Enter Title" class="input-text"
+                                        [(ngModel)]="newSourceObj.name" required>
+                                    <img id="infoWarning" src="assets/icons/warning_escalation.svg"
+                                        style="display: none;" height="12" width="12" />
+                                </div>
+                                <div class="kr-sg-input-text mar-bot-15">
+                                    <div class="label-text">{{"contentSource_source_url" | translate}}<sup
+                                            class="field-mandatory">*</sup></div>
+                                    <input type="text" id="contentURL" autocomplete="off" name="url"
+                                        placeholder="{{'contentSource_https' | translate}}" class="input-text"
+                                        [(ngModel)]="newSourceObj.url">
+                                </div>
+                            </div>
+                            <div class="details-right">
+                                <div class="kr-sg-input-text-area mar-bot-15">
+                                    <div class="label-text">{{"contentSource_description" | translate}}</div>
+                                    <textarea autocomplete="off" name="sourceDesc" maxlength="250"
+                                        placeholder="Enter Description" class="input-text"
+                                        [(ngModel)]="newSourceObj.desc"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="new-crawling">
+                    <div class="new-crawling-tab">
+                        <div class="new-crawling-tab-block">
+                            <div class="new-ccrawling-hding">{{"contentSource_crwaling" | translate}}</div>
+                        </div>
+                        <div class="new-crawling-tab-btn">
+                            <button type="button" class="btn" aria-expanded="false" data-toggle="collapse"
+                                data-target="#newCrawlingTab"><i class="si-carrotup"></i></button>
+                        </div>
+                    </div>
+                    <div id="newCrawlingTab" class="new-crawling-collapse collapse">
+                        <div class="crawl-option-ddl">
+                            <div class="kr-sg-dropdowns mar-bot-12">
+                                <div class="label-text">{{"contentSource_crwal_options" | translate}}</div>
+                                <div class="dropdown dropdown-open">
+                                    <button class="dropdown-toggle dropdown-input" data-toggle="dropdown"
+                                        aria-expanded="false">{{'contentSource_'+crwalOptionLabel | translate}}</button>
+                                    <ul class="dropdown-menu content-menu">
+                                        <li *ngFor="let option of crawlOptions" (click)="crawlOption(option)"
+                                            [ngClass]="{'font-weight-bold':(option===crwalOptionLabel)}">
+                                            <a>{{'contentSource_'+option | translate}}</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Allow URL -->
+                        <div class="crawl-opt-table"
+                            *ngIf="(!crwalObject?.advanceOpts?.crawlEverything&&crwalObject?.advanceOpts?.allowedOpt)">
+                            <div class="crawl-opt-row" *ngFor="let allow of allowURLArray;let i=index;">
+                                <div class="crawl-opt-ddl">
+                                    <div class="kr-sg-dropdowns mar-bot-12">
+                                        <div class="label-text">{{"contentSource_allow_if_url" | translate}}</div>
+                                        <div class="dropdown dropdown-open">
+                                            <button class="dropdown-toggle dropdown-input" data-toggle="dropdown"
+                                                aria-expanded="false">{{'contentSource.'+allow?.condition|translate}}</button>
+                                            <ul class="dropdown-menu content-menu">
+                                                <li *ngFor="let url of allowURLValues" (click)="allow.condition=url"
+                                                    [ngClass]="{'font-weight-bold':allow.condition===url}">
+                                                    <a>{{'contentSource.'+url|translate}}</a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="crawl-opt-inp">
+                                    <div class="kr-sg-input-text mar-bot-15">
+                                        <div class="label-text no-label">{{"contentSource_source_url" | translate}}
+                                        </div>
+                                        <input type="text" autocomplete="off" name="url" id="{{'contentAllowId'+i}}"
+                                            placeholder="{{'contentSource_https' | translate}}" class="input-text"
+                                            [(ngModel)]="allow.url">
+                                    </div>
+                                </div>
+                                <div class="crawl-opt-cls" *ngIf="allowURLArray.length>1">
+                                    <button class="btn" (click)="allowURLArray.splice(i,1)"><i
+                                            class="si-close"></i></button>
+                                </div>
+                            </div>
+                            <div class="crawl-add-row">
+                                <button class="btn add-btn-primary" (click)="addAllowBlockObj('allow')"><span
+                                        class="add-btn-img"><img _ngcontent-gxv-c13=""
+                                            src="assets/icons/add_blue.svg"></span> {{"sa_add" | translate}}</button>
+                            </div>
+                        </div>
+
+                        <!-- Block URL  -->
+                        <div class="crawl-opt-table"
+                            *ngIf="(!crwalObject?.advanceOpts?.crawlEverything&&crwalObject?.advanceOpts?.blockedOpt)">
+                            <div class="crawl-opt-row" *ngFor="let block of blockURLArray;let i=index;">
+                                <div class="crawl-opt-ddl">
+                                    <div class="kr-sg-dropdowns mar-bot-12">
+                                        <div class="label-text">{{"contentSource_block_if_url" | translate}}</div>
+                                        <div class="dropdown dropdown-open">
+                                            <button class="dropdown-toggle dropdown-input" data-toggle="dropdown"
+                                                aria-expanded="false">{{'contentSource.'+block.condition|translate}}</button>
+                                            <ul class="dropdown-menu content-menu">
+                                                <li *ngFor="let url of allowURLValues" (click)="block.condition=url"
+                                                    [ngClass]="{'font-weight-bold':block.condition===url}">
+                                                    <a>{{'contentSource.'+url|translate}}</a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="crawl-opt-inp">
+                                    <div class="kr-sg-input-text mar-bot-15">
+                                        <div class="label-text no-label">{{"contentSource_source_url" | translate}}
+                                        </div>
+                                        <input type="text" id="{{'contentBlockId'+i}}" autocomplete="off" name="url"
+                                            placeholder="{{'contentSource_https' | translate}}" class="input-text"
+                                            [(ngModel)]="block.url">
+                                    </div>
+                                </div>
+                                <div class="crawl-opt-cls" *ngIf="blockURLArray.length>1">
+                                    <button class="btn" (click)="blockURLArray.splice(i,1)"><i
+                                            class="si-close"></i></button>
+                                </div>
+                            </div>
+                            <div class="crawl-add-row">
+                                <button class="btn add-btn-primary" (click)="addAllowBlockObj('block')"><span
+                                        class="add-btn-img"><img _ngcontent-gxv-c13=""
+                                            src="assets/icons/add_blue.svg"></span> {{"sa_add" | translate}}</button>
+                            </div>
+                        </div>
+
+                        <div class="crwal-checkbox-list">
+                            <div class="group-checkbox">
+                                <div class="kr-sg-checkbox">
+                                    <input class="checkbox-custom" id="checkbox_cook" name="useCookies" type="checkbox"
+                                        [(ngModel)]="useCookies" [ngModelOptions]="{standalone: true}">
+                                    <label class="checkbox-custom-label"
+                                        for="checkbox_cook">{{"contentSource_use_cookies" | translate}}</label>
+                                </div>
+                                <div class="kr-sg-checkbox">
+                                    <input class="checkbox-custom" id="checkbox_grph" name="isJavaScriptRendered"
+                                        type="checkbox" [(ngModel)]="isJavaScriptRendered"
+                                        [ngModelOptions]="{standalone: true}">
+                                    <label class="checkbox-custom-label"
+                                        for="checkbox_grph">{{"contentSource_java_script_rendered" | translate}}</label>
+                                </div>
+                                <div class="kr-sg-checkbox">
+                                    <input class="checkbox-custom" id="checkbox_grpi" name="crawlBeyondSitemaps"
+                                        type="checkbox" [(ngModel)]="crawlBeyondSitemaps"
+                                        [ngModelOptions]="{standalone: true}">
+                                    <label class="checkbox-custom-label"
+                                        for="checkbox_grpi">{{"contentSource_crwal_beyond_sitemap" | translate}}</label>
+                                </div>
+                                <div class="kr-sg-checkbox">
+                                    <input class="checkbox-custom" id="checkbox_robot" name="respectRobotTxtDirectives"
+                                        type="checkbox" [(ngModel)]="respectRobotTxtDirectives"
+                                        [ngModelOptions]="{standalone: true}">
+                                    <label class="checkbox-custom-label"
+                                        for="checkbox_robot">{{"contentSource_respect_robots_directives" |
+                                        translate}}</label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="crwal-depth-form">
+                            <div class="crwal-depth-form-row">
+                                <div class="crwal-depth-form-inp">
+                                    <div class="kr-sg-input-text">
+                                        <div class="label-text">{{"contentSource_crwal_depth" | translate}}
+                                            <div class="tooltip-custom">
+                                                <img src="assets/icons/sidemenu/help.svg">
+                                                <span class="tooltiptext">
+                                                    <div class="t-text">{{"contentSource_max_depth_allowed" |
+                                                        translate}}</div>
+                                                    <div class="v-text">Value = 0 (No limit)</div>
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <input class="input-text maxUrlLimit-class" autocomplete="off" id="crawlDepth"
+                                            name="crawlDepth" placeholder="5" type="number" [(ngModel)]="crawlDepth">
+                                    </div>
+                                </div>
+                                <div class="crwal-max-form-inp">
+                                    <div class="kr-sg-input-text">
+                                        <div class="label-text">Max URL
+                                            <div class="tooltip-custom">
+                                                <img src="assets/icons/sidemenu/help.svg">
+                                                <span class="tooltiptext">
+                                                    <div class="t-text">{{"contentSource_max_depth_allowed" |
+                                                        translate}}</div>
+                                                    <div class="v-text">Value = 0 (No limit)</div>
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <input class="input-text maxUrlLimit-class" autocomplete="off" id="maxURL"
+                                            name="maxURL" placeholder="10" type="number" [(ngModel)]="maxUrlLimit">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="new-crawl-shedule">
+                    <div class="new-crawl-shedule-tab"
+                        [ngStyle]="{'background':crwalObject?.advanceOpts?.scheduleOpt?'':'#F8F9FA','border':crwalObject?.advanceOpts?.scheduleOpt?'':0}">
+                        <div class="shedual-header">
+                            <div class="shedual-hding">{{"contentSource_schedule_caps" | translate}}</div>
+                            <div class="sr-toggle-btn">
+                                <label class="kr-sg-toggle">
+                                    <input id="sa-shedularEnableDisable" type="checkbox" name="scheduleOpts"
+                                        (change)="openSchedular($event)">
+                                    <div class="slider"></div>
+                                </label>
+                            </div>
+                        </div>
+                        <app-scheduler #schedular [crwalObject]="crwalObject" [schedule]="'set'"
+                            (scheduleData)="scheduleData($event)" (cronExpress)="cronExpress($event)">
+                        </app-scheduler>
+                    </div>
+                </div>
+
+                <div class="new-crawl-shedule authenticated-website">
+                    <div class="new-crawl-shedule-tab" [ngStyle]="{'border':crwalObject?.authorizationEnabled?'':0}">
+                        <div class="shedual-header form-group">
+                            <div class="d-block">
+                                <div class="shedual-hding">{{"contentSource_is_autheticated_website" | translate}}</div>
+                            </div>
+
+                            <div class="sr-toggle-btn">
+                                <label class="kr-sg-toggle">
+                                    <input type="checkbox" name="authenticatedOpts"
+                                        [(ngModel)]="crwalObject.authorizationEnabled">
+                                    <div class="slider"></div>
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="crawl-opt-ddl mt-1">
+                            <div class="kr-sg-dropdowns mar-bot-12">
+                                <div class="dropdown dropdown-open">
+                                    <button id="contentIsAuthId" class="dropdown-toggle dropdown-input"
+                                        data-toggle="dropdown" aria-expanded="false"
+                                        [disabled]="!crwalObject.authorizationEnabled"
+                                        [ngStyle]="{'background':crwalObject.authorizationEnabled?'':'#EFF0F1','border':crwalObject.authorizationEnabled?'':0,'color':crwalObject.authorizationEnabled?'':'#BDC1C6'}">{{crwalObject.authorizationProfle.sso_type===''?'Select
+                                        Authentication Type':('contentSource.'+crwalObject.authorizationProfle.sso_type
+                                        | translate)}}</button>
+                                    <ul class="dropdown-menu content-menu">
+                                        <li *ngFor="let type of authenticationTypes"
+                                            [ngClass]="{'font-weight-bold':type===crwalObject.authorizationProfle.sso_type}"
+                                            (click)="selectAuthenticationType(type)"><a>{{'contentSource.'+type |
+                                                translate}}</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="is-auth-form-block"
+                    *ngIf="crwalObject?.authorizationEnabled&&['basic','form'].includes(crwalObject?.authorizationProfle.sso_type)">
+                    <!-- Basic Fields -->
+                    <div class="is-auth-form" *ngIf="crwalObject.authorizationProfle.sso_type==='basic'">
+                        <div class="is-auth-form-header-block">
+                            <div class="is-auth-form-header">
+                                {{"contentSource_basic_field_caps" | translate}}
+                            </div>
+                            <!-- <div class="is-auth-form-add-field">
+                  <span><img src="assets/icons/facets/add-blue.svg" class="add-icon-blue" /> <img src="assets/images/add.svg" class="add-icon-black" /></span>Add Field
+                </div> -->
+                        </div>
+                        <div class="is-auth-form-table">
+                            <div class="kr-sg-data-table">
+                                <section class="table-content">
+                                    <header class="table-header">
+                                        <div class="col-4">{{"contentSource_field_key_caps" | translate}}</div>
+                                        <div class="col-4">{{"contentSource_field_value_caps" | translate}}</div>
+                                        <!-- <div class="col-2"></div> -->
+                                        <div class="col-4">{{"contentSource_actions_caps" | translate}}</div>
+                                    </header>
+                                    <div class="content-body"
+                                        *ngFor="let form of crwalObject?.authorizationProfle?.basicFields;let i=index;"
+                                        [ngClass]="{'is-edit-mode':(form?.isEditable)}">
+                                        <ng-container *ngIf="!form?.isEditable">
+                                            <div class="col-4">{{form?.key}}</div>
+                                            <div class="col-4">{{(form?.type==='password')?'********':form?.value}}
+                                            </div>
+                                            <!-- <div class="col-4">
+                            <div class="d-flex">
+                              <label class="kr-sg-toggle with-label">
+                                <input type="checkbox" [checked]="form.isEnabled">
+                                <div class="slider"> <span class="no">{{"contentSource_disable" | translate}}</span><span class="yes">{{"contentSource_enable" | translate}}</span></div>
+                            </label>
+                            </div>
+                          </div> -->
+                                            <div class="col-4">
+                                                <span class="actions-links" (click)="form.isEditable=true"><img
+                                                        class="action_icon arrow-icon"
+                                                        src="assets/images/edit-pencil.svg"></span>
+                                                <!-- <span class="actions-links"><img class="action_icon" src="assets/icons/delete-table.svg"></span> -->
+                                            </div>
+                                        </ng-container>
+
+                                        <!-- Editable html -->
+                                        <div class="is-auth-form-edit" *ngIf="form?.isEditable">
+                                            <div class="is-auth-col">
+                                                <div class="col-3">
+                                                    <div class="crawl-opt-inp">
+                                                        <div class="kr-sg-input-text mar-bot-15">
+                                                            <div class="label-text no-label">{{"contentSource_field_key"
+                                                                | translate}}<sup class="field-mandatory">*</sup></div>
+                                                            <input type="text" autocomplete="off" name="url"
+                                                                placeholder="{{'contentSource_field_key' | translate}}"
+                                                                class="input-text" [value]="form.key" disabled>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-3">
+                                                    <div class="crawl-opt-inp">
+                                                        <div class="kr-sg-input-text mar-bot-15">
+                                                            <div class="label-text no-label">
+                                                                {{"contentSource_field_value" | translate}}<sup
+                                                                    class="field-mandatory">*</sup></div>
+                                                            <input [type]="form.type" autocomplete="off" name="url"
+                                                                placeholder="{{'contentSource_field_value' | translate}}"
+                                                                class="input-text" #inputPwd
+                                                                [(ngModel)]="form.duplicateObj.value">
+                                                            <i class="icon-eye"
+                                                                [ngClass]="{'si-eye':!isPasswordShow,'si-eyeshow':isPasswordShow}"
+                                                                (click)="isPasswordShow=!isPasswordShow;inputPwd.type=(inputPwd.type==='password')?'text':'password'"
+                                                                *ngIf="i===1"></i>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-3 d-flex align-items-center">
+                                                    <div class="is-auth-btn-group">
+                                                        <button class="kr-sg-button-secondary btn-no-bg btn_lg"
+                                                            (click)="saveBasicField(form,'cancel')">{{"sa_cancel" |
+                                                            translate}}</button>
+                                                        <button class="kr-sg-button-secondary btn_lg"
+                                                            (click)="saveBasicField(form,'save')">{{"sa_save" |
+                                                            translate}}</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </section>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Form based -->
+                    <div class="is-auth-form" *ngIf="crwalObject?.authorizationProfle?.sso_type==='form'">
+                        <div class="is-auth-form-header-block">
+                            <div class="is-auth-form-header">
+                                {{"contentSource_form_field" | translate}}
+                            </div>
+                            <div class="is-auth-form-add-field" (click)="addFormField('add')"
+                                *ngIf="!formFieldObj.isShow">
+                                <span><img src="assets/icons/facets/add-blue.svg" class="add-icon-blue" /> <img
+                                        src="assets/images/add.svg"
+                                        class="add-icon-black" /></span>{{"contentSource_add_field" | translate}}
+                            </div>
+                        </div>
+                        <div class="is-auth-form-table">
+                            <div class="kr-sg-data-table">
+                                <section class="table-content"
+                                    *ngIf="crwalObject.authorizationProfle.formFields.length>0">
+                                    <header class="table-header">
+                                        <div class="col-3">{{"contentSource_field_value_caps" | translate}}</div>
+                                        <div class="col-2">{{"contentSource_field_type_caps" | translate}}</div>
+                                        <div class="col-3">{{"contentSource_field_value_caps" | translate}}</div>
+                                        <div class="col-2"></div>
+                                        <div class="col-2 text-right">{{"contentSource_actions_caps" | translate}}</div>
+                                    </header>
+                                    <div class="content-body"
+                                        *ngFor="let form of crwalObject.authorizationProfle.formFields;let i=index;"
+                                        [ngClass]="{'is-edit-mode':(form?.isEditable)}">
+                                        <ng-container *ngIf="!form?.isEditable">
+                                            <div class="col-3">{{form.key}}</div>
+                                            <div class="col-2">{{'contentSource.'+form.type|translate}}</div>
+                                            <div class="col-3">{{(form.type==='password')?'********':form.value}}</div>
+                                            <div class="col-2">
+                                                <div class="d-flex">
+                                                    <label class="kr-sg-toggle with-label">
+                                                        <input type="checkbox" [(ngModel)]="form.isEnabled">
+                                                        <div class="slider"> <span class="no"
+                                                                [ngStyle]="{'color':(!form.isEnabled?'#202124':'#9B9B9B')}">{{"contentSource_disable"
+                                                                | translate}}</span><span class="yes"
+                                                                [ngStyle]="{'color':(form.isEnabled?'#202124':'#9B9B9B')}">{{"contentSource_enable"
+                                                                | translate}}</span></div>
+                                                    </label>
+                                                </div>
+                                            </div>
+                                            <div class="col-2 text-right">
+                                                <span class="actions-links"
+                                                    (click)="form.isEditable=true;editFormField('edit',form)"><img
+                                                        class="action_icon arrow-icon"
+                                                        src="assets/images/edit-pencil.svg"></span>
+                                                <span class="actions-links" (click)="deleteFormFields(i)"><img
+                                                        class="action_icon" src="assets/icons/delete-table.svg"></span>
+                                            </div>
+                                        </ng-container>
+
+                                        <!-- Edit Fields: -->
+                                        <div class="is-auth-form-edit" *ngIf="form.isEditable">
+                                            <div class="is-auth-col">
+                                                <div class="col-3">
+                                                    <div class="crawl-opt-inp">
+                                                        <div class="kr-sg-input-text mar-bot-15">
+                                                            <div class="label-text no-label">{{"contentSource_field_key"
+                                                                | translate}}<sup class="field-mandatory">*</sup></div>
+                                                            <input id="{{'contentFormFieldKeyId'+i}}" type="text"
+                                                                autocomplete="off" name="url"
+                                                                placeholder="{{'contentSource_field_key' | translate}}"
+                                                                class="input-text" [value]="form.key"
+                                                                [(ngModel)]="form.duplicateObj.key">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-3">
+                                                    <div class="crawl-option-ddl">
+                                                        <div class="kr-sg-dropdowns mar-bot-12">
+                                                            <div class="label-text">{{"contentSource_field_type" |
+                                                                translate}}<sup class="field-mandatory">*</sup></div>
+                                                            <div class="dropdown dropdown-open">
+                                                                <button id="{{'contentFormFieldTypeId'+i}}"
+                                                                    class="dropdown-toggle dropdown-input"
+                                                                    data-toggle="dropdown"
+                                                                    aria-expanded="false">{{form.duplicateObj.type===''?'Select
+                                                                    Field
+                                                                    Type':('contentSource.'+form.duplicateObj.type|translate)}}</button>
+                                                                <ul class="dropdown-menu content-menu">
+                                                                    <li *ngFor="let box of inputTypes"
+                                                                        (click)="form.duplicateObj.type=box"
+                                                                        [ngClass]="{'font-weight-bold':(form.duplicateObj.type===box)}">
+                                                                        <a>{{'contentSource.'+box|translate}}</a>
+                                                                    </li>
+                                                                </ul>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-3">
+                                                    <div class="crawl-opt-inp">
+                                                        <div class="kr-sg-input-text mar-bot-15">
+                                                            <div class="label-text no-label">
+                                                                {{"contentSource_field_value" | translate}}<sup
+                                                                    class="field-mandatory">*</sup></div>
+                                                            <input id="{{'contentFormFieldValueId'+i}}"
+                                                                [type]="form.type" autocomplete="off" name="url"
+                                                                placeholder="{{'contentSource_field_value' | translate}}"
+                                                                class="input-text" [value]="form.value"
+                                                                [(ngModel)]="form.duplicateObj.value">
+                                                            <i class="icon-eye"
+                                                                [ngClass]="{'si-eye':!form.isPwdShow,'si-eyeshow':form.isPwdShow}"
+                                                                (click)="showFormFieldPassword('contentFormFieldValueId'+i,form)"
+                                                                *ngIf="form.duplicateObj.type==='password'"></i>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-3 d-flex align-items-center">
+                                                    <div class="is-auth-btn-group">
+                                                        <button id="sa-cancelAddAuthFieldToTable"
+                                                            class="kr-sg-button-secondary btn-no-bg btn_lg"
+                                                            (click)="editFormField('cancel',form)">Cancel</button>
+                                                        <button id="sa-addAuthFieldToTable"
+                                                            class="kr-sg-button-secondary btn_lg"
+                                                            (click)="editFormField('save',form,i)">Save</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </section>
+
+                                <!-- Add Form Fields -->
+                                <div class="is-auth-form-edit" *ngIf="formFieldObj.isShow">
+                                    <div class="is-auth-col">
+                                        <div class="col-3">
+                                            <div class="crawl-opt-inp">
+                                                <div class="kr-sg-input-text mar-bot-15">
+                                                    <div class="label-text no-label">{{"contentSource_field_key" |
+                                                        translate}}<sup class="field-mandatory">*</sup></div>
+                                                    <input id="contentFormFieldKeyId" type="text" autocomplete="off"
+                                                        name="url"
+                                                        placeholder="{{'contentSource_field_key' | translate}}"
+                                                        class="input-text" [(ngModel)]="formFieldObj.key">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-3">
+                                            <div class="crawl-option-ddl">
+                                                <div class="kr-sg-dropdowns mar-bot-12">
+                                                    <div class="label-text">{{"contentSource_field_type" |
+                                                        translate}}<sup class="field-mandatory">*</sup></div>
+                                                    <div class="dropdown dropdown-open">
+                                                        <button id="contentFormFieldTypeId"
+                                                            class="dropdown-toggle dropdown-input"
+                                                            data-toggle="dropdown"
+                                                            aria-expanded="false">{{(formFieldObj.type==='')?'Select
+                                                            Field
+                                                            Type':('contentSource.'+formFieldObj.type|translate)}}</button>
+                                                        <ul class="dropdown-menu content-menu">
+                                                            <li *ngFor="let box of inputTypes"
+                                                                (click)="formFieldObj.type=box"
+                                                                [ngClass]="{'font-weight-bold':(formFieldObj.type===box)}">
+                                                                <a>{{'contentSource.'+box|translate}}</a>
+                                                            </li>
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-3">
+                                            <div class="crawl-opt-inp">
+                                                <div class="kr-sg-input-text mar-bot-15">
+                                                    <div class="label-text no-label">{{"contentSource_field_value" |
+                                                        translate}}<sup class="field-mandatory">*</sup></div>
+                                                    <input id="contentFormFieldValueId" [type]="formFieldObj.type"
+                                                        autocomplete="off" name="url"
+                                                        placeholder="{{'contentSource_field_value' | translate}}"
+                                                        class="input-text" [(ngModel)]="formFieldObj.value">
+                                                    <i class="icon-eye"
+                                                        [ngClass]="{'si-eye':!formFieldObj.isPwdShow,'si-eyeshow':formFieldObj.isPwdShow}"
+                                                        (click)="showFormFieldPassword('contentFormFieldValueId',formFieldObj)"
+                                                        *ngIf="formFieldObj.type==='password'"></i>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-3 d-flex align-items-center">
+                                            <div class="is-auth-btn-group">
+                                                <button id="sa-cancelAddAuthFieldToTable"
+                                                    class="kr-sg-button-secondary btn-no-bg btn_lg"
+                                                    (click)="addFormField('cancel')"
+                                                    [disabled]="crwalObject.authorizationProfle.formFields.length===0">Cancel</button>
+                                                <button id="sa-addAuthFieldToTable"
+                                                    class="kr-sg-button-secondary btn_lg"
+                                                    (click)="addFormField('save')">Add</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Authorization optional for both fields types -->
+                    <div class="is-auth-form"
+                        *ngIf="['basic','form'].includes(crwalObject?.authorizationProfle?.sso_type)">
+                        <div class="is-auth-form-header-block">
+                            <div class="is-auth-form-header">
+                                AUTHORIZATION FIELD <span class="optional-hding">(Optional)</span>
+                            </div>
+                            <div class="is-auth-form-add-field" (click)="addAuthorizationField('add')"
+                                *ngIf="!authorizationFieldObj.isShow">
+                                <span><img src="assets/icons/facets/add-blue.svg" class="add-icon-blue" /> <img
+                                        src="assets/images/add.svg" class="add-icon-black" /></span>
+                                Add
+                            </div>
+                        </div>
+
+                        <div class="is-auth-form-table">
+                            <div class="kr-sg-data-table">
+                                <section class="table-content"
+                                    *ngIf="crwalObject?.authorizationProfle?.authorizationFields.length>0">
+                                    <header class="table-header">
+                                        <div class="col-3">{{"contentSource_field_value_caps" | translate}}</div>
+                                        <div class="col-2">FILED TYPE</div>
+                                        <div class="col-3">{{"contentSource_field_value_caps" | translate}}</div>
+                                        <div class="col-2"></div>
+                                        <div class="col-2 text-right">{{"contentSource_actions_caps" | translate}}</div>
+                                    </header>
+                                    <div class="content-body"
+                                        *ngFor="let auth of crwalObject?.authorizationProfle?.authorizationFields;let i=index;"
+                                        [ngClass]="{'is-edit-mode':(form?.isEditable)}">
+                                        <ng-container *ngIf="!auth?.isEditable">
+                                            <div class="col-3">{{auth?.key}}</div>
+                                            <div class="col-2">{{'contentSource.'+auth?.type|translate}}</div>
+                                            <div class="col-3">{{auth?.value}}</div>
+                                            <div class="col-2">
+                                                <div class="d-flex">
+                                                    <label class="kr-sg-toggle with-label">
+                                                        <input id="sa-formFieldListItemEnableDisable" type="checkbox"
+                                                            [(ngModel)]="auth.isEnabled">
+                                                        <div class="slider"> <span class="no"
+                                                                [ngStyle]="{'color':(!auth.isEnabled?'#202124':'#9B9B9B')}">{{"contentSource_disable"
+                                                                | translate}}</span><span class="yes"
+                                                                [ngStyle]="{'color':(auth.isEnabled?'#202124':'#9B9B9B')}">{{"contentSource_enable"
+                                                                | translate}}</span></div>
+                                                    </label>
+                                                </div>
+                                            </div>
+                                            <div class="col-2 text-right">
+                                                <span id="sa-editAuthFieldListItem" class="actions-links"
+                                                    (click)="auth.isEditable=true;editAuthorizationField('edit',auth)"><img
+                                                        class="action_icon arrow-icon"
+                                                        src="assets/images/edit-pencil.svg"></span>
+                                                <span id="sa-deleteAuthFieldListItem" class="actions-links"
+                                                    (click)="crwalObject.authorizationProfle.authorizationFields.splice(i,1)"><img
+                                                        class="action_icon" src="assets/icons/delete-table.svg"></span>
+                                            </div>
+                                        </ng-container>
+
+                                        <!-- Edit Division Starts -->
+                                        <div class="is-auth-form-edit" *ngIf="auth?.isEditable">
+                                            <div class="is-auth-col">
+                                                <div class="col-3">
+                                                    <div class="crawl-opt-inp">
+                                                        <div class="kr-sg-input-text mar-bot-15">
+                                                            <div class="label-text no-label">{{"contentSource_field_key"
+                                                                | translate}}<sup class="field-mandatory">*</sup></div>
+                                                            <input id="{{'contentFieldKeyId'+i}}" type="text"
+                                                                autocomplete="off" name="url"
+                                                                placeholder="{{'contentSource_field_key' | translate}}"
+                                                                class="input-text" [value]="auth.key"
+                                                                [(ngModel)]="auth.duplicateObj.key">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-3">
+                                                    <div class="crawl-option-ddl">
+                                                        <div class="kr-sg-dropdowns mar-bot-12">
+                                                            <div class="label-text">{{"contentSource_field_type" |
+                                                                translate}}<sup class="field-mandatory">*</sup></div>
+                                                            <div class="dropdown dropdown-open">
+                                                                <button id="{{'contentFieldTypeId'+i}}"
+                                                                    class="dropdown-toggle dropdown-input"
+                                                                    data-toggle="dropdown"
+                                                                    aria-expanded="false">{{auth.duplicateObj.type===''?('contentSource.'+auth.type
+                                                                    |translate):('contentSource.'+auth?.duplicateObj.type|translate)}}</button>
+                                                                <ul class="dropdown-menu content-menu">
+                                                                    <li *ngFor="let item of autorizationFieldTypes"
+                                                                        (click)="auth.duplicateObj.type=item"
+                                                                        [ngClass]="{'font-weight-bold':auth.duplicateObj.type===item}">
+                                                                        <a>{{'contentSource.'+item | translate}}</a>
+                                                                    </li>
+                                                                </ul>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-3">
+                                                    <div class="crawl-opt-inp">
+                                                        <div class="kr-sg-input-text mar-bot-15">
+                                                            <div class="label-text no-label">
+                                                                {{"contentSource_field_value" | translate}}<sup
+                                                                    class="field-mandatory">*</sup></div>
+                                                            <input id="{{'contentFieldValueId'+i}}" type="text"
+                                                                autocomplete="off" name="url"
+                                                                placeholder="{{'contentSource_field_value' | translate}}"
+                                                                class="input-text" [value]="auth.value"
+                                                                [(ngModel)]="auth.duplicateObj.value">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-3 d-flex align-items-center">
+                                                    <div class="is-auth-btn-group">
+                                                        <button id="sa-cancelAddAuthFieldToTable"
+                                                            class="kr-sg-button-secondary btn-no-bg btn_lg"
+                                                            (click)="editAuthorizationField('cancel',auth)">Cancel</button>
+                                                        <button id="sa-addAuthFieldToTable"
+                                                            class="kr-sg-button-secondary btn_lg"
+                                                            (click)="editAuthorizationField('save',auth,i)">Save</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- Edit Division Ends -->
+                                    </div>
+                                </section>
+
+                                <span class="font-weight-bold d-inline-block w-100 text-center"
+                                    *ngIf="(crwalObject?.authorizationProfle?.authorizationFields?.length===0&&!authorizationFieldObj.isShow)">No
+                                    authorization fields found</span>
+
+                                <!-- ADD DIVISION SATRTS -->
+                                <div class="is-auth-form-edit" *ngIf="authorizationFieldObj.isShow">
+                                    <div class="is-auth-col">
+                                        <div class="col-3">
+                                            <div class="crawl-opt-inp">
+                                                <div class="kr-sg-input-text mar-bot-15">
+                                                    <div class="label-text no-label">{{"contentSource_field_key" |
+                                                        translate}}<sup class="field-mandatory">*</sup></div>
+                                                    <input id="contentFieldKeyId" type="text" autocomplete="off"
+                                                        name="url"
+                                                        placeholder="{{'contentSource_field_key' | translate}}"
+                                                        class="input-text" [(ngModel)]="authorizationFieldObj.key">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-3">
+                                            <div class="crawl-option-ddl">
+                                                <div class="kr-sg-dropdowns mar-bot-12">
+                                                    <div class="label-text">{{"contentSource_field_type" |
+                                                        translate}}<sup class="field-mandatory">*</sup></div>
+                                                    <div class="dropdown dropdown-open">
+                                                        <button id="contentFieldTypeId"
+                                                            class="dropdown-toggle dropdown-input"
+                                                            data-toggle="dropdown"
+                                                            aria-expanded="false">{{(authorizationFieldObj.type==='')?'Select
+                                                            Field
+                                                            Type':('contentSource.'+authorizationFieldObj.type|translate)}}</button>
+                                                        <ul class="dropdown-menu content-menu">
+                                                            <li *ngFor="let item of autorizationFieldTypes"
+                                                                (click)="authorizationFieldObj.type=item"
+                                                                [ngClass]="{'font-weight-bold':authorizationFieldObj.type===item}">
+                                                                <a>{{'contentSource.'+item | translate}}</a>
+                                                            </li>
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-3">
+                                            <div class="crawl-opt-inp">
+                                                <div class="kr-sg-input-text mar-bot-15">
+                                                    <div class="label-text no-label">{{"contentSource_field_value" |
+                                                        translate}}<sup class="field-mandatory">*</sup></div>
+                                                    <input id="contentFieldValueId" type="text" autocomplete="off"
+                                                        name="url"
+                                                        placeholder="{{'contentSource_field_value' | translate}}"
+                                                        class="input-text" [(ngModel)]="authorizationFieldObj.value">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-3 d-flex align-items-center">
+                                            <div class="is-auth-btn-group">
+                                                <button id="sa-cancelAddAuthFieldToTable"
+                                                    class="kr-sg-button-secondary btn-no-bg btn_lg"
+                                                    (click)="addAuthorizationField('cancel')">{{"sa_cancel" |
+                                                    translate}}</button>
+                                                <button id="sa-addAuthFieldToTable"
+                                                    class="kr-sg-button-secondary btn_lg"
+                                                    (click)="addAuthorizationField('save')">{{"sa_add" |
+                                                    translate}}</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- ADD DIVISION ENDS -->
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Authentication fields -->
+                    <ng-container *ngIf="['basic','form'].includes(crwalObject?.authorizationProfle?.sso_type)">
+                        <div class="row col-12 border-top-row">
+                            <div class="col-4 pl-0">
+                                <div class="kr-sg-input-text">
+                                    <div class="label-text">{{"contentSource_authentication_url" | translate}}<sup
+                                            class="field-mandatory">*</sup></div>
+                                    <input id="contentAuthURLId" type="text" placeholder="Authentication Url"
+                                        class="input-text" [(ngModel)]="crwalObject.authorizationProfle.authCheckUrl"
+                                        autocomplete="off">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row col-12 border-top-row">
+                            <div class="col-4 pl-0">
+                                <div class="kr-sg-dropdowns">
+                                    <div class="label-text">{{"contentSource_test_type" | translate}}<sup
+                                            class="field-mandatory">*</sup></div>
+                                    <div class="dropdown dropdown-open">
+                                        <button id="contentTestTypeId" class="dropdown-toggle dropdown-input"
+                                            data-toggle="dropdown">{{(crwalObject.authorizationProfle.testType==='')?'Choose
+                                            an
+                                            option':('contentSource.'+crwalObject.authorizationProfle.testType|translate)}}</button>
+                                        <ul class="dropdown-menu content-menu">
+                                            <li *ngFor="let item of testTypes"
+                                                (click)="crwalObject.authorizationProfle.testType=item"
+                                                [ngClass]="{'font-weight-bold':(crwalObject.authorizationProfle.testType===item)}">
+                                                <a>{{'contentSource.'+item|translate}}</a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-4">
+                                <div class="kr-sg-input-text">
+                                    <div class="label-text">{{"contentSource_test_value" | translate}}<sup
+                                            class="field-mandatory">*</sup></div>
+                                    <input id="contentTestValueId"
+                                        [type]="(crwalObject.authorizationProfle.testType==='status_code')?'number':'text'"
+                                        placeholder="{{'contentSource_test_value' | translate}}" class="input-text"
+                                        [ngClass]="{'maxUrlLimit-class':crwalObject.authorizationProfle.testType==='status_code'}"
+                                        [(ngModel)]="crwalObject.authorizationProfle.testValue" autocomplete="off">
+                                </div>
+                            </div>
+                        </div>
+                    </ng-container>
+                </div>
+            </div>
+        </div>
+    </perfect-scrollbar>
+    <div class="modal-footer">
+        <button id="sa-validateCrawl" class="kr-sg-button-primary btn_lg mr-3" (click)="validateSource()"
+            [disabled]="btnDisabled" [ngStyle]="{'background':btnDisabled?'#85B7FE':'#0D6EFD'}"><span
+                class="loader-spin-inside-btn" *ngIf="btnDisabled"></span>{{"contentSource_save_and_test" |
+            translate}}</button>
+        <button id="sa-cancelCrawl" class="kr-sg-button-secondary backbtn btn_md mr-2"
+            (click)="closeAddContentModal(true)">{{"sa_cancel" | translate}}</button>
+    </div>
+</kr-modal>
+
+<!-- Link Bot modal -->
+<kr-modal modalType="center" modalClass="botsModal modal_popups_ linkExistingBotsModal" #linkBotsModalPop>
+  <ng-container *ngIf="selectedSourceType && selectedSourceType.resourceType === 'linkBot'">
+    <div class="modal-header">
+      <div class="title">Link Bots</div>
+      <div class="close_icon"><img (click)="cancleSourceAddition()" src="assets/icons/modal-close.svg"></div>
+    </div>
+    <perfect-scrollbar class="perfect-scroll-modal-body" #perfectScroll4>
+      <div class="modal-body">
+        <div class="bots-modal-empty-bots-container" *ngIf="noAssociatedBots">
+          <img src="assets/images/icons/empty_ill.svg">
+          <h2>{{"contentSource_no_bots" | translate}}</h2>
+          <h4>{{"contentSource_please_add_bots" | translate}}</h4>
+        </div>
+        <ng-container *ngIf="!noAssociatedBots">
+          <div class="info-link-text">{{"botAction_choose_any_bot_from_the_list" | translate}}</div>
+          <div class="kr-sg-input-text">
+            <input type="text" placeholder="Search" [(ngModel)]="searchAssociatedBots" name="searchAssociatedBots"
+              class="input-text" maxlength="60">
+            <img class="search-icon" src="assets/images/search_gray.svg">
+          </div>
+          <ng-container>
+            <div class="link-bot-table">
+              <div class="table-header col-12 row">
+                <div class="col-6 title">{{"botAction_bot_name" | translate}}</div>
+                <div class="col-6 title">{{"botAction_owner" | translate}}</div>
+              </div>
+              <div class="table-body-link-bot row col-12"
+                *ngFor="let bot of associatedBots | filter: [searchAssociatedBots, 'name']">
+                <div class="col-6 bot-name-data row m-0">
+                  <div class="col-8 name-with-type text-truncate">
+                    {{bot.name}} <span class="bot-type" *ngIf="bot.type==='universalbot'">{{"botAction_universal_bot" |
+                      translate}}</span>
+                  </div>
+                  <div class="col-4 shares-data">
+                    <img src="assets/icons/actions/shares.svg">{{bot.publishedTasksCount}} {{"botAction_tasks" |
+                    translate}}
+                  </div>
+                </div>
+                <div class="col-3 owner-name">{{bot.createdBy.firstName}} {{bot.createdBy.lastName}}</div>
+                <div class="col-3 link-bot-actions">
+                  <div class="link-bot-btn" (click)="openBotsConfigurationModalElement(bot,linkedBotID)"
+                    placement="left" [ngbTooltip]="(linkedBotID ?'Please Unlink the linked bot':null)" container='body'
+                    [ngClass]="{'link-bot-disable':linkedBotID}" *ngIf="streamID !== bot._id">
+                    <img
+                      src="{{!linkedBotID?'assets/icons/actions/link-bot.svg':'assets/icons/actions/link-bot-disable.svg'}}">{{"botAction_link_bot"
+                    | translate}}
+                  </div>
+                  <div class="link-bot-btn" (click)="unlinkBot(bot._id)" *ngIf="streamID == bot._id">
+                    <img src="assets/icons/actions/link-bot.svg">{{"botAction_unlink_bot" | translate}}
+                  </div>
+                  <!-- <img src="assets/icons/actions/external-link.svg" class="ext-link" placement="top-right" ngbTooltip="Open this bot in Kore.ai Platform" container='body' tooltipClass="train-icon-tooltip ml-12"> -->
+                </div>
+              </div>
+
+            </div>
+            <!-- <div class="bots-modal-list-container">
+              <ngb-accordion #accordionList="ngbAccordion" (panelChange)="toggleDisable($event)">
+                <ng-container
+                  *ngFor="let bot of associatedBots | filter: [searchAssociatedBots, 'name']; let i = index">
+                  <ngb-panel id="{{'bot' + i}}">
+                    <ng-template ngbPanelHeader>
+                      <div class="bots-modal-accordion-header-container">
+                        <img class="bots-modal-bot-icon" src="assets/images/botIcon.svg">
+                        <span class="bots-modal-accordion-header-title">{{bot.name}}</span>
+                        <button *ngIf="streamID != bot._id" class="kr-sg-button-primary bots-modal-button-link"
+                          (click)="linkBot(bot._id)" [disabled]="streamID != null">Link Bot</button>
+                        <span *ngIf="streamID == bot._id" class="bots-modal-span-link">
+                          <div class="bots-modal-check-icon-container"><img
+                              src="assets/images/source-icos/check-green.svg"></div>&nbsp;Bot is linked
+                        </span>
+                        <div *ngIf="streamID == bot._id" class="bots-modal-dropdown-control"><img class="ellipse-icon"
+                            src="assets/icons/elipse.svg">
+                          <div class="bots-modal-dropdown-content">
+                            <ul class="bots-modal-dropdown-content-list">
+                              <li class="bots-modal-dropdown-content-list-item" (click)="unlinkBot(bot._id)">
+                                <span>Unlink Bot</span></li>
+                            </ul>
+                          </div>
+                        </div>
+                      </div>
+                    </ng-template>
+                  </ngb-panel>
+                </ng-container>
+              </ngb-accordion>
+            </div> -->
+          </ng-container>
+        </ng-container>
+      </div>
+    </perfect-scrollbar>
+  </ng-container>
+</kr-modal>
+
+<!-- Bot Link Existing Modal -->
+<kr-modal modalType="center" #botsConfigurationModalElement modalClass="modal_popups_ linkExistingBotsModal">
+  <div class="modal-header">
+    <div class="title"> <span class="gray-text-link"> {{"botAction_link_bot" | translate}}</span><img
+        src="assets/icons/carrotright.svg">
+      Configuration | {{this.selectedLinkBotConfig?.name}}</div>
+    <div class="close_icon" (click)="closeBotsConfigurationModalElement()"><img src="assets/icons/modal-close.svg">
+    </div>
+  </div>
+  <perfect-scrollbar class="perfect-scroll-modal-body" #perfectScroll9>
+    <div class="modal-body">
+      <div class="info-link-text lh-20">{{"botAction_you_can_link_a_virtual_assistant" | translate}}<a
+          (click)="showMore=!showMore" class="show-how-btn"> {{showMore?'Show less':'Show how'}}</a> </div>
+      <div class="more-info-link-text" *ngIf="showMore">
+        <div class="more-info-data"><span class="step-text">Step 1:</span> {{"botAction_enable_webhook_channel_for_your"
+          | translate}}</div>
+        <div class="more-info-data"><span class="step-text">Step 2:</span> {{"botAction_get_the_client_id_and_secret_id"
+          | translate}}</div>
+        <div class="more-info-data"><span class="step-text">Step
+            3:</span>{{"botAction_the_searchassist_app_can_interact_with" | translate}}</div>
+      </div>
+      <div class="kr-sg-input-text">
+        <label class="label-text label-text-bot-link">{{"botAction_access_token" | translate}}</label>
+        <div class="w-75 position-relative d-inline-block">
+          <input type="text" placeholder="Enter access token" [(ngModel)]="configurationLink.accessToken"
+            name="accessToken" class="input-text bot-link-input"
+            [ngClass]="{'err-block' : (!configurationLink?.accessToken?.length && submitted)}" maxlength="60">
+          <img *ngIf="!configurationLink?.accessToken?.length && submitted" id="fieldNameWarning"
+            src="assets/icons/warning_escalation.svg" style="top: 56%; position: absolute; right: 1.5%; display: block;"
+            height="12" width="12" />
+        </div>
+        <div class="copy-btn" (click)="copy(configurationLink.accessToken)"><img
+            src="assets/images/icons/copy.svg">{{"sa_copy" | translate}}
+        </div>
+      </div>
+      <div class="kr-sg-input-text">
+        <label class="label-text label-text-bot-link">{{"botAction_post_url" | translate}}</label>
+        <div class="w-75 position-relative d-inline-block">
+          <input type="text" placeholder="Enter post url" [(ngModel)]="configurationLink.postUrl" name="postUrl"
+            class="input-text bot-link-input"
+            [ngClass]="{'err-block' : (!configurationLink?.postUrl?.length && submitted)}">
+          <img *ngIf="!configurationLink?.postUrl?.length && submitted" id="fieldNameWarning"
+            src="assets/icons/warning_escalation.svg" style="top: 56%; position: absolute; right: 1.5%; display: block;"
+            height="12" width="12" />
+        </div>
+        <div class="copy-btn" (click)="copy(configurationLink.postUrl)"><img
+            src="assets/images/icons/copy.svg">{{"sa_copy" | translate}}
+        </div>
+      </div>
+      <div class="kr-sg-input-text">
+        <div class="w-75 position-relative">
+          <label class="label-text label-text-bot-link">{{"botAction_webhook_url" | translate}}</label>
+          <input type="text" placeholder="{{'contentSource_https' | translate}}"
+            [(ngModel)]="configurationLink.webhookUrl" name="webhookUrl" class="input-text bot-link-input"
+            [ngClass]="{'err-block' : (!configurationLink?.webhookUrl?.length && submitted)}">
+          <img *ngIf="!configurationLink?.webhookUrl?.length && submitted" id="fieldNameWarning"
+            src="assets/icons/warning_escalation.svg" style="top: 56%; position: absolute; right: 1.5%; display: block;"
+            height="12" width="12" />
+        </div>
+      </div>
+      <div class="kr-sg-input-text">
+        <div class="w-75 position-relative">
+          <label class="label-text label-text-bot-link">{{"botAction_bot_client_id" | translate}}</label>
+          <input type="text" placeholder="{{'botAction_enter_bot_client_id' | translate}}"
+            [(ngModel)]="configurationLink.clientId" name="botClientId" class="input-text bot-link-input"
+            [ngClass]="{'err-block' : (!configurationLink?.clientId?.length && submitted)}" maxlength="60">
+          <img *ngIf="!configurationLink?.clientId?.length && submitted" id="fieldNameWarning"
+            src="assets/icons/warning_escalation.svg" style="top: 56%; position: absolute; right: 1.5%; display: block;"
+            height="12" width="12" />
+        </div>
+      </div>
+      <div class="kr-sg-input-text">
+        <label class="label-text label-text-bot-link">{{"botAction_bot_secret_id" | translate}}</label>
+        <div class="w-75 position-relative">
+          <input type="password" id="password" placeholder="{{'botAction_enter_bot_secret_id' | translate}}"
+            [(ngModel)]="configurationLink.clientSecret" name="botSecreatId" class="input-text bot-link-input"
+            [ngClass]="{'err-block' : (!configurationLink?.clientSecret?.length && submitted)}" maxlength="60">
+          <img (click)="showPasword()" *ngIf="!showPassword && configurationLink?.clientSecret?.length"
+            src="assets/images/icons/eye.svg" class="eye" type="eye">
+          <img (click)="showPasword()" *ngIf="showPassword && configurationLink?.clientSecret?.length"
+            src="assets/images/icons/viewPw.svg.svg" class="eye" type="eye">
+          <img *ngIf="!configurationLink?.clientSecret?.length && submitted" id="fieldNameWarning"
+            src="assets/icons/warning_escalation.svg" style="top: 31%; position: absolute; right: 1.5%; display: block;"
+            height="12" width="12" />
+        </div>
+      </div>
+    </div>
+  </perfect-scrollbar>
+  <div class="modal-footer">
+    <button class="kr-sg-button-primary btn_lg" (click)='saveLink()'>{{"botAction_link" | translate}}</button>
+    <button class="kr-sg-button-secondary btn_lg" (click)="closeBotsConfigurationModalElement()">{{"botAction_back" |
+      translate}}</button>
+  </div>
+</kr-modal>
+
+<!-- Add Structure Data Modal -->
+<kr-modal modalType="center" modalClass="modal_popups_  addfaq" #addStructuredDataModalPop>
+  <app-add-structured-data [selectedSourceType]="selectedSourceType"
+    (closeStructuredDataModal)="cancleSourceAddition($event)"></app-add-structured-data>
+</kr-modal>
+
+<!-- Structure Data Status Modal -->
+<kr-modal modalType="default" #structuredDataStatusModalPop>
+  <app-structured-data-status-modal (closeStructuredDataStatusModal)="closeStructuredDataStatusModal()"
+    [structuredDataDocPayload]="structuredDataDocPayload"></app-structured-data-status-modal>
+</kr-modal>
+
+<!--crawl popup-->
+<kr-modal modalType="default" #crawlModalPop>
+  <div class="status-modal-popup">
+    <div class="modal_content" *ngIf="selectedSourceType">
+      <div class="modal-header">{{selectedSourceType.name}} <img src="assets/images/close.svg"
+          (click)="closeStatusModal()"></div>
+      <div class="modal-body">
+        <ng-container *ngIf="!(statusObject.status==='success' || statusObject.status==='failed')">
+          <div>
+            <div class="status-body-check">
+              <!-- <div class="success-check status-type-img">
+                <img src="assets/icons/content/latest-content-icons/green-loading-in-progress.svg">
+              </div> -->
+              <div class="configInProgress" *ngIf="selectedSourceType?.sourceType==='content'">
+                <h1 class="status-type-header-content"><strong>{{"contentSource_crawling_in_progress" |
+                    translate}}</strong></h1>
+              </div>
+              <div class="configInProgress" *ngIf="selectedSourceType?.sourceType==='faq'">
+                <h1 class="status-type-header"><strong>{{importFaqInprogress?'Import':'Faq Extraction'}} In
+                    Progress</strong></h1>
+              </div>
+            </div>
+            <div class="progressNote">
+              <div class="crwal-in-progress-status">
+                <div class="crwal-in-progress-mat">
+                  <mat-progress-bar mode="indeterminate" class="mat_progress_bar"></mat-progress-bar>
+                </div>
+                <div class="crwal-in-progress-mat-close" ngbTooltip="Abort" (click)="stopCrwaling($event)">
+                  <span class="mat-close-icon"><i class="si-close"></i></span>
+                </div>
+              </div>
+              <div class="progress-protip">
+                <div class="pro-tip-icon">
+                  <i class="si-info"></i>
+                </div>
+                <div class="pro-tip-text">
+                  {{"contentSource_this_might_take_a_while" | translate}}
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </ng-container>
+        <div class="success-check  pb-4" *ngIf="(statusObject.status==='success')">
+          <img src="assets/icons/successCheck.svg">
+        </div>
+        <div class="error-check" *ngIf="(statusObject.status==='failed')">
+          <img src="assets/images/exclamationCircle-Red.svg">
+        </div>
+        <div class="message-success text-center" *ngIf="(statusObject.status==='success')">
+          {{"contentSource_source_added_success" | translate}}
+        </div>
+        <div class="message-success text-center" *ngIf="(statusObject.status==='failed')">
+          {{"contentSource_failed_to_add_source" | translate}}
+        </div>
+      </div>
+      <div class="modal-footer text-right" [ngClass]="{'centerModel': resourceIDToOpen}">
+        <button type="button" class="kr-sg-button-primary btn_lg float-none ml-2 mr-0" data-dismiss="modal"
+          [disabled]="crawlOkDisable" *ngIf="statusObject.status==='success'"
+          (click)="closeStatusModal()">{{"contentSource_ok" | translate}}</button>
+        <button type="button" class="kr-sg-button-secondary backbtn btn_md mr-2" data-dismiss="modal"
+          (click)="closeStatusModal()"
+          *ngIf="selectedSourceType?.sourceType==='content'&&statusObject.status!=='success'">{{"contentSource_run_in_background"
+          | translate}}</button>
+      </div>
+    </div>
+  </div>
+</kr-modal>
+
+<!--Content Validation Status popup-->
+<kr-modal modalType="default" #statusModalPop>
+  <div class="status-modal-popup">
+    <div class="modal_content" *ngIf="selectedSourceType">
+      <div class="modal-header">{{selectedSourceType?.name}} <img src="assets/images/close.svg"
+          (click)="closeStatusModal()"></div>
+      <div class="modal-body">
+
+        <div class="success-check" *ngIf="statusObject?.status==='success'"
+          [ngClass]="{'pb-4':(selectedSourceType?.sourceType==='faq')}">
+          <img
+            [src]="(selectedSourceType?.sourceType==='faq')?'assets/icons/successCheck.svg':'assets/icons/content/latest-content-icons/success-check-o.svg'">
+        </div>
+
+        <div class="error-check" *ngIf="(statusObject?.status==='failed')"
+          [ngClass]="{'pb-4':(selectedSourceType?.sourceType==='faq')}">
+          <img
+            [src]="(selectedSourceType?.sourceType==='faq')?'assets/images/exclamationCircle-Red.svg':'assets/icons/content/latest-content-icons/failed-check-o.svg'">
+        </div>
+
+        <div class="status-body-check"
+          *ngIf="selectedSourceType?.sourceType === 'content'&&statusObject?.status!=='failed'">
+          <div class="success-check status-type-img"
+            *ngIf="(statusObject?.isURLValid)||(selectedSourceType?.resourceType === 'file')">
+            <img src="assets/icons/content/latest-content-icons/success-check-o.svg">
+          </div>
+          <div class="error-check status-type-img"
+            *ngIf="!(statusObject?.isURLValid)&&!(selectedSourceType?.resourceType === 'file')">
+            <img src="assets/icons/content/latest-content-icons/failed-check-o.svg">
+          </div>
+          <div class="configInProgress">
+            <h1 class="status-type-header"
+              [ngStyle]="{'color':(statusObject?.isURLValid||selectedSourceType?.resourceType === 'file')?'#28A745':'#DD3646'}">
+              <strong>{{(statusObject?.isURLValid)||(selectedSourceType?.resourceType ===
+                'file')?"Validation Successful":"Validation Failed"}}</strong></h1>
+          </div>
+
+        </div>
+        <div class="message-success text-center" *ngIf="(statusObject?.status==='success')">
+          {{"contentSource_source_added_success" | translate}}
+        </div>
+        <div class="message-success text-center" *ngIf="(statusObject?.status==='failed')">
+          {{"contentSource_failed_to_add_source" | translate}}
+        </div>
+        <ng-container *ngIf="selectedSourceType?.sourceType !== 'faq'">
+          <div class="status-identification-content">
+            <perfect-scrollbar class="content-scroll">
+              <div class="content-title"
+                *ngIf="selectedSourceType?.resourceType=='file'&&['success','running'].includes(statusObject?.status)">
+                <img src="assets/images/source-icos/check-green.svg"
+                  *ngIf="(statusObject?.isURLValid||selectedSourceType?.resourceType=='file')"
+                  class="successfullyConnected">
+                <span>{{"contentSource_file_validation" | translate}}</span>
+              </div>
+              <ng-container *ngIf="selectedSourceType?.resourceType==='web'">
+                <div class="content-title"><img class="successfullyConnected"
+                    [src]="(statusObject?.validation?.url?.validated)?'assets/images/source-icos/check-green.svg':'assets/images/source-icos/Info-red.svg'"><span>{{statusObject?.validation?.url?.msg}}</span>
+                </div>
+                <div class="content-title" *ngIf="statusObject?.validation?.networkConnectivity?.msg"><img
+                    class="successfullyConnected"
+                    [src]="(statusObject?.validation?.networkConnectivity?.validated)?'assets/images/source-icos/check-green.svg':'assets/images/source-icos/Info-red.svg'"><span>{{statusObject?.validation?.networkConnectivity?.msg}}</span>
+                </div>
+              </ng-container>
+            </perfect-scrollbar>
+          </div>
+        </ng-container>
+        <div class="progressNote"
+          *ngIf="selectedSourceType?.sourceType === 'faq'&&!(['success','failed'].includes(statusObject?.status))">
+          <div>{{importFaqInprogress?'Import':'Faq Extraction'}} In Progress</div>
+          <div class="text-center">
+            <mat-progress-bar mode="indeterminate" class="mat_progress_bar"></mat-progress-bar>
+            <div class="relaxNote">{{"contentSource_you_will_be_notified" | translate}}
+              {{importFaqInprogress?'import':'extraction'}} {{"contentSource_progress_is_done" | translate}}</div>
+          </div>
+        </div>
+        <div class="configInProgress" *ngIf="statusObject?.isURLValid&&selectedSourceType?.sourceType === 'web'">
+          <h4>{{"contentSource_now_you_can_choose" | translate}}</h4>
+        </div>
+      </div>
+      <div class="modal-footer text-right" [ngClass]="{'centerModel': resourceIDToOpen}">
+        <button type="button" class="kr-sg-button-secondary btn_lg float-none ml-2 mr-0 d-none" data-dismiss="modal"
+          (click)="cancelExtraction()"
+          *ngIf="selectedSourceType?.sourceType==='faq'&&statusObject?.status!=='success'||statusObject?.status=='failed'">{{"contentSource_cancel_extraction"
+          | translate}}</button>
+        <button type="button" class="kr-sg-button-primary btn_lg float-none ml-2 mr-0" data-dismiss="modal"
+          [disabled]="crawlOkDisable" (click)="closeStatusModal()"
+          *ngIf="selectedSourceType?.sourceType==='faq'">{{"contentSource_ok" | translate}}</button>
+        <button type="button" class="kr-sg-button-secondary btn_lg kr-btn-primary float-none ml-2 mr-0"
+          data-dismiss="modal" (click)="closeStatusModal()"
+          *ngIf="selectedSourceType?.sourceType==='content'&&(statusObject?.isURLValid)||(selectedSourceType?.resourceType === 'file')"><img
+            class="mr-1" height="14" style="margin-bottom:2px"
+            src="assets/icons/content/latest-content-icons/blue-calendar.svg"
+            *ngIf="selectedSourceType?.resourceType==='web'"> {{(selectedSourceType?.resourceType==='web')?'Crawl
+          Later':'Close'}}</button>
+        <button type="button" class="kr-sg-button-primary btn_lg float-none ml-2 mr-0" data-dismiss="modal"
+          (click)="jobOndemand()"
+          *ngIf="selectedSourceType?.sourceType==='content'&&selectedSourceType?.resourceType === 'web'&&(statusObject?.isURLValid)"
+          [disabled]="crawlOkDisable">{{"contentSource_crawl" | translate}}</button>
+        <button type="button" class="kr-sg-button-secondary btn_lg float-none ml-2 mr-0" data-dismiss="modal"
+          *ngIf="selectedSourceType?.sourceType==='content'&&selectedSourceType?.resourceType === 'web'&&!(statusObject?.isURLValid)"
+          (click)="retryValidation()">{{"contentSource_retry" | translate}}</button>
+        <button type="button" class="kr-sg-button-primary btn_lg float-none ml-2 mr-0" data-dismiss="modal"
+          (click)="editConfiguration()"
+          *ngIf="selectedSourceType?.sourceType==='content'&&selectedSourceType?.resourceType === 'web'&&!(statusObject?.isURLValid)">{{"contentSource_edit_configuration"
+          | translate}}</button>
+      </div>
+    </div>
+  </div>
+</kr-modal>
+
+
+<app-upgrade-plan #plans></app-upgrade-plan>

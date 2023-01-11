@@ -8,8 +8,7 @@
                 <div class="link-bot-link" (click)="openActions()">{{"actions_link_a_bot" | translate}}</div>
             </div>
         </ng-container>
-        <div class="group-radiobutton mb-3" [ngClass]="{'no-linked' : !botLinked }"> 
-            <!-- If it is no linked add this class "no-linked" or remove class -->
+        <!-- <div class="group-radiobutton mb-3" [ngClass]="{'no-linked' : !botLinked }"> 
             <div class="heading-title">{{"actions_bot_action_execution_behaviour" | translate}}</div>
             <div class="info-desc header-info-desc pb-1">{{"actions_user_input_can_result_in_the_idenitfication" | translate}}</div>
             <div class="kr-sg-radiobutton d-block" >
@@ -20,7 +19,7 @@
                 <input id="radio-actionExecutionManual" name="actionExecutionManual" class="radio-custom" type="radio" value='manual' [(ngModel)]="actionConfig.actionExecution">
                 <label for="radio-actionExecutionManual" (click)='topDownOrBottomUp("manual")' class="radio-custom-label">{{"actions_do_not_auto_execute_the_winning_intent" | translate}}</label>
             </div> 
-        </div> 
+        </div>  -->
         <div class="group-radiobutton mb-3" [ngClass]="{'no-linked' : !botLinked }"> 
             <!-- If it is no linked add this class "no-linked" or remove class -->
             <div class="heading-title ">{{"actions_bot_action_experience" | translate}}</div>

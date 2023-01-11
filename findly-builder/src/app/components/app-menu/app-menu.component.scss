@@ -315,7 +315,10 @@ app-mainmenu{
 			.inlineIconBox{
 				display: inline-block;
 				width: 25px;
-				outline: none;   
+				outline: none; 
+				i{
+					position: relative;
+				}  
 				img{
 					position: relative;
 					// top: -1px;

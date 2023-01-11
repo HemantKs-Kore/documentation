@@ -8,7 +8,7 @@
   <div class="header_sec">
     <!-- <div class="title">Index Configuration</div> -->
     <div class="title">{{'workbench_workbench' | translate}}
-      <span class="module-topic" tooltipClass="tooltip-global-" [container]="'body'" ngbTooltip="{{'sa_topic_guide' | translate}}" 
+      <span class="module-topic" tooltipClass="tooltip-global-" [container]="'body'" ngbTooltip="{{'sa_topic_guide' | translate}}"
  placement="right-center"(click)="openUserMetaTagsSlider()">
         <i class="si-topic-guide-1"></i>
       </span>
@@ -57,7 +57,7 @@
               <div class="title text-truncate">{{'workbench_choose_stage_type' | translate}}</div>
               <div class="close_icon" (click)="closeNewStage()">
                 <img src="assets/icons/close_field.svg" />
-              </div>              
+              </div>
             </div>
           </div>
         </ng-container>
@@ -89,7 +89,9 @@
               <div class="stateIcon" *ngIf="!pipe?.enable">
                 <img src="assets/images/inActiveStage.svg" />
               </div>
-              <div class="title text-truncate" [title]="pipe?.name">{{ pipe?.name || '&nbsp;'}}  <div class="beta-tag" *ngIf="pipe.type==='snippet_extraction'">{{'workbench_beta' | translate}}</div></div>
+              <div class="title text-truncate" [title]="pipe?.name">{{ pipe?.name || '&nbsp;'}}  
+                <!-- <div class="beta-tag" *ngIf="pipe.type==='snippet_extraction'">{{'workbench_beta' | translate}}</div> -->
+              </div>
               <div class="close_icon" (click)="removeStage(i,pipe?.name)">
                 <img src="assets/icons/close_field.svg" />
               </div>
@@ -99,12 +101,15 @@
       </perfect-scrollbar>
     </div>
     <div class="table_sec" *ngIf="!(selectedStage && selectedStage.type) && !showNewStageType">
-      <div class="empty-list">
-        <ng-container>
-          <img src="assets/images/icons/empty_ill.svg" />
-          <div class="desc">{{'workbench_no_stages_available' | translate}}</div>
-        </ng-container>
-      </div>
+      <app-empty-screen class="empty-lg" [title]="emptyScreen.TITLE" [desc]="emptyScreen.DESC"
+        [width]="204" [height]="74" [imgName]="emptyScreen.IMG_NAME">
+        <div class="action-buttons">
+          <button class="kr-sg-button-primary btn_lg mr-2" (click)="showNewStageType=true;selectedStage={};setResetNewMappingsObj()">
+            <i class="si-add-plus"></i>
+            Add Stage
+          </button>
+        </div>
+      </app-empty-screen>
     </div>
     <div class="form_sec" *ngIf="showNewStageType">
       <perfect-scrollbar class="scroll_form">
@@ -130,7 +135,9 @@
                     " (click)="switchStage(systemStage, index,'true')">
                     <a *ngIf="newMappingObj[systemStage.type]">{{
                       systemStage?.type | translate
-                      }} <span class="beta-tag" *ngIf="systemStage.type==='snippet_extraction'">{{'workbench_beta' | translate}}</span></a>
+                      }} 
+                      <!-- <span class="beta-tag" *ngIf="systemStage.type==='snippet_extraction'">{{'workbench_beta' | translate}}</span> -->
+                    </a>
                   </li>
                 </ul>
               </div>
@@ -340,7 +347,7 @@
             <div class="desc-text"> {{'workbench_loren_text' | translate}}</div>
             <div class="stage-input-blocks">
               <div class="kr-sg-input-text">
-                <div class="label-text">{{'workbench_source_field' | translate}}</div>
+                <div class="label-text">{{'workbench_source_field' | translate}}<sup class="field-mandatory">*</sup></div>
                 <input type="text" placeholder="{{'workbench_enter_field_name' | translate}}" class="input-text">
               </div>
               <div class="kr-sg-input-text">
@@ -348,7 +355,7 @@
                 <input type="text" placeholder="{{'workbench_enter_field_name' | translate}}" class="input-text">
               </div>
               <div class="kr-sg-input-text">
-                <div class="label-text">{{'workbench_target_field' | translate}}  </div>
+                <div class="label-text">{{'workbench_target_field' | translate}}<sup class="field-mandatory">*</sup></div>
                 <input type="text" placeholder="{{'workbench_enter_field_name' | translate}}" class="input-text">
               </div>
               <div class="delete-condition">
@@ -358,7 +365,7 @@
             <div class="add-condition-btn">
               <img src="assets/icons/Workbench/add-blue.svg" class="blue-add">
               <img src="assets/icons/Workbench/add-grey.svg" class="grey-add">
-              {{'workbench_condition' | translate}} 
+              {{'workbench_condition' | translate}}
             </div>
           </div>
 
@@ -384,7 +391,7 @@
                   </div>
                   <div class="col-6 input-box">
                     <div class="kr-sg-dropdowns">
-                      <div class="label-text">{{'workbench_action' | translate}}</div>
+                      <div class="label-text">{{'workbench_action' | translate}}<sup class="field-mandatory">*</sup></div>
                       <div class="dropup dropdown-open">
                         <button class="dropdown-toggle dropdown-input" data-toggle="dropdown">
                           {{
@@ -430,7 +437,7 @@
                   <div class="kr-sg-input-text col-6 input-box"
                     *ngIf="map.operation === 'copy' || map.operation === 'rename'">
                     <div class="label-text" *ngIf="map.operation === 'copy'">
-                      {{'workbench_source_field' | translate}}
+                      {{'workbench_source_field' | translate}}<sup class="field-mandatory">*</sup>
                     </div>
                     <div class="label-text" *ngIf="map.operation === 'rename'">
                       {{'workbench_field_name' | translate}}
@@ -451,7 +458,7 @@
                   </div>
                   <div class="kr-sg-input-text col-6 input-box">
                     <div class="label-text" *ngIf="map.operation === 'copy'">
-                      {{'workbench_target_field' | translate}}
+                      {{'workbench_target_field' | translate}}<sup class="field-mandatory">*</sup>
                     </div>
                     <div class="label-text" *ngIf="map.operation === 'rename'">
                       {{'workbench_new_name' | translate}}
@@ -459,7 +466,7 @@
                     <div class="label-text 22" *ngIf="
                         map.operation !== 'copy' && map.operation !== 'rename'
                       ">
-                      {{'workbench_field_name' | translate}}
+                      {{'workbench_field_name' | translate}}<sup class="field-mandatory">*</sup>
                     </div>
                     <div class="position-relative ">
                       <input type="text" placeholder="{{'workbench_enter_target' | translate}}"
@@ -482,7 +489,7 @@
                       map.operation !== 'copy' &&
                       map.operation !== 'rename'
                     ">
-                    <div class="label-text">{{'workbench_value' | translate}}</div>
+                    <div class="label-text">{{'workbench_value' | translate}}<sup class="field-mandatory">*</sup></div>
                     <input type="text" placeholder="{{'workbench_value' | translate}}" class="input-text"
                       [(ngModel)]="map.value" />
                   </div>
@@ -519,7 +526,7 @@
               ">
               <div class="col-6 input-box mb-2">
                 <div class="kr-sg-dropdowns">
-                  <div class="label-text">{{'workbench_action' | translate}}</div>
+                  <div class="label-text">{{'workbench_action' | translate}}<sup class="field-mandatory">*</sup></div>
                   <div class="dropup dropdown-open">
                     <button class="dropdown-toggle dropdown-input" data-toggle="dropdown" (click)="clearvalidation()">
                       {{
@@ -587,7 +594,7 @@
                     newMappingObj.field_mapping.defaultValue.operation ===
                     'rename'
                   ">
-                  {{'workbench_field_name' | translate}}
+                  {{'workbench_field_name' | translate}}<sup class="field-mandatory">*</sup>
                 </div>
                 <div class="position-relative ">
                   <input type="text" placeholder="{{'workbench_enter_source_field' | translate}}"
@@ -613,7 +620,7 @@
                 <div class="label-text" *ngIf="
                     newMappingObj.field_mapping.defaultValue.operation === 'copy'
                   ">
-                  {{'workbench_target_field' | translate}}
+                  {{'workbench_target_field' | translate}}<sup class="field-mandatory">*</sup>
                 </div>
                 <div class="label-text" *ngIf="
                     newMappingObj.field_mapping.defaultValue.operation ===
@@ -627,7 +634,7 @@
                     newMappingObj.field_mapping.defaultValue.operation !==
                       'rename'
                   ">
-                  {{'workbench_field_name' | translate}}
+                  {{'workbench_field_name' | translate}}<sup class="field-mandatory">*</sup>
                 </div>
                 <div class="position-relative ">
                   <input type="text" placeholder="{{'workbench_enter_name' | translate}}"
@@ -664,7 +671,7 @@
                     newMappingObj.field_mapping.defaultValue.operation !==
                     'rename'
                   ">
-                  {{'workbench_value' | translate}}
+                  {{'workbench_value' | translate}}<sup class="field-mandatory">*</sup>
                 </div>
                 <div class="label-text" *ngIf="
                     newMappingObj.field_mapping.defaultValue.operation ===
@@ -704,7 +711,7 @@
                     <img src="assets/icons/drag_drop_move_icon.svg" />
                   </div>
                   <div class="col-6 mb-2">
-                    <div class="label-text">{{'workbench_source_field' | translate}}</div>
+                    <div class="label-text">{{'workbench_source_field' | translate}}<sup class="field-mandatory">*</sup></div>
                     <div class="kr-sg-dropdowns" ngbDropdown>
                       <div class="dropdown dropdown-open">
                         <button class="dropdown-toggle dropdown-input" id="dropdownBasic1" data-toggle="dropdown"
@@ -845,13 +852,13 @@
                       {{'workbench_add_entities' | translate}}
                       <img class="ml-1" tooltipClass="workbench_tolltips m-0"
                         ngbTooltip="{{'workbench_entities_to_be_identified_from_the_source_field' | translate}}"
-                        [container]="'body'" src="assets/icons/help_gray.svg" />
+                        [container]="'body'" src="assets/icons/help_gray.svg" /><sup class="field-mandatory">*</sup>
                     </div>
                     <div class="label-text" *ngIf="selectedStage.type === 'traits_extraction'">
                       {{'workbench_add_trait_groups' | translate}}
                       <img class="ml-1" tooltipClass="workbench_tolltips m-0"
                         ngbTooltip="{{'workbench_traits_to_be_identified_from_the_source_field' | translate}}"
-                        [container]="'body'" src="assets/icons/help_gray.svg" />
+                        [container]="'body'" src="assets/icons/help_gray.svg" /><sup class="field-mandatory">*</sup>
                     </div>
                     <div class="label-text" *ngIf="selectedStage.type === 'keyword_extraction'">
                       {{'workbench_choose_keywords' | translate}}
@@ -906,7 +913,7 @@
                     </ng-container>
                   </div>
                   <div class="kr-sg-input-text col-6 input-box mb-2" *ngIf="selectedStage.type !== 'snippet_extraction'">
-                    <div class="label-text">{{'workbench_target_field' | translate}}</div>
+                    <div class="label-text">{{'workbench_target_field' | translate}}<sup class="field-mandatory">*</sup></div>
                     <div class="position-relative ">
                       <input type="text" placeholder="{{'workbench_value' | translate}}"
                         (keyup)="changesDetected = true" class="input-text dropdown-toggle dropdown-input"
@@ -950,7 +957,7 @@
                 newMappingObj[selectedStage.type].defaultValue
               ">
               <div class="col-6 mb-2">
-                <div class="label-text">{{'workbench_source_field' | translate}}</div>
+                <div class="label-text">{{'workbench_source_field' | translate}}<sup class="field-mandatory">*</sup></div>
                 <div class="kr-sg-dropdowns" ngbDropdown>
                   <div class="dropdown dropdown-open">
                     <button class="dropdown-toggle dropdown-input" id="dropdownBasic1entity" data-toggle="dropdown"
@@ -1084,13 +1091,13 @@
                   {{'workbench_add_entities' | translate}}
                   <img class="ml-1" tooltipClass="workbench_tolltips m-0"
                     ngbTooltip="{{'workbench_entities_to_be_identified_from_the_source_field' | translate}}"
-                    [container]="'body'" src="assets/icons/help_gray.svg" />
+                    [container]="'body'" src="assets/icons/help_gray.svg" /><sup class="field-mandatory">*</sup>
                 </div>
                 <div class="label-text" *ngIf="selectedStage.type === 'traits_extraction'">
                   {{'workbench_add_trait_groups' | translate}}
                   <img class="ml-1" tooltipClass="workbench_tolltips m-0"
                     ngbTooltip="{{'workbench_traits_to_be_identified_from_the_source_field' | translate}}"
-                    [container]="'body'" src="assets/icons/help_gray.svg" />
+                    [container]="'body'" src="assets/icons/help_gray.svg" /><sup class="field-mandatory">*</sup>
                 </div>
                 <div class="label-text" *ngIf="selectedStage.type === 'keyword_extraction'">
                   {{'workbench_choose_keywords' | translate}}
@@ -1183,7 +1190,7 @@
                 </ng-container>
               </div>
               <div class="kr-sg-input-text col-6 input-box mb-2" *ngIf="selectedStage.type !== 'snippet_extraction'">
-                <div class="label-text">{{'workbench_target_field' | translate}}</div>
+                <div class="label-text">{{'workbench_target_field' | translate}}<sup class="field-mandatory">*</sup></div>
                 <div class="position-relative ">
                   <input type="text" placeholder="{{'workbench_value' | translate}}" id="entitytarget"
                     (change)="inputChanged('entitytarget')" class="input-text dropdown-toggle dropdown-input"
@@ -1219,7 +1226,7 @@
         <div class="form_inputs_data" *ngIf="selectedStage.type === 'custom_script'">
           <div class="customScript">
             <div class="kr-sg-input-text-area">
-              <div class="label-text">&lt;/&gt;{{'workbench_painless' | translate}}</div>
+              <div class="label-text">&lt;/&gt;{{'workbench_painless' | translate}}<sup class="field-mandatory">*</sup></div>
               <div class="clear">
                 <span (click)="selectedStage.config.mappings[0].script='';plainScriptTxt =''">{{'workbench_clear' | translate}}</span>
               </div>
@@ -1382,15 +1389,17 @@
                   <input id="fieldIsActiveAll" class="checkbox-custom" [(ngModel)]="isActiveAll" (change)="selectAll()"
                     type="checkbox" />
                   <label for="fieldIsActiveAll" class="checkbox-custom-label px-0">
-                    {{'workbench_field_name' | translate}}
+                    {{'workbench_field_name' | translate}}<sup class="field-mandatory">*</sup>
                   </label>
                 </div>
               </div>
               <div class="col">{{'workbench_type' | translate}}</div>
-              <div class="col text-center">{{'workbench_multi_value' | translate}}</div>
+              <div class="col text-center">{{'fields_searchable' | translate}}</div>
+              <div class="col text-center">{{'fields_auto_suggest' | translate}}</div>
+              <!-- <div class="col text-center">{{'workbench_multi_value' | translate}}</div>
               <div class="col text-center">{{'workbench_required' | translate}}</div>
               <div class="col text-center">{{'workbench_stored' | translate}}</div>
-              <div class="col text-center">{{'workbench_indexed' | translate}}</div>
+              <div class="col text-center">{{'workbench_indexed' | translate}}</div> -->
             </header>
             <div class="content-body" *ngFor="let field of newfieldsData; let i = index">
               <div class="col">
@@ -1401,23 +1410,23 @@
                 </div>
               </div>
               <div class="col">{{ field.fieldDataType | translate }}</div>
-              <div class="col text-center">
+              <!-- <div class="col text-center">
                 <div class="kr-sg-checkbox">
                   <input id="fieldMultiValue{{ i }}" class="checkbox-custom" [(ngModel)]="field.isMultiValued"
                     [disabled]="!field.isActive" type="checkbox" />
                   <label for="fieldMultiValue{{ i }}" class="checkbox-custom-label"
                     [ngClass]="{'gray-checkbox':!field.isActive}"></label>
                 </div>
-              </div>
-              <div class="col text-center">
+              </div> -->
+              <!-- <div class="col text-center">
                 <div class="kr-sg-checkbox">
                   <input id="field.isRequired{{ i }}" class="checkbox-custom" [(ngModel)]="field.isRequired"
                     [disabled]="!field.isActive" type="checkbox" />
                   <label for="field.isRequired{{ i }}" class="checkbox-custom-label"
                     [ngClass]="{'gray-checkbox':!field.isActive}"></label>
                 </div>
-              </div>
-              <div class="col text-center">
+              </div> -->
+              <!-- <div class="col text-center">
                 <div class="kr-sg-checkbox">
                   <input id="field.isStored{{ i }}" class="checkbox-custom" [(ngModel)]="field.isStored"
                     [disabled]="!field.isActive"
@@ -1425,13 +1434,29 @@
                   <label for="field.isStored{{ i }}" class="checkbox-custom-label"
                     [ngClass]="{'gray-checkbox':!field.isActive}"></label>
                 </div>
-              </div>
-              <div class="col text-center">
+              </div> -->
+              <!-- <div class="col text-center">
                 <div class="kr-sg-checkbox">
                   <input id="field.isIndexed{{ i }}" class="checkbox-custom"
                     (change)='(field.isIndexed)?field.isStored = true:false' [(ngModel)]="field.isIndexed"
                     [disabled]="!field.isActive" type="checkbox" />
                   <label for="field.isIndexed{{ i }}" class="checkbox-custom-label"
+                    [ngClass]="{'gray-checkbox':!field.isActive}"></label>
+                </div>
+              </div> -->
+              <div class="col text-center">
+                <div class="kr-sg-checkbox">
+                  <input id="searchable{{ i }}" class="checkbox-custom" [(ngModel)]="field.isSearchable"
+                    [disabled]="!field.isActive" type="checkbox" />
+                  <label for="searchable{{ i }}" class="checkbox-custom-label"
+                    [ngClass]="{'gray-checkbox':!field.isActive}"></label>
+                </div>
+              </div>
+              <div class="col text-center">
+                <div class="kr-sg-checkbox">
+                  <input id="autosuggest{{ i }}" class="checkbox-custom" [(ngModel)]="field.isAutosuggest"
+                    [disabled]="!field.isActive" type="checkbox" />
+                  <label for="autosuggest{{ i }}" class="checkbox-custom-label"
                     [ngClass]="{'gray-checkbox':!field.isActive}"></label>
                 </div>
               </div>

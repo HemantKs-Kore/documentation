@@ -5,8 +5,8 @@
     </div>
     <!-- <div class="header-sec col-12 row m-0"  *ngIf="!nextPage&& loadingContent1"> -->
     <div class="header-sec col-12 row m-0">
-        <div class="col-4 p-0">{{'resultRanking_resultRanking' | translate}} 
-            <span class="module-topic" tooltipClass="tooltip-global-" [container]="'body'" ngbTooltip="{{'sa_topic_guide'| translate}}" 
+        <div class="col-4 p-0">{{'resultRanking_resultRanking' | translate}}
+            <span class="module-topic" tooltipClass="tooltip-global-" [container]="'body'" ngbTooltip="{{'sa_topic_guide'| translate}}"
  placement="right-center"(click)="openUserMetaTagsSlider()">
                 <i class="si-topic-guide-1"></i>
             </span>
@@ -15,19 +15,14 @@
     <ng-container *ngIf="!nextPage&& loadingContent1">
         <app-useronboarding-journey [componentType]='componentType'></app-useronboarding-journey>
         <perfect-scrollbar class="empty-scroll">
-            <div class="empty-landing-screen">
-                <div class="img-block"><img class="action_icon" (load)="imageLoad()"
-                        src="assets/images/resultRanking-empty.png"></div>
-                <ng-container *ngIf="loadImageText">
-                    <div class="empty-title">{{'resultRanking_emptyTitle' | translate}}</div>
-                    <div class="desc-text">{{'resultRanking_descText' | translate}}
-                    </div>
-                    <div class="kr-sg-dropdowns" ngbDropdown [container]="'body'">
-                        <button class="kr-sg-button-primary btn_lg px-2"
-                            (click)="lauchTest()">{{'resultRanking_letstrat' | translate}} </button>
-                    </div>
-                </ng-container>
+          <app-empty-screen class="empty-sm" [width]="200" [height]="200" [title]="emptyScreen.TITLE" [desc]="emptyScreen.DESC"
+            [imgName]="emptyScreen.IMG_NAME" (isImgLoading)="isEmptyScreenLoading($event)">
+            <div class="action-buttons">
+              <button class="kr-sg-button-primary btn_lg mr-2" (click)="lauchTest()">
+                <i class="si-external-horizantal"></i> {{'resultRanking_letstrat' | translate}}
+              </button>
             </div>
+          </app-empty-screen>
         </perfect-scrollbar>
     </ng-container>
     <div *ngIf="nextPage">
@@ -81,62 +76,61 @@
                                 </div>
                             </ng-container>
                         </div>
-                        <div class="info-div">
+                        <ng-container *ngIf="(customizeList | filter: [ searchSources , 'searchQuery']).length; else noResultRanking">
+                          <div class="info-div">
                             <div>{{'resultRanking_infoDiv' | translate}}</div>
-                        </div>
-                        <div class="body-content">
+                          </div>
+                          <div class="body-content">
                             <div class="empty-questions-selected d-none">
-                                <div class="heading">{{'sa_please_wait' | translate}}</div>
+                              <div class="heading">{{'sa_please_wait' | translate}}</div>
                             </div>
-                            <perfect-scrollbar class="accor-scroll" #fqasScrollContainer
-                                [ngClass]="{'show_footer' : totalRecord}">
-                                <ng-container>
+                            <perfect-scrollbar class="accor-scroll" #fqasScrollContainer [ngClass]="{'show_footer' : totalRecord}">
+                              <ng-container>
 
-                                    <div id="accordion" class="accordion-content">
-                                        <ng-container *ngIf="customizeList">
-                                            <div class="card-content"
-                                                *ngFor="let list of customizeList | filter: [ searchSources , 'searchQuery'];let i = index">
-                                                <div class="card_link collapsed"
-                                                    [ngClass]="{'is-checked': list.check == true, 'is-selected-list': selectedRecord._id == list._id}"
-                                                    (click)="clickCustomizeRecord(list,$event)">
-                                                    <div class="d-flex align-items-center w-100">
-                                                        <div class="kr-sg-checkbox"
-                                                            (click)="$event.stopImmediatePropagation();">
-                                                            <input [attr.id]="'result'+i"
-                                                                class="checkbox-custom selectEachfaqInput"
-                                                                type="checkbox" autocomplete="off"
-                                                                [(ngModel)]="list.check"
-                                                                (click)="multiSelect(list,!list.check,$event)">
-                                                            <label [attr.for]="'result'+i"
-                                                                class="checkbox-custom-label"></label>
-                                                        </div>
-                                                        <div class="title-desc-sec">
-                                                            <div class="title">{{list.searchQuery}}</div>
-                                                            <div class="desc">{{list.numberOfCustomisations}}
-                                                                {{'resultRanking_customization' | translate}}</div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="restore-icon" [ngClass]="{'disableDiv' : permisionView}"
-                                                        (click)="restore(list)">
-                                                        <img class="action-icon" src="assets/icons/restore.svg"
-                                                            ngbTooltip="{{'resultRanking_reset' | translate}}" placement="top" container='body'>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </ng-container>
-                                        <div *ngIf="!customizeList"
-                                            class="empty-questions-selected divBlockEmptylastChild">
-                                            <div class="heading"> {{'resultRanking_no_search_results' | translate}}
-                                            </div>
+                                <div id="accordion" class="accordion-content">
+                                  <ng-container *ngIf="customizeList;">
+                                    <div class="card-content"
+                                      *ngFor="let list of customizeList | filter: [ searchSources , 'searchQuery'];let i = index">
+                                      <div class="card_link collapsed"
+                                        [ngClass]="{'is-checked': list.check == true, 'is-selected-list': selectedRecord._id == list._id}"
+                                        (click)="clickCustomizeRecord(list,$event)">
+                                        <div class="d-flex align-items-center w-100">
+                                          <div class="kr-sg-checkbox" (click)="$event.stopImmediatePropagation();">
+                                            <input [attr.id]="'result'+i" class="checkbox-custom selectEachfaqInput" type="checkbox"
+                                              autocomplete="off" [(ngModel)]="list.check" (click)="multiSelect(list,!list.check,$event)">
+                                            <label [attr.for]="'result'+i" class="checkbox-custom-label"></label>
+                                          </div>
+                                          <div class="title-desc-sec">
+                                            <div class="title">{{list.searchQuery}}</div>
+                                            <div class="desc">{{list.numberOfCustomisations}}
+                                              {{'resultRanking_customization' | translate}}</div>
+                                          </div>
                                         </div>
+                                        <div class="restore-icon" [ngClass]="{'disableDiv' : permisionView}" (click)="restore(list)">
+                                          <img class="action-icon" src="assets/icons/restore.svg"
+                                            ngbTooltip="{{'resultRanking_reset' | translate}}" placement="top" container='body'>
+                                        </div>
+                                      </div>
                                     </div>
-                                </ng-container>
+                                  </ng-container>
+
+                                  <!-- <div *ngIf="!customizeList" class="empty-questions-selected">
+
+                                                                  </div> -->
+                                </div>
+                              </ng-container>
                             </perfect-scrollbar>
                             <div class="pagination mt-4" *ngIf='totalRecord > 10'>
-                                <app-record-pagination [totalRecord]='totalRecord' [limitpage]='limitpage'
-                                    (pageChanged)="paginate($event)"></app-record-pagination>
+                              <app-record-pagination [totalRecord]='totalRecord' [limitpage]='limitpage'
+                                (pageChanged)="paginate($event)"></app-record-pagination>
                             </div>
-                        </div>
+                          </div>
+                        </ng-container>
+                        <ng-template #noResultRanking>
+                          <app-empty-screen class="empty-sm" [width]="100" [height]="100" [title]="emptyScreen.TITLE_SEARCH"
+                            [desc]="emptyScreen.DESC_SEARCH" [imgName]="emptyScreen.IMG_NAME">
+                          </app-empty-screen>
+                        </ng-template>
                     </div>
                 </div>
                 <div class="content right-content" [ngClass]="{'disableDiv' : disableDiv }">
@@ -208,7 +202,7 @@
                                                                 <img src="assets/icons/resultranking/export-up.svg" [ngbTooltip]='actLog.customization.action' placement="top" *ngIf="actLog.customization.action == 'lowered'"class="cursor-pointer boost-trans">
                                                                 <img src="assets/icons/resultranking/export-up.svg" [ngbTooltip]='actLog.customization.action' placement="top" *ngIf="actLog.customization.action == 'boosted'"class="cursor-pointer">
                                                                 <span *ngIf="actLog.customization.action == 'boosted' || actLog.customization.action == 'lowered'" class="boost-font">{{actLog.customization.value}}</span>
-                                                            </div>                                                            
+                                                            </div>
                                                         </div>
                                                         <div class="col-2 text-right time-stamp">{{actLog.customization.lMod}}</div>
                                                     </div>
@@ -221,12 +215,12 @@
                                                     <div class="col-9 info-card" *ngIf ="actLog.target.contentType && actLog.target.contentType == 'task'"> {{actLog.target.contentInfo.shortDesc}} </div>
                                                     <div class="col-3 text-right mt-3" [ngClass] = "{'disableDiv' : permisionView }">
                                                         <button class="kr-sg-button-secondary btn_lg" (click)="removeRecord(actLog)">Remove</button>
-                                                    </div>                                                    
+                                                    </div>
                                                 </div>
                                             </div>
-                                        </div>                                        
+                                        </div>
                                     </div> -->
-                                   
+
                                         <!-- customized ActionLog Data Bindin -->
                                         <div id="accordion" class="accordion-sec"
                                             *ngFor="let actLog of customizedActionLogData ;let i = index">
@@ -253,7 +247,7 @@
 
                                                             <div class="info-data-pinned-or-boostead">
                                                                 <div class="pinned" *ngIf="actLog.action" [ngClass]="{'manual': actLog.addedResult}">
-                                                                    <img src="{{actLog.actionIcon}}" [ngClass]="{'rotateimg180-move-up': actLog.action == 'boosted'}"> 
+                                                                    <img src="{{actLog.actionIcon}}" [ngClass]="{'rotateimg180-move-up': actLog.action == 'boosted'}">
                                                                     <span *ngIf="actLog.action == 'pinned'">{{'resultRanking_PINNED' | translate}}</span>
                                                                     <span *ngIf="actLog.action == 'hidden'">{{'resultRanking_HIDDEN' | translate}}</span>
                                                                     <span *ngIf="actLog.action == 'lowered'">{{actLog.value}}x{{'resultRanking_LOWERED' | translate}}</span>
@@ -346,7 +340,7 @@
                               <div class="ans-info">You can set up a Standing Instruction to debit your Credit Card Payments easily via phone or laptop as per your ...</div>
                             </div>
                           </div>
-                        </div>                       
+                        </div>
                     </div>
                     <div class="row align-items-center justify-content-end ml-0 mr-0 mt-3">
                         <div class="user-name">Emily Wong</div>
@@ -365,7 +359,7 @@
                               <div class="ans-info">You can set up a Standing Instruction to debit your Credit Card Payments easily via phone or laptop as per your ...</div>
                             </div>
                           </div>
-                        </div>                       
+                        </div>
                     </div>
                     <div class="row align-items-center justify-content-end ml-0 mr-0 mt-3">
                         <div class="user-name">Thomas Milner</div>

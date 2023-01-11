@@ -617,35 +617,6 @@ faqData = [
 
    }]
 },
-// {
-//    display:"Actions",
-//    key:"actions",
-//    icon:"",
-//    childData:[
-//     {
-//        ques:"What are bot actions?",
-//        ans:"these are the answer",
-//        link:"https://docs.kore.ai/searchassist/concepts/managing-content/introduction-to-content-sources/"
-//     },
-//     {
-//       ques:"How to integrate a bot to SearchAssist as a content?",
-//       ans:"these are the answer",
-//       link:"https://docs.kore.ai/searchassist/concepts/managing-content/linking-your-virtual-assistant/"
-//    }
-//   ]
-// },
-// {
-//    display:"SmallTalk",
-//    key:"smallTalk",
-//    icon:"",
-//    childData:[{
-//        ques:"What are the Questions?",
-//        ans:"these are the answer",
-//        link:""
-
-//    }]
-// },
-
 {
    display:"Field Management",
    key:"FieldManagementComponent",
@@ -821,7 +792,7 @@ mediaObj:any = {};
       this.tourConfigSubscription = this.appSelectionService.getTourConfigData.subscribe(res => {
       this.tourConfigData = res;
       this.tourData = res.onBoardingChecklist;
-      this.checkList=[{ step: 'Step 1',title:'Add Data',desc:'Data is fetched from various sources and ingested into the application for accurate search results', imgURL:'assets/icons/onboarding/database.svg',route:'/source',tourdata:this.tourData[0].addData, videoUrl:'https://www.w3schools.com/tags/movie.mp4', docUrl:'https://docs.kore.ai/searchassist/concepts/managing-content/introduction-to-content-sources/'},
+      this.checkList=[{ step: 'Step 1',title:'Add Data',desc:'Data is fetched from various sources and ingested into the application for accurate search results', imgURL:'assets/icons/onboarding/database.svg',route:'/sources',tourdata:this.tourData[0].addData, videoUrl:'https://www.w3schools.com/tags/movie.mp4', docUrl:'https://docs.kore.ai/searchassist/concepts/managing-content/introduction-to-content-sources/'},
       { step: 'Step 2',title:'Review Index Configurations',desc:'Index configurations allows you to configure the fields, traits,keywords or create workbench pipelines to suit your business needs.', imgURL: 'assets/icons/onboarding/review-index.svg',route:'/FieldManagementComponent',tourdata:this.tourData[1].indexData, videoUrl:'https://www.w3schools.com/tags/movie.mp4', docUrl:'https://docs.kore.ai/searchassist/concepts/managing-indices/introduction-to-indices/'},
       {step: 'Step 3',title:'Review Search Configurations',desc:'Search Configuration allows you to improve search relevance by configuring  synonyms, weights, stop words, re-ranking results, adding rules or facets.', imgURL: 'assets/icons/onboarding/review-search.svg',route:'/weights',tourdata:this.tourData[2].optimiseSearchResults,  videoUrl:'https://www.w3schools.com/tags/movie.mp4', docUrl:'https://docs.kore.ai/searchassist/concepts/managing-relevance/managing-relevance/'},
       {step: 'Step 4',title:'Design Search Experience',desc:'SearchAssist allows you to customise the Search Experiance and design the Search Interface based on the business context.', imgURL: 'assets/icons/onboarding/search-design.svg',route:'/search-experience',tourdata:this.tourData[3].designSearchExperience,  videoUrl:'https://www.w3schools.com/tags/movie.mp4', docUrl:'https://docs.kore.ai/searchassist/concepts/designing-search-experience/designing-search-experience/'},
@@ -832,7 +803,7 @@ mediaObj:any = {};
       this.trackChecklist();
     })
     window.addEventListener("message", (event) => {
-      this.readEvent(event.data,event.data.action)      
+      this.readEvent(event.data,event.data.action)
    }, false)
   }
   readEvent(data,action){
@@ -840,21 +811,21 @@ mediaObj:any = {};
       this.openMediaModal(data.payload);
     }
   }
- openMediaModal = function(payload) {  
+ openMediaModal = function(payload) {
   // var med =  mediaObj || {};
   // mediaObj = med;
-  // $('#topicGuideVideoModal').modal('show');   
+  // $('#topicGuideVideoModal').modal('show');
   // mediaObj.loadingMedia = true;
   // this.showLoader1 = true;
   // this.topicGuideVideoUrl = this.sanitizer.bypassSecurityTrustResourceUrl(mediaObj.url);
-  // mediaObj.title=this.mediaObj.title   
+  // mediaObj.title=this.mediaObj.title
    this.mediaObj = payload;
    this.mediaObj.title=payload.title;
    this.mediaObj.description=payload.description;
-   $('#topicGuideVideoModal').modal('show');   
+   $('#topicGuideVideoModal').modal('show');
    this.mediaObj.loadingMedia = true;
    this.showLoader1 = true;
-   this.topicGuideVideoUrl = this.sanitizer.bypassSecurityTrustResourceUrl(payload.url); 
+   this.topicGuideVideoUrl = this.sanitizer.bypassSecurityTrustResourceUrl(payload.url);
 };
 
   triggerFaq() {
@@ -872,7 +843,7 @@ mediaObj:any = {};
     // if(index < 0) {
     //   // this.triggerChild()
     //   this.supportParentfaq=true;
-    //   this.closeFaqSearch()    //  
+    //   this.closeFaqSearch()    //
     // } else {
     //   this.faqData.forEach(element => {
     //     if(this.currentRouteData==element.key){
@@ -881,13 +852,13 @@ mediaObj:any = {};
     //   });
     // }
   }
-  showHideSpinner() {  
+  showHideSpinner() {
     setTimeout(() => {
       this.showLoader = false;
       this.showLoader1 = false;
     }, 2500)
 }
-  triggerChild(data) {  
+  triggerChild(data) {
     this.supportParentData = false
     this.supportChildData = data.childData;
     this.breadcrumbName = data.title;
@@ -907,10 +878,7 @@ mediaObj:any = {};
       }
       else{
         this.showLoader = true;
-      } 
-      //this.topicGuideUrl = this.sanitizer.bypassSecurityTrustResourceUrl('https://sunilsi-kore.github.io/koredotai-docs/searchassist/topic-guide/en/latest/summary');
-      // this.topicGuideUrl=this.sanitizer.bypassSecurityTrustResourceUrl('https://koredotcom.github.io/koredotai-docs/platform/topic-guide/en/latest/No Bots Form?rnd=cd1at9')
-      //this.topicGuideUrl=this.sanitizer.bypassSecurityTrustResourceUrl('https://koredotcom.github.io/koredotai-docs/platform/topic-guide/en/latest/Dialog Tasks?rnd=cd1at9')
+      }
       this.topicGuideObj.enableIframe =  true;
       this.topicGuideObj.selectedContent =  topicId;
     } else {
@@ -1016,21 +984,21 @@ closeMediaModal(event){
   this.mediaObj = {};
   //console.log(event);
   $(event.target).closest('.videoContainer').find('iframe').attr("src",$(event.target).closest('.videoContainer').find('iframe').attr("src"));
-  // $('.pause-icon').click(); 
+  // $('.pause-icon').click();
   // $('.rounded-box').click();
-   
-  // $('.play').click();  
+
+  // $('.play').click();
   // $('.rounded-box').ariaLabel = 'Pause'
   // let $frame=$('#topicGuideVideoModal');
   // let vidsrc = $frame.attr('src');
-  // $frame.attr('src','');   
-   
-    
+  // $frame.attr('src','');
+
+
 //   $("#topicGuideVideoModal").on('hide.bs.modal', function (e) {
 //     $("#topicGuideVideoModal iframe").attr("src", $("#topicGuideVideoModal iframe").attr("src"));
 // });
   // $('iframe').attr('src', $('iframe').attr('src'));
-  $('#topicGuideVideoModal').modal('hide');  
+  $('#topicGuideVideoModal').modal('hide');
 };
 
 onMediaLoadedLoaded(){
@@ -1038,24 +1006,6 @@ onMediaLoadedLoaded(){
    this.mediaObj.loadingMedia = false;
  });
 };
-
-  // openAccordiandata(index) {
-  //   $(document).ready(function(){
-  //     $(".data"+index).mouseenter(function(){
-  //        $(".data"+index).trigger( "click" );
-  //        $(".video"+index ).trigger( "play" );
-  //     });
-  // });
-  // }
-
-  // playPause(index) {
-  //   $(document).ready(function(){
-  //     $(".data"+index).mouseleave(function(){
-  //         $(".data"+index).trigger( "click" );
-  //         $(".video"+index ).trigger( "pause" );
-  //     });
-  // });
-  // }
   openAccordianFaq(index) {
     $(document).ready(function(){
       $(".dataFaq"+index).mouseover(function(){
@@ -1090,10 +1040,10 @@ onMediaLoadedLoaded(){
 
   openCheckList(){
     $(".nav-link" ).trigger( "click" );
-  }  
+  }
   openTopicguide(){
     $("#topicguide").trigger("click");
-  } 
+  }
 
 
   openAccordiandata2() {
@@ -1178,7 +1128,7 @@ onMediaLoadedLoaded(){
        this.appVersion= res.APP_VERSION;
      }
     }, errRes => {
-      this.notificationService.notify('Something has gone wrong.', 'error');      
+      //this.notificationService.notify('Something has gone wrong.', 'error');
     });
   }
 

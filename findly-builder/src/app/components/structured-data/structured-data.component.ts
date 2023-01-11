@@ -1199,6 +1199,8 @@ export class StructuredDataComponent implements OnInit {
     ) {
       payload = this.appliedAdvancedSearch;
     }
+    
+   
     this.service
       .invoke('get.searchStructuredData', quaryparms, payload)
       .subscribe(
