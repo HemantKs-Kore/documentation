@@ -337,7 +337,7 @@ export class ListFieldsComponent implements OnInit {
   //** to delete the Field modal pop-up */
   deletefieldsDataPopup(record) {
     let dialogRef
-    if(this.router.url !== "'/search-settings/spell_correction'"){
+    if(this.router.url !== '/search-settings/spell_correction'){
       this.getFieldUsage(record).subscribe(res => {
 
         const usageArr = Object.keys(res).filter(item => {
