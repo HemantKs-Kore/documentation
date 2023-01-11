@@ -287,10 +287,7 @@ export class SpellCorrectionComponent implements OnInit {
   //** to decrement the max typo edits value */
   maxdecrementValue(max_val) {
     this.max_threshold = max_val - 1;
-    if (this.max_threshold < 0) {
-      this.max_threshold = 0;
-    }
-    if (this.max_threshold >= 0) {
+    if (this.max_threshold >= 1) {
       const quaryparms: any = {
         indexPipelineId: this.workflowService.selectedIndexPipeline(),
         queryPipelineId: this.workflowService.selectedQueryPipeline()
@@ -322,7 +319,7 @@ export class SpellCorrectionComponent implements OnInit {
    //** to increment the max typo edits value */
   maxincrementValue(max_val) {
     this.max_threshold = max_val + 1;
-    if (this.max_threshold >= 0) {
+    if (this.max_threshold >= 2) {
       const quaryparms: any = {
         indexPipelineId: this.workflowService.selectedIndexPipeline(),
         queryPipelineId: this.workflowService.selectedQueryPipeline()
@@ -352,10 +349,7 @@ export class SpellCorrectionComponent implements OnInit {
    //** to decrement the minimum character threshold value */
   mindecrementValue(min_val) {
     this.min_threshold = min_val - 1;
-    if (this.min_threshold < 0) {
-      this.min_threshold = 0;
-    }
-    if (this.min_threshold >= 0) {
+    if (this.min_threshold >= 1) {
       const quaryparms: any = {
         indexPipelineId: this.workflowService.selectedIndexPipeline(),
         queryPipelineId: this.workflowService.selectedQueryPipeline()
@@ -387,7 +381,7 @@ export class SpellCorrectionComponent implements OnInit {
   //** to increment the minimum character threshold value */
   minincrementValue(min_val) {
     this.min_threshold = min_val + 1;
-    if (this.min_threshold >= 0) {
+    if (this.min_threshold <= 6) {
       const quaryparms: any = {
         indexPipelineId: this.workflowService.selectedIndexPipeline(),
         queryPipelineId: this.workflowService.selectedQueryPipeline()
