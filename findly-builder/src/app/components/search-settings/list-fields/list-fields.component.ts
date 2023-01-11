@@ -280,7 +280,7 @@ export class ListFieldsComponent implements OnInit {
     if (event.target.checked) {
       fields.isChecked = true;
       this.selectedList.push(fields); // this will hold the slected data for the Instance
-      if(this.route.component['name'] === 'HighlightingComponent'){      
+      if(this.router.url  === '/search-settings/highlighting'){      
         this.getFieldUsage(fields).subscribe(res => {
           if(!res['presentable']) this.selectedFields.push(fields.fieldName);
           if(this.selectedFields?.length){
@@ -337,7 +337,7 @@ export class ListFieldsComponent implements OnInit {
   //** to delete the Field modal pop-up */
   deletefieldsDataPopup(record) {
     let dialogRef
-    if(this.route.component['name'] !== "SpellCorrectionComponent"){
+    if(this.router.url !== "'/search-settings/spell_correction'"){
       this.getFieldUsage(record).subscribe(res => {
 
         const usageArr = Object.keys(res).filter(item => {
