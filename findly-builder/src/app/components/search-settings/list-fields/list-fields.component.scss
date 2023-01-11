@@ -218,7 +218,7 @@
                             }
                             .table_body_content{
                             // height: calc(100vh - 350px);
-                             height: calc(100vh - 420px);
+                             height: calc(100vh - 430px);
                                 .table_body{
                                     height: auto;
                                     padding: 10px 0px;
@@ -340,6 +340,7 @@
     &.kr-protip-basic{
         background: #FEF8E6;
         padding: 10px 10px;
+        margin: 10px 20px 10px 20px !important;
         .tost-text{
             color: #614902;
             font-size: 12px;
