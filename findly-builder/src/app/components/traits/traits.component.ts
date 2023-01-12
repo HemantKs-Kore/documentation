@@ -1,3 +1,4 @@
+import { EMPTY_SCREEN } from 'src/app/modules/empty-screen/empty-screen.constants';
 import { Component, OnInit, ViewChild, ViewEncapsulation, OnDestroy } from '@angular/core';
 import { KRModalComponent } from 'src/app/shared/kr-modal/kr-modal.component';
 import { MatDialog } from '@angular/material/dialog';
@@ -22,6 +23,7 @@ declare const $: any;
   encapsulation: ViewEncapsulation.None
 })
 export class TraitsComponent implements OnInit {
+  emptyScreen = EMPTY_SCREEN.INDICES_TRAITS;
   @ViewChild('statusModalPop') statusModalPop: KRModalComponent;
   @ViewChild('addUtteranceModalPop') addUtteranceModalPop: KRModalComponent;
   @ViewChild('perfectScroll') perfectScroll: PerfectScrollbarComponent;
@@ -121,7 +123,7 @@ export class TraitsComponent implements OnInit {
   }
   loadingTraits1: boolean;
   loadImageText: boolean = false;
-  imageLoad() {
+  isEmptyScreenLoading() {
     this.loadingTraits = false;
     this.loadingTraits1 = true;
     this.loadImageText = true;

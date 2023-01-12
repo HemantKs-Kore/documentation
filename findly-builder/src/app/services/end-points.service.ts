@@ -161,7 +161,7 @@ export class EndPointsService {
     //
     this.serviceList['add.sourceMaterial'] = {
       //endpoint:this.API_SERVER_URL + '/findly/:searchIndexId/extract?extractionType=:resourceType',
-      //endpoint:this.API_SERVER_URL + '/findly/:searchIndexId/:type/source',
+      //endpoint:this.API_SERVER_URL + '/findly/:searchIndexId/:type/sources',
       endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/extract?extractionType=:resourceType',
       method: 'post'
     };
@@ -899,7 +899,7 @@ export class EndPointsService {
     }
     this.serviceList['put.dockStatus'] = {
       /**updated below endpoint as per new contract for put.docstatus & execution histroy on 10/03 */
-      // endpoint: this.API_SERVER_URL + '/builder/streams/:streamId/dockStatus/:dockId',      
+      // endpoint: this.API_SERVER_URL + '/builder/streams/:streamId/dockStatus/:dockId',
       endpoint: this.API_SERVER_URL + '/findly/:sidx/jobs/:jobId',
       method: 'put'
     }
@@ -1009,11 +1009,11 @@ export class EndPointsService {
     }
     //  this.serviceList['export.dockstatus'] = {
     //   endpoint: this.API_SERVER_URL + '/findly/streams/:streamId/dockStatus/:notificationsId',
-    //   method: 'post'      
+    //   method: 'post'
     //  }
     //  this.serviceList['export.url'] = {
     //   endpoint: this.API_SERVER_URL + '/attachment/file/:fileId/url',
-    //   method: 'get'      
+    //   method: 'get'
     //  }
 
     /** APIs for Search Interface Old API*/
@@ -1295,5 +1295,178 @@ export class EndPointsService {
       endpoint: this.API_SERVER_URL + '/findly/:searchIndexId/structuredData/export',
       method: 'post'
     }
-  }
+    //get all list of field properties
+    this.serviceList['get.allsearchFields'] = {
+      endpoint: this.API_SERVER_URL + '/findly/stream/:streamId/indexPipeline/:indexPipelineId/queryPipeline/:queryPipelineId/fields?search=:search&sortBy=:sortBy&orderBy=:orderBy&page=:page&limit=:limit',
+      method: 'get'
+    }
+
+    //edit field properties
+    this.serviceList['put.updatesearchFieldsProperties'] = {
+      endpoint: this.API_SERVER_URL + '/findly/stream/:streamId/indexPipeline/:indexPipelineId/queryPipeline/:queryPipelineId/field/:fieldId',
+      method: 'put'
+    }
+    this.serviceList['put.indexLanguages'] = {
+      endpoint: this.API_SERVER_URL + '/findly/:streamId/indexPipeline/:indexPipelineId/settings',
+      method: 'put'
+    }
+    //get presentable list elements
+    this.serviceList['get.presentableFields'] = {
+      // endpoint: this.API_SERVER_URL +'/findly/stream/:streamId/indexPipeline/:indexPipelineId/queryPipeline/:queryPipelineId/presentable?page=:page&limit=:limit&isSelected=:isSelected&orderBy=:orderType&sortBy=:sortField&isSearchable=:isSearchable&search=:searchKey',
+      endpoint: this.API_SERVER_URL +'/findly/stream/:streamId/indexPipeline/:indexPipelineId/queryPipeline/:queryPipelineId/presentable?isSelected=:isSelected&orderBy=:orderType&sortBy=:sortField&search=:searchKey',
+      method: 'get'
+    }
+    //add presentable elements
+    this.serviceList['add.presentableFields'] = {
+      endpoint: this.API_SERVER_URL +'/findly/stream/:streamId/indexPipeline/:indexPipelineId/queryPipeline/:queryPipelineId/presentable',
+      method: 'put'
+    }
+    //delete Presentable elements
+    this.serviceList['delete.presentableFields'] = {
+      endpoint: this.API_SERVER_URL +'/findly/stream/:streamId/indexPipeline/:indexPipelineId/queryPipeline/:queryPipelineId/presentable/field/:fieldId',
+      method: 'delete'
+    }
+
+    //* Highlight API's */
+
+    //get highlight list elements
+    this.serviceList['get.highlightFields'] = {
+      // endpoint: this.API_SERVER_URL +'/findly/stream/:streamId/indexPipeline/:indexPipelineId/queryPipeline/:queryPipelineId/highlights?page=:page&limit=:limit&isSelected=:isSelected&orderBy=:orderType&sortBy=:sortField&isSearchable=:isSearchable&search=:searchKey',
+      endpoint: this.API_SERVER_URL +'/findly/stream/:streamId/indexPipeline/:indexPipelineId/queryPipeline/:queryPipelineId/highlights?isSelected=:isSelected&orderBy=:orderType&sortBy=:sortField&search=:searchKey',
+      method: 'get'
+    }
+
+    //Add Highlight Fields
+    this.serviceList['add.highlightFields'] = {
+      endpoint: this.API_SERVER_URL +'/findly/stream/:streamId/indexPipeline/:indexPipelineId/queryPipeline/:queryPipelineId/highlights',
+      method: 'put'
+    }
+
+    //delete Highlight Fields
+    this.serviceList['delete.highlightFields'] = {
+      endpoint: this.API_SERVER_URL +'/findly/stream/:streamId/indexPipeline/:indexPipelineId/queryPipeline/:queryPipelineId/highlights/field/:fieldId',
+      method: 'delete'
+    }
+
+    //**Spellcorrect API's */
+
+    //get spellcorrect list elements
+    this.serviceList['get.spellcorrectFields'] = {
+      // endpoint: this.API_SERVER_URL +'/findly/stream/:streamId/indexPipeline/:indexPipelineId/queryPipeline/:queryPipelineId/spell-correct?page=:page&limit=:limit&isSelected=:isSelected&orderBy=:orderType&sortBy=:sortField&isSearchable=:isSearchable&search=:searchKey',
+      endpoint: this.API_SERVER_URL +'/findly/stream/:streamId/indexPipeline/:indexPipelineId/queryPipeline/:queryPipelineId/spell-correct?isSelected=:isSelected&orderBy=:orderType&sortBy=:sortField&search=:searchKey',
+      method: 'get'
+    }
+
+    //add spell-correct Fields
+    this.serviceList['add.spellcorrectFields'] = {
+      endpoint: this.API_SERVER_URL +'/findly/stream/:streamId/indexPipeline/:indexPipelineId/queryPipeline/:queryPipelineId/spell-correct',
+      method: 'put'
+    }
+
+     //delete Spell_correct Fields
+    this.serviceList['delete.spellcorrectFields'] = {
+      endpoint: this.API_SERVER_URL +'/findly/stream/:streamId/indexPipeline/:indexPipelineId/queryPipeline/:queryPipelineId/spell-correct/field/:fieldId',
+      method: 'delete'
+    }
+    //Apis for Index settings module
+
+    //Api request for seedDAta of Languages Available
+    this.serviceList['get.indexAvailableLanguages'] = {
+      endpoint:  this.API_SERVER_URL +'/findly/seed_data?languages=true',
+      method: 'get'
+    }
+    this.serviceList['put.indexLanguages'] = {
+      endpoint:  this.API_SERVER_URL +'/findly/stream/:streamId/indexPipeline/:indexPipelineId/settings',
+      method: 'put'
+    }
+
+    //Apis for Index settings module ends
+
+    //Apis for Weights module starts
+
+    //API request for getting List of Weights
+    this.serviceList['get.weightsList'] = {
+      // endpoint: this.API_SERVER_URL +'/findly/stream/:streamId/indexPipeline/:indexPipelineId/queryPipeline/:queryPipelineId/weights?page=:pageNo&limit=:noOfRecords&isSelected=:isSelected',
+      endpoint: this.API_SERVER_URL +'/findly/stream/:streamId/indexPipeline/:indexPipelineId/queryPipeline/:queryPipelineId/weights?isSelected=:isSelected&orderBy=:orderType&sortBy=:sortField',
+      method: 'get'
+    }
+    this.serviceList['get.sortWeightsList'] = {
+      // endpoint: this.API_SERVER_URL +'/findly/stream/:streamId/indexPipeline/:indexPipelineId/queryPipeline/:queryPipelineId/weights?page=:pageNo&limit=:noOfRecords&isSelected=:isSelected',
+      endpoint: this.API_SERVER_URL +'/findly/stream/:streamId/indexPipeline/:indexPipelineId/queryPipeline/:queryPipelineId/weights?isSelected=:isSelected&orderBy=:orderBy&sortBy=:sortBy',
+      method: 'get'
+    }
+     //API request for getting List of Searchable fields
+    this.serviceList['get.fieldsList'] = {
+      endpoint: this.API_SERVER_URL +'/findly/stream/:streamId/indexPipeline/:indexPipelineId/queryPipeline/:queryPipelineId/weights?isSelected=:isSelected&isSearchable=:isSearchable',
+      method: 'get'
+    }
+    //API request for updating  Weight
+    this.serviceList['put.updateWeight'] = {
+      endpoint: this.API_SERVER_URL +'/findly/stream/:streamId/indexPipeline/:indexPipelineId/queryPipeline/:queryPipelineId/weights/field/:fieldId',
+      method: 'put'
+    }
+    //API request for delete  Weight
+    this.serviceList['delete.Weight'] = {
+      endpoint: this.API_SERVER_URL +'/findly/stream/:streamId/indexPipeline/:indexPipelineId/queryPipeline/:queryPipelineId/weights/field/:fieldId',
+      method: 'delete'
+    }
+    // API Reset Weights List
+    this.serviceList['put.restoreWeights'] = {
+      // endpoint: this.API_SERVER_URL + '/findly/:searchIndexID/queryPipeline/:queryPipelineId/setDefaults?stage=weights',
+      endpoint: this.API_SERVER_URL + '/findly/stream/:streamId/indexPipeline/:indexPipelineId/queryPipeline/:queryPipelineId/weights/setDefault',
+      method: 'put'
+    }
+    ////Apis for Weights module  ends
+
+    //Apis for Stop Words module starts
+    // Api for default stop wrods
+    this.serviceList['get.defaultStopWords'] = {
+      endpoint:  this.API_SERVER_URL +'/findly/seed_data?stopwords=true',
+      method: 'get'
+    }
+    //Api for getting stopwords List
+    this.serviceList['get.stopWordsList'] = {
+      endpoint: this.API_SERVER_URL +'/findly/stream/:streamId/indexPipeline/:indexPipelineId/queryPipeline/:queryPipelineId/stopwords?languageCode=:code',
+      method: 'get'
+    }
+    //Api for Adding or Editing stopwords List
+    this.serviceList['put.createStopWords'] = {
+      endpoint: this.API_SERVER_URL +'/findly/stream/:streamId/indexPipeline/:indexPipelineId/queryPipeline/:queryPipelineId/stopwords',
+      method: 'put'
+    }
+    //Api for deleteing stopwords List
+    this.serviceList['delete.deleteStopWords'] = {
+      endpoint: this.API_SERVER_URL +'/findly/stream/:streamId/indexPipeline/:indexPipelineId/queryPipeline/:queryPipelineId/stopwords',
+      method: 'delete'
+    }
+
+    //Apis for Stop Words module ends
+
+    //Api for getting synonyms List
+    this.serviceList['get.synonyms'] = {
+      endpoint: this.API_SERVER_URL +'/findly/stream/:streamId/indexPipeline/:indexPipelineId/queryPipeline/:queryPipelineId/synonyms?languageCode=:code&orderBy=:orderType&sortBy=:sortField&type=:synonymType&search=:searchKey',
+      method: 'get'
+    }
+    //Apis for Synonyms module starts
+    this.serviceList['put.addSynonym'] = {
+      endpoint: this.API_SERVER_URL +'/findly/stream/:streamId/indexPipeline/:indexPipelineId/queryPipeline/:queryPipelineId/synonyms',
+      method: 'put'
+    }
+    this.serviceList['put.EditSynonym'] = {
+      endpoint: this.API_SERVER_URL +'/findly/stream/:streamId/indexPipeline/:indexPipelineId/queryPipeline/:queryPipelineId/synonyms/:synonymId',
+      method: 'put'
+    }
+    this.serviceList['delete.synonymn'] = {
+      endpoint: this.API_SERVER_URL +'/findly/stream/:streamId/indexPipeline/:indexPipelineId/queryPipeline/:queryPipelineId/synonyms/:synonymId',
+      method: 'delete'
+    }
+
+    //Apis for Synonyms module ends
+
+    //Search Settings Usage API for presenatble,highlight,spellcorrect
+    this.serviceList['get.searchSettingsUsage'] = {                                                                                                 
+      endpoint: this.API_SERVER_URL +'/findly/stream/:streamId/indexPipeline/:indexPipelineId/queryPipeline/:queryPipelineId/searchField/:fieldId/usage',
+      method: 'get'
+    }
+ }
 }

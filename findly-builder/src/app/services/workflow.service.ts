@@ -22,9 +22,15 @@ export class WorkflowService {
   topDownOrBottomUp='';
   selectedJob_id =''
   enableDisableSt;
+  supportedLanguages;
   constructor(
   ) { }
-
+  getSettings(data?){
+   if(data){
+     this.supportedLanguages = data.language
+   }
+   return  this.supportedLanguages;
+  }
   selectedJobId(id?){
     if (id) {
       this.selectedJob_id = id;

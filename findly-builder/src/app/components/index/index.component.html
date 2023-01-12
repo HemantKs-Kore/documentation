@@ -8,7 +8,7 @@
   <div class="header_sec">
     <!-- <div class="title">Index Configuration</div> -->
     <div class="title">{{'workbench_workbench' | translate}}
-      <span class="module-topic" tooltipClass="tooltip-global-" [container]="'body'" ngbTooltip="{{'sa_topic_guide' | translate}}" 
+      <span class="module-topic" tooltipClass="tooltip-global-" [container]="'body'" ngbTooltip="{{'sa_topic_guide' | translate}}"
  placement="right-center"(click)="openUserMetaTagsSlider()">
         <i class="si-topic-guide-1"></i>
       </span>
@@ -57,7 +57,7 @@
               <div class="title text-truncate">{{'workbench_choose_stage_type' | translate}}</div>
               <div class="close_icon" (click)="closeNewStage()">
                 <img src="assets/icons/close_field.svg" />
-              </div>              
+              </div>
             </div>
           </div>
         </ng-container>
@@ -89,7 +89,9 @@
               <div class="stateIcon" *ngIf="!pipe?.enable">
                 <img src="assets/images/inActiveStage.svg" />
               </div>
-              <div class="title text-truncate" [title]="pipe?.name">{{ pipe?.name || '&nbsp;'}}  <div class="beta-tag" *ngIf="pipe.type==='snippet_extraction'">{{'workbench_beta' | translate}}</div></div>
+              <div class="title text-truncate" [title]="pipe?.name">{{ pipe?.name || '&nbsp;'}}  
+                <!-- <div class="beta-tag" *ngIf="pipe.type==='snippet_extraction'">{{'workbench_beta' | translate}}</div> -->
+              </div>
               <div class="close_icon" (click)="removeStage(i,pipe?.name)">
                 <img src="assets/icons/close_field.svg" />
               </div>
@@ -99,12 +101,15 @@
       </perfect-scrollbar>
     </div>
     <div class="table_sec" *ngIf="!(selectedStage && selectedStage.type) && !showNewStageType">
-      <div class="empty-list">
-        <ng-container>
-          <img src="assets/images/icons/empty_ill.svg" />
-          <div class="desc">{{'workbench_no_stages_available' | translate}}</div>
-        </ng-container>
-      </div>
+      <app-empty-screen class="empty-lg" [title]="emptyScreen.TITLE" [desc]="emptyScreen.DESC"
+        [width]="204" [height]="74" [imgName]="emptyScreen.IMG_NAME">
+        <div class="action-buttons">
+          <button class="kr-sg-button-primary btn_lg mr-2" (click)="showNewStageType=true;selectedStage={};setResetNewMappingsObj()">
+            <i class="si-add-plus"></i>
+            Add Stage
+          </button>
+        </div>
+      </app-empty-screen>
     </div>
     <div class="form_sec" *ngIf="showNewStageType">
       <perfect-scrollbar class="scroll_form">
@@ -130,7 +135,9 @@
                     " (click)="switchStage(systemStage, index,'true')">
                     <a *ngIf="newMappingObj[systemStage.type]">{{
                       systemStage?.type | translate
-                      }} <span class="beta-tag" *ngIf="systemStage.type==='snippet_extraction'">{{'workbench_beta' | translate}}</span></a>
+                      }} 
+                      <!-- <span class="beta-tag" *ngIf="systemStage.type==='snippet_extraction'">{{'workbench_beta' | translate}}</span> -->
+                    </a>
                   </li>
                 </ul>
               </div>
@@ -358,7 +365,7 @@
             <div class="add-condition-btn">
               <img src="assets/icons/Workbench/add-blue.svg" class="blue-add">
               <img src="assets/icons/Workbench/add-grey.svg" class="grey-add">
-              {{'workbench_condition' | translate}} 
+              {{'workbench_condition' | translate}}
             </div>
           </div>
 
@@ -1387,10 +1394,12 @@
                 </div>
               </div>
               <div class="col">{{'workbench_type' | translate}}</div>
-              <div class="col text-center">{{'workbench_multi_value' | translate}}</div>
+              <div class="col text-center">{{'fields_searchable' | translate}}</div>
+              <div class="col text-center">{{'fields_auto_suggest' | translate}}</div>
+              <!-- <div class="col text-center">{{'workbench_multi_value' | translate}}</div>
               <div class="col text-center">{{'workbench_required' | translate}}</div>
               <div class="col text-center">{{'workbench_stored' | translate}}</div>
-              <div class="col text-center">{{'workbench_indexed' | translate}}</div>
+              <div class="col text-center">{{'workbench_indexed' | translate}}</div> -->
             </header>
             <div class="content-body" *ngFor="let field of newfieldsData; let i = index">
               <div class="col">
@@ -1401,23 +1410,23 @@
                 </div>
               </div>
               <div class="col">{{ field.fieldDataType | translate }}</div>
-              <div class="col text-center">
+              <!-- <div class="col text-center">
                 <div class="kr-sg-checkbox">
                   <input id="fieldMultiValue{{ i }}" class="checkbox-custom" [(ngModel)]="field.isMultiValued"
                     [disabled]="!field.isActive" type="checkbox" />
                   <label for="fieldMultiValue{{ i }}" class="checkbox-custom-label"
                     [ngClass]="{'gray-checkbox':!field.isActive}"></label>
                 </div>
-              </div>
-              <div class="col text-center">
+              </div> -->
+              <!-- <div class="col text-center">
                 <div class="kr-sg-checkbox">
                   <input id="field.isRequired{{ i }}" class="checkbox-custom" [(ngModel)]="field.isRequired"
                     [disabled]="!field.isActive" type="checkbox" />
                   <label for="field.isRequired{{ i }}" class="checkbox-custom-label"
                     [ngClass]="{'gray-checkbox':!field.isActive}"></label>
                 </div>
-              </div>
-              <div class="col text-center">
+              </div> -->
+              <!-- <div class="col text-center">
                 <div class="kr-sg-checkbox">
                   <input id="field.isStored{{ i }}" class="checkbox-custom" [(ngModel)]="field.isStored"
                     [disabled]="!field.isActive"
@@ -1425,13 +1434,29 @@
                   <label for="field.isStored{{ i }}" class="checkbox-custom-label"
                     [ngClass]="{'gray-checkbox':!field.isActive}"></label>
                 </div>
-              </div>
-              <div class="col text-center">
+              </div> -->
+              <!-- <div class="col text-center">
                 <div class="kr-sg-checkbox">
                   <input id="field.isIndexed{{ i }}" class="checkbox-custom"
                     (change)='(field.isIndexed)?field.isStored = true:false' [(ngModel)]="field.isIndexed"
                     [disabled]="!field.isActive" type="checkbox" />
                   <label for="field.isIndexed{{ i }}" class="checkbox-custom-label"
+                    [ngClass]="{'gray-checkbox':!field.isActive}"></label>
+                </div>
+              </div> -->
+              <div class="col text-center">
+                <div class="kr-sg-checkbox">
+                  <input id="searchable{{ i }}" class="checkbox-custom" [(ngModel)]="field.isSearchable"
+                    [disabled]="!field.isActive" type="checkbox" />
+                  <label for="searchable{{ i }}" class="checkbox-custom-label"
+                    [ngClass]="{'gray-checkbox':!field.isActive}"></label>
+                </div>
+              </div>
+              <div class="col text-center">
+                <div class="kr-sg-checkbox">
+                  <input id="autosuggest{{ i }}" class="checkbox-custom" [(ngModel)]="field.isAutosuggest"
+                    [disabled]="!field.isActive" type="checkbox" />
+                  <label for="autosuggest{{ i }}" class="checkbox-custom-label"
                     [ngClass]="{'gray-checkbox':!field.isActive}"></label>
                 </div>
               </div>

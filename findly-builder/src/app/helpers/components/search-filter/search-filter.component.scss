@@ -1,0 +1,21 @@
+.pt-search{
+    .kr-sg-input-inline-search{
+        .input-search{
+            padding-left: 30px;
+            height: 34px;
+            border-radius: 4px;
+            border: solid 1px #BDC1C6;
+            background-color: #ffffff;
+            color: #202124;
+            font-size: 14px;
+        }
+        .search-icon{
+            font-size: 14px;
+            color: #BDC1C6;
+            &.close-icon{
+                font-size: 10px;
+                color: #BDC1C6;
+            }
+        }
+    }
+}
