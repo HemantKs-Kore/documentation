@@ -100,7 +100,7 @@ export class AppMenuComponent implements OnInit, OnDestroy {
       title: selection,
     };
     this.headerService.toggle(toogleObj);
-    if (selection == 'weights' || selection == 'synonyms' || selection == 'stopWords' || selection == 'resultranking') {
+    if (selection == 'weights' || selection == 'synonyms' || selection == 'stopWords' || selection == 'resultranking' || selection == 'search-field-properties') {
       this.appSelectionService.updateTourConfig('configure');
     }
     if (selection == 'fields' || selection == 'traits' || selection == 'workbench') {

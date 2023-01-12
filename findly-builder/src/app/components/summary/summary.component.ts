@@ -148,7 +148,7 @@ export class SummaryComponent implements OnInit, AfterViewInit, OnDestroy {
   }
   ngAfterViewInit() {
     if (!this.inlineManual?.checkVisibility('APP_WALKTHROUGH')) {
-      // this.onboard.openOnBoardingModal(); //commenting this since we have new check list 
+      // this.onboard.openOnBoardingModal(); //commenting this since we have new check list
     }
     setTimeout(() => {
       if (!this.inlineManual?.checkVisibility('APP_WALKTHROUGH')) {
@@ -344,7 +344,7 @@ export class SummaryComponent implements OnInit, AfterViewInit, OnDestroy {
     $('#dashboardTab').trigger('click')
   }
   openSource() {
-    this.appSelectionService.routeChanged.next({ name: 'pathchanged', path: '/source' });
+    this.appSelectionService.routeChanged.next({ name: 'pathchanged', path: '/sources' });
   }
   redirectToPricing() {
     this.appSelectionService.routeChanged.next({ name: 'pathchanged', path: '/pricing' });

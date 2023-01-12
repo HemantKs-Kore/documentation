@@ -73,6 +73,21 @@
             }
         }
 
+        &.addLanguageModal {
+            .modal-dialog {
+                max-width: 28% !important;
+                // height: 85%;
+                height: calc(100vh - 120px);
+            }
+        }
+
+        &.highlightAppearanceModal{
+            .modal-dialog {
+                max-width: 470px !important;
+                height: auto;
+            }
+        }
+
         .modal-dialog {
             max-width: 80% !important;
             margin: 0 !important;

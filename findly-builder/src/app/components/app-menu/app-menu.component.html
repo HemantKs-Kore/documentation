@@ -48,7 +48,7 @@
 			</div>
 		</div>
 	</ng-container>
-	
+
 	<perfect-scrollbar class="perfect-scroll">
 		<div class="list-group list-group-flush" *ngIf="!settingMainMenu && !sourceMenu">
 			<div class="default-index-title">
@@ -123,7 +123,7 @@
 						<img src="assets/icons/sidemenu/new-icons/fields.svg" class="defaultIcon">
 						<img src="assets/icons/sidemenu/new-icons/fields-active.svg" class="activeIcon">
 					</span>
-					<span class="linkTitle">{{'app_menu_fields' | translate}}</span>
+					<span class="linkTitle">Index Fields</span>
 				</div>
 
 				<div mat-button class="mat-button" [routerLink]="['/traits']" skipLocationChange
@@ -143,6 +143,17 @@
 					</span>
 					<span class="linkTitle">{{'app_menu_Workbench' | translate}}</span>
 				</div>
+
+				<div mat-button class="mat-button" [routerLink]="['/index-configuration-settings']" skipLocationChange
+					routerLinkActive="active" (click)="preview('indexconfigsettings')" mat-button>
+					<span class="inlineIconBox">
+						<img src="assets/icons/sidemenu/new-icons/Settings.svg" class="defaultIcon">
+					    <img src="assets/icons/sidemenu/new-icons/Settings-active.svg" class="activeIcon">
+						<!-- <i class="si-settings defaultIcon"></i>
+						<i class="si-settings activeIcon"></i> -->
+					</span>
+					<span class="linkTitle">Index Settings</span>
+			    </div>
 			</div>
 
 			<div class="search-config-nav-block mb-2">
@@ -210,34 +221,15 @@
 						</div>
 					</div>
 				</div>
-
-				<div mat-button class="mat-button" [routerLink]="['/weights']" skipLocationChange
-					routerLinkActive="active" (click)="preview('weights')" mat-button>
+				<div mat-button class="mat-button" [routerLink]="['/search-settings']" skipLocationChange
+					routerLinkActive="active" mat-button>
 					<span class="inlineIconBox leftAdjust">
-						<img src="assets/icons/sidemenu/new-icons/weights.svg" class="defaultIcon">
-						<img src="assets/icons/sidemenu/new-icons/weights-active.svg" class="activeIcon">
+						<img src="assets/icons/sidemenu/new-icons/Settings.svg" class="defaultIcon">
+					    <img src="assets/icons/sidemenu/new-icons/Settings-active.svg" class="activeIcon">
 					</span>
-					<span class="linkTitle">{{'app_menu_Weights' | translate}}</span>
+					<span class="linkTitle">{{"search_settings_title" |translate}}</span>
+					<span class="linkTitle d-none">{{'app_menu_Weights' | translate}}</span>
 				</div>
-
-				<div mat-button class="mat-button" [routerLink]="['/synonyms']" skipLocationChange
-					routerLinkActive="active" (click)="preview('synonyms')" mat-button>
-					<span class="inlineIconBox">
-						<img src="assets/icons/sidemenu/new-icons/synonyms.svg" class="defaultIcon">
-						<img src="assets/icons/sidemenu/new-icons/synonyms-active.svg" class="activeIcon">
-					</span>
-					<span class="linkTitle">{{'app_menu_Synonyms' | translate}} </span>
-				</div>
-
-				<div mat-button class="mat-button" [routerLink]="['/stopWords']" skipLocationChange
-					routerLinkActive="active" (click)="preview('stopWords')" mat-button>
-					<span class="inlineIconBox leftAdjust">
-						<img src="assets/icons/sidemenu/new-icons/stop-words.svg" class="defaultIcon">
-						<img src="assets/icons/sidemenu/new-icons/stop-words-active.svg" class="activeIcon">
-					</span>
-					<span class="linkTitle">{{'app_menu_Stop_Words' | translate}} </span>
-				</div>
-
 				<div mat-button class="mat-button" [routerLink]="['/resultranking']" skipLocationChange
 					routerLinkActive="active" (click)="preview('resultranking')" mat-button>
 					<span class="inlineIconBox leftAdjust">
@@ -296,7 +288,7 @@
 			<div class="sources-block-nav-items">
 				<div class="link-side-menu add-sources-btn pr-2">
 					<div class="source_title">{{'app_menu_sources' | translate}}</div>
-					<div class="add-sources" [routerLink]="['/source']" skipLocationChange routerLinkActive="active"
+					<div class="add-sources" [routerLink]="['/sources']" skipLocationChange routerLinkActive="active"
 						(click)="preview('Source')">
 						<img src="assets/icons/sidemenu/new-icons/add-source.svg">
 					</div>
@@ -317,7 +309,7 @@
 						<img src="assets/icons/sidemenu/new-icons/faq.svg" class="defaultIcon">
 						<img src="assets/icons/sidemenu/new-icons/faq-active.svg" class="activeIcon">
 					</span>
-					<span class="linkTitle">{{'app_menu_FAQs' | translate}}</span> 
+					<span class="linkTitle">{{'app_menu_FAQs' | translate}}</span>
 				</div>
 
 				<div mat-button class="mat-button" id="botActionsTab" [routerLink]="['/botActions']" skipLocationChange
@@ -407,8 +399,8 @@
 							<img src="assets/icons/sidemenu/new-icons/invoice-active.svg" class="activeIcon">
 						</span>
 						<span class="linkTitle">Orders & Invoices</span>
-					</div> 
-				</div>				
+					</div>
+				</div>
 		</div>
 	</perfect-scrollbar>
 </div>
