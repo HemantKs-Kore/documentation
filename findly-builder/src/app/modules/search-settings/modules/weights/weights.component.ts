@@ -84,7 +84,12 @@ export class WeightsComponent implements OnInit, OnDestroy
   {
     this.selectedApp = this.workflowService.selectedApp();
     this.serachIndexId = this.selectedApp.searchIndexes[0]._id;
+    this.indexPipelineId = this.workflowService.selectedIndexPipeline();
+    this.queryPipelineId = this.workflowService.selectedQueryPipeline() ? this.workflowService.selectedQueryPipeline()._id : '';
+
     this.loadWeights();
+
+
     // this.subscription = this.appSelectionService.queryConfigs.subscribe(res =>
     // {
     //   this.loadWeights();

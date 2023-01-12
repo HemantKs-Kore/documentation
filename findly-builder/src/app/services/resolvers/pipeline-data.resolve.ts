@@ -53,6 +53,10 @@ export class PipelineResolver implements Resolve<any> {
       searchIndexID: this.workflowService.selectedApp()?.searchIndexes[0]?._id,
     };
 
-    return this.service.invoke(value, quaryparms);
+    if (quaryparms.queryPipelineId) {
+      return this.service.invoke(value, quaryparms);
+    } else {
+      return of(null);
+    }
   }
 }
