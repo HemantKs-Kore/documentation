@@ -1,3 +1,4 @@
+import { globalProviders } from './services/inteceptors/index';
 import { PricingModule } from './components/pricing/pricing.module';
 import { IndexModule } from './components/index/index.module';
 import { BusinessRulesModule } from './components/business-rules/business-rules.module';
