@@ -15,6 +15,7 @@ import { InlineManualService } from '@kore.services/inline-manual.service';
 import { MixpanelServiceService } from '@kore.services/mixpanel-service.service';
 import { FindlySharedModule } from 'src/app/modules/findly-shared/findly-shared.module';
 import { RangeSlider } from 'src/app/helpers/models/range-slider.model';
+import { ActivatedRoute } from '@angular/router';
 declare const $: any;
 @Component({
   selector: 'app-weights',
@@ -66,7 +67,8 @@ export class WeightsComponent implements OnInit, OnDestroy
     private notificationService: NotificationService,
     private appSelectionService: AppSelectionService,
     public inlineManual: InlineManualService,
-    public mixpanel: MixpanelServiceService
+    public mixpanel: MixpanelServiceService,
+    private route: ActivatedRoute
   ) { }
   selectedApp: any = {};
   serachIndexId;
@@ -83,24 +85,30 @@ export class WeightsComponent implements OnInit, OnDestroy
     this.selectedApp = this.workflowService.selectedApp();
     this.serachIndexId = this.selectedApp.searchIndexes[0]._id;
     this.loadWeights();
-    this.subscription = this.appSelectionService.queryConfigs.subscribe(res =>
-    {
-      this.loadWeights();
-    })
+    // this.subscription = this.appSelectionService.queryConfigs.subscribe(res =>
+    // {
+    //   this.loadWeights();
+    // })
   }
-  loadWeights()
-  {
-    this.indexPipelineId = this.workflowService.selectedIndexPipeline();
-    if (this.indexPipelineId)
-    {
-      this.queryPipelineId = this.workflowService.selectedQueryPipeline() ? this.workflowService.selectedQueryPipeline()._id : this.selectedApp.searchIndexes[0].queryPipelineId;
-      if (this.queryPipelineId)
-      {
-        this.getWeights();
-      }
-    }
 
+  displayFields(isSelected = false, data = []) {
+    this.weights = data;
+    this.prepereWeights();
+    if (!this.inlineManual.checkVisibility('WEIGHTS')) {
+      this.inlineManual.openHelp('WEIGHTS')
+      this.inlineManual.visited('WEIGHTS')
+    }
   }
+
+  loadWeights() {
+    const res = this.route.snapshot.data.weights;
+    if (res.error) {
+      this.displayError(res);
+    } else {
+      this.displayFields(true, res.data);
+    }
+  }
+
   selectedField(event) {
     this.addEditWeighObj.fieldName = event.fieldName;
     this.addEditWeighObj.fieldId = event._id;
@@ -175,6 +183,12 @@ export class WeightsComponent implements OnInit, OnDestroy
         }
       })
   }
+
+  displayError(errRes) {
+    this.loadingContent = false;
+    this.errorToaster(errRes, 'Failed to get weights');
+  }
+
   getWeights(){
     const quaryparms: any = {
       streamId: this.selectedApp._id,
@@ -183,23 +197,19 @@ export class WeightsComponent implements OnInit, OnDestroy
       sortField:this.selectedSort?this.selectedSort:'filedName',
       orderType:this.checksort?this.checksort:'asc',
       // pageNo: 1,
-      // pageNo: this.pageNumber, 
+      // pageNo: this.pageNumber,
       // noOfRecords: 10,
       // noOfRecords: this.numberofweigths,
       isSelected : true
     };
     this.service.invoke('get.weightsList', quaryparms).subscribe(res =>
     {
-      this.weights = res.data || [];
-      this.prepereWeights();
-      if (!this.inlineManual.checkVisibility('WEIGHTS')) {
-        this.inlineManual.openHelp('WEIGHTS')
-        this.inlineManual.visited('WEIGHTS')
-      }
+
+      this.displayFields(true, res.data);
+
     }, errRes =>
     {
-      this.loadingContent = false;
-      this.errorToaster(errRes, 'Failed to get weights');
+      this.displayError(errRes);
     });
   }
   valueEvent(val, weight,index){
@@ -217,7 +227,7 @@ export class WeightsComponent implements OnInit, OnDestroy
       streamId: this.selectedApp._id,
       queryPipelineId: this.queryPipelineId,
       indexPipelineId: this.workflowService.selectedIndexPipeline() || '',
-      isSearchable: true, 
+      isSearchable: true,
       isSelected : false
     };
       // pageNo: 1,
