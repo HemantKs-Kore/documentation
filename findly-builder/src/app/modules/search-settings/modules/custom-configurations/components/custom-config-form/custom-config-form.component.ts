@@ -1,4 +1,3 @@
-import { ChangeDetectionStrategy } from '@angular/compiler/src/core';
 import { Component, OnInit,Input, Output, EventEmitter, OnChanges } from '@angular/core';
 import { NotificationService } from '@kore.services/notification.service';
 

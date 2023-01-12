@@ -2,7 +2,7 @@ import {  Component, OnInit,Output,Input,EventEmitter ,ViewChild } from '@angula
 import { KRModalComponent } from 'src/app/shared/kr-modal/kr-modal.component';
 import { WorkflowService } from '@kore.services/workflow.service';
 import { AppSelectionService } from '@kore.services/app.selection.service';
-import { of, interval, Subject, Subscription } from 'rxjs';
+import { Subscription } from 'rxjs';
 import { PerfectScrollbarComponent, PerfectScrollbarDirective } from 'ngx-perfect-scrollbar';
 import { NotificationService } from '@kore.services/notification.service';
 import { ServiceInvokerService } from '@kore.services/service-invoker.service';
@@ -21,16 +21,19 @@ export class HighlightingComponent implements OnInit {
   querySubscription : Subscription;
   synonymsHighlight
   highlightenable
-  highlightdata;
+  highlightdata:any ={};
   @Input() selectedcomponent
    more_options:boolean=false;
    home_pre_tag
    home_post_tag
-   pre_tag
-   post_tag
+   pre_tag=''
+   post_tag=''
+   pre_tag_flag=false;
+   post_tag_flag=false;
    selectedSort:string='asc';
    checksort:string='fieldName';
    selectionflag:boolean=true;
+   isSpinner=false
   //  isSearchable:boolean=true;
    page:number=0;
    limit:number=10;
@@ -65,7 +68,7 @@ export class HighlightingComponent implements OnInit {
     this.indexPipelineId = this.workflowService.selectedIndexPipeline();
     this.queryPipelineId = this.workflowService.selectedQueryPipeline() ? this.workflowService.selectedQueryPipeline()._id : '';
     this.getAllHighlightFields()
-    this.getQuerypipeline();
+    if(this.indexPipelineId  && this.queryPipelineId && this.serachIndexId){ this.getQuerypipeline()}
 
     this.querySubscription = this.appSelectionService.queryConfigSelected.subscribe(res => {
       this.indexPipelineId = this.workflowService.selectedIndexPipeline();
@@ -81,8 +84,10 @@ export class HighlightingComponent implements OnInit {
         queryPipelineId: this.queryPipelineId,
         indexPipelineId: this.indexPipelineId,
       };
-      this.service.invoke('get.queryPipeline', quaryparms).subscribe(
+      this.isSpinner=true
+      this.service.invoke('get.queryPipeline', quaryparms).subscribe(      
         (res) => {
+          this.isSpinner=false
           this.highlightdata = res;
           this.home_pre_tag=this.highlightdata.settings.highlight.highlightAppearance.preTag
           this.home_post_tag=this.highlightdata.settings.highlight.highlightAppearance.postTag
@@ -100,7 +105,6 @@ export class HighlightingComponent implements OnInit {
   //** to get the data for the highlight table and add highlight pop-up sending true and false for get api */
   getAllHighlightFields(){
     this.getHighlightFields(true);
-    //this.getHighlightFields(false);
   }
     /** get highlight fields api call with false value to get data for add pop-up*/
     getAddpopuphighlightField(event){
@@ -183,8 +187,10 @@ export class HighlightingComponent implements OnInit {
   openModalPopup() {
     this.highlightAppearanceModalPopRef = this.highlightAppearanceModalPop.open();
     setTimeout(() => {
-      this.perfectScroll.directiveRef.update();
-      this.perfectScroll.directiveRef.scrollToTop();
+      if(this.perfectScroll?.directiveRef){
+        this.perfectScroll.directiveRef.update();
+        this.perfectScroll.directiveRef.scrollToTop();
+      }
     }, 500)
   }
   
@@ -194,7 +200,10 @@ export class HighlightingComponent implements OnInit {
     this.pre_tag=this.home_pre_tag
     this.post_tag=this.home_post_tag
   }
-
+  //open topic guide
+  openUserMetaTagsSlider() {
+    this.appSelectionService.topicGuideShow.next();
+  }
   //** open show more  container */
   openContainer(){
     this.more_options=true;
@@ -207,8 +216,36 @@ export class HighlightingComponent implements OnInit {
     this.perfectScroll?.directiveRef?.scrollTo(25,50,500)
   }
 
+    //**Validation Check function */
+    tagValidation(pre_tag,post_tag){
+
+    
+    }
+
   //** highlight appearance pre and post tag api call for binding pre and post tag*/
   addTags(pretag,posttag){
+    //validation logic
+    if(!pretag?.length && !posttag?.length){
+      this.pre_tag_flag=true;
+      this.post_tag_flag=true;    
+      this.notificationService.notify('Please enter the required fields to proceed', 'error');
+      return  
+    }
+    else if(!pretag?.length){
+      this.pre_tag_flag=true;
+      this.post_tag_flag=false;
+      this.notificationService.notify('Please enter the required fields to proceed', 'error');
+      return   
+    }
+    else if(!posttag?.length){
+      this.post_tag_flag=true;
+      this.pre_tag_flag=false;
+      this.notificationService.notify('Please enter the required fields to proceed', 'error');
+      return 
+    } else{
+      this.post_tag_flag=false;
+      this.pre_tag_flag=false;
+    }
     const quaryparms:any={
       indexPipelineId:this.workflowService.selectedIndexPipeline(),
       queryPipelineId:this.workflowService.selectedQueryPipeline() ? this.workflowService.selectedQueryPipeline()._id : '',
@@ -229,9 +266,9 @@ export class HighlightingComponent implements OnInit {
     this.service.invoke('put.queryPipeline', quaryparms,payload).subscribe(res => {
       this.home_pre_tag=res?.settings?.highlight?.highlightAppearance?.preTag
       this.home_post_tag=res.settings?.highlight?.highlightAppearance?.postTag
+      this.notificationService.notify("Tags updated successfully",'success');
       this.highlightdata.highlightAppearance.preTag=res?.settings?.highlight?.highlightAppearance?.preTag
-      this.highlightdata.highlightAppearance.postTag=res?.settings?.highlight?.highlightAppearance?.postTag
-      this.notificationService.notify("updated successfully",'success');
+      this.highlightdata.highlightAppearance.postTag=res?.settings?.highlight?.highlightAppearance?.postTag      
     }, errRes => {
       this.notificationService.notify("Failed to update",'error');
     });   
@@ -309,7 +346,8 @@ export class HighlightingComponent implements OnInit {
   }
   this.service.invoke('put.queryPipeline', quaryparms,payload).subscribe(res => {
     this.highlightdata.synonymsHighlight=res.settings.highlight.enable
-    this.notificationService.notify("updated successfully",'success');
+    this.highlightdata.synonymsHighlight ? this.notificationService.notify("Synonyms highlighting enabled",'success') : this.notificationService.notify("Synonyms highlighting disabled",'success')
+    
   }, errRes => {
     this.notificationService.notify("Failed to update",'error');
   });
@@ -323,8 +361,8 @@ export class HighlightingComponent implements OnInit {
     }    
     }
     this.service.invoke('put.queryPipeline', quaryparms,payload).subscribe(res => {
-      this.highlightdata.enable=res.settings.highlight.enable
-      this.notificationService.notify("updated successfully",'success');
+      this.highlightdata.enable=res.settings.highlight.enable;
+      this.highlightdata.enable?this.notificationService.notify("Highlighting Enabled",'success'):this.notificationService.notify("Highlighting Disabled",'success');
     }, errRes => {
       this.notificationService.notify("Failed to update",'error');
     });

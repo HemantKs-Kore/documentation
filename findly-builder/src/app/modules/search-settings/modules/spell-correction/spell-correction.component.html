@@ -1,26 +1,39 @@
 <div class="widget-header-block" id="sa_widget-header-block">
-    <div class="widget-header" id="sa-widget-header">{{"search_settings_spell_correction" |translate}}</div>
+    <div class="widget-header" id="sa-widget-header">{{"search_settings_spell_correction" |translate}}
+        <span class="module-topic" tooltipClass="tooltip-global-" [container]="'body'"
+        ngbTooltip="{{'contentSource_topic_guide' | translate}}" placement="right-center"
+        (click)="openUserMetaTagsSlider()">
+        <i class="si-topic-guide-1"></i>
+      </span>
+    </div>
     <div class="widget-desc" id="sa_widget-desc">{{"search_settings_spell_correction_desc" |translate}}</div>
 </div>
 
-<div class="landing-page-block" id="sa-landing-page-block">
-    <div class="landing-page-toggle" id="sa-landing-page-toggle">
-        <label class="kr-sg-toggle with-label" id="kr-sg-toggle-with-label">
-            <input type="checkbox" [checked]="spellcorrectdata?.settings?.spellCorrect?.enable" id="sa_checkbox_1"
-                (change)="silderValuechanged($event)">
-            <div class="slider" id="sa_slider_1">
-                <span class="no" id="sa_no_1">{{"search_settings_disable" |translate}}</span>
-                <span class="yes" id="sa_yes_1">{{"search_settings_enable"|translate}}</span>
-            </div>
-        </label>
-    </div>
+<div class="mainLoadingSpinner" *ngIf="isSpinner">
+    <mat-spinner diameter="18" strokeWidth="2"></mat-spinner>
+    <span class="please-wait-message">{{'sa_please_wait'| translate}}</span>
+</div>
+<ng-container *ngIf="!isSpinner">
+    <div class="landing-page-block" id="sa-landing-page-block">
+    
+        <div class="landing-page-toggle" id="sa-landing-page-toggle">
+            <label class="kr-sg-toggle with-label" id="kr-sg-toggle-with-label">
+                <input type="checkbox" [checked]="spellcorrectdata?.settings?.spellCorrect?.enable" id="sa_checkbox_1"
+                    (change)="silderValuechanged($event)">
+                <div class="slider" id="sa_slider_1">
+                    <span class="no" id="sa_no_1">{{"search_settings_disable" |translate}}</span>
+                    <span class="yes" id="sa_yes_1">{{"search_settings_enable"|translate}}</span>
+                </div>
+            </label>
+        </div>
+
 
     <!-- show hide content start from here -->
     <div class="show-hide-container" [ngClass]="{'showmore' : more_options}">
         <div class="show-hide-block block-1">
             <div class="toggle-block w-100">
                 <div class="toggle-block-header width-25 text-truncate">
-                    <div class="toggle-block-hding text-truncate" title="Minimum Character Threshold">
+                    <div class="toggle-block-hding text-truncate">
                         {{"search_settings_minimum_char_threshold" |translate}}</div>
                 </div>
 
@@ -29,10 +42,10 @@
                 </div>
                 <div class="toggle-count-btn width-15"> 
 
-                    <div class="toggle-count-sub" [ngClass]="{'disableminus':spellcorrectdata?.settings?.spellCorrect?.minCharThreshold<=0}"  (click)="mindecrementValue(spellcorrectdata?.settings?.spellCorrect?.minCharThreshold)">-
+                    <div class="toggle-count-sub" [ngClass]="{'disableminus':spellcorrectdata?.settings?.spellCorrect?.minCharThreshold<=1}"  (click)="mindecrementValue(spellcorrectdata?.settings?.spellCorrect?.minCharThreshold)">-
                     </div>
                     <div class="toggle-count-num">{{spellcorrectdata?.settings?.spellCorrect?.minCharThreshold}}</div>
-                    <div class="toggle-count-add" (click)="minincrementValue(spellcorrectdata?.settings?.spellCorrect?.minCharThreshold)">+
+                    <div class="toggle-count-add" [ngClass]="{'disableminus':spellcorrectdata?.settings?.spellCorrect?.minCharThreshold>=6}" (click)="minincrementValue(spellcorrectdata?.settings?.spellCorrect?.minCharThreshold)">+
                     </div>
                 </div>
             </div>
@@ -47,7 +60,7 @@
         <div class="show-hide-block block-2">
             <div class="toggle-block w-100">
                 <div class="toggle-block-header width-25 text-truncate">
-                    <div class="toggle-block-hding text-truncate" title="Minimum Character Threshold">
+                    <div class="toggle-block-hding text-truncate">
                         {{"search_setting_max_typo_edits" |translate}}</div>
                 </div>
 
@@ -57,9 +70,9 @@
                 </div>
 
                 <div class="toggle-count-btn width-15">
-                    <div class="toggle-count-sub" [ngClass]="{'disableminus':spellcorrectdata?.settings?.spellCorrect?.maxTypoEdits<=0}" (click)="maxdecrementValue(spellcorrectdata?.settings?.spellCorrect?.maxTypoEdits)">-</div>
+                    <div class="toggle-count-sub" [ngClass]="{'disableminus':spellcorrectdata?.settings?.spellCorrect?.maxTypoEdits<=1}" (click)="maxdecrementValue(spellcorrectdata?.settings?.spellCorrect?.maxTypoEdits)">-</div>
                     <div class="toggle-count-num">{{spellcorrectdata?.settings?.spellCorrect?.maxTypoEdits}}</div>
-                    <div class="toggle-count-add" (click)="maxincrementValue(spellcorrectdata?.settings?.spellCorrect?.maxTypoEdits)">+</div>
+                    <div class="toggle-count-add" [ngClass]="{'disableminus':spellcorrectdata?.settings?.spellCorrect?.maxTypoEdits>=2}"(click)="maxincrementValue(spellcorrectdata?.settings?.spellCorrect?.maxTypoEdits)">+</div>
                 </div>
 
             </div>
@@ -95,3 +108,4 @@
     </app-list-fields>
 
 </div>
+</ng-container>

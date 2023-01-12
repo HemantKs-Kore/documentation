@@ -33,14 +33,17 @@ export class SnippetsComponent implements OnInit {
     this.serachIndexId = this.selectedApp.searchIndexes[0]._id;
     this.indexPipelineId = this.workflowService.selectedIndexPipeline();
     this.queryPipelineId = this.workflowService.selectedQueryPipeline() ? this.workflowService.selectedQueryPipeline()._id : '';
-    this.getQuerypipeline();
+    if(this.indexPipelineId && this.queryPipelineId )this.getQuerypipeline();
     this.querySubscription = this.appSelectionService.queryConfigSelected.subscribe(res => {
       this.indexPipelineId = this.workflowService.selectedIndexPipeline();
       this.queryPipelineId = this.workflowService.selectedQueryPipeline() ? this.workflowService.selectedQueryPipeline()._id : ''
       this.getQuerypipeline();
     })
   }
-
+  //open topic guide
+  openUserMetaTagsSlider() {
+    this.appSelectionService.topicGuideShow.next();
+  }
 
   getQuerypipeline(){
     const quaryparms: any = {
@@ -77,7 +80,7 @@ export class SnippetsComponent implements OnInit {
     this.service.invoke('put.queryPipeline', quaryparms,payload).subscribe(res => {
       this.snippetsData=res.settings.snippet.enable
       // this.getQuerypipeline();
-      this.notificationService.notify("updated successfully",'success');
+      this.snippetsData?this.notificationService.notify("Snippets Enabled",'success'):this.notificationService.notify("Snippets Disabled",'success')
     }, errRes => {
       this.notificationService.notify("Failed to update",'error');
     });

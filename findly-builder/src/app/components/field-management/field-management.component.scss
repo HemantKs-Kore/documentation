@@ -161,6 +161,7 @@
                         .action_links{
                             visibility: visible;
                             .action_link-icon{
+                                color: #DD3646;
                                 cursor: pointer;
                             }
                         }
@@ -243,11 +244,29 @@
 } 
 .kr-sg-inline-notification {
     padding-bottom: 10px;
+    &.kr-protip-basic{
+        background: #FEF8E6;
+        padding: 10px 10px;
+        margin-top: 5px;
+        .tost-text{
+            color: #614902;
+            font-size: 12px;
+            ::ng-deep .based-on-selection{
+                border-bottom: 1px dotted #614902;
+            }
+        }
+        .bulb-icon{
+            margin-right: 10px;
+            position: relative;
+            top: 1px;
+            color: #614902;
+        }
+    }
 }
 .kr-sg-inline-notification .bulb-icon {
     margin-right: 5px;
     position: relative;
-    top: -1px;
+    top: -1px;    
 }
 perfect-scrollbar .ps--active-y{
     padding-bottom: 85px;
@@ -383,4 +402,41 @@ perfect-scrollbar .ps--active-y{
         background-color: #aaa;
       }
 }
+}
+.disable-actionlinks{
+    opacity: 0.251;
+    pointer-events: none;
+}
+
+.disable-delete{
+    display: none;
+}
+
+
+::ng-deep ngb-tooltip-window{
+    &.tooltip {
+        .tooltip-inner{
+            ::ng-deep .inner-content-html{
+                min-width: 150px;
+                padding: 8px 8px;
+                font-size: 12px;
+                p{
+                    margin-bottom: 5px;
+                    text-align: left;
+                }
+                ul{
+                    padding: 0px 0 0 10px;
+                    text-align: left;
+                }
+            }
+        }
+    }
+}
+
+.si-info{
+    cursor: pointer;
+}
+
+.new-delete-popup{
+    flex-direction: unset !important;
 }

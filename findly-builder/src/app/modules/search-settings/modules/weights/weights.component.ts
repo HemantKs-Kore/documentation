@@ -104,32 +104,6 @@ export class WeightsComponent implements OnInit, OnDestroy
   selectedField(event) {
     this.addEditWeighObj.fieldName = event.fieldName;
     this.addEditWeighObj.fieldId = event._id;
-    // this.addEditWeighObj.name = event.fieldName;
-  }
-  clearField()
-  {
-    this.addEditWeighObj.fieldName = '';
-    this.addEditWeighObj.fieldId = '';
-    this.addEditWeighObj.name = '';
-  }
-  getFieldAutoComplete(query) // not using any where
-  {
-    if (/^\d+$/.test(this.searchField))
-    {
-      query = parseInt(query, 10);
-    }
-    const quaryparms: any = {
-      searchIndexID: this.serachIndexId,
-      indexPipelineId: this.indexPipelineId,
-      query
-    };
-    this.service.invoke('get.getFieldAutocomplete', quaryparms).subscribe(res =>
-    {
-      this.fields = res || [];
-    }, errRes =>
-    {
-      this.errorToaster(errRes, 'Failed to get fields');
-    })
   }
   prepereWeights(){
     let weightArr = [];
@@ -157,7 +131,7 @@ export class WeightsComponent implements OnInit, OnDestroy
     };
     this.service.invoke('put.restoreWeights', quaryparms).subscribe(res =>
     {
-      this.notificationService.notify('Updated Successfully', 'success');
+      this.notificationService.notify('Weights has been restored', 'success');
       this.getWeights();
       if (dialogRef && dialogRef.close)
       {
@@ -216,7 +190,7 @@ export class WeightsComponent implements OnInit, OnDestroy
     };
     this.service.invoke('get.weightsList', quaryparms).subscribe(res =>
     {
-      this.weights = res.data || {};
+      this.weights = res.data || [];
       this.prepereWeights();
       if (!this.inlineManual.checkVisibility('WEIGHTS')) {
         this.inlineManual.openHelp('WEIGHTS')
@@ -237,15 +211,6 @@ export class WeightsComponent implements OnInit, OnDestroy
       weight.sliderObj.default = val;
       this.sliderChange(weight,index);
     }
-  }
-  editWeight(weight, index)
-  {
-    this.currentEditIndex = index;
-    this.currentEditDesc = weight.desc;
-    // const editWeight = JSON.parse(JSON.stringify(weight));
-    // editWeight.sliderObj.id = 'editSlider';
-    // this.addEditWeighObj = editWeight;
-    // this.openAddEditWeight();
   }
   getAllFields(){
     const quaryparms: any = {
@@ -285,7 +250,6 @@ export class WeightsComponent implements OnInit, OnDestroy
       fieldId:'',
       sliderObj: new RangeSlider(0, 10, 1, 2, 'editSlider','',true)
     };
-    // this. getFieldAutoComplete(''); 
     this.openAddEditWeight();
   }
   closeAddEditWeight()
@@ -298,12 +262,6 @@ export class WeightsComponent implements OnInit, OnDestroy
       this.currentEditIndex = -1;
       this.addEditWeighObj = null;
     }
-  }
-  setDataToActual()
-  {
-    this.prepereWeights();
-    this.disableCancle = true;
-    this.currentEditIndex = -1
   }
   errorToaster(errRes, message)
   {
@@ -333,7 +291,6 @@ export class WeightsComponent implements OnInit, OnDestroy
     this.submitted = true;
     if (this.validateWeights())
     {
-      // const weights = JSON.parse(JSON.stringify(this.weights));
       this.addOrUpddate(addEditWeighObj, null, 'add');
     }
     else
@@ -383,7 +340,8 @@ export class WeightsComponent implements OnInit, OnDestroy
         }
       else if (type == 'edit') {
           this.weightsList[index] = this.getWeightsPayload(weight);
-          this.notificationService.notify(' Updated Successfully', 'success');
+          //this.getWeights();
+          this.notificationService.notify('Weight has been updated', 'success');
           this.appSelectionService.updateTourConfig(this.componentType);
        }
       }
@@ -414,7 +372,7 @@ export class WeightsComponent implements OnInit, OnDestroy
         title: 'Delete Rankable Field',
         text: 'Are you sure you want to delete selected rankable field?',
         newTitle:'Are you sure you want to Remove ?',
-        body:  record.fieldName+' Searchable Field will be removed',
+        body: '"'+'<b>'+record.fieldName+'</b>'+'"'+' searchable field will be removed',
         buttons: [{ key: 'yes', label: 'Remove', type: 'danger' }, { key: 'no', label: 'Cancel' }],
         confirmationPopUp: true
       }
@@ -441,27 +399,16 @@ export class WeightsComponent implements OnInit, OnDestroy
     };
     this.service.invoke('delete.Weight', quaryparms).subscribe(res => {
      if(res){
+      //this.getWeights();
          this.weightsList.splice(index, 1);
-         this.notificationService.notify('Deleted Successfully', 'success');
+         this.notificationService.notify('Field From Weight Removed Successfully', 'success');
         }
       }, errRes => {
          this.loadingContent = false;
-         this.errorToaster(errRes, 'Failed to Delete weight');
+         this.errorToaster(errRes, 'Failed to Remove Field From Weights');
       });
   }
-  sort
-  modifyFieldWarningMsg(warningMessage)
-  {
-    let index = warningMessage.indexOf("changed");
-    if (index > -1)
-    {
-      return true;
-    } else
-    {
-      return false;
-    }
-  }
-  clearcontentSrcW()
+  clearSearchtext()
   {
     if ($('#searchBoxIdW') && $('#searchBoxIdW').length)
     {
@@ -469,29 +416,38 @@ export class WeightsComponent implements OnInit, OnDestroy
       this.search_FieldName = '';
     }
   }
-sortByApi(sort){
-  this.selectedSort = sort;
-  if (this.selectedSort !== sort) {
-    this.isAsc = true;
-  } else {
-    this.isAsc = !this.isAsc;
+  sortByApi(sort){
+    this.selectedSort = sort;
+    if (this.selectedSort !== sort) {
+      this.isAsc = true;
+    } else {
+      this.isAsc = !this.isAsc;
+    }
+    let naviagtionArrow ='';
+    if(this.isAsc){
+      naviagtionArrow= 'up';
+      this.checksort='asc'
+    }
+    else{
+      naviagtionArrow ='down';
+      this.checksort='desc'
+    }
+    this.getWeights();
   }
-  let naviagtionArrow ='';
-  //var checkSortValue= 1;
-  if(this.isAsc){
-    naviagtionArrow= 'up';
-    this.checksort='asc'
-  }
-  else{
-    naviagtionArrow ='down';
-    //checkSortValue = -1;
-    this.checksort='desc'
-  }
-  this.getWeights();
-}
-getSortIconVisibility(sortingField: string, type: string,component: string) {
+  getSortIconVisibility(sortingField: string, type: string,component: string) {
       switch (this.selectedSort) {
         case "fieldName": {
+            if (this.selectedSort == sortingField) {
+                    if (this.isAsc == false && type == 'down') {
+                return "display-block";
+              }
+                    if (this.isAsc == true && type == 'up') {
+                      return "display-block";
+                    }
+              return "display-none"
+            }
+          }
+          case "fieldDataType": {
           if (this.selectedSort == sortingField) {
             if (this.isAsc == false && type == 'down') {
               return "display-block";
@@ -501,8 +457,8 @@ getSortIconVisibility(sortingField: string, type: string,component: string) {
             }
             return "display-none"
           }
-        }
-        case "fieldDataType": {
+          }
+          case "weight.value": {
           if (this.selectedSort == sortingField) {
             if (this.isAsc == false && type == 'down') {
               return "display-block";
@@ -512,19 +468,8 @@ getSortIconVisibility(sortingField: string, type: string,component: string) {
             }
             return "display-none"
           }
-        }
-        case "weight.value": {
-          if (this.selectedSort == sortingField) {
-            if (this.isAsc == false && type == 'down') {
-              return "display-block";
-            }
-            if (this.isAsc == true && type == 'up') {
-              return "display-block";
-            }
-            return "display-none"
           }
         }
-      }
   }
   openUserMetaTagsSlider() {
     this.appSelectionService.topicGuideShow.next();

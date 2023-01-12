@@ -1,9 +1,15 @@
 import { Component, IterableDiffers, OnInit, ViewChild,Output,Input,EventEmitter } from '@angular/core';
+import { WorkflowService } from '@kore.services/workflow.service';
+import { AppSelectionService } from '@kore.services/app.selection.service';
 import { KRModalComponent } from 'src/app/shared/kr-modal/kr-modal.component';
-import { PerfectScrollbarComponent, PerfectScrollbarDirective } from 'ngx-perfect-scrollbar';
-import { isNgTemplate } from '@angular/compiler';
+import { PerfectScrollbarComponent, PerfectScrollbarDirective } from 'ngx-perfect-scrollbar';;
 import { MatDialog } from '@angular/material/dialog';
 import { ConfirmationDialogComponent } from 'src/app/helpers/components/confirmation-dialog/confirmation-dialog.component';
+import { ActivatedRoute, Router } from '@angular/router';
+import { Observable, Subscription } from 'rxjs';
+import { ServiceInvokerService } from '@kore.services/service-invoker.service';
+import { NotificationService } from '@kore.services/notification.service';
+import { HighlightingComponent } from 'src/app/modules/search-settings/modules/highlighting/highlighting.component';
 declare const $: any;
 
 @Component({
@@ -26,12 +32,20 @@ export class ListFieldsComponent implements OnInit {
   @Input() isLoading = false;
   @Input() isaddLoading = false;
    page_number=0;
+   highlightMsg:string = '';
   constructor(
-    public dialog: MatDialog
+    public workflowService: WorkflowService,
+    private appSelectionService: AppSelectionService,
+    public dialog: MatDialog,
+    private route: ActivatedRoute,
+    private router: Router,
+    private service: ServiceInvokerService,
+    private notificationService: NotificationService
   ) { }
 
   addFieldModalPopRef: any;
   search_value: any;
+  shouldClear = false;
   fieldsArr_backup:any;
   recordArray = [];
   fieldsAr:any = []
@@ -40,16 +54,46 @@ export class ListFieldsComponent implements OnInit {
   selectedSort = 'fieldName';
   componenttype;
   checksort='asc'
+  querySubscription : Subscription;
   isAsc = true;
+  streamId: any;
+  indexPipelineId: any;
+  queryPipelineId:any;
+  selectedApp;
   loadingContent = true;
+  usageArr = [];
+  selectedFields=[];
+  showWarning=false
+  // dataType:any;
+  // fieldCheckArray=[]
 
+  selectedList = [];
   ngOnInit(): void {    
     this.modal_open=false;
-    console.log(this.tablefieldvalues);
-    console.log(this.popupfieldvalues);
     // if(this.tablefieldvalues && this.tablefieldvalues.length){
     //   this.loadingContent = false
     // }
+    this.selectedApp = this.workflowService?.selectedApp();
+    //console.log(this.presentabledata);
+    this.indexPipelineId = this.workflowService.selectedIndexPipeline();
+    this.queryPipelineId = this.workflowService.selectedQueryPipeline() ? this.workflowService.selectedQueryPipeline()._id : '';
+    this.querySubscription = this.appSelectionService.queryConfigSelected.subscribe(res => {
+      this.indexPipelineId = this.workflowService.selectedIndexPipeline();
+      this.queryPipelineId = this.workflowService.selectedQueryPipeline() ? this.workflowService.selectedQueryPipeline()._id : ''
+   })
+  }
+  /** To cehck for the Selected fileds - > use 'checkPopupfieldvalues()' to loop the slected fields on retun */
+  checkPopupfieldvalues(){
+    if(this.selectedList.length){
+      this.selectedList.forEach(selectedElement => {
+        this.popupfieldvalues.forEach(popupElement => {
+          if(selectedElement._id == popupElement._id){
+            popupElement.isChecked = true;
+          }
+        });
+      });
+    }
+    return this.popupfieldvalues;
   }
   //**Sort icon visibility */
   getSortIconVisibility(sortingField: string, type: string,component: string) {
@@ -164,9 +208,13 @@ export class ListFieldsComponent implements OnInit {
   //** open add field modal pop up */
   openModalPopup() {
     let flag=false;
+    this.shouldClear = false;
     this.calladdApi.emit(flag);
     this.addFieldModalPopRef = this.addFieldModalPop.open();
     this.modal_open=true
+    this.highlightMsg=  '';
+    this.showWarning = false;
+    this.selectedFields = [];
     setTimeout(() => {
       this.perfectScroll.directiveRef.update();
       this.perfectScroll.directiveRef.scrollToTop();
@@ -174,6 +222,8 @@ export class ListFieldsComponent implements OnInit {
   }
   //** to close the modal pop-up */
   closeModalPopup() {
+    this.shouldClear = true;
+    this.search_value = '';
     this.addFieldModalPopRef.close();
     this.clearReocrd();
   }
@@ -182,10 +232,13 @@ export class ListFieldsComponent implements OnInit {
   clearReocrd() {
     //this.searchType = '';
     this.search_value = '';
+    this.selectedList = [];
     this.popupfieldvalues = this.popupfieldvalues.map(item => {
       item.isChecked = false;
       return item;
     })
+    // this.fieldCheckArray=[];
+    // this.showWarning=false
   }
     
 //** fetch the search value and emit it to the other components */
@@ -223,39 +276,137 @@ export class ListFieldsComponent implements OnInit {
     }    
   }
   //** for selecting and de selecting the checkboxes*/
-  addRecord(fields,event) {
+  addRecord(fields,event) { 
     if (event.target.checked) {
       fields.isChecked = true;
-    } else {
-      fields.isChecked = false;  
+      this.selectedList.push(fields); // this will hold the slected data for the Instance
+      if(this.router.url  === '/search-settings/highlighting'){      
+        this.getFieldUsage(fields).subscribe(res => {
+          if(!res['presentable']) this.selectedFields.push(fields.fieldName);
+          if(this.selectedFields?.length){
+            this.prepareWarningMsg();
+          }else{
+            this.showWarning = false;
+          }
+         });
+      }
+      }
+    else {
+      fields.isChecked = false;
+      const objWithIdIndex = this.selectedList.findIndex((obj) => obj._id === fields._id);
+      if(objWithIdIndex > -1) this.selectedList.splice(objWithIdIndex, 1);
+      if (this.selectedFields?.length) {
+        const fieldIndex = this.selectedFields.findIndex(item => item == fields.fieldName);
+        if (fieldIndex > -1) this.selectedFields.splice(fieldIndex, 1);
+        if (this.selectedFields.length) {
+          this.prepareWarningMsg();
+        } else {
+          this.showWarning = false;
+        }
+      } else {
+        this.showWarning = false;
+      }
     }
+    }
+
+    prepareWarningMsg(){
+      let resultStr = `Selected field `;
+        if (this.selectedFields.length === 1) {
+          resultStr += this.selectedFields[0];
+        } else if (this.selectedFields.length === 2) {
+          resultStr += `${this.selectedFields.join(' and ')}`;
+        } else {
+          const lastVal = this.selectedFields.slice(-1)[0]; 
+          resultStr += `${this.selectedFields.slice(0, this.selectedFields.length -1 ).join(', ')} and ${lastVal}`;
+        }
+        resultStr += ` is not marked as presentable, adding this fields for highlighting will make it presentable`;
+        this.highlightMsg =  resultStr;
+        this.showWarning = this.selectedFields.length?true:false;
+    }
+  //** To get the Field usage and impacted areas */
+  getFieldUsage(record): any {
+    const quaryparms: any = {
+      indexPipelineId:this.indexPipelineId,
+      streamId:this.selectedApp._id,
+      queryPipelineId:this.queryPipelineId,
+      fieldId:record._id
+    };
+    return this.service.invoke('get.searchSettingsUsage', quaryparms);
   }
 
   //** to delete the Field modal pop-up */
   deletefieldsDataPopup(record) {
-    const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
-      width: '530px',
-      height: 'auto',
-      panelClass: 'delete-popup',
-      data: {
-        newTitle: 'Are you sure you want to delete?',
-        body: 'Selected data will be permanently deleted.',
-        buttons: [{ key: 'yes', label: 'Remove', type: 'danger', class: 'deleteBtn' }, { key: 'no', label: 'Cancel' }],
-        confirmationPopUp: true,
-      }
-    });
-    dialogRef.componentInstance.onSelect.subscribe(res => {
-      if (res === 'yes') {
-        dialogRef.close();
-        this.emitRecord.emit({
-          record :[record._id],
-          type : 'delete'
+    let dialogRef
+    if(this.router.url !== '/search-settings/spell_correction'){
+      this.getFieldUsage(record).subscribe(res => {
+
+        const usageArr = Object.keys(res).filter(item => {
+          if (res[item]){
+              return true;
+          }
         });
-        //this.deleteStructuredData(record);
-      }
-      else if (res === 'no') {
-        dialogRef.close();
-      }
-    });
+        let resultStr = `The field is used in `;
+        let endstr=''
+        if (usageArr.length === 1) {
+          resultStr += usageArr[0];
+          endstr += usageArr[0];
+        } else if (usageArr.length === 2) {
+          resultStr += `${usageArr.join(' and ')}`;
+          endstr += `${usageArr.join(' and ')}`;
+        } else {
+          const lastVal = usageArr.slice(-1)[0]; 
+          resultStr += `${usageArr.slice(0, usageArr.length -1 ).join(', ')} and ${lastVal}`;
+          endstr += `${usageArr.slice(0, usageArr.length -1 ).join(', ')} and ${lastVal}`;
+        }
+        resultStr += ' The action will remove it from ' + endstr;
+         dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+          width: '530px',
+          height: 'auto',
+          panelClass: 'delete-popup',
+          data: {
+            newTitle: 'Are you sure you want to remove the field?',
+            body: resultStr,
+            buttons: [{ key: 'yes', label: 'Delete', type: 'danger', class: 'deleteBtn' }, { key: 'no', label: 'Cancel' }],
+            confirmationPopUp: true,
+          }
+        });
+        dialogRef.componentInstance.onSelect.subscribe(res => {
+          if (res === 'yes') {
+            this.emitRecord.emit({
+              record :[record._id],
+              type : 'delete'
+            });
+          }
+            dialogRef.close();
+        });
+       });
+    }else{
+      dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+        width: '530px',
+        height: 'auto',
+        panelClass: 'delete-popup',
+        data: {
+          newTitle: 'Are you sure you want to remove the field?',
+          body: `<b>`+ record.fieldName+`</b>` + ' will not be used for spell correction',
+          buttons: [{ key: 'yes', label: 'Delete', type: 'danger', class: 'deleteBtn' }, { key: 'no', label: 'Cancel' }],
+          confirmationPopUp: true,
+        }
+      });
+      dialogRef.componentInstance.onSelect.subscribe(res => {
+        if (res === 'yes') {
+          this.emitRecord.emit({
+            record :[record._id],
+            type : 'delete'
+          });
+        }
+          dialogRef.close();
+      });
+    }
+    
+  }
+
+   //**unsubcribing the query subsciption */
+   ngOnDestroy() {
+    this.querySubscription ? this.querySubscription.unsubscribe() : false;
   }
 }

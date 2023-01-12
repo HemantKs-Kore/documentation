@@ -3,7 +3,7 @@ import { WorkflowService } from '@kore.services/workflow.service';
 import { AppSelectionService } from '@kore.services/app.selection.service';
 import { NotificationService } from '@kore.services/notification.service';
 import { ServiceInvokerService } from '@kore.services/service-invoker.service';
-import { of, interval, Subject, Subscription } from 'rxjs';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-bot-actions',
@@ -20,6 +20,7 @@ export class BotActionsComponent implements OnInit {
   serachIndexId
   queryPipelineId
   querySubscription : Subscription;
+  isLoading=false
 
   constructor(
     public workflowService: WorkflowService,
@@ -33,13 +34,17 @@ export class BotActionsComponent implements OnInit {
     this.serachIndexId = this.selectedApp.searchIndexes[0]._id;
     this.indexPipelineId = this.workflowService.selectedIndexPipeline();
     this.queryPipelineId = this.workflowService.selectedQueryPipeline() ? this.workflowService.selectedQueryPipeline()._id : '';
+    if(this.indexPipelineId && this.queryPipelineId )this.getQuerypipeline();
     this.querySubscription = this.appSelectionService.queryConfigSelected.subscribe(res => {
       this.indexPipelineId = this.workflowService.selectedIndexPipeline();
-      this.queryPipelineId = this.workflowService.selectedQueryPipeline() ? this.workflowService.selectedQueryPipeline()._id : ''      
+      this.queryPipelineId = this.workflowService.selectedQueryPipeline() ? this.workflowService.selectedQueryPipeline()._id : '' ;
+      this.getQuerypipeline()     
   })
-  this.getQuerypipeline()
 }
-
+  //open topic guide
+  openUserMetaTagsSlider() {
+    this.appSelectionService.topicGuideShow.next();
+  }
 //** get querypipeline API call*/
 getQuerypipeline() {
   const quaryparms: any = {
@@ -47,9 +52,11 @@ getQuerypipeline() {
     queryPipelineId: this.queryPipelineId,
     indexPipelineId: this.indexPipelineId,
   };
+  this.isLoading=true
   this.service.invoke('get.queryPipeline', quaryparms).subscribe(
     (res) => {
       this.botactionsdata = res.settings.botActions;
+      this.isLoading=false
     },
     (errRes) => {
       this.notificationService.notify(
@@ -76,9 +83,8 @@ getQuerypipeline() {
       }    
     }
     this.service.invoke('put.queryPipeline', quaryparms,payload).subscribe(res => {
-      this.botactionsdata.enable=res.settings.botActions.enable
-      //this.getQuerypipeline()
-      this.notificationService.notify("updated successfully",'success');
+      this.botactionsdata.enable=res.settings.botActions.enable;
+      this.botactionsdata.enable?this.notificationService.notify("Bot Action Enabled",'success'):this.notificationService.notify("Bot Action Disabled",'success');
     }, errRes => {
       this.notificationService.notify("Failed to update",'error');
     });
@@ -92,24 +98,14 @@ getQuerypipeline() {
       queryPipelineId:this.workflowService.selectedQueryPipeline() ? this.workflowService.selectedQueryPipeline()._id : '',
       searchIndexId:this.serachIndexId
     }
-    if(type=='execute'){
-        var payload:any={
+    let payload:any={
           settings: {
             botActions: {
-              executeIntents:true
+              executeIntents:type=='execute'?true:false
           }
         }    
       }
-    }
-    else{
-      var  payload:any={
-        settings: {
-          botActions: {
-            executeIntents:false
-        }
-      }    
-    }
-    }
+    
 
     this.service.invoke('put.queryPipeline', quaryparms,payload).subscribe(res => {
       this.botactionsdata.enable=res.settings.botActions.enable

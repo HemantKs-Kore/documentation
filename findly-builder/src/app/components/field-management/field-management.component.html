@@ -39,13 +39,13 @@
             <div>
                 <div class="table_data_content" *ngIf="filelds && filelds.length" >
                     <div class="table_header row m-0" *ngIf="!(filelds && filelds.length) || filelds && filelds.length" >
-                        <div class="col_ col-4 title d-flex align-items-center justify-content-start" (click)="sortByApi('fieldName')" > <!--(click)="sortByApi('fieldName')"-->
+                        <div class="col_ col-3 title d-flex align-items-center justify-content-start" (click)="sortByApi('fieldName')" > <!--(click)="sortByApi('fieldName')"-->
                             <span class="d-flex align-items-center flex-column mr-1">
                                 <img  [ngClass]="getSortIconVisibility('fieldName', 'down')"   src="assets/icons/caretDown.svg" class="ml-1 sortImg downArrow">
                                 <img [ngClass]="getSortIconVisibility('fieldName', 'up')"  src="assets/icons/caretDown.svg" class="ml-1 sortImg upArrow">
                               </span>
                               {{'fields_field_name' | translate}}</div>
-                        <div class="col_  col-2 title d-flex align-items-center" (click)="sortByApi('fieldDataType')">
+                        <div class="col_  col-3 title d-flex align-items-center" (click)="sortByApi('fieldDataType')">
                             <span class="d-flex align-items-center flex-column mr-1">
                                 <img  [ngClass]="getSortIconVisibility('fieldDataType', 'down')"   src="assets/icons/caretDown.svg" class="ml-1 sortImg downArrow">
                                 <img [ngClass]="getSortIconVisibility('fieldDataType', 'up')"  src="assets/icons/caretDown.svg" class="ml-1 sortImg upArrow">
@@ -264,8 +264,8 @@
                 <perfect-scrollbar class="table_body_content">
                     <div class="table_body row m-0" *ngFor="let field of filelds;let i=index">
                         <!-- <div class="table_body row m-0" *ngFor="let field of filelds | fieldsFilter: [ searchFields, 'fieldName'];let i=index"> -->
-                        <div class="col-4 title text-left" [title]="field.fieldName">{{field.fieldName}}</div>
-                        <div class="col-2 title">{{field.fieldDataType | translate}}</div>
+                        <div class="col-3 title text-left" [title]="field.fieldName">{{field.fieldName}}</div>
+                        <div class="col-3 title">{{field.fieldDataType | translate}}</div>
                         <div class="col-3 title">
                             <span class="field-value" [ngClass]="field.isSearchable ? 'yes' : 'no'">{{field.isSearchable?'Yes':'No'}}</span>
                         </div>
@@ -275,7 +275,7 @@
                             <span class="field-value" [ngClass]="field.isAutosuggest ? 'yes' : 'no'">{{field.isAutosuggest?'Yes':'No'}}</span>
                         </div>
                         <div class="col-1">
-                            <div class="action_links text-right">
+                            <div class="action_links text-right" [ngClass]="applyDisableClass(field.fieldName)">
                                 <!-- <img src="assets/images/edit-pencil.svg" ngbTooltip="{{'fields.edit' | translate}}"
                                     [container]="'body'" placement="{{i==0?'bottom':'top'}}"
                                     (click)="addEditFiled(field)">
@@ -288,7 +288,7 @@
                                     [container]="'body'" placement="{{i==0?'bottom':'top'}}"
                                     (click)="addEditFiled(field)"><i class="si-pencil-edit"></i></span>
 
-                                    <span ngbTooltip="{{'fields.delete' | translate}}"
+                                    <span ngbTooltip="{{'sa_delete' | translate}}"
                                     [container]="'body'" placement="{{i==0?'bottom':'top'}}" class="action_link-icon ml-3"
                                     (click)="deleteFieldPop(field)"><i class="si-delete1"></i></span>
                             </div>
@@ -391,12 +391,12 @@
                         <div class="option-selection-desc"> {{'fields_searchable_desc' | translate}}</div>
                         <div class="option-selection-checkbox">
                             <div class="kr-sg-checkbox">
-                                <input id="searchable_option" class="checkbox-custom" type="checkbox" [(ngModel)]="newFieldObj.isSearchable">
+                                <input id="searchable_option" class="checkbox-custom" type="checkbox" (click)="searchableValidation(newFieldObj)" [(ngModel)]="newFieldObj.isSearchable">
                                 <label for="searchable_option" class="checkbox-custom-label"></label>
                             </div>
                         </div>
                     </div>
-                    <div class="option-selection-type">
+                    <div class="option-selection-type" [ngClass]="{'disable-actionlinks':(newFieldObj?.fieldDataType!=='string')}">
                         <div class="option-selection-hding"> {{'fields_auto_suggest' | translate}}</div>
                         <div class="option-selection-desc">  {{'fields_auto_suggest_desc' | translate}} </div>
                         <div class="option-selection-checkbox">
@@ -413,15 +413,44 @@
                     <div class="tost-text">{{'fields.indexed_property_has_been_set_to_false' | translate}}
                         {{indexedWarningMessage?(indexedWarningMessage+'.'):indexedWarningMessage}}</div>
                 </div> -->
+                <ng-template #tipContent container="body">
+                    <div class="inner-content-html">
+                        <p>{{"search_settings_impacted_settings" |translate}}</p>
+                        <ul>
+                            <li *ngFor="let tip of tooltipArr">
+                                {{ tip }}
+                            </li>
+                        </ul>
+                    </div>
+                </ng-template>
 
-                <div class="kr-sg-inline-notification align-items-start"
+                <div class="kr-sg-inline-notification kr-protip-basic align-items-start"
                 *ngIf="newFieldObj._id && (newFieldObj.previousFieldDataType !== newFieldObj.fieldDataType)">
-                <div class="bulb-icon"><img src="assets/icons/info-blue.svg"></div>
-                <div class="tost-text">{{'fields.the_field_type_has_been_changed_from' | translate}}
+                <div class="tost-text"> {{'fields.the_field_type_has_been_changed_from' | translate}}
                     {{newFieldObj.previousFieldDataType | translate}} {{'fields.to' | translate}}
                     {{newFieldObj.fieldDataType | translate}}.
-                    {{indexedWarningMessage?(indexedWarningMessage+'.'):indexedWarningMessage}}</div>
+                    <span class="pr-1" *ngIf="indexedWarningMessage" [innerHTML]="editresultTest">
+                    </span>
+                    <span class="bulb-icon" [ngbTooltip]="tipContent">
+                        <!-- <img src="assets/icons/info-blue.svg"> -->    
+                        <i *ngIf="!showSearchSettingsTooltip && !tooltipArr" class="si-info">
+                        </i>
+                        <i *ngIf="showSearchSettingsTooltip && tooltipArr.length" class="si-info"></i>
+                    </span>
+                </div>
                </div>
+               <div class="kr-sg-inline-notification kr-protip-basic align-items-start"
+               *ngIf="!newFieldObj.isSearchable && showSearchableToaster">
+               <div class="tost-text"> 
+                   <span class="pr-1" *ngIf="indexedWarningMessage" [innerHTML]="resultTest">
+                   </span>
+                   <span class="bulb-icon" [ngbTooltip]="tipContent">  
+                       <i *ngIf="!showSearchSettingsTooltip && !tooltipArr" class="si-info">
+                       </i>
+                       <i *ngIf="showSearchSettingsTooltip && tooltipArr.length" class="si-info"></i>
+                   </span>
+               </div>
+              </div>
 
                 <div class="bottom_sec d-none">
                     <div class="group-checkbox mb-3 add-fields-checkbox">

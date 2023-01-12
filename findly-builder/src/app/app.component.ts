@@ -59,7 +59,7 @@ export class AppComponent implements OnInit, OnDestroy {
   pathsObj: any = {
     '/faq': 'Faqs',
     '/content': 'Contnet',
-    '/source': 'Source',
+    '/sources': 'Source',
     '/botActions': 'Bot Actions'
   };
   topDownSearchInstance: any;
