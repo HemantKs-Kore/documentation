@@ -13,7 +13,7 @@
                         <i id="sa_weights_topic_guide" class="si-topic-guide-1"></i>
                     </span>
                 </div>
-                <div class="restore_text" *ngIf="weights.length">
+                <div class="restore_text" *ngIf="weights?.length">
                     <div id="sa_weights_reset_weigths" class="lable_text mr-3" id="btn_restoreWeight" (click)="restoreWeights();">
                         <!-- <img src="assets/icons/return_black.svg"> -->
                         <i class="si-re-fresh icon-refresh"></i>
@@ -56,17 +56,17 @@
                     </div>
                 </div>
                 <perfect-scrollbar class="scroll-table-allowRow">
-                    <div class="empty-weights" *ngIf="!weights.length">
+                    <div class="empty-weights" *ngIf="!weights?.length">
                         <img src="assets/images/icons/empty_ill.svg">
                         <div class="heading">{{'weights_no_rankable_field_available'| translate}}</div>
                         <div class="desc">{{'weights_please_add_rankable_field'| translate}}</div>
                     </div>
                     <div class="content-body" *ngFor="let weightModal of weightsList; let i = index ; trackBy: prepereWeights">
                         <div class="col-4 name text-truncate">
-                            <div class="text-truncate">{{weightModal.fieldName}} </div>
+                            <div class="text-truncate">{{weightModal?.fieldName}} </div>
                         </div>
                         <div class="col-4 desc text-truncate">
-                            <span>{{'sa_'+weightModal.fieldDataType | translate}}</span>
+                            <span>{{'sa_'+weightModal?.fieldDataType | translate}}</span>
                         </div>
                         <div class="col-4 sliderContainer">
                             <div class="range-slider">
@@ -91,7 +91,7 @@
 </div>
 <kr-modal modalType="center" modalClass="addWeightModalComponent modal_popups_" #addDditWeightPop>
     <div class="modal-header">
-        <div class="title">{{currentEditIndex>-1?'Edit':'Add'}} Searchable Field</div>
+        <div class="title">{{"weights_add_searchable_field" | translate}}</div>
         <div id="sa_weights_close_add_weight_popUp" class="close_icon"><img id="btn_closeWeightModal" (click)="closeAddEditWeight()"
                 src="assets/icons/modal-close.svg"></div>
     </div>
@@ -101,16 +101,16 @@
                 <div class="row m-0 align-items-center">
                     <div class="kr-sg-dropdowns col-12 p-0" ngbDropdown>
                         <div class="dropdown dropdown-open">
-                            <button id="sa_weights_drop_down" [ngClass]="{'error':submitted && !search_FieldName.length}" class="dropdown-toggle dropdown-input" id="dropdownBasic1" data-toggle="dropdown"
+                            <button id="sa_weights_drop_down" [ngClass]="{'error':submitted && !search_FieldName?.length}" class="dropdown-toggle dropdown-input" id="dropdownBasic1" data-toggle="dropdown"
                                 ngbDropdownAnchor (click)="clearSearchtext()">
 
-                                {{addEditWeighObj.fieldName? addEditWeighObj.fieldName :"Choose field"}}
+                                {{addEditWeighObj?.fieldName? addEditWeighObj?.fieldName :('sa_choose_field' | translate)}}
 
                             </button>
                             <ul class="dropdown-menu content-menu faq-filter-add col-12 mw-100"
                                 style="overflow-y: hidden;" ngbDropdownMenu>
                                 <li class="search-box" ngbDropdownItem>
-                                    <input id="sa_weights_add_search" id="searchBoxIdW" autocomplete="off" type="text" placeholder="Search"
+                                    <input id="sa_weights_add_search" id="searchBoxIdW" autocomplete="off" type="text" placeholder="{{'sa_search' | translate }}"
                                         class="seach-input" autofocus [(ngModel)]="search_FieldName" />
                                 </li>
                                 <perfect-scrollbar class="scroll-search-field h-178">
@@ -118,10 +118,10 @@
                                         <li id="sa_weights_sropdown_vales{{i}}" ngbDropdownItem
                                             *ngFor="let suggesition of fieldsList | filter : [search_FieldName, 'fieldName']"
                                             (click)="addEditWeighObj.fieldName=suggesition.fieldName;selectedField(suggesition)"
-                                            [ngClass]="{'highlight':addEditWeighObj.fieldName == suggesition}">
-                                            {{ suggesition.fieldName}}
+                                            [ngClass]="{'highlight':addEditWeighObj?.fieldName == suggesition.fieldName}">
+                                            {{ suggesition?.fieldName}}
                                         </li>
-                                        <li *ngIf="fieldsList && fieldsList.length===0">{{"weights_please_add" | translate}}</li>
+                                        <li *ngIf="fieldsList?.length===0">{{"weights_please_add" | translate}}</li>
                                     </ng-container>
                                 </perfect-scrollbar>
                             </ul>
@@ -140,10 +140,10 @@
                 <div class="label-text">{{'weights_set_weight'| translate}}</div>
                 <div class="d-flex m-0 slider_sec">
                     <div class="range_slider add-searchable-feild-range-slider">
-                        <app-range-slider [customClass]='"weightsSlider"' [allData]='addEditWeighObj.sliderObj'
+                        <app-range-slider [customClass]='"weightsSlider"' [allData]='addEditWeighObj?.sliderObj'
                             (valueEvent)="valueEvent($event,addEditWeighObj,i)"></app-range-slider>
                     </div>
-                    <div class="sliderVal">{{addEditWeighObj.sliderObj.default}}</div>
+                    <div class="sliderVal">{{addEditWeighObj?.sliderObj.default}}</div>
                 </div>
             </div>
         </div>
@@ -153,7 +153,7 @@
             *ngIf="currentEditIndex>-1"
             (click)="deleteWeightPopUp(addEditWeighObj,$event,currentEditIndex)">{{'sa_delete' | translate}}</button>
         <button [disabled]="isAddLoading" id="btn_weightseditSave" type="button" class="kr-sg-button-primary btn_lg mr-0 float-right"
-            (click)="addEditWeight(addEditWeighObj)"><span class="loader-spin-inside-btn" *ngIf="isAddLoading"></span>{{(currentEditIndex>-1)?'Update':'Add'}}</button>
+            (click)="addEditWeight(addEditWeighObj)"><span class="loader-spin-inside-btn" *ngIf="isAddLoading"></span>{{(currentEditIndex>-1)?('sa_update' | translate):('sa_add' | translate)}}</button>
         <!-- [disabled]="!addEditWeighObj.name" -->
         <button id="btn_weightsClose" type="button" class="kr-sg-button-secondary btn_lg float-right"
             (click)="closeAddEditWeight()">{{'sa_cancel'| translate}}</button>

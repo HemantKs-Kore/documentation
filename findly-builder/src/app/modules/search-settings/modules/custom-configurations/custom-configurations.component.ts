@@ -34,7 +34,7 @@ export class CustomConfigurationsComponent implements OnInit {
     this.serachIndexId = this.selectedApp.searchIndexes[0]._id;
     this.indexPipelineId = this.workflowService.selectedIndexPipeline();
     this.queryPipelineId = this.workflowService.selectedQueryPipeline() ? this.workflowService.selectedQueryPipeline()._id : '';
-    this.getcustomConfigList()
+    if(this.indexPipelineId && this.queryPipelineId )this.getcustomConfigList()
     this.querySubscription = this.appSelectionService.queryConfigSelected.subscribe(res => {
       this.indexPipelineId = this.workflowService.selectedIndexPipeline();
       this.queryPipelineId = this.workflowService.selectedQueryPipeline() ? this.workflowService.selectedQueryPipeline()._id : ''   

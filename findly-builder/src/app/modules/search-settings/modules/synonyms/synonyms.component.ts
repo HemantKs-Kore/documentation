@@ -13,8 +13,6 @@ import { ConfirmationDialogComponent } from 'src/app/helpers/components/confirma
 import { AppSelectionService } from '@kore.services/app.selection.service'
 import { Observable, of, Subscriber, Subscription } from 'rxjs';
 import { InlineManualService } from '@kore.services/inline-manual.service';
-import { TmplAstRecursiveVisitor } from '@angular/compiler';
-import { FindlySharedModule } from 'src/app/modules/findly-shared/findly-shared.module';
 declare const $: any;
 
 @Component({
@@ -136,121 +134,14 @@ export class SynonymsComponent implements OnInit, OnDestroy {
         ? this.workflowService.selectedQueryPipeline()._id
         : this.selectedApp.searchIndexes[0].queryPipelineId;
       if (this.queryPipelineId) {
-        // this.getDyanmicFilterData();
-        // this.getSynonymsApi();
-        // this.getSynonymOnInit()
         this.getSynonyms();
       }
     }
-  }
-  getSynonymOnInit() {
-    this.getSynonymsApi(
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      'initial'
-    );
-  }
-  getSynonymsApi(
-    searchValue?,
-    searchSource?,
-    source?,
-    headerOption?,
-    sortHeaderOption?,
-    sortValue?,
-    navigate?,
-    request?,
-    initial?
-  ) {
-    const quaryparms: any = {
-      searchIndexId: this.serachIndexId,
-      queryPipelineId: this.queryPipelineId,
-      indexPipelineId: this.workflowService.selectedIndexPipeline() || '',
-      offset: this.skip || 0,
-      limit: 10,
-    };
-    let payload: any = {};
-    if (!sortHeaderOption && !headerOption) {
-      payload = {
-        sort: {
-          type: -1,
-        },
-      };
-    } else {
-      payload = request;
-    }
-
-    if (this.synonymSearch) {
-      payload.search = this.synonymSearch;
-    }
-    this.service.invoke('get.synonyms', quaryparms, payload).subscribe(
-      (res) => {
-        this.synonymData = res.synonyms || [];
-        if (initial) {
-          this.synonymArr = res.synonyms;
-        }
-        console.log(this.synonymData, 'SYNONYMS');
-        this.loadingContent = false;
-        this.totalRecord = res.totalCount || 0;
-        if (res.synonyms.length > 0) {
-          this.loadingContent = false;
-          this.loadingContent1 = true;
-        } else {
-          this.loadingContent1 = true;
-        }
-        this.getDyanmicFilterData();
-      },
-      (errRes) => {
-        this.loadingContent = false;
-        this.errorToaster(errRes, 'Failed to get stop words');
-      }
-    );
-  }
-  getDyanmicFilterData(search?) {
-    // this.fieldDataTypeArr = [];
-    // this.isMultiValuedArr = [];
-    // this.isRequiredArr = [];
-    // this.isStoredArr = [];
-    // this.isIndexedArr = [];
-    const quaryparms: any = {
-      searchIndexId: this.serachIndexId,
-    };
-    const request: any = {
-      moduleName: 'synonyms',
-      indexPipelineId: this.workflowService.selectedIndexPipeline() || '',
-      queryPipelineId: this.queryPipelineId,
-    };
-    // request.type = this.filterSystem.typefilter;
-    request.search = this.synonymSearch;
-    if (request.type == 'all') {
-      delete request.type;
-    }
-    if (this.synonymSearch === '') {
-      delete request.search;
-    }
-    this.service.invoke('post.filters', quaryparms, request).subscribe(
-      (res) => {
-        console.log(res, 'Filters');
-        this.synonymTypeArr$ = of([...res.type]);
-      },
-      (errRes) => {
-        this.errorToaster(errRes, 'Failed to get filters');
-      }
-    );
   }
   paginate(event) {
     this.skip = event.skip;
     // this.getFileds(event.skip, this.searchFields)
   }
-  selectFilter(type) {
-    this.selectedFilter = type;
-  }
-
   synonymChanged() {
     this.addNewSynonymObj.values = [];
     this.synonymObj.synonyms = [];
@@ -277,31 +168,6 @@ export class SynonymsComponent implements OnInit, OnDestroy {
     if (index >= 0) {
       synonyms[i].values.splice(index, 1);
     }
-  }
-  compare(a: number | string, b: number | string, isAsc: boolean) {
-    return (a < b ? -1 : 1) * (isAsc ? 1 : -1);
-  }
-  sortBy(sort) {
-    const data = this.synonymData.slice();
-    this.selectedSort = sort;
-    if (this.selectedSort !== sort) {
-      this.isAsc = true;
-    } else {
-      this.isAsc = !this.isAsc;
-    }
-    const sortedData = data.sort((a, b) => {
-      const isAsc = this.isAsc;
-      switch (sort) {
-        case 'name':
-          return this.compare(a.values[0], b.values[0], isAsc);
-        case 'type':
-          return this.compare(a.type, b.type, isAsc);
-
-        default:
-          return 0;
-      }
-    });
-    this.synonymData = sortedData;
   }
   toggleSearch() {
     if (this.showSearch && this.synonymSearch) {
@@ -384,26 +250,37 @@ export class SynonymsComponent implements OnInit, OnDestroy {
     this.searchKeyword = this.synonymSearch;
     this.getSynonyms();
   }
-  validateSynonyms() {
-    if (
-      !this.addNewSynonymObj ||
-      (this.addNewSynonymObj.synonyms && !this.addNewSynonymObj.synonyms.length)
-    ) {
-      return false;
-    } else if (
-      this.addNewSynonymObj.type === 'oneWaySynonym' &&
-      !this.addNewSynonymObj.keyword
-    ) {
-      return false;
-    } else {
+  // validateSynonyms() {
+  //   if (
+  //     !this.addNewSynonymObj ||
+  //     (this.addNewSynonymObj.synonyms && !this.addNewSynonymObj.synonyms.length)
+  //   ) {
+  //     return false;
+  //   } else if (
+  //     this.addNewSynonymObj.type === 'oneWaySynonym' &&
+  //     !this.addNewSynonymObj.keyword
+  //   ) {
+  //     return false;
+  //   } else {
+  //     return true;
+  //   }
+  // }
+  validateSynonyms(){
+      if( this.addNewSynonymObj?.type === 'oneWaySynonym' && !this.addNewSynonymObj?.keyword && !this.addNewSynonymObj?.synonyms?.length){
+        return false;
+      }
+      else if( this.addNewSynonymObj?.type === 'synonym' && !(this.addNewSynonymObj?.synonyms.length > 1) ){
+        return false;
+      }
+      else {
       return true;
-    }
+     }
   }
   //SELECTING SYNONYMN TYPE
   changeSynonymType() {
     this.addNewSynonymObj.synonyms = [];
     this.synonymObj.synonyms = [];
-    this.addNewSynonymObj.keyword = [];
+    this.addNewSynonymObj.keyword = '';
     this.submitted = false;
   }
   addSynonym() {
@@ -436,7 +313,12 @@ export class SynonymsComponent implements OnInit, OnDestroy {
         this.filterSynonym = true;
       }
       this.addOrUpddate(obj, 'add');
-    } else {
+      } else if (this.addNewSynonymObj?.type === 'synonym' && this.addNewSynonymObj?.synonyms.length === 1) {
+      this.notificationService.notify(
+        'Synonyms should be more than one',
+        'warning'
+      );   
+     } else {
       this.notificationService.notify(
         'Enter the required fields to proceed',
         'error'
@@ -470,9 +352,10 @@ export class SynonymsComponent implements OnInit, OnDestroy {
         if (dialogRef && dialogRef.close) {
           dialogRef.close();
         }
-      },
+        this.notificationService.notify('Synonym Added Successfully','success')
+      }, 
       (errRes) => {
-        this.errorToaster(errRes, 'Failed to add Weight');
+        this.errorToaster(errRes, 'Failed To Add Synonym');
       }
     );
   }

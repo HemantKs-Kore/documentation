@@ -11,18 +11,18 @@
       </div>
       <div class="widget-desc">{{"synonyms_header_desc" | translate}}</div>
     </div>
-    <div class="landing-page-search" *ngIf="true">
+    <div class="landing-page-search">
       <div class="kr-sg-input-text m-0">
-        <input type="text" maxlength="60" placeholder="Search" id="inputSearch" class="input-search"
+        <input type="text" maxlength="60" placeholder="{{'sa_search' | translate}}" id="inputSearch" class="input-search"
           [ngClass]="{'pl-33':!synonymSearch,'pl-2':synonymSearch}" autocomplete="off" [(ngModel)]="synonymSearch"
           (keyup)="searchSynonymns();displaySearch"
           (mouseover)="searchImgSrc = (searchFocusIn ? 'assets/icons/search_gray.svg' :'assets/icons/search_gray_dark.svg')"
           (mouseout)="searchFocusIn=false;searchImgSrc = 'assets/icons/search_gray.svg'"
           (focus)="searchFocusIn=true;searchImgSrc = 'assets/icons/search_gray.svg'">
-        <span class="search-icon" *ngIf="!synonymSearch.length"><i class="si-search"></i></span>
-        <span class="close-icon" *ngIf="synonymSearch.length" [ngClass]="{'pr-22':synonymSearch}"
+        <span class="search-icon" *ngIf="!synonymSearch?.length"><i class="si-search"></i></span>
+        <span class="close-icon" *ngIf="synonymSearch?.length" [ngClass]="{'pr-22':synonymSearch}"
           (mouseover)="activeClose=true" (mouseout)="activeClose=false" (click)="focusoutSearch();synonymSearch=''"
-          placement="top-center" container='body' ngbTooltip="Cancel"
+          placement="top-center" container='body' ngbTooltip="{{'sa_cancel' | translate}}"
           tooltipClass="ngb_tooltip_custom_class sampleJson"><i class="si-close"></i></span>
       </div>
     </div>
@@ -46,7 +46,7 @@
     <div class="panel-form-based-on-radio row col-12 m-0">
       <div class="form-search-synonym col-3 pl-0" *ngIf="addNewSynonymObj.type === 'oneWaySynonym'">
         <div class="kr-sg-input-text">
-          <input  [class.err-block]="((!addNewSynonymObj.keyword || !addNewSynonymObj.keyword.length) && submitted)" type="text"
+          <input  [class.err-block]="((!addNewSynonymObj?.keyword.length) && submitted)" type="text"
           id="synonymName" name="synonymName" autocomplete="off"  [(ngModel)]="addNewSynonymObj.keyword"
             [ngModelOptions]="{standalone: true}" placeholder="{{'synonyms_search_terms' | translate}}" required class="input-text">
         </div>
@@ -55,11 +55,11 @@
         <div class="tags">
           <div class="chip-sys-data">
             <mat-form-field class="example-chip-list"
-              [class.err-block]="((!synonymObj?.synonyms?.length) && submitted)"
+              [class.err-block]="((!addNewSynonymObj?.synonyms?.length) && submitted)"
               [floatLabel]="'never'">
               <mat-chip-list #chipList>
                 <perfect-scrollbar class="mat-chip-scroll">
-                  <mat-chip *ngFor="let syn of addNewSynonymObj.synonyms" [selectable]="selectable" [removable]="removable"
+                  <mat-chip id="sa_syn{{index}}"  *ngFor="let syn of addNewSynonymObj.synonyms;let index = index " [selectable]="selectable" [removable]="removable"
                     (removed)="remove(syn,'add')"><span *ngIf="syn">{{syn}}</span>
                     <mat-icon matChipRemove> <span class="close-icon"><i class="si-close"></i></span></mat-icon>
                   </mat-chip>
@@ -74,7 +74,7 @@
         </div>
       </div>
       <div class="form-add-btn-synonym col-2 text-center pr-0">
-        <button (click)="addSynonym()" class="kr-sg-button-primary"><span class="add-icon"><i class="si-add-plus"></i></span>{{"sa_add" | translate}}</button>
+        <button id="sa_synonym_add" (click)="addSynonym()" class="kr-sg-button-primary"><span class="add-icon"><i class="si-add-plus"></i></span>{{"sa_add" | translate}}</button>
       </div>
     </div>
   </div>
@@ -86,7 +86,7 @@
     <!-- table start from here -->
     <div class="index-config-lang-table row m-0">
       <div class="table_data_content col-12">
-        <div class="table_header row m-0">
+        <div class="table_header row m-0 pl-2">
           <div class="col_ col-8 title d-flex align-items-center justify-content-start">
             {{"synonyms_terms" | translate}}
           </div>
@@ -99,24 +99,24 @@
             <div class="kr-sg-dropdowns type_sort_dropdown pl-2 pt-1" #synonymFilter="ngbDropdown" ngbDropdown [container]="'body'"
             [autoClose]="true" [placement]="'bottom-right'">
             <div class="dropdown dropdown-open">
-                <button class="dropdown-toggle dropdown-input" ngbDropdownToggle
+                <button id="sa_synonym_filter_dropDown" class="dropdown-toggle dropdown-input" ngbDropdownToggle
                     (click)="$event.stopImmediatePropagation()">
 
                     <img class="custom-dropdown-toggle-icon" src="assets/icons/Fields_Vector.svg">
                 </button>
 
                     <ul class="dropdown-menu data-type-dropdown content-menu type_sort_dropdown-content" ngbDropdownMenu>
-                        <li [ngClass]="{'selected-list': filterObject.type == 'all'}" (click)="filterTable('all');synonymFilter.close()"><span
+                        <li id="sa_synonym_all_filter" [ngClass]="{'selected-list': filterObject.type == 'all'}" (click)="filterTable('all');synonymFilter.close()"><span
                                 class="list-name">{{'fields_all' | translate}} </span><img
                                 [ngClass]="{'d-none': filterObject.type !== 'all'}"
                                 src="assets/icons/check-blue.svg"></li>
 
-                            <li [ngClass]="{'selected-list': filterObject.type == 'synonym'}"  (click)="filterTable('synonym','synonym');synonymFilter.close()">
+                            <li id="sa_synonym_synoymn_filter" [ngClass]="{'selected-list': filterObject.type == 'synonym'}"  (click)="filterTable('synonym','synonym');synonymFilter.close()">
                                 <span class="list-name">{{"synonyms_synonym" | translate}}</span><img
                                 [ngClass]="{'d-none': filterObject.type !== 'synonym'}"
                                     src="assets/icons/check-blue.svg">
                             </li>
-                            <li [ngClass]="{'selected-list': filterObject.type == 'oneWaySynonym'}"  (click)="filterTable('oneWaySynonym','oneWaySynonym');synonymFilter.close()">
+                            <li id="sa_synonym_oneWaySynonym_filter"  [ngClass]="{'selected-list': filterObject.type == 'oneWaySynonym'}"  (click)="filterTable('oneWaySynonym','oneWaySynonym');synonymFilter.close()">
                                 <span class="list-name">{{"synonyms_one_way_synonym" | translate}}</span><img
                                 [ngClass]="{'d-none': filterObject.type !== 'oneWaySynonym'}"
                                     src="assets/icons/check-blue.svg">
@@ -131,12 +131,12 @@
         </div>
         <perfect-scrollbar class="table_body_content">
           <ng-container *ngIf="synonymData.length; else noSynonyms">
-            <div class="table_body row m-0" *ngFor="let synonymObj of synonymData;let i = index">
+            <div class="table_body row m-0 pl-2" *ngFor="let synonymObj of synonymData;let i = index">
               <ng-container *ngIf="editIndex != i">
                 <div class="col-8 title text-left">
                   <div class="table-row-view">
                     <div class="synonym-view-data row col-12 p-0 m-0">
-                      <div class="synonym-name col-2 p-0" *ngIf="synonymObj.type == 'oneWaySynonym'">{{synonymObj.keyword}}</div>
+                    <div class="synonym-name col-2 p-0 text-truncate" [container]="'body'" ngbTooltip="{{synonymObj.keyword}}" *ngIf="synonymObj.type == 'oneWaySynonym'">{{synonymObj.keyword}}</div>
                       <i *ngIf="synonymObj.type === 'oneWaySynonym'" class="col-1 si-right-arrow-large arrow_divider"></i>
                       <div class="synonym-type-list col-8 p-0" [ngClass]="{'col-12':synonymObj.type !== 'oneWaySynonym'}">
                         <div class="d-flex align-items-center" *ngFor="let synonym of synonymObj.synonyms;let synIndex = index">
@@ -152,15 +152,15 @@
                   </div>
                 </div>
                 <div class="col-2 title text-left p-0 ">
-                  <div class="Synonym-type-name">{{synonymObj?.type == 'synonym'?"Synonym":"One-Way Synonym"}}</div>
+                  <div class="Synonym-type-name">{{synonymObj?.type == 'synonym'?('synonyms_synonym' | translate):('synonyms_one_way_synonym' | translate)}}</div>
                 </div>
                 <div class="col-2 p-0 text-left">
                   <div class="action_links">
                     <span class="action_link-icon">
-                      <i (click)="editSynonymn(i,synonymObj)" ngbTooltip="{{'sa_edit' | translate}}" class="si-pencil-edit mr-2"></i>
+                      <i id="sa_synonym_edit" (click)="editSynonymn(i,synonymObj)" ngbTooltip="{{'sa_edit' | translate}}" [container]="'body'" class="si-pencil-edit mr-2"></i>
                     </span>
                     <span class="action_link-icon link-delete">
-                      <i (click)="deleteSynonymnConfirmationPopUp(synonymObj,i)" ngbTooltip="{{'sa_delete' | translate}}" class="si-delete1"></i>
+                      <i id="sa_synonym_delete" (click)="deleteSynonymnConfirmationPopUp(synonymObj,i)" [container]="'body'" ngbTooltip="{{'sa_delete' | translate}}" class="si-delete1"></i>
                     </span>
                   </div>
                 </div>
@@ -171,10 +171,10 @@
                     <div class="synonym-view-data row col-12 p-0 m-0">
                       <div class="synonym-name col-3 p-0" *ngIf="editSynonymObj?.type !== 'synonym'">
                         <div class="kr-sg-input-text">
-                          <input [class.err-block]="((!editSynonymObj.keyword || !editSynonymObj.keyword.length) && editSubmitted)"
+                          <input id="sa_synonym_edit_keyWord{{i}}" [class.err-block]="((!!editSynonymObj?.keyword.length) && editSubmitted)"
                             type="text" id="synonymName" name="synonymName" autocomplete="off" [(ngModel)]="editSynonymObj.keyword"
-                            [ngModelOptions]="{standalone: true}" placeholder="Search Term" required class="input-text">
-                          <i *ngIf="(editSynonymObj.type === 'oneWaySynonym') && (!editSynonymObj.keyword || !editSynonymObj.keyword.length) && editSubmitted"
+                            [ngModelOptions]="{standalone: true}" placeholder="{{'synonyms_search_term' | translate}}" required class="input-text">
+                          <i *ngIf="(editSynonymObj?.type === 'oneWaySynonym') && (!editSynonymObj?.keyword.length) && editSubmitted"
                             class="si-right-arrow-large" style="top: 29%; position: absolute; right: 1.5%; display: block;"
                             height="12" width="12"></i>
                         </div>
@@ -189,18 +189,18 @@
                               [floatLabel]="'never'">
                               <mat-chip-list #chipList1>
                                 <perfect-scrollbar class="mat-chip-scroll">
-                                  <mat-chip *ngFor="let syn of editSynonymObj.synonyms" [selectable]="selectable"
+                                  <mat-chip id="sa_editSyn{{editSynIndex}}" *ngFor="let syn of editSynonymObj.synonyms;let editSynIndex = index" [selectable]="selectable"
                                     [removable]="removable" (removed)="remove(syn,'edit')"><span *ngIf="syn">{{syn}}</span>
                                     <mat-icon matChipRemove>
                                       <span class="close-icon"><i class="si-close"></i></span>
                                     </mat-icon>
                                   </mat-chip>
-                                  <input placeholder="Type Synonym and Press Enter" [value]="" [matChipInputFor]="chipList1"
+                                  <input id="sa_synonym_input_enter" placeholder="{{'synonyms_header_desc' | translate}}" [value]="" [matChipInputFor]="chipList1"
                                     [matChipInputSeparatorKeyCodes]="separatorKeysCodes" [matChipInputAddOnBlur]="addOnBlur"
                                     (matChipInputTokenEnd)="add($event,'edit')" autocomplete="off">
                                 </perfect-scrollbar>
                               </mat-chip-list>
-                              <img *ngIf="(!editSynonymObj.synonyms || !editSynonymObj.synonyms.length) && editSubmitted"
+                              <img *ngIf="(!editSynonymObj?.synonyms.length) && editSubmitted"
                                 id="valuesWarningWarning" src="assets/icons/warning_escalation.svg"
                                 style="top: 29%; position: absolute; right: 1.5%; display: block;" height="12" width="12" />
                             </mat-form-field>
@@ -211,17 +211,16 @@
                   </div>
                 </div>
                 <div class="col-2 title text-left p-0">
-                  <div class="Synonym-type-name">{{synonymObj?.type == 'synonym'?"Synonym":"One-Way Synonym"}}</div>
+                  <div class="Synonym-type-name">{{synonymObj?.type == 'synonym'?"('synonyms_synonym' | translate)":"('synonyms_one_way_synonym' | translate)"}}</div>
                 </div>
                 <div class="col-2 p-0 text-left">
                   <div class="action_links">
                     <span class="action_link-icon">
-                      <i (click)="addEditedSynonym(editSynonymObj)" class="si-green-check mr-2"></i>
+                      <i id="sa_synonym_submit_edit" (click)="addEditedSynonym(editSynonymObj)" class="si-green-check mr-2"></i>
                     </span>
                     <span class="action_link-icon link-delete">
-                      <i (click)="cancelEdit(i)" class="si-close"></i>
+                      <i id="sa_synonym_cancel_edit" (click)="cancelEdit(i)" class="si-close"></i>
                     </span>
-
                   </div>
                 </div>
               </ng-container>

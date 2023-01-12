@@ -16,6 +16,8 @@ import { InlineManualService } from '@kore.services/inline-manual.service';
 import { PerfectScrollbarComponent } from 'ngx-perfect-scrollbar';
 import { Router, ActivatedRoute } from '@angular/router';
 import { MixpanelServiceService } from '@kore.services/mixpanel-service.service';
+import { DomSanitizer } from '@angular/platform-browser';
+import { IndexFieldsComfirmationDialogComponent } from 'src/app/helpers/components/index-fields-comfirmation-dialog/index-fields-comfirmation-dialog.component';
 
 
 declare const $: any;
@@ -40,9 +42,14 @@ export class FieldManagementComponent implements OnInit {
   currentfieldUsage: any
   fetchingFieldUsage = false;
   value = 1 || -1 ;
-  indexedWarningMessage = '';
+  indexedWarningMessage: any = '';
+  resultTest;
+  editresultTest
+  tooltipArr = [];
+  showSearchSettingsTooltip = false;
   selectedSort = 'fieldName';
   isAsc = true;
+  underlineEnable=false
   fieldAutoSuggestion: any = [];
   fieldDataTypeArr: any = [];
   // isMultiValuedArr: any = [];
@@ -80,6 +87,8 @@ export class FieldManagementComponent implements OnInit {
     'position':'up',
     "value": 1,
   }
+  showSearchableToaster:boolean=false
+  deSelectCheckbox:boolean;
   filterObject={
     'type': '',
     'header':''
@@ -96,7 +105,8 @@ export class FieldManagementComponent implements OnInit {
     private appSelectionService: AppSelectionService,
     public inlineManual : InlineManualService,
     private router: Router,
-    public mixpanel: MixpanelServiceService
+    public mixpanel: MixpanelServiceService,
+    private sanitizer: DomSanitizer
   ) { }
 
   ngOnInit(): void {
@@ -112,6 +122,11 @@ export class FieldManagementComponent implements OnInit {
   }
   ngAfterViewInit() {
 
+  }
+  applyDisableClass(fieldName){
+    return {
+      'disable-delete':fieldName==='sys_content_type' || fieldName==='sys_racl' || fieldName==='sys_source_name'
+    };
   }
   loadFileds() {
     this.indexPipelineId = this.workflowService.selectedIndexPipeline();
@@ -139,15 +154,22 @@ export class FieldManagementComponent implements OnInit {
     //   this.newFieldObj.fieldDataType = type
     // } else {
     this.newFieldObj.fieldDataType = type
+    if(type!='string'){
+      $("#auto_suggest_option").prop("checked", false);
+      this.newFieldObj.isAutosuggest =false
+    }
+    
     // }
   }
   addEditFiled(field?) {
     if (field) {
+      this.showSearchableToaster=true
       this.newFieldObj = JSON.parse(JSON.stringify(field));
       this.newFieldObj.previousFieldDataType = field.fieldDataType;
       this.getFieldAutoComplete(field.fieldName);
       this.getFieldUsageData(field)
     } else {
+      this.showSearchableToaster=false
       // this.newFieldObj = {
       //   fieldName: '',
       //   fieldDataType: 'string',
@@ -161,8 +183,8 @@ export class FieldManagementComponent implements OnInit {
         fieldName: '',
         fieldDataType: 'string',
         previousFieldDataType: 'string',
-        isAutosuggest: true,
-        isSearchable: true,
+        isAutosuggest: false,
+        isSearchable: false,
       }
       this.mixpanel.postEvent('Enter Add field',{})
     }
@@ -193,73 +215,79 @@ export class FieldManagementComponent implements OnInit {
         facets: false,
         rules: false,
         //weights: false
-        searchFields: false,
+        searchSettings: false,
         resultTemplate: false,
         nlpRules:false,
         entites:false
       }
       let usageText = '';
-      //if (res && (res.facets && res.facets.used) || (res.rules && res.rules.used) || (res.weights && res.weights.used) || (res.resultTemplates && res.resultTemplates.used)) {
-      if (res && (res.facets && res.facets.used) || (res.rules && res.rules.used) || (res.searchFields && res.searchFields.used) || (res.resultTemplates && res.resultTemplates.used) || (res.nlpRules && res.nlpRules.used) || (res.entites && res.entites.used)) {
-        usageText = usageText + ' This will impact'
-        if (res && res.facets && res.facets.used) {
-          deps.facets = true;
-          usageText = usageText + ' facet'
-        }
-        // if (res && res.weights && res.weights.used) {
-        //   deps.weights = true;
-        //   if (deps.facets) {
-        //     usageText = usageText + ', ' + 'Weights'
-        //   } else {
-        //     usageText = usageText + ' Weights'
-        //   }
-        // }
-        if (res && res.searchFields && res.searchFields.used) {
-          deps.searchFields = true;
-          if (deps.facets) {
-            usageText = usageText + ', ' + 'searchFields'
-          } else {
-            usageText = usageText + ' searchFields'
-          }
-        }
-        if (res && res.rules && res.rules.used) {
-          deps.rules = true;
-          if (deps.facets || deps.searchFields) {
-            usageText = usageText + ' , ' + res.rules.records.length + ' Business Rule' + (res.rules.records.length > 1 ? 's' : '')
-          } else {
-            usageText = usageText + ' ' + res.rules.records.length + ' Business Rule' + (res.rules.records.length > 1 ? 's' : '')
+      let usedArr = [];
+      this.showSearchSettingsTooltip = false;
+      this.tooltipArr = [];
+
+      if (!res) {
+        return;
+      }
+
+      let searchSettingsRecord = [];
+
+      const resultArr = Object.entries(res).reduce((usedArr: any, [key, valObj]) => {
+        if (valObj['used']) {
+          if ((key === 'facets')) {
+            usedArr = [...usedArr, 'Facet'];
+          } else if (key === 'searchSettings') {
+            // const msg =p `<span class="based-on-selection">searchSettings</span>`;
+            const msg = 'SearchSettings';
+
+            searchSettingsRecord = valObj['records'][0];
+
+            this.showSearchSettingsTooltip = true;
+            usedArr = [...usedArr, msg];
+          } else if(key === 'rules') {
+            const msg = res.rules.records.length + ' Business Rule' + (res.rules.records.length > 1 ? 's' : '');
+            usedArr = [...usedArr, msg];
+          } else if (key === 'resultTemplates') {
+            const msg = res.resultTemplates.records.length + ' Result Template' + (res.resultTemplates.records.length > 1 ? 's' : '');
+            usedArr = [...usedArr, msg]
+          } else if (key === 'nlpRules') {
+            const msg = res.nlpRules.records.length + ' nlp Rule' + (res.nlpRules.records.length > 1 ? 's' : '');
+            usedArr = [...usedArr, msg]
+          } else if (key === 'entites') {
+            const msg = res.entites.records.length + (res.entites.records.length == 1 ? 'entity' : '')  + (res.entites.records.length > 1 ? 'entities' : '');
+            usedArr = [...usedArr, msg];
           }
         }
 
-        if (res && res.resultTemplates && res.resultTemplates.used) {
-          deps.resultTemplate = true;
-          if (deps.facets || deps.searchFields || deps.rules) {
-            usageText = usageText + ' , ' + res.resultTemplates.records.length + ' Result Template' + (res.resultTemplates.records.length > 1 ? 's' : '');
-          } else {
-            usageText = usageText + ' will impact ' + res.resultTemplates.records.length + ' Result Template' + (res.resultTemplates.records.length > 1 ? 's' : '')
-          }
+        return usedArr;
+      }, []);
+      
+      if (searchSettingsRecord) {
+        if (searchSettingsRecord['highlight']?.value) {
+          this.tooltipArr = [...this.tooltipArr, 'Highlight']
         }
-
-        if (res && res.nlpRules && res.nlpRules.used) {
-          deps.nlpRules = true;
-          if (deps.facets || deps.searchFields || deps.rules || deps.resultTemplate) {
-            usageText = usageText + ' , ' + res.nlpRules.records.length + ' nlp Rule' + (res.nlpRules.records.length > 1 ? 's' : '');
-          } else {
-            usageText = usageText + ' will impact ' + res.nlpRules.records.length + ' nlp Rule' + (res.nlpRules.records.length > 1 ? 's' : '')
-          }
+        if (searchSettingsRecord['weight']?.value) {
+          this.tooltipArr = [...this.tooltipArr, 'Weight'];
         }
-
-        if (res && res.entites && res.entites.used) {
-          deps.entites = true;
-          if (deps.facets || deps.searchFields || deps.rules || deps.resultTemplate || deps.nlpRules) {
-            usageText = usageText + ' , ' + res.entites.records.length + (res.entites.records.length == 1 ? 'entity' : '')  + (res.entites.records.length > 1 ? 'entities' : '');
-          } else {
-            usageText = usageText + ' will impact ' + res.nlpRules.entites.length + (res.entites.records.length == 1 ? 'entity' : '') + (res.entites.records.length > 1 ? 'entities' : '');
-          }
+        if (searchSettingsRecord['presentable']?.value) {
+          this.tooltipArr = [...this.tooltipArr, 'Presentable']
+        }
+        if (searchSettingsRecord['spellCorrect']?.value) {
+          this.tooltipArr = [...this.tooltipArr, 'Spellcorrect']
         }
       }
-      usageText = this.replaceLast(",", " and", usageText) +','+'Please retrain the application for the change to take effect';
-      this.indexedWarningMessage = usageText;
+
+      let resultStr1 = `This will impact `;
+      if (resultArr.length === 1) {
+        resultStr1 += resultArr[0];
+      } else if (resultArr.length === 2) {
+        resultStr1 += `${resultArr.join(' and ')}`;
+      } else {
+        const lastVal = resultArr.slice(-1)[0]; 
+        resultStr1 += `${resultArr.slice(0, resultArr.length -1 ).join(', ')} and ${lastVal}`;
+      }
+      console.log(resultStr1);
+      this.indexedWarningMessage = resultStr1;
+      this.editresultTest = this.sanitizer.bypassSecurityTrustHtml(resultStr1); 
     }, errRes => {
       this.fetchingFieldUsage = false;
     });
@@ -296,75 +324,85 @@ export class FieldManagementComponent implements OnInit {
         facets: false,
         rules: false,
         //weights: false
-        searchFields: false,
+        searchSettings: false,
         resultTemplate: false,
         nlpRules:false,
         entites:false
       }
-      // let usageText1 = "This field is being used in Facets, Weights, and Rules (Dynamic). Deleting it will remove the associated Facets, Weights, and Rules.";
-      if (res && (res.facets && res.facets.used) || (res.rules && res.rules.used) || (res.searchFields && res.searchFields.used) || (res.resultTemplates && res.resultTemplates.used) || (res.nlpRules && res.nlpRules.used) || (res.entites && res.entites.used)) {
-        isDisableDeleteBtn = true;
-        let usageText1 = "";
-        usageText1 = "This field is being used in";
-        usageText = '';
-        // let usageText2 = 'Deleting it will remove the associated';
-        let usageText2 ='Please remove the dependency before deleting the field'
-        if (res && res.facets && res.facets.used) {
-          deps.facets = true;
-          usageText = usageText + ' Facets'
-        }
-        if (res && res.searchFields && res.searchFields.used) {
-          deps.searchFields = true;
-          if (deps.facets) {
-            usageText = usageText + ', ' + 'searchFields'
-          } else {
-            usageText = usageText + ' searchFields'
-          }
-        }
-        
-        if (res && res.rules && res.rules.used) {
-          if (deps.facets || deps.searchFields) {
-            usageText = usageText + ' , ' + res.rules.records.length + ' Rule' + (res.rules.records.length > 1 ? 's' : '')
-          } else {
-            usageText = usageText + ' ' + res.rules.records.length + ' Rule' + (res.rules.records.length > 1 ? 's' : '')
-          }
-        }
-        if (res && res.resultTemplates && res.resultTemplates.used) {
-          deps.resultTemplate = true;
-          if (deps.facets || deps.searchFields || deps.rules) { 
-            usageText = usageText + ' , ' + res.resultTemplates.records.length + ' Result Template' + (res.resultTemplates.records.length > 1 ? 's' : '')
-          } else {
-            usageText = usageText + ' ' + res.resultTemplates.records.length + ' Result Template' + (res.resultTemplates.records.length > 1 ? 's' : '')
-          }
-        }
-        if (res && res.nlpRules && res.nlpRules.used) {
-          deps.nlpRules = true;
-          if (deps.facets || deps.searchFields || deps.rules || deps.resultTemplate) { 
-            usageText = usageText + ' , ' + res.nlpRules.records.length + 'nlpRule' + (res.nlpRules.records.length > 1 ? 's' : '')
-          } else {
-            usageText = usageText + ' ' + res.nlpRules.records.length + 'nlpRule' + (res.nlpRules.records.length > 1 ? 's' : '')
-          }
-        }
-        if (res && res.entites && res.entites.used) {
-          deps.entites = true;
-          if (deps.facets || deps.searchFields || deps.rules || deps.resultTemplate || deps.nlpRules) {
-            usageText = usageText + ' , ' + res.entites.records.length + (res.entites.records.length == 1 ? 'entity' : '')  + (res.entites.records.length > 1 ? 'entities' : '');
-          } else {
-            usageText = usageText + ' will impact ' + res.nlpRules.entites.length + (res.entites.records.length == 1 ? 'entity' : '') + (res.entites.records.length > 1 ? 'entities' : '');
-          }
-        }
-        usageText = this.replaceLast(",", " and", usageText);
-        // usageText = usageText1 + usageText + '. ' + usageText2 + usageText + '.';
-        usageText = usageText1 + usageText + '. ' + usageText2 +'.';
+
+      this.showSearchSettingsTooltip = false;
+      this.tooltipArr = [];
+      if (!res) {
+        return;
       }
-      const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
-        width: '446px',
+
+      let searchSettingsRecord = [];
+
+      const resultArr = Object.entries(res).reduce((usedArr: any, [key, valObj]) => {
+        if (valObj['used']) {
+          if ((key === 'facets')) {
+            usedArr = [...usedArr, 'Facet'];
+          } else if (key === 'searchSettings') {
+            // const msg =p `<span class="based-on-selection">searchSettings</span>`;
+            const msg = `SearchSettings`;
+
+            searchSettingsRecord = valObj['records'][0];
+
+            this.showSearchSettingsTooltip = true;
+            usedArr = [...usedArr, msg];
+          } else if(key === 'rules') {
+            const msg = res.rules.records.length + ' Business Rule' + (res.rules.records.length > 1 ? 's' : '');
+            usedArr = [...usedArr, msg];
+          } else if (key === 'resultTemplates') {
+            const msg = res.resultTemplates.records.length + ' Result Template' + (res.resultTemplates.records.length > 1 ? 's' : '');
+            usedArr = [...usedArr, msg]
+          } else if (key === 'nlpRules') {
+            const msg = res.nlpRules.records.length + ' nlp Rule' + (res.nlpRules.records.length > 1 ? 's' : '');
+            usedArr = [...usedArr, msg]
+          } else if (key === 'entites') {
+            const msg = res.entites.records.length + (res.entites.records.length == 1 ? 'entity' : '')  + (res.entites.records.length > 1 ? 'entities' : '');
+            usedArr = [...usedArr, msg];
+          }
+        }
+
+        return usedArr;
+      }, []);
+      
+      if (searchSettingsRecord) {
+        if (searchSettingsRecord['highlight']?.value) {
+          this.tooltipArr = [...this.tooltipArr, 'Highlight']
+        }
+        if (searchSettingsRecord['weight']?.value) {
+          this.tooltipArr = [...this.tooltipArr, 'Weight'];
+        }
+        if (searchSettingsRecord['presentable']?.value) {
+          this.tooltipArr = [...this.tooltipArr, 'Presentable']
+        }
+        if (searchSettingsRecord['spellCorrect']?.value) {
+          this.tooltipArr = [...this.tooltipArr, 'Spellcorrect']
+        }
+      }
+      let resultStr = `This field is being used in `;
+      if (resultArr.length === 1) {
+        resultStr += resultArr[0];
+      } else if (resultArr.length === 2) {
+        resultStr += `${resultArr.join(' and ')}`;
+      } else {
+        const lastVal = resultArr.slice(-1)[0]; 
+        resultStr += `${resultArr.slice(0, resultArr.length -1 ).join(', ')} and ${lastVal}`;
+      }
+      resultStr += '.'+'<div>' +'Deleting it will remove all the associated settings' +'</div>'
+      console.log(resultStr);      
+      const dialogRef = this.dialog.open(IndexFieldsComfirmationDialogComponent, {
+        width: '530px',
         height: 'auto',
         panelClass: 'delete-popup',
         data: {
           newTitle: 'Are you sure you want to delete?',
-          body: usageText,
-          buttons: [{ key: 'yes', label: 'Delete', type: 'danger' }, { key: 'no', label: 'Cancel' }],
+          body: resultArr,
+          tooltipArr: this.tooltipArr,
+          resultArr,
+          buttons: [{ key: 'yes', label: 'Delete', type: 'danger', class: 'deleteBtn' }, { key: 'no', label: 'Cancel' }],
           confirmationPopUp: true
         }
       });
@@ -1197,4 +1235,96 @@ export class FieldManagementComponent implements OnInit {
     this.appSelectionService.topicGuideShow.next();
   }
 
+  //Searchable Checkbox Validation
+  searchableValidation(searchableCheckbox){
+    console.log(searchableCheckbox)
+    if(!searchableCheckbox.isSearchable){
+      return
+    }
+    else{
+      const quaryparms: any = {
+        searchIndexID: this.serachIndexId,
+        indexPipelineId: this.indexPipelineId,
+        queryPipelineId: this.workflowService.selectedQueryPipeline()._id,
+        fieldId: searchableCheckbox._id,
+      };
+    
+    
+      this.service.invoke('get.getFieldUsage', quaryparms).subscribe(res => {
+        let usageText = '';
+        let usedArr = [];
+        this.showSearchSettingsTooltip = false;
+        this.tooltipArr = [];
+  
+        if (!res) {
+          return;
+        }
+  
+        let searchSettingsRecord = [];
+  
+        const resultArr = Object.entries(res).reduce((usedArr: any, [key, valObj]) => {
+          if (valObj['used']) {
+            if ((key === 'facets')) {
+              usedArr = [...usedArr, 'Facet'];
+            } else if (key === 'searchSettings') {
+              // const msg =p `<span class="based-on-selection">searchSettings</span>`;
+              const msg = 'SearchSettings';
+  
+              searchSettingsRecord = valObj['records'][0];
+  
+              this.showSearchSettingsTooltip = true;
+              usedArr = [...usedArr, msg];
+            } else if(key === 'rules') {
+              const msg = res.rules.records.length + ' Business Rule' + (res.rules.records.length > 1 ? 's' : '');
+              usedArr = [...usedArr, msg];
+            } else if (key === 'resultTemplates') {
+              const msg = res.resultTemplates.records.length + ' Result Template' + (res.resultTemplates.records.length > 1 ? 's' : '');
+              usedArr = [...usedArr, msg]
+            } else if (key === 'nlpRules') {
+              const msg = res.nlpRules.records.length + ' nlp Rule' + (res.nlpRules.records.length > 1 ? 's' : '');
+              usedArr = [...usedArr, msg]
+            } else if (key === 'entites') {
+              const msg = res.entites.records.length + (res.entites.records.length == 1 ? 'entity' : '')  + (res.entites.records.length > 1 ? 'entities' : '');
+              usedArr = [...usedArr, msg];
+            }
+          }
+  
+          return usedArr;
+        }, []);
+        
+        if (searchSettingsRecord) {
+          if (searchSettingsRecord['highlight']?.value) {
+            this.tooltipArr = [...this.tooltipArr, 'Highlight']
+          }
+          if (searchSettingsRecord['weight']?.value) {
+            this.tooltipArr = [...this.tooltipArr, 'Weight'];
+          }
+          if (searchSettingsRecord['presentable']?.value) {
+            this.tooltipArr = [...this.tooltipArr, 'Presentable']
+          }
+          if (searchSettingsRecord['spellCorrect']?.value) {
+            this.tooltipArr = [...this.tooltipArr, 'Spellcorrect']
+          }
+        }
+  
+        let resultStr = `Searchable property has been set to false this will impact `;
+        if (resultArr.length === 1) {
+          resultStr += resultArr[0];
+        } else if (resultArr.length === 2) {
+          resultStr += `${resultArr.join(' and ')}`;
+        } else {
+          const lastVal = resultArr.slice(-1)[0]; 
+          resultStr += `${resultArr.slice(0, resultArr.length -1 ).join(', ')} and ${lastVal}`;
+        }
+        console.log(resultStr);
+        this.indexedWarningMessage = resultStr;
+        this.resultTest = this.sanitizer.bypassSecurityTrustHtml(resultStr);
+  
+  
+      }, errRes => {
+        this.fetchingFieldUsage = false;
+      });
+  
+   }
+ }
 }

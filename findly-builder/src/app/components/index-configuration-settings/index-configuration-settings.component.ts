@@ -5,20 +5,15 @@ import { ServiceInvokerService } from '@kore.services/service-invoker.service';
 import { NotificationService } from '@kore.services/notification.service';
 import { AppSelectionService } from '@kore.services/app.selection.service';
 import { WorkflowService } from '@kore.services/workflow.service';
-import { Subscription } from 'rxjs';
+import { from, interval, Subject, Subscription } from 'rxjs';
 import { ValueConverter } from '@angular/compiler/src/render3/view/template';
 import { ConfirmationDialogComponent } from 'src/app/helpers/components/confirmation-dialog/confirmation-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
 import { DockStatusService } from '../../services/dockstatusService/dock-status.service';
+import { startWith, elementAt, filter } from 'rxjs/operators';
+import * as _ from 'underscore';
 
-
-
-
-
-
-
-
-
+declare const $: any;
 @Component({
   selector: 'app-index-configuration-settings',
   templateUrl: './index-configuration-settings.component.html',
@@ -43,8 +38,9 @@ export class IndexConfigurationSettingsComponent implements OnInit {
     code: "en"
     }]
   languageList:any = [];
-
-
+  public pollingSubscriber : any;
+  docStatusObject : any = {};
+  isTrainStatusInprogress = false;
   @ViewChild('addLangModalPop') addLangModalPop: KRModalComponent;
   @ViewChild('perfectScroll') perfectScroll: PerfectScrollbarComponent;
 
@@ -54,7 +50,7 @@ export class IndexConfigurationSettingsComponent implements OnInit {
     private notificationService: NotificationService,
     private appSelectionService: AppSelectionService,
     public dialog: MatDialog,
-    public dockService: DockStatusService,
+    public dockService: DockStatusService
   ) { }
 
   ngOnInit(): void {
@@ -67,8 +63,11 @@ export class IndexConfigurationSettingsComponent implements OnInit {
       this.configurationsSubscription = this.appSelectionService.queryConfigSelected.subscribe(res => {
         this.indexPipelineId = this.workflowService.selectedIndexPipeline();
         this.queryPipelineId = this.workflowService.selectedQueryPipeline() ? this.workflowService.selectedQueryPipeline()._id : ''
-        this.supportedLanguages = this.workflowService.supportedLanguages.values;
+        this.supportedLanguages = this.workflowService?.supportedLanguages?.values;
       })
+
+      this.poling();
+     
   } 
 // toaster message 
   errorToaster(errRes, message) {
@@ -163,6 +162,8 @@ export class IndexConfigurationSettingsComponent implements OnInit {
             if (dialogRef && dialogRef.close) {
               dialogRef.close();
             }
+            this.dockService.trigger(true);
+            this.poling();
             this.closeModalPopup();
             this.notificationService.notify('Language Saved Successfully', 'success');
           },
@@ -176,6 +177,18 @@ export class IndexConfigurationSettingsComponent implements OnInit {
           }
         );
   }
+//get train status
+getTrainIsInprogress(){
+    if($('.train-btn-icons').find('.training-pending-icon').is(":visible")){
+      return true;
+    }
+    else false;
+}
+  // get selected language count
+  getSelectedCount(){
+    return this.languageList.filter(e=>e.selected).length;
+  }
+
   //selection and deselection method
   unCheck(){
     this.supportedLanguages.forEach(element => {
@@ -236,7 +249,6 @@ export class IndexConfigurationSettingsComponent implements OnInit {
   clearSearch(){
     this.searchLanguages = '';
   }
-    //Use a better Apporch so that we can restrict this call for IndexPipline - use Observable
   getIndexPipeline() {
       const header: any = {
         'x-timezone-offset': '-330'
@@ -261,7 +273,37 @@ export class IndexConfigurationSettingsComponent implements OnInit {
         }
       });
   }
+  poling() {
+    this.isTrainStatusInprogress  = true;
+    if (this.pollingSubscriber) {
+      this.pollingSubscriber.unsubscribe();
+    }
+    const queryParms ={
+      searchIndexId:this.workflowService.selectedSearchIndexId
+    }
+    this.pollingSubscriber = interval(10000).pipe(startWith(0)).subscribe(() => {
+      this.service.invoke('get.dockStatus', queryParms).subscribe(res => {
+          const queuedDoc = _.find(res, (source) => {
+          return (source?.jobType == "TRAINING" && source?.status == "INPROGRESS");
+        });
+        if (queuedDoc && (queuedDoc.status == "INPROGRESS")) {
+          this.isTrainStatusInprogress = true;
+        } else {
+          this.isTrainStatusInprogress = false;
+          this.pollingSubscriber.unsubscribe();
+        }
+      }, errRes => {
+        this.isTrainStatusInprogress = false;
+        this.pollingSubscriber.unsubscribe();
+      });
+    }
+    )
+  }
   ngOnDestroy() {
     this.configurationsSubscription ? this.configurationsSubscription.unsubscribe() : false;
+    if(this.pollingSubscriber){
+      this.pollingSubscriber.unsubscribe();
+    }
   }
+ 
 }

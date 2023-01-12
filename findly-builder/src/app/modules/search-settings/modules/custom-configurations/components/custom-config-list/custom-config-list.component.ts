@@ -34,13 +34,10 @@ export class CustomConfigListComponent implements OnInit {
       }
     });
     dialogRef.componentInstance.onSelect.subscribe(res => {
-      if (res === 'yes') {
-        dialogRef.close();
+      if (res === 'yes') {        
         this.onDelete.emit(item);
       }
-      else if (res === 'no') {
-        dialogRef.close();
-      }
+      dialogRef.close();
     });
   }
    

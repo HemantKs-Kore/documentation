@@ -104,13 +104,6 @@ export class WeightsComponent implements OnInit, OnDestroy
   selectedField(event) {
     this.addEditWeighObj.fieldName = event.fieldName;
     this.addEditWeighObj.fieldId = event._id;
-    // this.addEditWeighObj.name = event.fieldName;
-  }
-  clearField()
-  {
-    this.addEditWeighObj.fieldName = '';
-    this.addEditWeighObj.fieldId = '';
-    this.addEditWeighObj.name = '';
   }
   prepereWeights(){
     let weightArr = [];
@@ -138,7 +131,7 @@ export class WeightsComponent implements OnInit, OnDestroy
     };
     this.service.invoke('put.restoreWeights', quaryparms).subscribe(res =>
     {
-      this.notificationService.notify('Updated Successfully', 'success');
+      this.notificationService.notify('Weights has been restored', 'success');
       this.getWeights();
       if (dialogRef && dialogRef.close)
       {
@@ -197,7 +190,7 @@ export class WeightsComponent implements OnInit, OnDestroy
     };
     this.service.invoke('get.weightsList', quaryparms).subscribe(res =>
     {
-      this.weights = res.data || {};
+      this.weights = res.data || [];
       this.prepereWeights();
       if (!this.inlineManual.checkVisibility('WEIGHTS')) {
         this.inlineManual.openHelp('WEIGHTS')
@@ -218,15 +211,6 @@ export class WeightsComponent implements OnInit, OnDestroy
       weight.sliderObj.default = val;
       this.sliderChange(weight,index);
     }
-  }
-  editWeight(weight, index)
-  {
-    this.currentEditIndex = index;
-    this.currentEditDesc = weight.desc;
-    // const editWeight = JSON.parse(JSON.stringify(weight));
-    // editWeight.sliderObj.id = 'editSlider';
-    // this.addEditWeighObj = editWeight;
-    // this.openAddEditWeight();
   }
   getAllFields(){
     const quaryparms: any = {
@@ -278,12 +262,6 @@ export class WeightsComponent implements OnInit, OnDestroy
       this.currentEditIndex = -1;
       this.addEditWeighObj = null;
     }
-  }
-  setDataToActual()
-  {
-    this.prepereWeights();
-    this.disableCancle = true;
-    this.currentEditIndex = -1
   }
   errorToaster(errRes, message)
   {
@@ -362,7 +340,8 @@ export class WeightsComponent implements OnInit, OnDestroy
         }
       else if (type == 'edit') {
           this.weightsList[index] = this.getWeightsPayload(weight);
-          this.notificationService.notify(' Updated Successfully', 'success');
+          //this.getWeights();
+          this.notificationService.notify('Weight has been updated', 'success');
           this.appSelectionService.updateTourConfig(this.componentType);
        }
       }
@@ -420,24 +399,14 @@ export class WeightsComponent implements OnInit, OnDestroy
     };
     this.service.invoke('delete.Weight', quaryparms).subscribe(res => {
      if(res){
+      //this.getWeights();
          this.weightsList.splice(index, 1);
-         this.notificationService.notify('Deleted Successfully', 'success');
+         this.notificationService.notify('Field From Weight Removed Successfully', 'success');
         }
       }, errRes => {
          this.loadingContent = false;
-         this.errorToaster(errRes, 'Failed to Delete weight');
+         this.errorToaster(errRes, 'Failed to Remove Field From Weights');
       });
-  }
-  modifyFieldWarningMsg(warningMessage)
-  {
-    let index = warningMessage.indexOf("changed");
-    if (index > -1)
-    {
-      return true;
-    } else
-    {
-      return false;
-    }
   }
   clearSearchtext()
   {
@@ -455,19 +424,17 @@ export class WeightsComponent implements OnInit, OnDestroy
       this.isAsc = !this.isAsc;
     }
     let naviagtionArrow ='';
-    //var checkSortValue= 1;
     if(this.isAsc){
       naviagtionArrow= 'up';
       this.checksort='asc'
     }
     else{
       naviagtionArrow ='down';
-      //checkSortValue = -1;
       this.checksort='desc'
     }
     this.getWeights();
   }
-getSortIconVisibility(sortingField: string, type: string,component: string) {
+  getSortIconVisibility(sortingField: string, type: string,component: string) {
       switch (this.selectedSort) {
         case "fieldName": {
             if (this.selectedSort == sortingField) {

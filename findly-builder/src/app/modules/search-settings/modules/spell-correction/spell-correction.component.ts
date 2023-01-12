@@ -23,6 +23,7 @@ export class SpellCorrectionComponent implements OnInit {
   querySubscription: Subscription;
   more_options: boolean = false;
   checksort: string = 'fieldName';
+  isSpinner=false
   selectedSort: string = 'asc';
   isSearchable: boolean = true;
   limit: number = 10;
@@ -54,8 +55,10 @@ export class SpellCorrectionComponent implements OnInit {
       queryPipelineId: this.queryPipelineId,
       indexPipelineId: this.indexPipelineId,
     };
+    this.isSpinner=true
     this.service.invoke('get.queryPipeline', quaryparms).subscribe(
       (res) => {
+        this.isSpinner=false
         this.spellcorrectdata = res;
       },
       (errRes) => {
@@ -79,7 +82,7 @@ export class SpellCorrectionComponent implements OnInit {
       ? this.workflowService.selectedQueryPipeline()._id
       : '';
     this.getAllspellcorrectFields();
-    this.getQuerypipeline();
+    if(this.indexPipelineId  && this.queryPipelineId && this.serachIndexId){ this.getQuerypipeline()}
 
     this.querySubscription =
       this.appSelectionService.queryConfigSelected.subscribe((res) => {
@@ -264,8 +267,8 @@ export class SpellCorrectionComponent implements OnInit {
     };
     this.service.invoke('put.queryPipeline', quaryparms, payload).subscribe(
       (res) => {
-        this.spellcorrectdata.settings.spellCorrect.enable = res?.settings?.spellcorrectdata?.enable;
-        this.notificationService.notify('updated successfully', 'success');
+        this.spellcorrectdata.settings.spellCorrect.enable = res?.settings?.spellCorrect?.enable;
+        this.spellcorrectdata.settings.spellCorrect.enable?this.notificationService.notify("Spell Correction Enabled",'success'):this.notificationService.notify("Spell Correction Disabled",'success');
       },
       (errRes) => {
         this.notificationService.notify('Failed to update', 'error');
@@ -284,10 +287,7 @@ export class SpellCorrectionComponent implements OnInit {
   //** to decrement the max typo edits value */
   maxdecrementValue(max_val) {
     this.max_threshold = max_val - 1;
-    if (this.max_threshold < 0) {
-      this.max_threshold = 0;
-    }
-    if (this.max_threshold >= 0) {
+    if (this.max_threshold >= 1) {
       const quaryparms: any = {
         indexPipelineId: this.workflowService.selectedIndexPipeline(),
         queryPipelineId: this.workflowService.selectedQueryPipeline()
@@ -307,7 +307,7 @@ export class SpellCorrectionComponent implements OnInit {
           this.spellcorrectdata.settings.spellCorrect.maxTypoEdits =
             res?.settings?.spellCorrect?.maxTypoEdits;
           if (this.max_threshold > 0) {
-            this.notificationService.notify('updated successfully', 'success');
+            this.notificationService.notify('Maximum Typo Edits updated successfully', 'success');
           }
         },
         (errRes) => {
@@ -319,7 +319,7 @@ export class SpellCorrectionComponent implements OnInit {
    //** to increment the max typo edits value */
   maxincrementValue(max_val) {
     this.max_threshold = max_val + 1;
-    if (this.max_threshold >= 0) {
+    if (this.max_threshold >= 2) {
       const quaryparms: any = {
         indexPipelineId: this.workflowService.selectedIndexPipeline(),
         queryPipelineId: this.workflowService.selectedQueryPipeline()
@@ -338,7 +338,7 @@ export class SpellCorrectionComponent implements OnInit {
         (res) => {
           this.spellcorrectdata.settings.spellCorrect.maxTypoEdits =
             res?.settings?.spellCorrect?.maxTypoEdits;
-          this.notificationService.notify('updated successfully', 'success');
+          this.notificationService.notify('Maximum Typo Edits updated successfully', 'success');
         },
         (errRes) => {
           this.notificationService.notify('Failed to update', 'error');
@@ -349,10 +349,7 @@ export class SpellCorrectionComponent implements OnInit {
    //** to decrement the minimum character threshold value */
   mindecrementValue(min_val) {
     this.min_threshold = min_val - 1;
-    if (this.min_threshold < 0) {
-      this.min_threshold = 0;
-    }
-    if (this.min_threshold >= 0) {
+    if (this.min_threshold >= 1) {
       const quaryparms: any = {
         indexPipelineId: this.workflowService.selectedIndexPipeline(),
         queryPipelineId: this.workflowService.selectedQueryPipeline()
@@ -372,7 +369,7 @@ export class SpellCorrectionComponent implements OnInit {
             this.spellcorrectdata.settings.spellCorrect.minCharThreshold =
               res?.settings?.spellCorrect?.minCharThreshold;
             if (this.min_threshold > 0) {
-              this.notificationService.notify('updated successfully', 'success');
+              this.notificationService.notify('Minimum Character Threshold updated successfully', 'success');
             }
           },
           (errRes) => {
@@ -384,7 +381,7 @@ export class SpellCorrectionComponent implements OnInit {
   //** to increment the minimum character threshold value */
   minincrementValue(min_val) {
     this.min_threshold = min_val + 1;
-    if (this.min_threshold >= 0) {
+    if (this.min_threshold <= 6) {
       const quaryparms: any = {
         indexPipelineId: this.workflowService.selectedIndexPipeline(),
         queryPipelineId: this.workflowService.selectedQueryPipeline()
@@ -403,7 +400,7 @@ export class SpellCorrectionComponent implements OnInit {
         (res) => {
           this.spellcorrectdata.settings.spellCorrect.minCharThreshold =
           res?.settings?.spellCorrect?.minCharThreshold;
-          this.notificationService.notify('updated successfully', 'success');
+          this.notificationService.notify('Minimum Character Threshold updated successfully', 'success');
         },
         (errRes) => {
           this.notificationService.notify('Failed to update', 'error');

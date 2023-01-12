@@ -1207,7 +1207,7 @@
         "add": "Add",
         "save": "Save",
         "cancel": "Cancel",
-        "the_field_type_has_been_changed_from": "The field type has been changed from",
+        "the_field_type_has_been_changed_from": "The Field type has been changed from",
         "to": "to",
         "indexed_property_has_been_set_to_false": "Indexed Property has been set to False.",
         "defalult_value_optional": "Default Value (Optional)",
@@ -1685,12 +1685,12 @@
     "actions_carousel":	"Carousel",
 
 
-    "fields_fields":"Fields",
+    "fields_fields":"Index Fields",
     "fields_add_field":"Add Field",
     "fields_add":"Add",
     "fields_save":"Save",
     "fields_cancel":"Cancel",
-    "fields_the_field_type_has_been_changed_from":"The field type has been changed from",
+    "fields_the_field_type_has_been_changed_from":"The Field type has been changed from",
     "fields_to":"to",
     "fields_indexed_property_has_been_set_to_false":"Indexed Property has been set to False.",
     "fields_defalult_value_optional":"Default Value (Optional)",
@@ -3060,6 +3060,8 @@
     "sa_keyword": "Keyword",
     "sa_array": "Array",
     "sa_object": "Object",
+    "sa_checkbox": "checkbox",
+    "sa_update": "Update",
 
 
     
@@ -3637,7 +3639,7 @@
     "search_setting_max_no_of_typos_will_be_corrected":"Set value for the maximum number of typos that will be corrected in a word",
     "search_settings_less_options":"Show Less",
     "search_settingsa_bot_actions":"Bot Actions",
-    "search_settings_bot_action_desc":"Enable Bot Actions to trigger an event during the conversation with a virtual assistant. ",
+    "search_settings_bot_action_desc":"Enable Bot Actions to trigger an event during the conversation with a virtual assistant.",
     "search_settings_bot_action_enable":"Enable",
     "search_settings_bot_action_behavior":"Bot Action Behaviour",
     "search_settings_enable_disable_desc":"Enable the bot action behavior to auto-execute the winning intent or to have the action prompts as a part of the search results.",
@@ -3654,17 +3656,17 @@
     "search_settings_search_relevance_threshold_match":"Match Threshold",
     "search_settings_search_relevance_define_perecent_tokens":"Define the percentage of tokens in a query that should be present in a document so as to be returned in search results.",
     "search_settings_search_relevance_title":"Search Relevance",
-    "search_settings_search_relevance_configure_search_relevance":"Configure search relevance to ensure serach results returned contains the subject, object and verb given in the search query",
+    "search_settings_search_relevance_configure_search_relevance":"Configure search relevance to ensure search results contain the subject, the object, the verb, or a combination, given in the search query.",
     "search_settings_search_relevance_disable":"Disable",
     "search_settings_search_relevance_enable":"Enable",
     "search_settings_search_relevance_subject":"Subject",
-    "search_settings_search_relevance_subject_desc":"The subject in the search query must be present in the document to be included in the search result",
+    "search_settings_search_relevance_subject_desc":"The subject in the search query must be present in the document to be included in the search result.",
     "search_settings_search_relevance_object":"Object",
-    "search_settings_search_relevance_object_desc":"The object in the search query must be present in the document to be included in the search result",
+    "search_settings_search_relevance_object_desc":"The object in the search query must be present in the document to be included in the search result.",
     "search_settings_search_relevance_verb":"Verb",
-    "search_settings_search_relevance_verb_desc":"The verb in the search query must be pesent in the document to be included in the search result",
+    "search_settings_search_relevance_verb_desc":"The verb in the search query must be present in the document to be included in the search result.",
     "search_settings_custom_configurations":"Custom Configurations",
-    "search_settings_key_value_pair":"Add key-value pair in custom configuration to test out new features and capabilities",
+    "search_settings_key_value_pair":"Add key-value pair here to test new features.",
     "search_settings_custom_configurations_key":"KEY",
     "search_settings_custom_configurations_value":"VALUE",
     "search_settings_custom_configurations_action":"ACTION",
@@ -3679,7 +3681,7 @@
     "weights_weights_caps":"WEIGHTS",
     "weights_please_add":"Add the Searchable Field to Add Weight to it.",
 
-    "stopwords_desc":"Enable stopwords to filter out the commonly used English words like 'a,' 'an,' 'the,' etc. from the user query before searching",
+    "stopwords_desc":"Enable this option to filter out the commonly used English words like “a”, “an”, “the”, etc. from the query before processing it for search.",
     "stopwords_add_stop_words":"Add Stop Words",
     "stopwords_How_would_you_like_to_start":"How would you like to start?",
     "stopwords_Add_defaults":"Add default stop words",
@@ -3689,6 +3691,7 @@
     "stopwords_add_defalut":"Add Defalut Stop Words",
     "stopwords_clear_all":"Clear All",
     "stopwords_Get_Started":"Get Started",
+    "stopwords_multiple_words_can_be_added":"Multiple words can be added with comma separation",
 
 
     "snippets_Snippets":"Snippets",
@@ -3697,13 +3700,19 @@
     "snippets_Searchbar":"Search Bar",
 
     "smallTalk_Small_Talk":"Small Talk",
-    "smallTalk_header_desc":"Small Talk refers to the casual conversations that a Search app can have with the end-users. Search apps that can answer social queries like 'How Are You?' create a positive impression with human touch.",
+    "smallTalk_header_desc":"Small talk refers to the casual conversations a search app can have with end users. Search apps that can answer social queries like “How are you?” create a positive impression with a human touch.",
 
     "synonyms_Synonymns":"Synonyms",
-    "synonyms_header_desc":"Add synonyms to expand the search queries to retrieve better search results",
+    "synonyms_header_desc":"Type Synonyms, press Enter, and then click Add",
     "synonyms_search_terms":"Search Terms",
     "synonyms_type_synonym_and_enter":"Type Synonym and Press Enter",
     "synonyms_type_action":"ACTION",
+
+    "search_settings_impacted_settings":"IMPACTED SETTINGS",
+    "search_settings_field_used":"This field is being used in",
+    "sa_and":"and",
+    "search_settings_deleting_will_remove_associated":". Deleting it will remove all the associated settings",
+    "synonyms_search_term":"Search Term",
 
     "highlight_fields_for_highlight":"Fields for highlight",
     "highlight_fields_for_highlight_desc":"Add fields to be used for highlighting in the search results.",
