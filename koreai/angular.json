@@ -2,7 +2,7 @@
   "$schema": "./node_modules/nx/schemas/workspace-schema.json",
   "version": 2,
   "projects": {
-    "search-assist": "apps/search-assist",
-    "search-assist-e2e": "apps/search-assist-e2e"
+    "searchassist": "apps/searchassist",
+    "searchassist-e2e": "apps/searchassist-e2e"
   }
 }

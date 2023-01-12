@@ -1,17 +1,17 @@
 {
   "$schema": "..\\..\\node_modules\\nx\\schemas\\project-schema.json",
-  "sourceRoot": "apps/search-assist-e2e/src",
+  "sourceRoot": "apps/searchassist-e2e/src",
   "projectType": "application",
   "targets": {
     "e2e": {
       "executor": "@nrwl/cypress:cypress",
       "options": {
-        "cypressConfig": "apps/search-assist-e2e/cypress.json",
-        "devServerTarget": "search-assist:serve:development"
+        "cypressConfig": "apps/searchassist-e2e/cypress.json",
+        "devServerTarget": "searchassist:serve:development"
       },
       "configurations": {
         "production": {
-          "devServerTarget": "search-assist:serve:production"
+          "devServerTarget": "searchassist:serve:production"
         }
       }
     },
@@ -19,10 +19,10 @@
       "executor": "@nrwl/linter:eslint",
       "outputs": ["{options.outputFile}"],
       "options": {
-        "lintFilePatterns": ["apps/search-assist-e2e/**/*.{js,ts}"]
+        "lintFilePatterns": ["apps/searchassist-e2e/**/*.{js,ts}"]
       }
     }
   },
   "tags": [],
-  "implicitDependencies": ["search-assist"]
+  "implicitDependencies": ["searchassist"]
 }
