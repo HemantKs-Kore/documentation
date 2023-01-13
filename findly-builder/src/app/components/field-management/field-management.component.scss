@@ -321,20 +321,23 @@ perfect-scrollbar .ps--active-y{
                 display: flex;
                 align-items: center;
                 justify-content: space-between;
-                gap: 20px;
+                // gap: 20px;
                 padding: 10px 0;
+                width: 100%;
             }
             .option-selection-hding{
                 font-weight: 600;
                 font-size: 12px;
                 color: #121314;
-                flex: 1 1 100px;
+                // flex: 1 1 100px;
+                width: 25%;
             }
             .option-selection-desc{
                 font-weight: 400;
                 font-size: 12px;
                 color: #777A80;
                 line-height: 15px;
+                width: 90%;
                 &.checked{
                     color: #2D2F33;
                 }
