@@ -4,13 +4,13 @@ import { AppSelectionService } from '@kore.services/app.selection.service';
 import { NotificationService } from '@kore.services/notification.service';
 import { ServiceInvokerService } from '@kore.services/service-invoker.service';
 import { WorkflowService } from '@kore.services/workflow.service';
-import { ConfirmationDialogComponent } from 'src/app/helpers/components/confirmation-dialog/confirmation-dialog.component';
-import { UpgradePlanComponent } from 'src/app/helpers/components/upgrade-plan/upgrade-plan.component';
-import { KRModalComponent } from 'src/app/shared/kr-modal/kr-modal.component';
-import { OnboardingComponentComponent } from 'src/app/components/onboarding-component/onboarding-component.component';
-import { SliderComponentComponent } from 'src/app/shared/slider-component/slider-component.component';
+import { ConfirmationDialogComponent } from '../../helpers/components/confirmation-dialog/confirmation-dialog.component';
+import { UpgradePlanComponent } from '../../helpers/components/upgrade-plan/upgrade-plan.component';
+import { KRModalComponent } from '../../shared/kr-modal/kr-modal.component';
+import { OnboardingComponentComponent } from '../../components/onboarding-component/onboarding-component.component';
+import { SliderComponentComponent } from '../../shared/slider-component/slider-component.component';
 import { Router } from '@angular/router';
-import { EMPTY_SCREEN } from 'src/app/modules/empty-screen/empty-screen.constants';
+import { EMPTY_SCREEN } from '../../modules/empty-screen/empty-screen.constants';
 declare const $: any;
 @Component({
   selector: 'app-connectors',

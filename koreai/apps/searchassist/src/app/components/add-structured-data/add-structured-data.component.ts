@@ -6,7 +6,7 @@ import { WorkflowService } from '@kore.services/workflow.service';
 import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { MatDialog } from '@angular/material/dialog';
-import { ConfirmationDialogComponent } from 'src/app/helpers/components/confirmation-dialog/confirmation-dialog.component';
+import { ConfirmationDialogComponent } from '../../helpers/components/confirmation-dialog/confirmation-dialog.component';
 import { AppSelectionService } from '@kore.services/app.selection.service';
 import { PerfectScrollbarComponent } from 'ngx-perfect-scrollbar';
 declare const $: any;
@@ -410,7 +410,7 @@ export class AddStructuredDataComponent implements OnInit {
 
   jsonInvoke(payload, endPoint, quaryparms) {
     this.service.invoke(endPoint, quaryparms, payload).subscribe(res => {
-      this.notificationService.notify('Added Successfully', 'success');     
+      this.notificationService.notify('Added Successfully', 'success');
       if (quaryparms.file === 'file') {
         this.cancleSourceAddition({ showStatusModal: true, payload: res });
       }
@@ -442,7 +442,7 @@ export class AddStructuredDataComponent implements OnInit {
     }
   }
 
-  
+
   indentObj() {
     let count = this.codemirror.codeMirror.lineCount();
     for (let i = 0; i <= count; i++) {

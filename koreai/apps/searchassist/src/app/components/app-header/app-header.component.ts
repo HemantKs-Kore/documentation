@@ -9,8 +9,8 @@ import { LocalStoreService } from '@kore.services/localstore.service';
 import { Observable } from 'rxjs';
 import { debounceTime, distinctUntilChanged, map, filter } from 'rxjs/operators';
 import { ServiceInvokerService } from '@kore.services/service-invoker.service';
-import { SliderComponentComponent } from 'src/app/shared/slider-component/slider-component.component';
-import { OnboardingComponentComponent } from 'src/app/components/onboarding-component/onboarding-component.component';
+import { SliderComponentComponent } from '../../shared/slider-component/slider-component.component';
+import { OnboardingComponentComponent } from '../../components/onboarding-component/onboarding-component.component';
 import { NotificationService } from '@kore.services/notification.service';
 import { AppSelectionService } from '@kore.services/app.selection.service'
 import { DockStatusService } from '../../services/dockstatusService/dock-status.service';

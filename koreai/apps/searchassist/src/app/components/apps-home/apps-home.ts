@@ -11,7 +11,7 @@ import { AuthService } from '@kore.services/auth.service';
 import { InlineManualService } from '@kore.services/inline-manual.service';
 import { MixpanelServiceService } from '@kore.services/mixpanel-service.service';
 import { AppHeaderComponent } from '../app-header/app-header.component';
-import { EMPTY_SCREEN } from 'src/app/modules/empty-screen/empty-screen.constants';
+import { EMPTY_SCREEN } from '../../modules/empty-screen/empty-screen.constants';
 declare const $: any;
 declare var PureJSCarousel: any;
 @Component({

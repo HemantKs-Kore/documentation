@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild, Input, Output, EventEmitter } from '@angular/core';
 import { MatDatepickerInputEvent } from '@angular/material/datepicker';
-import { KRModalComponent } from 'src/app/shared/kr-modal/kr-modal.component';
-import { scheduleOpts, InterVal, Time, IntervalValue, EndsOn } from 'src/app/helpers/models/Crwal-advance.model';
+import { KRModalComponent } from '../../shared/kr-modal/kr-modal.component';
+import { scheduleOpts, InterVal, Time, IntervalValue, EndsOn } from '../../helpers/models/Crwal-advance.model';
 import { NotificationService } from '@kore.services/notification.service';
 import {  PerfectScrollbarComponent } from 'ngx-perfect-scrollbar';
 declare const $: any;
@@ -10,7 +10,7 @@ declare const $: any;
   selector: 'app-scheduler',
   templateUrl: './scheduler.component.html',
   styleUrls: ['./scheduler.component.scss']
-  
+
 })
 export class SchedulerComponent implements OnInit {
   schedualarDataModelPopRef:any;
@@ -125,7 +125,7 @@ export class SchedulerComponent implements OnInit {
   }
 
    verticalDatepicker(event){
-    this.selectedDate.value = event; 
+    this.selectedDate.value = event;
   }
   timeZone(stz) {
     this.stz = stz;
@@ -224,7 +224,7 @@ export class SchedulerComponent implements OnInit {
       this.cronExpression = this.timeMM + ' ' + timeHH + ' */' + this.repeatEvery + ' * ' + '*';
       this.cronExpression = this.repeatEvery + ' days';
     } else if (this.custFreq == 'Weeks' || this.custFreq == 'Week' || this.custFreq == 'weeks') {
-      //this.cronExpression = '0 ' + this.timeMM + ' '+ timeHH + ' ?' + ' * ' + this.dateConverter(this.weeKDay)+ '#' + this.repeatEvery; 
+      //this.cronExpression = '0 ' + this.timeMM + ' '+ timeHH + ' ?' + ' * ' + this.dateConverter(this.weeKDay)+ '#' + this.repeatEvery;
       this.cronExpression = this.repeatEvery + ' weeks';
     } else if (this.custFreq == 'Months' || this.custFreq == 'Month' || this.custFreq == 'months') {
       //this.cronExpression = '0 ' + this.timeMM + ' '+ timeHH + ' ' + this.date + ' */'+this.repeatEvery + ' ?';

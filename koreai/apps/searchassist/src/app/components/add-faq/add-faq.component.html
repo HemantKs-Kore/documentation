@@ -1,5 +1,5 @@
 <div class="add-faq-modal-popup">
-  <ng-template #botResponse let-responses="responses" let-responseObj='responseObj' let-type="reponseType" let-id='id' let-index='index'>  
+  <ng-template #botResponse let-responses="responses" let-responseObj='responseObj' let-type="reponseType" let-id='id' let-index='index'>
     <!-- <md-editor formControlName="botResponse" [options]="options" required height="300px"></md-editor> -->
     <!-- add clases when image split mode .image-split-mode and swapmode add this class .swap-positions-->
     <!-- <div class="text-area-editor" [ngClass]="{'swap-positions': responseObj.responseType==='horizontalSplit','image-split-mode': responseObj.responseType ==='verticalSplit'}"> -->
@@ -11,9 +11,9 @@
         </div>
         <div (click)="openImgApp(responseObj,index,type)" class="uploaded-image-preview"  *ngIf="responseObj && responseObj.image && responseObj.image.url && ((responseObj.responseType==='horizontalSplit') || (responseObj.responseType ==='verticalSplit'))">
           <img src="{{responseObj.image.url}}">
-        </div>        
+        </div>
       </div> -->
-      
+
       <div class="editor-actons" >
         <!-- <span class="edit-action">
           <img src="assets/icons/editor/alphabits.svg">
@@ -48,8 +48,8 @@
         <span (click)="onSelected('unordered')"  class="edit-action">
           <img src="assets/images/markup/list-unordered.svg">
         </span>
-      </div> 
-      <div class="kr-sg-input-text-area"> 
+      </div>
+      <div class="kr-sg-input-text-area">
         <div *ngIf="responseObj.type==='javascript'" class="-ml-20">
           <ngx-codemirror #codemirror [options]="codeMirrorOptions" [(ngModel)]="responseObj.text" (ngModelChange)="setEditorContent($event,responseObj,type,index)"> </ngx-codemirror>
         </div>
@@ -58,7 +58,7 @@
           <div class="kr-sg-dropdowns mb-3">
             <div class="label-text">{{"addFaq_source" | translate}}</div>
             <div class="dropdown dropdown-open">
-                <button class="dropdown-toggle dropdown-input" data-toggle="dropdown">{{"addFaq_custom" | translate}} </button>                                            
+                <button class="dropdown-toggle dropdown-input" data-toggle="dropdown">{{"addFaq_custom" | translate}} </button>
                 <ul class="dropdown-menu content-menu">
                   <li><a>{{"addFaq_custom" | translate}}</a></li>
                   <li><a>{{"addFaq_add_new_options" | translate}}</a></li>
@@ -90,7 +90,7 @@
               <img src="{{responseObj.image_url}}">
             </div>
             <ng-container>
-              <div class="desc-info" 
+              <div class="desc-info"
                 [innerHtml]='convertMDtoHTML.helpers.convertMDtoHTML(responseObj.text)'></div>
               <div class="desc-info desc-info-javascript-message" *ngIf="responseObj.type==='javascript'">
                 </div>
@@ -104,7 +104,7 @@
   <form [formGroup]="form" class="mb-2">
     <div class="kr-sg-input-text mb-15">
       <div class="label-text">{{"addFaq_question" | translate}}</div>
-      <input type="text" placeholder="{{'addFaq_enter_your_question' | translate}}" class="input-text" formControlName="question" autocomplete="off">             
+      <input type="text" placeholder="{{'addFaq_enter_your_question' | translate}}" class="input-text" formControlName="question" autocomplete="off">
     </div>
   </form>
 
@@ -117,7 +117,7 @@
         <a class="nav-link" data-toggle="tab" href="#alternativequestions">{{"addFaq_alternate_questions" | translate}}</a>
       </li>
     </ul>
-    
+
     <!-- Tab panes -->
     <div class="tab-content">
       <div class="tab-pane active" id="allresponses">
@@ -145,13 +145,13 @@
               <div class="body-top-content pointer">
                 <div class="question-content">
                   <div class="label-text" *ngIf="index==0">{{"addFaq_response" | translate}}
-                    <span *ngIf="faqData && faqResponse.conditionalAnswers.length>1">({{faqResponse.conditionalAnswers.length}})</span>  
+                    <span *ngIf="faqData && faqResponse.conditionalAnswers.length>1">({{faqResponse.conditionalAnswers.length}})</span>
                     <div class="deleteResponseDiv red" *ngIf="faqResponse.conditionalAnswers.length == 1" (click)="$event.stopPropagation();delete(index)" ngbTooltip="{{'sa_delete' | translate}}">
                       <img src="assets/icons/delete.svg">
                     </div>
                   </div>
-                
-                  
+
+
                   <div class="conditionalBlock bot-response-view-mode" [ngClass]="{'pl-2':faqResponse.conditionalAnswers.length>1}">
                     <div class="bot-response-title position-relative"  *ngIf="faqResponse.conditionalAnswers.length > 1" [ngClass]="{'text-black':currentEditIndex == index}"> {{"addFaq_response" | translate}}<span *ngIf="faqResponse.conditionalAnswers.length > 1">{{index + 1}}</span>
                       <div class="deleteResponseDiv red" (click)="$event.stopPropagation();delete(index)" ngbTooltip="{{'sa_delete' | translate}}">
@@ -167,12 +167,12 @@
               <div class="responseEditorContainer" [ngClass]="{'bg-transparent px-0 py-0':currentEditIndex !== index, 'ml-2':faqResponse.conditionalAnswers.length>1}">
                 <div  [hidden]="currentEditIndex !== index">
                   <div class="bottom_sec ">
-                    <div class="col-12 left_sec editResponseMode">        
+                    <div class="col-12 left_sec editResponseMode">
                       <div class="content-data">
                           <ng-container *ngTemplateOutlet="botResponse; context{$implicit: faqResponse,responses:faqResponse.conditionalAnswers,responseObj:faqObj,reponseType:'conditional',id:'conditional_',index:index }"> </ng-container>
                       </div>
-                    </div>  
-                    <div class="col-12 right_sec previewResponseMode d-none"> 
+                    </div>
+                    <div class="col-12 right_sec previewResponseMode d-none">
                       <div class="content-data">
                           <div class="preview-response-title"> {{"addFaq_response_preview" | translate}} </div>
                         <div class="responsePreviewBlock">
@@ -180,14 +180,14 @@
                             <ng-container *ngTemplateOutlet="botResponsePreview; context{$implicit: faqResponse,responses:faqResponse.conditionalAnswers,responseObj:faqObj,reponseType:'conditional',id:'conditional_',index:index }"> </ng-container>
                           </perfect-scrollbar>
                         </div>
-                      </div>  
+                      </div>
                     </div>
-                  </div>   
+                  </div>
                   <div class="bottom_sec d-flex">
-                    <div class="col-6 left_sec d-none">  
-                      <!--          
-                      <div class="multi-select mb-2">         
-                        <label class="kr-sg-toggle">                                       
+                    <div class="col-6 left_sec d-none">
+                      <!--
+                      <div class="multi-select mb-2">
+                        <label class="kr-sg-toggle">
                           <input type="checkbox" class="h-auto" [(ngModel)]="uploadImage.slide">
                           <div class="slider">
                             <span class="enabled">Yes</span>
@@ -195,18 +195,18 @@
                           </div>
                         </label>
                       </div> -->
-                      <div class="kr-sg-input-text mb-2 mt-3 "> 
+                      <div class="kr-sg-input-text mb-2 mt-3 ">
                         <!-- image optional preview related changes -->
                         <div class="d-flex justify-content-between align-items-center">
                           <div class="label-text w-100">{{"addFaq_image_optional" | translate}} </div>
                           <div class="know-more-data" (click)="openPreviewImgModal(faqObj.image_url);">{{"addFaq_preview" | translate}} </div>
                         </div>
                         <!-- image optional preview related changes -->
-                        <input type="text" autocomplete="off" placeholder="http(s)://" class="input-text"  [(ngModel)]="faqObj.image_url" name="appName">         
+                        <input type="text" autocomplete="off" placeholder="http(s)://" class="input-text"  [(ngModel)]="faqObj.image_url" name="appName">
                       </div>
                       <!-- <div class="upload-image-size-info">Upload Image Dimensions of 200px by 400px </div> -->
                     </div>
-                    <div class="col-12 right_sec p-0" *ngIf="bubblePopUp">        
+                    <div class="col-12 right_sec p-0" *ngIf="bubblePopUp">
                       <div class="content-data p-0 bg-transparent mt-3 h-auto">
                         <!-- <ng-container *ngIf="image && image.url">
                           <div class="preview-title mt-3 pt-1">IMAGE</div>
@@ -214,21 +214,21 @@
                             <perfect-scrollbar>
                                 <img [src]="image.url">
                             </perfect-scrollbar>
-                          </div>  
+                          </div>
                         </ng-container>              -->
                           <div class="info-bubble-faq my-0">
                             <div class="info_img">
                               <img src="assets/icons/faq/Info.svg">
                             </div>
                             <div class="bubnle-info" >
-                              {{"addFaq_template_outlook" | translate}} 
+                              {{"addFaq_template_outlook" | translate}}
                             </div>
-                            <img class="close-info"(click)="closebubblePopUp()"src="assets/icons/modal-close.svg">                
+                            <img class="close-info"(click)="closebubblePopUp()"src="assets/icons/modal-close.svg">
                             <!-- <div class="know-more-data">Know more</div> -->
                         </div>
                       </div>
                     </div>
-                  </div>   
+                  </div>
                 </div>
                 <!-- title="Click to edit this response" -->
                 <div class="col-12 p-0 pointer body_sec"  [hidden]="currentEditIndex == index">
@@ -247,7 +247,7 @@
                     </label>
                   </div>
                 </div>
-                
+
                 <div class="body-top-content">
                   <div class="question-content">
                     <div class="conditionalBlock">
@@ -258,7 +258,7 @@
                             <span class="default-data and-rule" *ngIf="index > 0">{{"addFaq_add" | translate}}</span>
                             <span class="tag-name">{{item.contextType}}</span>
                             <span class="tag-name">{{item.contextCategory}}</span>
-                            <span class="default-data">{{item.operator}}</span>   
+                            <span class="default-data">{{item.operator}}</span>
                             <span class="tag-name" *ngFor="let value of item.value">{{value}}</span>
                           </div>
                         </ng-container>
@@ -275,10 +275,10 @@
                                               {{"addFaq_select_contect" | translate}}
                                             </div>
                                             <div class="col-4 pr-0">
-                                                <div class="kr-sg-dropdowns w-auto" ngbDropdown (click)="currentEditInex = index" >                           
+                                                <div class="kr-sg-dropdowns w-auto" ngbDropdown (click)="currentEditInex = index" >
                                                     <div class="dropdown dropdown-open">
-                                                        <button class="dropdown-toggle dropdown-input"  data-toggle="dropdown" ngbDropdownToggle>{{'businessRules.' +  ruleObj.contextType | translate}}</button>                                            
-                                                        <ul class="dropdown-menu content-menu faq-filter-add" ngbDropdownMenu>                                                                          
+                                                        <button class="dropdown-toggle dropdown-input"  data-toggle="dropdown" ngbDropdownToggle>{{'businessRules.' +  ruleObj.contextType | translate}}</button>
+                                                        <ul class="dropdown-menu content-menu faq-filter-add" ngbDropdownMenu>
                                                           <li class="p-0" ngbDropdownItem *ngFor="let contextType of ruleOptions.contextTypes" (click)="ruleSelection(ruleObj,contextType,'contextType')"  [ngClass]="{'active':ruleObj.contextType===contextType}"><a>{{'businessRules.' + contextType | translate}}</a></li>
                                                         </ul>
                                                     </div>
@@ -287,7 +287,7 @@
                                         </div>
                                         <div class="row m-0 search-content-sec">
                                             <div class="col-2 p-0 title">
-                                              {{"addFaq_select_parameters" | translate}} 
+                                              {{"addFaq_select_parameters" | translate}}
                                             </div>
                                             <div class="col-4 pr-0">
                                               <div class="kr-sg-dropdowns w-auto" ngbDropdown (click)="currentEditInex = index" *ngIf="ruleObj.contextType !=='userContext'">
@@ -302,10 +302,10 @@
                                                       </ul>
                                                   </div>
                                               </div>
-                                              <div class="kr-sg-input-text" *ngIf="ruleObj.contextType ==='userContext'">                               
+                                              <div class="kr-sg-input-text" *ngIf="ruleObj.contextType ==='userContext'">
                                                 <input type="text" id="userType" [(ngModel)]="ruleObj.contextCategory" class="input-text">
                                               </div>
-                                            
+
                                           </div>
                                           <div class="col-3 pr-0">
                                             <div class="kr-sg-dropdowns d-inline-block" ngbDropdown (click)="currentEditInex = index">
@@ -331,7 +331,7 @@
                                                   </ul>
                                               </div>
                                           </div>
-                                        
+
                                         </div>
                                     </div>
                                     <div class="row m-0 setparameetres-sec">
@@ -340,7 +340,7 @@
                                           <div class="chip-sys-data ">
                                               <mat-form-field class="example-chip-list" [ngClass]="{'date-chip': ruleObj.dataType == 'date'}">
                                                   <mat-chip-list #chipList [attr.aria-label]="'tag selection'" class="date-range-picker-right-d-none">
-                
+
                                                       <ng-container *ngIf="ruleObj.value && ruleObj.value.length && (ruleObj.dataType !== 'date') && (ruleObj.dataType !== 'number')">
                                                           <ng-container *ngFor="let value of ruleObj.value; let index = index">
                                                               <mat-chip [selectable]="selectable" (removed)="removeTag(ruleObj.value, tag)">
@@ -373,7 +373,7 @@
                                                               <span>{{"addFaq_or_caps" | translate}}</span>
                                                           </ng-container>
                                                       </ng-container>
-                
+
                                                       <ng-container *ngIf="ruleObj.value && ruleObj.value.length && (ruleObj.dataType === 'date') && (ruleObj.operator === 'between')">
                                                           <ng-container *ngFor="let value of ruleObj.value; let index = index">
                                                               <mat-chip [selectable]="selectable" (removed)="removeTag(ruleObj.value, tag)">
@@ -387,15 +387,15 @@
                                                               <span>{{"addFaq_or_caps" | translate}}</span>
                                                           </ng-container>
                                                       </ng-container>
-                
+
                                                       <ng-container *ngIf="(ruleObj.dataType != 'date') && (ruleObj.dataType != 'number')">
                                                           <input placeholder="{{'addFaq_type_keyword' | translate}}" [matChipInputFor]="chipList" [matChipInputSeparatorKeyCodes]="separatorKeysCodes" (matChipInputTokenEnd)="addRules($event, ruleObj, i)" suggestedInput/>
                                                       </ng-container>
-                
+
                                                       <ng-container *ngIf="ruleObj.dataType == 'date'">
                                                           <ng-container *ngIf="ruleObj.operator === 'between'">
                                                               <span class="select_data_placeholder w-120 py-1" (click)="openDateTimePicker(ruleObj,conditionIndex)">{{"addFaq_select_range" | translate}} </span>
-                                                              <input class="dateRangePicker d-none" id="rangePicker_{{conditionIndex}}" ngxDaterangepickerMd #dateRangePicker placeholder="{{'select_range' | translate}}" showCancel="true" [locale]="{format: 'DD/MM/YYYY hh:mm', displayFormat: 'DD MMM YYYY'}" 
+                                                              <input class="dateRangePicker d-none" id="rangePicker_{{conditionIndex}}" ngxDaterangepickerMd #dateRangePicker placeholder="{{'select_range' | translate}}" showCancel="true" [locale]="{format: 'DD/MM/YYYY hh:mm', displayFormat: 'DD MMM YYYY'}"
                                                                   (datesUpdated)="onDatesUpdated($event,ruleObj)" />
                                                           </ng-container>
                                                           <ng-container *ngIf="ruleObj.operator !== 'between'">
@@ -404,7 +404,7 @@
                                                                 (datesUpdated)="onDatesUpdated($event,ruleObj)" />
                                                           </ng-container>
                                                       </ng-container>
-                
+
                                                       <ng-container *ngIf="ruleObj.dataType == 'number'">
                                                           <input [placeholder]="ruleObj.operator == 'between' ? 'Type Range' : 'Type Keyword'" [matChipInputFor]="chipList" [matChipInputSeparatorKeyCodes]="separatorKeysCodes" (matChipInputTokenEnd)="addRules($event, ruleObj, i)" />
                                                       </ng-container>
@@ -416,20 +416,20 @@
                                           </div>
                                       </div>
                                   </div>
-                                </div>   
+                                </div>
                                 <div class="delete-rule" (click)='removeRule(conditionIndex,faqObj.conditions)'>
                                   <img src="assets/icons/modal-close.svg">
                                 </div>
-                                </div>                             
-                            </ng-container>               
-                          </div> 
+                                </div>
+                            </ng-container>
+                          </div>
                       </div>
                         <div class="add-condition" (click)="addNewRule(index,faqObj)"><img src="assets/icons/plus-blue.svg">{{"addFaq_add_condition" | translate}}</div>
                       </ng-container>
                     </div>
                   </div>
                 </div>
-                  
+
                 </div>
             </div>
           </div>
@@ -452,13 +452,13 @@
               <div *ngFor="let faqObj of faqResponse.defaultAnswers ; let index = index">
                 <div class="body-top-content pointer"  (click)="currentEditIndex = index">
                   <div class="question-content">
-                    <div class="label-text" *ngIf="index==0">{{"addFaq_response" | translate}}  <span *ngIf="faqData && faqResponse.defaultAnswers.length>1">({{faqResponse.defaultAnswers.length}})</span>  
+                    <div class="label-text" *ngIf="index==0">{{"addFaq_response" | translate}}  <span *ngIf="faqData && faqResponse.defaultAnswers.length>1">({{faqResponse.defaultAnswers.length}})</span>
                       <div class="deleteResponseDiv red" *ngIf="faqResponse.defaultAnswers.length == 1" (click)="$event.stopPropagation();delete(index)" ngbTooltip="{{'sa_delete' | translate}}">
                         <img src="assets/icons/delete.svg">
                       </div>
                     </div>
-                  
-                    
+
+
                     <div class="conditionalBlock bot-response-view-mode" [ngClass]="{'pl-2':faqResponse.defaultAnswers.length>1}">
                       <div class="bot-response-title position-relative"  *ngIf="faqResponse.defaultAnswers.length > 1" [ngClass]="{'text-black':currentEditIndex == index}"> {{"addFaq_response" | translate}}<span *ngIf="faqResponse.defaultAnswers.length > 1">{{index + 1}}</span>
                         <div class="deleteResponseDiv red" (click)="$event.stopPropagation();delete(index)" ngbTooltip="{{'sa_delete' | translate}}">
@@ -474,12 +474,12 @@
                 <div class="responseEditorContainer" [ngClass]="{'bg-transparent px-0 py-0':currentEditIndex !== index, 'ml-2':faqResponse.defaultAnswers.length>1}">
                   <div [hidden]="currentEditIndex !== index">
                     <div class="bottom_sec ">
-                      <div class="col-12 left_sec editResponseMode">        
+                      <div class="col-12 left_sec editResponseMode">
                         <div class="content-data">
                             <ng-container *ngTemplateOutlet="botResponse; context{$implicit: faqResponse,responses:faqResponse.defaultAnswers,responseObj:faqObj,reponseType:'default',id:'default_',index:index }"> </ng-container>
                         </div>
-                      </div>  
-                      <div class="col-12 right_sec previewResponseMode d-none"> 
+                      </div>
+                      <div class="col-12 right_sec previewResponseMode d-none">
                         <div class="content-data">
                             <div class="preview-response-title"> {{"addFaq_response_preview" | translate}} </div>
                           <div class="responsePreviewBlock">
@@ -487,14 +487,14 @@
                               <ng-container *ngTemplateOutlet="botResponsePreview; context{$implicit: faqResponse,responses:faqResponse.defaultAnswers,responseObj:faqObj,reponseType:'default',id:'default_',index:index }"> </ng-container>
                             </perfect-scrollbar>
                           </div>
-                        </div>  
+                        </div>
                       </div>
-                    </div>   
+                    </div>
                     <div class="bottom_sec d-flex">
-                      <div class="col-6 left_sec d-none">  
-                        <!--          
-                        <div class="multi-select mb-2">         
-                          <label class="kr-sg-toggle">                                       
+                      <div class="col-6 left_sec d-none">
+                        <!--
+                        <div class="multi-select mb-2">
+                          <label class="kr-sg-toggle">
                             <input type="checkbox" class="h-auto" [(ngModel)]="uploadImage.slide">
                             <div class="slider">
                               <span class="enabled">Yes</span>
@@ -502,18 +502,18 @@
                             </div>
                           </label>
                         </div> -->
-                        <div class="kr-sg-input-text mb-2 mt-3 "> 
+                        <div class="kr-sg-input-text mb-2 mt-3 ">
                           <!-- image optional preview related changes -->
                           <div class="d-flex justify-content-between align-items-center">
                             <div class="label-text w-100">{{"addFaq_image_optional" | translate}} </div>
                             <div class="know-more-data" (click)="openPreviewImgModal(faqObj.image_url);">{{"addFaq_preview" | translate}} </div>
                           </div>
                           <!-- image optional preview related changes -->
-                          <input type="text" autocomplete="off" placeholder="{{'addFaq_http' | translate}}" class="input-text"  [(ngModel)]="faqObj.image_url" name="appName">         
+                          <input type="text" autocomplete="off" placeholder="{{'addFaq_http' | translate}}" class="input-text"  [(ngModel)]="faqObj.image_url" name="appName">
                         </div>
                         <!-- <div class="upload-image-size-info">Upload Image Dimensions of 200px by 400px </div> -->
                       </div>
-                      <div class="col-12 right_sec p-0" *ngIf="bubblePopUp">        
+                      <div class="col-12 right_sec p-0" *ngIf="bubblePopUp">
                         <div class="content-data p-0 bg-transparent mt-3 h-auto">
                           <!-- <ng-container *ngIf="image && image.url">
                             <div class="preview-title mt-3 pt-1">IMAGE</div>
@@ -521,21 +521,21 @@
                               <perfect-scrollbar>
                                   <img [src]="image.url">
                               </perfect-scrollbar>
-                            </div>  
+                            </div>
                           </ng-container>              -->
                             <div class="info-bubble-faq my-0">
                               <div class="info_img">
                                 <img src="assets/icons/faq/Info.svg">
                               </div>
                               <div class="bubnle-info" >
-                                {{"addFaq_template_outlook" | translate}} 
+                                {{"addFaq_template_outlook" | translate}}
                               </div>
-                              <img class="close-info"(click)="closebubblePopUp()"src="assets/icons/modal-close.svg">                
+                              <img class="close-info"(click)="closebubblePopUp()"src="assets/icons/modal-close.svg">
                               <!-- <div class="know-more-data">Know more</div> -->
                           </div>
                         </div>
                       </div>
-                    </div>   
+                    </div>
                   </div>
                   <!-- title="Click to edit this response" -->
                   <div class="col-12 p-0 pointer body_sec"  [hidden]="currentEditIndex == index">
@@ -549,13 +549,13 @@
               </div>
           </div>
         </ng-container>
-       
+
         <div class="btn-sec" *ngIf="!faqData && false">
           <div class="left-btns">
             <button class="kr-sg-button-primary btn_lg" (click)="save()">{{loading ? 'Saving..' : 'Save'}}</button>
             <button class="kr-sg-button-secondary btn_lg" (click)="cancel()">{{"addFaq_cancel" | translate}}</button>
           </div>
-          <div class="right-btns">        
+          <div class="right-btns">
             <button class="kr-sg-button-secondary btn_lg mr-0" (click)="addAnotherResponse('default')"><img src="assets/icons/editor/plus-add.svg" class="mr-2" >{{"addFaq_add_response" | translate}}</button>
             <!-- <button class="kr-sg-button-tertiary"  *ngIf="!isFollowUp" (click)='addAltQues()'>Add Alternate Question</button>
             <button class="kr-sg-button-tertiary"  *ngIf="!isFollowUp" (click)='addFollowupQues()'>Add Followup Question</button> -->
@@ -565,7 +565,7 @@
 
 
       <div class="tab-pane fade" id="alternativequestions">
-        <div class="add-alternative-questions row mb-5"> 
+        <div class="add-alternative-questions row mb-5">
           <div class="col-8 pl-0 pr-2">
               <div class="label-text text-truncate">{{"addFaq_alternate_questions" | translate}}
                   <span *ngIf="faqData">{{faqData._source.faq_alt_questions?.length>0?'('+faqData._source.faq_alt_questions?.length+')':''}}</span>
@@ -578,7 +578,7 @@
           </div> -->
           <div class="col-12 p-0">
               <button class="kr-sg-button-primary btn_lg" (click)="addAltQues()">
-                <img src="assets/icons/editor/add-black.svg" class="mr-2"> {{"addFaq_alternate_questions" | translate}} 
+                <img src="assets/icons/editor/add-black.svg" class="mr-2"> {{"addFaq_alternate_questions" | translate}}
               </button>
           </div>
         </div>
@@ -589,7 +589,7 @@
         <ng-container *ngIf="faqData && faqData._source && faqData._source.faq_alt_questions?.length">
           <div class="added-questions-list py-0" *ngFor="let alternateQuestion of faqData._source?.faq_alt_questions; let alterIndex = index" >
             <div class="pointer content-body-question row" *ngIf="editAltQuestionIndex !== alterIndex" (click)="editAltQuestion(alternateQuestion,alterIndex);">
-              
+
               <div class=" col-10 group-name question-name text-truncate" title="{{alternateQuestion}}">{{alternateQuestion}}</div>
               <!-- <div class="added-tags text-truncate">
                   <span class="tags-data" *ngFor="let keyword of alternateQuestion?.keywords">#{{keyword.keyword}}&nbsp;</span>
@@ -662,7 +662,7 @@
     <div class="modal-body textAlignLeft">
       <div>{{"addFaq_contact_details_info" | translate}}</div>
     </div>
-  </perfect-scrollbar> 
+  </perfect-scrollbar>
     <div class="modal-footer text-left">
         <button class="kr-sg-button-secondary btn_lg" (click)="closeExternalPopUpRef()">{{"addFaq_close" | translate}}</button>
     </div>
@@ -674,7 +674,7 @@
       <div class="title"></div>
       <div class="close_icon" (click)="closePreviewImgModal();"><img src="assets/icons/modal-close.svg"></div>
     </div>
-  
+
       <div class="modal-body">
         <div class="previewImageBlock">
           <perfect-scrollbar>
@@ -682,7 +682,7 @@
         </perfect-scrollbar>
         </div>
       </div>
-  
-  </kr-modal> 
+
+  </kr-modal>
 <!-- preview image modal popup start from here -->
 </div>

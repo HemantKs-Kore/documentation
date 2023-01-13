@@ -9,7 +9,7 @@ import { AuthService } from '@kore.services/auth.service';
 import { Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import * as _ from 'underscore';
-import { ConfirmationDialogComponent } from 'src/app/helpers/components/confirmation-dialog/confirmation-dialog.component';
+import { ConfirmationDialogComponent } from '../../helpers/components/confirmation-dialog/confirmation-dialog.component';
 import { AppSelectionService } from '@kore.services/app.selection.service'
 import { Observable, of, Subscriber, Subscription } from 'rxjs';
 import { InlineManualService } from '@kore.services/inline-manual.service';
@@ -308,7 +308,7 @@ export class SynonymsComponent implements OnInit, OnDestroy {
       this.notificationService.notify(
         'Synonyms should be more than one',
         'warning'
-      );   
+      );
      } else {
       this.notificationService.notify(
         'Enter the required fields to proceed',
@@ -344,7 +344,7 @@ export class SynonymsComponent implements OnInit, OnDestroy {
           dialogRef.close();
         }
         this.notificationService.notify('Synonym Added Successfully','success')
-      }, 
+      },
       (errRes) => {
         this.errorToaster(errRes, 'Failed To Add Synonym');
       }

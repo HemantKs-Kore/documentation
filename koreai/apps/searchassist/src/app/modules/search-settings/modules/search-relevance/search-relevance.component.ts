@@ -4,8 +4,8 @@ import { AppSelectionService } from '@kore.services/app.selection.service';
 import { NotificationService } from '@kore.services/notification.service';
 import { ServiceInvokerService } from '@kore.services/service-invoker.service';
 import { of, interval, Subject, Subscription } from 'rxjs';
-import { RangeSlider } from 'src/app/helpers/models/range-slider.model';
-import { FindlySharedModule } from 'src/app/modules/findly-shared/findly-shared.module';
+import { RangeSlider } from '../../helpers/models/range-slider.model';
+import { FindlySharedModule } from '../../modules/findly-shared/findly-shared.module';
 
 declare const $: any;
 @Component({
@@ -59,16 +59,16 @@ export class SearchRelevanceComponent implements OnInit {
       this.indexPipelineId = this.workflowService.selectedIndexPipeline();
       this.queryPipelineId = this.workflowService.selectedQueryPipeline() ? this.workflowService.selectedQueryPipeline()._id : ''
       this.prepareThreshold('menu')
-    })   
-    
-    
+    })
+
+
   }
     //open topic guide
     openUserMetaTagsSlider() {
       this.appSelectionService.topicGuideShow.next();
     }
   //** to fetch the threshold range slider value */
-  prepareThreshold(comingFrom){ 
+  prepareThreshold(comingFrom){
     const quaryparms: any = {
       searchIndexID: this.serachIndexId,
       queryPipelineId: this.queryPipelineId,
@@ -76,12 +76,12 @@ export class SearchRelevanceComponent implements OnInit {
     };
     if(comingFrom=='menu'){
       this.isLoading=true;
-    }    
+    }
     this.service.invoke('get.queryPipeline', quaryparms).subscribe(res => {
       this.isLoading=false;
       this.searchrelevancedata = res.settings.searchRelevance;
       this.searchrelevanceToggle=res.settings.searchRelevance.enable
-      this.searchRelevanceConfig= res.settings.searchRelevance.languages.find(item=>item.languageCode==this.selectedLanguage)      
+      this.searchRelevanceConfig= res.settings.searchRelevance.languages.find(item=>item.languageCode==this.selectedLanguage)
       const name = ('matchThreshold' || '').replace(/[^\w]/gi, '')
       const obj = {
         fieldName: name,
@@ -90,12 +90,12 @@ export class SearchRelevanceComponent implements OnInit {
         sliderObj: new RangeSlider(0, 100, 1,this.searchrelevancedata.matchThreshold,'matchThreshold0','',true)
       }
       this.weightModal= obj;
-      
+
     },errRes => {
       this.notificationService.notify('failed to get querypipeline details', 'error')
-    }); 
+    });
   }
- 
+
   getUpdateItem(type, event) {
     return this.searchrelevancedata.languages.map(item =>{
       if (item.languageCode === this.selectedLanguage) {
@@ -112,13 +112,13 @@ export class SearchRelevanceComponent implements OnInit {
       indexPipelineId:this.workflowService.selectedIndexPipeline(),
       queryPipelineId:this.workflowService.selectedQueryPipeline() ? this.workflowService.selectedQueryPipeline()._id : '',
       searchIndexId:this.serachIndexId
-    } 
+    }
          this.slider_value_payload=$('#sa_slider_enable_disable:checkbox:checked').length?true:false;
           const payload:any=  {
             settings: {
               searchRelevance: {
                 enable:this.slider_value_payload,
-                languages: this.getUpdateItem(type, event)  
+                languages: this.getUpdateItem(type, event)
               }
             }
           };
@@ -130,14 +130,14 @@ export class SearchRelevanceComponent implements OnInit {
       else{
         this.notificationService.notify("Search Relevance Language keys updated",'success')
       }
-      
+
       this.prepareThreshold('self')
     }, errRes => {
       this.notificationService.notify("Failed to update",'error');
     });
-  
+
 }
-  
+
   // to update the  threshold Range slider
   valueEvent(val, outcomeObj) {
     const quaryparms:any={
@@ -150,7 +150,7 @@ export class SearchRelevanceComponent implements OnInit {
           searchRelevance: {
             matchThreshold: val
         }
-      }    
+      }
     }
     this.service.invoke('put.queryPipeline', quaryparms,payload).subscribe(res => {
 

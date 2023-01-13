@@ -3,7 +3,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { NotificationService } from '@kore.services/notification.service';
 import { ServiceInvokerService } from '@kore.services/service-invoker.service';
 import { WorkflowService } from '@kore.services/workflow.service';
-import { ConfirmationDialogComponent } from 'src/app/helpers/components/confirmation-dialog/confirmation-dialog.component';
+import { ConfirmationDialogComponent } from '../../helpers/components/confirmation-dialog/confirmation-dialog.component';
 import { AppSelectionService } from '@kore.services/app.selection.service'
 import * as _ from 'underscore';
 import { Subscription } from 'rxjs';
@@ -139,7 +139,7 @@ createInit() {
       this.errorToaster(errRes, 'Failed to get stop words');
     });
   }
-// VALIDATING NEWLY ADDED STOPWORD 
+// VALIDATING NEWLY ADDED STOPWORD
   validateAddStopWord() {
     if (!this.newStopWord || !this.newStopWord.length) {
       return false;
@@ -193,7 +193,7 @@ createInit() {
       this.notificationService.notify('Enter the required fields to proceed', 'error');
     }
   }
-  // CREATING AND UPDATING THE STOPWORDS (UPDATE API CALL) 
+  // CREATING AND UPDATING THE STOPWORDS (UPDATE API CALL)
   createStopWords(type,stopwordsArr?,reset?,removeDefault?){   // type here is a boolean for to check for adding Default(true) or adding manually(false)
     const quaryparms: any = {
       streamId: this.selectedApp._id,
@@ -203,7 +203,7 @@ createInit() {
     const payload: any = {
       languageCode: 'en',
       defaultStopwords:type,
-      resetStopwords:reset,        
+      resetStopwords:reset,
       stopwords: stopwordsArr,
       removeDefault:removeDefault
     };
@@ -366,7 +366,7 @@ createInit() {
           stopwords: {
             enable: event.target.checked
         }
-      }    
+      }
     }
     this.service.invoke('put.queryPipeline', quaryparms,payload).subscribe(res => {
       this.stopwordData.enable=res?.settings?.stopwords.enable
@@ -374,8 +374,8 @@ createInit() {
     }, errRes => {
       this.notificationService.notify("Failed to update",'error');
     });
-   
-  } 
+
+  }
   // -----------------------------(AUTHOR:BHARADWAJ)
   ngOnDestroy() {
     this.subscription ? this.subscription.unsubscribe() : false;

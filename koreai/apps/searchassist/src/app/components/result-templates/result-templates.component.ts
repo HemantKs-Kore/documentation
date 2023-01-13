@@ -6,9 +6,9 @@ import { InlineManualService } from '@kore.services/inline-manual.service';
 import { NotificationService } from '@kore.services/notification.service';
 import { ServiceInvokerService } from '@kore.services/service-invoker.service';
 import { WorkflowService } from '@kore.services/workflow.service';
-import { KRModalComponent } from 'src/app/shared/kr-modal/kr-modal.component';
+import { KRModalComponent } from '../../shared/kr-modal/kr-modal.component';
 import { Subscription } from 'rxjs';
-import { ConfirmationDialogComponent } from 'src/app/helpers/components/confirmation-dialog/confirmation-dialog.component';
+import { ConfirmationDialogComponent } from '../../helpers/components/confirmation-dialog/confirmation-dialog.component';
 import * as moment from 'moment';
 import { LocalStoreService } from '@kore.services/localstore.service';
 declare const $: any;
@@ -132,7 +132,7 @@ export class ResultTemplatesComponent implements OnInit {
   defaultFieldName: string;
   tabData: any;
   templateNames: any = ['list', 'carousel', 'grid'];
-  
+
   filterFacets: any = [{ name: 'Left Aligned', type: 'left' }, { name: 'Right Aligned', type: 'right' }, { name: 'Top Aligned', type: 'top' }]
   @ViewChild('customModal') customModal: KRModalComponent;
   @ViewChild('templateModal') templateModal: KRModalComponent;
@@ -184,7 +184,7 @@ export class ResultTemplatesComponent implements OnInit {
       // this.getAllSettings(this.selectedTab)
     }
   }
-  
+
   //selected tab method
   tabSelection(id) {
     this.getAllSettings(id);

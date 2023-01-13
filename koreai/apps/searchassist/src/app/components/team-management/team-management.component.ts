@@ -3,8 +3,8 @@ import { MatDialog } from '@angular/material/dialog';
 import { NotificationService } from '@kore.services/notification.service';
 import { ServiceInvokerService } from '@kore.services/service-invoker.service';
 import { WorkflowService } from '@kore.services/workflow.service';
-import { ConfirmationDialogComponent } from 'src/app/helpers/components/confirmation-dialog/confirmation-dialog.component';
-import { KRModalComponent } from 'src/app/shared/kr-modal/kr-modal.component';
+import { ConfirmationDialogComponent } from '../../helpers/components/confirmation-dialog/confirmation-dialog.component';
+import { KRModalComponent } from '../../shared/kr-modal/kr-modal.component';
 import * as _ from 'underscore';
 import { AppSelectionService } from '@kore.services/app.selection.service';
 import { Subscription } from 'rxjs/internal/Subscription';
@@ -15,7 +15,7 @@ import { FormControl } from '@angular/forms';
 import { MatAutocompleteSelectedEvent, MatAutocomplete } from '@angular/material/autocomplete';
 import { Observable } from 'rxjs';
 import { debounceTime, map, startWith } from 'rxjs/operators';
-import { EMPTY_SCREEN } from 'src/app/modules/empty-screen/empty-screen.constants';
+import { EMPTY_SCREEN } from '../../modules/empty-screen/empty-screen.constants';
 declare const $: any;
 @Component({
   selector: 'app-team-management',

@@ -1,6 +1,6 @@
 import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { KRModalComponent } from 'src/app/shared/kr-modal/kr-modal.component';
-import { ConfirmationDialogComponent } from 'src/app/helpers/components/confirmation-dialog/confirmation-dialog.component';
+import { KRModalComponent } from '../../shared/kr-modal/kr-modal.component';
+import { ConfirmationDialogComponent } from '../../helpers/components/confirmation-dialog/confirmation-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
 import { WorkflowService } from '@kore.services/workflow.service';
 import { ServiceInvokerService } from '@kore.services/service-invoker.service';
@@ -13,8 +13,8 @@ import { of } from 'rxjs/internal/observable/of';
 import { PerfectScrollbarComponent } from 'ngx-perfect-scrollbar';
 import { InlineManualService } from '@kore.services/inline-manual.service';
 import { MixpanelServiceService } from '@kore.services/mixpanel-service.service';
-import { FindlySharedModule } from 'src/app/modules/findly-shared/findly-shared.module';
-import { RangeSlider } from 'src/app/helpers/models/range-slider.model';
+import { FindlySharedModule } from '../../modules/findly-shared/findly-shared.module';
+import { RangeSlider } from '../../helpers/models/range-slider.model';
 declare const $: any;
 @Component({
   selector: 'app-weights',
@@ -183,7 +183,7 @@ export class WeightsComponent implements OnInit, OnDestroy
       sortField:this.selectedSort?this.selectedSort:'filedName',
       orderType:this.checksort?this.checksort:'asc',
       // pageNo: 1,
-      // pageNo: this.pageNumber, 
+      // pageNo: this.pageNumber,
       // noOfRecords: 10,
       // noOfRecords: this.numberofweigths,
       isSelected : true
@@ -217,7 +217,7 @@ export class WeightsComponent implements OnInit, OnDestroy
       streamId: this.selectedApp._id,
       queryPipelineId: this.queryPipelineId,
       indexPipelineId: this.workflowService.selectedIndexPipeline() || '',
-      isSearchable: true, 
+      isSearchable: true,
       isSelected : false
     };
       // pageNo: 1,

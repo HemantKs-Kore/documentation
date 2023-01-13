@@ -8,7 +8,7 @@ import { NotificationService } from '@kore.services/notification.service';
 import { ServiceInvokerService } from '@kore.services/service-invoker.service';
 import { WorkflowService } from '@kore.services/workflow.service';
 import { Subscription } from 'rxjs';
-import { ConfirmationDialogComponent } from 'src/app/helpers/components/confirmation-dialog/confirmation-dialog.component';
+import { ConfirmationDialogComponent } from '../../helpers/components/confirmation-dialog/confirmation-dialog.component';
 import { DaterangepickerDirective } from 'ngx-daterangepicker-material';
 
 @Component({
@@ -53,7 +53,7 @@ export class PricingComponent implements OnInit, OnDestroy {
     await this.appSelectionService.getCurrentSubscriptionData();
     this.currentSubscriptionPlan = this.appSelectionService?.currentsubscriptionPlanDetails;
     this.currentSubsciptionData = this.appSelectionService.currentSubscription.subscribe(res => {
-      this.currentSubscriptionPlan = res;     
+      this.currentSubscriptionPlan = res;
       this.getSubscriptionData();
     });
     this.updateUsageData = this.appSelectionService.updateUsageData.subscribe(res => {
@@ -96,7 +96,7 @@ export class PricingComponent implements OnInit, OnDestroy {
     if (type == 'choose_plan') {
       this.plans.openSelectedPopup('choose_plan');
     }
-    else if (type === 'add_overage') {      
+    else if (type === 'add_overage') {
       this.plans.openSelectedPopup('add_overage');
     }
   }
@@ -233,7 +233,7 @@ export class PricingComponent implements OnInit, OnDestroy {
         axisPointer: {
           type: 'none'
         },
-        formatter: 
+        formatter:
         `<div class="pricing-hover-tooltip">
         <div class="row-data-info">
           <i class="si-interuptions"></i>
@@ -310,9 +310,9 @@ export class PricingComponent implements OnInit, OnDestroy {
           <div class="metrics-tooltips-hover agent_drop_tolltip">
           <div class="">
             <div class="main-title">Document Usage on {b0} is {c0}</div>
-          </div> 
+          </div>
         </div>
-        
+
         `,
         position: 'top',
         padding: 0
@@ -416,22 +416,22 @@ export class PricingComponent implements OnInit, OnDestroy {
       const currentPlan = this.plans?.totalPlansData?.filter(plan => plan?.name === planName);
       this.usageDetails.ingestDocsLimit = currentPlan[0]?.featureAccess?.ingestDocs?.limit;
       this.usageDetails.ingestDocsUsed = (currentUsageData?.ingestCount<=this.usageDetails.ingestDocsLimit)?(currentUsageData?.ingestCount):(this.usageDetails?.ingestDocsLimit)
-      
+
       this.usageDetails.searchQueriesLimit = currentPlan[0]?.featureAccess?.searchQueries?.limit;
       this.usageDetails.searchQueriesUsed = (currentUsageData?.searchCount<=this.usageDetails.searchQueriesLimit)?(currentUsageData?.searchCount):(this.usageDetails?.searchQueriesLimit)
-      
+
       this.usageDetails.ingestDocsUsedPercentage = (this.usageDetails.ingestDocsUsed/ this.usageDetails.ingestDocsLimit)*100
       this.usageDetails.searchQueriesUsedPercentage = (this.usageDetails.searchQueriesUsed/ this.usageDetails.searchQueriesLimit)*100
      //overages data
       const ingestDocs = this.currentSubscriptionPlan?.overages?.filter(item=>item.feature==='ingestDocs');
       const searchQueries = this.currentSubscriptionPlan?.overages?.filter(item=>item.feature==='searchQueries');
-      
+
       this.usageDetails.ingestDocsOverageLimit = (ingestDocs?.length>0)?(ingestDocs.length*ingestDocs[0]?.totalFeatureLimit):0;
       this.usageDetails.ingestDocsOverageUsed = (currentUsageData?.ingestCount<=this.usageDetails.ingestDocsLimit)?0:(currentUsageData?.ingestCount-this.usageDetails.ingestDocsLimit)
-      
+
       this.usageDetails.searchQueriesOverageLimit = (searchQueries?.length>0)?(searchQueries.length*searchQueries[0]?.totalFeatureLimit):0;
       this.usageDetails.searchQueriesOverageUsed = (currentUsageData?.searchCount<=this.usageDetails.searchQueriesLimit)?0:(currentUsageData?.searchCount-this.usageDetails.searchQueriesLimit)
-      
+
       this.usageDetails.ingestDocsOverUsedPercentage = (this.usageDetails.ingestDocsOverageUsed/ this.usageDetails.ingestDocsOverageLimit)*100
       this.usageDetails.searchQueriesOverUsedPercentage = (this.usageDetails.searchQueriesOverageUsed/ this.usageDetails.searchQueriesOverageLimit)*100
     }

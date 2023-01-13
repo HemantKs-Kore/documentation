@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { KRModalComponent } from 'src/app/shared/kr-modal/kr-modal.component';
+import { KRModalComponent } from '../../shared/kr-modal/kr-modal.component';
 import { PerfectScrollbarComponent } from 'ngx-perfect-scrollbar';
 import { ServiceInvokerService } from '@kore.services/service-invoker.service';
 import { NotificationService } from '@kore.services/notification.service';
@@ -7,7 +7,7 @@ import { AppSelectionService } from '@kore.services/app.selection.service';
 import { WorkflowService } from '@kore.services/workflow.service';
 import { from, interval, Subject, Subscription } from 'rxjs';
 import { ValueConverter } from '@angular/compiler/src/render3/view/template';
-import { ConfirmationDialogComponent } from 'src/app/helpers/components/confirmation-dialog/confirmation-dialog.component';
+import { ConfirmationDialogComponent } from '../../helpers/components/confirmation-dialog/confirmation-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
 import { DockStatusService } from '../../services/dockstatusService/dock-status.service';
 import { startWith, elementAt, filter } from 'rxjs/operators';
@@ -67,9 +67,9 @@ export class IndexConfigurationSettingsComponent implements OnInit {
       })
 
       this.poling();
-     
-  } 
-// toaster message 
+
+  }
+// toaster message
   errorToaster(errRes, message) {
     if (errRes && errRes.error && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0].msg) {
       this.notificationService.notify(errRes.error.errors[0].msg, 'error');
@@ -79,18 +79,18 @@ export class IndexConfigurationSettingsComponent implements OnInit {
       this.notificationService.notify('Somthing went wrong', 'error');
     }
   }
-// open pop for add and edit 
+// open pop for add and edit
   openModalPopup() {
     this.addLangModalPopRef = this.addLangModalPop.open();
     this.supportedLanguages.forEach(element => {
       this.languageList.forEach(lang => {
         if(element.languageCode == lang.languageCode){
           lang.selected = true;
-        } 
-      }); 
+        }
+      });
     });
   }
-// close pop for add and edit 
+// close pop for add and edit
   closeModalPopup() {
     this.addLangModalPopRef.close();
     this.saveLanguages = false;
@@ -129,7 +129,7 @@ export class IndexConfigurationSettingsComponent implements OnInit {
       }
     });
   }
-  //adding Language 
+  //adding Language
   addLanguage(index){
     this.languageList[index].selected = !this.languageList[index].selected
   }
@@ -305,5 +305,5 @@ getTrainIsInprogress(){
       this.pollingSubscriber.unsubscribe();
     }
   }
- 
+
 }

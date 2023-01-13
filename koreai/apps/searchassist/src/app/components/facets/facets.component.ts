@@ -3,8 +3,8 @@ import { MatDialog } from '@angular/material/dialog';
 import { NotificationService } from '@kore.services/notification.service';
 import { ServiceInvokerService } from '@kore.services/service-invoker.service';
 import { WorkflowService } from '@kore.services/workflow.service';
-import { ConfirmationDialogComponent } from 'src/app/helpers/components/confirmation-dialog/confirmation-dialog.component';
-import { KRModalComponent } from 'src/app/shared/kr-modal/kr-modal.component';
+import { ConfirmationDialogComponent } from '../../helpers/components/confirmation-dialog/confirmation-dialog.component';
+import { KRModalComponent } from '../../shared/kr-modal/kr-modal.component';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import * as _ from 'underscore';
 import { AppSelectionService } from '@kore.services/app.selection.service';
@@ -332,7 +332,7 @@ export class FacetsComponent implements OnInit, OnDestroy {
     payload ={
       "sort": {
           "fieldName": 1,
-      } 
+      }
     }
     // let serviceId = 'get.allField';
     let serviceId = 'post.allField';
@@ -496,7 +496,7 @@ export class FacetsComponent implements OnInit, OnDestroy {
         this.emptySearchResults = true;
         this.loadingContent1 = true;
         this.loadingData = false;
-        // this.noItems = false 
+        // this.noItems = false
         // if(!this.inlineManual.checkVisibility('FACETS')){
         //   this.inlineManual.openHelp('FACETS')
         //   this.inlineManual.visited('FACETS')
@@ -775,7 +775,7 @@ export class FacetsComponent implements OnInit, OnDestroy {
         }
         if(headerOption === 'search') {
           source = source.toLowerCase()
-          return facet.name.toLowerCase().includes(source) 
+          return facet.name.toLowerCase().includes(source)
         }
       }
       else {
@@ -1208,7 +1208,7 @@ export class FacetsComponent implements OnInit, OnDestroy {
     });
   }
   clearcontent(){
-      
+
       if($('#searchBoxId') && $('#searchBoxId').length){
       $('#searchBoxId')[0].value = "";
       this.field_name='';

@@ -10,8 +10,8 @@ import {
   Inject,
   AfterViewInit,
 } from '@angular/core';
-import { fadeInOutAnimation } from 'src/app/helpers/animations/animations';
-import { SliderComponentComponent } from 'src/app/shared/slider-component/slider-component.component';
+import { fadeInOutAnimation } from '../../helpers/animations/animations';
+import { SliderComponentComponent } from '../../shared/slider-component/slider-component.component';
 import { WorkflowService } from '@kore.services/workflow.service';
 import { ServiceInvokerService } from '@kore.services/service-invoker.service';
 import { NotificationService } from '@kore.services/notification.service';
@@ -20,11 +20,11 @@ import { Router } from '@angular/router';
 import * as _ from 'underscore';
 import { from, interval, Subject, Subscription } from 'rxjs';
 import { startWith, elementAt, filter, pluck } from 'rxjs/operators';
-import { ConfirmationDialogComponent } from 'src/app/helpers/components/confirmation-dialog/confirmation-dialog.component';
+import { ConfirmationDialogComponent } from '../../helpers/components/confirmation-dialog/confirmation-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
-import { KRModalComponent } from 'src/app/shared/kr-modal/kr-modal.component';
+import { KRModalComponent } from '../../shared/kr-modal/kr-modal.component';
 import { PerfectScrollbarComponent } from 'ngx-perfect-scrollbar';
-import { ConvertMDtoHTML } from 'src/app/helpers/lib/convertHTML';
+import { ConvertMDtoHTML } from '../../helpers/lib/convertHTML';
 import { FaqsService } from '../../services/faqsService/faqs.service';
 import { AppSelectionService } from '@kore.services/app.selection.service';
 import { MixpanelServiceService } from '@kore.services/mixpanel-service.service';
@@ -44,8 +44,8 @@ import { SideBarService } from './../../services/header.service';
 import { InlineManualService } from '@kore.services/inline-manual.service';
 import { CompileShallowModuleMetadata, ThrowStmt } from '@angular/compiler';
 import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
-import { OnboardingComponentComponent } from 'src/app/components/onboarding-component/onboarding-component.component';
-import { EMPTY_SCREEN } from 'src/app/modules/empty-screen/empty-screen.constants';
+import { OnboardingComponentComponent } from '../../components/onboarding-component/onboarding-component.component';
+import { EMPTY_SCREEN } from '../../modules/empty-screen/empty-screen.constants';
 @Component({
   selector: 'faqs-source',
   templateUrl: './faqs.component.html',

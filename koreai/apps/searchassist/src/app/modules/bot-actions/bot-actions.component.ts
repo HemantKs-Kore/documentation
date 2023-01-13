@@ -8,13 +8,13 @@ import { MatDialog } from '@angular/material/dialog';
 import * as _ from 'underscore';
 import { AppSelectionService } from '@kore.services/app.selection.service';
 import { environment } from '@kore.environment';
-import { KRModalComponent } from 'src/app/shared/kr-modal/kr-modal.component';
+import { KRModalComponent } from '../../shared/kr-modal/kr-modal.component';
 import { NgbPanelChangeEvent } from '@ng-bootstrap/ng-bootstrap';
 import { InlineManualService } from '@kore.services/inline-manual.service';
 import { PerfectScrollbarComponent } from 'ngx-perfect-scrollbar';
-import { OnboardingComponentComponent } from 'src/app/components/onboarding-component/onboarding-component.component';
-import { SliderComponentComponent } from 'src/app/shared/slider-component/slider-component.component';
-import { EMPTY_SCREEN } from 'src/app/modules/empty-screen/empty-screen.constants';
+import { OnboardingComponentComponent } from '../../components/onboarding-component/onboarding-component.component';
+import { SliderComponentComponent } from '../../shared/slider-component/slider-component.component';
+import { EMPTY_SCREEN } from '../../modules/empty-screen/empty-screen.constants';
 declare const $: any;
 @Component({
   selector: 'app-bot-actions',

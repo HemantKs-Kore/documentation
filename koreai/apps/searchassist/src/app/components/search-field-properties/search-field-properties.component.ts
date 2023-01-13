@@ -3,8 +3,8 @@ import { MatDialog } from '@angular/material/dialog';
 import { NotificationService } from '@kore.services/notification.service';
 import { ServiceInvokerService } from '@kore.services/service-invoker.service';
 import { WorkflowService } from '@kore.services/workflow.service';
-import { ConfirmationDialogComponent } from 'src/app/helpers/components/confirmation-dialog/confirmation-dialog.component';
-import { KRModalComponent } from 'src/app/shared/kr-modal/kr-modal.component';
+import { ConfirmationDialogComponent } from '../../helpers/components/confirmation-dialog/confirmation-dialog.component';
+import { KRModalComponent } from '../../shared/kr-modal/kr-modal.component';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import * as _ from 'underscore';
 import { of, interval, Subject, Subscription } from 'rxjs';
@@ -83,10 +83,10 @@ export class SearchFieldPropertiesComponent implements OnInit {
     this.querySubscription = this.appSelectionService.queryConfigSelected.subscribe(res => {
       this.indexPipelineId = this.workflowService.selectedIndexPipeline();
       this.queryPipelineId = this.workflowService.selectedQueryPipeline() ? this.workflowService.selectedQueryPipeline()._id : ''
-      this.fetchPropeties()      
+      this.fetchPropeties()
     })
-    
-    
+
+
   }
   /**   */
   fetchPropeties(search?,type?,skip?){
@@ -124,7 +124,7 @@ export class SearchFieldPropertiesComponent implements OnInit {
     this.skip= event.skip
     this.fetchPropeties()
   }
-  //SearchFiledProperties's Search Event 
+  //SearchFiledProperties's Search Event
   focusoutSearch() {
     if (this.activeClose) {
       this.searchFields = '';
@@ -133,7 +133,7 @@ export class SearchFieldPropertiesComponent implements OnInit {
     }
     this.showSearch = !this.showSearch;
   }
- //SearchFiledProperties's Search Event 
+ //SearchFiledProperties's Search Event
   focusinSearch(inputSearch) {
     setTimeout(() => {
       document.getElementById(inputSearch).focus();
@@ -178,14 +178,14 @@ export class SearchFieldPropertiesComponent implements OnInit {
     const payload = selectedProperties;
     this.service.invoke('put.updatesearchFieldsProperties',quaryparms,payload).subscribe(res => {
       this.enableIndex = this.defaultIndex;
-      this.fetchPropeties();      
+      this.fetchPropeties();
       console.log(res);
       this.notificationService.notify('Updated Successfully', 'success');
     }, errRes => {
       this.notificationService.notify('Update Failed', 'error');
-    });    
+    });
 
-  
+
   }
   /** Function for Icon Visiblity show Up / Show Down */
   getSortIconVisibility(sortingField: string, type: string) {

@@ -4,13 +4,13 @@ import { AppSelectionService } from '@kore.services/app.selection.service';
 import { NotificationService } from '@kore.services/notification.service';
 import { ServiceInvokerService } from '@kore.services/service-invoker.service';
 import { WorkflowService } from '@kore.services/workflow.service';
-import { ConfirmationDialogComponent } from 'src/app/helpers/components/confirmation-dialog/confirmation-dialog.component';
-import { UpgradePlanComponent } from 'src/app/helpers/components/upgrade-plan/upgrade-plan.component';
-import { KRModalComponent } from 'src/app/shared/kr-modal/kr-modal.component';
-import { OnboardingComponentComponent } from 'src/app/components/onboarding-component/onboarding-component.component';
-import { SliderComponentComponent } from 'src/app/shared/slider-component/slider-component.component';
+import { ConfirmationDialogComponent } from '../../helpers/components/confirmation-dialog/confirmation-dialog.component';
+import { UpgradePlanComponent } from '../../helpers/components/upgrade-plan/upgrade-plan.component';
+import { KRModalComponent } from '../../shared/kr-modal/kr-modal.component';
+import { OnboardingComponentComponent } from '../../components/onboarding-component/onboarding-component.component';
+import { SliderComponentComponent } from '../../shared/slider-component/slider-component.component';
 import { Router } from '@angular/router';
-import { EMPTY_SCREEN } from 'src/app/modules/empty-screen/empty-screen.constants';
+import { EMPTY_SCREEN } from '../../modules/empty-screen/empty-screen.constants';
 declare const $:any;
 @Component({
   selector: 'app-connectors-source',
@@ -102,7 +102,7 @@ export class ConnectorsSourceComponent implements OnInit {
   @ViewChild('deleteModel') deleteModel: KRModalComponent;
   @ViewChild(OnboardingComponentComponent, { static: true }) onBoardingComponent: OnboardingComponentComponent;
   @ViewChild(SliderComponentComponent) sliderComponent: SliderComponentComponent;
-  
+
   constructor(private notificationService: NotificationService, private service: ServiceInvokerService, private workflowService: WorkflowService, public dialog: MatDialog, private appSelectionService: AppSelectionService,private router: Router) { }
 
   async ngOnInit() {
@@ -172,7 +172,7 @@ export class ConnectorsSourceComponent implements OnInit {
               this.connectorsData.push({ ...item, ...item1 });
             }
           })
-        })        
+        })
       }
       if (this.connectorsData.length) {
         for (let item of this.Connectors) {
@@ -220,7 +220,7 @@ export class ConnectorsSourceComponent implements OnInit {
       this.configurationObj.username = res?.authDetails?.username;
       this.configurationObj.password = res?.authDetails?.password;
       this.configurationObj.tenantId = res?.authDetails?.tenantId;
-      this.getConentData();      
+      this.getConentData();
     }, errRes => {
       this.errorToaster(errRes, 'Connectors API Failed');
     });
@@ -230,15 +230,15 @@ export class ConnectorsSourceComponent implements OnInit {
   getDynamicSearchContent(type){
     const text = (type==='input')?this.contentInputSearch:'';
     setTimeout(()=>{
-      this.getConentData(0,text); 
+      this.getConentData(0,text);
     },500)
     if(type==='clear'){
       if($('#pageInput').length) $('#pageInput')[0].value=1;
       this.contentInputSearch='';
-    } 
+    }
   }
 
-  //content pagination 
+  //content pagination
   paginate(event) {
     if(this.contentInputSearch.length){
       this.getConentData(event?.skip,this.contentInputSearch)
@@ -428,7 +428,7 @@ validationForConnetor(){
       payload.authDetails.tenantId = this.configurationObj.tenantId;
     }
     if (['zendesk','sharepointOnline'].includes(this.selectedConnector.type)) {
-      delete payload.configuration.hostDomainName;   
+      delete payload.configuration.hostDomainName;
     }
     this.service.invoke('post.connector', quaryparms, payload).subscribe(res => {
       if (res) {
@@ -449,7 +449,7 @@ validationForConnetor(){
     let payload: any = {};
     if (data?.type === 'confluenceCloud') {
       payload.url = window.location.protocol + '//' + window.location.host + '/home?isRedirect=true'
-    } 
+    }
     this.service.invoke('post.authorizeConnector', quaryparms, payload).subscribe(res => {
       if (res) {
         this.isloadingBtn = false;
@@ -485,7 +485,7 @@ validationForConnetor(){
     if (this.selectedContent !== 'edit') this.selectedContent = 'list';
   }
 
-  //update connector 
+  //update connector
   openConnectorDialog(data) {
     const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
       width: '530px',
@@ -633,7 +633,7 @@ validationForConnetor(){
       }
     },3000)
   }
-  
+
   openUserMetaTagsSlider() {
     this.appSelectionService.topicGuideShow.next();
   }

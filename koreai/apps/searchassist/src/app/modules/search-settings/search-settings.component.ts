@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { KRModalComponent } from 'src/app/shared/kr-modal/kr-modal.component';
+import { KRModalComponent } from '../../shared/kr-modal/kr-modal.component';
 import { WorkflowService } from '@kore.services/workflow.service';
 import { AppSelectionService } from '@kore.services/app.selection.service';
 import { of, interval, Subject, Subscription } from 'rxjs';
@@ -21,8 +21,8 @@ export class SearchSettingsComponent implements OnInit {
   querySubscription: Subscription;
   serachIndexId;
   pipeline: any = [];
-  selectedComponent: String = 'weights';
-  componentsArray: Array<Object> = [
+  selectedComponent = 'weights';
+  componentsArray: any[] = [
     { key: 'Weights', value: 'weights' },
     { key: 'Presentable', value: 'presentable' },
     { key: 'Highlighting', value: 'highlighting' },
@@ -40,7 +40,7 @@ export class SearchSettingsComponent implements OnInit {
     private appSelectionService: AppSelectionService,
     private notificationService: NotificationService,
     private service: ServiceInvokerService,
-    private router: Router
+    public router: Router
   ) {}
 
   ngOnInit(): void {
@@ -85,7 +85,7 @@ export class SearchSettingsComponent implements OnInit {
     if (this.router.url === '/search-settings') {
       this.router.navigateByUrl('search-settings/weights', {
         skipLocationChange: true,
-      });      
+      });
     }
   }
 

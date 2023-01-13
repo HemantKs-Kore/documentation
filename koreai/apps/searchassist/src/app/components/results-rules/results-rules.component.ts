@@ -1,13 +1,13 @@
 import { Component, OnInit, ViewChild, ViewEncapsulation, OnDestroy } from '@angular/core';
-import { KRModalComponent } from 'src/app/shared/kr-modal/kr-modal.component';
+import { KRModalComponent } from '../../shared/kr-modal/kr-modal.component';
 import { MatChipInputEvent } from '@angular/material/chips';
 import { NotificationService } from '../../services/notification.service';
-import { MdEditorOption } from 'src/app/helpers/lib/md-editor.types';
+import { MdEditorOption } from '../../helpers/lib/md-editor.types';
 import { ENTER, COMMA } from '@angular/cdk/keycodes';
 import { ServiceInvokerService } from '@kore.services/service-invoker.service';
 import { WorkflowService } from '@kore.services/workflow.service';
 import { MatDialog } from '@angular/material/dialog';
-import { ConfirmationDialogComponent } from 'src/app/helpers/components/confirmation-dialog/confirmation-dialog.component';
+import { ConfirmationDialogComponent } from '../../helpers/components/confirmation-dialog/confirmation-dialog.component';
 import { cloneDeep } from "lodash";
 
 import * as _ from 'underscore';

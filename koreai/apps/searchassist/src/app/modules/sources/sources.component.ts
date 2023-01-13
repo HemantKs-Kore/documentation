@@ -10,10 +10,10 @@ import {
 } from '@angular/core';
 import { ServiceInvokerService } from '@kore.services/service-invoker.service';
 import { WorkflowService } from '@kore.services/workflow.service';
-import { SliderComponentComponent } from 'src/app/shared/slider-component/slider-component.component';
+import { SliderComponentComponent } from '../../shared/slider-component/slider-component.component';
 import { KRModalComponent } from '../../shared/kr-modal/kr-modal.component';
 import { AuthService } from '@kore.services/auth.service';
-import { fadeInOutAnimation } from 'src/app/helpers/animations/animations';
+import { fadeInOutAnimation } from '../../helpers/animations/animations';
 import { NotificationService } from '../../services/notification.service';
 import { Router, ActivatedRoute } from '@angular/router';
 declare const $: any;
@@ -25,14 +25,14 @@ import {
   CrwalObj,
   AdvanceOpts,
   scheduleOpts,
-} from 'src/app/helpers/models/Crwal-advance.model';
+} from '../../helpers/models/Crwal-advance.model';
 
 import { MatDialog } from '@angular/material/dialog';
 //import { DockStatusService } from '../../services/dock.status.service';
 import { DockStatusService } from '../../services/dockstatusService/dock-status.service';
 import { AppSelectionService } from '@kore.services/app.selection.service';
 import { InlineManualService } from '@kore.services/inline-manual.service';
-import { UpgradePlanComponent } from 'src/app/helpers/components/upgrade-plan/upgrade-plan.component';
+import { UpgradePlanComponent } from '../../helpers/components/upgrade-plan/upgrade-plan.component';
 import { PerfectScrollbarComponent } from 'ngx-perfect-scrollbar';
 import { MixpanelServiceService } from '@kore.services/mixpanel-service.service';
 import { SchedulerComponent } from '../../components/scheduler/scheduler.component';

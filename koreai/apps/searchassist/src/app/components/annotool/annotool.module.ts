@@ -17,13 +17,13 @@ import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
 import { ReactiveFormsModule } from '@angular/forms';
 import { TruncatePipe } from './helpers/truncate.pipe';
 import { UserGuideComponent } from './components/user-guide/user-guide.component';
-import { SharedModule } from 'src/app/shared/shared.module';
+import { SharedModule } from '../../shared/shared.module';
 import { ClickOutSideDirective } from './helpers/click-out-side.directive';
 import { SearchPipe } from "./helpers/search.pipe";
 @NgModule({
   declarations: [
-    AnnotoolComponent, 
-    PdfAnnotationComponent, 
+    AnnotoolComponent,
+    PdfAnnotationComponent,
     TruncatePipe,
     UserGuideComponent,
     ClickOutSideDirective,
@@ -43,12 +43,12 @@ import { SearchPipe } from "./helpers/search.pipe";
     NgbModule,
     MatProgressSpinnerModule,
     SimplebarAngularModule,
-    AnnotoolRoutingModule,  
+    AnnotoolRoutingModule,
   ],
   exports: [
-    AnnotoolComponent, 
-    PdfAnnotationComponent, 
-    TruncatePipe, 
+    AnnotoolComponent,
+    PdfAnnotationComponent,
+    TruncatePipe,
     UserGuideComponent,
     ClickOutSideDirective,
     ConfirmationComponent,

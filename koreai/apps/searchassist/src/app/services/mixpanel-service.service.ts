@@ -9,13 +9,13 @@ export class MixpanelServiceService {
   email = '';
   enabled = false;
   excludedMailDomains = [ 'mailinator.com' , 'yopmail.com' , 'abc.com' , 'xyz.com' , 'qq.com' , 'vomoto.com', '.xyz'];
-  constructor() { 
+  constructor() {
   } /** */
-  checkForEmailDomains = function(email) {
-    var valid = true;
-    this.excludedMailDomains.forEach(function (domain){
+  checkForEmailDomains = (email) => {
+    let valid = true;
+    this.excludedMailDomains.forEach( (domain) => {
         if(email.includes(domain)){
-            valid =  false; 
+            valid =  false;
         }
     });
   this.enabled = valid;
@@ -24,9 +24,9 @@ export class MixpanelServiceService {
   checkForKey(){
     const mixpanelEnv: any = environment;
     if (mixpanelEnv.hasOwnProperty('MIXPANEL_KEY') && mixpanelEnv['MIXPANEL_KEY']) {
-        this.enabled = true; 
+        this.enabled = true;
     }else{
-        this.enabled = false; 
+        this.enabled = false;
     }
   }
   init(){
@@ -46,7 +46,7 @@ export class MixpanelServiceService {
            return;
        }
   };
-  setUserInfo = function (email,userInfo) {
+  setUserInfo =  (email,userInfo) => {
     this.checkForEmailDomains(email);
     this.checkForKey();
     if(!this.enabled){
@@ -85,7 +85,7 @@ export class MixpanelServiceService {
     if(eventPayload){
         if(userInfo && userInfo.koreUserInfo) {
             eventPayload.$email = userInfo.koreUserInfo.emailId;
-            eventPayload.$name = userInfo.koreUserInfo.fName + ' ' + userInfo.koreUserInfo.lName; 
+            eventPayload.$name = userInfo.koreUserInfo.fName + ' ' + userInfo.koreUserInfo.lName;
             eventPayload.orgId = userInfo.orgId;
             eventPayload.accountId = userInfo.koreUserInfo.accountId;
         }
@@ -107,5 +107,5 @@ export class MixpanelServiceService {
     }
 
   };
-  
+
 }

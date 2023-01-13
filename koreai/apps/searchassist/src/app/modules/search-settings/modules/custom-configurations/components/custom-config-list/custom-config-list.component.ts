@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy } from '@angular/compiler/src/core';
 import { Component, OnInit, Input,Output, EventEmitter } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { ConfirmationDialogComponent } from 'src/app/helpers/components/confirmation-dialog/confirmation-dialog.component';
+import { ConfirmationDialogComponent } from '../../helpers/components/confirmation-dialog/confirmation-dialog.component';
 
 @Component({
   selector: 'app-custom-config-list',
@@ -34,14 +34,14 @@ export class CustomConfigListComponent implements OnInit {
       }
     });
     dialogRef.componentInstance.onSelect.subscribe(res => {
-      if (res === 'yes') {        
+      if (res === 'yes') {
         this.onDelete.emit(item);
       }
       dialogRef.close();
     });
   }
-   
-  
+
+
   //**update the custom config */
   updateCustomConfig(item) {
     this.onUpdate.emit(item);

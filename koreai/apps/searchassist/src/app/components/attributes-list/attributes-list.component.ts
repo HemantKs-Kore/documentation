@@ -6,7 +6,7 @@ import { NotificationService } from '../../services/notification.service';
 import { ENTER, COMMA } from '@angular/cdk/keycodes';
 import { MatChipInputEvent } from '@angular/material/chips';
 import { MatDialog } from '@angular/material/dialog';
-import { ConfirmationDialogComponent } from 'src/app/helpers/components/confirmation-dialog/confirmation-dialog.component';
+import { ConfirmationDialogComponent } from '../../helpers/components/confirmation-dialog/confirmation-dialog.component';
 import { cloneDeep } from "lodash";
 
 import * as _ from 'underscore';
@@ -34,7 +34,7 @@ export class AttributesListComponent implements OnInit {
   addAttributesModalPopRef:any;
   readonly separatorKeysCodes: number[] = [ENTER, COMMA];
   @ViewChild('addAttributesModalPop') addAttributesModalPop: KRModalComponent;
-  
+
   constructor( private service: ServiceInvokerService,
               private workflowService: WorkflowService,
               private notify: NotificationService,
@@ -140,7 +140,7 @@ export class AttributesListComponent implements OnInit {
             this.getAttributes();
 
             }, err => {
-     
+
             })
           dialogRef.close();
         } else if (result === 'no') { dialogRef.close(); }

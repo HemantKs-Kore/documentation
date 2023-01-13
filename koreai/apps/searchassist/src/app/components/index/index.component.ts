@@ -6,8 +6,8 @@ import { MatChipInputEvent } from '@angular/material/chips';
 import { NotificationService } from '@kore.services/notification.service';
 import { ServiceInvokerService } from '@kore.services/service-invoker.service';
 import { WorkflowService } from '@kore.services/workflow.service';
-import { ConfirmationDialogComponent } from 'src/app/helpers/components/confirmation-dialog/confirmation-dialog.component';
-import { KRModalComponent } from 'src/app/shared/kr-modal/kr-modal.component';
+import { ConfirmationDialogComponent } from '../../helpers/components/confirmation-dialog/confirmation-dialog.component';
+import { KRModalComponent } from '../../shared/kr-modal/kr-modal.component';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import * as _ from 'underscore';
 import { of, interval, Subject, Subscription } from 'rxjs';
@@ -19,7 +19,7 @@ import { AppSelectionService } from '@kore.services/app.selection.service';
 import { InlineManualService } from '@kore.services/inline-manual.service';
 import { FormControl } from '@angular/forms';
 import { MixpanelServiceService } from '@kore.services/mixpanel-service.service';
-import { UpgradePlanComponent } from 'src/app/helpers/components/upgrade-plan/upgrade-plan.component';
+import { UpgradePlanComponent } from '../../helpers/components/upgrade-plan/upgrade-plan.component';
 declare const $: any;
 @Component({
   selector: 'app-index',
@@ -106,7 +106,7 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
     exclude_document: {
       name: 'Exclude Document'
     },
-    snippet_extraction: { 
+    snippet_extraction: {
       name: 'Snippet Extraction'
     }
   }
@@ -121,7 +121,7 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
     { title: 'Number', value: 'Number', isDepricated: false },
     { title: 'Percentage', value: 'Percentage', isDepricated: false }
     //Reverting for FLY - 4688
-    //Orignal 
+    //Orignal
     // { title: 'Date', value: 'DATE', isDepricated: false },
     // { title: 'Time', value: 'TIME', isDepricated: false },
     // // { title: 'URL', value: 'URL', isDepricated: false },
@@ -133,7 +133,7 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
     // { title: 'Person Name', value: 'PERSON', isDepricated: false },
     // { title: 'Number', value: 'CARDINAL', isDepricated: false },
     // { title: 'Percentage', value: 'PERCENT', isDepricated: false }
-    //Orignal   
+    //Orignal
     /** Existing  */
     // { title: 'Date', value: 'date', isDepricated: false },
     // { title: 'Time', value: 'time', isDepricated: false },
@@ -729,7 +729,7 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
     });
     return stagesArray;
   }
-  
+
   checkForNewFields() {
     const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
       width: '530px',
@@ -962,13 +962,13 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
         //     let greaterThanSymbol= ">";
         //     let lessThanSymbol = "<";
         //     if(this.selectedStage.condition.value.includes(greaterThan)){
-        //       this.selectedStage.condition.value.replace(greaterThan, greaterThanSymbol); 
+        //       this.selectedStage.condition.value.replace(greaterThan, greaterThanSymbol);
         //       let elemenet = document.getElementsByTagName("ngx-codemirror")[0] as HTMLBaseElement
         //       elemenet.innerText.replace(greaterThan, greaterThanSymbol);
         //     }else if(this.selectedStage.condition.value.includes(lessThan)){
         //       this.selectedStage.condition.value.replace(lessThan,lessThanSymbol);
         //       let elemenet = document.getElementsByTagName("ngx-codemirror")[0] as HTMLBaseElement
-        //       elemenet.innerText.replace(lessThan, lessThanSymbol); 
+        //       elemenet.innerText.replace(lessThan, lessThanSymbol);
         //     }
         //   }
         // },1)
@@ -1621,11 +1621,11 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
       this.service.invoke('post.simulate', quaryparms, payload).subscribe(res => {
         /** Workbench plain text temp */
         // if (this.newMappingObj && this.newMappingObj.custom_script &&
-        //   this.newMappingObj.custom_script.defaultValue && 
-        //   this.newMappingObj.custom_script.defaultValue.script && 
+        //   this.newMappingObj.custom_script.defaultValue &&
+        //   this.newMappingObj.custom_script.defaultValue.script &&
         //   this.newMappingObj.custom_script.defaultValue.script != plainScriptTxt) {
         //   this.newMappingObj.custom_script.defaultValue.script = plainScriptTxt;
-        // } 
+        // }
         this.loadingSimulate = false;
         this.simulteObj.simulating = false;
         this.addcode(res);

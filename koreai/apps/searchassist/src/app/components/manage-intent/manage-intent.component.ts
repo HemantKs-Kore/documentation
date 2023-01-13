@@ -4,12 +4,12 @@ import { WorkflowService } from '@kore.services/workflow.service';
 import { ServiceInvokerService } from '@kore.services/service-invoker.service';
 import { AuthService } from '@kore.services/auth.service';
 import { finalize, debounceTime, distinctUntilChanged, switchMap } from 'rxjs/operators';
-import { fadeInOutAnimation } from 'src/app/helpers/animations/animations';
+import { fadeInOutAnimation } from '../../helpers/animations/animations';
 import { MatDialog } from '@angular/material/dialog';
 import { MatChipInputEvent } from '@angular/material/chips'
 import { ImportFaqsModalComponent } from './../import-faqs-modal/import-faqs-modal.component';
 import * as uuid from 'uuid';
-import { ConfirmationDialogComponent } from 'src/app/helpers/components/confirmation-dialog/confirmation-dialog.component';
+import { ConfirmationDialogComponent } from '../../helpers/components/confirmation-dialog/confirmation-dialog.component';
 import { Subject, of, Subscription, from } from 'rxjs';
 import { KgDataService } from '@kore.services/componentsServices/kg-data.service';
 import { NotificationService } from '@kore.services/notification.service';

@@ -1,5 +1,5 @@
 import { EmptyScreenModule } from './../../modules/empty-screen/empty-screen.module';
-import { FindlySharedModule } from 'src/app/modules/findly-shared/findly-shared.module';
+import { FindlySharedModule } from '../../modules/findly-shared/findly-shared.module';
 import { MatIconModule } from '@angular/material/icon';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatFormFieldModule } from '@angular/material/form-field';

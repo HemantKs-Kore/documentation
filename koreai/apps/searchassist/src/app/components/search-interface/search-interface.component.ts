@@ -7,8 +7,8 @@ import { NotificationService } from '@kore.services/notification.service';
 import { ServiceInvokerService } from '@kore.services/service-invoker.service';
 import { WorkflowService } from '@kore.services/workflow.service';
 import { Subscription } from 'rxjs';
-import { ConfirmationDialogComponent } from 'src/app/helpers/components/confirmation-dialog/confirmation-dialog.component';
-import { KRModalComponent } from 'src/app/shared/kr-modal/kr-modal.component';
+import { ConfirmationDialogComponent } from '../../helpers/components/confirmation-dialog/confirmation-dialog.component';
+import { KRModalComponent } from '../../shared/kr-modal/kr-modal.component';
 import { InlineManualService } from '@kore.services/inline-manual.service';
 import { MixpanelServiceService } from '@kore.services/mixpanel-service.service';
 
@@ -142,7 +142,7 @@ export class SearchInterfaceComponent implements OnInit {
     this.selectedApp = this.workflowService.selectedApp();
     this.serachIndexId = this.selectedApp.searchIndexes[0]._id;
     this.indexPipelineId = this.workflowService.selectedIndexPipeline();
-    // Template Response 
+    // Template Response
     // this.customizeTemplate.type = "list"
     // this.customizeTemplate.layout.layoutType = 'titleWithText'
     // this.customizeTemplate.layout.isClickable = true;
@@ -162,7 +162,7 @@ export class SearchInterfaceComponent implements OnInit {
         //this.queryPipelineId
         this.getAllSettings();
       }
-      
+
     })
     this.searchExperienceConfig = this.headerService.searchConfiguration;
     this.searchConfigurationSubscription = this.headerService.savedSearchConfiguration.subscribe((res) => {
@@ -806,7 +806,7 @@ export class SearchInterfaceComponent implements OnInit {
       //  if(this.selectedSettingResultsObj.referInterface == 'search'){
       //   payload['referInterface'] = 'search';
       //  }else{
-      //    delete payload['referInterface']; 
+      //    delete payload['referInterface'];
       //  }
     }
     this.service.invoke('put.SI_saveResultSettings', queryparams, payload).subscribe(res => {

@@ -8,16 +8,16 @@ import {
 import { ServiceInvokerService } from '@kore.services/service-invoker.service';
 import { WorkflowService } from '@kore.services/workflow.service';
 import { AppSelectionService } from '@kore.services/app.selection.service';
-import { SliderComponentComponent } from 'src/app/shared/slider-component/slider-component.component';
+import { SliderComponentComponent } from '../../shared/slider-component/slider-component.component';
 import { KRModalComponent } from '../../shared/kr-modal/kr-modal.component';
 import { AuthService } from '@kore.services/auth.service';
-import { fadeInOutAnimation } from 'src/app/helpers/animations/animations';
+import { fadeInOutAnimation } from '../../helpers/animations/animations';
 import { NotificationService } from '../../services/notification.service';
 import { Router } from '@angular/router';
 declare const $: any;
 import * as _ from 'underscore';
 import * as moment from 'moment';
-import { ConfirmationDialogComponent } from 'src/app/helpers/components/confirmation-dialog/confirmation-dialog.component';
+import { ConfirmationDialogComponent } from '../../helpers/components/confirmation-dialog/confirmation-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
 import { Subject } from 'rxjs';
 import { PerfectScrollbarComponent } from 'ngx-perfect-scrollbar';
@@ -27,16 +27,16 @@ import {
   AllowUrl,
   BlockUrl,
   scheduleOpts,
-} from 'src/app/helpers/models/Crwal-advance.model';
+} from '../../helpers/models/Crwal-advance.model';
 import { InlineManualService } from '@kore.services/inline-manual.service';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 import { DockStatusService } from '../../services/dockstatusService/dock-status.service';
 import { MixpanelServiceService } from '@kore.services/mixpanel-service.service';
-import { OnboardingComponentComponent } from 'src/app/components/onboarding-component/onboarding-component.component';
+import { OnboardingComponentComponent } from '../../components/onboarding-component/onboarding-component.component';
 import { SchedulerComponent } from '../../components/scheduler/scheduler.component';
-import { EMPTY_SCREEN } from 'src/app/modules/empty-screen/empty-screen.constants';
+import { EMPTY_SCREEN } from '../../modules/empty-screen/empty-screen.constants';
 declare var require: any;
-import { UpgradePlanComponent } from 'src/app/helpers/components/upgrade-plan/upgrade-plan.component';
+import { UpgradePlanComponent } from '../../helpers/components/upgrade-plan/upgrade-plan.component';
 declare var require: any;
 const FileSaver = require('file-saver');
 @Component({

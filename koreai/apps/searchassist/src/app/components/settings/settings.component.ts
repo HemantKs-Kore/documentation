@@ -1,16 +1,16 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { KRModalComponent } from 'src/app/shared/kr-modal/kr-modal.component';
+import { KRModalComponent } from '../../shared/kr-modal/kr-modal.component';
 import { WorkflowService } from '@kore.services/workflow.service';
 import { ServiceInvokerService } from '@kore.services/service-invoker.service';
 import { MatDialog } from '@angular/material/dialog';
 import { AppSelectionService } from '@kore.services/app.selection.service';
-import { ConfirmationDialogComponent } from 'src/app/helpers/components/confirmation-dialog/confirmation-dialog.component';
+import { ConfirmationDialogComponent } from '../../helpers/components/confirmation-dialog/confirmation-dialog.component';
 import { NotificationService } from '@kore.services/notification.service';
 import { ActivatedRoute } from '@angular/router';
 import { AuthService } from '@kore.services/auth.service';
 import { ɵangular_packages_platform_browser_dynamic_platform_browser_dynamic_a } from '@angular/platform-browser-dynamic';
 import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
-import { EMPTY_SCREEN } from 'src/app/modules/empty-screen/empty-screen.constants';
+import { EMPTY_SCREEN } from '../../modules/empty-screen/empty-screen.constants';
 declare const $: any;
 @Component({
   selector: 'app-settings',
@@ -103,12 +103,12 @@ export class SettingsComponent implements OnInit {
           if(element.appUsage != ''){
             this.configured = true;
           }
-        
+
       });
     }
   }
   prepareChannelData() {
-    
+
     const channels = JSON.parse(JSON.stringify(this.channels))
     channels.forEach((channel) => {
       this.selectedApp.channels.forEach((streamChannel) => {
@@ -306,16 +306,16 @@ export class SettingsComponent implements OnInit {
           }
         }
       );
-    
+
   }
   onFocusOutEvent(event){
     this.webClientDetails.domains[this.webClientDetails.domains.length - 1] = event.target.value;
   }
   addNewDomain(){
-      this.webClientDetails.domains.push('') 
+      this.webClientDetails.domains.push('')
   }
   deleteDomain(recordIndex){
-    this.webClientDetails.domains.splice(recordIndex,1) 
+    this.webClientDetails.domains.splice(recordIndex,1)
   }
   validationForDomainURl(){
    if( this.webClientDetails.domains[this.webClientDetails.domains.length - 1] == ''){
@@ -407,7 +407,7 @@ export class SettingsComponent implements OnInit {
     // }
 
 
-    //  if (this.slider < 3  && this.slider == 0 ) {    
+    //  if (this.slider < 3  && this.slider == 0 ) {
     //     // this.configFlag = true;
 
 

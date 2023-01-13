@@ -3,20 +3,20 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatChipInputEvent } from '@angular/material/chips';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete'
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
-import { MdEditorOption } from 'src/app/helpers/lib/md-editor.types';
+import { MdEditorOption } from '../../helpers/lib/md-editor.types';
 import { NgbTooltipConfig } from '@ng-bootstrap/ng-bootstrap';
 import { AuthService } from '@kore.services/auth.service';
 import { NotificationService } from '../../services/notification.service';
 import { KgDataService } from '@kore.services/componentsServices/kg-data.service';
 import { ServiceInvokerService } from '@kore.services/service-invoker.service';
 import { FaqsService } from '../../services/faqsService/faqs.service';
-import { ConvertMDtoHTML } from 'src/app/helpers/lib/convertHTML';
+import { ConvertMDtoHTML } from '../../helpers/lib/convertHTML';
 import * as _ from 'underscore';
-import { KRModalComponent } from 'src/app/shared/kr-modal/kr-modal.component';
+import { KRModalComponent } from '../../shared/kr-modal/kr-modal.component';
 import { Observable, Subscription } from 'rxjs';
 import { PerfectScrollbarConfigInterface, PerfectScrollbarComponent, PerfectScrollbarDirective } from 'ngx-perfect-scrollbar';
 import { MatDialog } from '@angular/material/dialog';
-import { ConfirmationDialogComponent } from 'src/app/helpers/components/confirmation-dialog/confirmation-dialog.component';
+import { ConfirmationDialogComponent } from '../../helpers/components/confirmation-dialog/confirmation-dialog.component';
 import * as moment from 'moment';
 import { MixpanelServiceService } from '@kore.services/mixpanel-service.service';
 import { DaterangepickerDirective } from 'ngx-daterangepicker-material';
@@ -237,13 +237,13 @@ export class AddFaqComponent implements OnInit, OnDestroy {
             }
           };
         }
-        
+
       else{
         this.faqData._source.faq_alt_questions.push(params._source.faq_alt_questions[0]);
       }
       this.isAdd = true;
       }
-     
+
     });
     this.altCancelSub = this.faqServiceAlt.cancel.subscribe(data => { this.isAdd = false; });
     if (this.faqUpdate) {
@@ -458,7 +458,7 @@ export class AddFaqComponent implements OnInit, OnDestroy {
       this.faqResponse.defaultAnswers.push(tempResponseObj);
       this.currentEditIndex = this.faqResponse.defaultAnswers.length - 1;
       this.bubblePopUp=true;
-    } 
+    }
     else if (type === 'conditional') {
       const tempResponseObj = JSON.parse(JSON.stringify(this.conditionalAnsInterface))
       this.faqResponse.conditionalAnswers.push(tempResponseObj);
@@ -473,7 +473,7 @@ export class AddFaqComponent implements OnInit, OnDestroy {
         $('.editResponseMode').addClass('focusedEdit');
       });
     }
-    
+
     $('.add-faq-modal-popup').off('click').on('click', function (event) {
       if (!$(event.target).closest('.text-area-editor').length && !$(event.target).closest('.provideLinkPopup').length && $('.editResponseMode').hasClass('focusedEdit')) {
         $('.editResponseMode').addClass('d-none');
@@ -515,7 +515,7 @@ export class AddFaqComponent implements OnInit, OnDestroy {
   delete(index) {
     if (this.faqResponse && this.faqResponse.defaultAnswers && this.faqResponse.defaultAnswers.length > 1) {
       this.faqResponse.defaultAnswers.splice(index, 1);
-    } 
+    }
    else if (this.faqResponse && this.faqResponse.conditionalAnswers && this.faqResponse.conditionalAnswers.length >= 1) {
       this.faqResponse.conditionalAnswers.splice(index, 1);
     }
@@ -642,13 +642,13 @@ export class AddFaqComponent implements OnInit, OnDestroy {
           conditionalAnswers.push(conditionAnswerObj);
         }
       })
-    }     
+    }
     this.anwerPayloadObj.defaultAnswers = defaultAnswers;
     this.anwerPayloadObj.conditionalAnswers = conditionalAnswers;
     if(conditionalAnswers.length != 0){
       this.mixpanel.postEvent('FAQ-created-Conditional response',{})
     }
-   
+
   }
   addAnotherAlternate(isHideInput?) {
     $('#addAlternateFaq').click();

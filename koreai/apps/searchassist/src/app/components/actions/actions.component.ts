@@ -3,11 +3,9 @@ import { SideBarService } from '@kore.services/header.service';
 import { WorkflowService } from '@kore.services/workflow.service';
 import { ServiceInvokerService } from '@kore.services/service-invoker.service';
 import { NotificationService } from '@kore.services/notification.service';
-import { fadeInOutAnimation } from 'src/app/helpers/animations/animations';
+import { fadeInOutAnimation } from '../../helpers/animations/animations';
 import { AuthService } from '@kore.services/auth.service';
 import { Router } from '@angular/router';
-import * as moment from 'moment';
-import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 declare const $: any;
 
 @Component({
@@ -17,7 +15,7 @@ declare const $: any;
   animations: [fadeInOutAnimation],
 })
 export class ActionsComponent implements OnInit {
- 
+
   searchIndexId:any;
   selectedApp: any;
   LinkABot:any;
@@ -39,7 +37,7 @@ export class ActionsComponent implements OnInit {
   streamId: any;
   userInfo:any;
   searchObject: any = {
-   
+
   };
   indexPipelineId:any;
   queryPipelineId: any;
@@ -48,7 +46,7 @@ export class ActionsComponent implements OnInit {
     actionExperience:"top",
     actionTemplate: "grid"
   }
-  constructor( 
+  constructor(
     public workflowService: WorkflowService,
     private headerService: SideBarService,
     private service: ServiceInvokerService,
@@ -107,7 +105,7 @@ export class ActionsComponent implements OnInit {
     this.headerService.updateShowHideSettingsMenu(false);
     this.headerService.updateShowHideSourceMenu(true);
     // this.headerService.updateMainMenuInHeader('/settings');
-} 
+}
   botLinkedOrUnlinked() {
     if (this.LinkABot) {
       this.botLinked = true;
@@ -125,9 +123,9 @@ export class ActionsComponent implements OnInit {
     else if (this.streamId != null) {
       this.loader = true
       this.getAssociatedBots();
-     
+
     }
-   
+
 
   }
   getAssociatedBots() {

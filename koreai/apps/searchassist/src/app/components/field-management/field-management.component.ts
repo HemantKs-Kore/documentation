@@ -1,11 +1,11 @@
-import { EMPTY_SCREEN } from 'src/app/modules/empty-screen/empty-screen.constants';
+import { EMPTY_SCREEN } from '../../modules/empty-screen/empty-screen.constants';
 import { Component, ElementRef, OnInit, ViewChild, OnDestroy, AfterViewInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { NotificationService } from '@kore.services/notification.service';
 import { ServiceInvokerService } from '@kore.services/service-invoker.service';
 import { WorkflowService } from '@kore.services/workflow.service';
-import { ConfirmationDialogComponent } from 'src/app/helpers/components/confirmation-dialog/confirmation-dialog.component';
-import { KRModalComponent } from 'src/app/shared/kr-modal/kr-modal.component';
+import { ConfirmationDialogComponent } from '../../helpers/components/confirmation-dialog/confirmation-dialog.component';
+import { KRModalComponent } from '../../shared/kr-modal/kr-modal.component';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import * as _ from 'underscore';
 import { of, interval, Subject, Subscription } from 'rxjs';
@@ -17,7 +17,7 @@ import { PerfectScrollbarComponent } from 'ngx-perfect-scrollbar';
 import { Router, ActivatedRoute } from '@angular/router';
 import { MixpanelServiceService } from '@kore.services/mixpanel-service.service';
 import { DomSanitizer } from '@angular/platform-browser';
-import { IndexFieldsComfirmationDialogComponent } from 'src/app/helpers/components/index-fields-comfirmation-dialog/index-fields-comfirmation-dialog.component';
+import { IndexFieldsComfirmationDialogComponent } from '../../helpers/components/index-fields-comfirmation-dialog/index-fields-comfirmation-dialog.component';
 
 
 declare const $: any;
@@ -108,7 +108,7 @@ export class FieldManagementComponent implements OnInit {
       this.loadFileds();
     })
     // });
-    
+
   }
   ngAfterViewInit() {
 
@@ -148,7 +148,7 @@ export class FieldManagementComponent implements OnInit {
       $("#auto_suggest_option").prop("checked", false);
       this.newFieldObj.isAutosuggest =false
     }
-    
+
     // }
   }
   addEditFiled(field?) {
@@ -247,7 +247,7 @@ export class FieldManagementComponent implements OnInit {
         }
         return usedArr;
       }, []);
-      
+
       if (searchSettingsRecord) {
         if (searchSettingsRecord['highlight']?.value) {
           this.tooltipArr = [...this.tooltipArr, 'Highlight']
@@ -263,8 +263,8 @@ export class FieldManagementComponent implements OnInit {
         }
       }
        let popupData=''
-      type==='pop-up'? popupData = `This will impact `:popupData ='Searchable property has been set to false this will impact '      
-      this.byPassSecurity(resultArr,popupData,type)      
+      type==='pop-up'? popupData = `This will impact `:popupData ='Searchable property has been set to false this will impact '
+      this.byPassSecurity(resultArr,popupData,type)
     }, errRes => {
       this.fetchingFieldUsage = false;
     });
@@ -275,12 +275,12 @@ export class FieldManagementComponent implements OnInit {
         } else if (resultArr.length === 2) {
           data += `${resultArr.join(' and ')}`;
         } else {
-          const lastVal = resultArr.slice(-1)[0]; 
+          const lastVal = resultArr.slice(-1)[0];
           data += `${resultArr.slice(0, resultArr.length -1 ).join(', ')} and ${lastVal}`;
         }
         this.indexedWarningMessage = data;
-        type == 'pop-up' ? this.editresultTest = this.sanitizer.bypassSecurityTrustHtml(data) : this.searchableCheckboxMsg = this.sanitizer.bypassSecurityTrustHtml(data); 
-      
+        type == 'pop-up' ? this.editresultTest = this.sanitizer.bypassSecurityTrustHtml(data) : this.searchableCheckboxMsg = this.sanitizer.bypassSecurityTrustHtml(data);
+
   }
   replaceLast(find, replace, string) {
     var lastIndex = string.lastIndexOf(find);
@@ -309,7 +309,7 @@ export class FieldManagementComponent implements OnInit {
     this.service.invoke('get.getFieldUsage', quaryparms).subscribe(res => {
       this.currentfieldUsage = res
       this.fetchingFieldUsage = false;
-      let usageText = record.fieldName + ' will be deleted' 
+      let usageText = record.fieldName + ' will be deleted'
       const deps: any = {
         facets: false,
         rules: false,
@@ -357,7 +357,7 @@ export class FieldManagementComponent implements OnInit {
 
         return usedArr;
       }, []);
-      
+
       if (searchSettingsRecord) {
         if (searchSettingsRecord['highlight']?.value) {
           this.tooltipArr = [...this.tooltipArr, 'Highlight']
@@ -378,10 +378,10 @@ export class FieldManagementComponent implements OnInit {
       } else if (resultArr.length === 2) {
         resultStr += `${resultArr.join(' and ')}`;
       } else {
-        const lastVal = resultArr.slice(-1)[0]; 
+        const lastVal = resultArr.slice(-1)[0];
         resultStr += `${resultArr.slice(0, resultArr.length -1 ).join(', ')} and ${lastVal}`;
       }
-      resultStr += '.'+'<div>' +'Deleting it will remove all the associated settings' +'</div>'     
+      resultStr += '.'+'<div>' +'Deleting it will remove all the associated settings' +'</div>'
       const dialogRef = this.dialog.open(IndexFieldsComfirmationDialogComponent, {
         width: '530px',
         height: 'auto',
@@ -479,7 +479,7 @@ export class FieldManagementComponent implements OnInit {
     payload ={
       "sort": {
           "fieldName": 1,
-      } 
+      }
     }
     // let serviceId = 'get.allFieldsData';
     let serviceId = 'post.allField';
@@ -502,7 +502,7 @@ export class FieldManagementComponent implements OnInit {
        payload ={
         "sort": {
             "fieldName": this.value,
-        } 
+        }
       }
       quaryparms.offset = 0;
       quaryparms.limit = 10
@@ -510,7 +510,7 @@ export class FieldManagementComponent implements OnInit {
     else if(!sortValue && headerOption){  // To send offset=0 and limit =10 on filtering
       payload = request,
       quaryparms.offset = 0,
-      quaryparms.limit = 10 
+      quaryparms.limit = 10
     }
     // else if(headerOption){
     //   payload = request,
@@ -520,10 +520,10 @@ export class FieldManagementComponent implements OnInit {
     else{
       payload = request
     }
-    
+
     if(this.searchFields){
       payload.search = this.searchFields
-    }   
+    }
     let serviceId = 'post.allField';
     // if (searchFields) {
     //   quaryparms.search = searchFields;
@@ -549,7 +549,7 @@ export class FieldManagementComponent implements OnInit {
       this.errorToaster(errRes, 'Failed to get index  stages');
     });
   }
-  
+
   deleteIndField(record, dialogRef) {
     const quaryparms: any = {
       searchIndexID: this.serachIndexId,
@@ -655,7 +655,7 @@ export class FieldManagementComponent implements OnInit {
       }
     });
     this.filelds = sortedData;
-   
+
   }
   sortByApi(sort){
     this.selectedSort = sort;
@@ -677,7 +677,7 @@ export class FieldManagementComponent implements OnInit {
     this.fieldsFilter(null,null,null,null,sort,checkSortValue,naviagtionArrow)
   }
 
- 
+
   filterTable(source, headerOption) {
     switch (headerOption) {
 
@@ -693,8 +693,8 @@ export class FieldManagementComponent implements OnInit {
     this.fieldsFilter(null,null,source, headerOption);
   }
 
-  fieldsFilter(searchValue?,searchSource?, source?,headerOption?, sortHeaderOption?,sortValue?,navigate?){  
-    // fieldsFilter(searchValue?,searchSource?, source?,headerOption?, sortHeaderOption?,sortValue?,navigate?)  
+  fieldsFilter(searchValue?,searchSource?, source?,headerOption?, sortHeaderOption?,sortValue?,navigate?){
+    // fieldsFilter(searchValue?,searchSource?, source?,headerOption?, sortHeaderOption?,sortValue?,navigate?)
     // this.loadingContent = true;
     if(sortValue){
       this.sortedObject = {
@@ -716,10 +716,10 @@ export class FieldManagementComponent implements OnInit {
       request = {
         "sort":{
           'fieldName':1
-        }    
+        }
     } ,
     quaryparms.offset = 0,
-    quaryparms.limit = 10  
+    quaryparms.limit = 10
     }
     else if(sortValue){
       const sort :any ={}
@@ -739,16 +739,16 @@ export class FieldManagementComponent implements OnInit {
      delete  request.fieldDataType;
     }
     if ( request.isSearchable == 'all') {
-      delete request.isSearchable; 
+      delete request.isSearchable;
     }
      if (request.isAutosuggest == 'all') {
-     delete request.isAutosuggest; 
+     delete request.isAutosuggest;
     }
 
     if (this.searchFields === '') {
      delete request.search;
     }
-    if(sortValue){  
+    if(sortValue){
       this.getSortIconVisibility(sortHeaderOption,navigate);
        //Sort start
     if(sortHeaderOption === 'fieldName' ){
@@ -768,7 +768,7 @@ export class FieldManagementComponent implements OnInit {
     }
     this.getFileds(searchValue,searchSource, source,headerOption, sortHeaderOption,sortValue,navigate,request);
   }
-  sortField(type?,navigate?, value?){  
+  sortField(type?,navigate?, value?){
     const quaryparms: any = {
       searchIndexID: this.serachIndexId,
       indexPipelineId: this.workflowService.selectedIndexPipeline() || '',
@@ -778,8 +778,8 @@ export class FieldManagementComponent implements OnInit {
     };
     const sort :any ={}
       const request:any = {
-        sort    
-    }     
+        sort
+    }
     this.selectedSort = type;
     if (this.selectedSort !== type) {
       this.isAsc = true;
@@ -796,15 +796,15 @@ export class FieldManagementComponent implements OnInit {
      delete  request.fieldDataType;
     }
     if ( request.isSearchable == 'all') {
-      delete request.isMultiValued; 
+      delete request.isMultiValued;
     }
      if (request.isAutosuggest == 'all') {
-     delete request.isStored; 
+     delete request.isStored;
     }
     if (this.searchFields === '') {
      delete request.search;
     }
-    // end 
+    // end
     //Sort start
     if(type === 'fieldName' ){
       request.sort.fieldName = value
@@ -839,11 +839,11 @@ export class FieldManagementComponent implements OnInit {
       delete  request.fieldDataType;
      }
       if ( request.isAutosuggest == 'all') {
-       delete request.isAutosuggest; 
+       delete request.isAutosuggest;
      }
       if (request.isSearchable == 'all') {
-      delete request.isSearchable; 
-     }      
+      delete request.isSearchable;
+     }
      if (this.searchFields === '') {
        delete request.search;
       }
@@ -855,7 +855,7 @@ export class FieldManagementComponent implements OnInit {
     }, errRes => {
       this.errorToaster(errRes, 'Failed to get filters');
     });
-    
+
   }
   getFieldAutoComplete(query) {
     if (!query) {

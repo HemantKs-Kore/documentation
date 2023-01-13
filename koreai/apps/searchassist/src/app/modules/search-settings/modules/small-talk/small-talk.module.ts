@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 
 import { SmallTalkRoutingModule } from './small-talk-routing.module';
 import { SmallTalkComponent } from './small-talk.component';
-import { FindlySharedModule } from 'src/app/modules/findly-shared/findly-shared.module';
+import { FindlySharedModule } from '../../modules/findly-shared/findly-shared.module';
 
 
 @NgModule({

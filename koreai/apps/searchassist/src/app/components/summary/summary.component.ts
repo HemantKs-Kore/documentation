@@ -3,7 +3,7 @@ import { SideBarService } from '@kore.services/header.service';
 import { WorkflowService } from '@kore.services/workflow.service';
 import { ServiceInvokerService } from '@kore.services/service-invoker.service';
 import { NotificationService } from '@kore.services/notification.service';
-import { fadeInOutAnimation } from 'src/app/helpers/animations/animations';
+import { fadeInOutAnimation } from '../../helpers/animations/animations';
 import { AuthService } from '@kore.services/auth.service';
 import { Router } from '@angular/router';
 import { AppSelectionService } from '@kore.services/app.selection.service';

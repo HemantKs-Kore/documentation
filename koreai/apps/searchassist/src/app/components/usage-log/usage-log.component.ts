@@ -7,7 +7,7 @@ import { AuthService } from '@kore.services/auth.service';
 import { AppSelectionService } from '@kore.services/app.selection.service';
 import * as moment from 'moment';
 import { of, interval, Subject, Subscription } from 'rxjs';
-import { EMPTY_SCREEN } from 'src/app/modules/empty-screen/empty-screen.constants';
+import { EMPTY_SCREEN } from '../../modules/empty-screen/empty-screen.constants';
 declare const $: any;
 @Component({
   selector: 'app-usage-log',

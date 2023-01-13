@@ -2,15 +2,15 @@ import { Component, OnInit, ViewEncapsulation, HostListener, Input, ViewChild, O
 import { SideBarService } from '../../services/header.service';
 import { WorkflowService } from '@kore.services/workflow.service';
 import { ActivatedRoute, Routes, Router } from '@angular/router';
-import { KRModalComponent } from 'src/app/shared/kr-modal/kr-modal.component';
+import { KRModalComponent } from '../../shared/kr-modal/kr-modal.component';
 import { AppSelectionService } from '@kore.services/app.selection.service'
 import { ServiceInvokerService } from '@kore.services/service-invoker.service';
 import { Subscription } from 'rxjs';
 import { NotificationService } from '@kore.services/notification.service';
 import { DockStatusService } from '../../services/dockstatusService/dock-status.service';
 import { MatDialog } from '@angular/material/dialog';
-import { ConfirmationDialogComponent } from 'src/app/helpers/components/confirmation-dialog/confirmation-dialog.component';
-import { UpgradePlanComponent } from 'src/app/helpers/components/upgrade-plan/upgrade-plan.component';
+import { ConfirmationDialogComponent } from '../../helpers/components/confirmation-dialog/confirmation-dialog.component';
+import { UpgradePlanComponent } from '../../helpers/components/upgrade-plan/upgrade-plan.component';
 import * as _ from 'underscore';
 import { MixpanelServiceService } from '@kore.services/mixpanel-service.service';
 import { environment } from '../../../environments/environment';
@@ -447,7 +447,7 @@ export class AppMenuComponent implements OnInit, OnDestroy {
     this.getSubscriptionData();
     this.currentSubsciptionData = this.appSelectionService.currentSubscription.subscribe(res => {
       this.currentSubscriptionPlan = res;
-      this.getSubscriptionData(); 
+      this.getSubscriptionData();
     })
     this.appSelectionService.appSelectedConfigs.subscribe(res => {
       this.indexConfigs = res;

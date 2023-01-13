@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 
 import { BotActionsRoutingModule } from './bot-actions-routing.module';
 import { BotActionsComponent } from './bot-actions.component';
-import { FindlySharedModule } from 'src/app/modules/findly-shared/findly-shared.module';
+import { FindlySharedModule } from '../../modules/findly-shared/findly-shared.module';
 
 
 

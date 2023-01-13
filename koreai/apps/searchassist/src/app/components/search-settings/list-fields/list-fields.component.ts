@@ -1,15 +1,15 @@
 import { Component, IterableDiffers, OnInit, ViewChild,Output,Input,EventEmitter } from '@angular/core';
 import { WorkflowService } from '@kore.services/workflow.service';
 import { AppSelectionService } from '@kore.services/app.selection.service';
-import { KRModalComponent } from 'src/app/shared/kr-modal/kr-modal.component';
+import { KRModalComponent } from '../../shared/kr-modal/kr-modal.component';
 import { PerfectScrollbarComponent, PerfectScrollbarDirective } from 'ngx-perfect-scrollbar';;
 import { MatDialog } from '@angular/material/dialog';
-import { ConfirmationDialogComponent } from 'src/app/helpers/components/confirmation-dialog/confirmation-dialog.component';
+import { ConfirmationDialogComponent } from '../../helpers/components/confirmation-dialog/confirmation-dialog.component';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Observable, Subscription } from 'rxjs';
 import { ServiceInvokerService } from '@kore.services/service-invoker.service';
 import { NotificationService } from '@kore.services/notification.service';
-import { HighlightingComponent } from 'src/app/modules/search-settings/modules/highlighting/highlighting.component';
+import { HighlightingComponent } from '../../modules/search-settings/modules/highlighting/highlighting.component';
 declare const $: any;
 
 @Component({
@@ -68,7 +68,7 @@ export class ListFieldsComponent implements OnInit {
   // fieldCheckArray=[]
 
   selectedList = [];
-  ngOnInit(): void {    
+  ngOnInit(): void {
     this.modal_open=false;
     // if(this.tablefieldvalues && this.tablefieldvalues.length){
     //   this.loadingContent = false
@@ -185,7 +185,7 @@ export class ListFieldsComponent implements OnInit {
     if(this.page_number < 0){
       this.page_number=0;
     }
-    this.page_number=this.page_number+1    
+    this.page_number=this.page_number+1
     if(this.page_number>=this.maxpageno){
       this.page_number=this.maxpageno;
     }
@@ -227,7 +227,7 @@ export class ListFieldsComponent implements OnInit {
     this.addFieldModalPopRef.close();
     this.clearReocrd();
   }
- 
+
   //** to clear the search text and the checkbox selections */
   clearReocrd() {
     //this.searchType = '';
@@ -240,7 +240,7 @@ export class ListFieldsComponent implements OnInit {
     // this.fieldCheckArray=[];
     // this.showWarning=false
   }
-    
+
 //** fetch the search value and emit it to the other components */
 
   getsearchvalue(value,component){
@@ -259,8 +259,8 @@ export class ListFieldsComponent implements OnInit {
     let arrayId=[]
     const filteredValues = this.popupfieldvalues.filter(item => item.isChecked);
     filteredValues.forEach(element => {
-      arrayId.push(element._id)      
-    }); 
+      arrayId.push(element._id)
+    });
     record={
       "fieldIds":arrayId
     }
@@ -272,15 +272,15 @@ export class ListFieldsComponent implements OnInit {
     if(arrayId.length){
       setTimeout(() => {
         this.closeModalPopup();
-      }, 300);      
-    }    
+      }, 300);
+    }
   }
   //** for selecting and de selecting the checkboxes*/
-  addRecord(fields,event) { 
+  addRecord(fields,event) {
     if (event.target.checked) {
       fields.isChecked = true;
       this.selectedList.push(fields); // this will hold the slected data for the Instance
-      if(this.router.url  === '/search-settings/highlighting'){      
+      if(this.router.url  === '/search-settings/highlighting'){
         this.getFieldUsage(fields).subscribe(res => {
           if(!res['presentable']) this.selectedFields.push(fields.fieldName);
           if(this.selectedFields?.length){
@@ -316,7 +316,7 @@ export class ListFieldsComponent implements OnInit {
         } else if (this.selectedFields.length === 2) {
           resultStr += `${this.selectedFields.join(' and ')}`;
         } else {
-          const lastVal = this.selectedFields.slice(-1)[0]; 
+          const lastVal = this.selectedFields.slice(-1)[0];
           resultStr += `${this.selectedFields.slice(0, this.selectedFields.length -1 ).join(', ')} and ${lastVal}`;
         }
         resultStr += ` is not marked as presentable, adding this fields for highlighting will make it presentable`;
@@ -354,7 +354,7 @@ export class ListFieldsComponent implements OnInit {
           resultStr += `${usageArr.join(' and ')}`;
           endstr += `${usageArr.join(' and ')}`;
         } else {
-          const lastVal = usageArr.slice(-1)[0]; 
+          const lastVal = usageArr.slice(-1)[0];
           resultStr += `${usageArr.slice(0, usageArr.length -1 ).join(', ')} and ${lastVal}`;
           endstr += `${usageArr.slice(0, usageArr.length -1 ).join(', ')} and ${lastVal}`;
         }
@@ -402,7 +402,7 @@ export class ListFieldsComponent implements OnInit {
           dialogRef.close();
       });
     }
-    
+
   }
 
    //**unsubcribing the query subsciption */

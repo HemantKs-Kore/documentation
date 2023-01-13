@@ -4,10 +4,10 @@ import { AuthService } from '@kore.services/auth.service';
 import { NotificationService } from '../../services/notification.service';
 import { ServiceInvokerService } from '@kore.services/service-invoker.service';
 import { WorkflowService } from '@kore.services/workflow.service';
-import { KRModalComponent } from 'src/app/shared/kr-modal/kr-modal.component';
+import { KRModalComponent } from '../../shared/kr-modal/kr-modal.component';
 import { MatDialog } from '@angular/material/dialog';
-import { ConfirmationDialogComponent } from 'src/app/helpers/components/confirmation-dialog/confirmation-dialog.component';
-import { ConfirmationComponent } from 'src/app/components/annotool/components/confirmation/confirmation.component';
+import { ConfirmationDialogComponent } from '../../helpers/components/confirmation-dialog/confirmation-dialog.component';
+import { ConfirmationComponent } from '../../components/annotool/components/confirmation/confirmation.component';
 import { debounceTime, every, map, retryWhen } from 'rxjs/operators';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Observable, Subscription } from 'rxjs';
@@ -16,10 +16,10 @@ import { InlineManualService } from '../../services/inline-manual.service';
 import { AppSelectionService } from './../../services/app.selection.service';
 import { PerfectScrollbarComponent } from 'ngx-perfect-scrollbar';
 import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
-import { OnboardingComponentComponent } from 'src/app/components/onboarding-component/onboarding-component.component';
-import { SliderComponentComponent } from 'src/app/shared/slider-component/slider-component.component';
+import { OnboardingComponentComponent } from '../../components/onboarding-component/onboarding-component.component';
+import { SliderComponentComponent } from '../../shared/slider-component/slider-component.component';
 import * as moment from 'moment';
-import { EMPTY_SCREEN } from 'src/app/modules/empty-screen/empty-screen.constants';
+import { EMPTY_SCREEN } from '../../modules/empty-screen/empty-screen.constants';
 @Component({
   selector: 'app-structured-data',
   templateUrl: './structured-data.component.html',
@@ -1199,8 +1199,8 @@ export class StructuredDataComponent implements OnInit {
     ) {
       payload = this.appliedAdvancedSearch;
     }
-    
-   
+
+
     this.service
       .invoke('get.searchStructuredData', quaryparms, payload)
       .subscribe(

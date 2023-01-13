@@ -1,5 +1,5 @@
 import { EmptyScreenModule } from './../../modules/empty-screen/empty-screen.module';
-import { FindlySharedModule } from 'src/app/modules/findly-shared/findly-shared.module';
+import { FindlySharedModule } from '../../modules/findly-shared/findly-shared.module';
 import { RangeSliderModule } from './../../helpers/components/range-slider/range-slider.module';
 import { NgbDropdownModule, NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 import { MatIconModule } from '@angular/material/icon';
@@ -16,7 +16,7 @@ import { CommonModule } from '@angular/common';
 import { TranslateModule } from '@ngx-translate/core';
 import { MatChipsModule } from '@angular/material/chips';
 import { NgxDaterangepickerMd } from 'ngx-daterangepicker-material';
-import { SelectTextDirective } from 'src/app/helpers/directives/select-text.directive';
+import { SelectTextDirective } from '../../helpers/directives/select-text.directive';
 
 @NgModule({
   declarations: [BusinessRulesComponent,
@@ -39,7 +39,7 @@ import { SelectTextDirective } from 'src/app/helpers/directives/select-text.dire
     NgxDaterangepickerMd,
     FindlySharedModule,
     EmptyScreenModule
-    
+
   ],
   exports: [BusinessRulesComponent],
 })

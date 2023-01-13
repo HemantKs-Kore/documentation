@@ -3,7 +3,7 @@ import { ServiceInvokerService } from '@kore.services/service-invoker.service';
 import { ConstantsService } from '@kore.services/constants.service';
 import { NotificationService } from '@kore.services/notification.service';
 import { MatDialog } from '@angular/material/dialog';
-import { KRModalComponent } from 'src/app/shared/kr-modal/kr-modal.component';
+import { KRModalComponent } from '../../shared/kr-modal/kr-modal.component';
 import { WorkflowService } from '@kore.services/workflow.service';
 import { AppSelectionService } from '@kore.services/app.selection.service';
 import { AuthService } from '@kore.services/auth.service';
@@ -117,7 +117,7 @@ export class UpgradePlanComponent implements OnInit, OnDestroy {
   }
 
   //get plans api
-  getAllPlans() {   
+  getAllPlans() {
     this.service.invoke('get.pricingPlans').subscribe(res => {
       this.featureTypes = res?.featureTypes;
       this.frequentFAQs = res?.FAQS;
@@ -203,7 +203,7 @@ export class UpgradePlanComponent implements OnInit, OnDestroy {
        this.btnLoader =false;
        this.confirmUpgradeModelPopRef?.close();
        this.upgradePlanData={};
-    } 
+    }
    }
   }
 

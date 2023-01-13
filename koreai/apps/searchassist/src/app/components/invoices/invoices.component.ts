@@ -7,7 +7,7 @@ import { AuthService } from '@kore.services/auth.service';
 import { AppSelectionService } from '@kore.services/app.selection.service';
 import { of, interval, Subject, Subscription } from 'rxjs';
 import { saveAs } from 'file-saver';
-import { EMPTY_SCREEN } from 'src/app/modules/empty-screen/empty-screen.constants';
+import { EMPTY_SCREEN } from '../../modules/empty-screen/empty-screen.constants';
 declare var require: any
 const FileSaver = require('file-saver');
 @Component({
@@ -76,7 +76,7 @@ export class InvoicesComponent implements OnInit, OnDestroy {
     if(sortHeaderOption && sortValue && navigate){
       quaryparms.sortByInvoiceDate = sortValue;
     }
-   
+
     this.service.invoke('get.allInvoices', quaryparms).subscribe(res => {
       this.invoices = res.data || [];
       this.totalRecord = res.total;
@@ -86,8 +86,8 @@ export class InvoicesComponent implements OnInit, OnDestroy {
       this.errorToaster(errRes, 'Failed to get invoices');
     });
   }
-  sortInvoices(sortHeaderOption?,sortValue?,navigate?){  
-    // fieldsFilter(searchValue?,searchSource?, source?,headerOption?, sortHeaderOption?,sortValue?,navigate?)  
+  sortInvoices(sortHeaderOption?,sortValue?,navigate?){
+    // fieldsFilter(searchValue?,searchSource?, source?,headerOption?, sortHeaderOption?,sortValue?,navigate?)
     // this.loadingContent = true;
     if(sortValue){
       this.sortedObject = {
@@ -108,8 +108,8 @@ export class InvoicesComponent implements OnInit, OnDestroy {
       request = {
         "sort":{
           'fieldName':1
-        }    
-    }   
+        }
+    }
     }
     else if(sortValue){
       const sort :any ={}
@@ -120,8 +120,8 @@ export class InvoicesComponent implements OnInit, OnDestroy {
     else {
     request={}
     }
-      
-    if(sortValue){  
+
+    if(sortValue){
       this.getSortIconVisibility(sortHeaderOption,navigate);
        //Sort start
     if(sortHeaderOption === 'sortByInvoiceDate' ){
