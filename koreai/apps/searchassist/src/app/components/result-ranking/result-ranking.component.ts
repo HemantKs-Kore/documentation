@@ -981,7 +981,7 @@ export class ResultRankingComponent implements OnInit, OnDestroy {
     this.subscription ? this.subscription.unsubscribe() : false;
   }
   openUserMetaTagsSlider() {
-    this.appSelectionService.topicGuideShow.next();
+    this.appSelectionService.topicGuideShow.next(undefined);
   }
 }
 

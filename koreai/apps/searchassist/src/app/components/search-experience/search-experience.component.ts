@@ -137,8 +137,8 @@ export class SearchExperienceComponent implements OnInit, OnDestroy {
     //   this.loadSearchExperience();
     // })
     this.queryConfigsSubscription = this.appSelectionService.queryConfigSelected.subscribe(res => {
-      /** 
-       * res.length > 1 - its only query Details 
+      /**
+       * res.length > 1 - its only query Details
        *  res.length == 1- its from Index pipeline and then to query Details.
        * **/
         this.indexPipelineId = this.workflowService.selectedIndexPipeline()
@@ -246,7 +246,7 @@ export class SearchExperienceComponent implements OnInit, OnDestroy {
       }
     }
   }
-  //dynamically increse input text 
+  //dynamically increse input text
   resize() {
     this.width = Math.max(this.minWidth, this.textEl.nativeElement.offsetWidth) + 57;
   }
@@ -485,7 +485,7 @@ export class SearchExperienceComponent implements OnInit, OnDestroy {
       this.searchObject.searchWidgetConfig.searchBarPlaceholderText = text;
     }
   }
-  //apply color based on save button 
+  //apply color based on save button
   applyColor(type, save) {
     if (this.selectedColor != '') {
       if (save) {
@@ -747,7 +747,7 @@ export class SearchExperienceComponent implements OnInit, OnDestroy {
     }
   }
   openUserMetaTagsSlider() {
-    this.appSelectionService.topicGuideShow.next();
+    this.appSelectionService.topicGuideShow.next(undefined);
   }
 
 }

@@ -9,18 +9,18 @@ import { MixpanelServiceService } from '@kore.services/mixpanel-service.service'
 export class ParentBridgeService {
   public parentEvent = new Subject<any>();
   public mixpanel: MixpanelServiceService
-  constructor() { 
+  constructor() {
     this.registerEventsFromParent();
   }
   private windowElement: any;
   registerEventsFromParent() {
-    let self=this;
-    var eventMethod = window.addEventListener ? "addEventListener" : "attachEvent";
-    var eventer = window[eventMethod];
-    var messageEvent = eventMethod == "attachEvent" ? "onmessage" : "message";
-    eventer(messageEvent, function (e) {
+    const self: any =this;
+    const eventMethod = window.addEventListener ? "addEventListener" : "attachEvent";
+    const eventer = window[eventMethod];
+    const messageEvent = eventMethod == "attachEvent" ? "onmessage" : "message";
+    eventer(messageEvent,  (e) => {
         if (e.data && e.data.action) {
-            var data = e.data;
+            const data: any = e.data;
             self.parentEvent.next(data);
             console.log("TOpic Guide ---",data);
             if(data?.payload?.url && data?.action == "videoModal"){

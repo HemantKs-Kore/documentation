@@ -97,7 +97,7 @@ export class AddAlternateQuestionComponent implements OnInit {
       question: ((this.faqServ||{}).faqData ||{}).question || "",
       answer: ((this.faqServ||{}).faqData ||{}).answer || "",
       _source:{
-        faq_alt_questions: (((this.faqServ||{}).faqData ||{})._source || ({})).faq_alt_questions || (((this.faqServ||{}).addAltFaq ||{})._source || ({})).faq_alt_questions || [] 
+        faq_alt_questions: (((this.faqServ||{}).faqData ||{})._source || ({})).faq_alt_questions || (((this.faqServ||{}).addAltFaq ||{})._source || ({})).faq_alt_questions || []
       },
       followupQuestions: ((this.faqServ||{}).faqData ||{}).followupQuestions || []
     };
@@ -126,7 +126,7 @@ export class AddAlternateQuestionComponent implements OnInit {
   }
 
   cancelFaq() {
-    this.faqServ.cancel.next();
+    this.faqServ.cancel.next(undefined);
   }
 
   updateFaq() {

@@ -1250,7 +1250,7 @@
             <div class="list-view-data">
               <div class="row row_list">
                 <div class="box-content" *ngFor="let source of extractedResources | filter: [ searchSources , 'name']"
-                  (click)="openStatusSlider(source)">
+                  (click)="openStatusSlider()">
                   <div class="box">
                     <div class="title">{{source.title || source.name}}</div>
                     <div class="type" [ngClass]="{'doc': (source.type==='file')}">{{contentTypes[source.contentSource] |
@@ -1300,8 +1300,8 @@
 </kr-modal>
 <ng-container *ngIf="showSourceAddition">
   <app-sources [inputClass]='"faqSourceAddition"' [resourceIDToOpen]="showSourceAddition"
-    (saveEvent)="onSourceAdditionSave($event)" (cancleEvent)="onSourceAdditionClose($event)"
-    (closeSourcePopupEvent)="closeSourcePopupEvent($event)"></app-sources>
+    (saveEvent)="onSourceAdditionSave()" (cancleEvent)="onSourceAdditionClose($event)"
+    (closeSourcePopupEvent)="closeSourcePopupEvent()"></app-sources>
 </ng-container>
 <kr-modal modalType="center" modalClass="modal_popups_ addfaq" #addfaqSourceModalPop>
   <ng-container *ngIf="selectedFaq && selectedFaq.isAddFollow">

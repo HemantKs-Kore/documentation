@@ -205,7 +205,7 @@ export class AppSelectionService {
     this.routeChanged.next({ name: 'pathchanged', path: app?.disabled?(isUpgrade?'/pricing':'/sources'):'/summary', disable: app?.disabled?true:false });
     this.getInlineManualcall();
     if (isDemo){
-      this.openSDKApp.next();
+      this.openSDKApp.next(undefined);
       this.routeChanged.next({ name: 'pathchanged', path: '/summary' , isDemo:true});
     }
   }

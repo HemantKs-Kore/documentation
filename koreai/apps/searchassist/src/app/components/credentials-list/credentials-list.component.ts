@@ -548,7 +548,7 @@ export class CredentialsListComponent implements OnInit {
     this.notificationService.notify('Copied to clipboard', 'success');
   }
   openUserMetaTagsSlider() {
-    this.appSelectionService.topicGuideShow.next();
+    this.appSelectionService.topicGuideShow.next(undefined);
   }
 
   isEmptyScreenLoading(isLoading) {

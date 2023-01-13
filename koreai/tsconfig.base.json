@@ -17,7 +17,8 @@
     "paths": {
       "@kore.services/*": [ "apps/searchassist/src/app/services/*"],
       "@kore.environment": [ "apps/searchassist/src/environments/environment"],
-      "@kore.components/*":["apps/searchassist/src/app/components/*"]
+      "@kore.components/*":["apps/searchassist/src/app/components/*"],
+      "@kore.helpers/*":["apps/searchassist/src/app/helpers/*"]
     }
   },
   "exclude": ["node_modules", "tmp"]

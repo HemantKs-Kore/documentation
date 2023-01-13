@@ -12,7 +12,7 @@ export class GeneralSettingsComponent implements OnInit {
   ngOnInit(): void {
   }
   openUserMetaTagsSlider() {
-    this.appSelectionService.topicGuideShow.next();
+    this.appSelectionService.topicGuideShow.next(undefined);
   }
 
 }

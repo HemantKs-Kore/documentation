@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
 
 @Component({
   selector: 'app-empty-screen',
@@ -6,15 +6,15 @@ import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output
   styleUrls: ['./empty-screen.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class EmptyScreenComponent implements OnInit {
+export class EmptyScreenComponent  {
   @Input() imgName = 'no-data.svg';
-  @Input() width = '200';
-  @Input() height = '200';
+  @Input() width = 200;
+  @Input() height = 200;
   @Input() title = '';
   @Input() desc = '';
   @Input() isSearch = false;
   @Output() isImgLoading = new EventEmitter(false);
-  isLoading: boolean = false;
+  isLoading = false;
 
   constructor() {
     this.isLoading = true;
@@ -29,6 +29,4 @@ export class EmptyScreenComponent implements OnInit {
   loadingSpinner() {
     this.isImgLoading.emit(this.isLoading);
   }
-
-  ngOnInit(): void {}
 }

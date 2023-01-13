@@ -61,7 +61,7 @@ export class PresentableComponent implements OnInit {
   getAddpopuppresentableField(event){
     if(!event){
       this.getPresentableFields(false);
-    }    
+    }
   }
  /** Emited Value for Operation (Add/Delete)  */
  getRecord(recordData : any){
@@ -90,7 +90,7 @@ export class PresentableComponent implements OnInit {
   else{
     this.notificationService.notify("Please select the fields to proceed",'error')
   }
-   
+
  }
  /**presentable sort */
  presentableSort(sortobj){
@@ -115,7 +115,7 @@ export class PresentableComponent implements OnInit {
  }
    //open topic guide
    openUserMetaTagsSlider() {
-    this.appSelectionService.topicGuideShow.next();
+    this.appSelectionService.topicGuideShow.next(undefined);
   }
   /** Add to Prescentable */
  addRecords(addData){
@@ -127,7 +127,7 @@ export class PresentableComponent implements OnInit {
   }, errRes => {
     this.notificationService.notify("Failed to add Fields",'error');
   });
-  // 
+  //
  }
  //**Presentable search function */
  presentableSearch(obj){
@@ -135,7 +135,7 @@ export class PresentableComponent implements OnInit {
   this.method_type='search';
   if(obj.componenttype=="datatable"){
     this.getPresentableFields(true)
-  }  
+  }
   else{
     this.getPresentableFields(false);
   }
@@ -162,7 +162,7 @@ export class PresentableComponent implements OnInit {
   };
   if(this.method_type!=='search'){
     this.isLoading = true;
-  } 
+  }
   this.service.invoke('get.presentableFields', quaryparms).subscribe(res => {
     this.isLoading = false;
     this.allpresentableFields = res.data;
@@ -182,7 +182,7 @@ export class PresentableComponent implements OnInit {
           this.nonPresentable.push(element)
         // }
       });
-    } 
+    }
   }, errRes => {
     this.notificationService.notify("Failed to get presentable fields",'error');
   });

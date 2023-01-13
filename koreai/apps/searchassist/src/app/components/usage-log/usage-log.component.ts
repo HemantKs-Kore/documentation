@@ -345,6 +345,6 @@ export class UsageLogComponent implements OnInit {
     // this.subscription ? this.subscription.unsubscribe : false;
   }
   openUserMetaTagsSlider() {
-    this.appSelectionService.topicGuideShow.next();
+    this.appSelectionService.topicGuideShow.next(undefined);
   }
 }

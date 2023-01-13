@@ -1215,7 +1215,7 @@ export class FacetsComponent implements OnInit, OnDestroy {
     }
     }
     openUserMetaTagsSlider() {
-      this.appSelectionService.topicGuideShow.next();
+      this.appSelectionService.topicGuideShow.next(undefined);
     }
 }
 

@@ -38,11 +38,11 @@ export class SideBarService {
   }
 
   updateSearchConfiguration() {
-    this.resetSearchConfiguration.next();
+    this.resetSearchConfiguration.next(undefined);
   }
 
   openFaqExtracts() {
-    this.openFaqExtractsFromDocker.next();
+    this.openFaqExtractsFromDocker.next(undefined);
   }
 
   updateShowHideMainMenu(data){

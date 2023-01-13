@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 
 import { SnippetsRoutingModule } from './snippets-routing.module';
 import { SnippetsComponent } from './snippets.component';
-import { FindlySharedModule } from '../../modules/findly-shared/findly-shared.module';
+import { FindlySharedModule } from '../../../findly-shared/findly-shared.module';
 
 
 @NgModule({

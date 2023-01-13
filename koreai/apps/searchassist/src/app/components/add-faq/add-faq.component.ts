@@ -43,6 +43,7 @@ export class AddFaqComponent implements OnInit, OnDestroy {
   @Output() addFaq = new EventEmitter();
   @Output() cancelfaqEvent = new EventEmitter();
   @Output() editFaq = new EventEmitter();
+  alternateQuestionAlt;
   eventsSubscription: Subscription;
   currentEditIndex: any = null;
   showImagePreview = false;
@@ -185,7 +186,7 @@ export class AddFaqComponent implements OnInit, OnDestroy {
     public convertMDtoHTML: ConvertMDtoHTML,
     public dialog: MatDialog,
     public mixpanel : MixpanelServiceService,
-    @Inject('instance1') private faqServiceAlt: FaqsService,
+    @Inject('instance1') public faqServiceAlt: FaqsService,
     @Inject('instance2') private faqServiceFollow: FaqsService
   ) {
     config.container = 'body'

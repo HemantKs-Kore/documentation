@@ -71,7 +71,7 @@ export class SearchInsightsComponent implements OnInit {
     this.selectedApp = this.workflowService.selectedApp();
     this.serachIndexId = this.selectedApp.searchIndexes[0]._id;
     this.getIndexPipeline();
-    
+
     //this.getQueries("GetSearchQueriesResults");
     this.searchExperienceConfig = this.headerService.searchConfiguration;
     this.feedbackDisableDate = "User feedback disabled since " + moment(this.searchExperienceConfig?.interactionsConfig?.feedbackExperience?.lmod).format("DD/MM/YYYY");
@@ -100,17 +100,17 @@ export class SearchInsightsComponent implements OnInit {
             //this.selectedIndexConfig = this.workflowService.selectedIndexPipeline();
             for(let i=0;i<res.length;i++){
               if(res[i].default=== true){
-                this.selectedIndexConfig=res[i]._id;           
+                this.selectedIndexConfig=res[i]._id;
               }
             }
             this.getAllgraphdetails(this.selectedIndexConfig);
             // for(let i=0;i<res.length;i++){
             //   if(res[i].default=== true){
-            //     this.selecteddropname=res[i].name;           
+            //     this.selecteddropname=res[i].name;
             //   }
             // }
-          } 
-         
+          }
+
       //this.getQueryPipeline(res[0]._id);
     }, errRes => {
       if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
@@ -119,13 +119,13 @@ export class SearchInsightsComponent implements OnInit {
         this.notificationService.notify('Failed ', 'error');
       }
     });
-    
+
   }
   getAllgraphdetails(selectedindexpipeline){
     this.selecteddropId=selectedindexpipeline;
     this.getQueries("QueriesWithNoResults",selectedindexpipeline);
     this.getQueries("QueriesWithResults",selectedindexpipeline);
-    
+
   }
   openDateTimePicker(e){
     setTimeout(() =>{
@@ -307,8 +307,8 @@ export class SearchInsightsComponent implements OnInit {
     //     "extractionType": "content",
     //     "sort":{
     //       "name":1
-    //     }    
-    // }   
+    //     }
+    // }
     // }
     if (sortValue) {
       const sort: any = {}
@@ -455,6 +455,6 @@ export class SearchInsightsComponent implements OnInit {
     this.getSearchQueriesResults = [];
   }
   openUserMetaTagsSlider() {
-    this.appSelectionService.topicGuideShow.next();
+    this.appSelectionService.topicGuideShow.next(undefined);
   }
 }

@@ -119,7 +119,7 @@ export class ResultInsightsComponent implements OnInit {
     this.serachIndexId = this.selectedApp.searchIndexes[0]._id;
     this.getIndexPipeline();
 
-    
+
   }
 
   getIndexPipeline() {
@@ -140,17 +140,17 @@ export class ResultInsightsComponent implements OnInit {
             //this.selectedIndexConfig = this.workflowService.selectedIndexPipeline();
             for(let i=0;i<res.length;i++){
               if(res[i].default=== true){
-                this.selectedIndexConfig=res[i]._id;           
+                this.selectedIndexConfig=res[i]._id;
               }
             }
             this.getAllgraphdetails(this.selectedIndexConfig);
             // for(let i=0;i<res.length;i++){
             //   if(res[i].default=== true){
-            //     this.selecteddropname=res[i].name;           
+            //     this.selecteddropname=res[i].name;
             //   }
             // }
-          } 
-         
+          }
+
       //this.getQueryPipeline(res[0]._id);
     }, errRes => {
       if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
@@ -159,12 +159,12 @@ export class ResultInsightsComponent implements OnInit {
         this.notificationService.notify('Failed ', 'error');
       }
     });
-    
+
   }
 
   getAllgraphdetails(selectedindexpipeline){
     this.selecteddropId=selectedindexpipeline;
-    this.getQueries("Results",selectedindexpipeline);       
+    this.getQueries("Results",selectedindexpipeline);
   }
   openDateTimePicker(e) {
     setTimeout(() => {
@@ -210,10 +210,10 @@ export class ResultInsightsComponent implements OnInit {
   }
   //**FLY-6712 when clear icon is clicked display all results get api call */
   clearSearch(){
-    this.searchSources = ''; 
-    this.skipPage=0; 
-    // this.paginate(event, 'Results')  
-      this.getQueries('Results',this.selecteddropId,null,null,null,null,this.searchSources);   
+    this.searchSources = '';
+    this.skipPage=0;
+    // this.paginate(event, 'Results')
+      this.getQueries('Results',this.selecteddropId,null,null,null,null,this.searchSources);
 
   }
   getQueries(type,selectedindexpipeline?,sortHeaderOption?,sortValue?,navigate?,request?,searchSource?) {
@@ -246,7 +246,7 @@ export class ResultInsightsComponent implements OnInit {
     };
     const quaryparms: any = {
       searchIndexId: this.serachIndexId,
-      indexPipelineId:selectedindexpipeline, 
+      indexPipelineId:selectedindexpipeline,
       offset: this.skipPage,
       limit: 10
     };
@@ -273,7 +273,7 @@ export class ResultInsightsComponent implements OnInit {
       payload.result = this.resultQueryAnswer;
     }
     this.service.invoke('get.queries', quaryparms, payload, header).subscribe(res => {
-      if (type == 'Results') 
+      if (type == 'Results')
      {
         this.resultsData = res.results;
         this.totalRecord = res.totalCount;
@@ -314,8 +314,8 @@ export class ResultInsightsComponent implements OnInit {
     //     "extractionType": "content",
     //     "sort":{
     //       "name":1
-    //     }    
-    // }   
+    //     }
+    // }
     // }
     if(sortValue){
       const sort :any ={}
@@ -326,7 +326,7 @@ export class ResultInsightsComponent implements OnInit {
     // else {
     // request={}
     // }
-    if(sortValue){  
+    if(sortValue){
       this.getSortIconVisibility(sortHeaderOption,navigate);
        //Sort start answer
         if(sortHeaderOption === 'answer' ){
@@ -349,12 +349,12 @@ export class ResultInsightsComponent implements OnInit {
           request.sort.order = sortValue
           request.sort.by = sortHeaderOption
         }
-       
+
        if(searchSource){
         request.search = searchSource;
       }
-   
-    
+
+
     // end
     }
     this.getQueries(type,this.selecteddropId,sortHeaderOption,sortValue,navigate,request,searchSource)
@@ -465,7 +465,7 @@ export class ResultInsightsComponent implements OnInit {
           this.getQueries('SearchQueriesForResult',this.selecteddropId,sortHeaderOption,sortValue);
         }else{
           this.getQueries('SearchQueriesForResult',this.selecteddropId);
-      } 
+      }
       }
     }
   // pagination(data,type){
@@ -495,7 +495,7 @@ export class ResultInsightsComponent implements OnInit {
   //   }
   // }
   openUserMetaTagsSlider() {
-    this.appSelectionService.topicGuideShow.next();
+    this.appSelectionService.topicGuideShow.next(undefined);
   }
 
 }

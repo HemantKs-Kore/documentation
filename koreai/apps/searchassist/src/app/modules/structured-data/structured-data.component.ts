@@ -1576,7 +1576,7 @@ export class StructuredDataComponent implements OnInit {
     }, 100);
   }
   openUserMetaTagsSlider() {
-    this.appSelectionService.topicGuideShow.next();
+    this.appSelectionService.topicGuideShow.next(undefined);
   }
 
   ngOnDestroy() {

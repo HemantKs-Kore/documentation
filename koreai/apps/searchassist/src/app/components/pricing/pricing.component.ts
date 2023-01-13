@@ -442,6 +442,6 @@ export class PricingComponent implements OnInit, OnDestroy {
     this.updateUsageData ? this.updateUsageData.unsubscribe() : false;
   }
   openUserMetaTagsSlider() {
-    this.appSelectionService.topicGuideShow.next();
+    this.appSelectionService.topicGuideShow.next(undefined);
   }
 }

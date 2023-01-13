@@ -2107,7 +2107,7 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
 
   //toipc guide method
   openUserMetaTagsSlider() {
-    this.appSelectionService.topicGuideShow.next();
+    this.appSelectionService.topicGuideShow.next(undefined);
   }
 
   //assign field to object

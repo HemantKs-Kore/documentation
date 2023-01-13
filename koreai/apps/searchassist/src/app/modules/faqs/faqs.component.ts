@@ -38,12 +38,8 @@ import {
 
 declare const $: any;
 import * as moment from 'moment';
-import { Message } from '@angular/compiler/src/i18n/i18n_ast';
-import { D, F } from '@angular/cdk/keycodes';
 import { SideBarService } from './../../services/header.service';
 import { InlineManualService } from '@kore.services/inline-manual.service';
-import { CompileShallowModuleMetadata, ThrowStmt } from '@angular/compiler';
-import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 import { OnboardingComponentComponent } from '../../components/onboarding-component/onboarding-component.component';
 import { EMPTY_SCREEN } from '../../modules/empty-screen/empty-screen.constants';
 @Component({
@@ -1625,7 +1621,7 @@ export class FaqsComponent implements OnInit, AfterViewInit, OnDestroy {
       });
   }
   faqUpdateEvent() {
-    this.faqUpdate.next();
+    this.faqUpdate.next(undefined);
     // this.selectResourceFilter();
     // setTimeout(() => {
     //   this.selectTab('draft');
@@ -2451,7 +2447,7 @@ export class FaqsComponent implements OnInit, AfterViewInit, OnDestroy {
     }
   }
   openUserMetaTagsSlider() {
-    this.appSelectionService.topicGuideShow.next();
+    this.appSelectionService.topicGuideShow.next(undefined);
   }
 
   isEmptyScreenLoading(isLoading) {

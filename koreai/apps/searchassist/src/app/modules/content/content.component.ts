@@ -872,10 +872,10 @@ export class ContentComponent implements OnInit, OnDestroy {
     }
   }
   searchSourcesChange() {
-    this.sourcesSearchModelChanged.next();
+    this.sourcesSearchModelChanged.next(undefined);
   }
   searchPageChange() {
-    this.pagesSearchModelChanged.next();
+    this.pagesSearchModelChanged.next(undefined);
   }
   clearPageSearch() {
     this.pagesSearch = '';
@@ -2749,7 +2749,7 @@ export class ContentComponent implements OnInit, OnDestroy {
 
   //open topic guide
   openUserMetaTagsSlider() {
-    this.appSelectionService.topicGuideShow.next();
+    this.appSelectionService.topicGuideShow.next(undefined);
   }
 
   //show or hide password in form fields

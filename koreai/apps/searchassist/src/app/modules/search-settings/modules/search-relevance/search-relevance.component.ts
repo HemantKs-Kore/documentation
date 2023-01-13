@@ -5,7 +5,7 @@ import { NotificationService } from '@kore.services/notification.service';
 import { ServiceInvokerService } from '@kore.services/service-invoker.service';
 import { of, interval, Subject, Subscription } from 'rxjs';
 import { RangeSlider } from '../../helpers/models/range-slider.model';
-import { FindlySharedModule } from '../../modules/findly-shared/findly-shared.module';
+import { FindlySharedModule } from '../../../findly-shared/findly-shared.module';
 
 declare const $: any;
 @Component({
@@ -65,7 +65,7 @@ export class SearchRelevanceComponent implements OnInit {
   }
     //open topic guide
     openUserMetaTagsSlider() {
-      this.appSelectionService.topicGuideShow.next();
+      this.appSelectionService.topicGuideShow.next(undefined);
     }
   //** to fetch the threshold range slider value */
   prepareThreshold(comingFrom){

@@ -1,7 +1,6 @@
-import { ChangeDetectionStrategy } from '@angular/compiler/src/core';
-import { Component, OnInit, Input,Output, EventEmitter } from '@angular/core';
+import { ConfirmationDialogComponent } from '../../../../../../helpers/components/confirmation-dialog/confirmation-dialog.component';
+import { Component, OnInit, Input,Output, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { ConfirmationDialogComponent } from '../../helpers/components/confirmation-dialog/confirmation-dialog.component';
 
 @Component({
   selector: 'app-custom-config-list',

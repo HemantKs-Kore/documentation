@@ -42,7 +42,7 @@ export class SnippetsComponent implements OnInit {
   }
   //open topic guide
   openUserMetaTagsSlider() {
-    this.appSelectionService.topicGuideShow.next();
+    this.appSelectionService.topicGuideShow.next(undefined);
   }
 
   getQuerypipeline(){
@@ -75,7 +75,7 @@ export class SnippetsComponent implements OnInit {
           snippet: {
             enable: event.target.checked
         }
-      }    
+      }
     }
     this.service.invoke('put.queryPipeline', quaryparms,payload).subscribe(res => {
       this.snippetsData=res.settings.snippet.enable
@@ -84,7 +84,7 @@ export class SnippetsComponent implements OnInit {
     }, errRes => {
       this.notificationService.notify("Failed to update",'error');
     });
-   
+
   }
   ngOnDestroy() {
     this.querySubscription ? this.querySubscription.unsubscribe() : false;

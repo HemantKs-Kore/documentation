@@ -71,7 +71,7 @@ export class SpellCorrectionComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    
+
     this.more_options = false;
     this.max_threshold = 0;
     this.min_threshold = 0;
@@ -95,7 +95,7 @@ export class SpellCorrectionComponent implements OnInit {
   }
   //open topic guide
   openUserMetaTagsSlider() {
-    this.appSelectionService.topicGuideShow.next();
+    this.appSelectionService.topicGuideShow.next(undefined);
   }
   //**to fetch the fields for spellcorrect table and pop-up */
   getAllspellcorrectFields() {
@@ -106,7 +106,7 @@ export class SpellCorrectionComponent implements OnInit {
   getAddpopupspellcorrectionField(event){
         if(!event){
           this.getSpellcorrect(false);;
-        }    
+        }
   }
   //** sort the data for spellcorrect data table and pop-up */
   spellcorrectSort(sortobj) {
@@ -375,7 +375,7 @@ export class SpellCorrectionComponent implements OnInit {
           (errRes) => {
             this.notificationService.notify('Failed to update', 'error');
           }
-        );      
+        );
     }
   }
   //** to increment the minimum character threshold value */

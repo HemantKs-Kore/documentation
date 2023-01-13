@@ -38,12 +38,12 @@ export class BotActionsComponent implements OnInit {
     this.querySubscription = this.appSelectionService.queryConfigSelected.subscribe(res => {
       this.indexPipelineId = this.workflowService.selectedIndexPipeline();
       this.queryPipelineId = this.workflowService.selectedQueryPipeline() ? this.workflowService.selectedQueryPipeline()._id : '' ;
-      this.getQuerypipeline()     
+      this.getQuerypipeline()
   })
 }
   //open topic guide
   openUserMetaTagsSlider() {
-    this.appSelectionService.topicGuideShow.next();
+    this.appSelectionService.topicGuideShow.next(undefined);
   }
 //** get querypipeline API call*/
 getQuerypipeline() {
@@ -80,7 +80,7 @@ getQuerypipeline() {
           botActions: {
             enable: event.currentTarget.checked
         }
-      }    
+      }
     }
     this.service.invoke('put.queryPipeline', quaryparms,payload).subscribe(res => {
       this.botactionsdata.enable=res.settings.botActions.enable;
@@ -88,7 +88,7 @@ getQuerypipeline() {
     }, errRes => {
       this.notificationService.notify("Failed to update",'error');
     });
-   
+
   }
 
   //** Selecting the button of winning intent and calling the put query pipeline api */
@@ -103,9 +103,9 @@ getQuerypipeline() {
             botActions: {
               executeIntents:type=='execute'?true:false
           }
-        }    
+        }
       }
-    
+
 
     this.service.invoke('put.queryPipeline', quaryparms,payload).subscribe(res => {
       this.botactionsdata.enable=res.settings.botActions.enable
@@ -114,7 +114,7 @@ getQuerypipeline() {
     }, errRes => {
       this.notificationService.notify("Failed to update",'error');
     });
-    
+
   }
   //** unsubscribing the query subscription */
   ngOnDestroy() {

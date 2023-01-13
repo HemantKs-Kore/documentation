@@ -985,6 +985,6 @@ export class AppExperimentsComponent implements OnInit {
     this.currentSubsciptionData ? this.currentSubsciptionData.unsubscribe() : null;
   }
   openUserMetaTagsSlider() {
-    this.appSelectionService.topicGuideShow.next();
+    this.appSelectionService.topicGuideShow.next(undefined);
   }
 }

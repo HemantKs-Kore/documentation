@@ -1,5 +1,5 @@
 import { EmptyScreenModule } from './../../modules/empty-screen/empty-screen.module';
-import { FindlySharedModule } from '../../modules/findly-shared/findly-shared.module';
+import { FindlySharedModule } from '../../../findly-shared/findly-shared.module';
 import { RangeSliderModule } from './../../helpers/components/range-slider/range-slider.module';
 import { NgbDropdownModule, NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 import { MatIconModule } from '@angular/material/icon';

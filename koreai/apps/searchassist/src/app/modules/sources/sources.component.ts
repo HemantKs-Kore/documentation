@@ -1282,7 +1282,7 @@ export class SourcesComponent implements OnInit {
         }
       );
   }
-  urlChange(event) {
+  urlChange() {
     if ($('#sourceFileUploader').val() || this.fileObj.fileId) {
       this.removeFile();
     }
@@ -1837,7 +1837,7 @@ export class SourcesComponent implements OnInit {
       }
     );
   }
-  faqCancle(event) {
+  faqCancle() {
     this.selectedSourceType = null;
     if (this.resourceIDToOpen) {
       const eve: any = {};
@@ -1846,7 +1846,7 @@ export class SourcesComponent implements OnInit {
     this.closeAddManualFAQModal();
   }
   faqUpdateEvent() {
-    this.faqUpdate.next();
+    this.faqUpdate.next(undefined);
   }
   addManualFaq(event) {
     // console.log(event);

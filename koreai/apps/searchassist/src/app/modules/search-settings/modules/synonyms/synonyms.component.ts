@@ -189,7 +189,7 @@ export class SynonymsComponent implements OnInit, OnDestroy {
     }, 100);
   }
   openUserMetaTagsSlider() {
-    this.appSelectionService.topicGuideShow.next();
+    this.appSelectionService.topicGuideShow.next(undefined);
   }
 
   //-------------------------(Author:BHARADWAJ)

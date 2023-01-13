@@ -635,7 +635,7 @@ validationForConnetor(){
   }
 
   openUserMetaTagsSlider() {
-    this.appSelectionService.topicGuideShow.next();
+    this.appSelectionService.topicGuideShow.next(undefined);
   }
 
 }

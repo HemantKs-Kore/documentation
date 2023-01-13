@@ -952,7 +952,7 @@ export class ResultTemplatesComponent implements OnInit {
 
   }
   openUserMetaTagsSlider() {
-    this.appSelectionService.topicGuideShow.next();
+    this.appSelectionService.topicGuideShow.next(undefined);
   }
 
 }

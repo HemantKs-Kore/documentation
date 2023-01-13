@@ -28,7 +28,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
   tsqtotalRecord = 100;
   tsqlimitpage = 5;
   tsqrecordEnd = 5;
-  
+
   tsqNoRtotalRecord = 100;
   tsqNoRlimitpage = 5;
   tsqNoRrecordEnd = 5;
@@ -105,15 +105,15 @@ export class DashboardComponent implements OnInit, OnDestroy {
     indexConfigs: any = [];//added on 17/01
 
   ngOnInit(): void {
-       
+
     this.selectedApp = this.workflowService.selectedApp();
     //this.indexConfigs = this.appSelectionService.appSelectedConfigs;
     this.serachIndexId = this.selectedApp.searchIndexes[0]._id;
     this.getIndexPipeline();
     //this.appselection();
-        
+
     /*added 96 to 107 on 17/01 */
-    //   this.appSelectionService.appSelectedConfigs.subscribe(res =>   {   
+    //   this.appSelectionService.appSelectedConfigs.subscribe(res =>   {
     //   this.indexConfigs = res;
     //   this.indexConfigs.forEach(element => {
     //     this.indexConfigObj[element._id] = element;
@@ -123,25 +123,25 @@ export class DashboardComponent implements OnInit, OnDestroy {
     //     this.getAllgraphdetails(this.selectedIndexConfig);
     //     for(let i=0;i<res.length;i++){
     //       if(res[i].default=== true){
-    //         this.selecteddropname=res[i].name;           
+    //         this.selecteddropname=res[i].name;
     //       }
     //     }
     //   }
-      
 
-        
+
+
     //  }) //changes ends here
-    
-    
+
+
     this.indexPipelineId = this.workflowService.selectedIndexPipeline();
     this.appSubscription = this.appSelectionService.appSelectedConfigs.subscribe(res => {
       this.indexPipelineId = this.workflowService.selectedIndexPipeline();
     })
     this.searchExperienceConfig = this.headerService.searchConfiguration;
 
-   
 
-  
+
+
   }
 
   getIndexPipeline() {
@@ -162,17 +162,17 @@ export class DashboardComponent implements OnInit, OnDestroy {
             // this.selectedIndexConfig = this.workflowService.selectedIndexPipeline();
             for(let i=0;i<res.length;i++){
               if(res[i].default=== true){
-                this.selectedIndexConfig=res[i]._id;           
+                this.selectedIndexConfig=res[i]._id;
               }
             }
             this.getAllgraphdetails(this.selectedIndexConfig);
             // for(let i=0;i<res.length;i++){
             //   if(res[i].default=== true){
-            //     this.selecteddropname=res[i].name;           
+            //     this.selecteddropname=res[i].name;
             //   }
             // }
-          } 
-         
+          }
+
       //this.getQueryPipeline(res[0]._id);
     }, errRes => {
       if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
@@ -181,12 +181,12 @@ export class DashboardComponent implements OnInit, OnDestroy {
         this.notificationService.notify('Failed ', 'error');
       }
     });
-    
+
   }
 
   /*added on 21/01 creating seperate function for caputuring res inside funcstion rather than calling in ngOninit */
   // appselection(){
-  // this.appSelectionService.appSelectedConfigs.subscribe(res =>   {   
+  // this.appSelectionService.appSelectedConfigs.subscribe(res =>   {
   //   this.indexConfigs = res;
   //   this.indexConfigs.forEach(element => {
   //     this.indexConfigObj[element._id] = element;
@@ -196,10 +196,10 @@ export class DashboardComponent implements OnInit, OnDestroy {
   //     this.getAllgraphdetails(this.selectedIndexConfig);
   //     for(let i=0;i<res.length;i++){
   //       if(res[i].default=== true){
-  //         this.selecteddropname=res[i].name;           
+  //         this.selecteddropname=res[i].name;
   //       }
   //     }
-  //   } 
+  //   }
   //  })
   // }
   /* added on 17/01 */
@@ -214,7 +214,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
     this.getQueries("TopSearchResults",selectedindexpipeline);
     this.getQueries("MostClickedPositions",selectedindexpipeline);
     this.getQueries("FeedbackStats",selectedindexpipeline);
-    
+
 
   }
   /*added selectindex pipeline function to capture the id's of selection dropdowns on 17/01*/
@@ -233,7 +233,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
   //   this.selecteddropname=config.name;
   //   this.selectedIndexConfig=config._id;
   //   this.getAllgraphdetails(config._id);
-   
+
   // }
 
   viewAll(route, searchType?) {
@@ -284,7 +284,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
   }
   paginate(event) {
     // console.log(event)
-  }  
+  }
   dateLimt(type) {
     this.dateType = type;
     /*passing the selectedindexpipeline to getQueries added on 17/01 */
@@ -332,11 +332,11 @@ export class DashboardComponent implements OnInit, OnDestroy {
     const header: any = {
       'x-timezone-offset': '-330'
     };
-    
+
     const quaryparms: any = {
       searchIndexId: this.serachIndexId,
       /* adding indexPipelineid to query params on 17/01*/
-     indexPipelineId:selectedindexpipeline, 
+     indexPipelineId:selectedindexpipeline,
      //indexPipelineId:selectedindexpipeline ? selectedindexpipeline : this.defaultPipelineid,
       offset: 0,
       limit: this.pageLimit
@@ -355,7 +355,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
       }
     }
     if (type == "TotalUsersStats" || type == "TotalSearchesStats") {
-      //payload.group = this.group 
+      //payload.group = this.group
     } else {
       payload.group = this.group
     }
@@ -441,8 +441,8 @@ export class DashboardComponent implements OnInit, OnDestroy {
     //     "extractionType": "content",
     //     "sort":{
     //       "name":1
-    //     }    
-    // }   
+    //     }
+    // }
     // }
     if (sortValue) {
       const sort: any = {}
@@ -884,9 +884,9 @@ export class DashboardComponent implements OnInit, OnDestroy {
               <div class="metrics-tooltips-hover agent_drop_tolltip">
               <div class="split-sec">
                 <div class="main-title">{c0}</div>
-              </div> 
+              </div>
             </div>
-            
+
             `,
         position: 'top',
         padding: 0
@@ -1072,7 +1072,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
   //     orient: 'horizontal',
   //     left: 'center',
   //     bottom: '0',
-  //     inRange : {   
+  //     inRange : {
   //       color: ['rgba(0, 157, 171, 0.1)', '#009dab' ] //From smaller to bigger value ->
   //     }
   //   }],
@@ -1094,6 +1094,6 @@ export class DashboardComponent implements OnInit, OnDestroy {
   // };
   // }
   openUserMetaTagsSlider() {
-    this.appSelectionService.topicGuideShow.next();
+    this.appSelectionService.topicGuideShow.next(undefined);
   }
 }

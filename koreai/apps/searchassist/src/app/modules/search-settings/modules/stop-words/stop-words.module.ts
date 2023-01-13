@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 
 import { StopWordsRoutingModule } from './stop-words-routing.module';
 import { StopWordsComponent } from './stop-words.component';
-import { FindlySharedModule } from '../../modules/findly-shared/findly-shared.module';
+import { FindlySharedModule } from '../../../findly-shared/findly-shared.module';
 
 
 @NgModule({

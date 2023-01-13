@@ -1172,7 +1172,7 @@ export class TraitsComponent implements OnInit {
   }
 
   openUserMetaTagsSlider() {
-    this.appSelectionService.topicGuideShow.next();
+    this.appSelectionService.topicGuideShow.next(undefined);
   }
 
   ngOnDestroy() {

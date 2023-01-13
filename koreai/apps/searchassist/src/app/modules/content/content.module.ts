@@ -4,7 +4,7 @@ import { StructuredDataModule } from './../structured-data/structured-data.modul
 import { FormsModule } from '@angular/forms';
 import { AddStructuredDataModule } from './../../components/add-structured-data/add-structured-data.module';
 import { KrModalModule } from './../../shared/kr-modal/kr-modal.module';
-import { FindlySharedModule } from '../../modules/findly-shared/findly-shared.module';
+import { FindlySharedModule } from '../../../findly-shared/findly-shared.module';
 import { EmptyScreenModule } from './../empty-screen/empty-screen.module';
 import { NgbTooltipModule, NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core';

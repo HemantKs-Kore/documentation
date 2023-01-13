@@ -37,10 +37,10 @@ export class CustomConfigurationsComponent implements OnInit {
     if(this.indexPipelineId && this.queryPipelineId )this.getcustomConfigList()
     this.querySubscription = this.appSelectionService.queryConfigSelected.subscribe(res => {
       this.indexPipelineId = this.workflowService.selectedIndexPipeline();
-      this.queryPipelineId = this.workflowService.selectedQueryPipeline() ? this.workflowService.selectedQueryPipeline()._id : ''   
-      this.getcustomConfigList()   
+      this.queryPipelineId = this.workflowService.selectedQueryPipeline() ? this.workflowService.selectedQueryPipeline()._id : ''
+      this.getcustomConfigList()
   })
- 
+
 
   }
   getcustomConfigList(){
@@ -99,7 +99,7 @@ getQuerypipeline() {
     };
     this.service.invoke('put.queryPipeline', quaryparms, payload).subscribe(
       (res) => {
-        
+
         //this.notificationService.notify('updated successfully', 'success');
       },
       (errRes) => {
@@ -109,7 +109,7 @@ getQuerypipeline() {
   }
   // open Slider
   openUserMetaTagsSlider() {
-    this.appSelectionService.topicGuideShow.next();
+    this.appSelectionService.topicGuideShow.next(undefined);
   }
 
   //**delete the custom config data */

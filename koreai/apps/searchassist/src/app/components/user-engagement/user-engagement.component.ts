@@ -28,7 +28,7 @@ export class UserEngagementComponent implements OnInit {
   tsqlimitpage = 5;
   tsqrecordEnd = 5;
   selecteddropname: any;
-  selectedIndexConfig: any; 
+  selectedIndexConfig: any;
   indexConfigs:any =[];
   indexConfigObj:any ={};
   selecteddropId: any;
@@ -142,10 +142,10 @@ export class UserEngagementComponent implements OnInit {
     this.serachIndexId = this.selectedApp.searchIndexes[0]._id;
     this.getIndexPipeline();
     //this.getAllgraphdetails()
-        
+
     //this.mostClick();
     //this.feedback();
-    
+
     // this.getQueries("SearchHistogram");
 
   }
@@ -160,22 +160,22 @@ export class UserEngagementComponent implements OnInit {
       limit: 100
     };
     this.service.invoke('get.indexPipeline', quaryparms, header).subscribe(res => {
-      this.indexConfigs = res;      
+      this.indexConfigs = res;
       if (res.length >= 0){
             //this.selectedIndexConfig = this.workflowService.selectedIndexPipeline();
             for(let i=0;i<res.length;i++){
               if(res[i].default=== true){
-                this.selectedIndexConfig=res[i]._id;           
+                this.selectedIndexConfig=res[i]._id;
               }
             }
             this.getAllgraphdetails(this.selectedIndexConfig);
             // for(let i=0;i<res.length;i++){
             //   if(res[i].default=== true){
-            //     this.selecteddropname=res[i].name;           
+            //     this.selecteddropname=res[i].name;
             //   }
             // }
-          } 
-         
+          }
+
       //this.getQueryPipeline(res[0]._id);
     }, errRes => {
       if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
@@ -184,10 +184,10 @@ export class UserEngagementComponent implements OnInit {
         this.notificationService.notify('Failed ', 'error');
       }
     });
-    
+
   }
 
-  
+
   getAllgraphdetails(selectedindexpipeline){
     this.selecteddropId=selectedindexpipeline;
     this.getuserCharts('UsersChart',selectedindexpipeline);
@@ -200,7 +200,7 @@ export class UserEngagementComponent implements OnInit {
   // getDetails(config?){
   //   this.selecteddropname=config.name;
   //   this.selectedIndexConfig=config._id;
-  //   this.getAllgraphdetails(config._id);   
+  //   this.getAllgraphdetails(config._id);
   // }
 
   toCapitalize(str) {
@@ -381,7 +381,7 @@ export class UserEngagementComponent implements OnInit {
     };
     const quaryparms: any = {
       searchIndexId: this.serachIndexId, //'sidx-e91a4194-df09-5e9c-be4e-56988e984343',
-      indexPipelineId:selectedindexpipeline, 
+      indexPipelineId:selectedindexpipeline,
       offset: 0,
       limit: this.pageLimit
     };
@@ -604,7 +604,7 @@ export class UserEngagementComponent implements OnInit {
     } else {
       splitNumber = 5;
     }
-    
+
     this.userEngagementChartData = {
 
       tooltip: {
@@ -613,7 +613,7 @@ export class UserEngagementComponent implements OnInit {
           type: 'none'
         },
         formatter: (params) => `
-        <div class="metrics-tooltips-hover userengagment-tooltip">          
+        <div class="metrics-tooltips-hover userengagment-tooltip">
         <div class="data-content">
             <div class="main-title">Total Users</div>
             <div class="title total">${params[0].value + params[1].value}</div>
@@ -626,7 +626,7 @@ export class UserEngagementComponent implements OnInit {
             <div class="main-title">Return Users</div>
             <div class="title return">${params[0].value}</div>
         </div>
-    </div> 
+    </div>
         `,
         position: 'top',
         padding: 0
@@ -740,7 +740,7 @@ export class UserEngagementComponent implements OnInit {
     data.forEach(element => {
       if (!element.name) { element.name = "Null" }
       y_axis.forEach((y, index) => {
-        // if(element.name){  
+        // if(element.name){
         if (y.charAt(0).toLowerCase() + y.slice(1) == element.name.charAt(0).toLowerCase() + y.slice(1)) {
           // y = element.name.charAt(0).toUpperCase() + element.name.slice(1)
           if (graphData.length != y_axis.length) {
@@ -780,11 +780,11 @@ export class UserEngagementComponent implements OnInit {
     this.mostUsedDeviceBar = {
       // tooltip: {
       //   trigger: 'axis',
-      //   axisPointer: {            
-      //     type: 'none'        
+      //   axisPointer: {
+      //     type: 'none'
       // },
       //   formatter:  (params) => `
-      //       <div class="metrics-tooltips-hover userengagment-tooltip">          
+      //       <div class="metrics-tooltips-hover userengagment-tooltip">
       //       <div class="data-content">
       //           <div class="main-title">Total Users</div>
       //           <div class="title total">${params[0].value + params[1].value}</div>
@@ -797,7 +797,7 @@ export class UserEngagementComponent implements OnInit {
       //           <div class="main-title">Repeat Users</div>
       //           <div class="title return">${params[0].value}</div>
       //       </div>
-      //   </div> 
+      //   </div>
       //   `,
       //   position: 'top',
       //   padding: 0
@@ -813,9 +813,9 @@ export class UserEngagementComponent implements OnInit {
               <div class="">
                 <div class="main-title">{c0} Users are using </div>
                 <div class="main-title">{b0} to search</div>
-              </div> 
+              </div>
             </div>
-            
+
             `,
         position: 'top',
         padding: 0
@@ -936,7 +936,7 @@ export class UserEngagementComponent implements OnInit {
       barColor = "#FF784B";
       if(graphData.length>0 && graphData.length< 4 ){
          minHeight=40;
-         
+
       }
       else if(graphData.length>3 && graphData.length<6){
           minHeight=20;
@@ -963,7 +963,7 @@ export class UserEngagementComponent implements OnInit {
     //   <div class="metrics-tooltips-hover agent_drop_tolltip">
     //   <div class="split-sec">
     //     <div class="main-title">{c0} Users are using {b0} to search</div>
-    //   </div> 
+    //   </div>
     // </div>
     this.mostUsedBrowserBar = {
       tooltip: {
@@ -976,7 +976,7 @@ export class UserEngagementComponent implements OnInit {
         <div class="">
           <div class="main-title">${mostUsedBrowserNumberOfuserObj[params[0].axisValue]} Users in</div>
           <div class="main-title">${params[0].axisValue} to search</div>
-        </div> 
+        </div>
       </div>
         `,
         // formatter: `
@@ -984,7 +984,7 @@ export class UserEngagementComponent implements OnInit {
         //   <div class="">
         //     <div class="main-title">{c0} Users are using </div>
         //     <div class="main-title">{b0} to search</div>
-        //   </div> 
+        //   </div>
         // </div>
 
         // `,
@@ -1159,14 +1159,14 @@ export class UserEngagementComponent implements OnInit {
         <div class="">
           <div class="main-title">No. of Users : ${geoNumberOfuserObj[params[0].axisValue]} </div>
           <div class="main-title">Percentage of users :  ${params[0].data}% </div>
-        </div> 
+        </div>
       </div>
         `,
         // formatter: `
         //   <div class="metrics-tooltips-hover agent_drop_tolltip">
         //   <div class="split-sec">
         //     <div class="main-title">{c0} Users in {b0}</div>
-        //   </div> 
+        //   </div>
         // </div>
 
         // `,
@@ -1292,7 +1292,7 @@ export class UserEngagementComponent implements OnInit {
     if (this.group == 'hour' || this.group == 'date' || this.group == 'week') {
       for (const property in this.usersBusyChart) {
         busyChartArrayData.push(this.usersBusyChart[property])
-        // let date =  property.split('-')[2]; 
+        // let date =  property.split('-')[2];
         if (property.split('T').length > 1) {
           let splitData = property.split('T')[0];
           yAxisData.push(splitData.split('-')[2] + " " + monthNames[Number(splitData.split('-')[1]) - 1])
@@ -1353,7 +1353,7 @@ export class UserEngagementComponent implements OnInit {
       sourceObj['product'] = hourConversion[i];
       for (let a = 1; a < dimensions.length; a++) {
         // if((this.group == 'date' || this.group == 'week' )&&  i == 0){
-        // } 
+        // }
         if (busyChartArrayData[a - 1]) {
           if (busyChartArrayData[a - 1][i]) {
             sourceObj[dimensions[a]] = busyChartArrayData[a - 1][i].totalUsers;
@@ -1394,12 +1394,12 @@ export class UserEngagementComponent implements OnInit {
 
       tooltip: {
         //   trigger: 'axis',
-        //   axisPointer: {            
-        //     type: 'none'        
+        //   axisPointer: {
+        //     type: 'none'
         // },
         //${this.tooltipHover(params , busyChartArrayData , source ,dimensions)}
         formatter: (params, ticket, callback) => `
-          
+
           ${this.tooltipHoverN(params, xAxisData, yAxisData)}
           `,
         position: 'top',
@@ -1482,7 +1482,7 @@ export class UserEngagementComponent implements OnInit {
         max: this.maxHeatValue,
         splitNumber: 5,
         color: ['#07377F', '#F3F8FF'],
-        // inRange : {   
+        // inRange : {
         //   color: ['#E7F1FF', '#07377F' ] //From smaller to bigger value ->
         // }
       },
@@ -1538,7 +1538,7 @@ export class UserEngagementComponent implements OnInit {
         <div class="split-sec">
           <div class="main-title" >${e[0].axisValue}</div>
           <div class="data-content"></div>
-        </div> 
+        </div>
         `
     // for(let i = 0 ;i<e.length ; i++){
     //   if(dimensions[i+1]) // && e[i].value[2] > 0
@@ -1589,14 +1589,14 @@ export class UserEngagementComponent implements OnInit {
         <div class="split-sec">
           <div class="main-title">${y[e.value[1]]}</div>
           <div class="data-content"><span class="main-title">${x[e.value[0]] + tempIncrementalData[e.name]}</span></div>
-        </div>    
+        </div>
         <div class="indication_text">Total Users : <b>${e.value[2]}</b></div>
-      </div> 
+      </div>
         `
     return dataDIV;
   }
   openUserMetaTagsSlider() {
-    this.appSelectionService.topicGuideShow.next();
+    this.appSelectionService.topicGuideShow.next(undefined);
   }
 
 

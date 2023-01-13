@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 
 import { SearchRelevanceRoutingModule } from './search-relevance-routing.module';
 import { SearchRelevanceComponent } from './search-relevance.component';
-import { FindlySharedModule } from '../../modules/findly-shared/findly-shared.module';
+import { FindlySharedModule } from '../../../findly-shared/findly-shared.module';
 
 
 @NgModule({

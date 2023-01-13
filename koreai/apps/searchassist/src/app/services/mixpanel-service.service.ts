@@ -35,7 +35,7 @@ export class MixpanelServiceService {
         mixpanel.init(mixpanelEnv['MIXPANEL_KEY']);
     }
   }
-  reset =  function(){
+  reset =  () => {
     this.enabled = false;
     try{
         if(mixpanel && mixpanel.reset){
@@ -75,12 +75,12 @@ export class MixpanelServiceService {
     }
 
   };
-  postEvent = function (event,eventPayload) {
+  postEvent =  (event,eventPayload) => {
     this.checkForKey();
     if(!this.enabled){
        return;
     }
-    var userInfo : any//$applicationService.userInfo();
+    let userInfo : any//$applicationService.userInfo();
     eventPayload =  eventPayload || {};
     if(eventPayload){
         if(userInfo && userInfo.koreUserInfo) {

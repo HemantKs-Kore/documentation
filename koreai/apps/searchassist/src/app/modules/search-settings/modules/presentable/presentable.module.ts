@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 
 import { PresentableRoutingModule } from './presentable-routing.module';
 import { PresentableComponent } from './presentable.component';
-import { FindlySharedModule } from '../../modules/findly-shared/findly-shared.module';
+import { FindlySharedModule } from '../../../findly-shared/findly-shared.module';
 // import { TranslateService } from '@ngx-translate/core';
 
 

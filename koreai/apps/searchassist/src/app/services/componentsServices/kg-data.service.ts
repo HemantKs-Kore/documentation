@@ -17,7 +17,7 @@ export class KgDataService {
     }
 
     importComplete() {
-        this.importFileComplete.next();
+        this.importFileComplete.next(undefined);
     }
 
 }

@@ -29,8 +29,8 @@ export class SmallTalkComponent implements OnInit {
     private notificationService: NotificationService,
     private authService: AuthService,
     private appSelectionService: AppSelectionService,
-  ) { 
-  
+  ) {
+
  }
  ngOnInit(): void {
     this.selectedApp = this.workflowService?.selectedApp();
@@ -46,7 +46,7 @@ export class SmallTalkComponent implements OnInit {
  }
  //Open topic slider
  openUserMetaTagsSlider() {
-  this.appSelectionService.topicGuideShow.next();
+  this.appSelectionService.topicGuideShow.next(undefined);
  }
  getQuerypipeline(){
   const quaryparms: any = {
@@ -77,7 +77,7 @@ export class SmallTalkComponent implements OnInit {
         smallTalk: {
           enable: event.target.checked
       }
-    }    
+    }
   }
   this.service.invoke('put.queryPipeline', quaryparms,payload).subscribe(res => {
     this.smallTalkData=res?.settings?.smallTalk?.enable
@@ -85,7 +85,7 @@ export class SmallTalkComponent implements OnInit {
   }, errRes => {
     this.notificationService.notify("Failed to update",'error');
   });
- 
+
  }
  ngOnDestroy() {
   this.querySubscription ? this.querySubscription.unsubscribe() : false;

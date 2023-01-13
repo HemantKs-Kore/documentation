@@ -274,7 +274,7 @@ export class SearchFieldPropertiesComponent implements OnInit {
     searchProperties.properties.slider.default = event;
   }
   openUserMetaTagsSlider() {
-    this.appSelectionService.topicGuideShow.next();
+    this.appSelectionService.topicGuideShow.next(undefined);
   }
   ngOnDestroy() {
     this.querySubscription ? this.querySubscription.unsubscribe() : false;

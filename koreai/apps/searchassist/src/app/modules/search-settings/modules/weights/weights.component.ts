@@ -13,7 +13,7 @@ import { of } from 'rxjs/internal/observable/of';
 import { PerfectScrollbarComponent } from 'ngx-perfect-scrollbar';
 import { InlineManualService } from '@kore.services/inline-manual.service';
 import { MixpanelServiceService } from '@kore.services/mixpanel-service.service';
-import { FindlySharedModule } from '../../modules/findly-shared/findly-shared.module';
+import { FindlySharedModule } from '../../../findly-shared/findly-shared.module';
 import { RangeSlider } from '../../helpers/models/range-slider.model';
 declare const $: any;
 @Component({
@@ -364,7 +364,7 @@ export class WeightsComponent implements OnInit, OnDestroy
       event.stopImmediatePropagation();
       event.preventDefault();
     }
-    const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+    const dialogRef: any = this.dialog.open(ConfirmationDialogComponent, {
       width: '530px',
       height: 'auto',
       panelClass: 'delete-popup',
@@ -472,7 +472,7 @@ export class WeightsComponent implements OnInit, OnDestroy
         }
   }
   openUserMetaTagsSlider() {
-    this.appSelectionService.topicGuideShow.next();
+    this.appSelectionService.topicGuideShow.next(undefined);
   }
   ngOnDestroy()
   {

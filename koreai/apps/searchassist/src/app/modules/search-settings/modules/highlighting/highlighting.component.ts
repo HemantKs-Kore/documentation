@@ -202,7 +202,7 @@ export class HighlightingComponent implements OnInit {
   }
   //open topic guide
   openUserMetaTagsSlider() {
-    this.appSelectionService.topicGuideShow.next();
+    this.appSelectionService.topicGuideShow.next(undefined);
   }
   //** open show more  container */
   openContainer(){
