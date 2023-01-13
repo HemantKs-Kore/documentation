@@ -4,6 +4,7 @@ import { WorkflowService } from '../workflow.service';
 import { Injectable } from '@angular/core';
 import { Resolve, ActivatedRouteSnapshot } from '@angular/router';
 import { of } from 'rxjs';
+import { delay } from 'rxjs/operators';
 
 @Injectable()
 
@@ -54,7 +55,7 @@ export class PipelineResolver implements Resolve<any> {
     };
 
     if (quaryparms.queryPipelineId) {
-      return this.service.invoke(value, quaryparms);
+      return this.service.invoke(value, quaryparms).pipe(delay(10));
     } else {
       return of(null);
     }
