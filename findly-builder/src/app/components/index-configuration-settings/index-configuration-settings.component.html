@@ -36,7 +36,7 @@
                                 <div class="col-1">
                                     <div *ngIf="i>0" class="action_links text-right">
                                         <!-- <span class="action_link-icon"> <i class="si-pencil-edit"  (click)="editLanguages(i)"></i> </span> -->
-                                        <span [ngClass]="getTrainIsInprogress()||isTrainStatusInprogress?'disable-add-btn':''" id="sa_index_settings_delete{{i}}" class="action_link-icon ml-3"> <i ngbTooltip="{{'sa_delete' | translate}}" class="si-delete1" (click)="i===0?'':deleteLanguagesPop($event,list)"></i> </span>
+                                        <span [ngClass]="getTrainIsInprogress()||isTrainStatusInprogress?'disable-add-btn':''" id="sa_index_settings_delete{{i}}" class="action_link-icon ml-3"> <i ngbTooltip="{{'sa_delete' | translate}}" class="si-delete1" (click)="i===0?null:deleteLanguagesPop($event,list)"></i> </span>
                                     </div>
                                 </div>
                     </div>
@@ -78,7 +78,7 @@
                             <div class="col-3">
                                 <div class="kr-sg-checkbox">
                                     <input [disabled]="language?.languageCode ==='en'" id="sa_index_settings_checkbox{{i}}" class="checkbox-custom" type="checkbox"
-                                    [checked]="language?.selected" (click)="language?.code!=='en'?addLanguage(i):''">
+                                    [checked]="language?.selected" (click)="language?.code!=='en'?addLanguage(i):null">
                                     <label for="sa_index_settings_checkbox{{i}}" class="checkbox-custom-label"></label>
                                 </div>
                             </div>
