@@ -2,6 +2,9 @@ dist/**
 *.bak
 findly-builder/node_modules/**
 findly-builder/dist/**
+koreai/node_modules/**
+koreai/dist/**
+koreai/.angular
 
 
 
