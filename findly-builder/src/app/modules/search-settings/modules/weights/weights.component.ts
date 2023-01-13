@@ -335,7 +335,7 @@ export class WeightsComponent implements OnInit, OnDestroy
     {
       if(res){
         if (type == 'add')  {
-          this.notificationService.notify('Added Successfully', 'success');
+          this.notificationService.notify('Weight Added Successfully', 'success');
           this.getWeights();
         }
       else if (type == 'edit') {
@@ -401,7 +401,7 @@ export class WeightsComponent implements OnInit, OnDestroy
      if(res){
       //this.getWeights();
          this.weightsList.splice(index, 1);
-         this.notificationService.notify('Field From Weight Removed Successfully', 'success');
+         this.notificationService.notify('Field From Weights Removed Successfully', 'success');
         }
       }, errRes => {
          this.loadingContent = false;
