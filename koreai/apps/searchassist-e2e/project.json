@@ -1,13 +1,15 @@
 {
-  "$schema": "..\\..\\node_modules\\nx\\schemas\\project-schema.json",
+  "name": "searchassist-e2e",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "apps/searchassist-e2e/src",
   "projectType": "application",
   "targets": {
     "e2e": {
       "executor": "@nrwl/cypress:cypress",
       "options": {
-        "cypressConfig": "apps/searchassist-e2e/cypress.json",
-        "devServerTarget": "searchassist:serve:development"
+        "cypressConfig": "apps/searchassist-e2e/cypress.config.ts",
+        "devServerTarget": "searchassist:serve:development",
+        "testingType": "e2e"
       },
       "configurations": {
         "production": {

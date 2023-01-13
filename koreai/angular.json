@@ -1,8 +1,0 @@
-{
-  "$schema": "./node_modules/nx/schemas/workspace-schema.json",
-  "version": 2,
-  "projects": {
-    "searchassist": "apps/searchassist",
-    "searchassist-e2e": "apps/searchassist-e2e"
-  }
-}
