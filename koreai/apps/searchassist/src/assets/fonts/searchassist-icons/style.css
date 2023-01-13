@@ -1,0 +1,429 @@
+@font-face {
+  font-family: 'searchassist-icons';
+  src:  url('fonts/searchassist-icons.eot?ntp3v4');
+  src:  url('fonts/searchassist-icons.eot?ntp3v4#iefix') format('embedded-opentype'),
+    url('fonts/searchassist-icons.ttf?ntp3v4') format('truetype'),
+    url('fonts/searchassist-icons.woff?ntp3v4') format('woff'),
+    url('fonts/searchassist-icons.svg?ntp3v4#searchassist-icons') format('svg');
+  font-weight: normal;
+  font-style: normal;
+  font-display: block;
+}
+
+[class^="si-"], [class*=" si-"] {
+  /* use !important to prevent issues with browser extensions that change fonts */
+  font-family: 'searchassist-icons' !important;
+  speak: never;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+
+  /* Better Font Rendering =========== */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.si-add-plus-square:before {
+  content: "\e96e";
+}
+.si-overflow-menu:before {
+  content: "\e96f";
+}
+.si-minus:before {
+  content: "\e96a";
+}
+.si-double-arrow-up:before {
+  content: "\e96b";
+}
+.si-double-arrow-down:before {
+  content: "\e96c";
+}
+.si-arrow-two-way:before {
+  content: "\e96d";
+}
+.si-union:before {
+  content: "\e965";
+}
+.si-bot:before {
+  content: "\e966";
+}
+.si-sort-down:before {
+  content: "\e967";
+}
+.si-upload:before {
+  content: "\e968";
+}
+.si-web:before {
+  content: "\e969";
+}
+.si-topic-guide-1:before {
+  content: "\e912";
+}
+.si-topic-guide:before {
+  content: "\e962";
+}
+.si-copy:before {
+  content: "\e963";
+}
+.si-recall:before {
+  content: "\e964";
+}
+.si-train-multi-intent:before {
+  content: "\e961";
+}
+.si-config-form:before {
+  content: "\e95e";
+}
+.si-play-button:before {
+  content: "\e95f";
+}
+.si-time-estimate:before {
+  content: "\e960";
+}
+.si-skelton-medium:before {
+  content: "\e95d";
+}
+.si-pdf:before {
+  content: "\e95c";
+}
+.si-cart:before {
+  content: "\e95b";
+}
+.si-star-un-filled:before {
+  content: "\e958";
+}
+.si-play-large:before {
+  content: "\e959";
+}
+.si-star-filled:before {
+  content: "\e95a";
+}
+.si-layout:before {
+  content: "\e953";
+}
+.si-list-view:before {
+  content: "\e954";
+}
+.si-richtext:before {
+  content: "\e955";
+}
+.si-carousal:before {
+  content: "\e956";
+}
+.si-gridview:before {
+  content: "\e957";
+}
+.si-avg:before {
+  content: "\e952";
+}
+.si-interuptions:before {
+  content: "\e950";
+}
+.si-checkround-up:before {
+  content: "\e951";
+}
+.si-loading .path1:before {
+  content: "\e91d";
+  color: rgb(144, 189, 252);
+}
+.si-loading .path2:before {
+  content: "\e91e";
+  margin-left: -1em;
+  color: rgb(85, 151, 243);
+}
+.si-loading .path3:before {
+  content: "\e91f";
+  margin-left: -1em;
+  color: rgb(231, 241, 255);
+}
+.si-loading .path4:before {
+  content: "\e920";
+  margin-left: -1em;
+  color: rgb(179, 210, 253);
+}
+.si-loading .path5:before {
+  content: "\e921";
+  margin-left: -1em;
+  color: rgb(13, 110, 253);
+}
+.si-re-fresh:before {
+  content: "\e922";
+}
+.si-link-file:before {
+  content: "\e923";
+}
+.si-share:before {
+  content: "\e924";
+}
+.si-maximize:before {
+  content: "\e925";
+}
+.si-close-red:before {
+  content: "\e926";
+}
+.si-graph-filter:before {
+  content: "\e927";
+}
+.si-file-help .path1:before {
+  content: "\e928";
+  color: rgb(133, 183, 254);
+}
+.si-file-help .path2:before {
+  content: "\e929";
+  margin-left: -1em;
+  color: rgb(60, 64, 67);
+  opacity: 0.0500;
+}
+.si-file-help .path3:before {
+  content: "\e92a";
+  margin-left: -1em;
+  color: rgb(60, 64, 67);
+  opacity: 0.0700;
+}
+.si-file-help .path4:before {
+  content: "\e92b";
+  margin-left: -1em;
+  color: rgb(133, 183, 254);
+}
+.si-file-help .path5:before {
+  content: "\e92c";
+  margin-left: -1em;
+  color: rgb(7, 55, 127);
+}
+.si-file-help .path6:before {
+  content: "\e92d";
+  margin-left: -1em;
+  color: rgb(7, 55, 127);
+}
+.si-no-files-found .path1:before {
+  content: "\e92e";
+  color: rgb(0, 179, 215);
+  opacity: 0.4;
+}
+.si-no-files-found .path2:before {
+  content: "\e92f";
+  margin-left: -1em;
+  color: rgb(61, 217, 235);
+  opacity: 0.4;
+}
+.si-no-files-found .path3:before {
+  content: "\e930";
+  margin-left: -1em;
+  color: rgb(61, 217, 235);
+  opacity: 0.4;
+}
+.si-no-files-found .path4:before {
+  content: "\e931";
+  margin-left: -1em;
+  color: rgb(61, 217, 235);
+  opacity: 0.4;
+}
+.si-no-files-found .path5:before {
+  content: "\e932";
+  margin-left: -1em;
+  color: rgb(0, 179, 215);
+  opacity: 0.4;
+}
+.si-no-files-found .path6:before {
+  content: "\e933";
+  margin-left: -1em;
+  color: rgb(0, 179, 215);
+  opacity: 0.4;
+}
+.si-no-files-found .path7:before {
+  content: "\e934";
+  margin-left: -1em;
+  color: rgb(0, 179, 215);
+  opacity: 0.4;
+}
+.si-no-files-found .path8:before {
+  content: "\e935";
+  margin-left: -1em;
+  color: rgb(0, 179, 215);
+  opacity: 0.4;
+}
+.si-download-file:before {
+  content: "\e936";
+}
+.si-publish:before {
+  content: "\e937";
+}
+.si-ellipsis-horizontal:before {
+  content: "\e938";
+}
+.si-green-check:before {
+  content: "\e939";
+}
+.si-grow-up-arrow:before {
+  content: "\e93a";
+}
+.si-plan-crown .path1:before {
+  content: "\e93b";
+  color: rgb(255, 193, 7);
+}
+.si-plan-crown .path2:before {
+  content: "\e93c";
+  margin-left: -0.9619140625em;
+  color: rgb(255, 152, 0);
+}
+.si-minus-circle-o:before {
+  content: "\e93d";
+}
+.si-graph-lines:before {
+  content: "\e93e";
+}
+.si-chev-down:before {
+  content: "\e93f";
+}
+.si-chev-up:before {
+  content: "\e940";
+}
+.si-check-document:before {
+  content: "\e941";
+}
+.si-Internet:before {
+  content: "\e942";
+}
+.si-tc-filter:before {
+  content: "\e943";
+}
+.si-grid-view:before {
+  content: "\e944";
+}
+.si-re-cycle-square:before {
+  content: "\e945";
+}
+.si-progress-indicator .path1:before {
+  content: "\e946";
+  color: rgb(69, 161, 255);
+}
+.si-progress-indicator .path2:before {
+  content: "\e947";
+  margin-left: -1em;
+  color: rgb(0, 99, 196);
+}
+.si-progress-indicator .path3:before {
+  content: "\e948";
+  margin-left: -1em;
+  color: rgb(0, 122, 247);
+}
+.si-progress-indicator .path4:before {
+  content: "\e949";
+  margin-left: -1em;
+  color: rgb(0, 80, 140);
+}
+.si-progress-indicator .path5:before {
+  content: "\e94a";
+  margin-left: -1em;
+  color: rgb(69, 161, 255);
+}
+.si-progress-indicator .path6:before {
+  content: "\e94b";
+  margin-left: -1em;
+  color: rgb(0, 99, 196);
+}
+.si-progress-indicator .path7:before {
+  content: "\e94c";
+  margin-left: -1em;
+  color: rgb(0, 122, 247);
+}
+.si-progress-indicator .path8:before {
+  content: "\e94d";
+  margin-left: -1em;
+  color: rgb(0, 80, 140);
+}
+.si-check-circle .path1:before {
+  content: "\e94e";
+  color: rgb(200, 230, 201);
+}
+.si-check-circle .path2:before {
+  content: "\e94f";
+  margin-left: -1em;
+  color: rgb(76, 175, 80);
+}
+.si-back-arrow:before {
+  content: "\e91b";
+}
+.si-right-arrow-large:before {
+  content: "\e91c";
+}
+.si-dropdownsort:before {
+  content: "\e91a";
+}
+.si-edit:before {
+  content: "\e919";
+}
+.si-warning:before {
+  content: "\e918";
+}
+.si-eyeshow:before {
+  content: "\e917";
+}
+.si-external-horizantal:before {
+  content: "\e916";
+}
+.si-pencil-edit:before {
+  content: "\e914";
+}
+.si-delete1:before {
+  content: "\e915";
+}
+.si-instructions:before {
+  content: "\e90a";
+}
+.si-delete:before {
+  content: "\e90b";
+}
+.si-eye:before {
+  content: "\e90c";
+}
+.si-info:before {
+  content: "\e90d";
+}
+.si-external-link:before {
+  content: "\e90e";
+}
+.si-lock:before {
+  content: "\e90f";
+}
+.si-user:before {
+  content: "\e910";
+}
+.si-add-plus:before {
+  content: "\e911";
+}
+.si-settings:before {
+  content: "\e913";
+}
+.si-check:before {
+  content: "\e909";
+}
+.si-check-round:before {
+  content: "\e908";
+}
+.si-help:before {
+  content: "\e907";
+}
+.si-externallink:before {
+  content: "\e900";
+}
+.si-faq:before {
+  content: "\e901";
+}
+.si-home:before {
+  content: "\e902";
+}
+.si-list:before {
+  content: "\e903";
+}
+.si-search:before {
+  content: "\e904";
+}
+.si-carrotup:before {
+  content: "\e905";
+}
+.si-close:before {
+  content: "\e906";
+}

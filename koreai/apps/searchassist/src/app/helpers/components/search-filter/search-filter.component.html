@@ -1,0 +1,18 @@
+<div class="pt-search" id="pt-search">
+    <div class="kr-sg-input-inline-search" id="inline-search"  maxlength="60">
+        <input tabindex="-1" type="text" placeholder="{{'sa_search' | translate}}"  class="input-search"
+        autocomplete="off" id="fieldSearchId" [(ngModel)]="searchFields" (keyup)="debouncedSearch(searchFields)" 
+        (mouseover)="searchImgSrc = (searchFocusIn ? 'assets/icons/search_gray.svg' :'assets/icons/search_gray_dark.svg')"
+        (mouseout)="searchFocusIn=false;searchImgSrc = 'assets/icons/search_gray.svg'"
+        (focus)="searchFocusIn=true;searchImgSrc = 'assets/icons/search_gray.svg'">
+        <span class="search-icon close-icon" id="close-icon" *ngIf="searchFields.length>=1">
+            <i class="si-close" (click)="focusoutSearch()" (mouseover)="activeClose=true" (mouseout)="activeClose=false"></i>
+        </span>
+        <span class="search-icon" id="search-icon" >
+            <i class="si-search"></i>
+        </span>                                   
+    </div>
+    <!-- <div class="seach-block" (click)="showSearch=!showSearch;focusinSearch('fieldSearchId')">
+        <span [ngClass]="{'d-none': showSearch}"  class="mr-3" id="btn_toggle_search_structured_data" ><img src="assets/icons/search.svg" [ngClass]="{'d-none': showSearch}">{{'search' | translate}}</span>
+    </div> -->
+</div>

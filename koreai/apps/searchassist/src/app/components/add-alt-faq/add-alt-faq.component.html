@@ -1,0 +1,41 @@
+<div class="add-questions-form pb-0" *ngIf="selectedFaq">                        
+  <!-- <div class="kr-sg-dropdowns mb-15">
+    <div class="label-text">{{selectedFaq.questionPayload.question}}</div>
+    <div class="dropdown dropdown-open drp_custon_input">                       
+        <div class="kr-sg-input-search dropdown-toggle dropdown-input p-0 border-0" data-toggle="dropdown">                               
+          <input type="text" placeholder="Add alternate questions or select from suggestions" class="input-search">
+          <img src="assets/images/search-gray.svg" class="search-icon">
+        </div>                                        
+        <ul class="dropdown-menu content-menu">                                                                  
+          <li><a>What are the process of creating insta account in citibank ?</a></li>
+          <li><a>Please provide the process of insta account ?</a></li>
+          <li><a>Insta account in citibank - process ?</a></li>
+          <li><a>What are the process of creating insta account in citibank ?</a></li>
+          <li><a>Insta account in citibank - process ?</a></li>
+        </ul>
+    </div>
+  </div> -->
+  <div class="kr-sg-input-text mb-15">
+    <div class="label-text font-weight-bold" *ngIf="altQuestionIndex === null">{{selectedFaq.questionPayload.question}}</div>                  
+    <input type="text" placeholder="Add alternate questions" class="input-text" name="altQuestion" [(ngModel)]="altQuestion">             
+  </div>
+  <mat-form-field class="example-chip-list mb-15" [floatLabel]="'never'">
+    <mat-chip-list #chipList aria-label="tag selection">
+      <mat-chip *ngFor="let tag of altTags; let index = index " (removed)="removeAltTag(tag)">
+         <div class="mat-value">{{tag.tag}}</div> 
+        <mat-icon matChipRemove><img src="assets/images/close.svg"></mat-icon>
+      </mat-chip>
+      <input placeholder="Type & enter"
+              [value] = "typedQuery"
+             [matChipInputFor]="chipList"
+             [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+             name = "tagInput"
+             (matChipInputTokenEnd)="addAltTag($event)" id="tagInput" #suggestedInput (click)="$event.stopPropagation()">
+    </mat-chip-list>
+  </mat-form-field>             
+  <div class="btn-sec">
+    <button class="kr-sg-button-primary mr-2" (click)="save()" *ngIf="altQuestionIndex === null" [disabled]="!altQuestion || loading">{{loading ? 'Saving..' : 'Save'}}</button>
+    <button class="kr-sg-button-primary mr-2" (click)="update()" *ngIf="altQuestionIndex !== null" [disabled]="!altQuestion || loading">{{loading ? 'Updating..' : 'Update'}}</button>
+    <button class="kr-sg-button-secondary" (click)="reset()">Cancel</button>
+  </div>
+</div>

@@ -1,0 +1,12 @@
+.table-rules-list {
+    .divBlockEmptylastChild{
+        display: none;
+        text-align: center;
+        width: 100%;
+        padding: 10%;
+        white-space: break-spaces;
+    }
+    div.divBlockEmptylastChild:first-child {
+        display: block !important;
+    }  
+}

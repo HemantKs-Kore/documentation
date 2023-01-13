@@ -1,0 +1,25 @@
+{
+    "condition":"OR",
+    "rules":[
+        {
+            "condition": "AND",
+            "rules":[
+                {
+                    "operator": "contains",
+                    "value": {},
+                    "valueType": "value"
+                },
+                {
+                    "operator": "startsWith",
+                    "value": {},
+                    "valueType": "value"
+                },
+                {
+                    "operator": "equalTo",
+                    "value": {},
+                    "valueType": "value"
+                }
+            ]
+        }
+    ]
+}

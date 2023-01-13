@@ -1,0 +1,18 @@
+// default colors
+.theme-wrapper {
+    --headingColor: #1372ff;
+    --headerColor: #f5a623;
+    --footerColor: #09a624;
+    --excludeColor: #ff5d5d;
+}
+
+$variables: (
+    --headingColor: var(--headingColor),
+    --headerColor: var(--headerColor),
+    --footerColor: var(--footerColor),
+    --excludeColor: var(--excludeColor),
+);
+// Maping variables
+@function var($variable) {
+    @return map-get($variables, $variable);
+}

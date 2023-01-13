@@ -1,0 +1,250 @@
+.default-theme{
+//Main Colors
+--default-white:#ffffff;
+--main-bg-color:#EFF0F1;
+--primary-font-color:#202124;
+//Main Colors
+
+//Header Colors
+--header-bg-color:#ffffff;
+// --header-box-shadow:0px 2px 4px rgba(189, 193, 198, 0.5);
+//Menu colors
+--header-menu-font-color:#202124;
+--header-menu-border-color:#ffffff;
+--header-menu-active-border-color:#0D6EFD;
+//Menu colors
+//Right Actions
+--header-action-default-bg-color:#ffffff;
+--header-action-bg-color:#F8F9FA;
+--header-action-hover-bg-color:#eff0f1;
+--header-action-icon-font-color:#202124;
+//Right Actions
+//Header Colors
+
+//Side Menu colors
+--menu-bg-color:#EFF0F1;
+--menu-primary-font-color: #202124;
+--menu-secondary-font-color:#5F6368;
+--menu-hover-color:#ffffff;
+--menu-primary-icon-color: #202124;
+--menu-secondary-icon-color:#9AA0A6;
+///Side Menu colors
+
+//Chat Thread colors
+--user-details-bg:#ffffff;
+--user-details-bg-active:#E7F1FF;
+--user-primary-font-color: #202124;
+--user-secondary-font-color:#5F6368;
+--user-avatar-bg-color:#E7F1FF;
+--user-avatar-border-color:#D9DBDE;
+--user-icon-color:#ffffff;
+//Chat Thread colors
+
+//Search component
+--search-input-bg-color:#F4F5F6;
+--search-input-font-color: #202124;
+--search-input-placeholder-color: #9AA0A6;
+//Search component
+
+//Preview colors
+--preview-bg-color:#ffffff;
+//Header colors
+--preview-header-bg-color:#ffffff;
+--preview-header-box-shadow:0px 1px 0px rgba(0, 0, 0, 0.15);
+--preview-header-font-color: #202124;
+--preview-header-icon-bg-color:#ffffff;
+--preview-header-icon-hover-bg-color:#EFF0F1;
+//Header colors
+
+//Body colors
+//Received Bubble
+--received-bubble-bg-color:#F8F9FA;
+--received-bubble-font-color:#202124;
+--received-bubble-like-color:#202124;
+--received-bubble-like-border-color:#202124;
+--received-reply-to-msg-bg-color:#E7F1FF;
+--received-reply-to-msg-border-color:#0D6EFD;
+//Received Bubble
+
+//Send Bubble
+--send-bubble-bg-color:#E7F1FF;
+--send-bubble-font-color:#202124;
+--send-bubble-read-icon-color:#4A90E2;
+//Send Bubble
+//Body colors
+
+//Footer colors
+--preview-footer-bg-color:#ffffff;
+--preview-input-border-color:#BDC1C6;
+--preview-input-font-color: #202124;
+--preview-input-placeholder-color:#BDC1C6;
+//Footer colors
+
+//Preview colors
+
+
+  //Highlight color
+--highlight-blue:#0D6EFD;
+  //Highlight color
+
+  //Primary color
+--primary-green:#28A745;
+--primary-orange:#FF784B;
+--primary-red:#DD3646;
+--primary-yellow:#FFDA2D;
+--primary-violet :#7027E5;
+//Primary color
+
+  //TINT COLORS
+    //Blue Tint
+    --alice-blue:#E7F1FF;
+    --maya-blue:#85B7FE;
+    --dodger-blue:#0D6EFD;
+    --dark-cerulean-blue:#07377F;
+    //Blue Tint
+
+    //Green Tint
+    --alice-blue:#EAF6EC;
+    --maya-blue:#93D3A2;
+    --dodger-blue:#28A745;
+    --dark-cerulean-blue:#135423;
+    //Green Tint
+
+    //Purple Tint
+    --alice-blue:#F1E9FB;
+    --maya-blue:#B893F2;
+    --dodger-blue:#7027E5;
+    --dark-cerulean-blue:#381472;
+    //Purple Tint
+
+    //Orange Tint
+    --alice-blue:#FFF1ED;
+    --maya-blue:#FFBCA5;
+    --dodger-blue:#FF784B;
+    --dark-cerulean-blue:#803C25;
+    //Orange Tint
+
+    //Yellow Tint
+    --alice-blue:#FFFBEA;
+    --maya-blue:#FFED96;
+    --dodger-blue:#FFDA2D;
+    --dark-cerulean-blue:#806D16;
+    //Yellow Tint
+
+     //Red Tint
+    --alice-blue:#FCEAED;
+    --maya-blue:#EF9AA3;
+    --dodger-blue:#DD3646;
+    --dark-cerulean-blue:#59141C;
+    //Red Tint
+
+    //Gray Tint
+    --alice-blue:#F8F9FA;
+    --maya-blue:#BDC1C6;
+    --dodger-blue:#9AA0A6;
+    --dark-cerulean-blue:#5F6368;
+    --dodger-blue:#3C4043;
+    --dark-cerulean-blue:#07377F;
+    //Gray Tint
+  //TINT COLORS
+}
+
+.dark-theme{
+  //Main Colors
+  --default-white:#000000;
+  --main-bg-color:#100F0E;
+  --primary-font-color:#ffffff;
+  //Main Colors
+  
+  //Header Colors
+  --header-bg-color:#000000;
+  --header-box-shadow:0px 2px 4px rgb(99 107 117 / 50%);
+  //Menu colors
+  --header-menu-font-color:#ffffff;
+  --header-menu-border-color:#000000;
+  --header-menu-active-border-color:#F49200;
+  //Menu colors
+  //Right Actions
+  --header-action-default-bg-color:#000000;
+  --header-action-bg-color:#180e00;
+  --header-action-hover-bg-color:#190e00;
+  --header-action-icon-font-color:#ffffff;
+  //Right Actions
+  //Header Colors
+
+  //Side Menu colors
+  --menu-bg-color:#100F0E;
+  --menu-primary-font-color: #ffffff;
+  --menu-secondary-font-color:#5F6368;
+  --menu-hover-color:#000000;
+  --menu-primary-icon-color: #ffffff;
+  --menu-secondary-icon-color:#9AA0A6;
+  ///Side Menu colors
+  
+  //Chat Thread colors
+  --user-details-bg:#000000;
+  --user-details-bg-active:#180E00;
+  --user-primary-font-color: #ffffff;
+  --user-secondary-font-color:#5F6368;
+  --user-avatar-bg-color:#E7F1FF;
+  --user-avatar-border-color:#D9DBDE;
+  --user-icon-color:#ffffff;
+  //Chat Thread colors
+  
+  //Search component
+  --search-input-bg-color:#070605;
+  --search-input-font-color: #ffffff;
+  --search-input-placeholder-color: #655F59;
+  //Search component
+  
+  //Preview colors
+  --preview-bg-color:#000000;
+  //Header colors
+  --preview-header-bg-color:#000000;
+  --preview-header-box-shadow:  0px 1px 0px rgba(255. 255, 255, 0.15);
+  --preview-header-font-color: #ffffff;
+  --preview-header-icon-bg-color:#000000;
+  --preview-header-icon-hover-bg-color:#190e00;
+  //Header colors
+  
+  //Body colors
+  //Received Bubble
+  --received-bubble-bg-color:#100f0f;
+  --received-bubble-font-color:#ffffff;
+  --received-bubble-like-color:#ffffff;
+  // --received-bubble-like-border-color:#202124;
+  --received-reply-to-msg-bg-color:#180E00;
+  --received-reply-to-msg-border-color:#F49200;
+  //Received Bubble
+  
+  //Send Bubble
+  --send-bubble-bg-color:#180E00;
+  --send-bubble-font-color:#ffffff;
+  --send-bubble-read-icon-color:#F49200;
+  //Send Bubble
+  //Body colors
+  
+  //Footer colors
+  --preview-footer-bg-color:#000000;
+  --preview-input-border-color:#423E39;
+  --preview-input-font-color: #ffffff;
+  --preview-input-placeholder-color:#423E39;
+  //Footer colors
+  
+  //Preview colors
+  
+  
+    //Highlight color
+  --highlight-blue:#0D6EFD;
+    //Highlight color
+  
+    //Primary color
+  --primary-green:#28A745;
+  --primary-orange:#FF784B;
+  --primary-red:#00DA9D;
+  --primary-yellow:#FFDA2D;
+  --primary-violet :#7027E5;
+  //Primary color
+}
+
+

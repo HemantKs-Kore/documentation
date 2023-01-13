@@ -1,0 +1,3 @@
+Faq,Que ID,Primary Question,Alternate Question,Answer,condition,Keywords,parentId
+ ,fc-030e90d3-427c-5c43-bf6a-f8f17f284911,what is Credit card?, ,A credit card is a thin rectangular piece of plastic or metal issued by a bank or financial services company, ,what is Question?, 
+conditions,conditionId,value,contextType,operator,contextCategory,,

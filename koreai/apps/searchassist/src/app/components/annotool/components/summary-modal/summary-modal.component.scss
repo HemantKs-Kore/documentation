@@ -1,0 +1,115 @@
+@import "../../../../scss/variables/variables.scss";
+.app-dialog {
+    .modal-header {
+        height: auto;
+        padding: 11px 0 12px 0;
+        background-color: #f2f3f5;
+        border: 0;
+        border-radius: 4px;
+        display: block;
+        text-align: center;
+        .modal-title {
+            font-size: 24px;
+            font-weight: 300;
+            color: #26344a;
+        }
+    }
+    perfect-scrollbar.summary-perfect-scroll {
+        height: 300px;
+    }
+    .modal-body {
+        padding: 30px 20px;
+        min-height: 148px;
+        background: $whiteColor;
+        .title {
+            font-size: 14px;
+            font-weight: bold;
+            color: $primaryColor;
+        }
+        .onselect {
+            cursor: pointer;
+            &:hover {
+                //   background-color: $backgroundColor;
+                .toggle-icon {
+                    display: inline-block !important;
+                }
+            }
+        }
+        .toggle-icon {
+            display: none;
+            position: absolute;
+            right: 10px;
+        }
+        .badge-primary {
+            color: #fff;
+            background-color: #6e7e92;
+            display: flex;
+            align-items: center;
+        }
+    }
+    .modal-footer {
+        height: auto;
+        padding: 14px 0 15px 0;
+        background-color: #f2f3f5;
+        border: 0;
+        border-radius: 4px;
+        display: block;
+        text-align: center;
+    }
+}
+
+::ng-deep .cdk-global-scrollblock {
+    overflow-y: hidden;
+}
+::ng-deep .kr-create-app-panel {
+    width: 50%;
+    margin-top: -25px;
+}
+
+mat-expansion-panel {
+    .mat-expansion-panel-header-title {
+        color: $primaryColor;
+        font-size: 14px;
+        width: 100%;
+    }
+    .mat-expansion-panel-header-description {
+        color: $secondaryColor;
+        font-size: 14px;
+        font-weight: normal;
+        .pageno {
+            text-align: center;
+        }
+    }
+}
+mat-expansion-panel {
+    margin: 5px 0px;
+    position: relative;
+}
+mat-expansion-panel:hover {
+    box-shadow: 0px 0px 3px 1px #a6b2c2;
+}
+expansion-panel-header:hover {
+    background: #fff !important;
+}
+.mat-expansion-panel:not(.mat-expanded) .mat-expansion-panel-header:not([aria-disabled="true"]):hover {
+    background: #fff;
+}
+.mat-expansion-panel-header-custom {
+    padding: 20px 24px 5px 24px;
+    height: auto !important;
+}
+::ng-deep .mat-expansion-panel-header {
+    transition: none !important;
+}
+.no-data-found {
+    text-align: center;
+    .no-title {
+        padding: 20px 0;
+        font-size: 24px;
+        font-weight: 300;
+        color: $primaryColor;
+    }
+}
+.mb-10 {
+    margin-bottom: 10px;
+}
