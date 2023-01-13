@@ -61,6 +61,7 @@
     "jest": "28.1.1",
     "jest-environment-jsdom": "28.1.1",
     "jest-preset-angular": "~12.2.2",
+    "json-server": "^0.17.1",
     "nodemon": "^2.0.20",
     "nx": "14.8.6",
     "prettier": "^2.6.2",
