@@ -9,6 +9,7 @@
       "executor": "@angular-devkit/build-angular:browser",
       "outputs": ["{options.outputPath}"],
       "options": {
+        "baseHref": "/home/",
         "outputPath": "dist/apps/searchassist",
         "index": "apps/searchassist/src/index.html",
         "main": "apps/searchassist/src/main.ts",
@@ -16,15 +17,15 @@
         "tsConfig": "apps/searchassist/tsconfig.app.json",
         "inlineStyleLanguage": "scss",
         "assets": [
-          "src/favicon.ico",
-          "src/assets"
+          "apps/searchassist/src/favicon.ico",
+          "apps/searchassist/src/assets"
         ],
         "styles": [
           "node_modules/bootstrap/dist/css/bootstrap.min.css",
-          "src/app/scss/styles.scss",
-          "src/assets/fonts/inter/inter-font.css",
-          "src/assets/web-kore-sdk/libs/purejscarousel.css",
-          "src/assets/css/bootstrap-slider.css",
+          "apps/searchassist/src/app/scss/styles.scss",
+          "apps/searchassist/src/assets/fonts/inter/inter-font.css",
+          "apps/searchassist/src/assets/web-kore-sdk/libs/purejscarousel.css",
+          "apps/searchassist/src/assets/css/bootstrap-slider.css",
           "node_modules/nouislider/distribute/nouislider.min.css",
           "node_modules/@ctrl/ngx-emoji-mart/picker.css"
         ],
@@ -32,10 +33,10 @@
           "node_modules/jquery/dist/jquery.min.js",
           "node_modules/popper.js/dist/umd/popper.min.js",
           "node_modules/bootstrap/dist/js/bootstrap.min.js",
-          "src/app/helpers/lib/assets/highlight.js/highlight.min.js",
-          "src/app/helpers/lib/assets/marked.min.js",
-          "src/assets/js/bootstrap-slider.js",
-          "src/assets/web-kore-sdk/libs/purejscarousel.js",
+          "apps/searchassist/src/app/helpers/lib/assets/highlight.js/highlight.min.js",
+          "apps/searchassist/src/app/helpers/lib/assets/marked.min.js",
+          "apps/searchassist/src/assets/js/bootstrap-slider.js",
+          "apps/searchassist/src/assets/web-kore-sdk/libs/purejscarousel.js",
           "node_modules/rangy/lib/rangy-core.js",
           "node_modules/rangy/lib/rangy-classapplier.js",
           "node_modules/rangy/lib/rangy-highlighter.js",
