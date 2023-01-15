@@ -1,11 +1,10 @@
-import { Component, OnInit,Output,Input,EventEmitter } from '@angular/core';
+import { Component, OnInit} from '@angular/core';
 import { WorkflowService } from '@kore.services/workflow.service';
 import { AppSelectionService } from '@kore.services/app.selection.service';
 import { NotificationService } from '@kore.services/notification.service';
 import { ServiceInvokerService } from '@kore.services/service-invoker.service';
-import { of, interval, Subject, Subscription } from 'rxjs';
-import { RangeSlider } from '../../helpers/models/range-slider.model';
-import { FindlySharedModule } from '../../../findly-shared/findly-shared.module';
+import { Subscription } from 'rxjs';
+import { RangeSlider } from '@kore.helpers/models/range-slider.model';
 
 declare const $: any;
 @Component({

@@ -9,10 +9,10 @@ import { AuthService } from '@kore.services/auth.service';
 import { Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import * as _ from 'underscore';
-import { ConfirmationDialogComponent } from '../../helpers/components/confirmation-dialog/confirmation-dialog.component';
 import { AppSelectionService } from '@kore.services/app.selection.service'
-import { Observable, of, Subscriber, Subscription } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { InlineManualService } from '@kore.services/inline-manual.service';
+import { ConfirmationDialogComponent } from '@kore.helpers/components/confirmation-dialog/confirmation-dialog.component';
 declare const $: any;
 
 @Component({
@@ -362,7 +362,7 @@ export class SynonymsComponent implements OnInit, OnDestroy {
     }
   }
   deleteSynonymnConfirmationPopUp(synonym, index) {
-    const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+    const dialogRef: any = this.dialog.open(ConfirmationDialogComponent, {
       width: '530px',
       height: 'auto',
       panelClass: 'delete-popup',
@@ -379,7 +379,7 @@ export class SynonymsComponent implements OnInit, OnDestroy {
 
     dialogRef.componentInstance.onSelect.subscribe((result) => {
       if (result === 'yes') {
-        if ((this.showFlag = true)) {
+        if ((this.showFlag === true)) {
           this.deleteSynonymn(synonym, index, dialogRef);
         }
       } else if (result === 'no') {

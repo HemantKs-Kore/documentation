@@ -389,6 +389,7 @@ export class SearchInsightsComponent implements OnInit {
           }
           return "display-none"
         }
+        break;
       }
       case "clicks": {
         if (this.selectedSort == sortingField) {
@@ -400,6 +401,7 @@ export class SearchInsightsComponent implements OnInit {
           }
           return "display-none"
         }
+        break;
       }
       case "searches": {
         if (this.selectedSort == sortingField) {
@@ -411,6 +413,7 @@ export class SearchInsightsComponent implements OnInit {
           }
           return "display-none"
         }
+        break;
       }
       case "count": {
         if (this.selectedSort == sortingField) {
@@ -422,6 +425,7 @@ export class SearchInsightsComponent implements OnInit {
           }
           return "display-none"
         }
+        break;
       }
     }
   }

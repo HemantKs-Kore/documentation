@@ -10,7 +10,10 @@ import { ENTER, COMMA } from '@angular/cdk/keycodes';
 import { MatChipInputEvent } from '@angular/material/chips';
 import * as _ from 'underscore';
 import { RangeSlider } from '../../helpers/models/range-slider.model';
-import { MatAutocomplete, MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
+import {
+  MatAutocomplete,
+  MatAutocompleteSelectedEvent,
+} from '@angular/material/autocomplete';
 import { SortPipe } from '../../helpers/sortPipe/sort-pipe';
 import { AppSelectionService } from '@kore.services/app.selection.service';
 import { Subscription } from 'rxjs';
@@ -147,10 +150,10 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
   loadImageText: boolean = false;
   loadingContent1: boolean = false;
   sortedObject = {
-    'type': 'ruleName',
-    'position': 'up',
-    "value": 1,
-  }
+    type: 'ruleName',
+    position: 'up',
+    value: 1,
+  };
   filterObject = {
     type: '',
     header: '',
@@ -187,8 +190,8 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
   };
   search_field: String = '';
   filteredFields: Array<Object> = [];
-  isSearchClear: boolean =false;
-  isPaginating: boolean=false;
+  isSearchClear: boolean = false;
+  isPaginating: boolean = false;
   @ViewChild('contextSuggestedImput') set content(content: ElementRef) {
     if (content) {
       this.contextSuggestedImput = content;
@@ -1216,14 +1219,14 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
 
         this.totalRecord = res.totalCount || 0;
         this.loadingContent = false;
-        this.isPaginating=false;
+        this.isPaginating = false;
         this.addRemoveRuleFromSelection(null, null, true);
       },
       (errRes) => {
         this.loadingContent = false;
         this.loadingContent1 = false;
         this.isSearchClear = false;
-        this.isPaginating=false;
+        this.isPaginating = false;
         this.errorToaster(errRes, 'Failed to get rules');
       }
     );
@@ -1448,6 +1451,7 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
           }
           return 'display-none';
         }
+        return null;
       }
       case 'isRuleActive': {
         if (this.selectedSort == sortingField) {
@@ -1459,6 +1463,7 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
           }
           return 'display-none';
         }
+        return null;
       }
     }
   }
@@ -1472,8 +1477,8 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
     } else {
       this.isAsc = !this.isAsc;
     }
-    var checkSortValue = 1;
-    var naviagtionArrow = '';
+    let checkSortValue = 1;
+    let naviagtionArrow = '';
     if (this.isAsc) {
       naviagtionArrow = 'up';
       checkSortValue = 1;
@@ -1569,7 +1574,7 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
             return item;
           });
         }
-      this.getDyanmicFilterData();
+        this.getDyanmicFilterData();
       },
       (errRes) => {
         this.errorToaster(errRes, 'Failed to update rule');

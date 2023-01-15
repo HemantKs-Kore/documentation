@@ -462,6 +462,7 @@ export class BotActionsComponent implements OnInit {
           }
           return 'display-none';
         }
+        break;
       }
       case 'type': {
         if (this.sortedBy == sortingField) {
@@ -473,6 +474,7 @@ export class BotActionsComponent implements OnInit {
           }
           return 'display-none';
         }
+        break;
       }
     }
   }

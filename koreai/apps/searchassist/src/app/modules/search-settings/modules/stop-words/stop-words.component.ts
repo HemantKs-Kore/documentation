@@ -3,11 +3,11 @@ import { MatDialog } from '@angular/material/dialog';
 import { NotificationService } from '@kore.services/notification.service';
 import { ServiceInvokerService } from '@kore.services/service-invoker.service';
 import { WorkflowService } from '@kore.services/workflow.service';
-import { ConfirmationDialogComponent } from '../../helpers/components/confirmation-dialog/confirmation-dialog.component';
 import { AppSelectionService } from '@kore.services/app.selection.service'
 import * as _ from 'underscore';
 import { Subscription } from 'rxjs';
 import { InlineManualService } from '@kore.services/inline-manual.service';
+import { ConfirmationDialogComponent } from '@kore.helpers/components/confirmation-dialog/confirmation-dialog.component';
 declare const $: any;
 @Component({
   selector: 'app-stop-words',
@@ -287,7 +287,7 @@ createInit() {
       })
   }
   deleteSingleStopWordConfirmationPopUp(index, event, word) {
-    const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+    const dialogRef: any = this.dialog.open(ConfirmationDialogComponent, {
       width: '530px',
       height: 'auto',
       panelClass: 'delete-popup',
@@ -315,7 +315,7 @@ createInit() {
       event.stopImmediatePropagation();
       event.preventDefault();
     }
-    const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+    const dialogRef: any = this.dialog.open(ConfirmationDialogComponent, {
       width: '530px',
       height: 'auto',
       panelClass: 'delete-popup',

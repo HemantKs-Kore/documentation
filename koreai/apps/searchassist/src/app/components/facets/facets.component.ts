@@ -1,4 +1,10 @@
-import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  OnDestroy,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { NotificationService } from '@kore.services/notification.service';
 import { ServiceInvokerService } from '@kore.services/service-invoker.service';
@@ -15,13 +21,13 @@ declare const $: any;
 @Component({
   selector: 'app-facets',
   templateUrl: './facets.component.html',
-  styleUrls: ['./facets.component.scss']
+  styleUrls: ['./facets.component.scss'],
 })
 export class FacetsComponent implements OnInit, OnDestroy {
   facetModalRef: any;
   facetModalRef1: any;
   facets: any = [];
-  field_name:string;
+  field_name: string;
   fieldAutoSuggestion: any = [];
   selectedApp;
   serachIndexId;
@@ -30,7 +36,7 @@ export class FacetsComponent implements OnInit, OnDestroy {
   selectedFieldId: any;
   indexPipelineId;
   loadingContent = true;
-  loadingData : boolean = true
+  loadingData: boolean = true;
   addEditFacetObj: any = null;
   showSearch = false;
   searchImgSrc: any = 'assets/icons/search_gray.svg';
@@ -49,23 +55,23 @@ export class FacetsComponent implements OnInit, OnDestroy {
     range: {
       rangeName: '',
       from: '',
-      to: ''
+      to: '',
     },
     value: {
       size: 0,
       orderKey: 'count',
-      asc: true
-    }
-  }
+      asc: true,
+    },
+  };
   selcectionObj: any = {
     selectAll: false,
     selectedItems: [],
-    selectedCount: 0
+    selectedCount: 0,
   };
   fieldWarnings: any = {
     NOT_INDEXED: 'Indexed property has been set to False for this field',
-    NOT_EXISTS: 'Associated field has been deleted'
-  }
+    NOT_EXISTS: 'Associated field has been deleted',
+  };
   dummyCount = 0;
   selectedField;
   queryPipelineId;
@@ -75,7 +81,7 @@ export class FacetsComponent implements OnInit, OnDestroy {
   filterSystem: any = {
     typefilter: 'all',
     selectFilter: 'all',
-    statusFilter: 'all'
+    statusFilter: 'all',
   };
   beforeFilterFacets: any = [];
   docTypeArr: any = [];
@@ -85,39 +91,40 @@ export class FacetsComponent implements OnInit, OnDestroy {
   submitted: boolean = false;
   //new code from here
   filterFacetObj: any = {
-    fieldId: "",
-    name: "",
-    type: "filter",
-    subtype: "value",
+    fieldId: '',
+    name: '',
+    type: 'filter',
+    subtype: 'value',
     multiselect: false,
     size: 1,
     sortConfig: {
-      sortBy: "",
-      order: ""
+      sortBy: '',
+      order: '',
     },
     ranges: [
       {
-        name: "",
+        name: '',
         from: 0,
-        to: 0
-      }]
+        to: 0,
+      },
+    ],
   };
   sortableFacetObj: any = {
-    fieldId: "",
-    name: "",
-    type: "sortable",
+    fieldId: '',
+    name: '',
+    type: 'sortable',
     sortConfig: {
       // sortBy: "",
-      order: ""
-    }
-  }
+      order: '',
+    },
+  };
   tabFacetObj: any = {
-    fieldId: "",
+    fieldId: '',
     type: 'tab',
     multiselect: false,
-    tabs: []
+    tabs: [],
   };
-  configuredTabValues: any = []
+  configuredTabValues: any = [];
   showConfiguredFacet: boolean = false;
   currentFacetObj: any = {};
   currentFacetTab: string = 'filter';
@@ -129,12 +136,19 @@ export class FacetsComponent implements OnInit, OnDestroy {
   fieldsData: any;
   currentFieldId: string;
   createNewTab: boolean = false;
-  facetType: any = [{ name: 'Filter facet', type: 'filter' }, { name: 'Sortable facet', type: 'sortable' }, { name: 'Tab facet', type: 'tab' }];
+  facetType: any = [
+    { name: 'Filter facet', type: 'filter' },
+    { name: 'Sortable facet', type: 'sortable' },
+    { name: 'Tab facet', type: 'tab' },
+  ];
   @ViewChild('perfectScroll') perfectScroll: PerfectScrollbarComponent;
   emptySearchResults: boolean = false;
   SearchResults: boolean = false;
-  sortByArray:Array<String>=['label','count'];
-  orderArray:Array<Object>=[{key:'ascending',value:'asc'},{key:'descending',value:'desc'}];
+  sortByArray: Array<String> = ['label', 'count'];
+  orderArray: Array<Object> = [
+    { key: 'ascending', value: 'asc' },
+    { key: 'descending', value: 'desc' },
+  ];
 
   constructor(
     public workflowService: WorkflowService,
@@ -143,7 +157,7 @@ export class FacetsComponent implements OnInit, OnDestroy {
     public dialog: MatDialog,
     private appSelectionService: AppSelectionService,
     public inlineManual: InlineManualService
-  ) { }
+  ) {}
   @ViewChild('facetModalPouup') facetModalPouup: KRModalComponent;
   @ViewChild('facetModalPopupNew') facetModalPopupNew: KRModalComponent;
   ngOnInit() {
@@ -151,28 +165,32 @@ export class FacetsComponent implements OnInit, OnDestroy {
     this.serachIndexId = this.selectedApp.searchIndexes[0]._id;
     //this.indexPipelineId = this.selectedApp.searchIndexes[0].pipelineId;
     this.loadfacets();
-    this.subscription = this.appSelectionService.queryConfigs.subscribe(res => {
-      this.loadfacets();
-    })
+    this.subscription = this.appSelectionService.queryConfigs.subscribe(
+      (res) => {
+        this.loadfacets();
+      }
+    );
     // this.getFieldAutoComplete('');
   }
   loadImageText: boolean = false;
-  loadingContent1: boolean
+  loadingContent1: boolean;
   imageLoad() {
     this.loadingContent = false;
     this.loadingData = true;
     this.loadingContent1 = true;
     this.loadImageText = true;
     if (!this.inlineManual.checkVisibility('FACETS')) {
-      this.inlineManual.openHelp('FACETS')
-      this.inlineManual.visited('FACETS')
+      this.inlineManual.openHelp('FACETS');
+      this.inlineManual.visited('FACETS');
     }
   }
 
   loadfacets() {
     this.indexPipelineId = this.workflowService.selectedIndexPipeline();
     if (this.indexPipelineId) {
-      this.queryPipelineId = this.workflowService.selectedQueryPipeline() ? this.workflowService.selectedQueryPipeline()._id : this.selectedApp.searchIndexes[0].queryPipelineId;
+      this.queryPipelineId = this.workflowService.selectedQueryPipeline()
+        ? this.workflowService.selectedQueryPipeline()._id
+        : this.selectedApp.searchIndexes[0].queryPipelineId;
       if (this.queryPipelineId) {
         this.getFacts();
         this.getFieldAutoComplete('');
@@ -190,26 +208,33 @@ export class FacetsComponent implements OnInit, OnDestroy {
     const selectedElements = $('.selectEachfacetInput:checkbox:checked');
     const allElements = $('.selectEachfacetInput');
     if (selectedElements.length === allElements.length) {
-      let partialElement: any = document.getElementsByClassName("partial-select-checkbox");
+      let partialElement: any = document.getElementsByClassName(
+        'partial-select-checkbox'
+      );
       if (partialElement.length) {
         partialElement[0].classList.add('d-none');
       }
-      let selectAllElement: any = document.getElementsByClassName("select-all-checkbox");
+      let selectAllElement: any = document.getElementsByClassName(
+        'select-all-checkbox'
+      );
       if (selectAllElement.length) {
         selectAllElement[0].classList.remove('d-none');
       }
       $('#selectAllFacets')[0].checked = true;
     } else {
-      let partialElement: any = document.getElementsByClassName("partial-select-checkbox");
-      let selectAllElement: any = document.getElementsByClassName("select-all-checkbox");
+      let partialElement: any = document.getElementsByClassName(
+        'partial-select-checkbox'
+      );
+      let selectAllElement: any = document.getElementsByClassName(
+        'select-all-checkbox'
+      );
 
-      if (partialElement && (selectedElements.length != 0)) {
+      if (partialElement && selectedElements.length != 0) {
         partialElement[0].classList.remove('d-none');
         if (selectAllElement.length) {
           selectAllElement[0].classList.add('d-none');
         }
-      }
-      else {
+      } else {
         partialElement[0].classList.add('d-none');
         if (selectAllElement.length) {
           selectAllElement[0].classList.remove('d-none');
@@ -218,7 +243,7 @@ export class FacetsComponent implements OnInit, OnDestroy {
       $('#selectAllFacets')[0].checked = false;
     }
     const element = $('#' + facet._id);
-    const addition = element[0].checked
+    const addition = element[0].checked;
     this.addRemovefacetFromSelection(facet._id, addition);
   }
   selectAll(unselectAll?) {
@@ -226,17 +251,23 @@ export class FacetsComponent implements OnInit, OnDestroy {
     if (allfacets && allfacets.length) {
       $.each(allfacets, (index, element) => {
         if ($(element) && $(element).length) {
-          $(element)[0].checked = unselectAll ? false : this.selcectionObj.selectAll;
-          const facetId = $(element)[0].id
+          $(element)[0].checked = unselectAll
+            ? false
+            : this.selcectionObj.selectAll;
+          const facetId = $(element)[0].id;
           this.addRemovefacetFromSelection(facetId, $(element)[0].checked);
         }
       });
-    };
-    let partialElement: any = document.getElementsByClassName("partial-select-checkbox");
+    }
+    let partialElement: any = document.getElementsByClassName(
+      'partial-select-checkbox'
+    );
     if (partialElement.length) {
       partialElement[0].classList.add('d-none');
     }
-    let selectAllElement: any = document.getElementsByClassName("select-all-checkbox");
+    let selectAllElement: any = document.getElementsByClassName(
+      'select-all-checkbox'
+    );
     if (selectAllElement.length) {
       selectAllElement[0].classList.remove('d-none');
     }
@@ -256,11 +287,15 @@ export class FacetsComponent implements OnInit, OnDestroy {
     if ($('#selectAllFacets').length) {
       $('#selectAllFacets')[0].checked = false;
     }
-    let partialElement: any = document.getElementsByClassName("partial-select-checkbox");
+    let partialElement: any = document.getElementsByClassName(
+      'partial-select-checkbox'
+    );
     if (partialElement.length) {
       partialElement[0].classList.add('d-none');
     }
-    let selectAllElement: any = document.getElementsByClassName("select-all-checkbox");
+    let selectAllElement: any = document.getElementsByClassName(
+      'select-all-checkbox'
+    );
     if (selectAllElement.length) {
       selectAllElement[0].classList.remove('d-none');
     }
@@ -282,18 +317,21 @@ export class FacetsComponent implements OnInit, OnDestroy {
     const quaryparms: any = {
       searchIndexID: this.serachIndexId,
       queryPipelineId: this.queryPipelineId,
-      indexPipelineId: this.workflowService.selectedIndexPipeline() || ''
+      indexPipelineId: this.workflowService.selectedIndexPipeline() || '',
     };
-    this.facets.forEach(face => {
+    this.facets.forEach((face) => {
       payload.push(face._id);
     });
-    this.service.invoke('reorder.facets', quaryparms, payload).subscribe(res => {
-      this.notificationService.notify(' Updated Successfully', 'success')
-    }, errRes => {
-      this.errorToaster(errRes, 'Failed to update words');
-    });
+    this.service.invoke('reorder.facets', quaryparms, payload).subscribe(
+      (res) => {
+        this.notificationService.notify(' Updated Successfully', 'success');
+      },
+      (errRes) => {
+        this.errorToaster(errRes, 'Failed to update words');
+      }
+    );
   }
-  addRemovefacet
+  addRemovefacet;
   addRemovefacetFromSelection(facetId?, addtion?, clear?) {
     if (clear) {
       this.resetPartial();
@@ -312,47 +350,52 @@ export class FacetsComponent implements OnInit, OnDestroy {
           this.selcectionObj.selectedItems[facetId] = {};
         } else {
           if (this.selcectionObj.selectedItems[facetId]) {
-            delete this.selcectionObj.selectedItems[facetId]
+            delete this.selcectionObj.selectedItems[facetId];
           }
         }
       }
-      this.selcectionObj.selectedCount = Object.keys(this.selcectionObj.selectedItems).length;
+      this.selcectionObj.selectedCount = Object.keys(
+        this.selcectionObj.selectedItems
+      ).length;
     }
   }
   editFacetModal(facet) {
-    this.getRecordDetails(facet)
+    this.getRecordDetails(facet);
   }
   getRecordDetails(data) {
     const quaryparms: any = {
-      searchIndexID: this.serachIndexId,
-      indexPipelineId: this.workflowService.selectedIndexPipeline() || '',
-      // offset: 0,
-      // limit: 100
-    },
-    payload ={
-      "sort": {
-          "fieldName": 1,
-      }
-    }
+        searchIndexID: this.serachIndexId,
+        indexPipelineId: this.workflowService.selectedIndexPipeline() || '',
+        // offset: 0,
+        // limit: 100
+      },
+      payload = {
+        sort: {
+          fieldName: 1,
+        },
+      };
     // let serviceId = 'get.allField';
     let serviceId = 'post.allField';
     // let serviceId = 'get.allFieldsData';
-    this.service.invoke(serviceId, quaryparms,payload).subscribe(res => {
-      this.fieldAutoSuggestion = res.fields || [];
-      res.fields.forEach(element => {
-        if (element._id === data.fieldId) {
-          // console.log(element)
-          this.addEditFacetObj = JSON.parse(JSON.stringify(data));
-          this.selectedFieldId = element._id;
-          // this.getFieldAutoComplete(element.fieldName);
-          this.selectField(element);
-          this.openModal(true);
-        }
-      });
-    }, errRes => {
-      this.loadingContent = false;
-      this.errorToaster(errRes, 'Failed to get index  stages');
-    });
+    this.service.invoke(serviceId, quaryparms, payload).subscribe(
+      (res) => {
+        this.fieldAutoSuggestion = res.fields || [];
+        res.fields.forEach((element) => {
+          if (element._id === data.fieldId) {
+            // console.log(element)
+            this.addEditFacetObj = JSON.parse(JSON.stringify(data));
+            this.selectedFieldId = element._id;
+            // this.getFieldAutoComplete(element.fieldName);
+            this.selectField(element);
+            this.openModal(true);
+          }
+        });
+      },
+      (errRes) => {
+        this.loadingContent = false;
+        this.errorToaster(errRes, 'Failed to get index  stages');
+      }
+    );
   }
   resetDefaults() {
     this.facetDefaultValueObj = {
@@ -367,14 +410,14 @@ export class FacetsComponent implements OnInit, OnDestroy {
       range: {
         rangeName: '',
         from: '',
-        to: ''
+        to: '',
       },
       value: {
         size: 0,
         orderKey: 'count',
-        asc: true
-      }
-    }
+        asc: true,
+      },
+    };
   }
   getFieldAutoComplete(query) {
     if (!query) {
@@ -384,18 +427,26 @@ export class FacetsComponent implements OnInit, OnDestroy {
       searchIndexID: this.serachIndexId,
       indexPipelineId: this.workflowService.selectedIndexPipeline() || '',
       category: 'facets',
-      query
+      query,
     };
-    this.service.invoke('get.getFieldAutocompleteIndices', quaryparms).subscribe(res => {
-      this.fieldAutoSuggestion = JSON.parse(JSON.stringify(res)) || [];
-      if (this.fieldAutoSuggestion.length) {
-        if (!$('#facets-search-with-dropdown-menu').hasClass('show') && $('#facets-search-input').is(':focus')) {
-          $('#facets-search-with-dropdown-menu').addClass('show')
+    this.service
+      .invoke('get.getFieldAutocompleteIndices', quaryparms)
+      .subscribe(
+        (res) => {
+          this.fieldAutoSuggestion = JSON.parse(JSON.stringify(res)) || [];
+          if (this.fieldAutoSuggestion.length) {
+            if (
+              !$('#facets-search-with-dropdown-menu').hasClass('show') &&
+              $('#facets-search-input').is(':focus')
+            ) {
+              $('#facets-search-with-dropdown-menu').addClass('show');
+            }
+          }
+        },
+        (errRes) => {
+          this.errorToaster(errRes, 'Failed to get fields');
         }
-      }
-    }, errRes => {
-      this.errorToaster(errRes, 'Failed to get fields');
-    });
+      );
     if (!query) {
       this.fieldDataType = 'number';
       this.filedTypeShow = false;
@@ -421,8 +472,13 @@ export class FacetsComponent implements OnInit, OnDestroy {
       if (!this.addEditFacetObj.facetRange) {
         this.addEditFacetObj.facetRange = [];
       }
-      if (this.facetDefaultValueObj.range.from && this.facetDefaultValueObj.range.to) {
-        this.addEditFacetObj.facetRange.push(JSON.parse(JSON.stringify(this.facetDefaultValueObj.range)));
+      if (
+        this.facetDefaultValueObj.range.from &&
+        this.facetDefaultValueObj.range.to
+      ) {
+        this.addEditFacetObj.facetRange.push(
+          JSON.parse(JSON.stringify(this.facetDefaultValueObj.range))
+        );
       }
     }
     this.resetDefaults();
@@ -432,10 +488,12 @@ export class FacetsComponent implements OnInit, OnDestroy {
       searchIndexID: this.serachIndexId,
       fieldId,
     };
-    this.service.invoke('get.getFieldById', quaryparms).subscribe(res => {
-      this.addEditFacetObj.fieldName = res.name;
-    }, errRes => {
-    });
+    this.service.invoke('get.getFieldById', quaryparms).subscribe(
+      (res) => {
+        this.addEditFacetObj.fieldName = res.name;
+      },
+      (errRes) => {}
+    );
   }
   defaultSortingAFacet(arr) {
     arr.sort(function (a, b) {
@@ -447,7 +505,7 @@ export class FacetsComponent implements OnInit, OnDestroy {
       return 0;
     });
     // console.log(arr);
-    return arr.reverse() // Revercing for Decending
+    return arr.reverse(); // Revercing for Decending
   }
   getFacts(offset?) {
     const quaryparms: any = {
@@ -455,57 +513,59 @@ export class FacetsComponent implements OnInit, OnDestroy {
       indexPipelineId: this.workflowService.selectedIndexPipeline() || '',
       queryPipelineId: this.queryPipelineId,
       offset: offset || 0,
-      limit: 100
+      limit: 100,
     };
-    this.service.invoke('get.allFacets', quaryparms).subscribe(res => {
-      this.facets = [];
-      this.statusArr = [];
-      this.docTypeArr = [];
-      this.selectTypeArr = [];
-      this.facets = res || [];
-      //this.facets = this.defaultSortingAFacet(this.facets);
-      this.facets.forEach(element => {
-        this.statusArr.push(element.active);
-        this.docTypeArr.push(element.type);
-        this.selectTypeArr.push(element.multiselect);
-      });
+    this.service.invoke('get.allFacets', quaryparms).subscribe(
+      (res) => {
+        this.facets = [];
+        this.statusArr = [];
+        this.docTypeArr = [];
+        this.selectTypeArr = [];
+        this.facets = res || [];
+        //this.facets = this.defaultSortingAFacet(this.facets);
+        this.facets.forEach((element) => {
+          this.statusArr.push(element.active);
+          this.docTypeArr.push(element.type);
+          this.selectTypeArr.push(element.multiselect);
+        });
 
-      this.statusArr = [...new Set(this.statusArr)];
-      this.docTypeArr = [...new Set(this.docTypeArr)];
-      this.selectTypeArr = [...new Set(this.selectTypeArr)];
-      this.loadingContent = false;
-      this.loadingData = false;
-      this.addRemovefacetFromSelection(null, null, true);
-      this.filterSystem = {
-        typefilter: 'all',
-        selectFilter: 'all',
-        statusFilter: 'all'
-      };
-      if (res.length > 0) {
+        this.statusArr = [...new Set(this.statusArr)];
+        this.docTypeArr = [...new Set(this.docTypeArr)];
+        this.selectTypeArr = [...new Set(this.selectTypeArr)];
         this.loadingContent = false;
-        this.loadingContent1 = true;
         this.loadingData = false;
-        // this.noItems = false
-        this.emptySearchResults = false
-        if (!this.inlineManual?.checkVisibility('FACETS_OVERVIEW')) {
-          this.inlineManual?.openHelp('FACETS_OVERVIEW')
-          this.inlineManual?.visited('FACETS_OVERVIEW')
+        this.addRemovefacetFromSelection(null, null, true);
+        this.filterSystem = {
+          typefilter: 'all',
+          selectFilter: 'all',
+          statusFilter: 'all',
+        };
+        if (res.length > 0) {
+          this.loadingContent = false;
+          this.loadingContent1 = true;
+          this.loadingData = false;
+          // this.noItems = false
+          this.emptySearchResults = false;
+          if (!this.inlineManual?.checkVisibility('FACETS_OVERVIEW')) {
+            this.inlineManual?.openHelp('FACETS_OVERVIEW');
+            this.inlineManual?.visited('FACETS_OVERVIEW');
+          }
+        } else {
+          this.emptySearchResults = true;
+          this.loadingContent1 = true;
+          this.loadingData = false;
+          // this.noItems = false
+          // if(!this.inlineManual.checkVisibility('FACETS')){
+          //   this.inlineManual.openHelp('FACETS')
+          //   this.inlineManual.visited('FACETS')
+          // }
         }
+      },
+      (errRes) => {
+        this.loadingContent = false;
+        this.errorToaster(errRes, 'Failed to get facets');
       }
-      else {
-        this.emptySearchResults = true;
-        this.loadingContent1 = true;
-        this.loadingData = false;
-        // this.noItems = false
-        // if(!this.inlineManual.checkVisibility('FACETS')){
-        //   this.inlineManual.openHelp('FACETS')
-        //   this.inlineManual.visited('FACETS')
-        // }
-      }
-    }, errRes => {
-      this.loadingContent = false;
-      this.errorToaster(errRes, 'Failed to get facets');
-    });
+    );
   }
   selectField(suggesition) {
     this.selectedField = suggesition;
@@ -518,7 +578,7 @@ export class FacetsComponent implements OnInit, OnDestroy {
       this.addEditFacetObj.fieldId = suggesition._id;
       this.selectedField.fieldId = suggesition._id;
     }
-    this.addEditFacetObj.fieldName = suggesition.fieldName
+    this.addEditFacetObj.fieldName = suggesition.fieldName;
   }
 
   setFaceName(suggesition) {
@@ -529,11 +589,14 @@ export class FacetsComponent implements OnInit, OnDestroy {
     const modalData: any = {
       newTitle: 'Are you sure you want to delete ?',
       body: 'Selected facet will be deleted.',
-      buttons: [{ key: 'yes', label: 'Delete', type: 'danger' }, { key: 'no', label: 'Cancel' }],
-      confirmationPopUp: true
-    }
+      buttons: [
+        { key: 'yes', label: 'Delete', type: 'danger' },
+        { key: 'no', label: 'Cancel' },
+      ],
+      confirmationPopUp: true,
+    };
     if (bulk > 1) {
-      modalData.newTitle = 'Are you sure you want to delete ?'
+      modalData.newTitle = 'Are you sure you want to delete ?';
       modalData.body = 'Selected facets will be deleted.';
       modalData.buttons[0].label = 'Delete';
     }
@@ -544,74 +607,87 @@ export class FacetsComponent implements OnInit, OnDestroy {
       data: modalData,
     });
 
-
-    dialogRef.componentInstance.onSelect
-      .subscribe(result => {
-        if (result === 'yes') {
-          if (bulk) {
-            this.deleteBulkFacet(dialogRef);
-          } else if (facet) {
-            this.deleteFacet(facet, dialogRef);
-          }
-        } else if (result === 'no') {
-          dialogRef.close();
-          // console.log('deleted')
+    dialogRef.componentInstance.onSelect.subscribe((result) => {
+      if (result === 'yes') {
+        if (bulk) {
+          this.deleteBulkFacet(dialogRef);
+        } else if (facet) {
+          this.deleteFacet(facet, dialogRef);
         }
-      })
+      } else if (result === 'no') {
+        dialogRef.close();
+        // console.log('deleted')
+      }
+    });
   }
   deleteBulkFacet(dialogRef) {
     const quaryparms: any = {
       searchIndexID: this.serachIndexId,
       indexPipelineId: this.workflowService.selectedIndexPipeline() || '',
-      queryPipelineId: this.queryPipelineId
+      queryPipelineId: this.queryPipelineId,
     };
     const facets = Object.keys(this.selcectionObj.selectedItems);
     const delateitems = {
-      facets: []
+      facets: [],
     };
     if (facets && facets.length) {
-      facets.forEach(ele => {
+      facets.forEach((ele) => {
         const obj = {
           _id: ele,
-        }
+        };
         delateitems.facets.push(obj);
       });
     }
     const payload = delateitems;
-    this.service.invoke('delete.bulkFacet', quaryparms, payload).subscribe(res => {
-      this.getFacts();
-      dialogRef.close();
-      this.closeModal();
-      this.notificationService.notify('Facets Deleted Successfully', 'success');
-    }, errRes => {
-      this.loadingContent = false;
-      this.errorToaster(errRes, 'Failed to delete facets');
-    });
+    this.service.invoke('delete.bulkFacet', quaryparms, payload).subscribe(
+      (res) => {
+        this.getFacts();
+        dialogRef.close();
+        this.closeModal();
+        this.notificationService.notify(
+          'Facets Deleted Successfully',
+          'success'
+        );
+      },
+      (errRes) => {
+        this.loadingContent = false;
+        this.errorToaster(errRes, 'Failed to delete facets');
+      }
+    );
   }
   deleteFacet(facet, dialogRef) {
     const quaryparms: any = {
       searchIndexID: this.serachIndexId,
       indexPipelineId: this.workflowService.selectedIndexPipeline() || '',
       facetId: facet._id,
-      queryPipelineId: this.queryPipelineId
+      queryPipelineId: this.queryPipelineId,
     };
     const payload = this.addEditFacetObj;
-    this.service.invoke('delete.facet', quaryparms, payload).subscribe(res => {
-      const deleteIndex = _.findIndex(this.facets, (fct) => {
-        return fct._id === facet._id;
-      })
-      this.facets.splice(deleteIndex, 1);
-      dialogRef.close();
-      this.closeModal();
-      this.getFacts();
-      this.notificationService.notify('Deleted Successfully', 'success');
-    }, errRes => {
-      this.loadingContent = false;
-      this.errorToaster(errRes, 'Failed to delete facet');
-    });
+    this.service.invoke('delete.facet', quaryparms, payload).subscribe(
+      (res) => {
+        const deleteIndex = _.findIndex(this.facets, (fct) => {
+          return fct._id === facet._id;
+        });
+        this.facets.splice(deleteIndex, 1);
+        dialogRef.close();
+        this.closeModal();
+        this.getFacts();
+        this.notificationService.notify('Deleted Successfully', 'success');
+      },
+      (errRes) => {
+        this.loadingContent = false;
+        this.errorToaster(errRes, 'Failed to delete facet');
+      }
+    );
   }
   errorToaster(errRes, message) {
-    if (errRes && errRes.error && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0].msg) {
+    if (
+      errRes &&
+      errRes.error &&
+      errRes.error.errors &&
+      errRes.error.errors.length &&
+      errRes.error.errors[0].msg
+    ) {
       this.notificationService.notify(errRes.error.errors[0].msg, 'error');
     } else if (message) {
       this.notificationService.notify(message, 'error');
@@ -628,7 +704,7 @@ export class FacetsComponent implements OnInit, OnDestroy {
     setTimeout(() => {
       this.perfectScroll.directiveRef.update();
       this.perfectScroll.directiveRef.scrollToTop();
-    }, 500)
+    }, 500);
   }
   closeModal() {
     if (this.facetModalRef && this.facetModalRef.close) {
@@ -644,24 +720,30 @@ export class FacetsComponent implements OnInit, OnDestroy {
       searchIndexID: this.serachIndexId,
       indexPipelineId: this.indexPipelineId,
     };
-    let serviceId = 'get.allFieldsData';
-    this.service.invoke(serviceId, quaryparms).subscribe(res => {
-      this.fieldAutoSuggestion = res.fields || [];
-      if (this.fieldAutoSuggestion.length) {
-        if (!$('#facets-search-with-dropdown-menu').hasClass('show') && $('#facets-search-input').is(':focus')) {
-          $('#facets-search-with-dropdown-menu').addClass('show')
+    const serviceId = 'get.allFieldsData';
+    this.service.invoke(serviceId, quaryparms).subscribe(
+      (res) => {
+        this.fieldAutoSuggestion = res.fields || [];
+        if (this.fieldAutoSuggestion.length) {
+          if (
+            !$('#facets-search-with-dropdown-menu').hasClass('show') &&
+            $('#facets-search-input').is(':focus')
+          ) {
+            $('#facets-search-with-dropdown-menu').addClass('show');
+          }
         }
+      },
+      (errRes) => {
+        this.errorToaster(errRes, 'Failed to get fields');
       }
-    }, errRes => {
-      this.errorToaster(errRes, 'Failed to get fields');
-    });
+    );
   }
   toggleSearch() {
     if (this.showSearch && this.searchfacet) {
       this.searchfacet = '';
     }
-    this.showSearch = !this.showSearch
-  };
+    this.showSearch = !this.showSearch;
+  }
 
   changeFacetSorting(value) {
     this.addEditFacetObj.facetValue.asc = value;
@@ -669,49 +751,53 @@ export class FacetsComponent implements OnInit, OnDestroy {
 
   getSortIconVisibility(sortingField: string, type: string) {
     switch (this.selectedSort) {
-      case "name": {
+      case 'name': {
         if (this.selectedSort == sortingField) {
           if (this.isAsc == false && type == 'down') {
-            return "display-block";
+            return 'display-block';
           }
           if (this.isAsc == true && type == 'up') {
-            return "display-block";
+            return 'display-block';
           }
-          return "display-none"
+          return 'display-none';
         }
+        break;
       }
-      case "type": {
+      case 'type': {
         if (this.selectedSort == sortingField) {
           if (this.isAsc == false && type == 'down') {
-            return "display-block";
+            return 'display-block';
           }
           if (this.isAsc == true && type == 'up') {
-            return "display-block";
+            return 'display-block';
           }
-          return "display-none"
+          return 'display-none';
         }
+        break;
       }
-      case "recentStatus": {
+      case 'recentStatus': {
         if (this.selectedSort == sortingField) {
           if (this.isAsc == false && type == 'down') {
-            return "display-block";
+            return 'display-block';
           }
           if (this.isAsc == true && type == 'up') {
-            return "display-block";
+            return 'display-block';
           }
-          return "display-none"
+          return 'display-none';
         }
+        break;
       }
-      case "createdOn": {
+      case 'createdOn': {
         if (this.selectedSort == sortingField) {
           if (this.isAsc == false && type == 'down') {
-            return "display-block";
+            return 'display-block';
           }
           if (this.isAsc == true && type == 'up') {
-            return "display-block";
+            return 'display-block';
           }
-          return "display-none"
+          return 'display-none';
         }
+        break;
       }
     }
   }
@@ -730,11 +816,16 @@ export class FacetsComponent implements OnInit, OnDestroy {
     const sortedData = data.sort((a, b) => {
       const isAsc = this.isAsc;
       switch (sort) {
-        case 'type': return this.compare(a.facetType, b.facetType, isAsc);
-        case 'status': return this.compare(a.isFacetActive, b.isFacetActive, isAsc);
-        case 'name': return this.compare(a.facetName, b.facetName, isAsc);
-        case 'select': return this.compare(a.isMultiSelect, b.isMultiSelect, isAsc);
-        default: return 0;
+        case 'type':
+          return this.compare(a.facetType, b.facetType, isAsc);
+        case 'status':
+          return this.compare(a.isFacetActive, b.isFacetActive, isAsc);
+        case 'name':
+          return this.compare(a.facetName, b.facetName, isAsc);
+        case 'select':
+          return this.compare(a.isMultiSelect, b.isMultiSelect, isAsc);
+        default:
+          return 0;
       }
     });
     this.facets = sortedData;
@@ -746,10 +837,19 @@ export class FacetsComponent implements OnInit, OnDestroy {
     this.filterSystem.statusFilter = 'all';
     this.filterFacets(source, headerOption);
     switch (headerOption) {
-      case 'facetType': { this.filterSystem.typefilter = source; return; };
-      case 'isMultiSelect': { this.filterSystem.selectFilter = source; return; };
-      case 'statusType': { this.filterSystem.statusFilter = source; return; };
-    };
+      case 'facetType': {
+        this.filterSystem.typefilter = source;
+        return;
+      }
+      case 'isMultiSelect': {
+        this.filterSystem.selectFilter = source;
+        return;
+      }
+      case 'statusType': {
+        this.filterSystem.statusFilter = source;
+        return;
+      }
+    }
   }
 
   filterFacets(source, headerOption) {
@@ -773,12 +873,11 @@ export class FacetsComponent implements OnInit, OnDestroy {
             return facet;
           }
         }
-        if(headerOption === 'search') {
-          source = source.toLowerCase()
-          return facet.name.toLowerCase().includes(source)
+        if (headerOption === 'search') {
+          source = source.toLowerCase();
+          return facet.name.toLowerCase().includes(source);
         }
-      }
-      else {
+      } else {
         return facet;
       }
     });
@@ -800,8 +899,7 @@ export class FacetsComponent implements OnInit, OnDestroy {
       // if(event.target.value > 20){
       //   this.addEditFacetObj.facetValue.size = 20;
       // }
-    }
-    else {
+    } else {
       this.addEditFacetObj.facetValue.size = 1;
       return;
     }
@@ -809,12 +907,14 @@ export class FacetsComponent implements OnInit, OnDestroy {
   focusoutSearch() {
     this.searchfacet = '';
     this.showSearch = !this.showSearch;
-    this.showSearch ? this.SearchResults = true :  this.SearchResults = false
+    this.showSearch
+      ? (this.SearchResults = true)
+      : (this.SearchResults = false);
   }
   focusinSearch(inputSearch) {
     setTimeout(() => {
       document.getElementById(inputSearch).focus();
-    }, 100)
+    }, 100);
   }
   ngOnDestroy() {
     if (this.subscription) {
@@ -823,7 +923,7 @@ export class FacetsComponent implements OnInit, OnDestroy {
   }
 
   modifyFieldWarningMsg(warningMessage) {
-    let index = warningMessage.indexOf("changed");
+    let index = warningMessage.indexOf('changed');
     if (index > -1) {
       return true;
     } else {
@@ -833,9 +933,8 @@ export class FacetsComponent implements OnInit, OnDestroy {
   //new code from here
   addNewRange(type, index?) {
     if (type === 'add') {
-      this.currentFacetObj.ranges.push({ name: "", from: 0, to: 0 });
-    }
-    else if (type === 'remove') {
+      this.currentFacetObj.ranges.push({ name: '', from: 0, to: 0 });
+    } else if (type === 'remove') {
       this.currentFacetObj.ranges.splice(index, 1);
     }
   }
@@ -848,19 +947,21 @@ export class FacetsComponent implements OnInit, OnDestroy {
       this.currentFacetObj = Object.assign({}, data);
       this.currentFacetTab = data.type;
       this.currentFieldId = data.fieldId;
-      this.facetType = this.facetType.filter(ele => ele.type === data.type);
+      this.facetType = this.facetType.filter((ele) => ele.type === data.type);
       if (data.type === 'tab') {
         for (let item of this.currentFacetObj?.tabs) {
-          this.configuredTabValues.push({ Name: item.bucketName, Value: item.fieldValue })
+          this.configuredTabValues.push({
+            Name: item.bucketName,
+            Value: item.fieldValue,
+          });
         }
         this.facets.forEach((ele) => {
           if (ele.type === 'tab') {
             this.getFieldValues(ele.fieldId);
           }
-        })
+        });
       }
-    }
-    else {
+    } else {
       this.currentTab('filter');
       this.tab_configure_filed_name = 'Search';
     }
@@ -871,8 +972,7 @@ export class FacetsComponent implements OnInit, OnDestroy {
   closeFacetDialog() {
     if (this.showConfiguredFacet) {
       this.showConfiguredFacet = false;
-    }
-    else {
+    } else {
       if (this.facetModalRef1 && this.facetModalRef1.close) {
         this.configuredTabValues = [];
         this.enable_Edit_Facet = false;
@@ -882,7 +982,11 @@ export class FacetsComponent implements OnInit, OnDestroy {
         this.hide_facet_info = false;
         this.selectAllConfigure = false;
         this.createNewTab = false;
-        this.facetType = [{ name: 'Filter facet', type: 'filter' }, { name: 'Sortable facet', type: 'sortable' }, { name: 'Tab facet', type: 'tab' }];
+        this.facetType = [
+          { name: 'Filter facet', type: 'filter' },
+          { name: 'Sortable facet', type: 'sortable' },
+          { name: 'Tab facet', type: 'tab' },
+        ];
       }
     }
   }
@@ -894,23 +998,23 @@ export class FacetsComponent implements OnInit, OnDestroy {
     const obj = this.clearFacetData(type);
     if (type === 'filter') {
       this.currentFacetObj = Object.assign({}, obj);
-    }
-    else if (type === 'sortable') {
+    } else if (type === 'sortable') {
       this.currentFacetObj = Object.assign({}, obj);
-    }
-    else if (type === 'tab') {
-      const tab = this.facets.filter(item => item.type === 'tab');
+    } else if (type === 'tab') {
+      const tab = this.facets.filter((item) => item.type === 'tab');
       if (tab.length > 0) {
         this.createNewTab = true;
         this.currentFacetObj = Object.assign({}, tab[0]);
         this.currentFieldId = tab[0].fieldId;
         this.tab_configure_filed_name = tab[0].fieldName;
         for (let item of tab[0].tabs) {
-          this.configuredTabValues.push({ Name: item.bucketName, Value: item.fieldValue })
+          this.configuredTabValues.push({
+            Name: item.bucketName,
+            Value: item.fieldValue,
+          });
         }
         this.getFieldValues(tab[0].fieldId);
-      }
-      else {
+      } else {
         this.currentFacetObj = Object.assign({}, obj);
       }
     }
@@ -920,70 +1024,75 @@ export class FacetsComponent implements OnInit, OnDestroy {
     let Obj;
     if (type === 'filter') {
       Obj = {
-        fieldId: "",
-        name: "",
-        type: "filter",
-        subtype: "value",
+        fieldId: '',
+        name: '',
+        type: 'filter',
+        subtype: 'value',
         multiselect: false,
         size: 1,
         sortConfig: {
-          sortBy: "",
-          order: ""
+          sortBy: '',
+          order: '',
         },
         ranges: [
           {
-            name: "",
+            name: '',
             from: 0,
-            to: 0
-          }]
+            to: 0,
+          },
+        ],
       };
-    }
-    else if (type === 'sortable') {
+    } else if (type === 'sortable') {
       Obj = {
-        fieldId: "",
-        name: "",
-        type: "sortable",
+        fieldId: '',
+        name: '',
+        type: 'sortable',
         sortConfig: {
           // sortBy: "",
-          order: ""
-        }
-      }
-    }
-    else if (type === 'tab') {
+          order: '',
+        },
+      };
+    } else if (type === 'tab') {
       Obj = {
-        fieldId: "",
+        fieldId: '',
         type: 'tab',
         multiselect: false,
-        tabs: []
+        tabs: [],
       };
     }
-    return Obj
+    return Obj;
   }
   //selectAll ConfiguredFacets checkbox
   selectAllConfiguredFacets(type) {
     let count = 0;
     setTimeout(() => {
       if (type === 'all') {
-        this.configuredTabValues.forEach(element => {
-          return element.selected = this.selectAllConfigure ? true : false
+        this.configuredTabValues.forEach((element) => {
+          return (element.selected = this.selectAllConfigure ? true : false);
         });
-      }
-      else if (type === 'individual') {
-        const all_checked = this.configuredTabValues.every(element => element.selected === true);
+      } else if (type === 'individual') {
+        const all_checked = this.configuredTabValues.every(
+          (element) => element.selected === true
+        );
         this.selectAllConfigure = all_checked ? true : false;
       }
-      const selected_value = this.configuredTabValues.some(element => element.selected === true);
-      this.configuredTabValues.forEach(data => {
+      const selected_value = this.configuredTabValues.some(
+        (element) => element.selected === true
+      );
+      this.configuredTabValues.forEach((data) => {
         if (data.selected === true) {
           count = count + 1;
         }
       });
       // console.log("cunt", count)
-      this.disableSaveBtn = selected_value ? count > 20 ? true : false : true;
+      this.disableSaveBtn = selected_value ? (count > 20 ? true : false) : true;
       if (count > 20) {
-        this.notificationService.notify('Not more than 20 facets can be configured,uncheck some of the facets to continue.', 'error');
+        this.notificationService.notify(
+          'Not more than 20 facets can be configured,uncheck some of the facets to continue.',
+          'error'
+        );
       }
-    }, 100)
+    }, 100);
   }
   //sort configured facets array in tabs
   sortConfiguredFacets(event: CdkDragDrop<string[]>, list) {
@@ -995,49 +1104,69 @@ export class FacetsComponent implements OnInit, OnDestroy {
   validateAddEditFacet() {
     if (this.currentFacetTab === 'filter') {
       if (this.currentFacetObj?.subtype === 'value') {
-        this.submitted = (this.currentFacetObj.fieldId && this.currentFacetObj.name && this.currentFacetObj?.sortConfig?.sortBy && this.currentFacetObj?.sortConfig?.order) ? false : true;
+        this.submitted =
+          this.currentFacetObj.fieldId &&
+          this.currentFacetObj.name &&
+          this.currentFacetObj?.sortConfig?.sortBy &&
+          this.currentFacetObj?.sortConfig?.order
+            ? false
+            : true;
+      } else if (this.currentFacetObj?.subtype === 'range') {
+        this.submitted =
+          this.currentFacetObj.fieldId && this.currentFacetObj.name
+            ? false
+            : true;
       }
-      else if (this.currentFacetObj?.subtype === 'range') {
-        this.submitted = (this.currentFacetObj.fieldId && this.currentFacetObj.name) ? false : true;
-      }
-    }
-    else if (this.currentFacetTab === 'sortable') {
-      this.submitted = (this.currentFacetObj.fieldId && this.currentFacetObj.name  && this.currentFacetObj?.sortConfig?.order) ? false : true;
-    }
-    else if (this.currentFacetTab === 'tab') {
-      this.submitted = (this.currentFacetObj.fieldId && this.currentFacetObj.tabs.length > 0) ? false : true;
+    } else if (this.currentFacetTab === 'sortable') {
+      this.submitted =
+        this.currentFacetObj.fieldId &&
+        this.currentFacetObj.name &&
+        this.currentFacetObj?.sortConfig?.order
+          ? false
+          : true;
+    } else if (this.currentFacetTab === 'tab') {
+      this.submitted =
+        this.currentFacetObj.fieldId && this.currentFacetObj.tabs.length > 0
+          ? false
+          : true;
     }
     return this.submitted ? false : true;
   }
   //overwrite field configuration popup
   overwriteConfiguration() {
     const modalData: any = {
-      newTitle: 'Existing Field configurations will be overwritten with the field you chose.',
+      newTitle:
+        'Existing Field configurations will be overwritten with the field you chose.',
       body: 'Are you sure you want to continue ?',
-      buttons: [{ key: 'yes', label: 'Continue', type: 'danger' }, { key: 'no', label: 'Cancel' }],
-      confirmationPopUp: true
-    }
+      buttons: [
+        { key: 'yes', label: 'Continue', type: 'danger' },
+        { key: 'no', label: 'Cancel' },
+      ],
+      confirmationPopUp: true,
+    };
     const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
       width: '530px',
       height: 'auto',
       panelClass: 'delete-popup-result',
       data: modalData,
     });
-    dialogRef.componentInstance.onSelect
-      .subscribe(result => {
-        if (result === 'yes') {
-          this.updateConfiguredFacets(dialogRef);
-        } else if (result === 'no') {
-          dialogRef.close();
-        }
-      })
+    dialogRef.componentInstance.onSelect.subscribe((result) => {
+      if (result === 'yes') {
+        this.updateConfiguredFacets(dialogRef);
+      } else if (result === 'no') {
+        dialogRef.close();
+      }
+    });
   }
   //clicked on configured facet icon
   clickConfiguredFacet() {
     this.configuredTabValues = [];
     this.currentFacetObj.fieldName = this.tab_configure_filed_name;
     for (let item of this.currentFacetObj?.tabs) {
-      this.configuredTabValues.push({ Name: item.bucketName, Value: item.fieldValue })
+      this.configuredTabValues.push({
+        Name: item.bucketName,
+        Value: item.fieldValue,
+      });
     }
     this.showConfiguredFacet = true;
   }
@@ -1046,9 +1175,12 @@ export class FacetsComponent implements OnInit, OnDestroy {
     this.showConfiguredFacet = false;
     this.currentFacetObj.tabs = [];
     this.tab_configure_filed_name = this.currentFacetObj.fieldName;
-    this.configuredTabValues.forEach(element => {
+    this.configuredTabValues.forEach((element) => {
       if (element.Value !== '') {
-        this.currentFacetObj.tabs.push({ fieldValue: element.Value, bucketName: element.Name });
+        this.currentFacetObj.tabs.push({
+          fieldValue: element.Value,
+          bucketName: element.Name,
+        });
       }
     });
     if (dialogRef) {
@@ -1060,15 +1192,21 @@ export class FacetsComponent implements OnInit, OnDestroy {
   saveFacet() {
     if (this.showConfiguredFacet) {
       const valueArr = this.configuredTabValues.map((item) => item.Value);
-      const isDuplicate = valueArr.some((item, idx) => valueArr.indexOf(item) != idx);
+      const isDuplicate = valueArr.some(
+        (item, idx) => valueArr.indexOf(item) != idx
+      );
       if (isDuplicate) {
-        this.notificationService.notify('Duplicate values should not be allowed', 'error');
-      }
-      else {
-        if (this.createNewTab === true && this.currentFacetObj.fieldName != this.tab_configure_filed_name) {
+        this.notificationService.notify(
+          'Duplicate values should not be allowed',
+          'error'
+        );
+      } else {
+        if (
+          this.createNewTab === true &&
+          this.currentFacetObj.fieldName != this.tab_configure_filed_name
+        ) {
           this.overwriteConfiguration();
-        }
-        else {
+        } else {
           this.updateConfiguredFacets();
         }
       }
@@ -1077,42 +1215,54 @@ export class FacetsComponent implements OnInit, OnDestroy {
         let quaryparms: any = {
           searchIndexID: this.serachIndexId,
           indexPipelineId: this.workflowService.selectedIndexPipeline() || '',
-          queryPipelineId: this.queryPipelineId
+          queryPipelineId: this.queryPipelineId,
         };
         const url = this.currentFacetObj?._id ? 'update.facet' : 'create.facet';
         if (this.currentFacetObj?.type === 'filter') {
           if (this.currentFacetObj?.subtype === 'value') {
-            delete this.currentFacetObj?.ranges
-          }
-          else if (this.currentFacetObj?.subtype === 'range') {
+            delete this.currentFacetObj?.ranges;
+          } else if (this.currentFacetObj?.subtype === 'range') {
             delete this.currentFacetObj?.sortConfig;
             delete this.currentFacetObj?.size;
           }
-        }
-        else if (this.currentFacetObj?.type === 'tab') {
-          this.currentFacetObj?.tabs.forEach(res => delete res?.selected);
+        } else if (this.currentFacetObj?.type === 'tab') {
+          this.currentFacetObj?.tabs.forEach((res) => delete res?.selected);
         }
         if (this.currentFacetObj?._id) {
-          quaryparms = Object.assign({ ...quaryparms, facetId: this.currentFacetObj?._id });
+          quaryparms = Object.assign({
+            ...quaryparms,
+            facetId: this.currentFacetObj?._id,
+          });
         }
         const payload = this.deleteListData(this.currentFacetObj);
-        this.service.invoke(url, quaryparms, payload).subscribe(res => {
-          if (this.facets.length == 0) { this.appSelectionService.updateTourConfig(this.componentType) };
-          const message = `${this.enable_Edit_Facet ? 'Updated' : 'Added'} Successfully`;
-          this.notificationService.notify(message, 'success');
-          this.getFacts();
-          this.closeFacetDialog();
-          this.enable_Edit_Facet = false;
-        }, errRes => {
-          this.errorToaster(errRes, 'Failed to create facet');
-        });
-      }
-      else {
+        this.service.invoke(url, quaryparms, payload).subscribe(
+          (res) => {
+            if (this.facets.length == 0) {
+              this.appSelectionService.updateTourConfig(this.componentType);
+            }
+            const message = `${
+              this.enable_Edit_Facet ? 'Updated' : 'Added'
+            } Successfully`;
+            this.notificationService.notify(message, 'success');
+            this.getFacts();
+            this.closeFacetDialog();
+            this.enable_Edit_Facet = false;
+          },
+          (errRes) => {
+            this.errorToaster(errRes, 'Failed to create facet');
+          }
+        );
+      } else {
         if (this.currentFacetTab === 'tab') {
-          this.notificationService.notify('One or more tabs required to be configured', 'error');
-        }
-        else {
-          this.notificationService.notify('Enter the required fields to proceed', 'error');
+          this.notificationService.notify(
+            'One or more tabs required to be configured',
+            'error'
+          );
+        } else {
+          this.notificationService.notify(
+            'Enter the required fields to proceed',
+            'error'
+          );
         }
       }
     }
@@ -1121,13 +1271,19 @@ export class FacetsComponent implements OnInit, OnDestroy {
   addCustomValue(type, index?) {
     if (type === 'add') {
       this.configuredTabValues.push({ Name: '', Value: '' });
-    }
-    else if (type === 'remove') {
+    } else if (type === 'remove') {
       this.configuredTabValues.splice(index, 1);
     }
-    this.disableSaveBtn = (this.configuredTabValues.length > 0 && this.configuredTabValues.length < 20) ? false : true;
+    this.disableSaveBtn =
+      this.configuredTabValues.length > 0 &&
+      this.configuredTabValues.length < 20
+        ? false
+        : true;
     if (this.configuredTabValues.length > 20) {
-      this.notificationService.notify('Not more than 20 facets can be configured,uncheck some of the facets to continue.', 'error');
+      this.notificationService.notify(
+        'Not more than 20 facets can be configured,uncheck some of the facets to continue.',
+        'error'
+      );
     }
   }
   //edit facet for status
@@ -1136,22 +1292,25 @@ export class FacetsComponent implements OnInit, OnDestroy {
       searchIndexID: this.serachIndexId,
       indexPipelineId: this.workflowService.selectedIndexPipeline() || '',
       facetId: data._id,
-      queryPipelineId: this.queryPipelineId
+      queryPipelineId: this.queryPipelineId,
     };
     data.active = event.target.checked;
     const payload = this.deleteListData(data);
-    this.service.invoke('update.facet', quaryparms, payload).subscribe(res => {
-      this.notificationService.notify('Updated Successfully', 'success');
-      this.getFacts();
-      // this.facets.map(res => {
-      //   if (data._id === res._id) {
-      //     res = Object.assign({ ...res, active: event.target.checked, _id: data._id });
-      //   }
-      //   return res;
-      // })
-    }, errRes => {
-      this.errorToaster(errRes, 'Failed to update facet');
-    });
+    this.service.invoke('update.facet', quaryparms, payload).subscribe(
+      (res) => {
+        this.notificationService.notify('Updated Successfully', 'success');
+        this.getFacts();
+        // this.facets.map(res => {
+        //   if (data._id === res._id) {
+        //     res = Object.assign({ ...res, active: event.target.checked, _id: data._id });
+        //   }
+        //   return res;
+        // })
+      },
+      (errRes) => {
+        this.errorToaster(errRes, 'Failed to update facet');
+      }
+    );
   }
   //delete data based on api request
   deleteListData(data) {
@@ -1172,13 +1331,13 @@ export class FacetsComponent implements OnInit, OnDestroy {
   //restirct facet negative values in filter facet
   restrictFacetSize(type) {
     if (type === 'minus') {
-      this.currentFacetObj.size = (this.currentFacetObj.size > 2) ? this.currentFacetObj.size - 1 : 1;
-    }
-    else if (type === 'plus') {
-      this.currentFacetObj.size = Number(this.currentFacetObj.size) + 1
-    }
-    else if (type === 'input') {
-      this.currentFacetObj.size = (this.currentFacetObj.size >= 1) ? this.currentFacetObj.size : 1;
+      this.currentFacetObj.size =
+        this.currentFacetObj.size > 2 ? this.currentFacetObj.size - 1 : 1;
+    } else if (type === 'plus') {
+      this.currentFacetObj.size = Number(this.currentFacetObj.size) + 1;
+    } else if (type === 'input') {
+      this.currentFacetObj.size =
+        this.currentFacetObj.size >= 1 ? this.currentFacetObj.size : 1;
     }
   }
   //get values based on field
@@ -1187,35 +1346,38 @@ export class FacetsComponent implements OnInit, OnDestroy {
     const quaryparms: any = {
       sidx: this.serachIndexId,
       indexPipelineId: this.workflowService.selectedIndexPipeline() || '',
-      fieldId: id
+      fieldId: id,
     };
-    this.service.invoke('get.facetValues', quaryparms).subscribe(res => {
-      this.fieldsData = res.values;
-      if (this.enable_Edit_Facet && type == 'input') {
-        if (this.currentFieldId === id) {
-          this.configuredTabValues = [];
-          for (let item of this.currentFacetObj?.tabs) {
-            this.configuredTabValues.push({ Name: item.bucketName, Value: item.fieldValue })
+    this.service.invoke('get.facetValues', quaryparms).subscribe(
+      (res) => {
+        this.fieldsData = res.values;
+        if (this.enable_Edit_Facet && type == 'input') {
+          if (this.currentFieldId === id) {
+            this.configuredTabValues = [];
+            for (let item of this.currentFacetObj?.tabs) {
+              this.configuredTabValues.push({
+                Name: item.bucketName,
+                Value: item.fieldValue,
+              });
+            }
+            // this.configuredTabValues = this.currentFacetObj?.tabs;
+          } else {
+            this.configuredTabValues = [];
           }
-          // this.configuredTabValues = this.currentFacetObj?.tabs;
         }
-        else {
-          this.configuredTabValues = [];
-        }
+      },
+      (errRes) => {
+        this.errorToaster(errRes, 'Failed to get field values');
       }
-    }, errRes => {
-      this.errorToaster(errRes, 'Failed to get field values');
-    });
+    );
   }
-  clearcontent(){
-
-      if($('#searchBoxId') && $('#searchBoxId').length){
-      $('#searchBoxId')[0].value = "";
-      this.field_name='';
+  clearcontent() {
+    if ($('#searchBoxId') && $('#searchBoxId').length) {
+      $('#searchBoxId')[0].value = '';
+      this.field_name = '';
     }
-    }
-    openUserMetaTagsSlider() {
-      this.appSelectionService.topicGuideShow.next(undefined);
-    }
+  }
+  openUserMetaTagsSlider() {
+    this.appSelectionService.topicGuideShow.next(undefined);
+  }
 }
-

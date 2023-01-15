@@ -530,6 +530,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
           }
           return "display-none"
         }
+        break;
       }
       case "clicks": {
         if (this.selectedSort == sortingField) {
@@ -541,6 +542,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
           }
           return "display-none"
         }
+        break;
       }
       case "appearances": {
         if (this.selectedSort == sortingField) {
@@ -552,6 +554,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
           }
           return "display-none"
         }
+        break;
       }
       case "clickThroughRate": {
         if (this.selectedSort == sortingField) {
@@ -563,6 +566,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
           }
           return "display-none"
         }
+        break;
       }
       case "avgPosition": {
         if (this.selectedSort == sortingField) {
@@ -575,7 +579,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
           return "display-none"
         }
       }
-
+      break;
     }
   }
 

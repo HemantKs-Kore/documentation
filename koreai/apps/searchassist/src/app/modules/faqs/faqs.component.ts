@@ -1253,6 +1253,7 @@ export class FaqsComponent implements OnInit, AfterViewInit, OnDestroy {
           }
           return 'display-none';
         }
+        break;
       }
       case 'contentSource': {
         if (this.selectedSort == sortingField) {
@@ -1264,6 +1265,7 @@ export class FaqsComponent implements OnInit, AfterViewInit, OnDestroy {
           }
           return 'display-none';
         }
+        break;
       }
       case 'recentStatus': {
         if (this.selectedSort == sortingField) {
@@ -1275,6 +1277,7 @@ export class FaqsComponent implements OnInit, AfterViewInit, OnDestroy {
           }
           return 'display-none';
         }
+        break;
       }
       case 'createdOn': {
         if (this.selectedSort == sortingField) {
@@ -1286,6 +1289,7 @@ export class FaqsComponent implements OnInit, AfterViewInit, OnDestroy {
           }
           return 'display-none';
         }
+        break;
       }
     }
   }

@@ -2274,6 +2274,7 @@ export class ContentComponent implements OnInit, OnDestroy {
           }
           return 'display-none';
         }
+        break;
       }
       case 'contentSource': {
         if (this.selectedSort == sortingField) {
@@ -2285,6 +2286,7 @@ export class ContentComponent implements OnInit, OnDestroy {
           }
           return 'display-none';
         }
+        break;
       }
       case 'recentStatus': {
         if (this.selectedSort == sortingField) {
@@ -2296,6 +2298,7 @@ export class ContentComponent implements OnInit, OnDestroy {
           }
           return 'display-none';
         }
+        break;
       }
       case 'triggeredBy': {
         if (this.selectedSort == sortingField) {
@@ -2307,6 +2310,7 @@ export class ContentComponent implements OnInit, OnDestroy {
           }
           return 'display-none';
         }
+        break;
       }
       case 'numOfDocs': {
         if (this.selectedSort == sortingField) {
@@ -2318,6 +2322,7 @@ export class ContentComponent implements OnInit, OnDestroy {
           }
           return 'display-none';
         }
+        break;
       }
       case 'lastUpdated': {
         if (this.selectedSort == sortingField) {
@@ -2330,6 +2335,7 @@ export class ContentComponent implements OnInit, OnDestroy {
           return 'display-none';
         }
       }
+      break;
     }
   }
 

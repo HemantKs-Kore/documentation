@@ -18,13 +18,14 @@
     "forceConsistentCasingInFileNames": true,
     "strict": true,
     "noImplicitOverride": true,
-    "noPropertyAccessFromIndexSignature": true,
-    "noImplicitReturns": true,
     "noFallthroughCasesInSwitch": true,
 
     "noImplicitAny": false,
     "useUnknownInCatchVariables": false,
-    "strictNullChecks": false
+    "strictNullChecks": false,
+    "noPropertyAccessFromIndexSignature": false,
+    "noImplicitThis": false,
+    "noImplicitReturns": false
   },
   "angularCompilerOptions": {
     "enableI18nLegacyMessageIdFormat": false,

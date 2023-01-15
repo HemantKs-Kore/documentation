@@ -1,5 +1,5 @@
 import { EMPTY_SCREEN } from '../../modules/empty-screen/empty-screen.constants';
-import { Component, OnInit, ViewChild, ViewEncapsulation, OnDestroy } from '@angular/core';
+import { Component, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { KRModalComponent } from '../../shared/kr-modal/kr-modal.component';
 import { MatDialog } from '@angular/material/dialog';
 import { NotificationService } from '@kore.services/notification.service';
@@ -9,10 +9,10 @@ import { AuthService } from '@kore.services/auth.service';
 import { ConfirmationDialogComponent } from '../../helpers/components/confirmation-dialog/confirmation-dialog.component';
 import * as _ from 'underscore';
 import { AppSelectionService } from '@kore.services/app.selection.service';
-import { of, interval, Subject, Subscription } from 'rxjs';
+import { Subscription } from 'rxjs';
 import { PerfectScrollbarComponent } from 'ngx-perfect-scrollbar';
 import { nanoid } from 'nanoid';
-import { Router, ActivatedRoute } from '@angular/router';
+import { Router } from '@angular/router';
 import { MixpanelServiceService } from '@kore.services/mixpanel-service.service';
 
 declare const $: any;
@@ -20,7 +20,7 @@ declare const $: any;
   selector: 'app-traits',
   templateUrl: './traits.component.html',
   styleUrls: ['./traits.component.scss'],
-  encapsulation: ViewEncapsulation.None
+  encapsulation: ViewEncapsulation.None,
 })
 export class TraitsComponent implements OnInit {
   emptyScreen = EMPTY_SCREEN.INDICES_TRAITS;
@@ -37,7 +37,7 @@ export class TraitsComponent implements OnInit {
   selcectionObj: any = {
     selectAll: false,
     selectedItems: [],
-    selectedCount: 0
+    selectedCount: 0,
   };
   skip = 0;
   utteranceList = [];
@@ -49,7 +49,7 @@ export class TraitsComponent implements OnInit {
   traitsTableData: any = [];
   loaderFlag = false;
   emptyData = true;
-  loadingTraits = true
+  loadingTraits = true;
   traitCounts;
   showSearch;
   searchImgSrc: any = 'assets/icons/search_gray.svg';
@@ -59,7 +59,7 @@ export class TraitsComponent implements OnInit {
   traits: any = {
     traitGroups: {},
     addEditTraits: {},
-    selectedtrait: {}
+    selectedtrait: {},
   };
   allTraits: any = [];
   allTraitsNegations: any = [];
@@ -74,19 +74,19 @@ export class TraitsComponent implements OnInit {
     configuration: {
       skip_gram: {
         seqLength: 2,
-        maxSkipDistance: 1
+        maxSkipDistance: 1,
       },
       n_gram: {
         minVal: 1,
         maxVal: 1,
-      }
+      },
     },
   };
   groupConfigs;
   selectedTraitKey;
   sliderMode;
   add: any = {
-    traitName: ''
+    traitName: '',
   };
   currentTraitEditIndex;
   editedContent;
@@ -106,7 +106,7 @@ export class TraitsComponent implements OnInit {
     private appSelectionService: AppSelectionService,
     private router: Router,
     public mixpanel: MixpanelServiceService
-  ) { }
+  ) {}
 
   ngOnInit(): void {
     this.selectedApp = this.workflowService.selectedApp();
@@ -115,11 +115,11 @@ export class TraitsComponent implements OnInit {
     this.groupConfigs = JSON.parse(JSON.stringify(this.defaultGroupConfigs));
     this.indexPipelineId = this.workflowService.selectedIndexPipeline();
     this.loadFileds();
-    this.subscription = this.appSelectionService.appSelectedConfigs.subscribe(res => {
-      this.loadFileds();
-    })
-
-
+    this.subscription = this.appSelectionService.appSelectedConfigs.subscribe(
+      (res) => {
+        this.loadFileds();
+      }
+    );
   }
   loadingTraits1: boolean;
   loadImageText: boolean = false;
@@ -140,12 +140,13 @@ export class TraitsComponent implements OnInit {
   getTraitsSliceValue(traits) {
     let sliceValue = 0;
     if (traits.length) {
-      let columnWidth = document.getElementsByClassName('traits-groups')[0].clientWidth - 65;
+      let columnWidth =
+        document.getElementsByClassName('traits-groups')[0].clientWidth - 65;
       let traitsLength = 0;
       traits.forEach((t) => {
         var canvas = document.createElement('canvas');
-        var ctx = canvas.getContext("2d");
-        ctx.font = "400 14px Roboto";
+        var ctx = canvas.getContext('2d');
+        ctx.font = '400 14px Roboto';
         var width = ctx.measureText(t.traitName + ', ').width;
         traitsLength = width + traitsLength;
         if (columnWidth < traitsLength) {
@@ -153,7 +154,7 @@ export class TraitsComponent implements OnInit {
         } else {
           sliceValue = sliceValue + 1;
         }
-      })
+      });
     }
 
     return sliceValue;
@@ -166,79 +167,85 @@ export class TraitsComponent implements OnInit {
       searchIndexId: this.serachIndexId,
       indexPipelineId: this.indexPipelineId,
       offset: this.skip || 0,
-      limit:10
+      limit: 10,
+    };
+    if (this.serachTraits === '') {
+      quaryparms.search = this.serachTraits;
     }
-    if(this.serachTraits === ''){
-      quaryparms.search = this.serachTraits
-    }
-    this.service.invoke('get.traits', quaryparms).subscribe(res => {
-      this.mixpanel.postEvent('Enter Traits',{});
-      this.traits.traitGroups = res.traitGroups;
-      this.totalRecord = res.totalCount || 0;
-      // this.loadingTraits = false;
-      const allTraitskeys: any = {};
-      let tempTraitkey = '';
-      const alltraitsArr: any = [];
-      const allTraitsNegations: any = [];
-      if (this.traits.traitGroups && this.traits.traitGroups.length) {
-        $.each(this.traits.traitGroups, (i, traits) => {
-          $.each(traits.traits, function (j, trait) {
-            const obj: any = {
-              groupId: traits._id,
-              traitId: trait.traitId || j,
-              traitName: trait.traitName
-            };
-            alltraitsArr.push(trait.traitName);
-            allTraitsNegations.push(('!' + trait.traitName));
-            tempTraitkey = trait.traitName.toUpperCase();
-            if (!allTraitskeys[tempTraitkey]) {
-              allTraitskeys[tempTraitkey] = {
-                count: 1
+    this.service.invoke('get.traits', quaryparms).subscribe(
+      (res) => {
+        this.mixpanel.postEvent('Enter Traits', {});
+        this.traits.traitGroups = res.traitGroups;
+        this.totalRecord = res.totalCount || 0;
+        // this.loadingTraits = false;
+        const allTraitskeys: any = {};
+        let tempTraitkey = '';
+        const alltraitsArr: any = [];
+        const allTraitsNegations: any = [];
+        if (this.traits.traitGroups && this.traits.traitGroups.length) {
+          $.each(this.traits.traitGroups, (i, traits) => {
+            $.each(traits.traits, function (j, trait) {
+              const obj: any = {
+                groupId: traits._id,
+                traitId: trait.traitId || j,
+                traitName: trait.traitName,
               };
-            } else {
-              allTraitskeys[tempTraitkey].count = allTraitskeys[tempTraitkey].count + 1;
-            }
-            this.allTraits = _.uniq(alltraitsArr);
-            this.allTraitsNegations = _.uniq(allTraitsNegations);
+              alltraitsArr.push(trait.traitName);
+              allTraitsNegations.push('!' + trait.traitName);
+              tempTraitkey = trait.traitName.toUpperCase();
+              if (!allTraitskeys[tempTraitkey]) {
+                allTraitskeys[tempTraitkey] = {
+                  count: 1,
+                };
+              } else {
+                allTraitskeys[tempTraitkey].count =
+                  allTraitskeys[tempTraitkey].count + 1;
+              }
+              this.allTraits = _.uniq(alltraitsArr);
+              this.allTraitsNegations = _.uniq(allTraitsNegations);
+            });
           });
-        });
-      } else {
-        this.allTraits = _.uniq(alltraitsArr);
-        this.allTraitsNegations = _.uniq(allTraitsNegations);
-      }
-      this.loadingTraits = false;
-      if (!this.traits.traitGroups.length) {
-        setTimeout(() => {
-          $('.noTraits').scrollTop(3);
-        }, 100);
-      }
-      this.traitCounts = allTraitskeys;
-      if (res.length > 0) {
+        } else {
+          this.allTraits = _.uniq(alltraitsArr);
+          this.allTraitsNegations = _.uniq(allTraitsNegations);
+        }
         this.loadingTraits = false;
-        this.loadingTraits1 = true;
+        if (!this.traits.traitGroups.length) {
+          setTimeout(() => {
+            $('.noTraits').scrollTop(3);
+          }, 100);
+        }
+        this.traitCounts = allTraitskeys;
+        if (res.length > 0) {
+          this.loadingTraits = false;
+          this.loadingTraits1 = true;
+        } else {
+          this.loadingTraits1 = true;
+        }
+      },
+      (err) => {
+        this.loadingTraits = false;
       }
-      else {
-        this.loadingTraits1 = true;
-      }
-    }, (err) => {
-      this.loadingTraits = false;
-    });
-  };
+    );
+  }
   trainBot() {
     const quaryparms: any = {
       userId: this.authService.getUserId(),
       streamId: this.selectedApp._id,
-    }
-    this.service.invoke('train.traits', quaryparms).subscribe(res => {
-      this.notificationService.notify('Trained successfully', 'success');
-    }, (err) => {
-      if (err && err.data && err.data.errors && err.data.errors[0]) {
-        this.notificationService.notify(err.data.errors[0].msg, 'error');
-      } else {
-        this.notificationService.notify('Failed to train traits', 'error');
+    };
+    this.service.invoke('train.traits', quaryparms).subscribe(
+      (res) => {
+        this.notificationService.notify('Trained successfully', 'success');
+      },
+      (err) => {
+        if (err && err.data && err.data.errors && err.data.errors[0]) {
+          this.notificationService.notify(err.data.errors[0].msg, 'error');
+        } else {
+          this.notificationService.notify('Failed to train traits', 'error');
+        }
       }
-    });
-  };
+    );
+  }
   editTraitFroup = function (traitGroup, index) {
     this.editedContent = false;
     this.showEditTraitInput = null;
@@ -252,8 +259,14 @@ export class TraitsComponent implements OnInit {
   };
   saveTraits(traitsGroup?, byTraitId?) {
     this.submitted = true;
-    if (!this.traits.addEditTraits.groupName || !this.traits.addEditTraits.groupName.trim()) {
-      this.notificationService.notify('Please provide a valid trait group', 'error');
+    if (
+      !this.traits.addEditTraits.groupName ||
+      !this.traits.addEditTraits.groupName.trim()
+    ) {
+      this.notificationService.notify(
+        'Please provide a valid trait group',
+        'error'
+      );
       return;
     }
     const traits: any = {};
@@ -261,27 +274,45 @@ export class TraitsComponent implements OnInit {
     let payload: any = {};
     const confirm = () => {
       if (!this.traits.addEditTraits.traits) {
-        this.notificationService.notify('Please add at least one trait', 'error');
+        this.notificationService.notify(
+          'Please add at least one trait',
+          'error'
+        );
         return;
-      } else if (this.traits.addEditTraits.traits && !(Object.keys(this.traits.addEditTraits.traits).length)) {
-        this.notificationService.notify('Please add at least one trait', 'error');
+      } else if (
+        this.traits.addEditTraits.traits &&
+        !Object.keys(this.traits.addEditTraits.traits).length
+      ) {
+        this.notificationService.notify(
+          'Please add at least one trait',
+          'error'
+        );
         return;
       }
       if (traitsGroup && traitsGroup._id && !byTraitId) {
         this.updateTraitsApi(traitsGroup._id, payload);
       } else if (!byTraitId) {
         if (this.traits.traitGroups && this.traits.traitGroups.length) {
-          let index = this.traits.traitGroups.findIndex((d) => d.groupName == payload.groupName);
+          let index = this.traits.traitGroups.findIndex(
+            (d) => d.groupName == payload.groupName
+          );
           if (index > -1) {
-            this.notificationService.notify('Trait group name is already added', 'error');
+            this.notificationService.notify(
+              'Trait group name is already added',
+              'error'
+            );
             return;
           }
         }
         this.createTraitsApi(payload);
       } else if (byTraitId) {
-        this.updateTraitsById(this.traits.addEditTraits.traits[this.traits.selectedtrait].traitId, traitsGroup._id, payload);
+        this.updateTraitsById(
+          this.traits.addEditTraits.traits[this.traits.selectedtrait].traitId,
+          traitsGroup._id,
+          payload
+        );
       }
-    }
+    };
     function cancel() {
       this.traits.selectedtraitDisplayName = this.traits.selectedtrait;
       return;
@@ -290,14 +321,14 @@ export class TraitsComponent implements OnInit {
       this.closeModalSlider('#createEditTraitsSlider');
       return;
     }
-    let traitsData: any = []
+    let traitsData: any = [];
     if (this.traits.addEditTraits && this.traits.addEditTraits.traitsArray) {
       traitsData = [...this.traits.addEditTraits.traitsArray];
     }
     $.each(traitsData, (i, trait) => {
       const displayName = trait.key || trait.displayName;
       // const traitKey = angular.copy((trait.key || trait.displayName).replace(/\s/g,''));
-      const traitKey = (trait.key || trait.displayName);
+      const traitKey = trait.key || trait.displayName;
       trait.displayName = trait.displayName || displayName;
       if (trait.utterance !== undefined) {
         delete trait.utterance;
@@ -309,35 +340,39 @@ export class TraitsComponent implements OnInit {
         delete trait.newKey;
       }
       traits[traitKey] = trait;
-
     });
     if (!byTraitId) {
       payload = {
         groupName: this.traits.addEditTraits.groupName,
         matchStrategy: this.traits.addEditTraits.matchStrategy,
-        scoreThreshold: (this.traits.addEditTraits.scoreThreshold),                                 //    need to confirm
+        scoreThreshold: this.traits.addEditTraits.scoreThreshold, //    need to confirm
         traits,
         // algo: this.traits.addEditTraits.algo || 'n_gram',
         // "sequenceLength": this.traits.addEditTraits.sequenceLength || 2
-
       };
       if (payload.algo === 'skip_gram') {
         payload.configuration = {
           skip_gram: {
-            seqLength: this.traits.addEditTraits.configuration.skip_gram.seqLength || 2,
-            maxSkipDistance: this.traits.addEditTraits.configuration.skip_gram.maxSkipDistance || 1
-          }
+            seqLength:
+              this.traits.addEditTraits.configuration.skip_gram.seqLength || 2,
+            maxSkipDistance:
+              this.traits.addEditTraits.configuration.skip_gram
+                .maxSkipDistance || 1,
+          },
         };
       }
       if (payload.algo === 'n_gram') {
         payload.configuration = {
           n_gram: {
             minVal: this.traits.addEditTraits.configuration.n_gram.minVal || 1,
-            maxVal: this.traits.addEditTraits.configuration.n_gram.maxVal || 1
-          }
+            maxVal: this.traits.addEditTraits.configuration.n_gram.maxVal || 1,
+          },
         };
       }
-      if (payload.scoreThreshold === undefined || payload.matchStrategy === 'pattern') {
+      if (
+        payload.scoreThreshold === undefined ||
+        payload.matchStrategy === 'pattern'
+      ) {
         payload.scoreThreshold = 0.5;
       }
       if (traitsGroup && traitsGroup._id && this.traitDeleted) {
@@ -348,7 +383,6 @@ export class TraitsComponent implements OnInit {
       }
     }
     if (byTraitId) {
-
       // const tempTraitKey =  angular.copy(this.traits.selectedtraitDisplayName.replace(/\s/g,''));
       const tempTraitKey = this.traits.selectedtraitDisplayName;
       // if(this.traits.selectedtrait.replace(/\s/g,'')  != tempTraitKey){
@@ -357,29 +391,30 @@ export class TraitsComponent implements OnInit {
           traitName: this.traits.selectedtraitDisplayName,
           // 'traitKey': angular.copy(this.traits.selectedtraitDisplayName.replace(/\s/g,'')),
           traitKey: this.traits.selectedtraitDisplayName,
-          traitId: this.traits.addEditTraits.traits[this.traits.selectedtrait].traitId,
+          traitId:
+            this.traits.addEditTraits.traits[this.traits.selectedtrait].traitId,
           sourceId: this.traits.addEditTraits._id,
           destId: this.traits.selectedTraitGroupId,
-          data: this.traits.addEditTraits.traits[this.traits.selectedtrait].data
+          data: this.traits.addEditTraits.traits[this.traits.selectedtrait]
+            .data,
         };
         // NotificationService.userConfirm(i18n.i18nString('trait_hintmsg1'), [confirm, cancel], {okText: i18n.i18nString('confirm')}, '', undefined, i18n.i18nString('are_you_sure'));
-
       } else {
         payload = {
           traitName: this.traits.selectedtraitDisplayName,
           // 'traitKey': angular.copy(this.traits.selectedtraitDisplayName.replace(/\s/g,'')),
           traitKey: this.traits.selectedtraitDisplayName,
-          traitId: this.traits.addEditTraits.traits[this.traits.selectedtrait].traitId,
+          traitId:
+            this.traits.addEditTraits.traits[this.traits.selectedtrait].traitId,
           sourceId: this.traits.addEditTraits._id,
           destId: this.traits.selectedTraitGroupId,
-          data: this.traits.addEditTraits.traits[this.traits.selectedtrait].data
+          data: this.traits.addEditTraits.traits[this.traits.selectedtrait]
+            .data,
         };
         confirm();
       }
-
     }
-
-  };
+  }
   deleteTraits(traits?, bulk?) {
     const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
       width: '530px',
@@ -388,36 +423,44 @@ export class TraitsComponent implements OnInit {
       data: {
         newTitle: 'Are you sure you want to delete ?',
         body: 'Selected trait group will be deleted.',
-        buttons: [{ key: 'yes', label: 'Delete', type: 'danger' }, { key: 'no', label: 'Cancel' }],
-        confirmationPopUp: true
-      }
+        buttons: [
+          { key: 'yes', label: 'Delete', type: 'danger' },
+          { key: 'no', label: 'Cancel' },
+        ],
+        confirmationPopUp: true,
+      },
     });
 
-    dialogRef.componentInstance.onSelect
-      .subscribe(result => {
-        if (result === 'yes') {
-          if (bulk && this.selcectionObj.selectedCount > 1) {
-            this.deleteBulkTrait(dialogRef);
-          } else if (this.selcectionObj.selectedCount == 1) {
-            let selectedIds = Object.keys(this.selcectionObj.selectedItems);
-            let index = this.traits.traitGroups.findIndex((d) => { d._id == selectedIds[0] })
-            this.deleteTrait(index, { _id: selectedIds[0] }, dialogRef);
-          }
-        } else if (result === 'no') {
-          dialogRef.close();
-          // console.log('deleted')
+    dialogRef.componentInstance.onSelect.subscribe((result) => {
+      if (result === 'yes') {
+        if (bulk && this.selcectionObj.selectedCount > 1) {
+          this.deleteBulkTrait(dialogRef);
+        } else if (this.selcectionObj.selectedCount == 1) {
+          let selectedIds = Object.keys(this.selcectionObj.selectedItems);
+          let index = this.traits.traitGroups.findIndex((d) => {
+            d._id == selectedIds[0];
+          });
+          this.deleteTrait(index, { _id: selectedIds[0] }, dialogRef);
         }
-      })
+      } else if (result === 'no') {
+        dialogRef.close();
+        // console.log('deleted')
+      }
+    });
   }
   resetCheckBox() {
     this.selcectionObj.selectedItems = {};
     this.selcectionObj.selectedCount = 0;
     this.selcectionObj.selectAll = false;
-    let partialElement: any = document.getElementsByClassName("partial-select-checkbox");
+    let partialElement: any = document.getElementsByClassName(
+      'partial-select-checkbox'
+    );
     if (partialElement.length) {
       partialElement[0].classList.add('d-none');
     }
-    let selectAllElement: any = document.getElementsByClassName("select-all-checkbox");
+    let selectAllElement: any = document.getElementsByClassName(
+      'select-all-checkbox'
+    );
     if (selectAllElement.length) {
       selectAllElement[0].classList.remove('d-none');
     }
@@ -433,55 +476,73 @@ export class TraitsComponent implements OnInit {
       const quaryparms: any = {
         searchIndexId: this.serachIndexId,
         indexPipelineId: this.indexPipelineId,
-        traitGroupId: traitsGroup._id
-      }
-      this.service.invoke('delete.traitGroup', quaryparms, payload).subscribe(res => {
-        this.traitDeleted = false;
-        this.resetCheckBox();
-        this.getTraitsGroupsApi();
-        dialogRef.close();
-        this.notificationService.notify('Deleted Successfully', 'success');
-      }, (err) => {
-        if (err && err.data && err.data.errors && err.data.errors[0]) {
-          this.notificationService.notify(err.data.errors[0].msg, 'error');
-        } else {
-          this.notificationService.notify('Failed to delete trait group', 'error');
+        traitGroupId: traitsGroup._id,
+      };
+      this.service.invoke('delete.traitGroup', quaryparms, payload).subscribe(
+        (res) => {
+          this.traitDeleted = false;
+          this.resetCheckBox();
+          this.getTraitsGroupsApi();
+          dialogRef.close();
+          this.notificationService.notify('Deleted Successfully', 'success');
+        },
+        (err) => {
+          if (err && err.data && err.data.errors && err.data.errors[0]) {
+            this.notificationService.notify(err.data.errors[0].msg, 'error');
+          } else {
+            this.notificationService.notify(
+              'Failed to delete trait group',
+              'error'
+            );
+          }
         }
-      });
+      );
     }
   }
   deleteBulkTrait(dialogRef) {
     const quaryparms: any = {
       searchIndexID: this.serachIndexId,
       indexPipelineId: this.workflowService.selectedIndexPipeline() || '',
-      queryPipelineId: this.queryPipelineId
+      queryPipelineId: this.queryPipelineId,
     };
     const triats = Object.keys(this.selcectionObj.selectedItems);
     const delateitems = {
-      traitGroups: []
+      traitGroups: [],
     };
     if (triats && triats.length) {
-      triats.forEach(ele => {
+      triats.forEach((ele) => {
         const obj = {
           _id: ele,
-        }
+        };
         delateitems.traitGroups.push(obj);
       });
     }
     const payload = delateitems;
-    this.service.invoke('delete.bulkTraits', quaryparms, payload).subscribe(res => {
-      this.resetCheckBox();
-      this.getTraitsGroupsApi();
-      dialogRef.close();
-      // this.closeModal();
-      this.notificationService.notify('Trait Groups Deleted Successfully', 'success');
-    }, errRes => {
-      this.errorToaster(errRes, 'Failed to delete trait group');
-    });
+    this.service.invoke('delete.bulkTraits', quaryparms, payload).subscribe(
+      (res) => {
+        this.resetCheckBox();
+        this.getTraitsGroupsApi();
+        dialogRef.close();
+        // this.closeModal();
+        this.notificationService.notify(
+          'Trait Groups Deleted Successfully',
+          'success'
+        );
+      },
+      (errRes) => {
+        this.errorToaster(errRes, 'Failed to delete trait group');
+      }
+    );
   }
 
   errorToaster(errRes, message) {
-    if (errRes && errRes.error && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0].msg) {
+    if (
+      errRes &&
+      errRes.error &&
+      errRes.error.errors &&
+      errRes.error.errors.length &&
+      errRes.error.errors[0].msg
+    ) {
       this.notificationService.notify(errRes.error.errors[0].msg, 'error');
     } else if (message) {
       this.notificationService.notify(message, 'error');
@@ -493,26 +554,33 @@ export class TraitsComponent implements OnInit {
     const selectedElements = $('.selectEachTraitInput:checkbox:checked');
     const allElements = $('.selectEachTraitInput');
     if (selectedElements.length === allElements.length) {
-      let partialElement: any = document.getElementsByClassName("partial-select-checkbox");
+      let partialElement: any = document.getElementsByClassName(
+        'partial-select-checkbox'
+      );
       if (partialElement.length) {
         partialElement[0].classList.add('d-none');
       }
-      let selectAllElement: any = document.getElementsByClassName("select-all-checkbox");
+      let selectAllElement: any = document.getElementsByClassName(
+        'select-all-checkbox'
+      );
       if (selectAllElement.length) {
         selectAllElement[0].classList.remove('d-none');
       }
       $('#selectAllTraits')[0].checked = true;
     } else {
-      let partialElement: any = document.getElementsByClassName("partial-select-checkbox");
-      let selectAllElement: any = document.getElementsByClassName("select-all-checkbox");
+      let partialElement: any = document.getElementsByClassName(
+        'partial-select-checkbox'
+      );
+      let selectAllElement: any = document.getElementsByClassName(
+        'select-all-checkbox'
+      );
 
-      if (partialElement && (selectedElements.length != 0)) {
+      if (partialElement && selectedElements.length != 0) {
         partialElement[0].classList.remove('d-none');
         if (selectAllElement.length) {
           selectAllElement[0].classList.add('d-none');
         }
-      }
-      else {
+      } else {
         partialElement[0].classList.add('d-none');
         if (selectAllElement.length) {
           selectAllElement[0].classList.remove('d-none');
@@ -521,7 +589,7 @@ export class TraitsComponent implements OnInit {
       $('#selectAllTraits')[0].checked = false;
     }
     const element = $('#' + trait._id);
-    const addition = element[0].checked
+    const addition = element[0].checked;
     this.addRemoveTraitFromSelection(trait._id, addition);
   }
   addRemoveTraitFromSelection(TraitId?, addtion?, clear?) {
@@ -542,11 +610,13 @@ export class TraitsComponent implements OnInit {
           this.selcectionObj.selectedItems[TraitId] = {};
         } else {
           if (this.selcectionObj.selectedItems[TraitId]) {
-            delete this.selcectionObj.selectedItems[TraitId]
+            delete this.selcectionObj.selectedItems[TraitId];
           }
         }
       }
-      this.selcectionObj.selectedCount = Object.keys(this.selcectionObj.selectedItems).length;
+      this.selcectionObj.selectedCount = Object.keys(
+        this.selcectionObj.selectedItems
+      ).length;
     }
   }
   deleteTraitsGroup(index, traitsGroup, event?) {
@@ -561,177 +631,220 @@ export class TraitsComponent implements OnInit {
       data: {
         newTitle: 'Are you sure you want to delete ?',
         body: 'Selected trait group will be deleted.',
-        buttons: [{ key: 'yes', label: 'Delete', type: 'danger', class: 'deleteBtn' }, { key: 'no', label: 'Cancel' }],
-        confirmationPopUp: true
-      }
-
+        buttons: [
+          { key: 'yes', label: 'Delete', type: 'danger', class: 'deleteBtn' },
+          { key: 'no', label: 'Cancel' },
+        ],
+        confirmationPopUp: true,
+      },
     });
-    dialogRef.componentInstance.onSelect
-      .subscribe(result => {
-        if (result === 'yes') {
-          if (!traitsGroup._id) {
-            this.traits.traitGroups.splice(index, 1);
-          } else {
-            const traitslist = JSON.parse(JSON.stringify(this.traits.traitGroups));
-            traitslist.splice(index, 1);
-            const payload = traitslist;
-            const quaryparms: any = {
-              // userId: this.authService.getUserId(),
-              // streamId: this.selectedApp._id,
-              searchIndexId: this.serachIndexId,
-              indexPipelineId: this.indexPipelineId,
-              traitGroupId: traitsGroup._id
-            }
-            this.service.invoke('delete.traitGroup', quaryparms, payload).subscribe(res => {
-              this.getTraitsGroupsApi();
-              this.traitDeleted = false;
-              this.resetCheckBox();
-              dialogRef.close();
-              this.notificationService.notify('Deleted Successfully', 'success');
-            }, (err) => {
-              if (err && err.data && err.data.errors && err.data.errors[0]) {
-                this.notificationService.notify(err.data.errors[0].msg, 'error');
-              } else {
-                this.notificationService.notify('Failed to delete trait group', 'error');
+    dialogRef.componentInstance.onSelect.subscribe((result) => {
+      if (result === 'yes') {
+        if (!traitsGroup._id) {
+          this.traits.traitGroups.splice(index, 1);
+        } else {
+          const traitslist = JSON.parse(
+            JSON.stringify(this.traits.traitGroups)
+          );
+          traitslist.splice(index, 1);
+          const payload = traitslist;
+          const quaryparms: any = {
+            // userId: this.authService.getUserId(),
+            // streamId: this.selectedApp._id,
+            searchIndexId: this.serachIndexId,
+            indexPipelineId: this.indexPipelineId,
+            traitGroupId: traitsGroup._id,
+          };
+          this.service
+            .invoke('delete.traitGroup', quaryparms, payload)
+            .subscribe(
+              (res) => {
+                this.getTraitsGroupsApi();
+                this.traitDeleted = false;
+                this.resetCheckBox();
+                dialogRef.close();
+                this.notificationService.notify(
+                  'Deleted Successfully',
+                  'success'
+                );
+              },
+              (err) => {
+                if (err && err.data && err.data.errors && err.data.errors[0]) {
+                  this.notificationService.notify(
+                    err.data.errors[0].msg,
+                    'error'
+                  );
+                } else {
+                  this.notificationService.notify(
+                    'Failed to delete trait group',
+                    'error'
+                  );
+                }
               }
-            });
-          }
-        } else if (result === 'no') {
-          dialogRef.close();
+            );
         }
-      })
-  };
+      } else if (result === 'no') {
+        dialogRef.close();
+      }
+    });
+  }
   closeCreate() {
     this.traitDeleted = false;
     this.add = {
-      traitName: ''
+      traitName: '',
     };
     this.closeStatusModal();
     this.sliderMode = '';
-  };
+  }
   updateTraitsApi(traitGroupId, payload) {
     const quaryparms: any = {
       // userId: this.authService.getUserId(),
       // streamId: this.selectedApp._id,
       searchIndexId: this.serachIndexId,
       indexPipelineId: this.indexPipelineId,
-      traitGroupId
-    }
-    this.service.invoke('update.traitGroup', quaryparms, payload).subscribe(res => {
-      this.getTraitsGroupsApi();
-      this.traitDeleted = false;
-      this.closeCreate();
-      this.notificationService.notify('Updated Successfully', 'success');
-    }, (err) => {
-      if (err && err.data && err.data.errors && err.data.errors[0]) {
-        this.notificationService.notify(err.data.errors[0].msg, 'error');
-      } else {
-        this.notificationService.notify('Failed to updated trait group', 'error');
+      traitGroupId,
+    };
+    this.service.invoke('update.traitGroup', quaryparms, payload).subscribe(
+      (res) => {
+        this.getTraitsGroupsApi();
+        this.traitDeleted = false;
+        this.closeCreate();
+        this.notificationService.notify('Updated Successfully', 'success');
+      },
+      (err) => {
+        if (err && err.data && err.data.errors && err.data.errors[0]) {
+          this.notificationService.notify(err.data.errors[0].msg, 'error');
+        } else {
+          this.notificationService.notify(
+            'Failed to updated trait group',
+            'error'
+          );
+        }
       }
-    });
-  };
+    );
+  }
   createTraitsApi(payload) {
     const quaryparms: any = {
       searchIndexId: this.serachIndexId,
-      indexPipelineId: this.indexPipelineId
+      indexPipelineId: this.indexPipelineId,
       // userId: this.authService.getUserId(),
       // streamId: this.selectedApp._id,
-    }
-    this.service.invoke('create.traitGroup', quaryparms, payload).subscribe(res => {
-      this.getTraitsGroupsApi();
-      this.closeCreate();
-      this.traits.addEditTraits = {};
-      this.traits.addEditTraits.matchStrategy = 'probability';
-      this.notificationService.notify('Created Successfully', 'success');
-      this.mixpanel.postEvent('Trait Group created', {'Trait added count':Object.keys(payload.traits).length});
-    }, (err) => {
-      if (err && err.error && err.error.errors && err.error.errors[0]) {
-        this.notificationService.notify(err.error.errors[0].msg, 'error');
-      } else {
-        this.notificationService.notify('Failed to create trait', 'error');
+    };
+    this.service.invoke('create.traitGroup', quaryparms, payload).subscribe(
+      (res) => {
+        this.getTraitsGroupsApi();
+        this.closeCreate();
+        this.traits.addEditTraits = {};
+        this.traits.addEditTraits.matchStrategy = 'probability';
+        this.notificationService.notify('Created Successfully', 'success');
+        this.mixpanel.postEvent('Trait Group created', {
+          'Trait added count': Object.keys(payload.traits).length,
+        });
+      },
+      (err) => {
+        if (err && err.error && err.error.errors && err.error.errors[0]) {
+          this.notificationService.notify(err.error.errors[0].msg, 'error');
+        } else {
+          this.notificationService.notify('Failed to create trait', 'error');
+        }
       }
-    });
-  };
+    );
+  }
   getTraitGroupById(groupId, traitKey) {
-    const self = this
+    const self = this;
     const quaryparms: any = {
       // userId: this.authService.getUserId(),
       // streamId: this.selectedApp._id,
       searchIndexId: this.serachIndexId,
       indexPipelineId: this.indexPipelineId,
       traitGroupId: groupId,
-    }
-    this.service.invoke('get.traitGroupById', quaryparms).subscribe(res => {
-      this.traits.addEditTraits = res;
-      res.configuration = res.configuration || {};
-      if (!traitKey) {
-        this.traits.addEditTraits.traitsArray = [];
-        $.each(this.traits.addEditTraits.traits, (key, value) => {
-          value.key = key;
-          self.traits.addEditTraits.traitsArray.push(value);
-        });
-        this.groupConfigs.matchStrategy = res.matchStrategy || 'probability';
-        this.groupConfigs.algo = res.algo || 'n_gram';
-        if (res.scoreThreshold > -1) {
-          this.groupConfigs.scoreThreshold = res.scoreThreshold;
-        } else {
-          this.groupConfigs.scoreThreshold = 0.5;
+    };
+    this.service.invoke('get.traitGroupById', quaryparms).subscribe(
+      (res) => {
+        this.traits.addEditTraits = res;
+        res.configuration = res.configuration || {};
+        if (!traitKey) {
+          this.traits.addEditTraits.traitsArray = [];
+          $.each(this.traits.addEditTraits.traits, (key, value) => {
+            value.key = key;
+            self.traits.addEditTraits.traitsArray.push(value);
+          });
+          this.groupConfigs.matchStrategy = res.matchStrategy || 'probability';
+          this.groupConfigs.algo = res.algo || 'n_gram';
+          if (res.scoreThreshold > -1) {
+            this.groupConfigs.scoreThreshold = res.scoreThreshold;
+          } else {
+            this.groupConfigs.scoreThreshold = 0.5;
+          }
+          this.groupConfigs.configuration = res.configuration;
+          this.groupConfigs.configuration = {
+            skip_gram: res.configuration.skip_gram || {
+              ...this.defaultGroupConfigs.configuration.skip_gram,
+            },
+            n_gram: res.configuration.n_gram || {
+              ...this.defaultGroupConfigs.configuration.n_gram,
+            },
+          };
         }
-        this.groupConfigs.configuration = res.configuration;
-        this.groupConfigs.configuration = {
-          skip_gram: res.configuration.skip_gram || { ...this.defaultGroupConfigs.configuration.skip_gram },
-          n_gram: res.configuration.n_gram || { ...this.defaultGroupConfigs.configuration.n_gram }
-        };
+        this.openStatusModal();
+      },
+      (err) => {
+        this.notificationService.notify('Failed to get Trait', 'error');
       }
-      this.openStatusModal();
-    }, (err) => {
-      this.notificationService.notify('Failed to get Trait', 'error');
-    });
-  };
+    );
+  }
   getTraitsById(traitId, traitGroup) {
     const quaryparms: any = {
       userId: this.authService.getUserId(),
       streamId: this.selectedApp._id,
       traitGroupId: traitGroup._id,
       traitId,
-    }
-    this.service.invoke('get.traits', quaryparms).subscribe(res => {
-      this.traits.selectedtrait = res.key || res.traitName;
-      this.selectedTraitKey = res.key || res.traitName;
-      this.traits.addEditTraits = JSON.parse(JSON.stringify(traitGroup));
-      this.traits.addEditTraits.traits = {};
-      this.traits.addEditTraits.traits[this.traits.selectedtrait] = res;
-      // this.traits.selectedtraitDisplayName = angular.copy(res.displayName || res.traitName);
-      this.traits.selectedtraitDisplayName = res.traitName;
-      this.traits.selectedTraitObj = res;
-      // this.openModalSlider('#createEditTraitsSlider');
-    }, (err) => {
-      this.notificationService.notify('Failed to fetch traits', 'error');
-    });
-  };
+    };
+    this.service.invoke('get.traits', quaryparms).subscribe(
+      (res) => {
+        this.traits.selectedtrait = res.key || res.traitName;
+        this.selectedTraitKey = res.key || res.traitName;
+        this.traits.addEditTraits = JSON.parse(JSON.stringify(traitGroup));
+        this.traits.addEditTraits.traits = {};
+        this.traits.addEditTraits.traits[this.traits.selectedtrait] = res;
+        // this.traits.selectedtraitDisplayName = angular.copy(res.displayName || res.traitName);
+        this.traits.selectedtraitDisplayName = res.traitName;
+        this.traits.selectedTraitObj = res;
+        // this.openModalSlider('#createEditTraitsSlider');
+      },
+      (err) => {
+        this.notificationService.notify('Failed to fetch traits', 'error');
+      }
+    );
+  }
   updateTraitsById(traitId, groupId, payload) {
     const quaryparms: any = {
       userId: this.authService.getUserId(),
       streamId: this.selectedApp._id,
       traitGroupId: groupId,
       traitId,
-    }
-    this.service.invoke('get.traits', quaryparms, payload).subscribe(res => {
-      this.notificationService.notify('Updated SuccessFully', 'success');
-      this.getTraitsGroupsApi();
-      // this.closeModalSlider('#createEditTraitsSlider');
-      this.sliderMode = '';
-    }, (err) => {
-      if (err.data.errors.length > 0) {
-        this.notificationService.notify(err.data.errors[0].msg, 'error');
-      } else {
-        this.notificationService.notify('Failed to save trait', 'error');
+    };
+    this.service.invoke('get.traits', quaryparms, payload).subscribe(
+      (res) => {
+        this.notificationService.notify('Updated SuccessFully', 'success');
+        this.getTraitsGroupsApi();
+        // this.closeModalSlider('#createEditTraitsSlider');
+        this.sliderMode = '';
+      },
+      (err) => {
+        if (err.data.errors.length > 0) {
+          this.notificationService.notify(err.data.errors[0].msg, 'error');
+        } else {
+          this.notificationService.notify('Failed to save trait', 'error');
+        }
       }
-    });
-  };
+    );
+  }
   createNewTraits() {
     this.traits.addEditTraits = {};
-    this.traits.addEditTraits = JSON.parse(JSON.stringify(this.defaultGroupConfigs));
+    this.traits.addEditTraits = JSON.parse(
+      JSON.stringify(this.defaultGroupConfigs)
+    );
     this.groupConfigs = JSON.parse(JSON.stringify(this.defaultGroupConfigs));
     this.sliderMode = 'createGroup';
     this.traits.search = '';
@@ -741,12 +854,12 @@ export class TraitsComponent implements OnInit {
     setTimeout(() => {
       // this.bindSearchEvents();
     }, 300);
-  };
+  }
   accordianAction(index) {
     if (this.currentTraitEditIndex === index) {
       this.currentTraitEditIndex = null;
     } else {
-      this.currentTraitEditIndex = index
+      this.currentTraitEditIndex = index;
     }
   }
   openStatusModal() {
@@ -755,7 +868,7 @@ export class TraitsComponent implements OnInit {
     setTimeout(() => {
       this.perfectScroll.directiveRef.update();
       this.perfectScroll.directiveRef.scrollToTop();
-    }, 400)
+    }, 400);
   }
   closeStatusModal() {
     this.submitted = false;
@@ -778,7 +891,7 @@ export class TraitsComponent implements OnInit {
     setTimeout(() => {
       this.perfectScroll2.directiveRef.update();
       this.perfectScroll2.directiveRef.scrollToTop();
-    }, 400)
+    }, 400);
   }
   closeUtteranceModal() {
     this.currentUtteranceIndex = null;
@@ -809,25 +922,29 @@ export class TraitsComponent implements OnInit {
           this.traits.addEditTraits.traitsArray = [];
         }
         this.add = {
-          traitName: ''
+          traitName: '',
         };
         const tempTraitKey = traitName.toLowerCase();
         // const alreadyExist = this.traits.addEditTraits.traits.some(ele => ele === tempTraitKey);
         // console.log(alreadyExist)
-        if (!this.traits.addEditTraits.traits[(tempTraitKey)]) {
+        if (!this.traits.addEditTraits.traits[tempTraitKey]) {
           const dummyTraitsObj = {};
           dummyTraitsObj[tempTraitKey] = {
             data: [],
             displayName: traitName,
             key: tempTraitKey,
             newKey: true,
-            id: nanoid(6)
+            id: nanoid(6),
           };
-          Object.assign(dummyTraitsObj, (this.traits.addEditTraits.traits || {}));
+          Object.assign(dummyTraitsObj, this.traits.addEditTraits.traits || {});
           this.traits.addEditTraits.newTrait = traitName;
-          this.traits.addEditTraits.traits = JSON.parse(JSON.stringify(dummyTraitsObj));
+          this.traits.addEditTraits.traits = JSON.parse(
+            JSON.stringify(dummyTraitsObj)
+          );
           traits.push(dummyTraitsObj[tempTraitKey]);
-          this.traits.addEditTraits.traitsArray = traits.concat(this.traits.addEditTraits.traitsArray);
+          this.traits.addEditTraits.traitsArray = traits.concat(
+            this.traits.addEditTraits.traitsArray
+          );
           // this.traits.addEditTraits.traitsArray.push(dummyTraitsObj[tempTraitKey]);
           setTimeout(() => {
             if ($('#0traitsAccordian').hasClass('closedAccordian')) {
@@ -835,12 +952,14 @@ export class TraitsComponent implements OnInit {
             }
           }, 100);
         } else {
-          this.notificationService.notify(traitName + ' is already added', 'error');
+          this.notificationService.notify(
+            traitName + ' is already added',
+            'error'
+          );
         }
-
       }
     }
-  };
+  }
   addNewUtter(utter, event) {
     const utteranceData = [];
     if (event && (event.keyCode === 13 || event.type == 'click') && utter) {
@@ -864,21 +983,27 @@ export class TraitsComponent implements OnInit {
     const utteranceData = [];
     if (event && event.keyCode === 13 && traitsGroup && utter !== '') {
       let utternaceIndex = -1;
-      const utteranceSearch = _.find(traitsGroup.traits[key].data, (utterance, i) => {
-        if (utter === utterance) {
-          utternaceIndex = i;
-          return false;
+      const utteranceSearch = _.find(
+        traitsGroup.traits[key].data,
+        (utterance, i) => {
+          if (utter === utterance) {
+            utternaceIndex = i;
+            return false;
+          }
         }
-      });
+      );
       if (utternaceIndex > -1) {
         this.notificationService.notify('Utterance is already added', 'error');
         return;
       }
       utteranceData.push(utter);
-      this.traits.addEditTraits.traits[key].data = utteranceData.concat(this.traits.addEditTraits.traits[key].data);
+      this.traits.addEditTraits.traits[key].data = utteranceData.concat(
+        this.traits.addEditTraits.traits[key].data
+      );
       // this.traits.addEditTraits.traits[key].data.push(utter);
       if (index > -1) {
-        this.traits.addEditTraits.traitsArray[index] = this.traits.addEditTraits.traits[key];
+        this.traits.addEditTraits.traitsArray[index] =
+          this.traits.addEditTraits.traits[key];
       }
       this.traits.addEditTraits.traits[key].utterance = '';
     }
@@ -901,46 +1026,50 @@ export class TraitsComponent implements OnInit {
         text: 'Are you sure you want to delete Trait ?',
         newTitle: 'Are you sure you want to delete ?',
         body: 'Selected trait and utterances will be deleted. ',
-        buttons: [{ key: 'yes', label: 'Delete', type: 'danger', class: 'deleteBtn' }, { key: 'no', label: 'Cancel' }],
-        confirmationPopUp: true
-      }
-
+        buttons: [
+          { key: 'yes', label: 'Delete', type: 'danger', class: 'deleteBtn' },
+          { key: 'no', label: 'Cancel' },
+        ],
+        confirmationPopUp: true,
+      },
     });
-    dialogRef.componentInstance.onSelect
-      .subscribe(result => {
-        if (result === 'yes') {
-          this.traitDeleted = true;
-          delete traitsGroup.traits[key];
-          traitsGroup.traitsArray.splice(traitIndex, 1);
-          dialogRef.close();
-        }
-        else if (result === 'no') {
-          dialogRef.close();
-        }
-      });
-  }
+    dialogRef.componentInstance.onSelect.subscribe((result) => {
+      if (result === 'yes') {
+        this.traitDeleted = true;
+        delete traitsGroup.traits[key];
+        traitsGroup.traitsArray.splice(traitIndex, 1);
+        dialogRef.close();
+      } else if (result === 'no') {
+        dialogRef.close();
+      }
+    });
+  };
 
   deleteUtteranceIntrait(deletedutternace, key, traitsGroup, traitIndex) {
     let utternaceIndex = null;
-    const utteranceSearch = _.find(traitsGroup.traits[key].data, (utterance, i) => {
-      if (deletedutternace === utterance) {
-        utternaceIndex = i;
-        return false;
+    const utteranceSearch = _.find(
+      traitsGroup.traits[key].data,
+      (utterance, i) => {
+        if (deletedutternace === utterance) {
+          utternaceIndex = i;
+          return false;
+        }
       }
-    });
+    );
     if (utternaceIndex !== null) {
       traitsGroup.traits[key].data.splice(utternaceIndex, 1);
     }
     if (traitIndex > -1) {
-      this.traits.addEditTraits.traitsArray[traitIndex].data = traitsGroup.traits[key].data;
+      this.traits.addEditTraits.traitsArray[traitIndex].data =
+        traitsGroup.traits[key].data;
     }
-  };
+  }
   saveTraitsData() {
     //  this.traitsTableData
     if (this.traitsObj && this.traitsObj.length) {
       const mockData = {
         traitType: this.traitType,
-        traits: this.traitsObj
+        traits: this.traitsObj,
       };
       this.traitsTableData.push(mockData);
       // console.log(this.traitsObj);
@@ -950,12 +1079,19 @@ export class TraitsComponent implements OnInit {
       this.closeStatusModal();
     }
   }
-  checkForSecialChar(str, allowNegation, stringTitle) { // as of now only used for traits needs to update based on future requirment on reusability
+  checkForSecialChar(str, allowNegation, stringTitle) {
+    // as of now only used for traits needs to update based on future requirment on reusability
     stringTitle = stringTitle || '';
-    let characters = /[\=\`\~\!@#\$\%\^&\*\(\)\-\+\{\}\:"\[\];\',\.\/<>\?\|\\]+/;
+    let characters =
+      /[\=\`\~\!@#\$\%\^&\*\(\)\-\+\{\}\:"\[\];\',\.\/<>\?\|\\]+/;
     if (allowNegation && /[!]/.test(str)) {
       if (str && str[0] !== '!') {
-        this.notificationService.notify('Negations are allowed only at the beginning of the' + stringTitle + ' name', 'error');
+        this.notificationService.notify(
+          'Negations are allowed only at the beginning of the' +
+            stringTitle +
+            ' name',
+          'error'
+        );
         return true;
       }
       characters = /[\=\`\~\@#\$\%\^&\*\(\)\-\+\{\}\:"\[\];\',\.\/<>\?\|\\]+/;
@@ -963,7 +1099,10 @@ export class TraitsComponent implements OnInit {
         let testStringNeagtion = str;
         testStringNeagtion = testStringNeagtion.slice(1, str.length);
         if (/[!]/.test(testStringNeagtion)) {
-          this.notificationService.notify('Negations are allowed only at the beginning of the trait name', 'error');
+          this.notificationService.notify(
+            'Negations are allowed only at the beginning of the trait name',
+            'error'
+          );
           return true;
         }
       }
@@ -971,7 +1110,11 @@ export class TraitsComponent implements OnInit {
         stringTitle = 'Traits';
       }
       if (str && str[0] === '!' && str.length === 1) {
-        this.notificationService.notify(stringTitle + ' names can only contain alphanumeric characters, spaces and underscores.', 'error');
+        this.notificationService.notify(
+          stringTitle +
+            ' names can only contain alphanumeric characters, spaces and underscores.',
+          'error'
+        );
         return true;
       }
     }
@@ -979,30 +1122,38 @@ export class TraitsComponent implements OnInit {
       if (stringTitle === 'traits') {
         stringTitle = 'Traits';
       }
-      this.notificationService.notify(stringTitle + ' names can only contain alphanumeric characters, spaces and underscores.', 'error');
+      this.notificationService.notify(
+        stringTitle +
+          ' names can only contain alphanumeric characters, spaces and underscores.',
+        'error'
+      );
       return true;
     }
     // underscores and spaces are not included here//
     return characters.test(str);
-  };
+  }
   toggleSearch() {
     if (this.showSearch && this.serachTraits) {
       this.serachTraits = '';
     }
-    this.showSearch = !this.showSearch
-  };
+    this.showSearch = !this.showSearch;
+  }
 
   addNewUtterance(key, traitsGroup, index) {
     const utteranceData = [];
     this.uttSubmitted = true;
     if (!this.utteranceList || !this.utteranceList.length) {
-      this.notificationService.notify('Please provide a valid utterance', 'error');
-      return
+      this.notificationService.notify(
+        'Please provide a valid utterance',
+        'error'
+      );
+      return;
     }
     if (traitsGroup && this.utteranceList.length) {
       this.traits.addEditTraits.traits[key].data = this.utteranceList;
       if (index > -1) {
-        this.traits.addEditTraits.traitsArray[index] = this.traits.addEditTraits.traits[key];
+        this.traits.addEditTraits.traitsArray[index] =
+          this.traits.addEditTraits.traits[key];
       }
       this.traits.addEditTraits.traits[key].utterance = '';
       this.mixpanel.postEvent('Trait utterance added', {});
@@ -1025,32 +1176,36 @@ export class TraitsComponent implements OnInit {
         text: 'Are you sure you want to delete Utterance ?',
         newTitle: 'Are you sure you want to delete ?',
         body: 'Selected utterance will be deleted. ',
-        buttons: [{ key: 'yes', label: 'Delete', type: 'danger', class: 'deleteBtn' }, { key: 'no', label: 'Cancel' }],
-        confirmationPopUp: true
-      }
-
+        buttons: [
+          { key: 'yes', label: 'Delete', type: 'danger', class: 'deleteBtn' },
+          { key: 'no', label: 'Cancel' },
+        ],
+        confirmationPopUp: true,
+      },
     });
-    dialogRef.componentInstance.onSelect
-      .subscribe(result => {
-        if (result === 'yes') {
-          let utternaceIndex = null;
-          const utteranceSearch = _.find(this.utteranceList, (utterance, i) => {
-            if (deletedutternace === utterance) {
-              utternaceIndex = i;
-              this.utteranceList.splice(utternaceIndex, 1);
-              return false;
-            }
-          });
-          dialogRef.close();
-        }
-        else if (result === 'no') {
-          dialogRef.close();
-        }
-      });
-  }
+    dialogRef.componentInstance.onSelect.subscribe((result) => {
+      if (result === 'yes') {
+        let utternaceIndex = null;
+        const utteranceSearch = _.find(this.utteranceList, (utterance, i) => {
+          if (deletedutternace === utterance) {
+            utternaceIndex = i;
+            this.utteranceList.splice(utternaceIndex, 1);
+            return false;
+          }
+        });
+        dialogRef.close();
+      } else if (result === 'no') {
+        dialogRef.close();
+      }
+    });
+  };
 
   editUtter(event, utter, index) {
-    if (event && (event.keyCode === 13 || event.type == 'click') && utter !== '') {
+    if (
+      event &&
+      (event.keyCode === 13 || event.type == 'click') &&
+      utter !== ''
+    ) {
       let utternaceIndex = -1;
       const utteranceSearch = _.find(this.utteranceList, (utterance, i) => {
         if (utter === utterance && index !== i) {
@@ -1072,25 +1227,37 @@ export class TraitsComponent implements OnInit {
     if (this.checkForSecialChar(trait, false, 'traits')) {
       return false;
     }
-  if (event && (event.keyCode === 13 || event.type == 'click') && trait !== '') {
-    const index  = this.traits.addEditTraits.traitsArray.findIndex(val => val.id == item.id)
-    const obj = this.traits.addEditTraits.traitsArray.filter(val => val.key == trait)
-      if(index > -1) {
-        if(obj[1]) {
+    if (
+      event &&
+      (event.keyCode === 13 || event.type == 'click') &&
+      trait !== ''
+    ) {
+      const index = this.traits.addEditTraits.traitsArray.findIndex(
+        (val) => val.id == item.id
+      );
+      const obj = this.traits.addEditTraits.traitsArray.filter(
+        (val) => val.key == trait
+      );
+      if (index > -1) {
+        if (obj[1]) {
           this.notificationService.notify(trait + ' is already added', 'error');
         } else if (obj[0].id == item.id) {
-          if(item.key == item.displayName) {
+          if (item.key == item.displayName) {
             this.showEditTraitInput = null;
           } else {
             this.showEditTraitInput = null;
-            this.traits.addEditTraits.traitsArray[index].displayName  = trait
-            this.traits.addEditTraits.traits[trait] = this.traits.addEditTraits.traitsArray[index]
+            this.traits.addEditTraits.traitsArray[index].displayName = trait;
+            this.traits.addEditTraits.traits[trait] =
+              this.traits.addEditTraits.traitsArray[index];
             delete this.traits.addEditTraits.traits[displayName];
           }
         } else {
           this.showEditTraitInput = null;
         }
-      } else if (this.traits.addEditTraits.traits[trait] && displayName == trait) {
+      } else if (
+        this.traits.addEditTraits.traits[trait] &&
+        displayName == trait
+      ) {
         this.showEditTraitInput = null;
       } else {
         this.notificationService.notify(trait + ' is already added', 'error');
@@ -1099,10 +1266,13 @@ export class TraitsComponent implements OnInit {
   }
 
   cancelTraits(item?) {
-    const index  = this.traits.addEditTraits.traitsArray.findIndex(val => val.id == item.id)
-    if(index > -1) {
+    const index = this.traits.addEditTraits.traitsArray.findIndex(
+      (val) => val.id == item.id
+    );
+    if (index > -1) {
       this.showEditTraitInput = null;
-      this.traits.addEditTraits.traitsArray[index].key  = this.traits.addEditTraits.traitsArray[index].key
+      this.traits.addEditTraits.traitsArray[index].key =
+        this.traits.addEditTraits.traitsArray[index].key;
     }
   }
   showEditTrait(index, event) {
@@ -1122,24 +1292,30 @@ export class TraitsComponent implements OnInit {
   focusinSearch(inputSearch) {
     setTimeout(() => {
       document.getElementById(inputSearch).focus();
-    }, 100)
+    }, 100);
   }
   selectAll(unselectAll?) {
     const allTraits = $('.selectEachTraitInput');
     if (allTraits && allTraits.length) {
       $.each(allTraits, (index, element) => {
         if ($(element) && $(element).length) {
-          $(element)[0].checked = unselectAll ? false : this.selcectionObj.selectAll;
-          const traitId = $(element)[0].id
+          $(element)[0].checked = unselectAll
+            ? false
+            : this.selcectionObj.selectAll;
+          const traitId = $(element)[0].id;
           this.addRemoveTraitFromSelection(traitId, $(element)[0].checked);
         }
       });
-    };
-    let partialElement: any = document.getElementsByClassName("partial-select-checkbox");
+    }
+    let partialElement: any = document.getElementsByClassName(
+      'partial-select-checkbox'
+    );
     if (partialElement.length) {
       partialElement[0].classList.add('d-none');
     }
-    let selectAllElement: any = document.getElementsByClassName("select-all-checkbox");
+    let selectAllElement: any = document.getElementsByClassName(
+      'select-all-checkbox'
+    );
     if (selectAllElement.length) {
       selectAllElement[0].classList.remove('d-none');
     }
@@ -1152,11 +1328,15 @@ export class TraitsComponent implements OnInit {
     if ($('#selectAllTraits').length) {
       $('#selectAllTraits')[0].checked = false;
     }
-    let partialElement: any = document.getElementsByClassName("partial-select-checkbox");
+    let partialElement: any = document.getElementsByClassName(
+      'partial-select-checkbox'
+    );
     if (partialElement.length) {
       partialElement[0].classList.add('d-none');
     }
-    let selectAllElement: any = document.getElementsByClassName("select-all-checkbox");
+    let selectAllElement: any = document.getElementsByClassName(
+      'select-all-checkbox'
+    );
     if (selectAllElement.length) {
       selectAllElement[0].classList.remove('d-none');
     }
@@ -1166,9 +1346,9 @@ export class TraitsComponent implements OnInit {
     $('#selectAllTraits')[0].checked = true;
     this.selectAll();
   }
-  paginate(event){
-    this.skip= event.skip;
-    this.getTraitsGroupsApi()
+  paginate(event) {
+    this.skip = event.skip;
+    this.getTraitsGroupsApi();
   }
 
   openUserMetaTagsSlider() {
@@ -1180,6 +1360,5 @@ export class TraitsComponent implements OnInit {
     if (this.subscription) {
       this.subscription.unsubscribe();
     }
-
   }
 }

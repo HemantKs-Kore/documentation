@@ -1,5 +1,5 @@
-import {  Component, OnInit,Output,Input,EventEmitter ,ViewChild } from '@angular/core';
-import { KRModalComponent } from '../../shared/kr-modal/kr-modal.component';
+import {  Component, OnInit,Input ,ViewChild } from '@angular/core';
+import { KRModalComponent } from '../../../../shared/kr-modal/kr-modal.component';
 import { WorkflowService } from '@kore.services/workflow.service';
 import { AppSelectionService } from '@kore.services/app.selection.service';
 import { Subscription } from 'rxjs';

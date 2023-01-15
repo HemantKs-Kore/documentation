@@ -70,6 +70,6 @@ export class SideBarService {
   }
 
   closeSdk(){
-    this.hideSDK.next()
+    this.hideSDK.next(undefined);
   }
 }

@@ -6,10 +6,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { AppSelectionService } from '@kore.services/app.selection.service';
 import { ConfirmationDialogComponent } from '../../helpers/components/confirmation-dialog/confirmation-dialog.component';
 import { NotificationService } from '@kore.services/notification.service';
-import { ActivatedRoute } from '@angular/router';
 import { AuthService } from '@kore.services/auth.service';
-import { ɵangular_packages_platform_browser_dynamic_platform_browser_dynamic_a } from '@angular/platform-browser-dynamic';
-import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 import { EMPTY_SCREEN } from '../../modules/empty-screen/empty-screen.constants';
 declare const $: any;
 @Component({

@@ -191,6 +191,7 @@ export class UsageLogComponent implements OnInit {
           }
           return "display-none"
         }
+        break;
       }
       case "queryType": {
         if (this.selectedSort == sortingField) {
@@ -202,6 +203,7 @@ export class UsageLogComponent implements OnInit {
           }
           return "display-none"
         }
+        break;
       }
       case "requestSource": {
         if (this.selectedSort == sortingField) {
@@ -213,6 +215,7 @@ export class UsageLogComponent implements OnInit {
           }
           return "display-none"
         }
+        break;
       }
       case "createdOn": {
         if (this.selectedSort == sortingField) {
@@ -224,6 +227,7 @@ export class UsageLogComponent implements OnInit {
           }
           return "display-none"
         }
+        break;
       }
     }
   }

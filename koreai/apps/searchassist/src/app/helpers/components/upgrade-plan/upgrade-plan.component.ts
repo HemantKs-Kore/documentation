@@ -3,7 +3,6 @@ import { ServiceInvokerService } from '@kore.services/service-invoker.service';
 import { ConstantsService } from '@kore.services/constants.service';
 import { NotificationService } from '@kore.services/notification.service';
 import { MatDialog } from '@angular/material/dialog';
-import { KRModalComponent } from '../../shared/kr-modal/kr-modal.component';
 import { WorkflowService } from '@kore.services/workflow.service';
 import { AppSelectionService } from '@kore.services/app.selection.service';
 import { AuthService } from '@kore.services/auth.service';
@@ -14,6 +13,7 @@ import * as FileSaver from 'file-saver';
 import { Subscription } from 'rxjs';
 import * as moment from 'moment';
 import { environment } from '../../../../environments/environment'
+import { KRModalComponent } from '../../../shared/kr-modal/kr-modal.component';
 declare const $: any;
 @Component({
   selector: 'app-upgrade-plan',
