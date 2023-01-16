@@ -11,7 +11,7 @@ import { CommonModule } from '@angular/common';
 
 import { BotActionsRoutingModule } from './bot-actions-routing.module';
 import { BotActionsComponent } from './bot-actions.component';
-import { MatLegacyProgressSpinnerModule as MatProgressSpinnerModule } from '@angular/material/legacy-progress-spinner';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 
 @NgModule({

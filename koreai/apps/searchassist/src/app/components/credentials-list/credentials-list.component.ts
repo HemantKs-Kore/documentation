@@ -7,7 +7,7 @@ import { ActivatedRoute } from '@angular/router';
 import { AuthService } from '@kore.services/auth.service';
 import { ConfirmationDialogComponent } from '../../helpers/components/confirmation-dialog/confirmation-dialog.component';
 import * as moment from 'moment';
-import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
+import { MatDialog } from '@angular/material/dialog';
 import { AppSelectionService } from '@kore.services/app.selection.service';
 import { EMPTY_SCREEN } from '../../modules/empty-screen/empty-screen.constants';
 

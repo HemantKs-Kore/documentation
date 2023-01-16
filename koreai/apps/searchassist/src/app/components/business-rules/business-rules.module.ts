@@ -3,8 +3,8 @@ import { FindlySharedModule } from '../../modules/findly-shared/findly-shared.mo
 import { RangeSliderModule } from './../../helpers/components/range-slider/range-slider.module';
 import { NgbDropdownModule, NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 import { MatIconModule } from '@angular/material/icon';
-import { MatLegacyFormFieldModule as MatFormFieldModule } from '@angular/material/legacy-form-field';
-import { MatLegacyAutocompleteModule as MatAutocompleteModule } from '@angular/material/legacy-autocomplete';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { FormsModule } from '@angular/forms';
 import { SharedPipesModule } from './../../helpers/filters/shared-pipes.module';
 import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
@@ -14,7 +14,7 @@ import { BusinessRulesComponent } from './business-rules.component';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TranslateModule } from '@ngx-translate/core';
-import { MatLegacyChipsModule as MatChipsModule } from '@angular/material/legacy-chips';
+import { MatChipsModule } from '@angular/material/chips';
 import { NgxDaterangepickerMd } from 'ngx-daterangepicker-material';
 import { SelectTextDirective } from '../../helpers/directives/select-text.directive';
 

@@ -3,7 +3,7 @@ import { FormsModule } from '@angular/forms';
 import { RecordPaginationModule } from './../../helpers/components/record-pagination/record-pagination.module';
 import { SharedPipesModule } from './../../helpers/filters/shared-pipes.module';
 import { NgbTooltipModule, NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
-import { MatLegacyProgressSpinnerModule as MatProgressSpinnerModule } from '@angular/material/legacy-progress-spinner';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { AddAlternateQuestionModule } from './../../components/faqs/add-alternate-question/add-alternate-question.module';
 import { SourcesModule } from './../sources/sources.module';
 import { AddFaqModule } from './../../components/add-faq/add-faq.module';

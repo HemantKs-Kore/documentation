@@ -4,7 +4,7 @@ import * as $ from 'jquery';
 import SimpleBar from 'simplebar/dist/simplebar-core.esm';
 import { Platform } from '@angular/cdk/platform';
 
-import { MatLegacyDialog as MatDialog, MatLegacyDialogRef as MatDialogRef, MAT_LEGACY_DIALOG_DATA as MAT_DIALOG_DATA } from '@angular/material/legacy-dialog';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ServiceInvokerService } from '../../../../services/service-invoker.service';
 import { RangySelectionService } from '../../services/rangy-selection.service';

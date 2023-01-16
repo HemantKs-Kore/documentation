@@ -1,7 +1,7 @@
 import { Component, OnInit, Output, EventEmitter, Input, ElementRef, ViewChild, AfterViewInit, Inject, OnDestroy } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { MatLegacyChipInputEvent as MatChipInputEvent } from '@angular/material/legacy-chips';
-import { MatLegacyAutocompleteSelectedEvent as MatAutocompleteSelectedEvent } from '@angular/material/legacy-autocomplete'
+import { MatChipInputEvent } from '@angular/material/chips';
+import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete'
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
 import { MdEditorOption } from '../../helpers/lib/md-editor.types';
 import { NgbTooltipConfig } from '@ng-bootstrap/ng-bootstrap';
@@ -15,7 +15,7 @@ import * as _ from 'underscore';
 import { KRModalComponent } from '../../shared/kr-modal/kr-modal.component';
 import { Observable, Subscription } from 'rxjs';
 import { PerfectScrollbarConfigInterface, PerfectScrollbarComponent, PerfectScrollbarDirective } from 'ngx-perfect-scrollbar';
-import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
+import { MatDialog } from '@angular/material/dialog';
 import { ConfirmationDialogComponent } from '../../helpers/components/confirmation-dialog/confirmation-dialog.component';
 import * as moment from 'moment';
 import { MixpanelServiceService } from '@kore.services/mixpanel-service.service';

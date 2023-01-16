@@ -24,6 +24,8 @@ nx migrate latest
   - Make sure package.json changes make sense and then run 'npm install',
   - Run 'npx nx migrate --run-migrations'
 
+// finally run mdc migration
+ng generate @angular/material:mdc-migration
 ```
 
 ## E2E

@@ -1,13 +1,13 @@
 import { EMPTY_SCREEN } from './../../../empty-screen/empty-screen.constants';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ENTER, COMMA } from '@angular/cdk/keycodes';
-import { MatLegacyChipInputEvent as MatChipInputEvent } from '@angular/material/legacy-chips';
+import { MatChipInputEvent } from '@angular/material/chips';
 import { WorkflowService } from '@kore.services/workflow.service';
 import { ServiceInvokerService } from '@kore.services/service-invoker.service';
 import { NotificationService } from '@kore.services/notification.service';
 import { AuthService } from '@kore.services/auth.service';
 import { Router } from '@angular/router';
-import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
+import { MatDialog } from '@angular/material/dialog';
 import * as _ from 'underscore';
 import { AppSelectionService } from '@kore.services/app.selection.service'
 import { Observable, Subscription } from 'rxjs';

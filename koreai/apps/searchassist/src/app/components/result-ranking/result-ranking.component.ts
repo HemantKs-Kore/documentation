@@ -7,7 +7,7 @@ import { AppSelectionService } from '@kore.services/app.selection.service'
 import { Moment } from 'moment';
 import * as moment from 'moment';
 import { ConfirmationDialogComponent } from '../../helpers/components/confirmation-dialog/confirmation-dialog.component';
-import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
+import { MatDialog } from '@angular/material/dialog';
 import { Subscription } from 'rxjs';
 import { SideBarService } from '@kore.services/header.service';
 import { InlineManualService } from '@kore.services/inline-manual.service';

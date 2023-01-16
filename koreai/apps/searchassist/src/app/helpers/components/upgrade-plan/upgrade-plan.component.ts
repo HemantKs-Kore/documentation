@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild, Output, EventEmitter, Input, OnDestroy } 
 import { ServiceInvokerService } from '@kore.services/service-invoker.service';
 import { ConstantsService } from '@kore.services/constants.service';
 import { NotificationService } from '@kore.services/notification.service';
-import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
+import { MatDialog } from '@angular/material/dialog';
 import { WorkflowService } from '@kore.services/workflow.service';
 import { AppSelectionService } from '@kore.services/app.selection.service';
 import { AuthService } from '@kore.services/auth.service';

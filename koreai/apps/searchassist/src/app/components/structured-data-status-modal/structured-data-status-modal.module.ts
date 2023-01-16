@@ -1,4 +1,4 @@
-import { MatLegacyProgressBarModule as MatProgressBarModule } from '@angular/material/legacy-progress-bar';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { TranslateModule } from '@ngx-translate/core';
 import { StructuredDataStatusModalComponent } from './structured-data-status-modal.component';
 import { NgModule } from '@angular/core';

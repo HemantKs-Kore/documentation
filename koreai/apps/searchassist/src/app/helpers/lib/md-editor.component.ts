@@ -3,7 +3,7 @@ import { NG_VALUE_ACCESSOR, ControlValueAccessor, NG_VALIDATORS, Validator, Abst
 import { isPlatformBrowser } from '@angular/common';
 import { DomSanitizer } from '@angular/platform-browser';
 import { MdEditorOption } from './md-editor.types';
-import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
+import { MatDialog } from '@angular/material/dialog';
 import { EditorUrlDialogComponent } from '../components/editor-url-dialog/editor-url-dialog.component';
 
 declare let ace: any;

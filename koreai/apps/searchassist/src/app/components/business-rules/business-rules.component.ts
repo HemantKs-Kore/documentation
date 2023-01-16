@@ -1,19 +1,19 @@
 import { ElementRef, OnDestroy, ViewChild, ViewChildren } from '@angular/core';
 import { Component, OnInit } from '@angular/core';
-import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
+import { MatDialog } from '@angular/material/dialog';
 import { NotificationService } from '@kore.services/notification.service';
 import { ServiceInvokerService } from '@kore.services/service-invoker.service';
 import { WorkflowService } from '@kore.services/workflow.service';
 import { ConfirmationDialogComponent } from '../../helpers/components/confirmation-dialog/confirmation-dialog.component';
 import { KRModalComponent } from '../../shared/kr-modal/kr-modal.component';
 import { ENTER, COMMA } from '@angular/cdk/keycodes';
-import { MatLegacyChipInputEvent as MatChipInputEvent } from '@angular/material/legacy-chips';
+import { MatChipInputEvent } from '@angular/material/chips';
 import * as _ from 'underscore';
 import { RangeSlider } from '../../helpers/models/range-slider.model';
 import {
-  MatLegacyAutocomplete as MatAutocomplete,
-  MatLegacyAutocompleteSelectedEvent as MatAutocompleteSelectedEvent,
-} from '@angular/material/legacy-autocomplete';
+  MatAutocomplete,
+  MatAutocompleteSelectedEvent,
+} from '@angular/material/autocomplete';
 import { SortPipe } from '../../helpers/sortPipe/sort-pipe';
 import { AppSelectionService } from '@kore.services/app.selection.service';
 import { Subscription } from 'rxjs';

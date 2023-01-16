@@ -1,6 +1,6 @@
 import { ConfirmationDialogComponent } from '../../../../../../helpers/components/confirmation-dialog/confirmation-dialog.component';
 import { Component, OnInit, Input,Output, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
-import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-custom-config-list',

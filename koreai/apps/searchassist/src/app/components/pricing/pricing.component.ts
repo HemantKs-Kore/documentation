@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild, OnDestroy, ElementRef } from '@angular/core';
 import { KRModalComponent } from '../../shared/kr-modal/kr-modal.component';
-import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
+import { MatDialog } from '@angular/material/dialog';
 import { EChartOption } from 'echarts';
 import { UpgradePlanComponent } from '../../helpers/components/upgrade-plan/upgrade-plan.component';
 import { AppSelectionService } from '@kore.services/app.selection.service';

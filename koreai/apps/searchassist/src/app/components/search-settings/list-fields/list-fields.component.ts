@@ -12,7 +12,7 @@ import {
   PerfectScrollbarComponent,
   PerfectScrollbarDirective,
 } from 'ngx-perfect-scrollbar';
-import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
+import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { ServiceInvokerService } from '@kore.services/service-invoker.service';

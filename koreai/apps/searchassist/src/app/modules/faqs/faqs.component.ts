@@ -21,7 +21,7 @@ import * as _ from 'underscore';
 import { from, interval, Subject, Subscription } from 'rxjs';
 import { startWith, elementAt, filter, pluck } from 'rxjs/operators';
 import { ConfirmationDialogComponent } from '../../helpers/components/confirmation-dialog/confirmation-dialog.component';
-import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
+import { MatDialog } from '@angular/material/dialog';
 import { KRModalComponent } from '../../shared/kr-modal/kr-modal.component';
 import { PerfectScrollbarComponent } from 'ngx-perfect-scrollbar';
 import { ConvertMDtoHTML } from '../../helpers/lib/convertHTML';
