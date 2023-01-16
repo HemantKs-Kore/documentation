@@ -4,6 +4,7 @@ import { AppSelectionService } from '@kore.services/app.selection.service';
 import { NotificationService } from '@kore.services/notification.service';
 import { ServiceInvokerService } from '@kore.services/service-invoker.service';
 import { of, interval, Subject, Subscription } from 'rxjs';
+import { ActivatedRoute } from '@angular/router';
 @Component({
   selector: 'app-presentable',
   templateUrl: './presentable.component.html',
@@ -38,6 +39,7 @@ export class PresentableComponent implements OnInit {
     private appSelectionService: AppSelectionService,
     private notificationService: NotificationService,
     private service: ServiceInvokerService,
+    private route: ActivatedRoute
   ) { }
 
   ngOnInit(): void {
@@ -48,20 +50,47 @@ export class PresentableComponent implements OnInit {
     this.querySubscription = this.appSelectionService.queryConfigSelected.subscribe(res => {
       this.indexPipelineId = this.workflowService.selectedIndexPipeline();
       this.queryPipelineId = this.workflowService.selectedQueryPipeline() ? this.workflowService.selectedQueryPipeline()._id : ''
-      this.getAllpresentableFields()
+      // this.getAllpresentableFields()
    })
+ }
+
+ displayFields(isSelected, data) {
+  this.isLoading = false;
+  this.allpresentableFields = data;
+  //this.max_pageno=Number(Math.ceil(res.totalCount/10))-1;
+  if(isSelected){
+    this.presentable=[];
+    this.allpresentableFields.forEach(element => {
+      // if(element.presentable.value){
+        this.presentable.push(element)
+      // }
+    });
+  }
+  else{
+    this.nonPresentable=[];
+    this.allpresentableFields.forEach(element => {
+      // if(!element.presentable.value){
+        this.nonPresentable.push(element)
+      // }
+    });
+  }
+
  }
 
  /**to fetch the data to table and add pop-up passing true and false*/
   getAllpresentableFields(){
-    this.getPresentableFields(true);
-    //this.getPresentableFields(false);
+    const res = this.route.snapshot.data.presentables;
+    if (res.error) {
+      this.displayError();
+    } else {
+      this.displayFields(true, res.data);
+    }
   }
   /** get presentable fields api call with false value to get data for add pop-up*/
   getAddpopuppresentableField(event){
     if(!event){
       this.getPresentableFields(false);
-    }    
+    }
   }
  /** Emited Value for Operation (Add/Delete)  */
  getRecord(recordData : any){
@@ -90,7 +119,7 @@ export class PresentableComponent implements OnInit {
   else{
     this.notificationService.notify("Please select the fields to proceed",'error')
   }
-   
+
  }
  /**presentable sort */
  presentableSort(sortobj){
@@ -127,7 +156,7 @@ export class PresentableComponent implements OnInit {
   }, errRes => {
     this.notificationService.notify("Failed to add Fields",'error');
   });
-  // 
+  //
  }
  //**Presentable search function */
  presentableSearch(obj){
@@ -135,7 +164,7 @@ export class PresentableComponent implements OnInit {
   this.method_type='search';
   if(obj.componenttype=="datatable"){
     this.getPresentableFields(true)
-  }  
+  }
   else{
     this.getPresentableFields(false);
   }
@@ -144,6 +173,10 @@ export class PresentableComponent implements OnInit {
  presentablepage(pageinfo){
   this.page=pageinfo;
   this.getPresentableFields(true)
+ }
+
+ displayError() {
+  this.notificationService.notify("Failed to get presentable fields",'error');
  }
 
  //** get api for retrieving the presentable Fields */
@@ -162,29 +195,11 @@ export class PresentableComponent implements OnInit {
   };
   if(this.method_type!=='search'){
     this.isLoading = true;
-  } 
+  }
   this.service.invoke('get.presentableFields', quaryparms).subscribe(res => {
-    this.isLoading = false;
-    this.allpresentableFields = res.data;
-    //this.max_pageno=Number(Math.ceil(res.totalCount/10))-1;
-    if(selected){
-      this.presentable=[];
-      this.allpresentableFields.forEach(element => {
-        // if(element.presentable.value){
-          this.presentable.push(element)
-        // }
-      });
-    }
-    else{
-      this.nonPresentable=[];
-      this.allpresentableFields.forEach(element => {
-        // if(!element.presentable.value){
-          this.nonPresentable.push(element)
-        // }
-      });
-    } 
+    this.displayFields(selected, res.data);
   }, errRes => {
-    this.notificationService.notify("Failed to get presentable fields",'error');
+    this.displayError();
   });
  }
  //**unsubcribing the query subsciption */
