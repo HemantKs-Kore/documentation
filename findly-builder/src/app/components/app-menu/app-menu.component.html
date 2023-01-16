@@ -123,7 +123,7 @@
 						<img src="assets/icons/sidemenu/new-icons/fields.svg" class="defaultIcon">
 						<img src="assets/icons/sidemenu/new-icons/fields-active.svg" class="activeIcon">
 					</span>
-					<span class="linkTitle">Index Fields</span>
+					<span class="linkTitle">{{'fields_fields' | translate}}</span>
 				</div>
 
 				<div mat-button class="mat-button" [routerLink]="['/traits']" skipLocationChange
@@ -152,7 +152,7 @@
 						<!-- <i class="si-settings defaultIcon"></i>
 						<i class="si-settings activeIcon"></i> -->
 					</span>
-					<span class="linkTitle">Index Settings</span>
+					<span class="linkTitle">{{'index_Settings' | translate}} </span>
 			    </div>
 			</div>
 
@@ -378,27 +378,27 @@
 			</div>
 
 			    <div *ngIf="appSelectionService?.env_dep_type!=='installer'">
-					<div class="inside-menu-title mt-3">BILLING & USAGE</div>
+					<div class="inside-menu-title mt-3"> {{'app_menu_BILLING_&_USAGE' | translate}}</div>
 					<div mat-button class="mat-button" [routerLink]="['/pricing']" skipLocationChange routerLinkActive="active" (click)="preview('index')" mat-button>
 						<span class="inlineIconBox leftAdjust">
 							<img src="assets/icons/sidemenu/new-icons/plandetails.svg" class="defaultIcon">
 							<img src="assets/icons/sidemenu/new-icons/plandetails-active.svg" class="activeIcon">
 						</span>
-						<span class="linkTitle">Plan Details</span>
+						<span class="linkTitle">{{'app_menu_plan_details' | translate}} </span>
 					</div>
 					<div mat-button class="mat-button" [routerLink]="['/usageLog']" skipLocationChange routerLinkActive="active" (click)="preview('index')" mat-button>
 						<span class="inlineIconBox">
 							<img src="assets/icons/sidemenu/new-icons/usagelog.svg" class="defaultIcon">
 							<img src="assets/icons/sidemenu/new-icons/usagelog-active.svg" class="activeIcon">
 						</span>
-						<span class="linkTitle">Usage Log</span>
+						<span class="linkTitle">{{'app_menu_Usage_Log' | translate}}</span>
 					</div>
 					<div mat-button class="mat-button" [routerLink]="['/invoices']" skipLocationChange routerLinkActive="active" (click)="preview('index')" mat-button>
 						<span class="inlineIconBox">
 							<img src="assets/icons/sidemenu/new-icons/invoice.svg" class="defaultIcon">
 							<img src="assets/icons/sidemenu/new-icons/invoice-active.svg" class="activeIcon">
 						</span>
-						<span class="linkTitle">Orders & Invoices</span>
+						<span class="linkTitle">{{'invoices_invoices' | translate}}</span>
 					</div>
 				</div>
 		</div>

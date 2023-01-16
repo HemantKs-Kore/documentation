@@ -30,6 +30,7 @@ export class SynonymsComponent implements OnInit, OnDestroy {
   serachIndexId;
   loadingContent = true;
   skip = 0;
+  timeoutId:any;
   filteroneWaySynonym: boolean;
   filterSynonym: boolean;
   haveRecord = false;
@@ -223,6 +224,7 @@ export class SynonymsComponent implements OnInit, OnDestroy {
   }
   //VALIDATION FOR SYNONYM
   getSynonyms() {
+    this.loadingContent = true;
     const quaryparms: any = {
       streamId: this.selectedApp._id,
       queryPipelineId: this.queryPipelineId,
@@ -238,6 +240,7 @@ export class SynonymsComponent implements OnInit, OnDestroy {
         if (res && res.data) {
           this.synonymData = res.data;
           this.synonymDuplicateData = res?.data;
+          this.loadingContent = false;
         }
       },
       (errRes) => {
@@ -246,25 +249,13 @@ export class SynonymsComponent implements OnInit, OnDestroy {
       }
     );
   }
-  searchSynonymns() {
-    this.searchKeyword = this.synonymSearch;
-    this.getSynonyms();
+   debouncedSearch(){
+    clearTimeout(this.timeoutId);
+    this.timeoutId = setTimeout(() => {
+      this.searchKeyword = this.synonymSearch
+      this.getSynonyms()
+    }, 300);
   }
-  // validateSynonyms() {
-  //   if (
-  //     !this.addNewSynonymObj ||
-  //     (this.addNewSynonymObj.synonyms && !this.addNewSynonymObj.synonyms.length)
-  //   ) {
-  //     return false;
-  //   } else if (
-  //     this.addNewSynonymObj.type === 'oneWaySynonym' &&
-  //     !this.addNewSynonymObj.keyword
-  //   ) {
-  //     return false;
-  //   } else {
-  //     return true;
-  //   }
-  // }
   validateSynonyms(){
       if( this.addNewSynonymObj?.type === 'oneWaySynonym' && !this.addNewSynonymObj?.keyword && !this.addNewSynonymObj?.synonyms?.length){
         return false;

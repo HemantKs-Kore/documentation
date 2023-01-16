@@ -6,6 +6,7 @@ import { Subscription } from 'rxjs';
 import { PerfectScrollbarComponent, PerfectScrollbarDirective } from 'ngx-perfect-scrollbar';
 import { NotificationService } from '@kore.services/notification.service';
 import { ServiceInvokerService } from '@kore.services/service-invoker.service';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-highlighting',
@@ -50,6 +51,7 @@ export class HighlightingComponent implements OnInit {
     private appSelectionService: AppSelectionService,
     private notificationService: NotificationService,
     private service: ServiceInvokerService,
+    private route: ActivatedRoute
   ) { }
 
   highlightAppearanceModalPopRef: any;
@@ -60,7 +62,7 @@ export class HighlightingComponent implements OnInit {
 
   ngOnInit(): void {
 
-    
+
 
     this.more_options=false;
     this.selectedApp = this.workflowService.selectedApp();
@@ -68,49 +70,59 @@ export class HighlightingComponent implements OnInit {
     this.indexPipelineId = this.workflowService.selectedIndexPipeline();
     this.queryPipelineId = this.workflowService.selectedQueryPipeline() ? this.workflowService.selectedQueryPipeline()._id : '';
     this.getAllHighlightFields()
-    if(this.indexPipelineId  && this.queryPipelineId && this.serachIndexId){ this.getQuerypipeline()}
+    this.getQuerypipeline();
 
     this.querySubscription = this.appSelectionService.queryConfigSelected.subscribe(res => {
       this.indexPipelineId = this.workflowService.selectedIndexPipeline();
       this.queryPipelineId = this.workflowService.selectedQueryPipeline() ? this.workflowService.selectedQueryPipeline()._id : ''
-      this.getAllHighlightFields()
+      // this.getAllHighlightFields()
    })
   }
 
     //** get Query pipeline API call */
     getQuerypipeline() {
-      const quaryparms: any = {
-        searchIndexID: this.serachIndexId,
-        queryPipelineId: this.queryPipelineId,
-        indexPipelineId: this.indexPipelineId,
-      };
-      this.isSpinner=true
-      this.service.invoke('get.queryPipeline', quaryparms).subscribe(      
-        (res) => {
-          this.isSpinner=false
-          this.highlightdata = res;
-          this.home_pre_tag=this.highlightdata.settings.highlight.highlightAppearance.preTag
-          this.home_post_tag=this.highlightdata.settings.highlight.highlightAppearance.postTag
-          this.pre_tag=this.highlightdata.settings.highlight.highlightAppearance.preTag;
-          this.post_tag=this.highlightdata.settings.highlight.highlightAppearance.postTag;
-        },
-        (errRes) => {
-          this.notificationService.notify(
-            'failed to get querypipeline details',
-            'error'
-          );
-        }
-      );
+
+      this.highlightdata = this.route.snapshot.data.queryPipeline;
+      this.home_pre_tag=this.highlightdata.settings.highlight.highlightAppearance.preTag
+      this.home_post_tag=this.highlightdata.settings.highlight.highlightAppearance.postTag
+      this.pre_tag=this.highlightdata.settings.highlight.highlightAppearance.preTag;
+      this.post_tag=this.highlightdata.settings.highlight.highlightAppearance.postTag;
+
+      // const quaryparms: any = {
+      //   searchIndexID: this.serachIndexId,
+      //   queryPipelineId: this.queryPipelineId,
+      //   indexPipelineId: this.indexPipelineId,
+      // };
+      // this.service.invoke('get.queryPipeline', quaryparms).subscribe(
+      //   (res) => {
+      //     this.highlightdata = res;
+      //     this.home_pre_tag=this.highlightdata.settings.highlight.highlightAppearance.preTag
+      //     this.home_post_tag=this.highlightdata.settings.highlight.highlightAppearance.postTag
+      //     this.pre_tag=this.highlightdata.settings.highlight.highlightAppearance.preTag;
+      //     this.post_tag=this.highlightdata.settings.highlight.highlightAppearance.postTag;
+      //   },
+      //   (errRes) => {
+      //     this.notificationService.notify(
+      //       'failed to get querypipeline details',
+      //       'error'
+      //     );
+      //   }
+      // );
     }
   //** to get the data for the highlight table and add highlight pop-up sending true and false for get api */
   getAllHighlightFields(){
-    this.getHighlightFields(true);
+    const res = this.route.snapshot.data.highlighting;
+    if (res.error) {
+      this.displayError();
+    } else {
+      this.displayFields(true, res.data);
+    }
   }
     /** get highlight fields api call with false value to get data for add pop-up*/
     getAddpopuphighlightField(event){
       if(!event){
         this.getHighlightFields(false);
-      }    
+      }
     }
    /**highlight sort for data table and pop-up */
     highlightSort(sortobj){
@@ -130,7 +142,7 @@ export class HighlightingComponent implements OnInit {
     this.method_type='search';
     if(obj.componenttype=="datatable"){
       this.getHighlightFields(true)
-    }  
+    }
     else{
       this.getHighlightFields(false);
     }
@@ -140,6 +152,32 @@ export class HighlightingComponent implements OnInit {
       this.page=pageinfo;
       this.getHighlightFields(true)
     }
+
+  displayFields(isSelected, data) {
+    this.isLoading = false;
+    this.allhighlightFields = data;
+    //this.max_pageno=Number(Math.ceil(res.totalCount/10))-1;
+    if(isSelected){
+      this.highlight=[];
+      this.allhighlightFields.forEach(element => {
+        // if(element.presentable.value){
+          this.highlight.push(element)
+        // }
+      });
+    }
+    else{
+      this.nonhighlight=[];
+      this.allhighlightFields.forEach(element => {
+        // if(!element.presentable.value){
+          this.nonhighlight.push(element)
+        // }
+      });
+    }
+  }
+
+  displayError() {
+    this.notificationService.notify("Failed to get highlight fields",'error');
+  }
 
   //** get api call to fetch highlight fields */
   getHighlightFields(isSelected?,sortobj?){
@@ -157,32 +195,14 @@ export class HighlightingComponent implements OnInit {
     };
     if(this.method_type!=='search'){
       this.isLoading = true;
-    } 
+    }
     this.service.invoke('get.highlightFields', quaryparms).subscribe(res => {
-      this.isLoading = false;
-      this.allhighlightFields = res.data;
-      //this.max_pageno=Number(Math.ceil(res.totalCount/10))-1;
-      if(isSelected){
-        this.highlight=[];
-        this.allhighlightFields.forEach(element => {
-          // if(element.presentable.value){
-            this.highlight.push(element)
-          // }
-        });
-      }
-      else{
-        this.nonhighlight=[];
-        this.allhighlightFields.forEach(element => {
-          // if(!element.presentable.value){
-            this.nonhighlight.push(element)
-          // }
-        });
-      }
+      this.displayFields(isSelected, res.data);
     }, errRes => {
       this.notificationService.notify("Failed to get highlight fields",'error');
     });
    }
-  
+
    //**Add highlight modal pop-up */
   openModalPopup() {
     this.highlightAppearanceModalPopRef = this.highlightAppearanceModalPop.open();
@@ -193,7 +213,7 @@ export class HighlightingComponent implements OnInit {
       }
     }, 500)
   }
-  
+
   //** close the add pop-up */
   closeModalPopup() {
     this.highlightAppearanceModalPopRef.close();
@@ -219,7 +239,7 @@ export class HighlightingComponent implements OnInit {
     //**Validation Check function */
     tagValidation(pre_tag,post_tag){
 
-    
+
     }
 
   //** highlight appearance pre and post tag api call for binding pre and post tag*/
@@ -227,21 +247,21 @@ export class HighlightingComponent implements OnInit {
     //validation logic
     if(!pretag?.length && !posttag?.length){
       this.pre_tag_flag=true;
-      this.post_tag_flag=true;    
+      this.post_tag_flag=true;
       this.notificationService.notify('Please enter the required fields to proceed', 'error');
-      return  
+      return
     }
     else if(!pretag?.length){
       this.pre_tag_flag=true;
       this.post_tag_flag=false;
       this.notificationService.notify('Please enter the required fields to proceed', 'error');
-      return   
+      return
     }
     else if(!posttag?.length){
       this.post_tag_flag=true;
       this.pre_tag_flag=false;
       this.notificationService.notify('Please enter the required fields to proceed', 'error');
-      return 
+      return
     } else{
       this.post_tag_flag=false;
       this.pre_tag_flag=false;
@@ -261,20 +281,20 @@ export class HighlightingComponent implements OnInit {
           }
       }
    }
-   
-    
+
+
     this.service.invoke('put.queryPipeline', quaryparms,payload).subscribe(res => {
       this.home_pre_tag=res?.settings?.highlight?.highlightAppearance?.preTag
       this.home_post_tag=res.settings?.highlight?.highlightAppearance?.postTag
       this.notificationService.notify("Tags updated successfully",'success');
       this.highlightdata.highlightAppearance.preTag=res?.settings?.highlight?.highlightAppearance?.preTag
-      this.highlightdata.highlightAppearance.postTag=res?.settings?.highlight?.highlightAppearance?.postTag      
+      this.highlightdata.highlightAppearance.postTag=res?.settings?.highlight?.highlightAppearance?.postTag
     }, errRes => {
       this.notificationService.notify("Failed to update",'error');
-    });   
+    });
     this.highlightAppearanceModalPopRef.close();
   }
-  
+
    /** Emited Value for Operation (Add/Delete)  */
  getRecord(recordData : any){
   let record = recordData.record;
@@ -302,7 +322,7 @@ export class HighlightingComponent implements OnInit {
   else{
     this.notificationService.notify("Please select the fields to proceed",'error')
   }
-   
+
  }
  /** remove from highlight */
  removeRecord(deleteData){
@@ -327,7 +347,7 @@ export class HighlightingComponent implements OnInit {
   }, errRes => {
     this.notificationService.notify("Failed to add Fields",'error');
   });
-  // 
+  //
  }
  //** Change of highlight slider value to call put querypipeline*/
  sildervalueChanged(event,type){
@@ -342,12 +362,12 @@ export class HighlightingComponent implements OnInit {
         highlight: {
           synonymsHighlight: event.currentTarget.checked
       }
-   }    
+   }
   }
   this.service.invoke('put.queryPipeline', quaryparms,payload).subscribe(res => {
     this.highlightdata.synonymsHighlight=res.settings.highlight.enable
     this.highlightdata.synonymsHighlight ? this.notificationService.notify("Synonyms highlighting enabled",'success') : this.notificationService.notify("Synonyms highlighting disabled",'success')
-    
+
   }, errRes => {
     this.notificationService.notify("Failed to update",'error');
   });
@@ -358,7 +378,7 @@ export class HighlightingComponent implements OnInit {
           highlight: {
             enable: event.currentTarget.checked
         }
-    }    
+    }
     }
     this.service.invoke('put.queryPipeline', quaryparms,payload).subscribe(res => {
       this.highlightdata.enable=res.settings.highlight.enable;

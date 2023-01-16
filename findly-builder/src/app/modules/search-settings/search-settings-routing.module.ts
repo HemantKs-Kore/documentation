@@ -1,3 +1,4 @@
+import { PipelineDataResolver, PipelineResolver } from '../../services/resolvers/pipeline-data.resolve';
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
@@ -14,6 +15,11 @@ const routes: Routes = [
           import('./modules/weights/weights.module').then(
             (m) => m.WeightsModule
           ),
+        resolve: {
+          weights: PipelineDataResolver,
+          queryPipeline: PipelineResolver
+        },
+        data: { value: 'get.weightsList', pipeline: 'get.queryPipeline' }
       },
       {
         path: 'presentable',
@@ -21,6 +27,10 @@ const routes: Routes = [
           import('./modules/presentable/presentable.module').then(
             (m) => m.PresentableModule
           ),
+        resolve: {
+          presentables: PipelineDataResolver
+        },
+        data: { value: 'get.presentableFields' }
       },
       {
         path: 'highlighting',
@@ -28,6 +38,11 @@ const routes: Routes = [
           import('./modules/highlighting/highlighting.module').then(
             (m) => m.HighlightingModule
           ),
+        resolve: {
+          highlighting: PipelineDataResolver,
+          queryPipeline: PipelineResolver
+        },
+        data: { value: 'get.highlightFields', pipeline: 'get.queryPipeline' }
       },
       {
         path: 'spell_correction',
@@ -35,6 +50,11 @@ const routes: Routes = [
           import('./modules/spell-correction/spell-correction.module').then(
             (m) => m.SpellCorrectionModule
           ),
+        resolve: {
+          spells: PipelineDataResolver,
+          queryPipeline: PipelineResolver
+        },
+        data: { value: 'get.spellcorrectFields', pipeline: 'get.queryPipeline' }
       },
       {
         path: 'snippets',

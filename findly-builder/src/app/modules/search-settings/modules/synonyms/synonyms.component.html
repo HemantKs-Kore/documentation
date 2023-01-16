@@ -1,4 +1,9 @@
 <div class="body-container">
+  <!-- loading icon -->
+  <div class="mainLoadingSpinner" *ngIf="loadingContent" >
+    <mat-spinner diameter="18" strokeWidth="2"></mat-spinner>
+    <span class="please-wait-message">{{'sa_please_wait'| translate}}</span>
+  </div>
   <!-- Header  start from here -->
   <div class="landing-page-header">
     <div class="widget-header-block">
@@ -15,7 +20,7 @@
       <div class="kr-sg-input-text m-0">
         <input type="text" maxlength="60" placeholder="{{'sa_search' | translate}}" id="inputSearch" class="input-search"
           [ngClass]="{'pl-33':!synonymSearch,'pl-2':synonymSearch}" autocomplete="off" [(ngModel)]="synonymSearch"
-          (keyup)="searchSynonymns();displaySearch"
+          (keyup)="debouncedSearch();displaySearch"
           (mouseover)="searchImgSrc = (searchFocusIn ? 'assets/icons/search_gray.svg' :'assets/icons/search_gray_dark.svg')"
           (mouseout)="searchFocusIn=false;searchImgSrc = 'assets/icons/search_gray.svg'"
           (focus)="searchFocusIn=true;searchImgSrc = 'assets/icons/search_gray.svg'">
@@ -82,7 +87,7 @@
 
   <div class="block-separate-line"></div>
 
-  <div class="presentable-table-block" *ngIf="searchKeyword || synonymData.length; else noSynonymRecords">
+  <div class="presentable-table-block" *ngIf="loadingContent && searchKeyword || synonymData.length; else noSynonymRecords">
     <!-- table start from here -->
     <div class="index-config-lang-table row m-0">
       <div class="table_data_content col-12">
@@ -211,7 +216,7 @@
                   </div>
                 </div>
                 <div class="col-2 title text-left p-0">
-                  <div class="Synonym-type-name">{{synonymObj?.type == 'synonym'?"('synonyms_synonym' | translate)":"('synonyms_one_way_synonym' | translate)"}}</div>
+                  <div class="Synonym-type-name">{{synonymObj?.type == 'synonym'?('synonyms_synonym' | translate):('synonyms_one_way_synonym' | translate)}}</div>
                 </div>
                 <div class="col-2 p-0 text-left">
                   <div class="action_links">

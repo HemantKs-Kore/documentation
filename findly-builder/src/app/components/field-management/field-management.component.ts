@@ -45,6 +45,7 @@ export class FieldManagementComponent implements OnInit {
   indexedWarningMessage: any = '';
   resultTest;
   editresultTest
+  searchableCheckboxMsg;
   tooltipArr = [];
   showSearchSettingsTooltip = false;
   selectedSort = 'fieldName';
@@ -52,20 +53,9 @@ export class FieldManagementComponent implements OnInit {
   underlineEnable=false
   fieldAutoSuggestion: any = [];
   fieldDataTypeArr: any = [];
-  // isMultiValuedArr: any = [];
-  // isRequiredArr: any = [];
-  // isStoredArr: any = [];
-  // isIndexedArr: any = [];
   isAutosuggestArr: any = [];
   isSearchableArr: any = [];
   totalRecord: number = 0;
-  // filterSystem: any = {
-  //   'typefilter': 'all',
-  //   'isMultiValuedFilter': 'all',
-  //   'isRequiredFilter': 'all',
-  //   'isStoredFilter': 'all',
-  //   'isIndexedFilter': 'all'
-  // }
   filterSystem: any = {
     'typefilter': 'all',
     'isAutosuggestFilter':'all',
@@ -167,7 +157,7 @@ export class FieldManagementComponent implements OnInit {
       this.newFieldObj = JSON.parse(JSON.stringify(field));
       this.newFieldObj.previousFieldDataType = field.fieldDataType;
       this.getFieldAutoComplete(field.fieldName);
-      this.getFieldUsageData(field)
+      this.getFieldUsageData(field,'pop-up')
     } else {
       this.showSearchableToaster=false
       // this.newFieldObj = {
@@ -196,7 +186,8 @@ export class FieldManagementComponent implements OnInit {
     this.submitted = false;
     this.addFieldModalPopRef.close();
   }
-  getFieldUsageData(record) {
+  //**get API call method to fetch the field data */
+  getFieldUsageData(record,type) {
     this.indexedWarningMessage = '';
     if (this.fetchingFieldUsage) {
       return;
@@ -224,6 +215,7 @@ export class FieldManagementComponent implements OnInit {
       let usedArr = [];
       this.showSearchSettingsTooltip = false;
       this.tooltipArr = [];
+      let msg = 'SearchSettings';
 
       if (!res) {
         return;
@@ -236,28 +228,23 @@ export class FieldManagementComponent implements OnInit {
           if ((key === 'facets')) {
             usedArr = [...usedArr, 'Facet'];
           } else if (key === 'searchSettings') {
-            // const msg =p `<span class="based-on-selection">searchSettings</span>`;
-            const msg = 'SearchSettings';
-
             searchSettingsRecord = valObj['records'][0];
-
             this.showSearchSettingsTooltip = true;
             usedArr = [...usedArr, msg];
           } else if(key === 'rules') {
-            const msg = res.rules.records.length + ' Business Rule' + (res.rules.records.length > 1 ? 's' : '');
+             msg = res.rules.records.length + ' Business Rule' + (res.rules.records.length > 1 ? 's' : '');
             usedArr = [...usedArr, msg];
           } else if (key === 'resultTemplates') {
-            const msg = res.resultTemplates.records.length + ' Result Template' + (res.resultTemplates.records.length > 1 ? 's' : '');
+             msg = res.resultTemplates.records.length + ' Result Template' + (res.resultTemplates.records.length > 1 ? 's' : '');
             usedArr = [...usedArr, msg]
           } else if (key === 'nlpRules') {
-            const msg = res.nlpRules.records.length + ' nlp Rule' + (res.nlpRules.records.length > 1 ? 's' : '');
+             msg = res.nlpRules.records.length + ' nlp Rule' + (res.nlpRules.records.length > 1 ? 's' : '');
             usedArr = [...usedArr, msg]
           } else if (key === 'entites') {
-            const msg = res.entites.records.length + (res.entites.records.length == 1 ? 'entity' : '')  + (res.entites.records.length > 1 ? 'entities' : '');
+             msg = res.entites.records.length + (res.entites.records.length == 1 ? 'entity' : '')  + (res.entites.records.length > 1 ? 'entities' : '');
             usedArr = [...usedArr, msg];
           }
         }
-
         return usedArr;
       }, []);
       
@@ -275,22 +262,25 @@ export class FieldManagementComponent implements OnInit {
           this.tooltipArr = [...this.tooltipArr, 'Spellcorrect']
         }
       }
-
-      let resultStr1 = `This will impact `;
-      if (resultArr.length === 1) {
-        resultStr1 += resultArr[0];
-      } else if (resultArr.length === 2) {
-        resultStr1 += `${resultArr.join(' and ')}`;
-      } else {
-        const lastVal = resultArr.slice(-1)[0]; 
-        resultStr1 += `${resultArr.slice(0, resultArr.length -1 ).join(', ')} and ${lastVal}`;
-      }
-      console.log(resultStr1);
-      this.indexedWarningMessage = resultStr1;
-      this.editresultTest = this.sanitizer.bypassSecurityTrustHtml(resultStr1); 
+       let popupData=''
+      type==='pop-up'? popupData = `This will impact `:popupData ='Searchable property has been set to false this will impact '      
+      this.byPassSecurity(resultArr,popupData,type)      
     }, errRes => {
       this.fetchingFieldUsage = false;
     });
+  }
+  byPassSecurity(resultArr,data,type){
+        if (resultArr.length === 1) {
+          data += resultArr[0];
+        } else if (resultArr.length === 2) {
+          data += `${resultArr.join(' and ')}`;
+        } else {
+          const lastVal = resultArr.slice(-1)[0]; 
+          data += `${resultArr.slice(0, resultArr.length -1 ).join(', ')} and ${lastVal}`;
+        }
+        this.indexedWarningMessage = data;
+        type == 'pop-up' ? this.editresultTest = this.sanitizer.bypassSecurityTrustHtml(data) : this.searchableCheckboxMsg = this.sanitizer.bypassSecurityTrustHtml(data); 
+      
   }
   replaceLast(find, replace, string) {
     var lastIndex = string.lastIndexOf(find);
@@ -391,8 +381,7 @@ export class FieldManagementComponent implements OnInit {
         const lastVal = resultArr.slice(-1)[0]; 
         resultStr += `${resultArr.slice(0, resultArr.length -1 ).join(', ')} and ${lastVal}`;
       }
-      resultStr += '.'+'<div>' +'Deleting it will remove all the associated settings' +'</div>'
-      console.log(resultStr);      
+      resultStr += '.'+'<div>' +'Deleting it will remove all the associated settings' +'</div>'     
       const dialogRef = this.dialog.open(IndexFieldsComfirmationDialogComponent, {
         width: '530px',
         height: 'auto',
@@ -433,12 +422,6 @@ export class FieldManagementComponent implements OnInit {
     this.submitted = true;
     if (this.validateFilelds()) {
       const temppayload: any = {
-        // fieldName: this.newFieldObj.fieldName,
-        // fieldDataType: this.newFieldObj.fieldDataType,
-        // isMultiValued: this.newFieldObj.isMultiValued,
-        // isRequired: this.newFieldObj.isRequired,
-        // isStored: this.newFieldObj.isStored,
-        // isIndexed: this.newFieldObj.isIndexed,
         fieldName: this.newFieldObj.fieldName,
         fieldDataType: this.newFieldObj.fieldDataType,
         isAutosuggest: this.newFieldObj.isAutosuggest,
@@ -553,19 +536,6 @@ export class FieldManagementComponent implements OnInit {
       this.totalRecord = res.totalCount || 0;
       this.loadingContent = false;
       if (this.filelds.length) {
-
-        // this.filelds.forEach(element => {
-        //   this.fieldDataTypeArr.push(element.fieldDataType);
-        //   this.isMultiValuedArr.push(element.isMultiValued);
-        //   this.isRequiredArr.push(element.isRequired);
-        //   this.isStoredArr.push(element.isStored);
-        //   this.isIndexedArr.push(element.isIndexed);
-        // });
-        // this.fieldDataTypeArr = [...new Set(this.fieldDataTypeArr)];
-        // this.isMultiValuedArr = [...new Set(this.isMultiValuedArr)];
-        // this.isRequiredArr = [...new Set(this.isRequiredArr)];
-        // this.isStoredArr = [...new Set(this.isStoredArr)];
-        // this.isIndexedArr = [...new Set(this.isIndexedArr)];
         if(!this.inlineManual.checkVisibility('FIEDS_TABLE')){
           this.inlineManual.openHelp('FIEDS_TABLE')
           this.inlineManual.visited('FIEDS_TABLE')
@@ -634,50 +604,6 @@ export class FieldManagementComponent implements OnInit {
           return "display-none"
         }
       }
-      // case "isMultiValued": {
-      //   if (this.selectedSort == sortingField) {
-      //     if (this.isAsc == false && type == 'down') {
-      //       return "display-block";
-      //     }
-      //     if (this.isAsc == true && type == 'up') {
-      //       return "display-block";
-      //     }
-      //     return "display-none"
-      //   }
-      // }
-      // case "isRequired": {
-      //   if (this.selectedSort == sortingField) {
-      //     if (this.isAsc == false && type == 'down') {
-      //       return "display-block";
-      //     }
-      //     if (this.isAsc == true && type == 'up') {
-      //       return "display-block";
-      //     }
-      //     return "display-none"
-      //   }
-      // }
-      // case "isStored": {
-      //   if (this.selectedSort == sortingField) {
-      //     if (this.isAsc == false && type == 'down') {
-      //       return "display-block";
-      //     }
-      //     if (this.isAsc == true && type == 'up') {
-      //       return "display-block";
-      //     }
-      //     return "display-none"
-      //   }
-      // }
-      // case "isIndexed": {
-      //   if (this.selectedSort == sortingField) {
-      //     if (this.isAsc == false && type == 'down') {
-      //       return "display-block";
-      //     }
-      //     if (this.isAsc == true && type == 'up') {
-      //       return "display-block";
-      //     }
-      //     return "display-none"
-      //   }
-      // }
       case "isAutosuggest": {
         if (this.selectedSort == sortingField) {
           if (this.isAsc == false && type == 'down') {
@@ -700,17 +626,6 @@ export class FieldManagementComponent implements OnInit {
           return "display-none"
         }
       }
-      // case "isSearchableFilter": {
-      //   if (this.selectedSort == sortingField) {
-      //     if (this.isAsc == false && type == 'down') {
-      //       return "display-block";
-      //     }
-      //     if (this.isAsc == true && type == 'up') {
-      //       return "display-block";
-      //     }
-      //     return "display-none"
-      //   }
-      // }
     }
   }
   compare(a: number | string, b: number | string, isAsc: boolean) {
@@ -762,78 +677,10 @@ export class FieldManagementComponent implements OnInit {
     this.fieldsFilter(null,null,null,null,sort,checkSortValue,naviagtionArrow)
   }
 
-  // filterTable(source, headerOption) {
-  //   console.log(this.filelds, source)
-  //   this.filterTableSource = source;
-  //   this.filterTableheaderOption = headerOption;
-  //   let firstFilterDataBack = [];
-  //   //this.resources = [...this.filterResourcesBack]; // For new Filter..
-  //   if (headerOption == "extractionType") {
-  //     this.filterSystem.typeHeader = headerOption;
-  //     this.filterSystem.typefilter = source;
-  //   } else {
-  //     this.filterSystem.statusHeader = headerOption;
-  //     this.filterSystem.statusFilter = source;
-  //   }
-
-  //     if (this.filterSystem.typefilter == "all" && this.filterSystem.statusFilter == "all") {
-  //       this.filelds = [...this.filterResourcesBack];
-  //       this.firstFilter = { 'header': '', 'source': '' };
-  //     }
-  //     else if (this.filterSystem.typefilter != "all" && this.filterSystem.statusFilter == "all") {
-  //       if (!this.firstFilter['header']) {
-  //         this.firstFilter = { 'header': headerOption, 'source': source };
-  //       }
-  //       firstFilterDataBack = [...this.filterResourcesBack];
-  //       const resourceData = firstFilterDataBack.filter((data) => {
-  //         return data[this.filterSystem.typeHeader].toLocaleLowerCase() === this.filterSystem.typefilter.toLocaleLowerCase();
-  //       })
-  //       if (resourceData.length) this.filelds = [...resourceData];
-  //     }
-  //     else if (this.filterSystem.typefilter == "all" && this.filterSystem.statusFilter != "all") {
-  //       if (!this.firstFilter['header']) {
-  //         this.firstFilter = { 'header': headerOption, 'source': source };
-  //       }
-  //       firstFilterDataBack = [...this.filterResourcesBack];
-  //       const resourceData = firstFilterDataBack.filter((data) => {
-  //         return data[this.filterSystem.statusHeader].toLocaleLowerCase() === this.filterSystem.statusFilter.toLocaleLowerCase();
-  //       })
-  //       if (resourceData.length) this.filelds = [...resourceData];
-
-  //   }
-  //   else if (this.filterSystem.typefilter != "all" && this.filterSystem.statusFilter != "all") {
-  //     this.filelds = [...this.filterResourcesBack];
-  //     //firstFilter
-  //    // if (this.firstFilter['header'] == headerOption) {
-  //       if (headerOption == "extractionType") {
-  //         this.firstFilter = { 'header': this.filterSystem.statusHeader, 'source': this.filterSystem.statusFilter };
-  //       } else {
-  //         this.firstFilter = { 'header': this.filterSystem.typeHeader, 'source': this.filterSystem.typefilter };
-  //       }
-  //       const firstResourceData = this.filelds.filter((data) => {
-  //         console.log(data[this.firstFilter['header']].toLocaleLowerCase() === this.firstFilter['source'].toLocaleLowerCase());
-  //         return data[this.firstFilter['header']].toLocaleLowerCase() === this.firstFilter['source'].toLocaleLowerCase();
-  //       })
-  //       const secondResourceData = firstResourceData.filter((data) => {
-  //         console.log(data[headerOption].toLocaleLowerCase() === source.toLocaleLowerCase());
-  //         return data[headerOption].toLocaleLowerCase() === source.toLocaleLowerCase();
-  //       })
-  //       if (secondResourceData.length) this.filelds = [...secondResourceData];
-  //     //}
-  //   }
-  // }
+ 
   filterTable(source, headerOption) {
-    // this.filterSystem.typefilter = 'all';
-    // this.filterSystem.isMultiValuedFilter = 'all';
-    // this.filterSystem.isRequiredFilter = 'all';
-    // this.filterSystem.isStoredFilter = 'all';
-    // this.filterSystem.isIndexedFilter = 'all';  
     switch (headerOption) {
-      // case 'fieldDataType': { this.filterSystem.typefilter = source; break; };
-      // case 'isMultiValued': { this.filterSystem.isMultiValuedFilter = source; break; };
-      // case 'isRequired': { this.filterSystem.isRequiredFilter = source; break; };
-      // case 'isStored': { this.filterSystem.isStoredFilter = source; break; };
-      // case 'isIndexed': { this.filterSystem.isIndexedFilter = source; break; };
+
       case 'fieldDataType': { this.filterSystem.typefilter = source; break; };
       case 'isAutosuggest': { this.filterSystem.isAutosuggestFilter = source; break; };
       case 'isSearchable': { this.filterSystem.isSearchableFilter = source; break; };
@@ -883,12 +730,7 @@ export class FieldManagementComponent implements OnInit {
     else {
     request={}
     }
-      
-    // request.fieldDataType = this.filterSystem.typefilter;
-    // request.isMultiValued = this.filterSystem.isMultiValuedFilter;
-    // request.isStored = this.filterSystem.isStoredFilter;
-    // request.isIndexed = this.filterSystem.isIndexedFilter;
-    // request.isRequired = this.filterSystem.isRequiredFilter;
+
     request.fieldDataType = this.filterSystem.typefilter;
     request.isAutosuggest = this.filterSystem.isAutosuggestFilter;
     request.isSearchable = this.filterSystem.isSearchableFilter;
@@ -896,18 +738,6 @@ export class FieldManagementComponent implements OnInit {
     if (request.fieldDataType == 'all') {
      delete  request.fieldDataType;
     }
-    //  if ( request.isMultiValued == 'all') {
-    //   delete request.isMultiValued; 
-    // }
-    //  if (request.isStored == 'all') {
-    //  delete request.isStored; 
-    // }
-    //  if (request.isIndexed == 'all') {
-    //  delete  request.isIndexed;
-    // }
-    // if (request.isRequired == 'all') { 
-    //  delete request.isRequired;
-    // }
     if ( request.isSearchable == 'all') {
       delete request.isSearchable; 
     }
@@ -927,18 +757,6 @@ export class FieldManagementComponent implements OnInit {
     if(sortHeaderOption === 'fieldDataType' ){
       request.sort.fieldDataType = sortValue
     }
-    // if(sortHeaderOption === 'isMultiValued' ){
-    //   request.sort.isMultiValued = sortValue
-    // }
-    // if(sortHeaderOption === 'isStored' ){
-    //   request.sort.isStored = sortValue
-    // }
-    // if(sortHeaderOption === 'isRequired' ){
-    //   request.sort.isRequired = sortValue
-    // }
-    // if(sortHeaderOption === 'isIndexed' ){
-    //   request.sort.isIndexed = sortValue
-    // }
     if(sortHeaderOption === 'isAutosuggest' ){
       request.sort.isAutosuggest = sortValue
     }
@@ -949,29 +767,8 @@ export class FieldManagementComponent implements OnInit {
     // end
     }
     this.getFileds(searchValue,searchSource, source,headerOption, sortHeaderOption,sortValue,navigate,request);
-    // this.getFileds(searchValue,source, headerOption, request);
-    // let serviceId = 'post.allField'
-    // this.service.invoke(serviceId,quaryparms,request).subscribe(res => {
-    //   this.filelds = res.fields;     
-    //   this.totalRecord = res.totalCount
-    //   // if (headerOption === 'search') {
-    //   //   this.getDyanmicFilterData(source);
-    //   // }
-    // },
-    // errRes => {
-    //   this.loadingContent = false;
-    //   this.errorToaster(errRes, 'Failed to get fields');
-    // });
   }
   sortField(type?,navigate?, value?){  
-    // this.sortedObject.type=type;
-    // this.sortedObject.value = value;
-    // this.sortedObject.position=navigate
-    // this.sortedObject = {
-    //   type : type,
-    //   value : value,
-    //   position: navigate
-    // }
     const quaryparms: any = {
       searchIndexID: this.serachIndexId,
       indexPipelineId: this.workflowService.selectedIndexPipeline() || '',
@@ -989,13 +786,6 @@ export class FieldManagementComponent implements OnInit {
     } else {
       this.isAsc = !this.isAsc;
     }
-    // filter along with sort start 
-    // request.fieldDataType = this.filterSystem.typefilter;
-    // request.isMultiValued = this.filterSystem.isMultiValuedFilter;
-    // request.isStored = this.filterSystem.isRequiredFilter;
-    // request.isIndexed = this.filterSystem.isStoredFilter;
-    // request.isRequired = this.filterSystem.isIndexedFilter;
-    // request.search= this.searchFields;
 
     request.fieldDataType = this.filterSystem.typefilter;
     request.isAutosuggest = this.filterSystem.isAutosuggestFilter;
@@ -1005,18 +795,6 @@ export class FieldManagementComponent implements OnInit {
     if (request.fieldDataType == 'all') {
      delete  request.fieldDataType;
     }
-    //  if ( request.isMultiValued == 'all') {
-    //   delete request.isMultiValued; 
-    // }
-    //  if (request.isStored == 'all') {
-    //  delete request.isStored; 
-    // }
-    //  if (request.isIndexed == 'all') {
-    //  delete  request.isIndexed;
-    // }
-    // if (request.isRequired == 'all') { 
-    //  delete request.isRequired;
-    // }
     if ( request.isSearchable == 'all') {
       delete request.isMultiValued; 
     }
@@ -1034,18 +812,6 @@ export class FieldManagementComponent implements OnInit {
     if(type === 'fieldDataType' ){
       request.sort.fieldDataType = value
     }
-    // if(type === 'isMultiValued' ){
-    //   request.sort.isMultiValued = value
-    // }
-    // if(type === 'isStored' ){
-    //   request.sort.isStored = value
-    // }
-    // if(type === 'isRequired' ){
-    //   request.sort.isRequired = value
-    // }
-    // if(type === 'isIndexed' ){
-    //   request.sort.isIndexed = value
-    // }
     if(type === 'isAutosuggest' ){
       request.sort.isAutosuggest = value
     }
@@ -1053,23 +819,9 @@ export class FieldManagementComponent implements OnInit {
       request.sort.isSearchable = value
     }
     this.getFileds()
-    // end
 
-    // let serviceId = 'post.allField'
-    // this.service.invoke(serviceId,quaryparms,request).subscribe(res => {
-    //   this.filelds = res.fields;     
-    // },
-    // errRes => {
-    //   this.loadingContent = false;
-    //   this.errorToaster(errRes, 'Failed to get fields');
-    // });
   }
   getDyanmicFilterData(search?) {
-    // this.fieldDataTypeArr = [];
-    // this.isMultiValuedArr = [];
-    // this.isRequiredArr = [];
-    // this.isStoredArr = [];
-    // this.isIndexedArr = [];
     const quaryparms: any = {
       searchIndexId: this.serachIndexId
     };
@@ -1077,36 +829,11 @@ export class FieldManagementComponent implements OnInit {
       moduleName: "fields",
       indexPipelineId: this.workflowService.selectedIndexPipeline() || '',
     };
-    // request.fieldDataType = this.filterSystem.typefilter;
-    // request.isMultiValued = this.filterSystem.isMultiValuedFilter;
-    // request.isStored = this.filterSystem.isStoredFilter;
-    // request.isIndexed = this.filterSystem.isIndexedFilter;
-    // request.isRequired = this.filterSystem.isRequiredFilter;
-    // request.search= this.searchFields;
 
     request.fieldDataType = this.filterSystem.typefilter;
     request.isAutosuggest = this.filterSystem.isAutosuggestFilter;
     request.isSearchable = this.filterSystem.isSearchableFilter;
     request.search= this.searchFields;
-
-    // if (request.fieldDataType == 'all') {
-    //  delete  request.fieldDataType;
-    // }
-    //  if ( request.isMultiValued == 'all') {
-    //   delete request.isMultiValued; 
-    // }
-    //  if (request.isStored == 'all') {
-    //  delete request.isStored; 
-    // }
-    //  if (request.isIndexed == 'all') {
-    //  delete  request.isIndexed;
-    // }
-    // if (request.isRequired == 'all') { 
-    //  delete request.isRequired;
-    // }
-    // if (this.searchFields === '') {
-    //   delete request.search;
-    //  }
 
     if (request.fieldDataType == 'all') {
       delete  request.fieldDataType;
@@ -1122,17 +849,7 @@ export class FieldManagementComponent implements OnInit {
       }
 
     this.service.invoke('post.filters', quaryparms, request).subscribe(res => {
-      // this.fieldDataTypeArr = [...res.fieldDataType];
-      // this.isMultiValuedArr = [...res.isMultiValued];
-      // this.isRequiredArr = [...res.isRequired];
-      // this.isStoredArr = [...res.isStored];
-      // this.isIndexedArr = [...res.isIndexed];
-
       this.fieldDataTypeArr = [...res.fieldDataType];
-      // this.isMultiValuedArr = [...res.isMultiValued];
-      // this.isRequiredArr = [...res.isRequired];
-      // this.isStoredArr = [...res.isStored];
-      // this.isIndexedArr = [...res.isIndexed];
       this.isAutosuggestArr = [...res.isAutosuggest];
       this.isSearchableArr = [...res.isSearchable];
     }, errRes => {
@@ -1140,55 +857,6 @@ export class FieldManagementComponent implements OnInit {
     });
     
   }
-  // filterFields(source, headerOption) {
-  //   if (!this.beforeFilterFields.length) {
-  //     this.beforeFilterFields = JSON.parse(JSON.stringify(this.filelds));
-  //   }
-  //   let tempFields = this.beforeFilterFields.filter((field: any) => {
-  //     if (source !== 'all') {
-  //       if (headerOption === 'fieldDataType') {
-  //         if (field.fieldDataType === source) {
-  //           return field;
-  //         }
-  //       }
-  //       if (headerOption === 'isMultiValued') {
-  //         if (field.isMultiValued === source) {
-  //           return field;
-  //         }
-  //       }
-  //       if (headerOption === 'isRequired') {
-  //         if (field.isRequired === source) {
-  //           return field;
-  //         }
-  //       }
-  //       if (headerOption === 'isStored') {
-  //         if (field.isStored === source) {
-  //           return field;
-  //         }
-  //       }
-  //       if (headerOption === 'isIndexed') {
-  //         if (field.isIndexed === source) {
-  //           return field;
-  //         }
-  //       }
-  //     }
-  //     else {
-  //       return field;
-  //     }
-  //   });
-
-  //   this.filelds = JSON.parse(JSON.stringify(tempFields));
-  // }
-
-  // searchByFields() {
-  //   if (this.searchFields) {
-  //     // this.loadingTab = true;
-  //     this.getFileds(null, this.searchFields);
-  //   } else {
-  //     this.getFileds();
-  //     this.searchFields = ''
-  //   }
-  // }
   getFieldAutoComplete(query) {
     if (!query) {
       query = '';
@@ -1235,96 +903,5 @@ export class FieldManagementComponent implements OnInit {
     this.appSelectionService.topicGuideShow.next();
   }
 
-  //Searchable Checkbox Validation
-  searchableValidation(searchableCheckbox){
-    console.log(searchableCheckbox)
-    if(!searchableCheckbox.isSearchable){
-      return
-    }
-    else{
-      const quaryparms: any = {
-        searchIndexID: this.serachIndexId,
-        indexPipelineId: this.indexPipelineId,
-        queryPipelineId: this.workflowService.selectedQueryPipeline()._id,
-        fieldId: searchableCheckbox._id,
-      };
-    
-    
-      this.service.invoke('get.getFieldUsage', quaryparms).subscribe(res => {
-        let usageText = '';
-        let usedArr = [];
-        this.showSearchSettingsTooltip = false;
-        this.tooltipArr = [];
-  
-        if (!res) {
-          return;
-        }
-  
-        let searchSettingsRecord = [];
-  
-        const resultArr = Object.entries(res).reduce((usedArr: any, [key, valObj]) => {
-          if (valObj['used']) {
-            if ((key === 'facets')) {
-              usedArr = [...usedArr, 'Facet'];
-            } else if (key === 'searchSettings') {
-              // const msg =p `<span class="based-on-selection">searchSettings</span>`;
-              const msg = 'SearchSettings';
-  
-              searchSettingsRecord = valObj['records'][0];
-  
-              this.showSearchSettingsTooltip = true;
-              usedArr = [...usedArr, msg];
-            } else if(key === 'rules') {
-              const msg = res.rules.records.length + ' Business Rule' + (res.rules.records.length > 1 ? 's' : '');
-              usedArr = [...usedArr, msg];
-            } else if (key === 'resultTemplates') {
-              const msg = res.resultTemplates.records.length + ' Result Template' + (res.resultTemplates.records.length > 1 ? 's' : '');
-              usedArr = [...usedArr, msg]
-            } else if (key === 'nlpRules') {
-              const msg = res.nlpRules.records.length + ' nlp Rule' + (res.nlpRules.records.length > 1 ? 's' : '');
-              usedArr = [...usedArr, msg]
-            } else if (key === 'entites') {
-              const msg = res.entites.records.length + (res.entites.records.length == 1 ? 'entity' : '')  + (res.entites.records.length > 1 ? 'entities' : '');
-              usedArr = [...usedArr, msg];
-            }
-          }
-  
-          return usedArr;
-        }, []);
-        
-        if (searchSettingsRecord) {
-          if (searchSettingsRecord['highlight']?.value) {
-            this.tooltipArr = [...this.tooltipArr, 'Highlight']
-          }
-          if (searchSettingsRecord['weight']?.value) {
-            this.tooltipArr = [...this.tooltipArr, 'Weight'];
-          }
-          if (searchSettingsRecord['presentable']?.value) {
-            this.tooltipArr = [...this.tooltipArr, 'Presentable']
-          }
-          if (searchSettingsRecord['spellCorrect']?.value) {
-            this.tooltipArr = [...this.tooltipArr, 'Spellcorrect']
-          }
-        }
-  
-        let resultStr = `Searchable property has been set to false this will impact `;
-        if (resultArr.length === 1) {
-          resultStr += resultArr[0];
-        } else if (resultArr.length === 2) {
-          resultStr += `${resultArr.join(' and ')}`;
-        } else {
-          const lastVal = resultArr.slice(-1)[0]; 
-          resultStr += `${resultArr.slice(0, resultArr.length -1 ).join(', ')} and ${lastVal}`;
-        }
-        console.log(resultStr);
-        this.indexedWarningMessage = resultStr;
-        this.resultTest = this.sanitizer.bypassSecurityTrustHtml(resultStr);
-  
-  
-      }, errRes => {
-        this.fetchingFieldUsage = false;
-      });
-  
-   }
- }
+
 }
