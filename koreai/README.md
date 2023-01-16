@@ -21,6 +21,9 @@ npm run sme
 
 // update angular
 nx migrate latest
+  - Make sure package.json changes make sense and then run 'npm install',
+  - Run 'npx nx migrate --run-migrations'
+
 ```
 
 ## E2E
