@@ -1,3 +1,4 @@
+import { LoaderService } from './shared/loader/loader.service';
 import { Component, HostListener, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Router, Event as RouterEvent, NavigationStart, NavigationEnd, NavigationCancel, NavigationError, ActivatedRoute } from '@angular/router';
 import { AuthService } from '@kore.services/auth.service';
@@ -81,7 +82,8 @@ export class AppComponent implements OnInit, OnDestroy {
     public dockService: DockStatusService,
     public inlineManual: InlineManualService,
     public mixpanel: MixpanelServiceService,
-    private translate: TranslateService
+    private translate: TranslateService,
+    private loaderService: LoaderService
   ) {
     this.mixpanel.init();
     router.events.subscribe((event: RouterEvent) => {
@@ -253,6 +255,7 @@ export class AppComponent implements OnInit, OnDestroy {
   }
   navigationInterceptor(event: RouterEvent): void {
     if (event instanceof NavigationStart) {
+      this.loaderService.show();
       // this.showHideSearch(false);
       // this.showHideTopDownSearch(false);
       this.authService.findlyApps.subscribe((res) => {
@@ -262,6 +265,8 @@ export class AppComponent implements OnInit, OnDestroy {
 
     }
     if (event instanceof NavigationEnd) {
+      this.loaderService.hide();
+
       // console.log("event.url", event.url)
       if (event.url == '/summary') {
         this.showMainMenu = false;
@@ -315,9 +320,12 @@ export class AppComponent implements OnInit, OnDestroy {
 
     // Set loading state to false in both of the below events to hide the spinner in case a request fails
     if (event instanceof NavigationCancel) {
+      this.loaderService.hide();
       this.loading = false;
     }
     if (event instanceof NavigationError) {
+      this.loaderService.hide();
+
       this.loading = false;
     }
   }

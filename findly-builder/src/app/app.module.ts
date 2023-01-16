@@ -1,3 +1,5 @@
+import { LoaderInterceptor } from './services/inteceptors/loader-interceptor.service';
+import { LoaderModule } from './shared/loader/loader.module';
 import { PricingModule } from './components/pricing/pricing.module';
 import { IndexModule } from './components/index/index.module';
 import { BusinessRulesModule } from './components/business-rules/business-rules.module';
@@ -168,6 +170,7 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
     IndexFieldsComfirmationDialogComponent,
   ],
   imports: [
+    LoaderModule,
     FindlySharedModule,
     BrowserModule,
     FormsModule,
@@ -236,6 +239,7 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
       provide: MAT_FORM_FIELD_DEFAULT_OPTIONS,
       useValue: { appearance: 'fill' },
     },
+    { provide: HTTP_INTERCEPTORS, useClass: LoaderInterceptor, multi: true },
     SortPipe,
     AuthGuard,
     AppDataResolver,
