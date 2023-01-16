@@ -1,7 +1,7 @@
 import { EMPTY_SCREEN } from '../../modules/empty-screen/empty-screen.constants';
 import { Component, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { KRModalComponent } from '../../shared/kr-modal/kr-modal.component';
-import { MatDialog } from '@angular/material/dialog';
+import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
 import { NotificationService } from '@kore.services/notification.service';
 import { ServiceInvokerService } from '@kore.services/service-invoker.service';
 import { WorkflowService } from '@kore.services/workflow.service';

@@ -4,7 +4,7 @@ import { RecordPaginationModule } from './../../helpers/components/record-pagina
 import { CodemirrorModule } from '@ctrl/ngx-codemirror';
 import { NgbDropdownModule, NgbTooltipModule, NgbTypeaheadModule } from '@ng-bootstrap/ng-bootstrap';
 import { EmptyScreenModule } from './../empty-screen/empty-screen.module';
-import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatLegacyProgressSpinnerModule as MatProgressSpinnerModule } from '@angular/material/legacy-progress-spinner';
 import { AddStructuredDataModule } from './../../components/add-structured-data/add-structured-data.module';
 import { FormsModule } from '@angular/forms';
 import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';

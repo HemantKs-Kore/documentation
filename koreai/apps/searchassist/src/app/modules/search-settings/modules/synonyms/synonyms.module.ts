@@ -5,8 +5,8 @@ import { CommonModule } from '@angular/common';
 import { SynonymsRoutingModule } from './synonyms-routing.module';
 import { SynonymsComponent } from './synonyms.component';
 import { FindlySharedModule } from '../../../findly-shared/findly-shared.module';
-import { MatChipsModule } from '@angular/material/chips';
-import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatLegacyChipsModule as MatChipsModule } from '@angular/material/legacy-chips';
+import { MatLegacyFormFieldModule as MatFormFieldModule } from '@angular/material/legacy-form-field';
 import { MatIconModule } from '@angular/material/icon';
 
 

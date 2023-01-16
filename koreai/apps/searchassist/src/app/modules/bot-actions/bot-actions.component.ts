@@ -4,7 +4,7 @@ import { ServiceInvokerService } from '@kore.services/service-invoker.service';
 import { NotificationService } from '@kore.services/notification.service';
 import { AuthService } from '@kore.services/auth.service';
 import { Router } from '@angular/router';
-import { MatDialog } from '@angular/material/dialog';
+import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
 import * as _ from 'underscore';
 import { AppSelectionService } from '@kore.services/app.selection.service';
 import { environment } from '@kore.environment';

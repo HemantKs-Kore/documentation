@@ -1,10 +1,10 @@
 import { Component, OnInit, ViewChild, ElementRef, Input } from '@angular/core';
-import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
+import { MatLegacyAutocompleteSelectedEvent as MatAutocompleteSelectedEvent } from '@angular/material/legacy-autocomplete';
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
 import { AuthService } from '@kore.services/auth.service';
 import { KgDataService } from '@kore.services/componentsServices/kg-data.service';
 import { ServiceInvokerService } from '@kore.services/service-invoker.service';
-import { MatChipInputEvent } from '@angular/material/chips';
+import { MatLegacyChipInputEvent as MatChipInputEvent } from '@angular/material/legacy-chips';
 import { NotificationService } from '../../../services/notification.service';
 
 

@@ -1,7 +1,7 @@
 import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 import { SharedPipesModule } from './../../helpers/filters/shared-pipes.module';
 import { UpgradePlanModule } from './../../helpers/components/upgrade-plan/upgrade-plan.module';
-import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { MatLegacyProgressBarModule as MatProgressBarModule } from '@angular/material/legacy-progress-bar';
 import { StructuredDataStatusModalModule } from './../../components/structured-data-status-modal/structured-data-status-modal.module';
 import { AddStructuredDataModule } from './../../components/add-structured-data/add-structured-data.module';
 import { AddFaqModule } from './../../components/add-faq/add-faq.module';

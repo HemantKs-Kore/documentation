@@ -1,5 +1,5 @@
 import { UseronboardingJourneyModule } from './../../helpers/components/useronboarding-journey/useronboarding-journey.module';
-import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatLegacyProgressSpinnerModule as MatProgressSpinnerModule } from '@angular/material/legacy-progress-spinner';
 import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 import { SharedPipesModule } from './../../helpers/filters/shared-pipes.module';
 import { FormsModule } from '@angular/forms';

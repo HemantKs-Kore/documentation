@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
+import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
 import { AppSelectionService } from '@kore.services/app.selection.service';
 import { SideBarService } from '@kore.services/header.service';
 import { InlineManualService } from '@kore.services/inline-manual.service';

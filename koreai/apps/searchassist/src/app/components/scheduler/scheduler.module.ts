@@ -1,4 +1,4 @@
-import { MatCardModule } from '@angular/material/card';
+import { MatLegacyCardModule as MatCardModule } from '@angular/material/legacy-card';
 import { FormsModule } from '@angular/forms';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';

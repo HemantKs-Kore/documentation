@@ -27,7 +27,7 @@ import {
   scheduleOpts,
 } from '../../helpers/models/Crwal-advance.model';
 
-import { MatDialog } from '@angular/material/dialog';
+import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
 //import { DockStatusService } from '../../services/dock.status.service';
 import { DockStatusService } from '../../services/dockstatusService/dock-status.service';
 import { AppSelectionService } from '@kore.services/app.selection.service';

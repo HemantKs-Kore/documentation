@@ -7,7 +7,7 @@ import { AppSelectionService } from '@kore.services/app.selection.service';
 import { WorkflowService } from '@kore.services/workflow.service';
 import { interval, Subscription } from 'rxjs';
 import { ConfirmationDialogComponent } from '../../helpers/components/confirmation-dialog/confirmation-dialog.component';
-import { MatDialog } from '@angular/material/dialog';
+import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
 import { DockStatusService } from '../../services/dockstatusService/dock-status.service';
 import { startWith } from 'rxjs/operators';
 import * as _ from 'underscore';

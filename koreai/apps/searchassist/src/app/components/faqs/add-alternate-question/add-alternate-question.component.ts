@@ -3,9 +3,9 @@ import { AuthService } from '@kore.services/auth.service';
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
 import { NotificationService } from '../../../services/notification.service';
 import { KgDataService } from '@kore.services/componentsServices/kg-data.service';
-import { MatChipInputEvent } from '@angular/material/chips';
+import { MatLegacyChipInputEvent as MatChipInputEvent } from '@angular/material/legacy-chips';
 import { ServiceInvokerService } from '@kore.services/service-invoker.service';
-import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
+import { MatLegacyAutocompleteSelectedEvent as MatAutocompleteSelectedEvent } from '@angular/material/legacy-autocomplete';
 declare const $: any;
 import * as _ from 'underscore';
 

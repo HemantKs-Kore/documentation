@@ -8,7 +8,7 @@ import { ServiceInvokerService } from '@kore.services/service-invoker.service';
 import { Subscription } from 'rxjs';
 import { NotificationService } from '@kore.services/notification.service';
 import { DockStatusService } from '../../services/dockstatusService/dock-status.service';
-import { MatDialog } from '@angular/material/dialog';
+import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
 import { ConfirmationDialogComponent } from '../../helpers/components/confirmation-dialog/confirmation-dialog.component';
 import { UpgradePlanComponent } from '../../helpers/components/upgrade-plan/upgrade-plan.component';
 import * as _ from 'underscore';

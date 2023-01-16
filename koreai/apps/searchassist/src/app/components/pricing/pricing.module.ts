@@ -1,6 +1,6 @@
 import { NgxEchartsModule } from 'ngx-echarts';
 import { SharedPipesModule } from './../../helpers/filters/shared-pipes.module';
-import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatLegacyProgressSpinnerModule as MatProgressSpinnerModule } from '@angular/material/legacy-progress-spinner';
 import { NgbProgressbarModule, NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 import { KrModalModule } from './../../shared/kr-modal/kr-modal.module';
 import { TranslateModule } from '@ngx-translate/core';

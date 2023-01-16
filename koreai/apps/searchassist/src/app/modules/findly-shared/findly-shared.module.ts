@@ -12,7 +12,7 @@ import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
 import { SearchFilterComponent } from '../../helpers/components/search-filter/search-filter.component';
 import { FormsModule } from '@angular/forms';
 import { NgbDropdownModule, NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
-import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatLegacyProgressSpinnerModule as MatProgressSpinnerModule } from '@angular/material/legacy-progress-spinner';
 import { SynonymFilterPipe } from '../../components/synonyms/synonym-filter';
 
 

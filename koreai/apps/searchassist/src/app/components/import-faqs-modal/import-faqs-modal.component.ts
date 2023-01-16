@@ -7,7 +7,7 @@ import { WorkflowService } from '@kore.services/workflow.service';
 import { KgDataService } from '@kore.services/componentsServices/kg-data.service';
 import { NotificationService } from '@kore.services/notification.service';
 import { Subscription, interval } from 'rxjs';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatLegacyDialogRef as MatDialogRef, MAT_LEGACY_DIALOG_DATA as MAT_DIALOG_DATA } from '@angular/material/legacy-dialog';
 import { finalize, map, startWith, pluck } from 'rxjs/operators';
 import { FileUploader } from 'ng2-file-upload';
 import { DockStatusService } from '../../services/dockstatusService/dock-status.service';
