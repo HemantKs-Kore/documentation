@@ -10,7 +10,11 @@
   />
 </div>
 <div for="tagInput" class="label-text">Tags</div>
-<mat-form-field class="example-chip-list mb-15" [floatLabel]="'never'">
+<mat-form-field
+  class="example-chip-list mb-15"
+  [floatLabel]="'never'"
+  appearance="outline"
+>
   <mat-chip-grid #chipList aria-label="tag selection">
     <mat-chip-row
       *ngFor="let tag of tags; let index = index"

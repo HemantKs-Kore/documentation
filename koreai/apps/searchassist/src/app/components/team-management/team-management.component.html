@@ -282,7 +282,11 @@
               {{ 'teams_app_members' | translate
               }}<sup class="field-mandatory">*</sup>
             </div>
-            <mat-form-field class="example-chip-list" [floatLabel]="'never'">
+            <mat-form-field
+              class="example-chip-list"
+              [floatLabel]="'never'"
+              appearance="outline"
+            >
               <mat-chip-grid #chipList aria-label="Fruit selection">
                 <mat-chip-row
                   *ngFor="let member of members"

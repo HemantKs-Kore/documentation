@@ -21,7 +21,7 @@
   </div>
   <div for="tagInput" class="label_text">Keywords</div>
   <mat-form-field class="example-chip-list mb-15" [floatLabel]="'never'">
-    <mat-chip-grid #chipList aria-label="tag selection">
+    <mat-chip-grid #chipList aria-label="tag selection" appearance="outline">
       <mat-chip-row
         *ngFor="let tag of tags; let index = index"
         (removed)="remove(tag)"

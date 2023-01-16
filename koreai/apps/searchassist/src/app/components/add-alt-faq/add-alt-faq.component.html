@@ -27,7 +27,11 @@
       [(ngModel)]="altQuestion"
     />
   </div>
-  <mat-form-field class="example-chip-list mb-15" [floatLabel]="'never'">
+  <mat-form-field
+    class="example-chip-list mb-15"
+    [floatLabel]="'never'"
+    appearance="outline"
+  >
     <mat-chip-grid #chipList aria-label="tag selection">
       <mat-chip-row
         *ngFor="let tag of altTags; let index = index"

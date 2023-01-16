@@ -158,7 +158,11 @@
         />
       </div>
       <div for="tagInput" class="label_text">Values</div>
-      <mat-form-field class="example-chip-list mb-20" [floatLabel]="'never'">
+      <mat-form-field
+        class="example-chip-list mb-20"
+        [floatLabel]="'never'"
+        appearance="outline"
+      >
         <mat-chip-grid #chipList aria-label="tag selection">
           <mat-chip-row
             *ngFor="let tag of addEditattribute.attributes; let index = index"
