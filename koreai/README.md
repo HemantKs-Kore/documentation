@@ -18,6 +18,9 @@ npm run wba
 
 // run source map explorer
 npm run sme
+
+// update angular
+nx migrate latest
 ```
 
 ## E2E
@@ -44,3 +47,4 @@ ng g m test --route test --module app
 - Lazy load external css
 - Prettier code formatter
 - Lazy load theme and component specific style
+- Resolver to prefetch data before routing to page
