@@ -30,7 +30,7 @@
       >
         <div
           class="kr-sg-checkbox p-0 m-0"
-          *ngIf="selcectionObj.selectedCount == allMembersCount"
+          *ngIf="selcectionObj.selectedCount === allMembersCount"
         >
           <input
             id="selectAllFacets"
@@ -47,7 +47,7 @@
         </div>
         <div
           class="kr-sg-checkbox p-0 m-0"
-          *ngIf="selcectionObj.selectedCount != allMembersCount"
+          *ngIf="selcectionObj.selectedCount !== allMembersCount"
         >
           <img
             (click)="selectAllFromPartial()"
@@ -283,8 +283,8 @@
               }}<sup class="field-mandatory">*</sup>
             </div>
             <mat-form-field class="example-chip-list" [floatLabel]="'never'">
-              <mat-chip-set #chipList aria-label="Fruit selection">
-                <mat-chip
+              <mat-chip-grid #chipList aria-label="Fruit selection">
+                <mat-chip-row
                   *ngFor="let member of members"
                   [selectable]="selectable"
                   [removable]="removable"
@@ -295,7 +295,7 @@
                   <mat-icon matChipRemove
                     ><img src="assets/images/close.svg"
                   /></mat-icon>
-                </mat-chip>
+                </mat-chip-row>
                 <input
                   type="text"
                   placeholder="{{ 'teams_enter_email' | translate }}"
@@ -312,7 +312,7 @@
                   maxlength="60"
                   autocomplete="off"
                 />
-              </mat-chip-set>
+              </mat-chip-grid>
             </mat-form-field>
           </div>
         </div>

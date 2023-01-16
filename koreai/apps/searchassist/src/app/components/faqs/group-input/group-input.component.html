@@ -1,6 +1,6 @@
 <mat-form-field class="example-chip-list">
-  <mat-chip-set #chipList aria-label="group selection">
-    <mat-chip
+  <mat-chip-grid #chipList aria-label="group selection">
+    <mat-chip-row
       *ngFor="let group of groups"
       [selectable]="selectable"
       [removable]="removable"
@@ -10,7 +10,7 @@
       <mat-icon matChipRemove *ngIf="removable"
         ><img src="assets/images/close.svg"
       /></mat-icon>
-    </mat-chip>
+    </mat-chip-row>
     <input
       placeholder="New group..."
       #groupInput
@@ -21,7 +21,7 @@
       [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
       (matChipInputTokenEnd)="add($event)"
     />
-  </mat-chip-set>
+  </mat-chip-grid>
   <mat-autocomplete
     #auto="matAutocomplete"
     class="mat_autofocus_dropdown"

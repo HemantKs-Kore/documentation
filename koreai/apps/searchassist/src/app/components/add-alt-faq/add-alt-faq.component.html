@@ -28,14 +28,14 @@
     />
   </div>
   <mat-form-field class="example-chip-list mb-15" [floatLabel]="'never'">
-    <mat-chip-set #chipList aria-label="tag selection">
-      <mat-chip
+    <mat-chip-grid #chipList aria-label="tag selection">
+      <mat-chip-row
         *ngFor="let tag of altTags; let index = index"
         (removed)="removeAltTag(tag)"
       >
         <div class="mat-value">{{ tag.tag }}</div>
         <mat-icon matChipRemove><img src="assets/images/close.svg" /></mat-icon>
-      </mat-chip>
+      </mat-chip-row>
       <input
         placeholder="Type & enter"
         [value]="typedQuery"
@@ -47,7 +47,7 @@
         #suggestedInput
         (click)="$event.stopPropagation()"
       />
-    </mat-chip-set>
+    </mat-chip-grid>
   </mat-form-field>
   <div class="btn-sec">
     <button

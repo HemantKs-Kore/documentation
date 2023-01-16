@@ -220,7 +220,7 @@
               <!-- <button class="kr-sg-button-secondary btn_lg mr-0" (click)="addAnotherResponse('conditional')"><img src="assets/icons/editor/plus-add.svg" class="mr-2" >{{"addFaq_response" | translate}}</button> -->
               <div class="body-top-content pointer">
                 <div class="question-content">
-                  <div class="label-text" *ngIf="index == 0">
+                  <div class="label-text" *ngIf="index === 0">
                     {{ 'addFaq_response' | translate }}
                     <span
                       *ngIf="
@@ -230,7 +230,7 @@
                     >
                     <div
                       class="deleteResponseDiv red"
-                      *ngIf="faqResponse.conditionalAnswers.length == 1"
+                      *ngIf="faqResponse.conditionalAnswers.length === 1"
                       (click)="$event.stopPropagation(); delete(index)"
                       ngbTooltip="{{ 'sa_delete' | translate }}"
                     >
@@ -247,7 +247,7 @@
                     <div
                       class="bot-response-title position-relative"
                       *ngIf="faqResponse.conditionalAnswers.length > 1"
-                      [ngClass]="{ 'text-black': currentEditIndex == index }"
+                      [ngClass]="{ 'text-black': currentEditIndex === index }"
                     >
                       {{ 'addFaq_response' | translate
                       }}<span
@@ -397,7 +397,7 @@
                 <!-- title="Click to edit this response" -->
                 <div
                   class="col-12 p-0 pointer body_sec"
-                  [hidden]="currentEditIndex == index"
+                  [hidden]="currentEditIndex === index"
                 >
                   <div class="previewResponseMod">
                     <div class="responsePreviewBlock">
@@ -660,9 +660,9 @@
                                               <li
                                                 ngbDropdownItem
                                                 [hidden]="
-                                                  (dataType == 'date' ||
-                                                    dataType == 'number') &&
-                                                  ruleObj.contextType ==
+                                                  (dataType === 'date' ||
+                                                    dataType === 'number') &&
+                                                  ruleObj.contextType ===
                                                     'searchContext'
                                                 "
                                                 (click)="
@@ -758,10 +758,10 @@
                                           class="example-chip-list"
                                           [ngClass]="{
                                             'date-chip':
-                                              ruleObj.dataType == 'date'
+                                              ruleObj.dataType === 'date'
                                           }"
                                         >
-                                          <mat-chip-set
+                                          <mat-chip-grid
                                             #chipList
                                             [attr.aria-label]="'tag selection'"
                                             class="date-range-picker-right-d-none"
@@ -780,7 +780,7 @@
                                                   let index = index
                                                 "
                                               >
-                                                <mat-chip
+                                                <mat-chip-row
                                                   [selectable]="selectable"
                                                   (removed)="
                                                     removeTag(
@@ -798,7 +798,7 @@
                                                     ><img
                                                       src="assets/images/close.svg"
                                                   /></mat-icon>
-                                                </mat-chip>
+                                                </mat-chip-row>
                                                 <span class="and">
                                                   {{
                                                     'addFaq_or_caps' | translate
@@ -819,7 +819,7 @@
                                                   let index = index
                                                 "
                                               >
-                                                <mat-chip
+                                                <mat-chip-row
                                                   [selectable]="selectable"
                                                   (removed)="
                                                     removeTag(
@@ -833,7 +833,7 @@
                                                     *ngIf="
                                                       value &&
                                                       value.length &&
-                                                      ruleObj.operator ==
+                                                      ruleObj.operator ===
                                                         'between'
                                                     "
                                                   >
@@ -862,7 +862,7 @@
                                                     ><img
                                                       src="assets/images/close.svg"
                                                   /></mat-icon>
-                                                </mat-chip>
+                                                </mat-chip-row>
                                                 <span>{{
                                                   'addFaq_or_caps' | translate
                                                 }}</span>
@@ -882,7 +882,7 @@
                                                   let index = index
                                                 "
                                               >
-                                                <mat-chip
+                                                <mat-chip-row
                                                   [selectable]="selectable"
                                                   (removed)="
                                                     removeTag(
@@ -904,7 +904,7 @@
                                                     ><img
                                                       src="assets/images/close.svg"
                                                   /></mat-icon>
-                                                </mat-chip>
+                                                </mat-chip-row>
                                                 <span>{{
                                                   'addFaq_or_caps' | translate
                                                 }}</span>
@@ -925,7 +925,7 @@
                                                   let index = index
                                                 "
                                               >
-                                                <mat-chip
+                                                <mat-chip-row
                                                   [selectable]="selectable"
                                                   (removed)="
                                                     removeTag(
@@ -960,7 +960,7 @@
                                                     ><img
                                                       src="assets/images/close.svg"
                                                   /></mat-icon>
-                                                </mat-chip>
+                                                </mat-chip-row>
                                                 <span>{{
                                                   'addFaq_or_caps' | translate
                                                 }}</span>
@@ -969,8 +969,8 @@
 
                                             <ng-container
                                               *ngIf="
-                                                ruleObj.dataType != 'date' &&
-                                                ruleObj.dataType != 'number'
+                                                ruleObj.dataType !== 'date' &&
+                                                ruleObj.dataType !== 'number'
                                               "
                                             >
                                               <input
@@ -990,7 +990,9 @@
                                             </ng-container>
 
                                             <ng-container
-                                              *ngIf="ruleObj.dataType == 'date'"
+                                              *ngIf="
+                                                ruleObj.dataType === 'date'
+                                              "
                                             >
                                               <ng-container
                                                 *ngIf="
@@ -1084,12 +1086,12 @@
 
                                             <ng-container
                                               *ngIf="
-                                                ruleObj.dataType == 'number'
+                                                ruleObj.dataType === 'number'
                                               "
                                             >
                                               <input
                                                 [placeholder]="
-                                                  ruleObj.operator == 'between'
+                                                  ruleObj.operator === 'between'
                                                     ? 'Type Range'
                                                     : 'Type Keyword'
                                                 "
@@ -1102,12 +1104,12 @@
                                                 "
                                               />
                                             </ng-container>
-                                          </mat-chip-set>
+                                          </mat-chip-grid>
                                         </mat-form-field>
                                         <ng-container
                                           *ngIf="
-                                            ruleObj.dataType == 'number' &&
-                                            ruleObj.operator == 'between'
+                                            ruleObj.dataType === 'number' &&
+                                            ruleObj.operator === 'between'
                                           "
                                         >
                                           <div class="info-number-placeholder">
@@ -1194,7 +1196,7 @@
                 (click)="currentEditIndex = index"
               >
                 <div class="question-content">
-                  <div class="label-text" *ngIf="index == 0">
+                  <div class="label-text" *ngIf="index === 0">
                     {{ 'addFaq_response' | translate }}
                     <span
                       *ngIf="faqData && faqResponse.defaultAnswers.length > 1"
@@ -1202,7 +1204,7 @@
                     >
                     <div
                       class="deleteResponseDiv red"
-                      *ngIf="faqResponse.defaultAnswers.length == 1"
+                      *ngIf="faqResponse.defaultAnswers.length === 1"
                       (click)="$event.stopPropagation(); delete(index)"
                       ngbTooltip="{{ 'sa_delete' | translate }}"
                     >
@@ -1219,7 +1221,7 @@
                     <div
                       class="bot-response-title position-relative"
                       *ngIf="faqResponse.defaultAnswers.length > 1"
-                      [ngClass]="{ 'text-black': currentEditIndex == index }"
+                      [ngClass]="{ 'text-black': currentEditIndex === index }"
                     >
                       {{ 'addFaq_response' | translate
                       }}<span *ngIf="faqResponse.defaultAnswers.length > 1">{{
@@ -1368,7 +1370,7 @@
                 <!-- title="Click to edit this response" -->
                 <div
                   class="col-12 p-0 pointer body_sec"
-                  [hidden]="currentEditIndex == index"
+                  [hidden]="currentEditIndex === index"
                 >
                   <div class="previewResponseMod">
                     <div class="responsePreviewBlock">
