@@ -1,3 +1,5 @@
+import { PipelineDataResolver } from './../../services/resolvers/pipeline-data.resolve';
+import { PipelineResolver } from '../../services/resolvers/pipeline-data.resolve';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
@@ -15,6 +17,10 @@ import { NgbModule, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
     PerfectScrollbarModule,
     SearchSettingsRoutingModule,
     NgbModule
+  ],
+  providers: [
+    PipelineDataResolver,
+    PipelineResolver
   ]
 })
 export class SearchSettingsModule { }
