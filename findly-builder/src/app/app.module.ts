@@ -1,5 +1,4 @@
-import { CacheInterceptor } from './services/inteceptors/cache.interceptor';
-import { LoaderInterceptor } from './services/inteceptors/loader-interceptor.service';
+import { globalProviders } from './services/inteceptors/index';
 import { LoaderModule } from './shared/loader/loader.module';
 import { PricingModule } from './components/pricing/pricing.module';
 import { IndexModule } from './components/index/index.module';
@@ -231,17 +230,11 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
     EditorUrlDialogComponent,
   ],
   providers: [
-    {
-      provide: HTTP_INTERCEPTORS,
-      useClass: AuthInterceptor,
-      multi: true,
-    },
+    globalProviders,
     {
       provide: MAT_FORM_FIELD_DEFAULT_OPTIONS,
       useValue: { appearance: 'fill' },
     },
-    { provide: HTTP_INTERCEPTORS, useClass: CacheInterceptor, multi: true },
-    { provide: HTTP_INTERCEPTORS, useClass: LoaderInterceptor, multi: true },
     SortPipe,
     AuthGuard,
     AppDataResolver,
