@@ -1,0 +1,20 @@
+@use '@angular/material' as mat;
+
+@use 'light';
+
+@include mat.core();
+
+// include style for all material components
+// @include mat.all-component-themes($my-app-theme);
+
+// include specific component style
+// must include
+@include mat.core-theme(light.$kore-light-theme);
+
+// components
+@include mat.button-theme(light.$kore-light-theme);
+
+html,
+body {
+  height: 100%;
+}

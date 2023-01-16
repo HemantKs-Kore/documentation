@@ -16,18 +16,30 @@
         "polyfills": "apps/searchassist/src/polyfills.ts",
         "tsConfig": "apps/searchassist/tsconfig.app.json",
         "inlineStyleLanguage": "scss",
+        "stylePreprocessorOptions": {
+          "includePaths": ["scss", "apps/searchassist/src/scss"]
+        },
         "assets": [
           "apps/searchassist/src/favicon.ico",
-          "apps/searchassist/src/assets"
+          "apps/searchassist/src/assets",
+          {
+            "glob": "**/*",
+            "input": "assets/",
+            "output": "assets/"
+          }
         ],
         "styles": [
-          "node_modules/bootstrap/dist/css/bootstrap.min.css",
-          "apps/searchassist/src/app/scss/styles.scss",
+          "apps/searchassist/src/scss/styles.scss",
           "apps/searchassist/src/assets/fonts/inter/inter-font.css",
           "apps/searchassist/src/assets/web-kore-sdk/libs/purejscarousel.css",
           "apps/searchassist/src/assets/css/bootstrap-slider.css",
           "node_modules/nouislider/distribute/nouislider.min.css",
-          "node_modules/@ctrl/ngx-emoji-mart/picker.css"
+          "node_modules/@ctrl/ngx-emoji-mart/picker.css",
+          {
+            "input": "scss/themes/dark.scss",
+            "bundleName": "dark-theme",
+            "inject": false
+          }
         ],
         "scripts": [
           "node_modules/jquery/dist/jquery.min.js",

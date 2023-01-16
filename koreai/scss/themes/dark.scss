@@ -1,0 +1,23 @@
+@use "sass:map";
+@use "@angular/material" as mat;
+
+// @use "../typography/config" as typography;
+// @use "../components";
+
+$kore-dark-primary: mat.define-palette(mat.$blue-grey-palette);
+$kore-dark-accent: mat.define-palette(mat.$amber-palette, A200, A100, A400);
+$kore-dark-warn: mat.define-palette(mat.$deep-orange-palette);
+$kore-dark-theme: mat.define-dark-theme(
+  (
+    color: (
+      primary: $kore-dark-primary,
+      accent: $kore-dark-accent,
+      warn: $kore-dark-warn,
+    ),
+  )
+);
+
+.dark-theme {
+  @include mat.core-color($kore-dark-theme);
+  @include mat.button-color($kore-dark-theme);
+}
