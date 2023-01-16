@@ -1,0 +1,61 @@
+.mdc-notched-outline {
+  display: none !important;
+}
+
+.mat-mdc-text-field-wrapper {
+  padding: 0 !important;
+}
+
+.mat-mdc-chip-grid {
+  .mdc-evolution-chip-set__chips {
+    border-radius: 4px;
+    border: solid 1px #bdc1c6;
+    margin: 0;
+    margin-left: 0 !important;
+    font-family: Inter !important;
+    background: #fff;
+    .mat-input-element {
+      margin: 0;
+      border: 0;
+      height: 34px;
+      padding-left: 10px;
+      &:focus {
+        border: 0 !important;
+        outline: 0 !important;
+      }
+    }
+    .mdc-evolution-chip {
+      height: auto;
+      border-radius: 4px;
+      background-color: #eff0f1;
+      padding: 0px 9px;
+      margin: 3px 0px 3px 3px;
+      min-height: 30px;
+      &:hover {
+        &::after {
+          opacity: 0.09;
+        }
+      }
+      .mat-val {
+        color: #202124;
+        font-size: 12px;
+        font-weight: normal;
+        font-size: 14px;
+        line-height: 20px;
+      }
+      .mat-icon {
+        width: auto;
+        height: auto;
+        position: relative;
+        img {
+          width: auto;
+          height: auto;
+          vertical-align: middle;
+          position: relative;
+          top: -3px;
+          left: 0px;
+        }
+      }
+    }
+  }
+}
