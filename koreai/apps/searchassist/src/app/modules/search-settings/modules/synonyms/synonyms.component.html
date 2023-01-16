@@ -135,9 +135,9 @@
               "
               [floatLabel]="'never'"
             >
-              <mat-chip-set #chipList>
+              <mat-chip-grid #chipList>
                 <perfect-scrollbar class="mat-chip-scroll">
-                  <mat-chip
+                  <mat-chip-row
                     id="sa_syn{{ index }}"
                     *ngFor="
                       let syn of addNewSynonymObj.synonyms;
@@ -150,7 +150,7 @@
                     <mat-icon matChipRemove>
                       <span class="close-icon"><i class="si-close"></i></span
                     ></mat-icon>
-                  </mat-chip>
+                  </mat-chip-row>
                   <input
                     placeholder="{{
                       'synonyms_type_synonym_and_enter' | translate
@@ -165,7 +165,7 @@
                     autocomplete="off"
                   />
                 </perfect-scrollbar>
-              </mat-chip-set>
+              </mat-chip-grid>
             </mat-form-field>
           </div>
         </div>
@@ -246,7 +246,7 @@
                 >
                   <li
                     id="sa_synonym_all_filter"
-                    [ngClass]="{ 'selected-list': filterObject.type == 'all' }"
+                    [ngClass]="{ 'selected-list': filterObject.type === 'all' }"
                     (click)="filterTable('all'); synonymFilter.close()"
                   >
                     <span class="list-name"
@@ -260,7 +260,7 @@
                   <li
                     id="sa_synonym_synoymn_filter"
                     [ngClass]="{
-                      'selected-list': filterObject.type == 'synonym'
+                      'selected-list': filterObject.type === 'synonym'
                     }"
                     (click)="
                       filterTable('synonym', 'synonym'); synonymFilter.close()
@@ -277,7 +277,7 @@
                   <li
                     id="sa_synonym_oneWaySynonym_filter"
                     [ngClass]="{
-                      'selected-list': filterObject.type == 'oneWaySynonym'
+                      'selected-list': filterObject.type === 'oneWaySynonym'
                     }"
                     (click)="
                       filterTable('oneWaySynonym', 'oneWaySynonym');
@@ -310,7 +310,7 @@
               class="table_body row m-0 pl-2"
               *ngFor="let synonymObj of synonymData; let i = index"
             >
-              <ng-container *ngIf="editIndex != i">
+              <ng-container *ngIf="editIndex !== i">
                 <div class="col-8 title text-left">
                   <div class="table-row-view">
                     <div class="synonym-view-data row col-12 p-0 m-0">
@@ -318,7 +318,7 @@
                         class="synonym-name col-2 p-0 text-truncate"
                         [container]="'body'"
                         ngbTooltip="{{ synonymObj.keyword }}"
-                        *ngIf="synonymObj.type == 'oneWaySynonym'"
+                        *ngIf="synonymObj.type === 'oneWaySynonym'"
                       >
                         {{ synonymObj.keyword }}
                       </div>
@@ -344,7 +344,7 @@
                           </div>
                           <div
                             *ngIf="
-                              synonymObj.type == 'oneWaySynonym' &&
+                              synonymObj.type === 'oneWaySynonym' &&
                               synIndex < synonymObj.synonyms.length - 1
                             "
                             class="synonym-type-list-and-or"
@@ -368,7 +368,7 @@
                 <div class="col-2 title text-left p-0">
                   <div class="Synonym-type-name">
                     {{
-                      synonymObj?.type == 'synonym'
+                      synonymObj?.type === 'synonym'
                         ? ('synonyms_synonym' | translate)
                         : ('synonyms_one_way_synonym' | translate)
                     }}
@@ -397,7 +397,7 @@
                   </div>
                 </div>
               </ng-container>
-              <ng-container *ngIf="editIndex == i">
+              <ng-container *ngIf="editIndex === i">
                 <div class="col-8 title text-left">
                   <div
                     class="table-row-edit-view table-row-view one-way-synonym"
@@ -460,9 +460,9 @@
                               "
                               [floatLabel]="'never'"
                             >
-                              <mat-chip-set #chipList1>
+                              <mat-chip-grid #chipList1>
                                 <perfect-scrollbar class="mat-chip-scroll">
-                                  <mat-chip
+                                  <mat-chip-row
                                     id="sa_editSyn{{ editSynIndex }}"
                                     *ngFor="
                                       let syn of editSynonymObj.synonyms;
@@ -477,7 +477,7 @@
                                         ><i class="si-close"></i
                                       ></span>
                                     </mat-icon>
-                                  </mat-chip>
+                                  </mat-chip-row>
                                   <input
                                     id="sa_synonym_input_enter"
                                     placeholder="{{
@@ -493,7 +493,7 @@
                                     autocomplete="off"
                                   />
                                 </perfect-scrollbar>
-                              </mat-chip-set>
+                              </mat-chip-grid>
                               <img
                                 *ngIf="
                                   !editSynonymObj?.synonyms.length &&
@@ -520,7 +520,7 @@
                 <div class="col-2 title text-left p-0">
                   <div class="Synonym-type-name">
                     {{
-                      synonymObj?.type == 'synonym'
+                      synonymObj?.type === 'synonym'
                         ? ('synonyms_synonym' | translate)
                         : ('synonyms_one_way_synonym' | translate)
                     }}

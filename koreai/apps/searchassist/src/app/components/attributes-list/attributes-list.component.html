@@ -159,8 +159,8 @@
       </div>
       <div for="tagInput" class="label_text">Values</div>
       <mat-form-field class="example-chip-list mb-20" [floatLabel]="'never'">
-        <mat-chip-set #chipList aria-label="tag selection">
-          <mat-chip
+        <mat-chip-grid #chipList aria-label="tag selection">
+          <mat-chip-row
             *ngFor="let tag of addEditattribute.attributes; let index = index"
             (removed)="removeAltTag(tag)"
           >
@@ -168,7 +168,7 @@
             <mat-icon matChipRemove
               ><img src="assets/images/close.svg"
             /></mat-icon>
-          </mat-chip>
+          </mat-chip-row>
           <input
             placeholder="Type & enter"
             [(ngModel)]="addEditattribute.newTag"
@@ -179,7 +179,7 @@
             id="tagInput"
             (click)="$event.stopPropagation()"
           />
-        </mat-chip-set>
+        </mat-chip-grid>
       </mat-form-field>
       <div class="kr-sg-dropdowns w-100 d-none">
         <div class="label-text">Label</div>
