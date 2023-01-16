@@ -383,7 +383,7 @@
                 let basic of selectedStage.condition.mappings;
                 let i = index
               "
-              [hidden]="selectedStage.condition.type == 'script'"
+              [hidden]="selectedStage.condition.type === 'script'"
             >
               <div class="conditions-types">
                 <div
@@ -527,6 +527,7 @@
                 <mat-form-field
                   class="example-chip-list"
                   [floatLabel]="'never'"
+                  appearance="outline"
                 >
                   <mat-chip-grid
                     #chipList

@@ -1,4 +1,4 @@
-@import "./../../../app/scss/variables/variables.scss";
+@import './../../../app/scss/variables/variables.scss';
 .contentContainer {
   // padding: 30px 65px 0 70px;
   padding: 0px;
@@ -131,8 +131,8 @@
 .mainLoadingSpinner1 {
   position: absolute;
   top: 55%;
-  left:35%;
-  padding-left:50px;
+  left: 35%;
+  padding-left: 50px;
   background: transparent;
   width: 223px;
   height: 40px;
@@ -235,14 +235,14 @@
           border-radius: 4px;
           margin: 12px 30px;
           transition: 0.3s all ease;
-          &.if-beta{
+          &.if-beta {
             padding: 15px 66px 15px 34px;
           }
-          .beta-tag{
+          .beta-tag {
             position: absolute;
             right: 30px;
             top: 17px;
-            background: #777A80;
+            background: #777a80;
             padding: 3px 3px;
             border-radius: 4px;
             text-transform: uppercase;
@@ -265,14 +265,14 @@
           &:hover {
             border: 1px solid #0d6efd;
             background: #e7f1ff;
-            .beta-tag{
-              background: #85B7FE;
+            .beta-tag {
+              background: #85b7fe;
             }
             .title {
               color: #202124;
               font-weight: 600;
               font-size: 12px;
-              line-height: 20px;              
+              line-height: 20px;
             }
             .drag_drop_icon {
               display: block;
@@ -412,7 +412,7 @@
           margin: 20px 0 10px 0px;
           padding: 10px;
           // border: 1px solid #e4e5eb;
-          border: solid 1px #BDC1C6;
+          border: solid 1px #bdc1c6;
           border-radius: 4px;
           button {
             img {
@@ -549,7 +549,7 @@
           margin: 10px 0;
           padding: 10px;
           // border: 1px solid #e4e5eb;
-          border: solid 1px #BDC1C6;
+          border: solid 1px #bdc1c6;
           border-radius: 4px;
           .main-heading {
             font-weight: 500;
@@ -682,7 +682,7 @@
       .stage_field_mapping {
         padding: 10px;
         // border: 1px solid #e4e5eb;
-        border: solid 1px #BDC1C6;
+        border: solid 1px #bdc1c6;
         border-radius: 4px;
       }
       .footer-simulate-form {
@@ -692,9 +692,9 @@
           margin-right: 15px;
         }
       }
-      .beta-tag{
+      .beta-tag {
         position: absolute;
-        background: #777A80;
+        background: #777a80;
         padding: 3px 3px;
         border-radius: 4px;
         text-transform: uppercase;
@@ -799,7 +799,7 @@
         }
 
         /* Firefox */
-        input[type="number"] {
+        input[type='number'] {
           -moz-appearance: textfield;
         }
         .minus {
@@ -837,6 +837,66 @@
   }
 }
 :host ::ng-deep .example-chip-list {
+  .mdc-notched-outline {
+    display: none;
+  }
+
+  .mat-mdc-text-field-wrapper {
+    padding: 0;
+  }
+
+  .mat-mdc-chip-grid {
+    .mdc-evolution-chip-set__chips {
+      border-radius: 4px;
+      border: solid 1px #bdc1c6;
+      margin: 0;
+      font-family: Inter !important;
+      background: #fff;
+      .mat-input-element {
+        margin: 0;
+        border: 0;
+        height: 34px;
+        padding-left: 10px;
+        &:focus {
+          border: 0 !important;
+          outline: 0 !important;
+        }
+      }
+      .mdc-evolution-chip {
+        border-radius: 4px;
+        background-color: #eff0f1;
+        padding: 0px 9px;
+        margin: 3px 0px 3px 3px;
+        min-height: 30px;
+        &:hover {
+          &::after {
+            opacity: 0.09;
+          }
+        }
+        .mat-val {
+          color: #202124;
+          font-size: 12px;
+          font-weight: normal;
+          font-size: 14px;
+          line-height: 20px;
+        }
+        .mat-icon {
+          width: auto;
+          height: auto;
+          position: relative;
+          img {
+            width: auto;
+            height: auto;
+            vertical-align: middle;
+            position: relative;
+            top: -3px;
+            left: 0px;
+          }
+        }
+      }
+    }
+  }
+
   width: 100%;
   .mat-form-field-wrapper {
     padding: 0;
@@ -845,57 +905,6 @@
         margin: 0;
         padding: 0;
         border: 0;
-        .mat-chip-list {
-          .mat-chip-list-wrapper {
-            border-radius: 4px;
-            border: solid 1px #bdc1c6;
-            margin: 0;
-            font-family: Inter !important;
-            background: #fff;
-            .mat-input-element {
-              margin: 0;
-              border: 0;
-              height: 34px;
-              padding-left: 10px;
-              &:focus {
-                border: 0 !important;
-                outline: 0 !important;
-              }
-            }
-            .mat-chip {
-              border-radius: 4px;
-              background-color: #eff0f1;
-              padding: 0px 9px;
-              margin: 3px 0px 3px 3px;
-              min-height: 30px;
-              &:hover {
-                &::after {
-                  opacity: 0.09;
-                }
-              }
-              .mat-val {
-                color: #202124;
-                font-size: 12px;
-                font-weight: normal;
-                font-size: 14px;
-                line-height: 20px;
-              }
-              .mat-icon {
-                width: auto;
-                height: auto;
-                position: relative;
-                img {
-                  width: auto;
-                  height: auto;
-                  vertical-align: middle;
-                  position: relative;
-                  top: -3px;
-                  left: 0px;
-                }
-              }
-            }
-          }
-        }
       }
     }
   }
@@ -1093,7 +1102,7 @@
       width: 245px;
     }
     &::before {
-      content: "";
+      content: '';
       position: absolute;
       top: 23px;
       right: 100%;
@@ -1210,16 +1219,16 @@
   font-weight: bold;
 }
 
-.pl-10{
+.pl-10 {
   padding-left: 10px !important;
 }
 
 .beta-icon {
-    height: 37px;
-    float: right;
-    position: absolute;
-    margin-left: 6px;
-    bottom: 21px;
+  height: 37px;
+  float: right;
+  position: absolute;
+  margin-left: 6px;
+  bottom: 21px;
 }
 
 .beta-icon-stage {
