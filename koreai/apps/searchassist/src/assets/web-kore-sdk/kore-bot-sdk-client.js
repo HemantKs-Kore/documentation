@@ -613,7 +613,7 @@ requireKr = (function e(t, n, r) { function s(o, u) { if (!n[o]) { if (!t[o]) { 
          *
          * The array of timezones to compare must be in the order that daylight savings
          * starts for the regions.
-         *
+         * 
          * @TODO: Once 2013 is upon us, remove Asia/Gaza from the Beirut ambiguity list,
          * by then it should suffice that it lives in the Africa/Johannesburg check.
          */
@@ -894,7 +894,7 @@ requireKr = (function e(t, n, r) { function s(o, u) { if (!n[o]) { if (!t[o]) { 
       };
 
 
-      //to re write rtm/start call
+      //to re write rtm/start call   
       if (this.reWriteGetRtmRequest) {
         var _reWriteGetRtmRequest = (typeof this.reWriteGetRtmRequest === 'function') ? this.reWriteGetRtmRequest() : this.reWriteGetRtmRequest;
         if (args.url.indexOf('rtm/start') > -1) {
@@ -910,7 +910,7 @@ requireKr = (function e(t, n, r) { function s(o, u) { if (!n[o]) { if (!t[o]) { 
         }
       }
 
-      //to re write jwt grant call
+      //to re write jwt grant call   
       if (this.reWriteJwtGrantRequest) {
         var _reWriteJwtGrantRequest = (typeof this.reWriteJwtGrantRequest === 'function') ? this.reWriteJwtGrantRequest() : this.reWriteJwtGrantRequest;
         if (args.url.indexOf('oAuth/token/jwtgrant') > -1) {
@@ -2399,7 +2399,7 @@ requireKr = (function e(t, n, r) { function s(o, u) { if (!n[o]) { if (!t[o]) { 
                 callback.apply(null, [err].concat(args));
               }
               else {
-                var next = iterator.next(undefined);
+                var next = iterator.next();
                 if (next) {
                   args.push(wrapIterator(next));
                 }
@@ -2448,7 +2448,7 @@ requireKr = (function e(t, n, r) { function s(o, u) { if (!n[o]) { if (!t[o]) { 
               if (tasks.length) {
                 tasks[index].apply(null, arguments);
               }
-              return fn.next(undefined);
+              return fn.next();
             }
             fn.next = function () {
               return (index < tasks.length - 1) ? makeCallback(index + 1) : null;
@@ -2984,7 +2984,7 @@ requireKr = (function e(t, n, r) { function s(o, u) { if (!n[o]) { if (!t[o]) { 
     // See the License for the specific language governing permissions and
     // limitations under the License.
 
-    // UMD HEADER START
+    // UMD HEADER START 
     (function (root, factory) {
       if (typeof define === 'function' && define.amd) {
         // AMD. Register as an anonymous module.

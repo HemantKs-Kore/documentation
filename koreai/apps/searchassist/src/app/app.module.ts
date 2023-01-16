@@ -1,3 +1,5 @@
+import { globalProviders } from './services/inteceptors/index';
+import { LoaderModule } from './shared/loader/loader.module';
 import { PricingModule } from './components/pricing/pricing.module';
 import { IndexModule } from './components/index/index.module';
 import { BusinessRulesModule } from './components/business-rules/business-rules.module';
@@ -168,6 +170,7 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
     IndexFieldsComfirmationDialogComponent,
   ],
   imports: [
+    LoaderModule,
     FindlySharedModule,
     BrowserModule,
     FormsModule,
@@ -217,7 +220,7 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
     AppMenuModule,
     BusinessRulesModule,
     IndexModule,
-    PricingModule
+    PricingModule,
   ],
   // tslint:disable-next-line:max-line-length
   entryComponents: [
@@ -227,11 +230,7 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
     EditorUrlDialogComponent,
   ],
   providers: [
-    {
-      provide: HTTP_INTERCEPTORS,
-      useClass: AuthInterceptor,
-      multi: true,
-    },
+    globalProviders,
     {
       provide: MAT_FORM_FIELD_DEFAULT_OPTIONS,
       useValue: { appearance: 'fill' },

@@ -33,7 +33,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
   }
 
   return function ($, jstz, KRPerfectScrollbar) {
-    //get dependencies as arguments here
+    //get dependencies as arguments here 
 
     /**
     * @param  {Object} FindlySDK Config
@@ -200,7 +200,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       //   tmplProxy: function(a,b,c){
       //     return this.tmpl(a,b,c);
       //   }
-      // });
+      // });     
 
 
       $.prototype.tmplProxy = function (a, b, c) {
@@ -774,7 +774,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             var _newLA = document.createElement('div');
             var _detectedLink = linkArray[x];
             _newLA.innerHTML = linkArray[x];
-            //for mailto: links, new line character need to be repaced with %0A
+            //for mailto: links, new line character need to be repaced with %0A 
             if (_detectedLink.indexOf("href='mailto:") > -1 || _detectedLink.indexOf('href="mailto:') > -1) {
               _detectedLink = _detectedLink.split('\n').join("%0A")
 
@@ -903,7 +903,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           </div>\
         </div>\
         </script>';
-      // <p>{{html getHTMLForSearch(faq.answer)}}</p>\
+      // <p>{{html getHTMLForSearch(faq.answer)}}</p>\  
       var greetingMsg = '<script type="text/x-jqury-tmpl">\
         <div class="search-greeting-box">\
           <span class="greeting-img"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAJmSURBVHgBtVJLS5RhFH7O+10cZ2jmM5sgUfg0BAkq3VqhRrhx0biQ2ql7w7atnF2rsD8Q02XZQluGhhVBdIHGS4Q7JSOi0hk/57t/7+l1umCouzqr9+Wc5znP83CA/10rKyvmzcfexcFbbttBfdr78V7adiqFs+r5DHpjCazfm88sLTx4sd2ba9TFBaTnRvLt6VrgT2uJX2wcqqyLvQSGoXWzSM/CtCYhMjbM/MyluK/QdST7+sqZ9POeEVCU0Qp6Sh9L0FDYxYi925UeizTzNoy2IvT8GkR2DfqJuzdOD02c7yKnkyjQTbqspXTWGrTuvwh2twsjVQI0C5BPYeQLysYayNwCZYu8OjhV96wJW+gCrInufRnw8qkijJYpkFGGblnQsrYiK3Pw2SYEOSTeIyTfCzIMOHCiarr/Y9MfAn57chSGfh3G0UXox0chjAq0TC5xqyRMDYh3QOyoQY9l4FNY3Wa4sr1ugZlFJJPFenAk+iCrs+DISpwNEoYaSDzI0FV61T49T2Q0MyeC/DDsEfMfuPn+E6dpYvXNF8T+ACQssCxId2NLaDFIOpDepiKpMWSkWgTJJslEpcXIiaXlDXduHeeqntn68Nj71ST8Oo54Uw37yl9NAatKlKfk7yj8jhLmIXbVW+WQEK3XM7h6p9bS20HiWn/jJyJiftc5xoJKP0/NrEvn0EfkBsqvjsjxkYR+2Rre7CEcUtGrjqIimyLzKJga1PYAcVW5dF2WsVxUEgeahiuVQwl2y11onSQ2pmHmiJXn2PmGJHLL+AXedwcH1daMZZNmlCDJrt8Ex+O/wf+kfgAhFxenJ2BlUQAAAABJRU5ErkJggg=="></span>\
@@ -2034,7 +2034,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
     FindlySDK.prototype.bindSearchAccordion = function () {
       $(document).off('click', '.accordion').on('click', '.accordion', function (evet) {
         $(evet.target).toggleClass('acc-active');
-        var panel = $(evet.target).next(undefined);
+        var panel = $(evet.target).next();
         if (panel[0].style.maxHeight) {
           panel[0].style.maxHeight = null;
         } else {
@@ -2057,7 +2057,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       //       panel.style.maxHeight = null;
       //     } else {
       //       panel.style.maxHeight = panel.scrollHeight + "px";
-      //     }
+      //     } 
       //   });
       // }
     }
@@ -2580,7 +2580,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         }
         window.localStorage.setItem("recentTasks", JSON.stringify(_self.vars.searchObject.recentTasks));
         _self.bindFrequentData();
-        //_self.saveOrGetDataInStorage();
+        //_self.saveOrGetDataInStorage(); 
 
         // if (_self.vars.loggedInUser) {
         //   _self.searchEventBinding('pay bill', e.target.title.toLowerCase(), e);
@@ -3380,7 +3380,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             $('#search').trigger("keyup");
           }
 
-          // if(!_self.vars.searchObject.recentAPIResponse ) {
+          // if(!_self.vars.searchObject.recentAPIResponse ) {  
           //   _self.getFrequentlySearched('https://qa-bots.kore.ai/searchAssistant/frequentSearch', 'GET', {}).then(function (res) {
 
           //     if (res && res.status == "200") {

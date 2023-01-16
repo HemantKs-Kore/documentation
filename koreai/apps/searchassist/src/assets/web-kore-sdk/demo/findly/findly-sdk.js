@@ -312,7 +312,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       // }, 500);
       this.fetchUserLocation();
 
-
+  
 
       vars.countOfSelectedFilters = 0;
       vars.resultRankingActionPerformed = false;
@@ -336,7 +336,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       var method = 'GET';
       var url = 'https://maps.googleapis.com/maps/api/geocode/json?latlng='+latitude+','+longitude+'&sensor=true&key='+googleMapsAPIKey;
       var async = true;
-
+      
       request.open(method, url, async);
       request.onreadystatechange = function(){
       if(request.readyState == 4 && request.status == 200){
@@ -2922,7 +2922,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       var _self = this;
       $(document).off('click', '.accordion').on('click', '.accordion', function (evet) {
         $(evet.target).closest('.accordion').toggleClass('acc-active');
-        var panel = $(evet.target).closest('.accordion').next(undefined);
+        var panel = $(evet.target).closest('.accordion').next();
         if (panel[0].scrollHeight == '16' && $(evet.target).closest('.accordion').hasClass('best-match')) {
           $(evet.target).closest('.tile-heading.accordion').children(".tile-description.defalut-show").hide();
           panel[0].style.display = 'block';
@@ -4286,7 +4286,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 
 
       $('.filters-reset-anchor').off('click').on('click', function (event) {
-
+        
         // $('.filter-checkbox').prop('checked', false);
         if (!$('body').hasClass('top-down')) {
           $('.sdk-filter-checkbox').prop('checked', false);
@@ -5806,7 +5806,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       /*$('.custom-header-container-left').off('click').on('click', function (event) {
         event.preventDefault();
         event.stopImmediatePropagation();
-
+  
         if (_self.vars.customizeView == true && _self.vars.showingMatchedResults == true) {
           $('.custom-insights-control-container').show();
           var responseObject = { 'type': 'hide', data: true, query: _self.vars.searchObject.searchText }
@@ -5817,7 +5817,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           var responseObject = { 'type': 'hide', data: true, query: _self.vars.searchObject.searchText }
           _self.parentEvent(responseObject);
         }
-
+  
         $('.custom-header-container-left').css('visibility', 'hidden');
       })*/
 
@@ -5884,8 +5884,8 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
               else{
                 $('.kore-sponsored-bottom').hide();
               }
-            },200)
-          }
+            },200)   
+          }                 
           _self.pubSub.publish('sa-handel-chat-container-view');
           _self.pubSub.publish('sa-handel-go-button');
           // if (!window.isBotLocked) {
@@ -7067,7 +7067,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
               var snippetObj={};
               if(res?.graph_answer?.payload?.center_panel){
                 if(Object.keys(res.graph_answer.payload.center_panel).length>0){
-                  snippetObj = {'title':helpers.convertMDtoHTML(res?.graph_answer?.payload?.center_panel?.data[0]?.title),'answer':helpers.convertMDtoHTML(res?.graph_answer?.payload?.center_panel?.data[0]?.answer),page_url:res?.graph_answer?.payload?.center_panel?.data[0]?.url,'source':res?.graph_answer?.payload?.center_panel?.data[0]?.source};
+                  snippetObj = {'title':helpers.convertMDtoHTML(res?.graph_answer?.payload?.center_panel?.data[0]?.title),'answer':helpers.convertMDtoHTML(res?.graph_answer?.payload?.center_panel?.data[0]?.answer),page_url:res?.graph_answer?.payload?.center_panel?.data[0]?.url,'source':res?.graph_answer?.payload?.center_panel?.data[0]?.source}; 
                 }
                 else{
                   snippetObj={};
@@ -7412,7 +7412,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
                   _self.sendMessageToSearch('bot', dataObj.smallTalk);
                 } else {
                   var _botMessage = '<span class="sdk-i18n-lang" sdk-i18n-key="sa-sdk-sure-please-find-the-matched-results-below">'+langTranslator("sa-sdk-sure-please-find-the-matched-results-below")+'</span>';
-
+                  
                   searchData = $(_self.getSearchTemplate('liveSearchData')).tmplProxy({
                     faqs: [],
                     web: [],
@@ -8224,7 +8224,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         _self.closeGreetingMsg();
       })
     };
-
+     
     var final_transcript = '';
     var recognizing = false;
     var recognition = null;
@@ -9255,7 +9255,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             } else {
               $('body').addClass('setDefaultSearchTemplate');
             }
-
+  
             _self.initialize(findlyConfig);
             _self.showSearch(null, response, _self.isDev);
             var searchConfig = {
@@ -9266,11 +9266,11 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             }
             _self.configureSearchAvatar(searchConfig);
           }
-
+  
           _self.initKorePicker(findlyConfig);
         });
       },1000);
-
+      
     }
     var searchConfigurationCopy = {};
 
@@ -15383,7 +15383,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
               sortableFacetList: _self.vars.sortableFacetList
             })
           }
-          //tab facets list
+          //tab facets list  
           //list of tabs div container create
         },
         error: function (err) {
@@ -15839,7 +15839,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           }
           if (obj[mapping.url]) {
             item.url = obj[mapping.url];
-          }
+          }          
           if (!item.heading || !item.heading.toString().length) {
             item.heading = '';
           }
@@ -15882,7 +15882,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
           if(!obj.createdByUser || item.textField1){
             obj.createdByUser = item.textField1 || '';
           }
-          // Demo fields start
+          // Demo fields start         
           if (obj.chips) {
             item.scm_author = obj.createdByUser || '';
             item.scm_createdAt = obj.createdOn == '' ? '-' : moment(obj.createdOn).format('Do MMM YYYY, ddd [at] h:mm A');
@@ -15909,8 +15909,8 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             var reviweArr =['n_fill','n_fill','n_fill','n_fill','n_fill'];
               for(let i=0;i<item.ecommerce_rating;i++){
                 reviweArr[i] = 'fill';
-              }
-            item.ecommerce_ratingArr = reviweArr;
+              } 
+            item.ecommerce_ratingArr = reviweArr;  
           }
           if (obj.prod_percentage_offer) {
             item.ecommerce_percentage_offer = obj.prod_percentage_offer;
@@ -19469,7 +19469,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         $("body").append("<style>.kore-sponsored {right:72px !important;}</style>")
         if (config.searchConfig.buttonPlacementPosition == "outside") {
           let rightPosition = 812;
-
+         
           $("body").append("<style>.submit-button-outside {left: " + rightPosition + "px !important;}</style>")
         }
       }
@@ -20235,8 +20235,8 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       headers["Content-Type"] = "application/json";
       headers.auth = _self.config.botOptions.assertion;
       // var userConfig = {
-      //   "clientId": findlyConfig.botOptions.clientId,
-      //   // "identity": "cs-f0cba3cc-4054-503c-a9cc-f25d257305ce__b8a7c380-0810-4000-8000-000000000000"
+      //   "clientId": findlyConfig.botOptions.clientId, 
+      //   // "identity": "cs-f0cba3cc-4054-503c-a9cc-f25d257305ce__b8a7c380-0810-4000-8000-000000000000"       
       //   "userIdentity": findlyConfig.botOptions.userIdentity,
       // };
       var dataObj = {
@@ -20894,7 +20894,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         _self.updateFeedBackResult(type, text);
       });
     }
-
+    
     // Language Translator i18n start//
     function langTranslator(text) {
       text = sdk_i18n[text];
@@ -20911,7 +20911,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
             for (var j = 0; j < _self.vars.searchFacetFilters[i].buckets.length; j++) {
               if (_self.vars.searchFacetFilters[i].buckets[j].auto_select) {
                 if (_self.vars.selectedFiltersArr.indexOf("checkbox-" + i + j) !== -1) {// Id of the facet filter
-                  //console.log("Value exist")
+                  //console.log("Value exist") 
                 } else {
                   _self.vars.selectedFiltersArr.push("checkbox-" + i + j)
                 }
@@ -21087,10 +21087,10 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       });
       },500)
     }
-
+    
     // Language Translator i18n end//
 
-
+    
     window.KoreSDK = { FindlySDK: FindlySDK }
     // window.KoreSDK.FindlySDK = FindlySDK;
     return FindlySDK;

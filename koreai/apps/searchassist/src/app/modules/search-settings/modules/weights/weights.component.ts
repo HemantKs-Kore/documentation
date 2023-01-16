@@ -18,6 +18,7 @@ import { MixpanelServiceService } from '@kore.services/mixpanel-service.service'
 import { ConfirmationDialogComponent } from '@kore.helpers/components/confirmation-dialog/confirmation-dialog.component';
 import { RangeSlider } from '@kore.helpers/models/range-slider.model';
 import { KRModalComponent } from 'apps/searchassist/src/app/shared/kr-modal/kr-modal.component';
+import { ActivatedRoute } from '@angular/router';
 declare const $: any;
 @Component({
   selector: 'app-weights',
@@ -69,8 +70,9 @@ export class WeightsComponent implements OnInit, OnDestroy {
     private notificationService: NotificationService,
     private appSelectionService: AppSelectionService,
     public inlineManual: InlineManualService,
-    public mixpanel: MixpanelServiceService
-  ) {}
+    public mixpanel: MixpanelServiceService,
+    private route: ActivatedRoute
+  ) { }
   selectedApp: any = {};
   serachIndexId;
   queryPipelineId;
@@ -84,24 +86,36 @@ export class WeightsComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.selectedApp = this.workflowService.selectedApp();
     this.serachIndexId = this.selectedApp.searchIndexes[0]._id;
-    this.loadWeights();
-    this.subscription = this.appSelectionService.queryConfigs.subscribe(
-      (res) => {
-        this.loadWeights();
-      }
-    );
-  }
-  loadWeights() {
     this.indexPipelineId = this.workflowService.selectedIndexPipeline();
-    if (this.indexPipelineId) {
-      this.queryPipelineId = this.workflowService.selectedQueryPipeline()
-        ? this.workflowService.selectedQueryPipeline()._id
-        : this.selectedApp.searchIndexes[0].queryPipelineId;
-      if (this.queryPipelineId) {
-        this.getWeights();
-      }
+    this.queryPipelineId = this.workflowService.selectedQueryPipeline() ? this.workflowService.selectedQueryPipeline()._id : '';
+
+    this.loadWeights();
+
+
+    // this.subscription = this.appSelectionService.queryConfigs.subscribe(res =>
+    // {
+    //   this.loadWeights();
+    // })
+  }
+
+  displayFields(isSelected = false, data = []) {
+    this.weights = data;
+    this.prepereWeights();
+    if (!this.inlineManual.checkVisibility('WEIGHTS')) {
+      this.inlineManual.openHelp('WEIGHTS')
+      this.inlineManual.visited('WEIGHTS')
     }
   }
+
+  loadWeights() {
+    const res = this.route.snapshot.data.weights;
+    if (res.error) {
+      this.displayError(res);
+    } else {
+      this.displayFields(true, res.data);
+    }
+  }
+
   selectedField(event) {
     this.addEditWeighObj.fieldName = event.fieldName;
     this.addEditWeighObj.fieldId = event._id;
@@ -110,48 +124,43 @@ export class WeightsComponent implements OnInit, OnDestroy {
     let weightArr = [];
     if (this.weights) {
       this.weights.forEach((element, i) => {
-        const name = (element.fieldName || '').replace(/[^\w]/gi, '');
+        const name = (element.fieldName || '').replace(/[^\w]/gi, '')
         const obj = {
           fieldName: element.fieldName,
           fieldDataType: element.fieldDataType,
           fieldId: element._id,
-          sliderObj: new RangeSlider(
-            0,
-            10,
-            1,
-            element.weight.value,
-            name + i,
-            '',
-            true
-          ),
-        };
+          sliderObj: new RangeSlider(0, 10, 1,element.weight.value, name + i,'',true)
+        }
         weightArr.push(obj);
       });
       this.weightsList = [...weightArr];
     }
     this.loadingContent = false;
   }
-  restore(dialogRef?) {
+  restore(dialogRef?)
+  {
     const quaryparms: any = {
       streamId: this.selectedApp._id,
       queryPipelineId: this.queryPipelineId,
       indexPipelineId: this.workflowService.selectedIndexPipeline() || '',
     };
-    this.service.invoke('put.restoreWeights', quaryparms).subscribe(
-      (res) => {
-        this.notificationService.notify('Weights has been restored', 'success');
-        this.getWeights();
-        if (dialogRef && dialogRef.close) {
-          dialogRef.close();
-        }
-      },
-      (errRes) => {
-        this.errorToaster(errRes, 'Failed to reset weights');
+    this.service.invoke('put.restoreWeights', quaryparms).subscribe(res =>
+    {
+      this.notificationService.notify('Weights has been restored', 'success');
+      this.getWeights();
+      if (dialogRef && dialogRef.close)
+      {
+        dialogRef.close();
       }
-    );
+    }, errRes =>
+    {
+      this.errorToaster(errRes, 'Failed to reset weights');
+    });
   }
-  restoreWeights(event) {
-    if (event) {
+  restoreWeights(event)
+  {
+    if (event)
+    {
       event.stopImmediatePropagation();
       event.preventDefault();
     }
@@ -164,49 +173,51 @@ export class WeightsComponent implements OnInit, OnDestroy {
         text: 'Are you sure you want to restore weights?',
         newTitle: 'Are you sure you want to continue ?',
         body: 'Reset to default will set the system-defined fields back to their default values',
-        buttons: [
-          { key: 'yes', label: 'Continue' },
-          { key: 'no', label: 'Cancel' },
-        ],
-        confirmationPopUp: true,
-      },
-    });
-
-    dialogRef.componentInstance.onSelect.subscribe((result) => {
-      if (result === 'yes') {
-        this.restore(dialogRef);
-      } else if (result === 'no') {
-        dialogRef.close();
+        buttons: [{ key: 'yes', label: 'Continue' }, { key: 'no', label: 'Cancel' }],
+        confirmationPopUp: true
       }
     });
+
+    dialogRef.componentInstance.onSelect
+      .subscribe(result =>
+      {
+        if (result === 'yes')
+        {
+          this.restore(dialogRef)
+        } else if (result === 'no')
+        {
+          dialogRef.close();
+        }
+      })
   }
-  getWeights() {
+
+  displayError(errRes) {
+    this.loadingContent = false;
+    this.errorToaster(errRes, 'Failed to get weights');
+  }
+
+  getWeights(){
     const quaryparms: any = {
       streamId: this.selectedApp._id,
       queryPipelineId: this.queryPipelineId,
       indexPipelineId: this.workflowService.selectedIndexPipeline() || '',
-      sortField: this.selectedSort ? this.selectedSort : 'filedName',
-      orderType: this.checksort ? this.checksort : 'asc',
+      sortField:this.selectedSort?this.selectedSort:'filedName',
+      orderType:this.checksort?this.checksort:'asc',
       // pageNo: 1,
       // pageNo: this.pageNumber,
       // noOfRecords: 10,
       // noOfRecords: this.numberofweigths,
-      isSelected: true,
+      isSelected : true
     };
-    this.service.invoke('get.weightsList', quaryparms).subscribe(
-      (res) => {
-        this.weights = res.data || [];
-        this.prepereWeights();
-        if (!this.inlineManual.checkVisibility('WEIGHTS')) {
-          this.inlineManual.openHelp('WEIGHTS');
-          this.inlineManual.visited('WEIGHTS');
-        }
-      },
-      (errRes) => {
-        this.loadingContent = false;
-        this.errorToaster(errRes, 'Failed to get weights');
-      }
-    );
+    this.service.invoke('get.weightsList', quaryparms).subscribe(res =>
+    {
+
+      this.displayFields(true, res.data);
+
+    }, errRes =>
+    {
+      this.displayError(errRes);
+    });
   }
   valueEvent(val, weight, index) {
     if (!this.sliderOpen) {
