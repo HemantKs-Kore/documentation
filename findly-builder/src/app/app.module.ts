@@ -1,4 +1,5 @@
 import { globalProviders } from './services/inteceptors/index';
+import { LoaderModule } from './shared/loader/loader.module';
 import { PricingModule } from './components/pricing/pricing.module';
 import { IndexModule } from './components/index/index.module';
 import { BusinessRulesModule } from './components/business-rules/business-rules.module';
@@ -18,7 +19,7 @@ import { AppBodyComponent } from './components/app-body/app-body.component';
 import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
 // import { ScrollTrackerDirective } from './components/dashboard-home/dashboard-home.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { AppSelectionService } from '@kore.services/app.selection.service'
+import { AppSelectionService } from '@kore.services/app.selection.service';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AuthGuard } from '@kore.services/auth.guard';
 import { AuthInterceptor } from '@kore.services/inteceptors/auth-interceptor';
@@ -169,6 +170,7 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
     IndexFieldsComfirmationDialogComponent,
   ],
   imports: [
+    LoaderModule,
     FindlySharedModule,
     BrowserModule,
     FormsModule,
@@ -218,7 +220,7 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
     AppMenuModule,
     BusinessRulesModule,
     IndexModule,
-    PricingModule
+    PricingModule,
   ],
   // tslint:disable-next-line:max-line-length
   entryComponents: [
@@ -229,11 +231,6 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
   ],
   providers: [
     globalProviders,
-    {
-      provide: HTTP_INTERCEPTORS,
-      useClass: AuthInterceptor,
-      multi: true,
-    },
     {
       provide: MAT_FORM_FIELD_DEFAULT_OPTIONS,
       useValue: { appearance: 'fill' },

@@ -23,6 +23,27 @@
 
 .body-container{
     padding: 0px 20px 0px 35px;
+    .mainLoadingSpinner{
+        position: absolute;
+        top: 70%;
+        left: 60%;
+        // box-shadow: 0 5px 10px 0 #e9eff5;
+        background:  transparent;
+        width: 223px;
+        height: 40px;
+        padding-top: 10px;
+        border-radius: 4px;
+        opacity: 0.95;
+        padding-left: 5px;
+        width: 100%;
+        .please-wait-message {
+            position: relative;
+            color: #29293b;
+            top: -16px;
+            left: 25px;
+            font-size: 12px;
+        }  
+    }
         .landing-page-header{
             padding: 35px 0px 15px 0px;
             display: flex;

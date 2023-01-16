@@ -9,6 +9,7 @@ import {Subscription} from 'rxjs';
 
 import { NotificationService } from '@kore.services/notification.service';
 import { ServiceInvokerService } from '@kore.services/service-invoker.service';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-spell-correction',
@@ -45,33 +46,35 @@ export class SpellCorrectionComponent implements OnInit {
     public workflowService: WorkflowService,
     private appSelectionService: AppSelectionService,
     private notificationService: NotificationService,
-    private service: ServiceInvokerService
+    private service: ServiceInvokerService,
+    private route: ActivatedRoute
   ) {}
 
   //** get Query pipeline API call */
   getQuerypipeline() {
-    const quaryparms: any = {
-      searchIndexID: this.serachIndexId,
-      queryPipelineId: this.queryPipelineId,
-      indexPipelineId: this.indexPipelineId,
-    };
-    this.isSpinner=true
-    this.service.invoke('get.queryPipeline', quaryparms).subscribe(
-      (res) => {
-        this.isSpinner=false
-        this.spellcorrectdata = res;
-      },
-      (errRes) => {
-        this.notificationService.notify(
-          'failed to get querypipeline details',
-          'error'
-        );
-      }
-    );
+    this.spellcorrectdata = this.route.snapshot.data.queryPipeline;
+    // const quaryparms: any = {
+    //   searchIndexID: this.serachIndexId,
+    //   queryPipelineId: this.queryPipelineId,
+    //   indexPipelineId: this.indexPipelineId,
+    // };
+    // this.isSpinner=true
+    // this.service.invoke('get.queryPipeline', quaryparms).subscribe(
+    //   (res) => {
+    //     this.isSpinner=false
+    //     this.spellcorrectdata = res;
+    //   },
+    //   (errRes) => {
+    //     this.notificationService.notify(
+    //       'failed to get querypipeline details',
+    //       'error'
+    //     );
+    //   }
+    // );
   }
 
   ngOnInit(): void {
-    
+
     this.more_options = false;
     this.max_threshold = 0;
     this.min_threshold = 0;
@@ -82,31 +85,60 @@ export class SpellCorrectionComponent implements OnInit {
       ? this.workflowService.selectedQueryPipeline()._id
       : '';
     this.getAllspellcorrectFields();
-    if(this.indexPipelineId  && this.queryPipelineId && this.serachIndexId){ this.getQuerypipeline()}
+    this.getQuerypipeline();
 
-    this.querySubscription =
-      this.appSelectionService.queryConfigSelected.subscribe((res) => {
-        this.indexPipelineId = this.workflowService.selectedIndexPipeline();
-        this.queryPipelineId = this.workflowService.selectedQueryPipeline()
-          ? this.workflowService.selectedQueryPipeline()._id
-          : '';
-        this.getAllspellcorrectFields();
+    // this.querySubscription =
+    //   this.appSelectionService.queryConfigSelected.subscribe((res) => {
+    //     this.indexPipelineId = this.workflowService.selectedIndexPipeline();
+    //     this.queryPipelineId = this.workflowService.selectedQueryPipeline()
+    //       ? this.workflowService.selectedQueryPipeline()._id
+    //       : '';
+    //     this.getAllspellcorrectFields();
+    //   });
+  }
+
+  displayFields(isSelected, res) {
+    this.isLoading = false;
+    this.allspellCorrect = res.data;
+    this.max_pageno = Number(Math.ceil(res.totalCount / 10)) - 1;
+    if (isSelected) {
+      this.spellcorrect = [];
+      this.allspellCorrect.forEach((element) => {
+        // if (element.spellcorrect.value) {
+          this.spellcorrect.push(element);
+        // }
       });
+    } else {
+      this.nonspellcorrect = [];
+      this.allspellCorrect.forEach((element) => {
+        // if (!element.spellcorrect.value) {
+          this.nonspellcorrect.push(element);
+        // }
+      });
+    }
   }
-  //open topic guide
-  openUserMetaTagsSlider() {
-    this.appSelectionService.topicGuideShow.next();
-  }
+
+    //open topic guide
+    openUserMetaTagsSlider() {
+      this.appSelectionService.topicGuideShow.next();
+    }
+
+
   //**to fetch the fields for spellcorrect table and pop-up */
   getAllspellcorrectFields() {
-    this.getSpellcorrect(true);
-    //this.getSpellcorrect(false);
+    const res = this.route.snapshot.data.spells;
+    if (res.error) {
+      this.displayError();
+    } else {
+      this.displayFields(true, res);
+    }
   }
+
   /** get highlight fields api call with false value to get data for add pop-up*/
   getAddpopupspellcorrectionField(event){
         if(!event){
           this.getSpellcorrect(false);;
-        }    
+        }
   }
   //** sort the data for spellcorrect data table and pop-up */
   spellcorrectSort(sortobj) {
@@ -136,6 +168,13 @@ export class SpellCorrectionComponent implements OnInit {
     this.getSpellcorrect(true);
   }
 
+  displayError() {
+    this.notificationService.notify(
+      'Failed to get Spellcorrect fields',
+      'error'
+    );
+  }
+
   //**get api call to fetch the spell correct data */
   getSpellcorrect(isSelected?, sortobj?) {
     const quaryparms: any = {
@@ -156,30 +195,10 @@ export class SpellCorrectionComponent implements OnInit {
     }
     this.service.invoke('get.spellcorrectFields', quaryparms).subscribe(
       (res) => {
-        this.isLoading = false;
-        this.allspellCorrect = res.data;
-        this.max_pageno = Number(Math.ceil(res.totalCount / 10)) - 1;
-        if (isSelected) {
-          this.spellcorrect = [];
-          this.allspellCorrect.forEach((element) => {
-            // if (element.spellcorrect.value) {
-              this.spellcorrect.push(element);
-            // }
-          });
-        } else {
-          this.nonspellcorrect = [];
-          this.allspellCorrect.forEach((element) => {
-            // if (!element.spellcorrect.value) {
-              this.nonspellcorrect.push(element);
-            // }
-          });
-        }
+        this.displayFields(isSelected, res);
       },
-      (errRes) => {
-        this.notificationService.notify(
-          'Failed to get Spellcorrect fields',
-          'error'
-        );
+      () => {
+        this.displayError();
       }
     );
   }
@@ -375,7 +394,7 @@ export class SpellCorrectionComponent implements OnInit {
           (errRes) => {
             this.notificationService.notify('Failed to update', 'error');
           }
-        );      
+        );
     }
   }
   //** to increment the minimum character threshold value */

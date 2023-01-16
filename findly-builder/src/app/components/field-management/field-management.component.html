@@ -143,124 +143,7 @@
                             </div>
                         </div>
                         </div>
-                        <!-- new table headers are added here -->
-                        <!-- <div class="col_  col-2 title d-flex align-items-center" (click)="sortByApi('isMultiValued')" >
-                            <span class="d-flex align-items-center flex-column mr-1">
-                                <img [ngClass]="getSortIconVisibility('isMultiValued', 'down')"  src="assets/icons/caretDown.svg" class="ml-1 sortImg downArrow">
-                                <img  [ngClass]="getSortIconVisibility('isMultiValued', 'up')"  src="assets/icons/caretDown.svg" class="ml-1 sortImg upArrow">
-                              </span>
-                              {{'fields.multi_value' | translate}}
-                            <div class="ml-2 kr-sg-dropdowns type_sort_dropdown" #selectFilter="ngbDropdown" ngbDropdown [container]="'body'"
-                            [container]="'body'" [autoClose]="true" [placement]="'bottom-right'">
-                            <div class="dropdown dropdown-open">
-                                <button class="dropdown-toggle dropdown-input" ngbDropdownToggle
-                                    (click)="$event.stopImmediatePropagation()">
-                                    <img class="custom-dropdown-toggle-icon" src="assets/icons/Vector.svg">
-                                </button>
-                                <ul class="dropdown-menu content-menu type_sort_dropdown-content" ngbDropdownMenu>
-                                    <li (click)="selectFilter.close();filterTable('all','isMultiValued')"><span
-                                            class="list-name">{{'sa_all' | translate}}</span><img
-                                            [ngClass]="{'hide': filterSystem.isMultiValuedFilter !== 'all'}"
-                                            src="assets/icons/check-blue.svg"></li>
-                                    <li *ngFor="let docType of isMultiValuedArr"
-                                        (click)="selectFilter.close();filterTable(docType,'isMultiValued')">
-                                        <span class="list-name">{{docType == false ? 'No' :(docType == true? 'Yes':
-                                            '')}}</span><img
-                                            [ngClass]="{'hide': filterSystem.isMultiValuedFilter !== docType}"
-                                            src="assets/icons/check-blue.svg">
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                        </div>
-                        <div class="col_  col-2 title d-flex align-items-center" (click)="sortByApi('isRequired')">
-                            <span class="d-flex align-items-center flex-column mr-1">
-                                <img [ngClass]="getSortIconVisibility('isRequired', 'down')"  src="assets/icons/caretDown.svg" class="ml-1 sortImg downArrow">
-                                <img [ngClass]="getSortIconVisibility('isRequired', 'up')" src="assets/icons/caretDown.svg" class="ml-1 sortImg upArrow">
-                              </span>
-                              {{'fields.required' | translate}}
-                            <div class="ml-2 kr-sg-dropdowns type_sort_dropdown" #isRequiredFilter="ngbDropdown" ngbDropdown [container]="'body'"
-                            [autoClose]="true" [placement]="'bottom-right'">
-                            <div class="dropdown dropdown-open">
-                                <button class="dropdown-toggle dropdown-input" ngbDropdownToggle
-                                    (click)="$event.stopImmediatePropagation()">
-                                    <img class="custom-dropdown-toggle-icon" src="assets/icons/Vector.svg">
-                                </button>
-                                <ul class="dropdown-menu content-menu type_sort_dropdown-content" ngbDropdownMenu>
-                                    <li (click)="isRequiredFilter.close();filterTable('all','isRequired')"><span
-                                            class="list-name">{{'sa_all' | translate}}</span><img
-                                            [ngClass]="{'hide': filterSystem.isRequiredFilter !== 'all'}"
-                                            src="assets/icons/check-blue.svg"></li>
-                                    <li *ngFor="let docType of isRequiredArr"
-                                        (click)="isRequiredFilter.close();filterTable(docType,'isRequired')">
-                                        <span class="list-name">{{docType == false ? 'No' :(docType == true? 'Yes':
-                                            '')}}</span><img
-                                            [ngClass]="{'hide': filterSystem.isRequiredFilter !== docType}"
-                                            src="assets/icons/check-blue.svg">
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                        </div>
-                        <div class="col_  col-2 title d-flex align-items-center" (click)="sortByApi('isStored')">
-                            <span class="d-flex align-items-center flex-column mr-1">
-                                <img [ngClass]="getSortIconVisibility('isStored', 'down')"  src="assets/icons/caretDown.svg" class="ml-1 sortImg downArrow">
-                                <img [ngClass]="getSortIconVisibility('isStored', 'up')"  src="assets/icons/caretDown.svg" class="ml-1 sortImg upArrow">
-                              </span>
-                              {{'fields.stored' | translate}}
-                            <div class="ml-2 kr-sg-dropdowns type_sort_dropdown" #isStoredFilter="ngbDropdown" ngbDropdown [container]="'body'"
-                            [autoClose]="true" [placement]="'bottom-right'">
-                            <div class="dropdown dropdown-open">
-                                <button class="dropdown-toggle dropdown-input" ngbDropdownToggle
-                                    (click)="$event.stopImmediatePropagation()">
-                                    <img class="custom-dropdown-toggle-icon" src="assets/icons/Vector.svg">
-                                </button>
-                                <ul class="dropdown-menu content-menu type_sort_dropdown-content" ngbDropdownMenu>
-                                    <li (click)="isStoredFilter.close();filterTable('all','isStored')"><span
-                                            class="list-name">All</span><img
-                                            [ngClass]="{'hide': filterSystem.isStoredFilter !== 'all'}"
-                                            src="assets/icons/check-blue.svg"></li>
-                                    <li *ngFor="let docType of isStoredArr"
-                                        (click)="isStoredFilter.close();filterTable(docType,'isStored')">
-                                        <span class="list-name">{{docType == false ? 'No' :(docType == true? 'Yes':
-                                            '')}}</span><img
-                                            [ngClass]="{'hide': filterSystem.isStoredFilter !== docType}"
-                                            src="assets/icons/check-blue.svg">
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                        </div>
-                        <div class="col_  col-2 title d-flex align-items-center"  (click)="sortByApi('isIndexed')">
-                            <span class="d-flex align-items-center flex-column mr-1">
-                                <img [ngClass]="getSortIconVisibility('isIndexed', 'down')"  src="assets/icons/caretDown.svg" class="ml-1 sortImg downArrow">
-                                <img [ngClass]="getSortIconVisibility('isIndexed', 'up')"  src="assets/icons/caretDown.svg" class="ml-1 sortImg upArrow">
-                              </span>
-                              {{'fields.indexed' | translate}}
-                            <div class="ml-2 kr-sg-dropdowns type_sort_dropdown" #isIndexedFilter="ngbDropdown" ngbDropdown [container]="'body'"
-                            [autoClose]="true" [placement]="'bottom-right'">
-                            <div class="dropdown dropdown-open">
-                                <button class="dropdown-toggle dropdown-input" ngbDropdownToggle
-                                    (click)="$event.stopImmediatePropagation()">
-                                    <img class="custom-dropdown-toggle-icon" src="assets/icons/Vector.svg">
-                                </button>
-                                <ul class="dropdown-menu content-menu type_sort_dropdown-content" ngbDropdownMenu>
-                                    <li (click)="isIndexedFilter.close();filterTable('all','isIndexed')"><span
-                                            class="list-name">All</span><img
-                                            [ngClass]="{'hide': filterSystem.isIndexedFilter !== 'all'}"
-                                            src="assets/icons/check-blue.svg"></li>
-                                    <li *ngFor="let docType of isIndexedArr"
-                                        (click)="isIndexedFilter.close();filterTable(docType,'isIndexed')">
-                                        <span class="list-name">{{docType == false ? 'No' :(docType == true? 'Yes':
-                                            '')}}</span><img
-                                            [ngClass]="{'hide': filterSystem.isIndexedFilter !== docType}"
-                                            src="assets/icons/check-blue.svg">
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                        </div> -->
-                </div>
+                   </div>
                 <perfect-scrollbar class="table_body_content">
                     <div class="table_body row m-0" *ngFor="let field of filelds;let i=index">
                         <!-- <div class="table_body row m-0" *ngFor="let field of filelds | fieldsFilter: [ searchFields, 'fieldName'];let i=index"> -->
@@ -286,10 +169,10 @@
 
                                     <span class="action_link-icon" ngbTooltip="{{'fields.edit' | translate}}"
                                     [container]="'body'" placement="{{i==0?'bottom':'top'}}"
-                                    (click)="addEditFiled(field)"><i class="si-pencil-edit"></i></span>
+                                    (click)="addEditFiled(field)"><i class="si-pencil-edit "></i></span>
 
                                     <span ngbTooltip="{{'sa_delete' | translate}}"
-                                    [container]="'body'" placement="{{i==0?'bottom':'top'}}" class="action_link-icon ml-3"
+                                    [container]="'body'" placement="{{i==0?'bottom':'top'}}" class="action_link-icon deleteIcon ml-3"
                                     (click)="deleteFieldPop(field)"><i class="si-delete1"></i></span>
                             </div>
                         </div>
@@ -391,7 +274,7 @@
                         <div class="option-selection-desc"> {{'fields_searchable_desc' | translate}}</div>
                         <div class="option-selection-checkbox">
                             <div class="kr-sg-checkbox">
-                                <input id="searchable_option" class="checkbox-custom" type="checkbox" (click)="searchableValidation(newFieldObj)" [(ngModel)]="newFieldObj.isSearchable">
+                                <input id="searchable_option" class="checkbox-custom" type="checkbox" (click)="getFieldUsageData(newFieldObj,'checkbox')" [(ngModel)]="newFieldObj.isSearchable">
                                 <label for="searchable_option" class="checkbox-custom-label"></label>
                             </div>
                         </div>
@@ -442,7 +325,7 @@
                <div class="kr-sg-inline-notification kr-protip-basic align-items-start"
                *ngIf="!newFieldObj.isSearchable && showSearchableToaster">
                <div class="tost-text"> 
-                   <span class="pr-1" *ngIf="indexedWarningMessage" [innerHTML]="resultTest">
+                   <span class="pr-1" *ngIf="indexedWarningMessage" [innerHTML]="searchableCheckboxMsg">
                    </span>
                    <span class="bulb-icon" [ngbTooltip]="tipContent">  
                        <i *ngIf="!showSearchSettingsTooltip && !tooltipArr" class="si-info">

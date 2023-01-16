@@ -19,10 +19,17 @@ export class SearchFilterComponent implements OnInit {
   searchFocusIn = false;
   showSearch = false;
   activeClose = false;
+  timeoutId:any;
   @Output() searchkey = new EventEmitter();
   constructor() { }
 
   ngOnInit(): void {
+  }
+  debouncedSearch(key){
+    clearTimeout(this.timeoutId);
+    this.timeoutId = setTimeout(() => {
+      this.filterFields(key)
+    }, 300);
   }
   filterFields(key){
     this.searchkey.emit(key);

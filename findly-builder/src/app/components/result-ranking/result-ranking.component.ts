@@ -593,6 +593,33 @@ export class ResultRankingComponent implements OnInit, OnDestroy {
               actLog.desc = data.target.contentInfo._source[this.strucDataDec];
             }
           }
+          // Connectors Key Words
+        if(data.target.contentType == 'serviceNow'){
+          actLog.icon = "assets/icons/resultranking/data-icon.svg";
+          actLog.title = data.target && data.target.contentInfo && data.target.contentInfo._source ? data.target.contentInfo._source.serviceNow_short_description : '';
+          actLog.desc = data.target && data.target.contentInfo && data.target.contentInfo._source ? data.target.contentInfo._source.serviceNow_text : '';
+        }
+        if(data.target.contentType == 'confluenceCloud'){
+          actLog.icon = "assets/icons/resultranking/data-icon.svg";
+          actLog.title = data.target && data.target.contentInfo && data.target.contentInfo._source ? data.target.contentInfo._source.confluenceCloud_name : '';
+          actLog.desc = data.target && data.target.contentInfo && data.target.contentInfo._source ? data.target.contentInfo._source.confluenceCloud_content : '';
+        }
+        if(data.target.contentType == 'confluenceServer'){
+          actLog.icon = "assets/icons/resultranking/data-icon.svg";
+          actLog.title = data.target && data.target.contentInfo && data.target.contentInfo._source ? data.target.contentInfo._source.confluenceServer_name : '';
+          actLog.desc = data.target && data.target.contentInfo && data.target.contentInfo._source ? data.target.contentInfo._source.confluenceServer_content : '';
+        }
+        if(data.target.contentType == 'zendesk'){
+          actLog.icon = "assets/icons/resultranking/data-icon.svg";
+          actLog.title = data.target && data.target.contentInfo && data.target.contentInfo._source ? data.target.contentInfo._source.zendesk_name : '';
+          actLog.desc = data.target && data.target.contentInfo && data.target.contentInfo._source ? data.target.contentInfo._source.zendesk_content : '';
+        }
+        if(data.target.contentType == 'googleDrive'){
+          actLog.icon = "assets/icons/resultranking/data-icon.svg";
+          actLog.title = data.target && data.target.contentInfo && data.target.contentInfo._source ? data.target.contentInfo._source.name : '';
+          actLog.desc = data.target && data.target.contentInfo && data.target.contentInfo._source ? data.target.contentInfo._source.content : '';
+        }
+        // Connectors Key Words
           actLog.action = data.customization.action;
           if (data.customization.action == 'pinned') {
             actLog.actionIcon = 'assets/icons/resultranking/pined.svg';

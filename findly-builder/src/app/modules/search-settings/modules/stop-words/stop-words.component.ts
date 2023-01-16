@@ -123,6 +123,7 @@ createInit() {
 }
 // GET LIST OF STOPWORDS (GET API CALL)
   getStopWordsList() {
+    this.loadingContent = true;
     const quaryparms: any = {
       streamId: this.selectedApp._id,
       queryPipelineId: this.queryPipelineId,
@@ -132,6 +133,7 @@ createInit() {
     this.service.invoke('get.stopWordsList', quaryparms).subscribe(res => {
       if(res?.stopwords){
         this.stopwordsList = res.stopwords;
+        this.loadingContent = false;
       }
     }, errRes => {
       this.errorToaster(errRes, 'Failed to get stop words');

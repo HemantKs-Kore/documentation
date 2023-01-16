@@ -1,10 +1,10 @@
 <div class="contentContainer">
-    <div class="mainLoadingSpinner d-none" *ngIf="loadingContent" >
+    <div class="mainLoadingSpinner" *ngIf="loadingContent" >
       <mat-spinner diameter="18" strokeWidth="2"></mat-spinner>
       <span class="please-wait-message">{{'sa_please_wait'| translate}}</span>
     </div>
 
-    <div class="landing-page-header">
+    <div class="landing-page-header" *ngIf="!loadingContent && stopwordData">
 
       <div class="widget-header-block">
         <div id="sa_stopwords_topicGuide" class="widget-header">{{'stopWords_stop_words'| translate}}<span class="module-topic" tooltipClass="tooltip-global-" [container]="'body'"
@@ -27,13 +27,13 @@
     </div>
       <div class="block-separate-line"></div>
     </div>
-    <div class="page-sub-headers">
+    <div class="page-sub-headers" *ngIf="!loadingContent">
       <div class="page-sub-hding">{{"stopwords_add_stop_words"| translate}}</div>
       <div class="page-sub-desc">{{"stopwords_How_would_you_like_to_start" | translate}}</div>
     </div>
     <div class="stop-words-wrapper" [ngClass]="{'stop-words-no-border': !(stopwordsList?.length || (stopWordsIntiType == 'scratch' && createFromScratch))}">
       <app-useronboarding-journey [componentType]='componentType'></app-useronboarding-journey>
-     <div class="empty-stopwords" *ngIf="!stopwordsList?.length && !createFromScratch">
+     <div class="empty-stopwords" *ngIf="!stopwordsList?.length && !createFromScratch && !loadingContent">
       <div class="radio-sec">
         <div class="radio_block">            
           <div class="kr-sg-radiobutton">
@@ -58,7 +58,7 @@
         <button class="kr-sg-button-primary btn_lg" (click)="createInit()">{{'stopwords_Get_Started' | translate}}</button>
       </div>
       </div>  
-      <ng-container  *ngIf="stopwordsList?.length || (stopWordsIntiType == 'scratch' && createFromScratch)">
+      <ng-container  *ngIf="!loadingContent && stopwordsList?.length || (stopWordsIntiType == 'scratch' && createFromScratch)">
       <div class="listingHeader row m-0">
         <div class="col-7 p-0" >
           <div class="m-0 row addStopWordsBlock" >
