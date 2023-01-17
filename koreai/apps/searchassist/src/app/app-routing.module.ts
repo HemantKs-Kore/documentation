@@ -100,13 +100,13 @@ const routes: Routes = [
       //       (m) => m.ConnectorsModule
       //     ),
       // },
-      // {
-      //   path: 'botActions',
-      //   loadChildren: () =>
-      //     import('./modules/bot-actions/bot-actions.module').then(
-      //       (m) => m.BotActionsModule
-      //     ),
-      // },
+      {
+        path: 'botActions',
+        loadChildren: () =>
+          import('./modules/bot-actions/bot-actions.module').then(
+            (m) => m.BotActionsModule
+          ),
+      },
       // {
       //   path: 'structuredData',
       //   loadChildren: () =>
