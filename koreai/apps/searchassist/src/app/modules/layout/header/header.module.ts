@@ -13,6 +13,7 @@ import { SliderComponentComponent } from '../../../shared/slider-component/slide
 import { FormsModule } from '@angular/forms';
 import { KrModalModule } from '../../../shared/kr-modal/kr-modal.module';
 import { SharedPipesModule } from '@kore.helpers/filters/shared-pipes.module';
+import { SafePipe } from '../../../shared/pipes/safe.pipe';
 
 @NgModule({
   declarations: [
@@ -30,7 +31,9 @@ import { SharedPipesModule } from '@kore.helpers/filters/shared-pipes.module';
     NgbTooltipModule,
     NgbDropdownModule,
     SharedPipesModule,
+    SafePipe,
   ],
+  providers: [SafePipe],
   exports: [HeaderComponent],
 })
 export class HeaderModule {}
