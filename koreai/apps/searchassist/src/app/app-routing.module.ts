@@ -38,7 +38,12 @@ const routes: Routes = [
       appData: AppDataResolver,
     },
     children: [
-      // { path: 'apps', component: AppsListingComponent },
+      {
+        path: 'apps',
+        loadChildren: () =>
+          import('./modules/apps/apps.module').then((m) => m.AppsModule),
+      },
+
       // { path: 'summary', component: SummaryComponent },
       // { path: 'traits', component: TraitsComponent },
       // { path: 'rules', component: BusinessRulesComponent },
@@ -120,7 +125,7 @@ const routes: Routes = [
           import('./modules/demo/demo.module').then((m) => m.DemoModule),
       },
 
-      { path: '', redirectTo: 'demo', pathMatch: 'full' },
+      { path: '', redirectTo: 'apps', pathMatch: 'full' },
       // { path: '**', component: AppsListingComponent },
     ],
   },
