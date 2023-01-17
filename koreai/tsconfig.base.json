@@ -15,10 +15,10 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "@kore.components/*": ["apps/searchassist/src/app/components/*"],
-      "@kore.environment": ["apps/searchassist/src/environments/environment"],
-      "@kore.helpers/*": ["apps/searchassist/src/app/helpers/*"],
-      "@kore.services/*": ["apps/searchassist/src/app/services/*"]
+      "@kore.services/*": [ "apps/searchassist/src/app/services/*"],
+      "@kore.environment": [ "apps/searchassist/src/environments/environment"],
+      "@kore.components/*":["apps/searchassist/src/app/components/*"],
+      "@kore.helpers/*":["apps/searchassist/src/app/helpers/*"]
     }
   },
   "exclude": ["node_modules", "tmp"]
