@@ -13,7 +13,7 @@
         "outputPath": "dist/apps/searchassist",
         "index": "apps/searchassist/src/index.html",
         "main": "apps/searchassist/src/main.ts",
-        "polyfills": "apps/searchassist/src/polyfills.ts",
+        "polyfills": ["zone.js"],
         "tsConfig": "apps/searchassist/tsconfig.app.json",
         "inlineStyleLanguage": "scss",
         "stylePreprocessorOptions": {
@@ -85,8 +85,8 @@
         "prod": {
           "fileReplacements": [
             {
-              "replace": "src/environments/environment.ts",
-              "with": "src/environments/environment.prod.ts"
+              "replace": "apps/searchassist/src/environments/environment.ts",
+              "with": "apps/searchassist/src/environments/environment.prod.ts"
             }
           ],
           "optimization": true,
@@ -109,8 +109,8 @@
         "clouddev": {
           "fileReplacements": [
             {
-              "replace": "src/environments/environment.ts",
-              "with": "src/environments/environment.clouddev.ts"
+              "replace": "apps/searchassist/src/environments/environment.ts",
+              "with": "apps/searchassist/src/environments/environment.clouddev.ts"
             }
           ],
           "optimization": true,
@@ -133,8 +133,8 @@
         "app": {
           "fileReplacements": [
             {
-              "replace": "src/environments/environment.ts",
-              "with": "src/environments/environment.app.ts"
+              "replace": "apps/searchassist/src/environments/environment.ts",
+              "with": "apps/searchassist/src/environments/environment.app.ts"
             }
           ],
           "optimization": true,
@@ -157,8 +157,8 @@
         "qa": {
           "fileReplacements": [
             {
-              "replace": "src/environments/environment.ts",
-              "with": "src/environments/environment.qa.ts"
+              "replace": "apps/searchassist/src/environments/environment.ts",
+              "with": "apps/searchassist/src/environments/environment.qa.ts"
             }
           ],
           "optimization": true,
@@ -181,8 +181,8 @@
         "uat": {
           "fileReplacements": [
             {
-              "replace": "src/environments/environment.ts",
-              "with": "src/environments/environment.uat.ts"
+              "replace": "apps/searchassist/src/environments/environment.ts",
+              "with": "apps/searchassist/src/environments/environment.uat.ts"
             }
           ],
           "optimization": true,
@@ -205,8 +205,8 @@
         "onprem": {
           "fileReplacements": [
             {
-              "replace": "src/environments/environment.ts",
-              "with": "src/environments/environment.onprem.ts"
+              "replace": "apps/searchassist/src/environments/environment.ts",
+              "with": "apps/searchassist/src/environments/environment.onprem.ts"
             }
           ],
           "optimization": true,
@@ -229,8 +229,8 @@
         "qa1": {
           "fileReplacements": [
             {
-              "replace": "src/environments/environment.ts",
-              "with": "src/environments/environment.qa1.ts"
+              "replace": "apps/searchassist/src/environments/environment.ts",
+              "with": "apps/searchassist/src/environments/environment.qa1.ts"
             }
           ],
           "optimization": true,
@@ -253,8 +253,8 @@
         "pilot": {
           "fileReplacements": [
             {
-              "replace": "src/environments/environment.ts",
-              "with": "src/environments/environment.pilot.ts"
+              "replace": "apps/searchassist/src/environments/environment.ts",
+              "with": "apps/searchassist/src/environments/environment.pilot.ts"
             }
           ],
           "optimization": true,
@@ -277,8 +277,8 @@
         "loadtest": {
           "fileReplacements": [
             {
-              "replace": "src/environments/environment.ts",
-              "with": "src/environments/environment.loadtest.ts"
+              "replace": "apps/searchassist/src/environments/environment.ts",
+              "with": "apps/searchassist/src/environments/environment.loadtest.ts"
             }
           ],
           "optimization": true,
@@ -301,8 +301,8 @@
         "qabots": {
           "fileReplacements": [
             {
-              "replace": "src/environments/environment.ts",
-              "with": "src/environments/environment.qabots.ts"
+              "replace": "apps/searchassist/src/environments/environment.ts",
+              "with": "apps/searchassist/src/environments/environment.qabots.ts"
             }
           ],
           "optimization": true,
