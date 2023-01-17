@@ -56,7 +56,14 @@ const routes: Routes = [
           import('./modules/traits/traits.module').then((m) => m.TraitsModule),
       },
 
-      // { path: 'traits', component: TraitsComponent },
+      {
+        path: 'rules',
+        loadChildren: () =>
+          import('./modules/business-rules/business-rules.module').then(
+            (m) => m.BusinessRulesModule
+          ),
+      },
+
       // { path: 'rules', component: BusinessRulesComponent },
       // { path: 'facets', component: FacetsComponent },
       // { path: 'index', component: IndexComponent },
