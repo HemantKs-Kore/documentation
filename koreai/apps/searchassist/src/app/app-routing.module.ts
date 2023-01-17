@@ -107,13 +107,13 @@ const routes: Routes = [
             (m) => m.BotActionsModule
           ),
       },
-      // {
-      //   path: 'structuredData',
-      //   loadChildren: () =>
-      //     import('./modules/structured-data/structured-data.module').then(
-      //       (m) => m.StructuredDataModule
-      //     ),
-      // },
+      {
+        path: 'structuredData',
+        loadChildren: () =>
+          import('./modules/structured-data/structured-data.module').then(
+            (m) => m.StructuredDataModule
+          ),
+      },
       {
         path: 'demo',
         loadChildren: () =>

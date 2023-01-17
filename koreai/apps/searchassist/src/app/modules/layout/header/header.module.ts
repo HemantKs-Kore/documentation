@@ -12,7 +12,6 @@ import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
 import { SliderComponentComponent } from '../../../shared/slider-component/slider-component.component';
 import { FormsModule } from '@angular/forms';
 import { KrModalModule } from '../../../shared/kr-modal/kr-modal.module';
-import { FilterPipe } from '@kore.helpers/filters/filter.pipe';
 import { SharedPipesModule } from '@kore.helpers/filters/shared-pipes.module';
 
 @NgModule({
