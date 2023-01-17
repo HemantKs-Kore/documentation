@@ -63,6 +63,11 @@ const routes: Routes = [
             (m) => m.BusinessRulesModule
           ),
       },
+      {
+        path: 'facets',
+        loadChildren: () =>
+          import('./modules/facets/facets.module').then((m) => m.FacetsModule),
+      },
       // { path: 'facets', component: FacetsComponent },
       // { path: 'index', component: IndexComponent },
       // { path: 'experiments', component: AppExperimentsComponent },
