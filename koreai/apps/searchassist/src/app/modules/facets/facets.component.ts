@@ -162,7 +162,7 @@ export class FacetsComponent implements OnInit, OnDestroy {
   @ViewChild('facetModalPopupNew') facetModalPopupNew: KRModalComponent;
   ngOnInit() {
     this.selectedApp = this.workflowService.selectedApp();
-    this.serachIndexId = this.selectedApp.searchIndexes[0]._id;
+    this.serachIndexId = this.selectedApp?.searchIndexes[0]._id;
     //this.indexPipelineId = this.selectedApp.searchIndexes[0].pipelineId;
     this.loadfacets();
     this.subscription = this.appSelectionService.queryConfigs.subscribe(
