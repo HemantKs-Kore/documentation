@@ -633,7 +633,7 @@ export class AppComponent {
       }
       this.authService.findlyApps.subscribe((res) => {
         this.appsData = res;
-        this.restorepreviousState();
+        // this.restorepreviousState();
         this.loading = false;
       });
       //this.appSelectionService.getInlineManualcall();

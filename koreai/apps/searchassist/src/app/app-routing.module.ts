@@ -126,7 +126,7 @@ const routes: Routes = [
       },
 
       { path: '', redirectTo: 'apps', pathMatch: 'full' },
-      // { path: '**', component: AppsListingComponent },
+      { path: '**', redirectTo: 'apps' },
     ],
   },
 ];

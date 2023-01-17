@@ -233,7 +233,7 @@ export class BotActionsComponent implements OnInit {
   ngOnInit(): void {
     this.selectedApp = this.workflowService.selectedApp();
     // console.log(this.selectedApp);
-    this.searchIndexId = this.selectedApp.searchIndexes[0]._id;
+    this.searchIndexId = this.selectedApp?.searchIndexes[0]._id;
     if (this.workflowService.selectedApp()?.configuredBots[0]) {
       this.streamId =
         this.workflowService.selectedApp()?.configuredBots[0]?._id ?? null;
