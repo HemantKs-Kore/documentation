@@ -67,13 +67,13 @@ const routes: Routes = [
       //   path: 'index-configuration-settings',
       //   component: IndexConfigurationSettingsComponent,
       // },
-      // {
-      //   path: 'search-settings',
-      //   loadChildren: () =>
-      //     import('./modules/search-settings/search-settings.module').then(
-      //       (m) => m.SearchSettingsModule
-      //     ),
-      // },
+      {
+        path: 'search-settings',
+        loadChildren: () =>
+          import('./modules/search-settings/search-settings.module').then(
+            (m) => m.SearchSettingsModule
+          ),
+      },
       // {
       //   path: 'sources',
       //   loadChildren: () =>

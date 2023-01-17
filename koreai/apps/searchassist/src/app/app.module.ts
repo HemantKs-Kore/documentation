@@ -26,6 +26,8 @@ import { QueryPipelineResolver } from '@kore.services/resolvers/query.pipeline.r
 import { AuthGuard } from '@kore.services/auth.guard';
 import { SortPipe } from '@kore.helpers/sortPipe/sort-pipe';
 import { MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material/form-field';
+import { CommonModule } from '@angular/common';
+import { FindlySharedModule } from './modules/findly-shared/findly-shared.module';
 
 export function HttpLoaderFactory(httpClient: HttpClient) {
   return new TranslateHttpLoader(httpClient, 'assets/i18n/', '.json');
@@ -39,6 +41,8 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
     BrowserAnimationsModule,
     AppRoutingModule,
     HttpClientModule,
+    CommonModule,
+    FindlySharedModule,
     NgxEchartsModule.forRoot({
       echarts: { init: echarts.init },
     }),

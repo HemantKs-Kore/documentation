@@ -7,8 +7,8 @@ import { SearchSettingsRoutingModule } from './search-settings-routing.module';
 import { SearchSettingsComponent } from './search-settings.component';
 import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
 import { NgbModule, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-
-
+import { WorkflowService } from '@kore.services/workflow.service';
+import { ServiceInvokerService } from '@kore.services/service-invoker.service';
 
 @NgModule({
   declarations: [SearchSettingsComponent],
@@ -16,11 +16,13 @@ import { NgbModule, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
     CommonModule,
     PerfectScrollbarModule,
     SearchSettingsRoutingModule,
-    NgbModule
+    NgbModule,
   ],
   providers: [
     PipelineDataResolver,
-    PipelineResolver
-  ]
+    PipelineResolver,
+    WorkflowService,
+    ServiceInvokerService,
+  ],
 })
-export class SearchSettingsModule { }
+export class SearchSettingsModule {}

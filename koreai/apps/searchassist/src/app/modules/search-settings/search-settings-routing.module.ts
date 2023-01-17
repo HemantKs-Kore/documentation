@@ -1,4 +1,7 @@
-import { PipelineDataResolver, PipelineResolver } from '../../services/resolvers/pipeline-data.resolve';
+import {
+  PipelineDataResolver,
+  PipelineResolver,
+} from '../../services/resolvers/pipeline-data.resolve';
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
@@ -17,9 +20,9 @@ const routes: Routes = [
           ),
         resolve: {
           weights: PipelineDataResolver,
-          queryPipeline: PipelineResolver
+          queryPipeline: PipelineResolver,
         },
-        data: { value: 'get.weightsList', pipeline: 'get.queryPipeline' }
+        data: { value: 'get.weightsList', pipeline: 'get.queryPipeline' },
       },
       {
         path: 'presentable',
@@ -28,9 +31,9 @@ const routes: Routes = [
             (m) => m.PresentableModule
           ),
         resolve: {
-          presentables: PipelineDataResolver
+          presentables: PipelineDataResolver,
         },
-        data: { value: 'get.presentableFields' }
+        data: { value: 'get.presentableFields' },
       },
       {
         path: 'highlighting',
@@ -40,9 +43,9 @@ const routes: Routes = [
           ),
         resolve: {
           highlighting: PipelineDataResolver,
-          queryPipeline: PipelineResolver
+          queryPipeline: PipelineResolver,
         },
-        data: { value: 'get.highlightFields', pipeline: 'get.queryPipeline' }
+        data: { value: 'get.highlightFields', pipeline: 'get.queryPipeline' },
       },
       {
         path: 'spell_correction',
@@ -52,9 +55,12 @@ const routes: Routes = [
           ),
         resolve: {
           spells: PipelineDataResolver,
-          queryPipeline: PipelineResolver
+          queryPipeline: PipelineResolver,
         },
-        data: { value: 'get.spellcorrectFields', pipeline: 'get.queryPipeline' }
+        data: {
+          value: 'get.spellcorrectFields',
+          pipeline: 'get.queryPipeline',
+        },
       },
       {
         path: 'snippets',
@@ -104,13 +110,13 @@ const routes: Routes = [
           import('./modules/search-relevance/search-relevance.module').then(
             (m) => m.SearchRelevanceModule
           ),
-      }
+      },
     ],
   },
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class SearchSettingsRoutingModule { }
+export class SearchSettingsRoutingModule {}
