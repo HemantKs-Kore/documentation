@@ -44,11 +44,11 @@ import { E } from '@angular/cdk/keycodes';
 export class HeaderComponent implements OnInit {
   toShowAppHeader: boolean;
   mainMenu = '';
-  showMainMenu: boolean = true;
-  showClose: boolean = false;
+  showMainMenu = true;
+  showClose = false;
   currentRouteData: any = '';
-  displyStatusBar: boolean = true;
-  onboardingOpened: boolean = false;
+  displyStatusBar = true;
+  onboardingOpened = false;
   tourData: any = [];
   browseWorkspaceRef: any;
   tourConfigData: any = [];
@@ -94,9 +94,9 @@ export class HeaderComponent implements OnInit {
     'Y',
     'Z',
   ];
-  training: boolean = false;
+  training = false;
   fromCallFlow = '';
-  disableClearAll: boolean = false;
+  disableClearAll = false;
   showSwichAccountOption = false;
   searchActive = false;
   searchImgSrc: any = 'assets/icons/search_gray.svg';
@@ -112,14 +112,14 @@ export class HeaderComponent implements OnInit {
   loginusername: any;
   recentApps: any;
   userId: any;
-  showSearch: boolean = false;
-  public statusDockerLoading: boolean = false;
+  showSearch = false;
+  public statusDockerLoading = false;
   newApp: any = {
     name: '',
     description: '',
   };
   createAppPopRef: any;
-  creatingInProgress: boolean = false;
+  creatingInProgress = false;
   selectedApp;
   appsnum;
   serachIndexId;
@@ -633,11 +633,11 @@ export class HeaderComponent implements OnInit {
       selectAccountDetail == 'null' ||
       selectAccountDetail == undefined
     ) {
-      accountId = this.currentAppControlList.accountId;
+      accountId = this.currentAppControlList?.accountId;
     } else {
       accountId = selectAccountDetail.accountId;
     }
-    //let accountId = this.currentAppControlList.accountId
+    //let accountId = this.currentAppControlList?.accountId
     this.loadingContent = true;
     this.loadingProgress = true;
     const header: any = {
@@ -653,7 +653,7 @@ export class HeaderComponent implements OnInit {
           this.loadingProgress = false;
           this.WorkspaceList = res;
           const requestedAccounts =
-            this.currentAppControlList.requestedAccounts;
+            this.currentAppControlList?.requestedAccounts;
 
           for (let index = 0; index < this.WorkspaceList.length; index++) {
             const element = this.WorkspaceList[index];
@@ -722,7 +722,7 @@ export class HeaderComponent implements OnInit {
   }
 
   cancelButton() {
-    const requestedAccounts = this.currentAppControlList.requestedAccounts;
+    const requestedAccounts = this.currentAppControlList?.requestedAccounts;
     for (let index = 0; index < this.WorkspaceList.length; index++) {
       const element = this.WorkspaceList[index];
       for (let i = 0; i < requestedAccounts.length; i++) {
@@ -1487,16 +1487,16 @@ export class HeaderComponent implements OnInit {
     if (this.selectAccountDetails == null) {
       for (
         let i = 0;
-        i < this.currentAppControlList.associatedAccounts.length;
+        i < this.currentAppControlList?.associatedAccounts.length;
         i++
       ) {
         if (
-          this.currentAppControlList.associatedAccounts[i].status == 'active'
+          this.currentAppControlList?.associatedAccounts[i].status == 'active'
         ) {
           this.associatedAccounts =
-            this.currentAppControlList.associatedAccounts;
+            this.currentAppControlList?.associatedAccounts;
           this.selectAccountDetails =
-            this.currentAppControlList.associatedAccounts[i];
+            this.currentAppControlList?.associatedAccounts[i];
         }
       }
       if (
@@ -1988,10 +1988,10 @@ export class HeaderComponent implements OnInit {
     }
   }
   JoinWorkspace(workspace, i) {
-    const payload: any[] = this.currentAppControlList.requestedAccounts;
+    const payload: any[] = this.currentAppControlList?.requestedAccounts;
     payload.push({ acctId: workspace._id });
     // adding Header
-    let selectAccountDetail = window[this.storageType].getItem(
+    const selectAccountDetail = window[this.storageType].getItem(
       'selectedAccount'
     )
       ? JSON.parse(window[this.storageType].getItem('selectedAccount'))
@@ -2002,7 +2002,7 @@ export class HeaderComponent implements OnInit {
       selectAccountDetail == 'null' ||
       selectAccountDetail == undefined
     ) {
-      accountId = this.currentAppControlList.accountId;
+      accountId = this.currentAppControlList?.accountId;
     } else {
       accountId = selectAccountDetail.accountId;
     }
@@ -2010,7 +2010,7 @@ export class HeaderComponent implements OnInit {
       AccountId: accountId,
     };
     // addeing Header
-    //let accountId = this.currentAppControlList.accountId
+    //let accountId = this.currentAppControlList?.accountId
     const quaryparms: any = {
       type: 'joinAccount',
     };
@@ -2025,7 +2025,7 @@ export class HeaderComponent implements OnInit {
               ? `Successfully Joined ${workspace.displayName}`
               : `Successfully Joined ${workspace.accountName}`;
             const requestedAccounts =
-              this.currentAppControlList.requestedAccounts;
+              this.currentAppControlList?.requestedAccounts;
 
             for (let index = 0; index < this.WorkspaceList.length; index++) {
               const element = this.WorkspaceList[index];
