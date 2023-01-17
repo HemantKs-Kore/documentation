@@ -21,11 +21,11 @@ import {
   filter,
 } from 'rxjs/operators';
 import { ServiceInvokerService } from '@kore.services/service-invoker.service';
-import { SliderComponentComponent } from '../../shared/slider-component/slider-component.component';
-import { OnboardingComponentComponent } from '../../components/onboarding-component/onboarding-component.component';
+import { SliderComponentComponent } from '../../../shared/slider-component/slider-component.component';
+import { OnboardingComponentComponent } from '../../../components/onboarding-component/onboarding-component.component';
 import { NotificationService } from '@kore.services/notification.service';
 import { AppSelectionService } from '@kore.services/app.selection.service';
-import { DockStatusService } from '../../services/dockstatusService/dock-status.service';
+import { DockStatusService } from '../../../services/dockstatusService/dock-status.service';
 import { MixpanelServiceService } from '@kore.services/mixpanel-service.service';
 import { from, interval, Subject, Subscription } from 'rxjs';
 import { environment } from '@kore.environment';
@@ -38,10 +38,10 @@ import { Input } from '@angular/core';
 import { E } from '@angular/cdk/keycodes';
 @Component({
   selector: 'app-header',
-  templateUrl: './app-header.component.html',
-  styleUrls: ['./app-header.component.scss'],
+  templateUrl: './header.component.html',
+  styleUrls: ['./header.component.scss'],
 })
-export class AppHeaderComponent implements OnInit {
+export class HeaderComponent implements OnInit {
   toShowAppHeader: boolean;
   mainMenu = '';
   showMainMenu: boolean = true;
