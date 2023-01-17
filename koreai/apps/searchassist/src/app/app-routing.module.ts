@@ -68,8 +68,11 @@ const routes: Routes = [
         loadChildren: () =>
           import('./modules/facets/facets.module').then((m) => m.FacetsModule),
       },
-      // { path: 'facets', component: FacetsComponent },
-      // { path: 'index', component: IndexComponent },
+      {
+        path: 'index',
+        loadChildren: () =>
+          import('./modules/index/index.module').then((m) => m.IndexModule),
+      },
       // { path: 'experiments', component: AppExperimentsComponent },
       // { path: 'resultranking', component: ResultRankingComponent },
       // { path: 'metrics', component: MetricsComponent },
