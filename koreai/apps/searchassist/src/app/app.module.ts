@@ -14,7 +14,7 @@ import { NgbModule, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { HttpClientModule, HttpClient } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { AppHeaderComponent } from './components/app-header/app-header.component';
+// import { AppHeaderComponent } from './components/app-header/app-header.component';
 import { AppBodyComponent } from './components/app-body/app-body.component';
 import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
 // import { ScrollTrackerDirective } from './components/dashboard-home/dashboard-home.component';
@@ -106,13 +106,14 @@ import { FindlySharedModule } from './modules/findly-shared/findly-shared.module
 import { EmptyScreenModule } from './modules/empty-screen/empty-screen.module';
 import { SmallTalkModule } from './modules/search-settings/modules/small-talk/small-talk.module';
 import { IndexFieldsComfirmationDialogComponent } from './helpers/components/index-fields-comfirmation-dialog/index-fields-comfirmation-dialog.component';
+import { HeaderModule } from './modules/layout/header/header.module';
 export function HttpLoaderFactory(httpClient: HttpClient) {
   return new TranslateHttpLoader(httpClient, 'assets/i18n/', '.json');
 }
 @NgModule({
   declarations: [
     AppComponent,
-    AppHeaderComponent,
+    // AppHeaderComponent,
     AppBodyComponent,
     SortPipe,
     AppsListingComponent,
@@ -221,6 +222,7 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
     BusinessRulesModule,
     IndexModule,
     PricingModule,
+    HeaderModule
   ],
   // tslint:disable-next-line:max-line-length
   entryComponents: [

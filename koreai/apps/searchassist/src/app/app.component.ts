@@ -8,7 +8,7 @@ import { ServiceInvokerService } from '@kore.services/service-invoker.service';
 import { EndPointsService } from '@kore.services/end-points.service';
 import { environment } from '@kore.environment';
 import { AppSelectionService } from '@kore.services/app.selection.service'
-import { AppHeaderComponent } from './components/app-header/app-header.component';
+// import { AppHeaderComponent } from './components/app-header/app-header.component';
 import { MixpanelServiceService } from '@kore.services/mixpanel-service.service';
 
 import {TranslateService} from '@ngx-translate/core';
@@ -68,7 +68,7 @@ export class AppComponent implements OnInit, OnDestroy {
   queryPipelineId: any;
   // isDemoApp: boolean = false;
   selectedApp : any;
-  @ViewChild('headerComp') headerComp: AppHeaderComponent;
+  // @ViewChild('headerComp') headerComp: AppHeaderComponent;
   constructor(private router: Router,
     private authService: AuthService,
     public localstore: LocalStoreService,

@@ -10,7 +10,7 @@ import { AppSelectionService } from '@kore.services/app.selection.service'
 import { AuthService } from '@kore.services/auth.service';
 import { InlineManualService } from '@kore.services/inline-manual.service';
 import { MixpanelServiceService } from '@kore.services/mixpanel-service.service';
-import { AppHeaderComponent } from '../app-header/app-header.component';
+// import { AppHeaderComponent } from '../app-header/app-header.component';
 import { EMPTY_SCREEN } from '../../modules/empty-screen/empty-screen.constants';
 declare const $: any;
 declare var PureJSCarousel: any;
@@ -86,7 +86,7 @@ export class AppsListingComponent implements OnInit {
   @ViewChild('createBoardingJourney') createBoardingJourney: KRModalComponent;
   @ViewChild('confirmatiomAppPop') confirmatiomAppPop: KRModalComponent;
   @ViewChild('detailsPopUp') detailsPopUp: KRModalComponent;
-  @ViewChild('headerComp') headerComp: AppHeaderComponent;
+  // @ViewChild('headerComp') headerComp: AppHeaderComponent;
   constructor(
     public localstore: LocalStoreService,
     private service: ServiceInvokerService,
