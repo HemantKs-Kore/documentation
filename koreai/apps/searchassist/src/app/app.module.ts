@@ -14,6 +14,18 @@ import * as echarts from 'echarts';
 import { AppDataResolver } from '@kore.services/resolvers/app.data.resolve';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { HeaderModule } from './modules/layout/header/header.module';
+import { SideBarService } from '@kore.services/header.service';
+import { AppSelectionService } from '@kore.services/app.selection.service';
+import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { DockStatusService } from '@kore.services/dock.status.service';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { ConvertMDtoHTML } from '@kore.helpers/lib/convertHTML';
+import { AccountsDataService } from '@kore.services/dataservices/accounts-data.service';
+import { QueryPipelineResolver } from '@kore.services/resolvers/query.pipeline.resolve';
+import { AuthGuard } from '@kore.services/auth.guard';
+import { SortPipe } from '@kore.helpers/sortPipe/sort-pipe';
+import { MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material/form-field';
 
 export function HttpLoaderFactory(httpClient: HttpClient) {
   return new TranslateHttpLoader(httpClient, 'assets/i18n/', '.json');
@@ -44,6 +56,7 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
       closeButton: true,
     }),
     NgxDaterangepickerMd.forRoot(),
+    HeaderModule,
   ],
   // tslint:disable-next-line:max-line-length
   entryComponents: [
@@ -54,22 +67,22 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
   ],
   providers: [
     globalProviders,
-    // {
-    //   provide: MAT_FORM_FIELD_DEFAULT_OPTIONS,
-    //   useValue: { appearance: 'fill' },
-    // },
-    // SortPipe,
-    // AuthGuard,
+    {
+      provide: MAT_FORM_FIELD_DEFAULT_OPTIONS,
+      useValue: { appearance: 'fill' },
+    },
+    SortPipe,
+    AuthGuard,
     AppDataResolver,
-    // QueryPipelineResolver,
-    // AccountsDataService,
-    // SideBarService,
-    // NgbActiveModal,
+    QueryPipelineResolver,
+    AccountsDataService,
+    SideBarService,
+    NgbActiveModal,
     MatSnackBar,
-    // ConvertMDtoHTML,
-    // MatDatepickerModule,
-    // AppSelectionService,
-    // DockStatusService,
+    ConvertMDtoHTML,
+    MatDatepickerModule,
+    AppSelectionService,
+    DockStatusService,
   ],
   // exports: [NgbdDatepickerRange],
   bootstrap: [AppComponent],
