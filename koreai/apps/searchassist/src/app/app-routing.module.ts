@@ -63,8 +63,6 @@ const routes: Routes = [
             (m) => m.BusinessRulesModule
           ),
       },
-
-      // { path: 'rules', component: BusinessRulesComponent },
       // { path: 'facets', component: FacetsComponent },
       // { path: 'index', component: IndexComponent },
       // { path: 'experiments', component: AppExperimentsComponent },
