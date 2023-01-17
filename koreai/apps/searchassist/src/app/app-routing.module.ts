@@ -43,6 +43,13 @@ const routes: Routes = [
         loadChildren: () =>
           import('./modules/apps/apps.module').then((m) => m.AppsModule),
       },
+      {
+        path: 'summary',
+        loadChildren: () =>
+          import('./modules/summary/summary.module').then(
+            (m) => m.SummaryModule
+          ),
+      },
 
       // { path: 'summary', component: SummaryComponent },
       // { path: 'traits', component: TraitsComponent },
