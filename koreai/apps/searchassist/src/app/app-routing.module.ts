@@ -50,8 +50,12 @@ const routes: Routes = [
             (m) => m.SummaryModule
           ),
       },
+      {
+        path: 'traits',
+        loadChildren: () =>
+          import('./modules/traits/traits.module').then((m) => m.TraitsModule),
+      },
 
-      // { path: 'summary', component: SummaryComponent },
       // { path: 'traits', component: TraitsComponent },
       // { path: 'rules', component: BusinessRulesComponent },
       // { path: 'facets', component: FacetsComponent },
