@@ -110,13 +110,13 @@ const routes: Routes = [
             (m) => m.SearchSettingsModule
           ),
       },
-      // {
-      //   path: 'sources',
-      //   loadChildren: () =>
-      //     import('./modules/sources/sources.module').then(
-      //       (m) => m.SourcesModule
-      //     ),
-      // },
+      {
+        path: 'sources',
+        loadChildren: () =>
+          import('./modules/sources/sources.module').then(
+            (m) => m.SourcesModule
+          ),
+      },
       // {
       //   path: 'content',
       //   loadChildren: () =>
@@ -157,7 +157,7 @@ const routes: Routes = [
       },
 
       { path: '', redirectTo: 'apps', pathMatch: 'full' },
-      { path: '**', redirectTo: 'apps' },
+      // { path: '**', redirectTo: 'apps' },
     ],
   },
 ];

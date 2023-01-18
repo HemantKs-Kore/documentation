@@ -1,27 +1,62 @@
-import { Component, OnInit, OnChanges, ViewEncapsulation, ViewChild, HostListener, Inject } from '@angular/core';
-import { PdfViewerComponent, PDFProgressData } from 'ng2-pdf-viewer';
+import {
+  Component,
+  OnInit,
+  OnChanges,
+  ViewEncapsulation,
+  ViewChild,
+  HostListener,
+  Inject,
+} from '@angular/core';
+import {
+  PdfViewerComponent,
+  PDFProgressData,
+  PdfViewerModule,
+} from 'ng2-pdf-viewer';
 import * as $ from 'jquery';
 import SimpleBar from 'simplebar/dist/simplebar-core.esm';
 import { Platform } from '@angular/cdk/platform';
 
-import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import {
+  MatDialog,
+  MatDialogRef,
+  MAT_DIALOG_DATA,
+} from '@angular/material/dialog';
+import {
+  FormGroup,
+  FormBuilder,
+  Validators,
+  ReactiveFormsModule,
+} from '@angular/forms';
 import { ServiceInvokerService } from '../../../../services/service-invoker.service';
 import { RangySelectionService } from '../../services/rangy-selection.service';
 
 import { UserGuideComponent } from '../user-guide/user-guide.component';
-import { PerfectScrollbarComponent } from 'ngx-perfect-scrollbar';
+import {
+  PerfectScrollbarComponent,
+  PerfectScrollbarModule,
+} from 'ngx-perfect-scrollbar';
 import { NotificationService } from '../../../../services/notification.service';
 import { WorkflowService } from '../../../../services/workflow.service';
 import { SummaryModalComponent } from '../summary-modal/summary-modal.component';
 import { ConfirmationComponent } from '../confirmation/confirmation.component';
-
+import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { SimplebarAngularModule } from 'simplebar-angular';
 
 @Component({
   selector: 'kr-pdf-annotation',
+  standalone: true,
   templateUrl: './pdf-annotation.component.html',
   styleUrls: ['./pdf-annotation.component.scss'],
-  encapsulation: ViewEncapsulation.None
+  encapsulation: ViewEncapsulation.None,
+  imports: [
+    ReactiveFormsModule,
+    NgbDropdownModule,
+    MatProgressBarModule,
+    PdfViewerModule,
+    SimplebarAngularModule,
+    PerfectScrollbarModule,
+  ],
 })
 export class PdfAnnotationComponent implements OnInit, OnChanges {
   @ViewChild(PdfViewerComponent)
@@ -34,9 +69,9 @@ export class PdfAnnotationComponent implements OnInit, OnChanges {
       content: 'simplebar-content',
       scrollContent: 'simplebar-scroll-content',
       scrollbar: 'simplebar-scrollbar',
-      track: 'simplebar-track'
+      track: 'simplebar-track',
     },
-    direction: 'rtl'
+    direction: 'rtl',
   };
   pdfConfig = {
     rotate: 0,
@@ -49,7 +84,7 @@ export class PdfAnnotationComponent implements OnInit, OnChanges {
     autoResize: true,
     showAll: false,
     fitToPage: false,
-    pdfUrl: ""
+    pdfUrl: '',
   };
   loaderFlag: boolean = false;
   public hostRectangle: SelectionRectangle | null;
@@ -60,28 +95,27 @@ export class PdfAnnotationComponent implements OnInit, OnChanges {
   rangySerialization: Object = null;
   rangySaveSelection: Object = null;
   pdfPayload = {
-    "pdfsize": [
-    ],
-    "parentCanvas": {
-      "width": 0,
-      "height": 0
+    pdfsize: [],
+    parentCanvas: {
+      width: 0,
+      height: 0,
     },
-    "title": [],
-    "header": [],
-    "footer": [],
-    "ignoreText": [],
-    "title_pageno": [],
-    "header_pageno": [],
-    "footer_pageno": [],
-    "ignoreTextPageno": [],
-    "ignorePages": [],
-    "serialization": [],
-    "streamId": null,
-    "pdfUrl": ""
+    title: [],
+    header: [],
+    footer: [],
+    ignoreText: [],
+    title_pageno: [],
+    header_pageno: [],
+    footer_pageno: [],
+    ignoreTextPageno: [],
+    ignorePages: [],
+    serialization: [],
+    streamId: null,
+    pdfUrl: '',
   };
   extractionLoader: boolean = false;
   streamId: string = null;
-  pdfSize: string = "0 KB";
+  pdfSize: string = '0 KB';
   fileId: string = null;
   sourceId: string = null;
   fileName: string = null;
@@ -89,7 +123,7 @@ export class PdfAnnotationComponent implements OnInit, OnChanges {
   removeAnnotationFlag: boolean = false;
   saveSelection: any;
   restoreSelection: any;
-  removalText: string = "";
+  removalText: string = '';
   overStateEvent: any = null;
   removeClassName: string = '';
   pdfProgressPerc: number = 0;
@@ -97,9 +131,10 @@ export class PdfAnnotationComponent implements OnInit, OnChanges {
   private themeWrapper = document.querySelector('body');
   removeProgressBar: boolean = false;
   selectedApp: any = {};
-  searchIndexId: string = "";
+  searchIndexId: string = '';
 
-  constructor(private _formBuilder: FormBuilder,
+  constructor(
+    private _formBuilder: FormBuilder,
     public workflowService: WorkflowService,
     private service: ServiceInvokerService,
     private notificationService: NotificationService,
@@ -125,9 +160,7 @@ export class PdfAnnotationComponent implements OnInit, OnChanges {
   ngAfterViewInit() {
     // console.log(this.pdfComponent);
   }
-  ngOnChanges() {
-
-  }
+  ngOnChanges() {}
   ngOnDestroy() {
     window.removeEventListener('mouseup', this.textLayerMouseup, false);
     window.removeEventListener('mouseover', this.onMouse, false);
@@ -143,9 +176,18 @@ export class PdfAnnotationComponent implements OnInit, OnChanges {
     this.searchIndexId = this.selectedApp.searchIndexes[0]._id;
     this.pdfPayload.streamId = this.selectedApp._id;
     this.streamId = this.selectedApp._id;
-    if (this.dialogData && this.dialogData.type && this.dialogData.type === 'reannotate' && this.dialogData.source) {
+    if (
+      this.dialogData &&
+      this.dialogData.type &&
+      this.dialogData.type === 'reannotate' &&
+      this.dialogData.source
+    ) {
       this.reAnnotateDocument(this.dialogData.source);
-    } else if (this.dialogData && this.dialogData.type && this.dialogData.type === 'resumeAnnotate') {
+    } else if (
+      this.dialogData &&
+      this.dialogData.type &&
+      this.dialogData.type === 'resumeAnnotate'
+    ) {
       if (this.dialogData.pdfResponse) {
         this.fileId = this.dialogData.pdfResponse.fileId;
         this.fileName = this.dialogData.pdfResponse.sourceTitle;
@@ -160,24 +202,23 @@ export class PdfAnnotationComponent implements OnInit, OnChanges {
       }
       this.getAttachmentFile(this.fileId);
     }
-
   }
   // User Guilde - How to annotate
   userGuide() {
     setTimeout(() => {
       let payload = {
-        header: "How to Annotate",
+        header: 'How to Annotate',
         body: {},
-        footer: "Learn more",
-        backToSource: false
+        footer: 'Learn more',
+        backToSource: false,
       };
       const dialogRef = this.dialog.open(UserGuideComponent, {
         data: { pdfResponse: payload },
         panelClass: 'kr-create-app-panel',
         disableClose: true,
-        autoFocus: false
+        autoFocus: false,
       });
-      dialogRef.afterClosed().subscribe(res => {
+      dialogRef.afterClosed().subscribe((res) => {
         // console.log(payload);
         if (payload && payload.backToSource) {
           if (res) {
@@ -189,8 +230,12 @@ export class PdfAnnotationComponent implements OnInit, OnChanges {
   }
 
   confirmText() {
-    let getRmvTxt = getAllElements(this.overStateEvent, this.removeClassName, this.pdfPayload);
-    if ((getRmvTxt === this.removalText) && this.cancelData(this.removalText)) {
+    let getRmvTxt = getAllElements(
+      this.overStateEvent,
+      this.removeClassName,
+      this.pdfPayload
+    );
+    if (getRmvTxt === this.removalText && this.cancelData(this.removalText)) {
       removeTextClass(this.removeClassName, this.overStateEvent); // remove sibling classes
       this.cancelData(this.removalText); // Pass text to delete from original Payload
       this.removeProgressBar = true;
@@ -204,14 +249,14 @@ export class PdfAnnotationComponent implements OnInit, OnChanges {
       this.removeConfirmDialog();
     }
 
-    this.removalText = "";
+    this.removalText = '';
     this.removeAnnotationFlag = false;
     this.overRectange = null;
     this.overStateEvent = null;
     this.removeClassName = '';
   }
   cancelText() {
-    this.removalText = "";
+    this.removalText = '';
     this.overRectange = null;
     this.removeAnnotationFlag = false;
     this.overStateEvent = null;
@@ -224,40 +269,80 @@ export class PdfAnnotationComponent implements OnInit, OnChanges {
     }
     $event.preventDefault();
     $event.stopPropagation();
-    $(".remove-indicator").show();
-    if ($event.target.className === ClassTypes.heading) { // Heading
+    $('.remove-indicator').show();
+    if ($event.target.className === ClassTypes.heading) {
+      // Heading
       this.removeAnnotationFlag = false;
       let boundry = $event.target.getBoundingClientRect();
-      this.overRectange = { left: boundry.left, top: boundry.top, width: boundry.width, height: boundry.height };
-      this.removalText = getAllElements($event.target, ClassTypes.heading, this.pdfPayload); // Sum prev, current & next string
+      this.overRectange = {
+        left: boundry.left,
+        top: boundry.top,
+        width: boundry.width,
+        height: boundry.height,
+      };
+      this.removalText = getAllElements(
+        $event.target,
+        ClassTypes.heading,
+        this.pdfPayload
+      ); // Sum prev, current & next string
       this.overStateEvent = $event.target;
       this.removeClassName = $event.target.className;
-    } else if ($event.target.className === ClassTypes.header) { // Header
+    } else if ($event.target.className === ClassTypes.header) {
+      // Header
       this.removeAnnotationFlag = false;
       let boundry = $event.target.getBoundingClientRect();
-      this.overRectange = { left: boundry.left, top: boundry.top, width: boundry.width, height: boundry.height };
-      this.removalText = getAllElements($event.target, ClassTypes.header, this.pdfPayload); // Sum prev, current & next string
+      this.overRectange = {
+        left: boundry.left,
+        top: boundry.top,
+        width: boundry.width,
+        height: boundry.height,
+      };
+      this.removalText = getAllElements(
+        $event.target,
+        ClassTypes.header,
+        this.pdfPayload
+      ); // Sum prev, current & next string
       this.overStateEvent = $event.target;
       this.removeClassName = $event.target.className;
-    } else if ($event.target.className === ClassTypes.exclude) { // Ignore text
+    } else if ($event.target.className === ClassTypes.exclude) {
+      // Ignore text
       this.removeAnnotationFlag = false;
       let boundry = $event.target.getBoundingClientRect();
-      this.overRectange = { left: boundry.left, top: boundry.top, width: boundry.width, height: boundry.height };
-      this.removalText = getAllElements($event.target, ClassTypes.exclude, this.pdfPayload); // Sum prev, current & next string
+      this.overRectange = {
+        left: boundry.left,
+        top: boundry.top,
+        width: boundry.width,
+        height: boundry.height,
+      };
+      this.removalText = getAllElements(
+        $event.target,
+        ClassTypes.exclude,
+        this.pdfPayload
+      ); // Sum prev, current & next string
       this.overStateEvent = $event.target;
       this.removeClassName = $event.target.className;
-    } else if ($event.target.className === ClassTypes.footer) { // Footer
+    } else if ($event.target.className === ClassTypes.footer) {
+      // Footer
       this.removeAnnotationFlag = false;
       let boundry = $event.target.getBoundingClientRect();
-      this.overRectange = { left: boundry.left, top: boundry.top, width: boundry.width, height: boundry.height };
-      this.removalText = getAllElements($event.target, ClassTypes.footer, this.pdfPayload); // Sum prev, current & next string
+      this.overRectange = {
+        left: boundry.left,
+        top: boundry.top,
+        width: boundry.width,
+        height: boundry.height,
+      };
+      this.removalText = getAllElements(
+        $event.target,
+        ClassTypes.footer,
+        this.pdfPayload
+      ); // Sum prev, current & next string
       this.overStateEvent = $event.target;
       this.removeClassName = $event.target.className;
     }
   }
   // On scroll evnt
   onScrollEvent($event) {
-    $(".remove-indicator").hide();
+    $('.remove-indicator').hide();
     this.overRectange = null;
     this.removeAnnotationFlag = false;
   }
@@ -268,7 +353,9 @@ export class PdfAnnotationComponent implements OnInit, OnChanges {
     this.perfectScroll.directiveRef.scrollTo(0, 0, 100);
   }
 
-  @HostListener('document:keydown.escape', ['$event']) onKeydownHandler(event: KeyboardEvent) {
+  @HostListener('document:keydown.escape', ['$event']) onKeydownHandler(
+    event: KeyboardEvent
+  ) {
     this.overRectange = null;
     this.removeAnnotationFlag = false;
     document.getSelection().removeAllRanges(); // Clear selection range
@@ -288,53 +375,51 @@ export class PdfAnnotationComponent implements OnInit, OnChanges {
       pdfWidth: [null],
       titleObj: this._formBuilder.array([]),
       subTitleObj: this._formBuilder.array([]),
-      headerObj: this._formBuilder.array([])
+      headerObj: this._formBuilder.array([]),
     });
   }
-  // Form reset 
+  // Form reset
   formReset() {
     this.pdfForm.reset();
     this.pdfPayload = {
-      "pdfsize": [
-      ],
-      "parentCanvas": {
-        "width": 0,
-        "height": 0
+      pdfsize: [],
+      parentCanvas: {
+        width: 0,
+        height: 0,
       },
-      "title": [
-      ],
-      "header": [],
-      "footer": [],
-      "ignoreText": [],
-      "title_pageno": [],
-      "header_pageno": [],
-      "footer_pageno": [],
-      "ignoreTextPageno": [],
-      "ignorePages": [],
-      "serialization": [],
-      "streamId": this.streamId,
-      "pdfUrl": this.pdfConfig.pdfUrl
+      title: [],
+      header: [],
+      footer: [],
+      ignoreText: [],
+      title_pageno: [],
+      header_pageno: [],
+      footer_pageno: [],
+      ignoreTextPageno: [],
+      ignorePages: [],
+      serialization: [],
+      streamId: this.streamId,
+      pdfUrl: this.pdfConfig.pdfUrl,
     };
   }
   // FormUpdatation
   formUpdatation() {
-    this.pdfForm.get("inputValue").valueChanges.subscribe(res => {
+    this.pdfForm.get('inputValue').valueChanges.subscribe((res) => {
       if (res) {
         switch (res) {
-          case "1":
-            this.pdfForm.get("className").setValue(ClassTypes.heading);
+          case '1':
+            this.pdfForm.get('className').setValue(ClassTypes.heading);
             break;
-          case "2":
-            this.pdfForm.get("className").setValue(ClassTypes.header);
+          case '2':
+            this.pdfForm.get('className').setValue(ClassTypes.header);
             break;
-          case "3":
-            this.pdfForm.get("className").setValue(ClassTypes.exclude);
+          case '3':
+            this.pdfForm.get('className').setValue(ClassTypes.exclude);
             break;
-          case "4":
-            this.pdfForm.get("className").setValue(ClassTypes.footer);
+          case '4':
+            this.pdfForm.get('className').setValue(ClassTypes.footer);
             break;
           default:
-            this.pdfForm.get("className").setValue("no-found");
+            this.pdfForm.get('className').setValue('no-found');
             break;
         }
         // setTimeout(() => {
@@ -347,12 +432,12 @@ export class PdfAnnotationComponent implements OnInit, OnChanges {
 
   pageRendered(event: any) {
     // console.log(event);
-    this.pdfForm.get("pdfHeight").setValue(event.source.viewport.height || 0);
-    this.pdfForm.get("pdfWidth").setValue(event.source.viewport.width || 0);
+    this.pdfForm.get('pdfHeight').setValue(event.source.viewport.height || 0);
+    this.pdfForm.get('pdfWidth').setValue(event.source.viewport.width || 0);
     // this.pdfConfig.currentPage = event.pageNumber;
     this.updateIgnorePages();
     // setTimeout(() => {
-    this.deserializeObj(); // reform highlighted text      
+    this.deserializeObj(); // reform highlighted text
     // }, 1000);
   }
 
@@ -363,34 +448,34 @@ export class PdfAnnotationComponent implements OnInit, OnChanges {
   // PDF error handling
   onError(error: any) {
     // console.log(error);
-    this.notificationService.notify("Something went wrong with pdf", "error");
+    this.notificationService.notify('Something went wrong with pdf', 'error');
   }
   // Onprogress pdf percentage
   onProgress(progressData: PDFProgressData) {
-    this.pdfProgressPerc = ((progressData.loaded / progressData.total) * 100) || 0;
+    this.pdfProgressPerc =
+      (progressData.loaded / progressData.total) * 100 || 0;
   }
   // Get file from server
   getAttachmentFile(fileId) {
     this.formReset();
     this.loaderFlag = true;
-    this.service.invoke(
-      'attachment.file',
-      { fileId: fileId },
-      {}
-    ).subscribe((res: any) => {
-      this.pdfConfig.pdfUrl = res.fileUrl;
-    }, (error: any) => {
-      this.loaderFlag = false;
-      this.notificationService.notify(error.error.errors[0].msg, "error");
-    });
+    this.service.invoke('attachment.file', { fileId: fileId }, {}).subscribe(
+      (res: any) => {
+        this.pdfConfig.pdfUrl = res.fileUrl;
+      },
+      (error: any) => {
+        this.loaderFlag = false;
+        this.notificationService.notify(error.error.errors[0].msg, 'error');
+      }
+    );
   }
   // text layer render - rewriting span's with div elements
   textLayerRendered(e: CustomEvent) {
     // console.log(e);
-    var divs = document.querySelectorAll(".textLayer > span");
+    var divs = document.querySelectorAll('.textLayer > span');
     for (var i = 0; i < divs.length; i++) {
-      var s: any = document.createElement("div");
-      s.style = divs[i].getAttribute("style");
+      var s: any = document.createElement('div');
+      s.style = divs[i].getAttribute('style');
       s.innerHTML = divs[i].innerHTML;
       divs[i].outerHTML = s.outerHTML;
     }
@@ -398,11 +483,21 @@ export class PdfAnnotationComponent implements OnInit, OnChanges {
   // After PDF load completes
   afterLoadComplete(pdfData: any) {
     // console.log(pdfData);
-    if (pdfData && pdfData.loadingTask && pdfData.loadingTask._transport && pdfData.loadingTask._transport._lastProgress) {
+    if (
+      pdfData &&
+      pdfData.loadingTask &&
+      pdfData.loadingTask._transport &&
+      pdfData.loadingTask._transport._lastProgress
+    ) {
       let _size = pdfData.loadingTask._transport._lastProgress.total;
       let fSExt = new Array('Bytes', 'KB', 'MB', 'GB'),
-        i = 0; while (_size > 900) { _size /= 1024; i++; };
-      let exactSize: string = (Math.round(_size * 100) / 100).toFixed() + '' + fSExt[i];
+        i = 0;
+      while (_size > 900) {
+        _size /= 1024;
+        i++;
+      }
+      let exactSize: string =
+        (Math.round(_size * 100) / 100).toFixed() + '' + fSExt[i];
       this.pdfSize = exactSize;
     }
     this.pdfForm.get('totalPages').setValue(pdfData.numPages);
@@ -440,8 +535,8 @@ export class PdfAnnotationComponent implements OnInit, OnChanges {
   // test hightlight text
   optionSelection(classTypes, value, $event) {
     // $event.stopPropagation();
-    this.pdfForm.get("inputValue").setValue(value);
-    this.pdfForm.get("className").setValue(classTypes);
+    this.pdfForm.get('inputValue').setValue(value);
+    this.pdfForm.get('className').setValue(classTypes);
     this.rangyHightlights = this.rangeService.getTextHighlighter(classTypes);
     // if(this.rangySerialization) {
     //   console.log(this.rangyHightlights, this.rangySerialization);
@@ -450,13 +545,13 @@ export class PdfAnnotationComponent implements OnInit, OnChanges {
     if (this.selectedText) {
       this.updatePayload(); // payload construction
       this.hostRectangle = null;
-      this.selectedText = "";
+      this.selectedText = '';
     }
     document.getSelection().removeAllRanges(); // Clear selection range
     this.pdfForm.get('inputValue').reset();
-    this.pdfForm.get("className").reset();
+    this.pdfForm.get('className').reset();
   }
-  // Cancel Data / Delete data from highlighted text 
+  // Cancel Data / Delete data from highlighted text
   cancelData(selectedText) {
     if (selectedText) {
       if (this.pdfPayload.title.includes(selectedText)) {
@@ -487,35 +582,48 @@ export class PdfAnnotationComponent implements OnInit, OnChanges {
       return true;
     }
   }
-  // Update Payload 
+  // Update Payload
   updatePayload() {
-    if (this.selectedText && this.pdfForm.get("inputValue").value) {
-      this.pdfPayload["parentCanvas"].height = this.pdfForm.get("pdfHeight").value;
-      this.pdfPayload["parentCanvas"].width = this.pdfForm.get("pdfWidth").value;
-      if (this.pdfForm.get("inputValue").value === "1") {
+    if (this.selectedText && this.pdfForm.get('inputValue').value) {
+      this.pdfPayload['parentCanvas'].height =
+        this.pdfForm.get('pdfHeight').value;
+      this.pdfPayload['parentCanvas'].width =
+        this.pdfForm.get('pdfWidth').value;
+      if (this.pdfForm.get('inputValue').value === '1') {
         this.pdfPayload.title.push(this.selectedText);
         this.pdfPayload.title_pageno.push(this.pdfConfig.currentPage);
-      } else if (this.pdfForm.get("inputValue").value === "2") {
+      } else if (this.pdfForm.get('inputValue').value === '2') {
         this.pdfPayload.header.push(this.selectedText);
         this.pdfPayload.header_pageno.push(this.pdfConfig.currentPage);
-      } else if (this.pdfForm.get("inputValue").value === "3") {
+      } else if (this.pdfForm.get('inputValue').value === '3') {
         this.pdfPayload.footer.push(this.selectedText);
         this.pdfPayload.footer_pageno.push(this.pdfConfig.currentPage);
-      } else if (this.pdfForm.get("inputValue").value === "4") {
+      } else if (this.pdfForm.get('inputValue').value === '4') {
         this.pdfPayload.ignoreText.push(this.selectedText);
         this.pdfPayload.ignoreTextPageno.push(this.pdfConfig.currentPage);
       }
       // Update serilization coords
       if (this.rangySerialization) {
-        this.pdfPayload.serialization.push({ coords: this.rangySerialization, className: this.pdfForm.get("className").value, currentPage: this.pdfConfig.currentPage, selectedText: this.selectedText });
+        this.pdfPayload.serialization.push({
+          coords: this.rangySerialization,
+          className: this.pdfForm.get('className').value,
+          currentPage: this.pdfConfig.currentPage,
+          selectedText: this.selectedText,
+        });
       }
       this.autoSaveAnno(); // Autosave annotation
     }
   }
   // canel serilization data
   cancelSerializationData(text: string) {
-    if (text && this.pdfPayload.serialization && this.pdfPayload.serialization.length) {
-      let index = this.pdfPayload.serialization.findIndex(res => res.selectedText === text);
+    if (
+      text &&
+      this.pdfPayload.serialization &&
+      this.pdfPayload.serialization.length
+    ) {
+      let index = this.pdfPayload.serialization.findIndex(
+        (res) => res.selectedText === text
+      );
       this.pdfPayload.serialization.splice(index, 1);
     }
   }
@@ -524,110 +632,165 @@ export class PdfAnnotationComponent implements OnInit, OnChanges {
   reAnnotateDocument(listData) {
     this.formReset();
     this.loaderFlag = true;
-    this.service.invoke(
-      'attachment.file',
-      { fileId: listData.fileId },
-      {}
-    ).subscribe((res: any) => {
-      this.pdfConfig.pdfUrl = res.fileUrl;
-      this.service.invoke(
-        'PdfAnno.get.reAnnotateData',
-        { searchIndexId: this.searchIndexId, fileId: listData.fileId, sourceId: listData.sourceId }
-      ).subscribe((res: any) => {
-        if (res && res.Response) {
-          if (res && res.Response !== "Annotated Data not available for this bot with this file Id") {
-            this.notificationService.notify(res.Response, "success");
-          }
-        } else if (res.serialization) {
-          let sPayload = {
-            "title": res.title,
-            "header": res.header,
-            "footer": res.footer,
-            "ignoreText": res.ignoreText,
-            "title_pageno": res.titlePageno,
-            "header_pageno": res.headerPageno,
-            "footer_pageno": res.footerPageno,
-            "ignoreTextPageno": res.ignoreTextPageno,
-            "ignorePages": res.ignorePages,
-            "serialization": res.serialization,
-            "streamId": res.streamId,
-            "fileId": res.fileId,
-            "pdfUrl": this.pdfConfig.pdfUrl,
-            "pdfsize": [this.pdfSize],
-            "parentCanvas": {
-              "width": this.pdfForm.get("pdfWidth").value,
-              "height": this.pdfForm.get("pdfHeight").value
-            },
-          };
-          this.pdfPayload = sPayload;
+    this.service
+      .invoke('attachment.file', { fileId: listData.fileId }, {})
+      .subscribe(
+        (res: any) => {
+          this.pdfConfig.pdfUrl = res.fileUrl;
+          this.service
+            .invoke('PdfAnno.get.reAnnotateData', {
+              searchIndexId: this.searchIndexId,
+              fileId: listData.fileId,
+              sourceId: listData.sourceId,
+            })
+            .subscribe(
+              (res: any) => {
+                if (res && res.Response) {
+                  if (
+                    res &&
+                    res.Response !==
+                      'Annotated Data not available for this bot with this file Id'
+                  ) {
+                    this.notificationService.notify(res.Response, 'success');
+                  }
+                } else if (res.serialization) {
+                  let sPayload = {
+                    title: res.title,
+                    header: res.header,
+                    footer: res.footer,
+                    ignoreText: res.ignoreText,
+                    title_pageno: res.titlePageno,
+                    header_pageno: res.headerPageno,
+                    footer_pageno: res.footerPageno,
+                    ignoreTextPageno: res.ignoreTextPageno,
+                    ignorePages: res.ignorePages,
+                    serialization: res.serialization,
+                    streamId: res.streamId,
+                    fileId: res.fileId,
+                    pdfUrl: this.pdfConfig.pdfUrl,
+                    pdfsize: [this.pdfSize],
+                    parentCanvas: {
+                      width: this.pdfForm.get('pdfWidth').value,
+                      height: this.pdfForm.get('pdfHeight').value,
+                    },
+                  };
+                  this.pdfPayload = sPayload;
+                }
+              },
+              (error: any) => {
+                if (
+                  error &&
+                  error.data &&
+                  error.data.errors &&
+                  error.data.errors[0] &&
+                  error.data.errors[0].msg
+                ) {
+                  this.notificationService.notify(
+                    error.error.errors[0].msg,
+                    'error'
+                  );
+                }
+              }
+            );
+        },
+        (error: any) => {
+          this.loaderFlag = false;
+          this.notificationService.notify(error.error.errors[0].msg, 'error');
         }
-      }, (error: any) => {
-        if (error && error.data && error.data.errors && error.data.errors[0] && error.data.errors[0].msg) {
-          this.notificationService.notify(error.error.errors[0].msg, "error");
-        }
-      });
-    }, (error: any) => {
-      this.loaderFlag = false;
-      this.notificationService.notify(error.error.errors[0].msg, "error");
-    });
+      );
     // console.log(listData);
   }
   // Check user guide info from api
   getSavedAnnotatedDataForStream() {
-    this.service.invoke(
-      'PdfAnno.get.userguide',
-      { streamId: this.pdfPayload.streamId }
-    ).subscribe((res: any) => {
-      if ((res && !res.userHasAnnotated && !this.dialogData.type) || (res && !res.userHasAnnotated && this.dialogData.type && this.dialogData.type !== 'resumeAnnotate')) {
-        this.userGuide();
-      }
-    }, (error: any) => {
-      if (error && error.data && error.data.errors && error.data.errors[0] && error.data.errors[0].msg) {
-        this.notificationService.notify(error.error.errors[0].msg, "error");
-      }
-    });
+    this.service
+      .invoke('PdfAnno.get.userguide', { streamId: this.pdfPayload.streamId })
+      .subscribe(
+        (res: any) => {
+          if (
+            (res && !res.userHasAnnotated && !this.dialogData.type) ||
+            (res &&
+              !res.userHasAnnotated &&
+              this.dialogData.type &&
+              this.dialogData.type !== 'resumeAnnotate')
+          ) {
+            this.userGuide();
+          }
+        },
+        (error: any) => {
+          if (
+            error &&
+            error.data &&
+            error.data.errors &&
+            error.data.errors[0] &&
+            error.data.errors[0].msg
+          ) {
+            this.notificationService.notify(error.error.errors[0].msg, 'error');
+          }
+        }
+      );
   }
   // extract pdf
   extractPDF() {
     let payloadResponse = {
       // "streamId": this.pdfPayload.streamId,
       // "fileId": this.fileId,
-      "title": this.pdfPayload.title,
-      "header": this.pdfPayload.header,
-      "footer": this.pdfPayload.footer,
-      "ignoreText": this.pdfPayload.ignoreText,
-      "titlePageno": this.pdfPayload.title_pageno,
-      "headerPageno": this.pdfPayload.header_pageno,
-      "footerPageno": this.pdfPayload.footer_pageno,
-      "ignoreTextPageno": this.pdfPayload.ignoreTextPageno,
-      "ignorePages": this.pdfPayload.ignorePages,
+      title: this.pdfPayload.title,
+      header: this.pdfPayload.header,
+      footer: this.pdfPayload.footer,
+      ignoreText: this.pdfPayload.ignoreText,
+      titlePageno: this.pdfPayload.title_pageno,
+      headerPageno: this.pdfPayload.header_pageno,
+      footerPageno: this.pdfPayload.footer_pageno,
+      ignoreTextPageno: this.pdfPayload.ignoreTextPageno,
+      ignorePages: this.pdfPayload.ignorePages,
       // 'name': this.fileName,
       // 'extractionType': 'annotation'
     };
     this.extractionLoader = true;
-    this.service.invoke(
-      'PdfAnno.faq.annotateExtract',
-      { searchIndexId: this.searchIndexId, sourceType: "file", sourceId: this.sourceId },
-      payloadResponse
-    ).subscribe((res: any) => {
-      this.extractionLoader = false;
-      this.dialogData.annotation.resourceId = res?.resourceId;
-      this.dialogData.annotation._id = res._id;
-      this.dialogData.annotation.status = "Inprogress";
-      this.dialogData.annotation.annotationType = true;
-      this.closeModal('pdf extracted');
-      this.rangeService.setPolling(true); // status progress
-    }, (error: any) => {
-      this.extractionLoader = false;
-      if (error && error.error && error.error.errors && error.error.errors[0] && error.error.errors[0].msg) {
-        this.notificationService.notify(error.error.errors[0].msg, "error");
-      }
-    });
+    this.service
+      .invoke(
+        'PdfAnno.faq.annotateExtract',
+        {
+          searchIndexId: this.searchIndexId,
+          sourceType: 'file',
+          sourceId: this.sourceId,
+        },
+        payloadResponse
+      )
+      .subscribe(
+        (res: any) => {
+          this.extractionLoader = false;
+          this.dialogData.annotation.resourceId = res?.resourceId;
+          this.dialogData.annotation._id = res._id;
+          this.dialogData.annotation.status = 'Inprogress';
+          this.dialogData.annotation.annotationType = true;
+          this.closeModal('pdf extracted');
+          this.rangeService.setPolling(true); // status progress
+        },
+        (error: any) => {
+          this.extractionLoader = false;
+          if (
+            error &&
+            error.error &&
+            error.error.errors &&
+            error.error.errors[0] &&
+            error.error.errors[0].msg
+          ) {
+            this.notificationService.notify(error.error.errors[0].msg, 'error');
+          }
+        }
+      );
   }
   // check form is valid/In valid
   get isFormValid() {
     if (Object.keys(this.pdfPayload).length) {
-      if (this.pdfPayload.title.length || this.pdfPayload.header.length || this.pdfPayload.footer.length || this.pdfPayload.ignoreText.length || this.pdfPayload.ignorePages.length) {
+      if (
+        this.pdfPayload.title.length ||
+        this.pdfPayload.header.length ||
+        this.pdfPayload.footer.length ||
+        this.pdfPayload.ignoreText.length ||
+        this.pdfPayload.ignorePages.length
+      ) {
         return true;
       }
     } else {
@@ -643,64 +806,82 @@ export class PdfAnnotationComponent implements OnInit, OnChanges {
     let payloadResponse = {
       // "streamId": this.pdfPayload.streamId,
       // "fileId": this.fileId,
-      "title": this.pdfPayload.title,
-      "header": this.pdfPayload.header,
-      "footer": this.pdfPayload.footer,
-      "ignoreText": this.pdfPayload.ignoreText,
-      "titlePageno": this.pdfPayload.title_pageno,
-      "headerPageno": this.pdfPayload.header_pageno,
-      "footerPageno": this.pdfPayload.footer_pageno,
-      "ignoreTextPageno": this.pdfPayload.ignoreTextPageno,
-      "ignorePages": this.pdfPayload.ignorePages,
+      title: this.pdfPayload.title,
+      header: this.pdfPayload.header,
+      footer: this.pdfPayload.footer,
+      ignoreText: this.pdfPayload.ignoreText,
+      titlePageno: this.pdfPayload.title_pageno,
+      headerPageno: this.pdfPayload.header_pageno,
+      footerPageno: this.pdfPayload.footer_pageno,
+      ignoreTextPageno: this.pdfPayload.ignoreTextPageno,
+      ignorePages: this.pdfPayload.ignorePages,
       // 'name': this.fileName,
       // 'extractionType': 'annotation',
-      "serialization": this.pdfPayload.serialization,
+      serialization: this.pdfPayload.serialization,
       // "autoSave": true
     };
-    this.service.invoke(
-      'PdfAnno.faq.annotate',
-      { searchIndexId: this.searchIndexId, sourceType: "file", sourceId: this.sourceId },
-      payloadResponse
-    ).subscribe((res: any) => {
-      // console.log(res);
-    }, (error: any) => {
-      if (error && error.error && error.error.errors && error.error.errors[0] && error.error.errors[0].msg) {
-        this.notificationService.notify(error.error.errors[0].msg, "error");
-      }
-    });
+    this.service
+      .invoke(
+        'PdfAnno.faq.annotate',
+        {
+          searchIndexId: this.searchIndexId,
+          sourceType: 'file',
+          sourceId: this.sourceId,
+        },
+        payloadResponse
+      )
+      .subscribe(
+        (res: any) => {
+          // console.log(res);
+        },
+        (error: any) => {
+          if (
+            error &&
+            error.error &&
+            error.error.errors &&
+            error.error.errors[0] &&
+            error.error.errors[0].msg
+          ) {
+            this.notificationService.notify(error.error.errors[0].msg, 'error');
+          }
+        }
+      );
   }
-  // Confirmation dialog 
+  // Confirmation dialog
   removeConfirmDialog() {
-    if (this.pdfPayload.title.length ||
+    if (
+      this.pdfPayload.title.length ||
       this.pdfPayload.header.length ||
       this.pdfPayload.footer.length ||
       this.pdfPayload.ignoreText.length
     ) {
       let obj = {
-        title: "Confirmation",
-        confirmationMsg: "Data miss matching with orginal data, please click try again to delete manually.",
-        yes: "Try Again",
-        no: "Close",
-        type: "removeAnnotation"
+        title: 'Confirmation',
+        confirmationMsg:
+          'Data miss matching with orginal data, please click try again to delete manually.',
+        yes: 'Try Again',
+        no: 'Close',
+        type: 'removeAnnotation',
       };
       const dialogRef = this.dialog.open(ConfirmationComponent, {
         data: { info: obj },
         panelClass: 'kr-confirmation-panel',
         disableClose: true,
-        autoFocus: true
+        autoFocus: true,
       });
-      dialogRef.afterClosed().subscribe(res => {
+      dialogRef.afterClosed().subscribe((res) => {
         if (res) {
           this.summaryDialog();
         }
       });
     } else {
-      this.notificationService.notify("Please select an option", "error");
+      this.notificationService.notify('Please select an option', 'error');
     }
   }
-  // Save pdf info 
+  // Save pdf info
   summaryDialog() {
-    if (this.pdfPayload.title.length ||
+    if (
+      this.pdfPayload.title.length ||
       this.pdfPayload.header.length ||
       this.pdfPayload.footer.length ||
       this.pdfPayload.ignoreText.length
@@ -709,9 +890,9 @@ export class PdfAnnotationComponent implements OnInit, OnChanges {
         data: { pdfResponse: this.pdfPayload },
         panelClass: 'kr-create-app-panel',
         disableClose: true,
-        autoFocus: true
+        autoFocus: true,
       });
-      dialogRef.afterClosed().subscribe(res => {
+      dialogRef.afterClosed().subscribe((res) => {
         setTimeout(() => {
           $('.pdf-viewer').css('width', $('.pdf-viewer').width() + 1);
           this.pdfComponent.updateSize();
@@ -719,17 +900,19 @@ export class PdfAnnotationComponent implements OnInit, OnChanges {
         }, 200);
       });
     } else {
-      this.notificationService.notify("Please select an option", "error");
+      this.notificationService.notify('Please select an option', 'error');
     }
   }
-  // Ignoraged pages 
+  // Ignoraged pages
   ignorePages(event) {
-    if (this.pdfForm.get("ignorePages").value) {
+    if (this.pdfForm.get('ignorePages').value) {
       this.pdfPayload.ignorePages.push(this.pdfConfig.currentPage);
       this.pdfConfig.renderTextMode = 0;
       this.ignorePageAnnotation();
     } else {
-      let index = this.pdfPayload.ignorePages.indexOf(this.pdfConfig.currentPage);
+      let index = this.pdfPayload.ignorePages.indexOf(
+        this.pdfConfig.currentPage
+      );
       this.pdfPayload.ignorePages.splice(index, 1);
       this.pdfConfig.renderTextMode = 2;
     }
@@ -739,15 +922,20 @@ export class PdfAnnotationComponent implements OnInit, OnChanges {
   updateIgnorePages() {
     let index = this.pdfPayload.ignorePages.indexOf(this.pdfConfig.currentPage);
     if (this.pdfPayload.ignorePages[index]) {
-      this.pdfForm.get("ignorePages").setValue(true);
+      this.pdfForm.get('ignorePages').setValue(true);
     } else {
-      this.pdfForm.get("ignorePages").setValue(false);
+      this.pdfForm.get('ignorePages').setValue(false);
     }
   }
   // Ignore pages need to remove annotation
   ignorePageAnnotation() {
-    if (this.pdfPayload.serialization.length && this.pdfPayload.ignorePages.length) {
-      let findPageNumber = this.pdfPayload.ignorePages.indexOf(this.pdfConfig.currentPage);
+    if (
+      this.pdfPayload.serialization.length &&
+      this.pdfPayload.ignorePages.length
+    ) {
+      let findPageNumber = this.pdfPayload.ignorePages.indexOf(
+        this.pdfConfig.currentPage
+      );
       if (findPageNumber !== -1) {
         let findObj = this.pdfPayload.serialization.filter((obj) => {
           return obj.currentPage === this.pdfConfig.currentPage;
@@ -762,9 +950,8 @@ export class PdfAnnotationComponent implements OnInit, OnChanges {
         this.pdfConfig.zoom = this.pdfConfig.zoom;
       }
     }
-
   }
-  // focusInput 
+  // focusInput
   focusInput() {
     this.togglePage = true;
     setTimeout(() => {
@@ -780,16 +967,23 @@ export class PdfAnnotationComponent implements OnInit, OnChanges {
       this.pdfConfig.totalPages = this.pdfConfig.totalPages;
       this.pdfComponent.page = number;
     } else {
-      this.notificationService.notify("Please enter a valid page number", "error");
+      this.notificationService.notify(
+        'Please enter a valid page number',
+        'error'
+      );
     }
   }
   // Search text in PDF component
   searchText(text) {
     this.pdfComponent.pdfFindController.executeCommand('find', {
-      caseSensitive: false, findPrevious: undefined, highlightAll: true, phraseSearch: true, query: text
+      caseSensitive: false,
+      findPrevious: undefined,
+      highlightAll: true,
+      phraseSearch: true,
+      query: text,
     });
   }
-  // Mouse leave to remove range, popovers 
+  // Mouse leave to remove range, popovers
   mouseLeavePDF($event) {
     setTimeout(() => {
       this.hostRectangle = null;
@@ -802,11 +996,13 @@ export class PdfAnnotationComponent implements OnInit, OnChanges {
   textLayerMouseup($event) {
     setTimeout(() => {
       this.selectedText = getSelectionText();
-      if (this.platform.FIREFOX) { // Firfox special chars
-        this.selectedText = this.selectedText.replace(/(\r\n|\n|\r)/gm, "");
+      if (this.platform.FIREFOX) {
+        // Firfox special chars
+        this.selectedText = this.selectedText.replace(/(\r\n|\n|\r)/gm, '');
       }
       let contentHtml = this.rangeService.rangeSelectionHtml();
-      if (contentHtml && checkDuplicateClasses(contentHtml)) { // check duplicate selection
+      if (contentHtml && checkDuplicateClasses(contentHtml)) {
+        // check duplicate selection
         // console.log("It's already annotated!");
         this.hostRectangle = null;
         return false;
@@ -857,8 +1053,7 @@ export class PdfAnnotationComponent implements OnInit, OnChanges {
       if (this.pdfPayload.ignorePages.length) {
         this.pdfPayload.ignorePages.forEach((item) => {
           let index = finalArr.indexOf(item);
-          if (index !== -1)
-            finalArr.splice(index, 1);
+          if (index !== -1) finalArr.splice(index, 1);
         });
         if (Array.isArray(finalArr)) {
           finalArr.sort(function (a, b) {
@@ -877,8 +1072,7 @@ export class PdfAnnotationComponent implements OnInit, OnChanges {
         let moreTxt = '...';
         let result = firstArr.concat(moreTxt);
         return join(result);
-      }
-      else {
+      } else {
         if (Array.isArray(finalArr)) {
           finalArr.sort(function (a, b) {
             return a - b;
@@ -895,8 +1089,7 @@ export class PdfAnnotationComponent implements OnInit, OnChanges {
       if (this.pdfPayload.ignorePages.length) {
         this.pdfPayload.ignorePages.forEach((item) => {
           let index = finalArr.indexOf(item);
-          if (index !== -1)
-            finalArr.splice(index, 1);
+          if (index !== -1) finalArr.splice(index, 1);
         });
         if (Array.isArray(finalArr)) {
           finalArr.sort(function (a, b) {
@@ -928,7 +1121,7 @@ export class PdfAnnotationComponent implements OnInit, OnChanges {
       heading: ['#1372ff'],
       header: ['#f5a623'],
       footer: ['#09a624'],
-      exclude: ['#ff5d5d']
+      exclude: ['#ff5d5d'],
     });
   }
   applyTheme(stylesheet) {
@@ -946,7 +1139,6 @@ export class PdfAnnotationComponent implements OnInit, OnChanges {
       this.themeWrapper.style.setProperty('--excludeColor', stylesheet.exclude);
     }
   }
-
 }
 
 interface SelectionRectangle {
@@ -957,10 +1149,10 @@ interface SelectionRectangle {
 }
 // ENUMS
 enum ClassTypes {
-  heading = "heading-highlight",
-  header = "header-highlight",
-  footer = "footer-highlight",
-  exclude = "exclude-highlight"
+  heading = 'heading-highlight',
+  header = 'header-highlight',
+  footer = 'footer-highlight',
+  exclude = 'exclude-highlight',
 }
 function getSelectionText() {
   var document: any = window.document;
@@ -968,43 +1160,72 @@ function getSelectionText() {
     try {
       var activeElement = document.activeElement;
       if (activeElement && activeElement.value) {
-        return activeElement.value.substring(activeElement.selectionStart, activeElement.selectionEnd);
+        return activeElement.value.substring(
+          activeElement.selectionStart,
+          activeElement.selectionEnd
+        );
       } else {
         return window.getSelection().toString();
       }
-    } catch (e) {
-    }
-  } else if (document.selection && document.selection.type != "Control") {
+    } catch (e) {}
+  } else if (document.selection && document.selection.type != 'Control') {
     return document.selection.createRange().text; // For IE
   }
 }
-
 
 // Get next, prev & curr Siblings text from current element
 function getAllElements(element, className, payload) {
   // Current
   let resultText: string = element.textContent;
   if (findMatchedData(payload, '', resultText, '', className).isMatched) {
-    let findMatchedObj: IFindMatched = findMatchedData(payload, '', resultText, '', className);
-    if (findMatchedObj.isMatched && findMatchedObj.findText && findMatchedObj.option) {
+    let findMatchedObj: IFindMatched = findMatchedData(
+      payload,
+      '',
+      resultText,
+      '',
+      className
+    );
+    if (
+      findMatchedObj.isMatched &&
+      findMatchedObj.findText &&
+      findMatchedObj.option
+    ) {
       return findMatchedObj.findText || '';
     }
     return resultText;
   }
   // PREV
   let prevResultText = [];
-  var lp = $("." + className).length;
-  let prevEle:any = $(element).parent().prev().children();
+  var lp = $('.' + className).length;
+  let prevEle: any = $(element).parent().prev().children();
   if ($(prevEle).hasClass(className)) {
     for (let i = 0; i < lp; i++) {
       for (let j = prevEle.length; j > 0; j--) {
         if (prevEle.length && $(prevEle).hasClass(className)) {
           let text = $(prevEle).text();
           prevResultText.push(text);
-          if (findMatchedData(payload, prevResultText, resultText, nextResultText, className).isMatched) {
+          if (
+            findMatchedData(
+              payload,
+              prevResultText,
+              resultText,
+              nextResultText,
+              className
+            ).isMatched
+          ) {
             prevEle = {};
-            let findMatchedObj: IFindMatched = findMatchedData(payload, prevResultText, resultText, nextResultText, className);
-            if (findMatchedObj.isMatched && findMatchedObj.findText && findMatchedObj.option) {
+            let findMatchedObj: IFindMatched = findMatchedData(
+              payload,
+              prevResultText,
+              resultText,
+              nextResultText,
+              className
+            );
+            if (
+              findMatchedObj.isMatched &&
+              findMatchedObj.findText &&
+              findMatchedObj.option
+            ) {
               return findMatchedObj.findText || '';
             }
           } else {
@@ -1016,17 +1237,35 @@ function getAllElements(element, className, payload) {
   }
   // NEXT
   var nextResultText = [];
-  let nextEle:any = $(element).parent().next().children();
+  let nextEle: any = $(element).parent().next().children();
   if ($(nextEle).hasClass(className)) {
     for (let i = 0; i < lp; i++) {
       for (let j = 0; j < nextEle.length; j++) {
         if (nextEle.length && $(nextEle).hasClass(className)) {
           let text = $(nextEle).text();
           nextResultText.push(text);
-          if (findMatchedData(payload, prevResultText, resultText, nextResultText, className).isMatched) {
+          if (
+            findMatchedData(
+              payload,
+              prevResultText,
+              resultText,
+              nextResultText,
+              className
+            ).isMatched
+          ) {
             nextEle = {};
-            let findMatchedObj: IFindMatched = findMatchedData(payload, prevResultText, resultText, nextResultText, className);
-            if (findMatchedObj.isMatched && findMatchedObj.findText && findMatchedObj.option) {
+            let findMatchedObj: IFindMatched = findMatchedData(
+              payload,
+              prevResultText,
+              resultText,
+              nextResultText,
+              className
+            );
+            if (
+              findMatchedObj.isMatched &&
+              findMatchedObj.findText &&
+              findMatchedObj.option
+            ) {
               return findMatchedObj.findText || '';
             }
           } else {
@@ -1045,17 +1284,24 @@ function getAllElements(element, className, payload) {
 // Remove/Detach classes for Prev+ current + next elements span's
 function removeTextClass(className, element) {
   // CURRENT
-  if ($(element).prev().hasClass('rangySelectionBoundary')
-    && $(element).next().hasClass('rangySelectionBoundary')) { // Check prev & next with rangyBoundry class
-    $(element).prev('.rangySelectionBoundary').detach('.rangySelectionBoundary');
-    $(element).next('.rangySelectionBoundary').detach('.rangySelectionBoundary');
+  if (
+    $(element).prev().hasClass('rangySelectionBoundary') &&
+    $(element).next().hasClass('rangySelectionBoundary')
+  ) {
+    // Check prev & next with rangyBoundry class
+    $(element)
+      .prev('.rangySelectionBoundary')
+      .detach('.rangySelectionBoundary');
+    $(element)
+      .next('.rangySelectionBoundary')
+      .detach('.rangySelectionBoundary');
   }
   $(element).removeClass(className);
   $(element).toggleClass('rangy');
   // PREV
-  let lp = $("." + className).length;
-  let prevEle:any = $(element).parent().prev().children();
-  let nextEle:any = $(element).parent().next().children();
+  let lp = $('.' + className).length;
+  let prevEle: any = $(element).parent().prev().children();
+  let nextEle: any = $(element).parent().next().children();
   if ($(prevEle).hasClass(className)) {
     for (let i = 0; i < lp; i++) {
       for (let j = prevEle.length; j > 0; j--) {
@@ -1071,8 +1317,10 @@ function removeTextClass(className, element) {
           $(prevEle).removeClass(className); // remove claas
           $(prevEle).toggleClass('rangy');
           prevEle = $(prevEle).parent().prev().children(); // set every div this ele
-        }
-        else if (!$(prevEle).hasClass(className) && $(prevEle).has('span').length) {
+        } else if (
+          !$(prevEle).hasClass(className) &&
+          $(prevEle).has('span').length
+        ) {
           $(prevEle).removeClass(className); // remove claas
           $(prevEle).toggleClass('rangy');
           prevEle = $(prevEle).parent().prev().children(); // set every div this ele
@@ -1095,8 +1343,10 @@ function removeTextClass(className, element) {
           $(nextEle).removeClass(className); // remove claas
           $(nextEle).toggleClass('rangy');
           nextEle = $(nextEle).parent().next().children(); // set every div this element
-        }
-        else if (!$(nextEle).hasClass(className) && $(nextEle).has('span').length) {
+        } else if (
+          !$(nextEle).hasClass(className) &&
+          $(nextEle).has('span').length
+        ) {
           $(nextEle).removeClass(className); // remove claas
           $(nextEle).toggleClass('rangy');
           nextEle = $(nextEle).parent().next().children(); // set every div this element
@@ -1104,39 +1354,56 @@ function removeTextClass(className, element) {
       }
     }
   }
-
 }
 // join array
 function join(arr, last?) {
-  if (!Array.isArray(arr)) throw "Passed value is not of array type.";
+  if (!Array.isArray(arr)) throw 'Passed value is not of array type.';
   last = last || ' ';
 
   return arr.reduce(function (acc, value, index) {
     if (arr.length < 2) return arr.join();
-    return acc + (index >= arr.length - 2 ? index > arr.length - 2 ? value : value + last : value + ",");
-  }, "");
+    return (
+      acc +
+      (index >= arr.length - 2
+        ? index > arr.length - 2
+          ? value
+          : value + last
+        : value + ',')
+    );
+  }, '');
 }
 // find hasClass from multip divs
 function checkDuplicateClasses(contentHtml: string) {
   try {
-    if ((contentHtml.toLocaleLowerCase().indexOf(ClassTypes.heading) !== -1) ||
-      (contentHtml.toLocaleLowerCase().indexOf(ClassTypes.header) !== -1) ||
-      (contentHtml.toLocaleLowerCase().indexOf(ClassTypes.footer) !== -1) ||
-      (contentHtml.toLocaleLowerCase().indexOf(ClassTypes.exclude) !== -1)) {
+    if (
+      contentHtml.toLocaleLowerCase().indexOf(ClassTypes.heading) !== -1 ||
+      contentHtml.toLocaleLowerCase().indexOf(ClassTypes.header) !== -1 ||
+      contentHtml.toLocaleLowerCase().indexOf(ClassTypes.footer) !== -1 ||
+      contentHtml.toLocaleLowerCase().indexOf(ClassTypes.exclude) !== -1
+    ) {
       return true;
     } else {
       return false;
     }
-  } catch (ex) {
-
-  }
+  } catch (ex) {}
 }
 // Find Matched Data from orignal payload
-function findMatchedData(payload, prevText, currText, nextText, className): IFindMatched {
+function findMatchedData(
+  payload,
+  prevText,
+  currText,
+  nextText,
+  className
+): IFindMatched {
   let prvTxt = prevText && prevText.length ? prevText.reverse().join('') : '';
   let nxtText = nextText && nextText.length ? nextText.join('') : '';
   let finalText = prvTxt + currText + nxtText;
-  let resultObj: IFindMatched = { isMatched: true, option: null, index: null, findText: '' };
+  let resultObj: IFindMatched = {
+    isMatched: true,
+    option: null,
+    index: null,
+    findText: '',
+  };
   if (finalText) {
     if (payload.title.includes(finalText)) {
       return resultObj;
@@ -1154,28 +1421,48 @@ function findMatchedData(payload, prevText, currText, nextText, className): IFin
         payload.title.forEach((item, index) => {
           let subStr = item.substr(finalText, finalText.length);
           if (subStr && payload.title.includes(subStr)) {
-            resultObj = { isMatched: true, option: 'title', index: index, findText: subStr };
+            resultObj = {
+              isMatched: true,
+              option: 'title',
+              index: index,
+              findText: subStr,
+            };
           }
         });
       } else if (payload.header.length) {
         payload.header.forEach((item, index) => {
           let subStr = item.substr(finalText, finalText.length);
           if (subStr && payload.header.includes(subStr)) {
-            resultObj = { isMatched: true, option: 'header', index: index, findText: subStr };
+            resultObj = {
+              isMatched: true,
+              option: 'header',
+              index: index,
+              findText: subStr,
+            };
           }
         });
       } else if (payload.footer.length) {
         payload.footer.forEach((item, index) => {
           let subStr = item.substr(finalText, finalText.length);
           if (subStr && payload.footer.includes(subStr)) {
-            resultObj = { isMatched: true, option: 'footer', index: index, findText: subStr };
+            resultObj = {
+              isMatched: true,
+              option: 'footer',
+              index: index,
+              findText: subStr,
+            };
           }
         });
       } else if (payload.ignoreText.length) {
         payload.ignoreText.forEach((item, index) => {
           let subStr = item.substr(finalText, finalText.length);
           if (subStr && payload.ignoreText.includes(subStr)) {
-            resultObj = { isMatched: true, option: 'ignoreText', index: index, findText: subStr };
+            resultObj = {
+              isMatched: true,
+              option: 'ignoreText',
+              index: index,
+              findText: subStr,
+            };
           }
         });
       }

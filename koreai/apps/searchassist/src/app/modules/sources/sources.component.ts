@@ -350,7 +350,7 @@ export class SourcesComponent implements OnInit {
     };
     this.appSelectionService.getTourConfig();
     this.selectedApp = this.workflowService.selectedApp();
-    this.searchIndexId = this.selectedApp.searchIndexes[0]._id;
+    this.searchIndexId = this.selectedApp?.searchIndexes[0]?._id;
     this.userInfo = this.authService.getUserInfo() || {};
     // this.streamID = this.workflowService.selectedApp()?.configuredBots[0]?._id ??  null;
     if (this.workflowService.selectedApp()?.configuredBots[0]) {
@@ -907,7 +907,10 @@ export class SourcesComponent implements OnInit {
         }
       } else {
         $('#sourceFileUploader').val(null);
-        this.notificationService.notify(element.fileName +' is not a supported file format', 'error');
+        this.notificationService.notify(
+          element.fileName + ' is not a supported file format',
+          'error'
+        );
         showProg = false;
       }
     } else if (
@@ -922,7 +925,10 @@ export class SourcesComponent implements OnInit {
         showProg = true;
       } else {
         $('#sourceFileUploader').val(null);
-        this.notificationService.notify(element.fileName +' is not a supported file format', 'error');
+        this.notificationService.notify(
+          element.fileName + ' is not a supported file format',
+          'error'
+        );
         // this.multipleFileArr
         // return;
       }
