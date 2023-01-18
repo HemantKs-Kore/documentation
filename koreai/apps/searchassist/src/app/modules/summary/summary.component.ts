@@ -149,9 +149,9 @@ export class SummaryComponent implements OnInit, AfterViewInit, OnDestroy {
     //moved the below flag to ngOnInit to fix the NAN display issue for few sec in summary screen on 08/03
     this.loading_skelton = true;
     this.initialCall();
-    await this.appSelectionService.getCurrentUsage();
+    await this.appSelectionService?.getCurrentUsage();
     this.usageDetails = this.appSelectionService?.currentUsageData;
-    this.updateUsageData = this.appSelectionService.updateUsageData.subscribe(
+    this.updateUsageData = this.appSelectionService?.updateUsageData.subscribe(
       (res) => {
         if (res == 'updatedUsage') {
           this.usageDetails = this.appSelectionService?.currentUsageData;
@@ -230,7 +230,7 @@ export class SummaryComponent implements OnInit, AfterViewInit, OnDestroy {
     };
     this.current_month = this.listMonths[this.date.getMonth()];
     this.selectedApp = this.workflowService.selectedApp();
-    this.serachIndexId = this.selectedApp.searchIndexes[0]._id;
+    this.serachIndexId = this.selectedApp?.searchIndexes[0]._id;
     this.headerService.toggle(toogleObj);
     this.getIndexPipeline(status);
   }
