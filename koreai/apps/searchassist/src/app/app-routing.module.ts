@@ -94,8 +94,13 @@ const routes: Routes = [
             (m) => m.MetricsModule
           ),
       },
-      // { path: 'metrics', component: MetricsComponent },
-      // { path: 'dashboard', component: DashboardComponent },
+      {
+        path: 'dashboard',
+        loadChildren: () =>
+          import('./modules/dashboard/dashboard.module').then(
+            (m) => m.DashboardModule
+          ),
+      },
       // { path: 'userEngagement', component: UserEngagementComponent },
       // { path: 'searchInsights', component: SearchInsightsComponent },
       // { path: 'resultInsights', component: ResultInsightsComponent },
