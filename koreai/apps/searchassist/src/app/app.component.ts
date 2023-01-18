@@ -74,13 +74,13 @@ export class AppComponent {
     router.events.subscribe((event: any) => {
       this.navigationInterceptor(event);
     });
-    if (
-      window.location.href.split('home/').length &&
-      window.location.href.split('home/')[1]
-    ) {
-      const lang = window.location.href.split('home/')[1];
-      translate.setDefaultLang(lang);
-    }
+    // if (
+    //   window.location.href.split('home/').length &&
+    //   window.location.href.split('home/')[1]
+    // ) {
+    //   const lang = window.location.href.split('home/')[1];
+    //   translate.setDefaultLang(lang);
+    // }
   }
 
   resetFindlySearchSDK(appData) {

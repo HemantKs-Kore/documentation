@@ -29,7 +29,7 @@ import { MatDialogModule } from '@angular/material/dialog';
     StructuredDataRoutingModule,
     KrModalModule,
     StructuredDataStatusModalModule,
-    TranslateModule,
+    TranslateModule.forChild(),
     PerfectScrollbarModule,
     FormsModule,
     AddStructuredDataModule,

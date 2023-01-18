@@ -13,7 +13,7 @@ import { MatDialogModule } from '@angular/material/dialog';
   imports: [
     CommonModule,
     FacetsRoutingModule,
-    TranslateModule,
+    TranslateModule.forChild(),
     PerfectScrollbarModule,
     KrModalModule,
     MatDialogModule,

@@ -20,7 +20,7 @@ import { ConnectorsComponent } from './connectors.component';
     CommonModule,
     ConnectorsRoutingModule,
     KrModalModule,
-    TranslateModule,
+    TranslateModule.forChild(),
     PerfectScrollbarModule,
     RecordPaginationModule,
     EmptyScreenModule,
@@ -28,7 +28,7 @@ import { ConnectorsComponent } from './connectors.component';
     SharedPipesModule,
     NgbTooltipModule,
     MatProgressSpinnerModule,
-    UseronboardingJourneyModule
+    UseronboardingJourneyModule,
   ],
 })
 export class ConnectorsModule {}

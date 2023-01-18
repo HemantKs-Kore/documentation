@@ -17,7 +17,7 @@ import { MatDialogModule } from '@angular/material/dialog';
   imports: [
     CommonModule,
     BusinessRulesRoutingModule,
-    TranslateModule,
+    TranslateModule.forChild(),
     UpgradePlanModule,
     PerfectScrollbarModule,
     KrModalModule,

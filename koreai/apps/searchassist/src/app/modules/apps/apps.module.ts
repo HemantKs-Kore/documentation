@@ -10,12 +10,25 @@ import { FormsModule } from '@angular/forms';
 import { SharedPipesModule } from '@kore.helpers/filters/shared-pipes.module';
 import { EmptyScreenModule } from '../empty-screen/empty-screen.module';
 
+// AoT requires an exported function for factories
+// export function createTranslateLoader(http: HttpClient) {
+//   return new TranslateHttpLoader(http, './assets/i18n/home/', '.json');
+// }
+
 @NgModule({
   declarations: [AppsComponent],
   imports: [
     CommonModule,
     AppsRoutingModule,
-    TranslateModule,
+    TranslateModule.forChild({
+      // useDefaultLang: true,
+      // loader: {
+      //   provide: TranslateLoader,
+      //   useFactory: createTranslateLoader,
+      //   deps: [HttpClient],
+      // },
+      // isolate: true,
+    }),
     KrModalModule,
     PerfectScrollbarModule,
     FormsModule,

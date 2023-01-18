@@ -23,7 +23,7 @@ import { SafePipe } from '../../../shared/pipes/safe.pipe';
   ],
   imports: [
     CommonModule,
-    TranslateModule,
+    TranslateModule.forChild(),
     NgbProgressbarModule,
     PerfectScrollbarModule,
     FormsModule,

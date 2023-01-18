@@ -2,7 +2,10 @@ import { UseronboardingJourneyModule } from './../../helpers/components/useronbo
 import { FormsModule } from '@angular/forms';
 import { RecordPaginationModule } from './../../helpers/components/record-pagination/record-pagination.module';
 import { SharedPipesModule } from './../../helpers/filters/shared-pipes.module';
-import { NgbTooltipModule, NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
+import {
+  NgbTooltipModule,
+  NgbDropdownModule,
+} from '@ng-bootstrap/ng-bootstrap';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { AddAlternateQuestionModule } from './../../components/faqs/add-alternate-question/add-alternate-question.module';
 import { SourcesModule } from './../sources/sources.module';
@@ -18,14 +21,13 @@ import { FaqsRoutingModule } from './faqs-routing.module';
 import { FaqsComponent } from './faqs.component';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 
-
 @NgModule({
   declarations: [FaqsComponent],
   imports: [
     CommonModule,
     FaqsRoutingModule,
     KrModalModule,
-    TranslateModule,
+    TranslateModule.forChild(),
     PerfectScrollbarModule,
     EmptyScreenModule,
     AddFaqModule,
@@ -39,7 +41,7 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
     NgbDropdownModule,
     RecordPaginationModule,
     FormsModule,
-    UseronboardingJourneyModule
-  ]
+    UseronboardingJourneyModule,
+  ],
 })
-export class FaqsModule { }
+export class FaqsModule {}

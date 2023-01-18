@@ -14,7 +14,7 @@ import { TranslateModule } from '@ngx-translate/core';
     SummaryRoutingModule,
     PerfectScrollbarModule,
     UseronboardingJourneyModule,
-    TranslateModule,
+    TranslateModule.forChild(),
   ],
 })
 export class SummaryModule {}
