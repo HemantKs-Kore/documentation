@@ -31,10 +31,14 @@ declare const FindlySDK: any;
   styleUrls: ['./app.component.scss'],
 })
 export class AppComponent {
+  showMainMenu = true;
+  settingMainMenu = false;
+  sourceMenu = false;
+
   loading = false;
   userInfo: any = {};
   appsData;
-  showMainMenu = true;
+
   searchInstance: any;
   bridgeDataInsights = true;
   addNewResult = true;
@@ -646,5 +650,15 @@ export class AppComponent {
     if (event instanceof NavigationError) {
       this.loading = false;
     }
+  }
+
+  showMenu(event) {
+    this.showMainMenu = event;
+  }
+  showSourceMenu(event) {
+    this.sourceMenu = event;
+  }
+  settingMenu(event) {
+    this.settingMainMenu = event;
   }
 }

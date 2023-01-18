@@ -28,6 +28,7 @@ import { SortPipe } from '@kore.helpers/sortPipe/sort-pipe';
 import { MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material/form-field';
 import { CommonModule } from '@angular/common';
 import { FindlySharedModule } from './modules/findly-shared/findly-shared.module';
+import { MainMenuModule } from './modules/layout/mainmenu/mainmenu.module';
 
 // AoT requires an exported function for factories
 export function createTranslateLoader(http: HttpClient) {
@@ -63,6 +64,7 @@ export function createTranslateLoader(http: HttpClient) {
     }),
     NgxDaterangepickerMd.forRoot(),
     HeaderModule,
+    MainMenuModule,
   ],
   // tslint:disable-next-line:max-line-length
   entryComponents: [
