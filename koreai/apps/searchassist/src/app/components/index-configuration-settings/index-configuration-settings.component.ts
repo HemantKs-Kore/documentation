@@ -364,6 +364,10 @@ export class IndexConfigurationSettingsComponent implements OnInit {
         );
       });
   }
+    //open topic guide
+    openUserMetaTagsSlider() {
+      this.appSelectionService.topicGuideShow.next();
+     }
   ngOnDestroy() {
     this.configurationsSubscription
       ? this.configurationsSubscription.unsubscribe()
