@@ -151,7 +151,7 @@ export class UserEngagementComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.selectedApp = this.workflowService.selectedApp();
+    this.selectedApp = this.workflowService?.selectedApp();
     this.serachIndexId = this.selectedApp?.searchIndexes[0]._id;
     this.getIndexPipeline();
     //this.getAllgraphdetails()
@@ -1703,45 +1703,37 @@ export class UserEngagementComponent implements OnInit {
     };
   }
   ngAfterViewInit() {
-    const slideFloor: any = Array.from(
-      document.getElementsByClassName('ng5-slider-floor')
-    );
-    const slideCeil: any = Array.from(
-      document.getElementsByClassName('ng5-slider-ceil')
-    );
-    const sliderModelValue: any = Array.from(
-      document.getElementsByClassName('ng5-slider-model-value')
-    );
-    const sliderModelHigh: any = Array.from(
-      document.getElementsByClassName('ng5-slider-model-high')
-    );
-    const sliderCombined: any = Array.from(
-      document.getElementsByClassName('ng5-slider-combined')
-    );
+    document.getElementsByClassName('ng5-slider-floor')[0]['style'].display =
+      'none'; // 00
+    document.getElementsByClassName('ng5-slider-ceil')[0]['style'].display =
+      'none'; //24
 
-    if (slideFloor[0]) {
-      slideFloor[0]['style'].display = 'none'; // 00
-    }
+    document.getElementsByClassName('ng5-slider-model-value')[0]['style'].top =
+      '12px';
+    document.getElementsByClassName('ng5-slider-model-value')[0][
+      'style'
+    ].fontWeight = 'bold';
+    document.getElementsByClassName('ng5-slider-model-value')[0][
+      'style'
+    ].fontSize = '12px';
 
-    if (slideCeil[0]) {
-      slideCeil[0]['style'].display = 'none'; // 00
-    }
+    document.getElementsByClassName('ng5-slider-model-high')[0]['style'].top =
+      '12px';
+    document.getElementsByClassName('ng5-slider-model-high')[0][
+      'style'
+    ].fontWeight = 'bold';
+    document.getElementsByClassName('ng5-slider-model-high')[0][
+      'style'
+    ].fontSize = '12px';
 
-    if (sliderModelValue[0]) {
-      sliderModelValue[0]['style'].top = '12px'; // 00
-      sliderModelValue[0]['style'].fontWeight = 'bold';
-      sliderModelValue[0]['style'].fontSize = '12px';
-    }
-    if (sliderModelHigh[0]) {
-      sliderModelHigh[0]['style'].top = '12px'; // 00
-      sliderModelHigh[0]['style'].fontWeight = 'bold';
-      sliderModelHigh[0]['style'].fontSize = '12px';
-    }
-    if (sliderCombined[0]) {
-      sliderCombined[0]['style'].top = '12px'; // 00
-      sliderCombined[0]['style'].fontWeight = 'bold';
-      sliderCombined[0]['style'].fontSize = '12px';
-    }
+    document.getElementsByClassName('ng5-slider-combined')[0]['style'].top =
+      '12px';
+    document.getElementsByClassName('ng5-slider-combined')[0][
+      'style'
+    ].fontWeight = 'bold';
+    document.getElementsByClassName('ng5-slider-combined')[0][
+      'style'
+    ].fontSize = '12px';
 
     $(document).on('hover', '.ng5-slider-selection-bar', () => {
       let val = this.highValue - this.lowValue;

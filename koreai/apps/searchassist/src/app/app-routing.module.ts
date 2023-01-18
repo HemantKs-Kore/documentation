@@ -108,7 +108,6 @@ const routes: Routes = [
             (m) => m.UserEngagementModule
           ),
       },
-      // { path: 'userEngagement', component: UserEngagementComponent },
       // { path: 'searchInsights', component: SearchInsightsComponent },
       // { path: 'resultInsights', component: ResultInsightsComponent },
       // { path: 'settings', component: SettingsComponent },
