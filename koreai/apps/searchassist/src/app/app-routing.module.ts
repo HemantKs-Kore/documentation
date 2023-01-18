@@ -73,6 +73,13 @@ const routes: Routes = [
         loadChildren: () =>
           import('./modules/index/index.module').then((m) => m.IndexModule),
       },
+      {
+        path: 'experiments',
+        loadChildren: () =>
+          import('./modules/app-experiments/app-experiments.module').then(
+            (m) => m.AppExperimentsModule
+          ),
+      },
       // { path: 'experiments', component: AppExperimentsComponent },
       // { path: 'resultranking', component: ResultRankingComponent },
       // { path: 'metrics', component: MetricsComponent },
