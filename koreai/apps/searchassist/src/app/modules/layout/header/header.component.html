@@ -972,6 +972,7 @@
 </kr-modal>
 
 <!-- Browse all workspace -->
+<!-- REVISIT -->
 <kr-modal
   modalType="full"
   #browseWorkspace
@@ -1079,7 +1080,6 @@
                     ).length === 0
                   "
                 >
-                  <!-- <div class="e-title">We Couldn’t find any result.</div> -->
                   <div class="e-title">
                     {{ 'header_there_are_no_other_workspaces' | translate }}
                     <br />
@@ -1108,7 +1108,6 @@
                   ).length === 0 && !emptyContent
                 "
               >
-                <!-- <div class="e-title">We Couldn’t find any result.</div> -->
                 <div class="e-title">
                   {{ 'header_there_are_no_other_workspaces' | translate }}
                   <br />
@@ -1168,7 +1167,6 @@
                       {{ 'header_members' | translate }}
                     </div>
                   </div>
-                  <!-- <img src="assets/icons/join-celebrations.gif" class="joined-animation"> -->
                   <button
                     class="joined-btn"
                     [ngClass]="{ disabled: workspace.alreadyJoined }"
@@ -1187,13 +1185,12 @@
   </perfect-scrollbar>
   <div class="mainLoadingSpinner1" *ngIf="loadingProgress">
     <mat-spinner diameter="18" strokeWidth="2"></mat-spinner>
-    <!-- <span class="please-wait-message">{{'Please Wait!' | translate}}</span> -->
   </div>
 </kr-modal>
 
 <!-- Browse all workspace close-->
-
-<app-slider-component id="supportOnboarding">
+<!-- REVISIT -->
+<!-- <app-slider-component id="supportOnboarding">
   <app-onboarding-component
     [currentRouteData]="currentRouteData"
     (openSDK)="openSDK()"
@@ -1201,7 +1198,7 @@
     (emitStatus)="emitStatus($event)"
     (closeSlid)="closeUserMetaTagsSlider()"
   ></app-onboarding-component>
-</app-slider-component>
+</app-slider-component> -->
 
 <div
   class="onboarding-status-card"
