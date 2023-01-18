@@ -80,8 +80,13 @@ const routes: Routes = [
             (m) => m.AppExperimentsModule
           ),
       },
-      // { path: 'experiments', component: AppExperimentsComponent },
-      // { path: 'resultranking', component: ResultRankingComponent },
+      {
+        path: 'resultranking',
+        loadChildren: () =>
+          import('./modules/result-ranking/result-ranking.module').then(
+            (m) => m.ResultRankingModule
+          ),
+      },
       // { path: 'metrics', component: MetricsComponent },
       // { path: 'dashboard', component: DashboardComponent },
       // { path: 'userEngagement', component: UserEngagementComponent },
