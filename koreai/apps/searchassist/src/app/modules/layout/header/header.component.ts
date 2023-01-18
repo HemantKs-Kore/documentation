@@ -5,6 +5,7 @@ import {
   Output,
   EventEmitter,
   ViewChild,
+  OnDestroy,
 } from '@angular/core';
 import { AuthService } from '@kore.services/auth.service';
 import { SideBarService } from '../../../services/header.service';
@@ -14,12 +15,7 @@ import { WorkflowService } from '@kore.services/workflow.service';
 import { AppUrlsService } from '@kore.services/app.urls.service';
 import { LocalStoreService } from '@kore.services/localstore.service';
 import { Observable } from 'rxjs';
-import {
-  debounceTime,
-  distinctUntilChanged,
-  map,
-  filter,
-} from 'rxjs/operators';
+import { debounceTime, map } from 'rxjs/operators';
 import { ServiceInvokerService } from '@kore.services/service-invoker.service';
 import { SliderComponentComponent } from '../../../shared/slider-component/slider-component.component';
 import { OnboardingComponentComponent } from '../../../components/onboarding-component/onboarding-component.component';
@@ -27,22 +23,21 @@ import { NotificationService } from '@kore.services/notification.service';
 import { AppSelectionService } from '@kore.services/app.selection.service';
 import { DockStatusService } from '../../../services/dockstatusService/dock-status.service';
 import { MixpanelServiceService } from '@kore.services/mixpanel-service.service';
-import { from, interval, Subject, Subscription } from 'rxjs';
+import { interval, Subscription } from 'rxjs';
 import { environment } from '@kore.environment';
-import { startWith, elementAt } from 'rxjs/operators';
+import { startWith } from 'rxjs/operators';
 import * as moment from 'moment';
 
 declare const $: any;
 import * as _ from 'underscore';
-import { Input } from '@angular/core';
-import { E } from '@angular/cdk/keycodes';
+
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss'],
 })
-export class HeaderComponent implements OnInit {
-  toShowAppHeader: boolean;
+export class HeaderComponent implements OnInit, OnDestroy {
+  toShowAppHeader;
   mainMenu = '';
   showMainMenu = true;
   showClose = false;
@@ -327,20 +322,20 @@ export class HeaderComponent implements OnInit {
   public dockersList: Array<any> = [];
   public pollingSubscriber: any;
   public dockServiceSubscriber: any;
-  public isAnyRecordInprogress: boolean = false;
-  public isAnyRecordCompleted: boolean = false;
-  public isAnyRecordFailed: boolean = false;
+  public isAnyRecordInprogress = false;
+  public isAnyRecordCompleted = false;
+  public isAnyRecordFailed = false;
   public readDocs: any = [];
   public unReadDocs: any = [];
   WorkspaceList: any = [];
-  loadingContent: boolean = false;
-  loadingProgress: boolean;
-  emptyContent: boolean;
+  loadingContent = false;
+  loadingProgress;
+  emptyContent;
   currentAppControlList: any;
-  notifyAccount: boolean = false;
+  notifyAccount = false;
   notifyAccountInfo: any;
-  isJoinedClicked: boolean = false;
-  isRouteDisabled: boolean = false;
+  isJoinedClicked = false;
+  isRouteDisabled = false;
   constructor(
     private authService: AuthService,
     public headerService: SideBarService,
@@ -511,20 +506,20 @@ export class HeaderComponent implements OnInit {
     //   }
   }
   extractFirstLetter() {
-    let firstLetter = this.domain.charAt(0);
+    const firstLetter = this.domain.charAt(0);
     this.profile_display = firstLetter;
     this.profile_display = this.profile_display.toUpperCase();
     this.setprofilebackground(this.profile_display);
   }
   extractProfiledisplayname() {
-    let name = this.loginusername;
+    const name = this.loginusername;
     //match the spaces
     // var matches = name.split(/(?<=^\S+)\s/)
-    var matches = name.split(' ');
-    var firstName = matches[0];
-    var lastName = matches[1] ? matches[1] : '';
-    var firstLetter = firstName ? firstName.charAt(0) : '';
-    var secondLetter = lastName ? lastName.charAt(0) : '';
+    const matches = name.split(' ');
+    const firstName = matches[0];
+    const lastName = matches[1] ? matches[1] : '';
+    const firstLetter = firstName ? firstName.charAt(0) : '';
+    const secondLetter = lastName ? lastName.charAt(0) : '';
     this.profile_display = firstLetter.concat(secondLetter);
     this.profile_display = this.profile_display.toUpperCase();
     this.setprofilebackground(this.profile_display);
@@ -671,14 +666,14 @@ export class HeaderComponent implements OnInit {
               this.WorkspaceList[index]['accountName'] =
                 this.WorkspaceList[index]['accountName'].split(splitBy)[1];
             }
-            let avatar = this.WorkspaceList[index]['displayName']
+            const avatar = this.WorkspaceList[index]['displayName']
               ? this.WorkspaceList[index]['displayName']
               : '';
 
-            let avatar2 = this.WorkspaceList[index]['accountName']
+            const avatar2 = this.WorkspaceList[index]['accountName']
               ? this.WorkspaceList[index]['accountName']
               : '';
-            let splitor =
+            const splitor =
               this.WorkspaceList[index]['accountName'].includes('.');
             let fullName;
             if (splitor) {
@@ -690,13 +685,13 @@ export class HeaderComponent implements OnInit {
                 .split('@')[0]
                 .split('_');
             }
-            let firstName = fullName[0];
-            let lastName = fullName[fullName.length - 1];
+            const firstName = fullName[0];
+            const lastName = fullName[fullName.length - 1];
 
-            var firstLetter = firstName.charAt(0);
-            var secondLetter = lastName.charAt(0);
+            const firstLetter = firstName.charAt(0);
+            const secondLetter = lastName.charAt(0);
             if (avatar2.length > 0) {
-              let displayShortName = (firstLetter + secondLetter)
+              const displayShortName = (firstLetter + secondLetter)
                 .trim()
                 .toUpperCase();
               this.WorkspaceList[index]['accountShortName'] = displayShortName;
@@ -706,8 +701,8 @@ export class HeaderComponent implements OnInit {
                 index
               );
             }
-            if (avatar.length > 0) {
-            } else {
+
+            if (!(avatar.length > 0)) {
               this.WorkspaceList[index]['displayShortName'] = '';
             }
           }
@@ -726,9 +721,9 @@ export class HeaderComponent implements OnInit {
     for (let index = 0; index < this.WorkspaceList.length; index++) {
       const element = this.WorkspaceList[index];
       for (let i = 0; i < requestedAccounts.length; i++) {
-        let account = requestedAccounts[i];
+        const account = requestedAccounts[i];
         if (element._id == account.acctId) {
-          let obj = {
+          const obj = {
             accountId: element._id,
             accountName: element.accountName,
             accountType: element.accountType,
@@ -1341,7 +1336,7 @@ export class HeaderComponent implements OnInit {
     };
     this.service.invoke('attachment.file', params).subscribe(
       (res) => {
-        let hrefURL = res.fileUrl + fileName;
+        const hrefURL = res.fileUrl + fileName;
         window.open(hrefURL, '_self');
         this.service
           .invoke('put.dockStatus', params, payload)
@@ -1376,29 +1371,24 @@ export class HeaderComponent implements OnInit {
   }
   //get all apps
   getAllApps() {
-    this.service.invoke('get.apps').subscribe(
-      (res) => {
-        this.appsnum = res;
-        this.checkroute();
+    this.service.invoke('get.apps').subscribe((res) => {
+      this.appsnum = res;
+      this.checkroute();
 
-        // if(this.appsnum.length==="undefined" || this.appsnum.length==0){
-        //   this.routeFlag=true;
-        // }
-        // else if(this.appsnum.length){
-        //   this.routeFlag=false;
-        // }
-        // console.log("check flag")
-        let app_id = this.workflowService?.selectedApp();
-        if (app_id) {
-          this.recentApps = res
-            .filter((app) => app._id != app_id._id)
-            .slice(0, 5);
-        }
-      },
-      (errRes) => {
-        // console.log(errRes);
+      // if(this.appsnum.length==="undefined" || this.appsnum.length==0){
+      //   this.routeFlag=true;
+      // }
+      // else if(this.appsnum.length){
+      //   this.routeFlag=false;
+      // }
+      // console.log("check flag")
+      const app_id = this.workflowService?.selectedApp();
+      if (app_id) {
+        this.recentApps = res
+          .filter((app) => app._id != app_id._id)
+          .slice(0, 5);
       }
-    );
+    });
   }
   checkroute() {
     this.headerService.fromCallFlowExpand.subscribe((data: any) => {
@@ -1530,18 +1520,18 @@ export class HeaderComponent implements OnInit {
   }
 
   extractAssociatedisplayname(empmail, i?) {
-    let splitor = empmail.includes('.');
+    const splitor = empmail.includes('.');
     let fullName;
     if (splitor) {
       fullName = empmail.split('@')[0].split('.');
     } else {
       fullName = empmail.split('@')[0].split('_');
     }
-    let firstName = fullName[0];
-    let lastName = fullName[fullName.length - 1];
+    const firstName = fullName[0];
+    const lastName = fullName[fullName.length - 1];
 
-    var firstLetter = firstName.charAt(0);
-    var secondLetter = lastName.charAt(0);
+    const firstLetter = firstName.charAt(0);
+    const secondLetter = lastName.charAt(0);
     if (i > -1) {
       this.associatedAccounts[i]['associate_profile_display'] = firstLetter
         .concat(secondLetter)
@@ -1785,7 +1775,7 @@ export class HeaderComponent implements OnInit {
 
   notificationIconClick() {
     setTimeout(() => {
-      let notificationDropdown = $('#notification-dropdown');
+      const notificationDropdown = $('#notification-dropdown');
       if (
         notificationDropdown.css('display') == 'block' &&
         notificationDropdown.hasClass('show')
@@ -1796,9 +1786,8 @@ export class HeaderComponent implements OnInit {
   }
 
   checkRecordInDocs(key, record) {
-    let matched: boolean = false;
     if (key === 'read') {
-      let matched = this.readDocs.find((res) => {
+      const matched = this.readDocs.find((res) => {
         if (res._id === record._id) {
           return res;
         }
@@ -1930,8 +1919,8 @@ export class HeaderComponent implements OnInit {
   }
   //track checklist count and show count number
   trackChecklist() {
-    let arr = [];
-    let Index = [];
+    const arr = [];
+    const Index = [];
     this.tourData?.forEach((item) => {
       Object.keys(item).forEach((key) => {
         arr.push(item[key]);
@@ -1942,8 +1931,8 @@ export class HeaderComponent implements OnInit {
     });
 
     let count = 0;
-    for (let key in this.tourData) {
-      for (let key1 in this.tourData[key]) {
+    for (const key in this.tourData) {
+      for (const key1 in this.tourData[key]) {
         if (this.tourData[key][key1]) {
           count = count + 1;
         }
@@ -2024,12 +2013,9 @@ export class HeaderComponent implements OnInit {
             this.notifyAccountInfo = workspace.displayName
               ? `Successfully Joined ${workspace.displayName}`
               : `Successfully Joined ${workspace.accountName}`;
-            const requestedAccounts =
-              this.currentAppControlList?.requestedAccounts;
 
             for (let index = 0; index < this.WorkspaceList.length; index++) {
               const element = this.WorkspaceList[index];
-              let account = requestedAccounts[i];
               if (element._id == workspace._id) {
                 this.WorkspaceList[index].alreadyJoined = true;
               }
@@ -2040,7 +2026,7 @@ export class HeaderComponent implements OnInit {
             }, 1000);
           }
         },
-        (errRes) => {
+        () => {
           this.notifyAccountInfo = workspace.displayName
             ? `Failed to Join ${workspace.displayName}`
             : `Failed to Join ${workspace.accountName}`;
@@ -2084,12 +2070,9 @@ export class HeaderComponent implements OnInit {
     const quaryparms: any = {
       id: this.authService.getUserId(),
     };
-    this.service.invoke('get.userinfo', quaryparms).subscribe(
-      (res) => {
-        this.accountIdRef = res[0].accountId;
-      },
-      (errRes) => {}
-    );
+    this.service.invoke('get.userinfo', quaryparms).subscribe((res) => {
+      this.accountIdRef = res[0].accountId;
+    });
   }
   hideparentTooltip(event) {
     event.stopImmediatePropagation();
