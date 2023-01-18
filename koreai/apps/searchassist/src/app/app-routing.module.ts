@@ -101,6 +101,13 @@ const routes: Routes = [
             (m) => m.DashboardModule
           ),
       },
+      {
+        path: 'userEngagement',
+        loadChildren: () =>
+          import('./modules/user-engagement/user-engagement.module').then(
+            (m) => m.UserEngagementModule
+          ),
+      },
       // { path: 'userEngagement', component: UserEngagementComponent },
       // { path: 'searchInsights', component: SearchInsightsComponent },
       // { path: 'resultInsights', component: ResultInsightsComponent },
