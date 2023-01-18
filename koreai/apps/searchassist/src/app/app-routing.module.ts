@@ -87,6 +87,13 @@ const routes: Routes = [
             (m) => m.ResultRankingModule
           ),
       },
+      {
+        path: 'metrics',
+        loadChildren: () =>
+          import('./modules/metrics/metrics.module').then(
+            (m) => m.MetricsModule
+          ),
+      },
       // { path: 'metrics', component: MetricsComponent },
       // { path: 'dashboard', component: DashboardComponent },
       // { path: 'userEngagement', component: UserEngagementComponent },
