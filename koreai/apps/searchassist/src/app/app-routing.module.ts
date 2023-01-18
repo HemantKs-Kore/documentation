@@ -108,7 +108,13 @@ const routes: Routes = [
             (m) => m.UserEngagementModule
           ),
       },
-      // { path: 'searchInsights', component: SearchInsightsComponent },
+      {
+        path: 'search-insights',
+        loadChildren: () =>
+          import('./modules/search-insights/search-insights.module').then(
+            (m) => m.SearchInsightsModule
+          ),
+      },
       // { path: 'resultInsights', component: ResultInsightsComponent },
       // { path: 'settings', component: SettingsComponent },
       // { path: 'credentials-list', component: CredentialsListComponent },
