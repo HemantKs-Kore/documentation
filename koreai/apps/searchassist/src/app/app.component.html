@@ -4,15 +4,19 @@
     (settingMenu)="settingMenu($event)"
     (showSourceMenu)="showSourceMenu($event)"
   ></app-header>
-  <!-- <app-mainmenu [show]="showMainMenu" [settingMainMenu]="settingMainMenu" [sourceMenu]="sourceMenu" class="toShowAppHeader"></app-mainmenu> -->
-  <app-mainmenu></app-mainmenu>
-  <!-- <app-header (showMenu)="showMenu($event)" (settingMenu)="settingMenu($event)" (showSourceMenu)="showSourceMenu($event)"></app-header>
-        <app-mainmenu [show]="showMainMenu" [settingMainMenu]="settingMainMenu" [sourceMenu]="sourceMenu" class="toShowAppHeader"></app-mainmenu>
+  <app-mainmenu
+    [show]="showMainMenu"
+    [settingMainMenu]="settingMainMenu"
+    [sourceMenu]="sourceMenu"
+    class="toShowAppHeader"
+  ></app-mainmenu>
+  <!--
         <app-body (initSearchSDK)="initSearchSDK()" (closeResultBody)="closeResultBody($event)" [query]="queryText"
             [bridgeData]="bridgeDataInsights" [showInsightFull]="showInsightFull" [addNewResult]="addNewResult"
             class="container-fluid appContent" [ngClass]="{'pl-0': !showMainMenu}" [structure]="structure" [searchRequestId]="searchRequestId"></app-body> -->
-
-  <router-outlet></router-outlet>
+  <div class="container-fluid appContent">
+    <router-outlet></router-outlet>
+  </div>
   <div
     *ngIf="!bridgeDataInsights"
     [ngClass]="{ sdkInsideApp: showInsightFull }"
