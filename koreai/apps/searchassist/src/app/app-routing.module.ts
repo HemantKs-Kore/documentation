@@ -124,11 +124,11 @@ const routes: Routes = [
             (m) => m.ContentModule
           ),
       },
-      // {
-      //   path: 'faqs',
-      //   loadChildren: () =>
-      //     import('./modules/faqs/faqs.module').then((m) => m.FaqsModule),
-      // },
+      {
+        path: 'faqs',
+        loadChildren: () =>
+          import('./modules/faqs/faqs.module').then((m) => m.FaqsModule),
+      },
       // {
       //   path: 'connectors',
       //   loadChildren: () =>
