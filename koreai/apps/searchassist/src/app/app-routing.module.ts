@@ -129,6 +129,13 @@ const routes: Routes = [
             (m) => m.SettingsModule
           ),
       },
+      {
+        path: 'credentials-list',
+        loadChildren: () =>
+          import('./modules/credentials-list/credentials-list.module').then(
+            (m) => m.CredentialsListModule
+          ),
+      },
       // { path: 'credentials-list', component: CredentialsListComponent },
       // { path: 'actions', component: ActionsComponent },
       // { path: 'generalSettings', component: GeneralSettingsComponent },
