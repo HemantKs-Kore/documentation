@@ -131,7 +131,13 @@ const routes: Routes = [
             (m) => m.CredentialsListModule
           ),
       },
-      // { path: 'credentials-list', component: CredentialsListComponent },
+      {
+        path: 'actions',
+        loadChildren: () =>
+          import('./modules/actions/actions.module').then(
+            (m) => m.ActionsModule
+          ),
+      },
       // { path: 'actions', component: ActionsComponent },
       // { path: 'generalSettings', component: GeneralSettingsComponent },
       // { path: 'FieldManagementComponent', component: FieldManagementComponent },
