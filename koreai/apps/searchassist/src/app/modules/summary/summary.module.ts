@@ -6,6 +6,7 @@ import { SummaryComponent } from './summary.component';
 import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
 import { UseronboardingJourneyModule } from '@kore.helpers/components/useronboarding-journey/useronboarding-journey.module';
 import { TranslateModule } from '@ngx-translate/core';
+import { SharedPipesModule } from '@kore.helpers/filters/shared-pipes.module';
 
 @NgModule({
   declarations: [SummaryComponent],
@@ -15,6 +16,7 @@ import { TranslateModule } from '@ngx-translate/core';
     PerfectScrollbarModule,
     UseronboardingJourneyModule,
     TranslateModule.forChild(),
+    SharedPipesModule,
   ],
 })
 export class SummaryModule {}

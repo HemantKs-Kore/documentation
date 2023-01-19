@@ -14,7 +14,7 @@
         <app-body (initSearchSDK)="initSearchSDK()" (closeResultBody)="closeResultBody($event)" [query]="queryText"
             [bridgeData]="bridgeDataInsights" [showInsightFull]="showInsightFull" [addNewResult]="addNewResult"
             class="container-fluid appContent" [ngClass]="{'pl-0': !showMainMenu}" [structure]="structure" [searchRequestId]="searchRequestId"></app-body> -->
-  <div class="container-fluid appContent">
+  <div class="container-fluid appContent" [ngClass]="{ 'pl-0': !showMainMenu }">
     <router-outlet></router-outlet>
   </div>
   <div

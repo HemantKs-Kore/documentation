@@ -34,6 +34,17 @@ export class AppComponent {
   showMainMenu = true;
   settingMainMenu = false;
   sourceMenu = false;
+  subscription: Subscription;
+  SearchConfigurationSubscription: Subscription;
+  searchSDKSubscription: Subscription;
+  resultRankDataSubscription: Subscription;
+  showHideMainMenuSubscription: Subscription;
+  showHideSettingsMenuSubscription: Subscription;
+  showHideSourceMenuSubscription: Subscription;
+  closeSDKSubscription: Subscription;
+  searchExperienceSubscription: Subscription;
+  showSDKApp: Subscription;
+  queryConfigsSubscription: Subscription;
 
   loading = false;
   userInfo: any = {};
@@ -43,7 +54,6 @@ export class AppComponent {
   bridgeDataInsights = true;
   addNewResult = true;
   showInsightFull = false;
-  searchExperienceSubscription: Subscription;
   findlyBusinessConfig: any = {};
   searchExperienceConfig: any;
   topDownSearchInstance: any;
@@ -85,6 +95,107 @@ export class AppComponent {
     //   const lang = window.location.href.split('home/')[1];
     //   translate.setDefaultLang(lang);
     // }
+  }
+
+  ngOnInit() {
+    this.onResize();
+    this.previousState = this.appSelectionService.getPreviousState();
+    this.showHideSearch(false);
+    this.showHideTopDownSearch(false);
+    this.userInfo = this.authService.getUserInfo() || {};
+    this.subscription = this.appSelectionService.queryConfigSelected.subscribe(
+      (res) => {
+        this.resetFindlySearchSDK(this.workflowService.selectedApp());
+      }
+    );
+    this.SearchConfigurationSubscription =
+      this.headerService.resetSearchConfiguration.subscribe((res) => {
+        this.distroySearch();
+        this.loadSearchExperience();
+        this.getSearchExperience();
+      });
+    this.queryConfigsSubscription =
+      this.appSelectionService.queryConfigSelected.subscribe((res) => {
+        /**
+         * res.length > 1 - its only query Details
+         *  res.length == 1- its from Index pipeline and then to query Details.
+         * **/
+        this.indexPipelineId = this.workflowService.selectedIndexPipeline();
+        this.queryPipelineId = this.workflowService.selectedQueryPipeline()
+          ? this.workflowService.selectedQueryPipeline()._id
+          : '';
+        this.getSearchExperience();
+      });
+    this.searchSDKSubscription =
+      this.headerService.openSearchSDKFromHeader.subscribe((res: any) => {
+        this.searchSDKHeader();
+      });
+    this.showHideMainMenuSubscription =
+      this.headerService.showHideMainMenu.subscribe((res) => {
+        this.showMainMenu = res;
+      });
+    this.showHideSettingsMenuSubscription =
+      this.headerService.showHideSettingsMenu.subscribe((res) => {
+        this.settingMainMenu = res;
+      });
+    this.showHideSourceMenuSubscription =
+      this.headerService.showHideSourceMenu.subscribe((res) => {
+        this.sourceMenu = res;
+      });
+    this.closeSDKSubscription = this.headerService.hideSDK.subscribe((res) => {
+      this.headerService.isSDKCached = false;
+      this.distroySearch();
+      this.showHideSearch(false);
+      this.showHideTopDownSearch(false);
+    });
+    this.showSDKApp = this.appSelectionService.openSDKApp.subscribe((res) => {
+      //this.isDemoApp = true;
+      this.getSearchExperience();
+    });
+    //this.inlineManual.loadAppscue();
+    //this.inlineManual.loadInlineManualScripts();
+    this.selectedApp = this.workflowService.selectedApp();
+  }
+
+  //open search SDK from header
+  searchSDKHeader() {
+    if (this.searchExperienceConfig) {
+      //this.isDemoApp = false;
+      if (
+        this.searchExperienceConfig.experienceConfig &&
+        this.searchExperienceConfig.experienceConfig.searchBarPosition !== 'top'
+      ) {
+        if (
+          !this.headerService.isSDKCached ||
+          !$('.search-background-div').length
+        ) {
+          if (!$('.search-background-div:visible').length) {
+            this.showHideSearch(true);
+            this.resultRankDataSubscription =
+              this.headerService.resultRankData.subscribe((res: any) => {
+                this.searchInstance.customTourResultRank(res);
+              });
+          } else {
+            // this.showHideSearch(false);
+            this.cacheBottomUpSDK(false);
+          }
+        } else {
+          if ($('.search-background-div').css('display') == 'block') {
+            this.cacheBottomUpSDK(false);
+          } else {
+            this.cacheBottomUpSDK(true);
+          }
+        }
+      } else {
+        if (!$('.top-down-search-background-div:visible').length) {
+          $('.top-down-search-background-div').addClass('active');
+          this.showHideTopDownSearch(true);
+        } else {
+          this.showHideTopDownSearch(false);
+          this.distroySearch();
+        }
+      }
+    }
   }
 
   resetFindlySearchSDK(appData) {
@@ -431,7 +542,7 @@ export class AppComponent {
   }
 
   restorepreviousState() {
-    let route = '/apps';
+    let route = '/';
     const selectedAccount =
       this.localstore.getSelectedAccount() ||
       this.authService.getSelectedAccount();
@@ -489,7 +600,7 @@ export class AppComponent {
         // console.log("params", params);
         paramsExist = params;
       });
-      this.router.navigate(['/apps'], { skipLocationChange: true });
+      this.router.navigate(['/'], { skipLocationChange: true });
       // this.router.navigate([], { relativeTo: this.activatedRoute, queryParams: {}, queryParamsHandling: '' });
     }
   }
@@ -539,7 +650,7 @@ export class AppComponent {
     // let selectedApp: any;
     var _self = this;
     this.selectedApp = this.workflowService.selectedApp();
-    const searchIndex = this.selectedApp.searchIndexes[0]._id;
+    const searchIndex = this.selectedApp.searchIndexes[0]?._id;
     const quaryparms: any = {
       searchIndexId: searchIndex,
       indexPipelineId: this.workflowService.selectedIndexPipeline(),
@@ -601,11 +712,11 @@ export class AppComponent {
       //   this.settingMainMenu = true;
 
       // }
-      if (event && event.url === '/apps') {
+      if (event && event.url === '/') {
         // this.showHideSearch(false);
         // this.showHideTopDownSearch(false);
       }
-      if (event && event.url === '/apps') {
+      if (event && event.url === '/') {
         this.appSelectionService.setPreviousState();
         this.resetFindlySearchSDK(this.workflowService.selectedApp());
         this.showHideSearch(false);
@@ -637,7 +748,7 @@ export class AppComponent {
       }
       this.authService.findlyApps.subscribe((res) => {
         this.appsData = res;
-        // this.restorepreviousState();
+        this.restorepreviousState();
         this.loading = false;
       });
       //this.appSelectionService.getInlineManualcall();

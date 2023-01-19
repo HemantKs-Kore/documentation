@@ -193,15 +193,16 @@ export class AppSelectionService {
         path.selectedAccountId = selectedAccount.accountId || null;
         path.route = route;
         window.localStorage.setItem('krPreviousState', JSON.stringify(path));
-        const appInfo = this.workflowService.selectedApp();
-        this.routeChanged.next({
-          name: 'pathchanged',
-          path:
-            appInfo?.disabled && route === '/generalSettings'
-              ? '/sources'
-              : route,
-          disable: appInfo?.disabled ? true : false,
-        });
+        // REVISIT
+        // const appInfo = this.workflowService.selectedApp();
+        // this.routeChanged.next({
+        //   name: 'pathchanged',
+        //   path:
+        //     appInfo?.disabled && route === '/generalSettings'
+        //       ? '/sources'
+        //       : route,
+        //   disable: appInfo?.disabled ? true : false,
+        // });
       }
     } else {
       window.localStorage.removeItem('krPreviousState');
