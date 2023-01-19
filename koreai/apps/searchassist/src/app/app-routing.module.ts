@@ -145,6 +145,13 @@ const routes: Routes = [
             (m) => m.GeneralSettingsModule
           ),
       },
+      {
+        path: 'FieldManagementComponent',
+        loadChildren: () =>
+          import('./modules/field-management/field-management.module').then(
+            (m) => m.FieldManagementModule
+          ),
+      },
       // { path: 'generalSettings', component: GeneralSettingsComponent },
       // { path: 'FieldManagementComponent', component: FieldManagementComponent },
       // { path: 'resultTemplate', component: ResultTemplatesComponent },
