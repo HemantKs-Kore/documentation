@@ -5,7 +5,7 @@
                {{"fields_add_field" |translate}}</div>
         </div>
         <!-- Search -->
-        <app-search-filter (searchkey)="getsearchvalue($event,'datatable')"></app-search-filter>
+        <app-search-filter [shouldClear]="shouldClear" (searchkey)="getsearchvalue($event,'datatable')"></app-search-filter>
         <!-- Search ends-->
     </div>
 
