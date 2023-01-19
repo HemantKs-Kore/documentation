@@ -180,9 +180,14 @@ const routes: Routes = [
             (m) => m.UsageLogModule
           ),
       },
+      {
+        path: 'index-configuration-settings',
+        loadChildren: () =>
+          import(
+            './modules/index-configuration-settings/index-configuration-settings.module'
+          ).then((m) => m.IndexConfigurationSettingsModule),
+      },
       // { path: 'pricing', component: PricingComponent },
-      // { path: 'usageLog', component: UsageLogComponent },
-      // {
       //   path: 'index-configuration-settings',
       //   component: IndexConfigurationSettingsComponent,
       // },
