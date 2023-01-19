@@ -222,7 +222,7 @@ export class FaqsComponent implements OnInit, AfterViewInit, OnDestroy {
 
   ngOnInit() {
     this.selectedApp = this.workflowService.selectedApp();
-    this.serachIndexId = this.selectedApp.searchIndexes[0]._id;
+    this.serachIndexId = this.selectedApp?.searchIndexes[0]._id;
     this.getStats(null, true);
     // this.getfaqsBy();
     this.getSourceList(true);
@@ -1057,7 +1057,7 @@ export class FaqsComponent implements OnInit, AfterViewInit, OnDestroy {
     if (this.selectedResource && this.selectedResource._id && !resourceId) {
       resourceId = this.selectedResource._id;
     }
-    const searchIndex = this.selectedApp.searchIndexes[0]._id;
+    const searchIndex = this.selectedApp?.searchIndexes[0]._id;
     const quaryparms: any = {
       searchIndexId: searchIndex,
       limit: this.faqLimit,

@@ -3,7 +3,10 @@ import { KRModalComponent } from '../../shared/kr-modal/kr-modal.component';
 import { WorkflowService } from '@kore.services/workflow.service';
 import { AppSelectionService } from '@kore.services/app.selection.service';
 import { of, interval, Subject, Subscription } from 'rxjs';
-import { PerfectScrollbarComponent, PerfectScrollbarDirective } from 'ngx-perfect-scrollbar';
+import {
+  PerfectScrollbarComponent,
+  PerfectScrollbarDirective,
+} from 'ngx-perfect-scrollbar';
 import { NotificationService } from '@kore.services/notification.service';
 import { ServiceInvokerService } from '@kore.services/service-invoker.service';
 import { Router } from '@angular/router';
@@ -45,12 +48,14 @@ export class SearchSettingsComponent implements OnInit {
 
   ngOnInit(): void {
     this.selectedApp = this.workflowService.selectedApp();
-    this.serachIndexId = this.selectedApp.searchIndexes[0]._id;
+    this.serachIndexId = this.selectedApp?.searchIndexes[0]._id;
     this.indexPipelineId = this.workflowService.selectedIndexPipeline();
     this.queryPipelineId = this.workflowService.selectedQueryPipeline()
       ? this.workflowService.selectedQueryPipeline()._id
       : '';
-    if(this.indexPipelineId  && this.queryPipelineId ){ this.getQuerypipeline()}// Use Async for this
+    if (this.indexPipelineId && this.queryPipelineId) {
+      this.getQuerypipeline();
+    } // Use Async for this
     this.querySubscription =
       this.appSelectionService.queryConfigSelected.subscribe((res) => {
         this.indexPipelineId = this.workflowService.selectedIndexPipeline();

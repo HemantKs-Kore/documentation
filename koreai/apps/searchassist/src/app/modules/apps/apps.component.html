@@ -1,0 +1,1368 @@
+<div class="emptyStateContainer" aria-live="polite">
+  <div class="mainLoadingSpinner" *ngIf="loadingApps">
+    <mat-spinner diameter="18" strokeWidth="2"></mat-spinner>
+    <span class="please-wait-message">{{ 'sa_please_wait' | translate }}</span>
+  </div>
+  <ng-container *ngIf="!emptyApp && !loadingApps">
+    <perfect-scrollbar class="dashboard-perfect-scroll">
+      <div class="scrollContainer">
+        <div class="findly-dashboard">
+          <div class="main-heading d-none" role="doc-introduction">
+            {{ 'WelcometoFindly' | translate }}
+          </div>
+          <div class="header-sec">
+            <div class="row m-0 adjust-width">
+              <div class="title col-4 p-0" role="contentinfo">
+                {{ 'Your_Applications' | translate }}
+              </div>
+              <div
+                class="col-8 right-sec p-0 row justify-content-end align-items-center text-right m-0"
+              >
+                <div
+                  class="kr-sg-input-search m-0"
+                  role="searchbox"
+                  [ngClass]="{ 'd-none': !showSearch }"
+                >
+                  <input
+                    type="text"
+                    placeholder="{{ 'sa_search' | translate }}"
+                    id="inputSearch"
+                    class="input-search"
+                    [ngClass]="{ 'pl-33': !searchApp, 'pl-2': searchApp }"
+                    autocomplete="off"
+                    [(ngModel)]="searchApp"
+                    maxlength="60"
+                    (mouseover)="
+                      searchImgSrc = searchFocusIn
+                        ? 'assets/icons/search_gray.svg'
+                        : 'assets/icons/search_gray_dark.svg'
+                    "
+                    (mouseout)="
+                      searchFocusIn = false;
+                      searchImgSrc = 'assets/icons/search_gray.svg'
+                    "
+                    (focus)="
+                      searchFocusIn = true;
+                      searchImgSrc = 'assets/icons/search_gray.svg'
+                    "
+                  />
+                  <img
+                    [src]="searchImgSrc"
+                    class="search-icon"
+                    *ngIf="!searchApp"
+                  />
+                  <img
+                    class="close-icon"
+                    (mouseover)="activeClose = true"
+                    (mouseout)="activeClose = false"
+                    src="assets/icons/close_icon.svg"
+                    [ngClass]="{ 'pr-22': searchApp }"
+                    (click)="focusoutSearch()"
+                    placement="top-center"
+                    container="body"
+                    ngbTooltip="{{ 'sa_cancel' | translate }}"
+                    tooltipClass="ngb_tooltip_custom_class sampleJson"
+                  />
+                </div>
+                <div
+                  class="seach-block"
+                  (click)="
+                    showSearch = !showSearch; focusinSearch('inputSearch')
+                  "
+                >
+                  <span
+                    [ngClass]="{ 'd-none': showSearch }"
+                    class="mr-3"
+                    id="btn_toggle_search_structured_data"
+                    ><img
+                      src="assets/icons/search.svg"
+                      [ngClass]="{ 'd-none': showSearch }"
+                    />{{ 'search' | translate }}</span
+                  >
+                </div>
+                <div class="add_feild" (click)="openCreateApp()">
+                  <img src="assets/icons/add_plus.svg" />{{
+                    'home_add_application' | translate
+                  }}
+                </div>
+                <button (click)="openDetails()" class="d-none">
+                  {{ 'home_deatils' | translate }}
+                </button>
+              </div>
+            </div>
+          </div>
+          <div class="body-sec">
+            <div class="row m-0 appsListingContainer">
+              <ng-container *ngIf="false">
+                <div class="m-title col-12">
+                  {{ 'home_my_apps' | translate }}
+                </div>
+                <div class="empty-data-app" (click)="openCreateApp()">
+                  <div class="img-block">
+                    <img src="assets/icons/landing/round-plus.svg" />
+                  </div>
+                  <div class="e-title">
+                    {{ 'home_create_your_first' | translate }}
+                  </div>
+                </div>
+              </ng-container>
+              <div
+                *ngIf="emptyApp && !loadingApps"
+                class="start-scrtch-user-data"
+              >
+                <div class="user-details">
+                  <div class="user-name">
+                    {{ 'home_welcome' | translate }}
+                    {{ this.authInfo.currentAccount.userInfo.fName }}
+                    {{ this.authInfo.currentAccount.userInfo.lName }}
+                    <img src="assets/icons/hand-hellow.svg" />
+                  </div>
+                </div>
+                <div class="title-start">
+                  {{ 'home_create_your_first_search_experience' | translate }}
+                </div>
+                <div class="add-scrtch-app" (click)="openCreateApp()">
+                  <div class="icon-block-plus">
+                    <i class="si-add-plus"></i>
+                  </div>
+                  <div class="content-data">
+                    <div class="title">
+                      {{ 'home_start_from_scratch' | translate }}
+                    </div>
+                    <div class="text-desc">
+                      {{
+                        'home_create_a_new_search_app_from_scratch' | translate
+                      }}
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <ng-container
+                *ngIf="(recentApps | filter : [searchApp, 'name']).length"
+              >
+                <div
+                  *ngIf="!emptyApp && !loadingApps"
+                  class="m-title col-12 m-10"
+                >
+                  {{ 'home_recently_visited' | translate }}
+                </div>
+              </ng-container>
+              <div
+                class="cards-content"
+                (click)="app.disabled ? null : openApp(app)"
+                *ngFor="let app of recentApps | filter : [searchApp, 'name']"
+                [ngClass]="{ 'd-none': !apps.length && !loadingApps }"
+              >
+                <div
+                  class="box"
+                  [ngStyle]="
+                    app.disabled && { opacity: '0.4', cursor: 'default' }
+                  "
+                >
+                  <div class="content-sec">
+                    <div class="delete-clone-icons" *ngIf="app.disabled">
+                      <div class="disabled-icon">
+                        <img src="assets/icons/Info-red.svg" />
+                        <span class="tooltip_disabled">
+                          <span>{{
+                            'home_your_app_has_been_deactivated_info'
+                              | translate
+                          }}</span>
+                          <span
+                            class="upgrade_plan"
+                            (click)="openApp(app, true)"
+                            >{{ 'home_upgarde_plan' | translate }}</span
+                          >
+                          <span
+                            class="delete_record"
+                            (click)="openApp(app, false)"
+                            >{{ 'home_delete_records' | translate }}</span
+                          >
+                        </span>
+                      </div>
+                    </div>
+                    <div class="name">
+                      <span>{{ app.name }}</span>
+                    </div>
+                    <div
+                      class="info-text"
+                      *ngIf="app.description !== ''"
+                      title="{{ app.description }}"
+                    >
+                      {{ app.description }}
+                    </div>
+                  </div>
+                  <div
+                    class="user-name text-truncate"
+                    *ngIf="app.createdBy !== userId"
+                    ngbTooltip="{{ app.userDetails.fullName }}"
+                  >
+                    {{ app.userDetails.fullName }}
+                  </div>
+                </div>
+              </div>
+
+              <div
+                class="row m-0 col-12 filters-dropdown"
+                [ngClass]="
+                  (recentApps | filter : [searchApp, 'name']).length
+                    ? 'mt-20'
+                    : 'mt-n30'
+                "
+              >
+                <div class="col-6 d-flex align-items-center p-0 left">
+                  <div class="tabs-sec">
+                    <div
+                      class="tab-name"
+                      *ngFor="let app of appTypes"
+                      (click)="selectedAppType(app)"
+                      [class.active-tab-name]="app == app_type"
+                    >
+                      {{ app }} {{ 'home_apps' | translate }}
+                    </div>
+                  </div>
+                </div>
+                <div class="col-6 right">
+                  <div class="sort-by">{{ 'home_sort_by' | translate }}</div>
+                  <div class="kr-sg-dropdowns w-auto">
+                    <div class="dropdown dropdown-open">
+                      <button
+                        class="dropdown-toggle dropdown-input pl-3 pr-5"
+                        data-toggle="dropdown"
+                      >
+                        {{ sort_type }}
+                      </button>
+                      <ul class="dropdown-menu content-menu">
+                        <li *ngFor="let sort of sortBy" (click)="sortApp(sort)">
+                          <a [class.selected]="sort == sort_type">{{ sort }}</a>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                  <div
+                    class="filter-up-down"
+                    (click)="sortApp('Icon filter', 'down')"
+                    *ngIf="!minToMax"
+                  >
+                    <img src="assets/icons/dashboard/filter.svg" />
+                  </div>
+                  <div
+                    class="filter-up-down active-down"
+                    (click)="sortApp('Icon filter', 'up')"
+                    *ngIf="minToMax"
+                  >
+                    <img src="assets/icons/dashboard/maxFilter.svg" />
+                  </div>
+                </div>
+              </div>
+
+              <ng-container
+                *ngIf="
+                  (filteredApps | filter : [searchApp, 'name']).length;
+                  else noAppFound
+                "
+              >
+                <div
+                  class="cards-content"
+                  *ngFor="
+                    let filter of filteredApps | filter : [searchApp, 'name']
+                  "
+                  (click)="filter.disabled ? null : openApp(filter)"
+                >
+                  <div
+                    class="box"
+                    [ngStyle]="
+                      filter.disabled && { opacity: '0.4', cursor: 'default' }
+                    "
+                  >
+                    <div class="content-sec">
+                      <div class="delete-clone-icons">
+                        <!-- <div class="clone-icon" tooltipClass="tooltip-global- ml-14" [container]="'body'" ngbTooltip='Duplicate' placement="bottom-left">
+                                            <img src="assets/icons/clone-blue.svg" (click)="openDeleteApp($event)">
+                                          </div> -->
+                        <div
+                          *ngIf="filter.createdBy == userId"
+                          class="delete-icon"
+                          tooltipClass="tooltip-global- ml-14"
+                          [container]="'body'"
+                          ngbTooltip="{{ 'sa_delete' | translate }}"
+                          placement="bottom-left"
+                        >
+                          <img
+                            src="assets/icons/delete-table.svg"
+                            (click)="openDeleteApp($event, filter)"
+                          />
+                        </div>
+                        <div
+                          *ngIf="filter.createdBy != userId"
+                          class="delete-icon"
+                          tooltipClass="tooltip-global- ml-14"
+                          [container]="'body'"
+                          ngbTooltip="{{ 'home_remove_access' | translate }}"
+                          placement="bottom-left"
+                        >
+                          <img
+                            src="assets/icons/Unlink.svg"
+                            (click)="openUnlinkApp($event, filter)"
+                          />
+                        </div>
+                      </div>
+                      <div class="name">
+                        {{ filter.name }}
+                        <img
+                          src="assets/icons/Info-red.svg"
+                          tooltipClass="tooltip-global-"
+                          *ngIf="filter.disabled"
+                          ngbTooltip="Your App has been deactivated"
+                        />
+                      </div>
+                      <div
+                        class="info-text"
+                        *ngIf="filter.description !== ''"
+                        title="{{ filter.description }}"
+                      >
+                        {{ filter.description }}
+                      </div>
+                    </div>
+                    <div
+                      class="user-name text-truncate"
+                      ngbTooltip="{{ filter.userDetails.fullName }}"
+                    >
+                      {{ filter.userDetails.fullName }}
+                    </div>
+                    <div
+                      *ngIf="filter.createdBy != userId"
+                      class="shared-app-text"
+                    >
+                      <img src="assets/icons/share-icon.svg" />
+                      <span>Shared App</span>
+                    </div>
+                  </div>
+                </div>
+              </ng-container>
+              <ng-template #noAppFound>
+                <div class="empty_filter">
+                  <app-empty-screen
+                    *ngIf="searchApp"
+                    [width]="170"
+                    [height]="170"
+                    [title]="emptyScreen.TITLE_SEARCH"
+                    [desc]="emptyScreen.DESC_SEARCH"
+                    [imgName]="emptyScreen.IMG_NAME"
+                  >
+                  </app-empty-screen>
+                </div>
+              </ng-template>
+
+              <div
+                *ngIf="!filteredApps.length && !searchApp"
+                class="empty_filter"
+              >
+                <ng-container *ngIf="app_type === 'My'; else noSharedApp">
+                  <app-empty-screen
+                    [width]="170"
+                    [height]="170"
+                    [title]="emptyScreen.TITLE_NOAPP"
+                    [desc]="emptyScreen.DESC_NOAPP"
+                    [imgName]="emptyScreen.IMG_NAME"
+                  >
+                  </app-empty-screen>
+                </ng-container>
+                <ng-template #noSharedApp>
+                  <app-empty-screen
+                    [width]="170"
+                    [height]="170"
+                    [title]="emptyScreen.TITLE_SHARED"
+                    [desc]="emptyScreen.DESC_SHARED"
+                    [imgName]="emptyScreen.IMG_NAME"
+                  >
+                  </app-empty-screen>
+                </ng-template>
+              </div>
+
+              <ng-container>
+                <div class="m-title col-12">
+                  {{ 'home_explore' | translate }}
+                </div>
+                <div class="row row-carousels">
+                  <div class="coursel-cards-data col-4">
+                    <div class="inner-c-data data-integration">
+                      <div class="learn-more-">
+                        <span class="link">
+                          <a
+                            href="https://docs.kore.ai/searchassist/source-management/source-management/"
+                            target="_blank"
+                            >{{ 'home_learn_more' | translate
+                            }}<img src="assets/icons/content/carrotright.svg" />
+                          </a>
+                        </span>
+                      </div>
+                      <div class="img-block">
+                        <img
+                          src="assets/icons/content/carousel-data-inte.svg"
+                        />
+                      </div>
+                      <div class="content-block">
+                        <div class="title">
+                          {{ 'home_data_ingestion' | translate }}
+                        </div>
+                        <div class="desc_text">
+                          {{
+                            'home_data_is_fetched_from_variours_sources_desc'
+                              | translate
+                          }}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="coursel-cards-data col-4">
+                    <div class="inner-c-data index-management">
+                      <div class="learn-more-">
+                        <span class="link">
+                          <a
+                            href="https://docs.kore.ai/searchassist/manage-index/index-management/"
+                            target="_blank"
+                            >{{ 'home_learn_more' | translate
+                            }}<img src="assets/icons/content/carrotright.svg" />
+                          </a>
+                        </span>
+                      </div>
+                      <div class="img-block">
+                        <img
+                          src="assets/icons/content/carousel-index-manag.svg"
+                        />
+                      </div>
+                      <div class="content-block">
+                        <div class="title">
+                          {{ 'home_index_managment' | translate }}
+                        </div>
+                        <div class="desc_text">
+                          {{
+                            'home_documents_and_fields_are_manipulated_to_customise_results_desc'
+                              | translate
+                          }}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="coursel-cards-data col-4">
+                    <div class="inner-c-data result-optimization">
+                      <div class="learn-more-">
+                        <span class="link">
+                          <a
+                            href="https://docs.kore.ai/searchassist/optimize-results/result-optimization/"
+                            target="_blank"
+                            >{{ 'home_learn_more' | translate
+                            }}<img src="assets/icons/content/carrotright.svg" />
+                          </a>
+                        </span>
+                      </div>
+                      <div class="img-block">
+                        <img
+                          src="assets/icons/content/carousel-result-opt.svg"
+                        />
+                      </div>
+                      <div class="content-block">
+                        <div class="title">
+                          {{ 'home_result_optimisation' | translate }}
+                        </div>
+                        <div class="desc_text">
+                          {{
+                            'home_resuts_are_tuned_based_on_desc' | translate
+                          }}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="coursel-cards-data col-4">
+                    <div class="inner-c-data search-experience">
+                      <div class="learn-more-">
+                        <span class="link">
+                          <a
+                            href="https://docs.kore.ai/searchassist/search-experience/design-search-experience/"
+                            target="_blank"
+                            >{{ 'home_learn_more' | translate
+                            }}<img
+                              src="assets/icons/content/carrotright.svg" /></a
+                        ></span>
+                      </div>
+                      <div class="img-block">
+                        <img
+                          src="assets/icons/content/carousel-search-exp.svg"
+                        />
+                      </div>
+                      <div class="content-block">
+                        <div class="title">
+                          {{ 'home_search_experience' | translate }}
+                        </div>
+                        <div class="desc_text">
+                          {{
+                            'home_search_experience_is_enchanced_by_defining_presenation_desc'
+                              | translate
+                          }}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="coursel-cards-data col-4">
+                    <div class="inner-c-data analytics">
+                      <div class="learn-more-">
+                        <span class="link">
+                          <a
+                            href="https://docs.kore.ai/searchassist/analytics/analytics/"
+                            target="_blank"
+                            >{{ 'home_learn_more' | translate
+                            }}<img
+                              src="assets/icons/content/carrotright.svg" /></a
+                        ></span>
+                      </div>
+                      <div class="img-block">
+                        <img
+                          src="assets/icons/content/carousel-analytics.svg"
+                        />
+                      </div>
+                      <div class="content-block">
+                        <div class="title">
+                          {{ 'home_search_analytics' | translate }}
+                        </div>
+                        <div class="desc_text">
+                          {{
+                            'home_search_experience_isenchaced_desc' | translate
+                          }}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="coursel-cards-data col-4">
+                    <div class="inner-c-data experiments">
+                      <div class="learn-more-">
+                        <span class="link"
+                          ><a
+                            href="https://docs.kore.ai/searchassist/analytics/experiment/"
+                            target="_blank"
+                            >{{ 'home_learn_more' | translate
+                            }}<img
+                              src="assets/icons/content/carrotright.svg" /></a
+                        ></span>
+                      </div>
+                      <div class="img-block">
+                        <img src="assets/icons/content/carousel-exp.svg" />
+                      </div>
+                      <div class="content-block">
+                        <div class="title">
+                          {{ 'home_experiments' | translate }}
+                        </div>
+                        <div class="desc_text">
+                          {{
+                            'home_multiple_index_and_search_configuration_desc'
+                              | translate
+                          }}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </ng-container>
+              <div class="empty">
+                {{ 'home_no_apps_found_that_matches_with' | translate }}
+                {{ searchApp }}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </perfect-scrollbar>
+  </ng-container>
+  <!-- New Onbaording Data -->
+  <ng-container *ngIf="showBoarding && !loadingApps">
+    <div class="onboarding-new-user-data">
+      <!-- Boarding screen -->
+      <ng-container *ngIf="!steps && emptyApp">
+        <div class="ob-data-info">
+          <div class="left-sec">
+            <div class="user-details">
+              <div class="user-name">
+                {{ 'home_welcome' | translate }}
+                {{ this.authInfo.currentAccount.userInfo.fName }}
+                {{ this.authInfo.currentAccount.userInfo.lName }}
+                <img src="assets/icons/hand-hellow.svg" />
+              </div>
+            </div>
+            <div class="on-b-progress-bar">
+              <div
+                *ngFor="let bar of progressBar; let i = index"
+                class="not-active-bar"
+                [ngClass]="{ 'active-bar': i == 0 }"
+              ></div>
+            </div>
+            <!-- <button style="width: 50px;height:15px" (click)="openAppLoadingScreen()"></button> -->
+            <div class="title-start">
+              {{ 'home_how_would_you_like_to_create_app_desc' | translate }}
+            </div>
+            <div class="explore-data-cards">
+              <div
+                class="explore-card sample-data"
+                (mouseenter)="progressBarFun(4, 1)"
+                (mouseleave)="progressBarFun(0, 0)"
+                (click)="welcomeStep('sampleData')"
+              >
+                <div class="icon-block">
+                  <img src="assets/icons/onboarding/sample-data.svg" />
+                </div>
+                <div class="content-data">
+                  <div class="main-title">
+                    {{ 'home_create_app_with_sample_data' | translate }}
+                  </div>
+                  <div class="desc-text">
+                    {{
+                      'home_explore_search_assist_using_sample_data_desc'
+                        | translate
+                    }}
+                  </div>
+                </div>
+                <div class="arrow-block">
+                  <i class="si-right-arrow-large"></i>
+                </div>
+              </div>
+              <div
+                class="explore-card my-self"
+                (mouseenter)="progressBarFun(2, 1)"
+                (mouseleave)="progressBarFun(0, 0)"
+                (click)="welcomeStep('selfExplore'); progressBar.length = 2"
+              >
+                <div class="icon-block">
+                  <img src="assets/icons/onboarding/my-self.svg" />
+                </div>
+                <div class="content-data">
+                  <div class="main-title">
+                    {{ 'home_start_from_scratch' | translate }}
+                  </div>
+                  <div class="desc-text">
+                    {{
+                      'home_start_by_craeting_a_new_app_from_scratch_by_adding_your_info'
+                        | translate
+                    }}
+                  </div>
+                </div>
+                <div class="arrow-block">
+                  <i class="si-right-arrow-large"></i>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="right-sec-bg">
+            <div class="content-block">
+              <div class="indicator-title"></div>
+              <div class="title">
+                {{
+                  'home_few_clicks_away_from_creating_your_searchexperence'
+                    | translate
+                }}
+              </div>
+              <div class="desc-text">
+                {{ 'home_create_seemless_search_experience_desc' | translate }}
+              </div>
+            </div>
+            <div class="img-gif-block">
+              <img src="assets/icons/onboarding/gif-onboarding.gif" />
+            </div>
+          </div>
+        </div>
+      </ng-container>
+      <!-- End -->
+
+      <!-- sample data ad explore screen -->
+      <ng-container>
+        <div class="sample-data-info">
+          <perfect-scrollbar>
+            <div class="scroll-data">
+              <div class="user-details">
+                <div class="user-name">
+                  {{ 'home_welcome' | translate }}
+                  {{ this.authInfo.currentAccount.userInfo.fName }}
+                  {{ this.authInfo.currentAccount.userInfo.lName }}
+                  <img src="assets/icons/hand-hellow.svg" />
+                </div>
+              </div>
+              <div class="on-b-progress-bar">
+                <div
+                  *ngFor="let bar of progressBar; let i = index"
+                  class="not-active-bar"
+                  [ngClass]="{ 'active-bar': i < stepBar }"
+                ></div>
+                <!-- <div class="not-active-bar active-bar"></div>
+                  <div class="not-active-bar" [ngClass]="{'active-bar': displayApp}"></div> -->
+              </div>
+              <!-- <div class="back-btn" (click)="backToWelcomePage();progressBar.length=0">
+                  <i class="si-back-arrow"></i>
+                </div> -->
+              <div *ngIf="steps == 'displayApp'" class="title-start">
+                {{ 'home_give_a_name_to_your_App' | translate }}
+              </div>
+              <div *ngIf="steps == 'demoOptions'" class="title-start">
+                {{ 'home_choose_sample_data' | translate }}
+              </div>
+              <div *ngIf="steps == 'showSearchExperience'" class="title-start">
+                {{ 'home_choose_the_expeience' | translate }}
+              </div>
+
+              <ng-container>
+                <ng-container *ngIf="steps == 'demoOptions'">
+                  <div class="tabs-data-info-sample">
+                    <ul class="nav nav-pills">
+                      <li class="nav-item">
+                        <a
+                          class="nav-link active"
+                          id="#e-commerece"
+                          data-toggle="pill"
+                          (click)="selectDemoType('e-commerce')"
+                          href="#ecommerce"
+                          >{{ 'home_e_commerece' | translate }}
+                          <i
+                            *ngIf="demoType == 'e-commerce'"
+                            class="si-check"
+                          ></i
+                        ></a>
+                      </li>
+                      <li class="nav-item">
+                        <a
+                          class="nav-link"
+                          data-toggle="pill"
+                          (click)="selectDemoType('knowledge-search')"
+                          href="#ks"
+                          >{{ 'home_knowledge_search' | translate }}
+                          <i
+                            *ngIf="demoType == 'knowledge-search'"
+                            class="si-check"
+                          ></i
+                        ></a>
+                      </li>
+                      <li class="nav-item d-none">
+                        <a
+                          class="nav-link"
+                          data-toggle="pill"
+                          (change)="selectDemoType('website-search')"
+                          href="#ws"
+                          >{{ 'home_website_search' | translate }}
+                          <i class="si-check"></i
+                        ></a>
+                      </li>
+                    </ul>
+                    <!-- Tab panes -->
+                    <div class="tab-content">
+                      <div class="tab-pane active" id="ecommerce">
+                        <div class="title">E-Commerce</div>
+                        <div class="desc-text-info">
+                          {{
+                            'home_the_ecommerce_sample_dataset_desc' | translate
+                          }}
+                        </div>
+                        <div class="ul-heading">
+                          {{
+                            'home_whats_included_in_the_sample_app' | translate
+                          }}
+                        </div>
+                        <ul>
+                          <li>
+                            {{
+                              'home_structured_dataset_with_fileds_like_name_desc'
+                                | translate
+                            }}
+                          </li>
+                          <li>
+                            {{
+                              'home_result_card_are_tailored_desc' | translate
+                            }}
+                          </li>
+                          <li>{{ 'home_bussiness_rules_to' | translate }}</li>
+                        </ul>
+                        <div class="box-data-ul">
+                          <div class="ul-heading">
+                            {{ 'home_example_search_queries' | translate }}
+                          </div>
+                          <ul>
+                            <li>
+                              {{ 'home_show_lipstick_under_$10' | translate }}
+                            </li>
+                            <li>{{ 'home_top_rated_perfumes' | translate }}</li>
+                            <li>
+                              {{
+                                'home_looking_for_pink_hue_lipsticks'
+                                  | translate
+                              }}
+                            </li>
+                            <li>
+                              {{
+                                'home_i_am_lokking_for_best_selling' | translate
+                              }}
+                            </li>
+                            <li>
+                              {{
+                                'home_perfumes_with_rating_more_than_4'
+                                  | translate
+                              }}
+                            </li>
+                            <li>
+                              {{
+                                'home_display_essi_lipticks_below_$8'
+                                  | translate
+                              }}
+                            </li>
+                          </ul>
+                        </div>
+                      </div>
+                      <div class="tab-pane fade" id="ks">
+                        <div class="title">
+                          {{ 'home_knowledge_search' | translate }}
+                        </div>
+                        <div class="desc-text-info">
+                          {{
+                            'home_the_knowledge_use_case_contains_info'
+                              | translate
+                          }}
+                        </div>
+                        <div class="ul-heading">
+                          {{
+                            'home_whats_included_in_the_sample_app' | translate
+                          }}
+                        </div>
+                        <ul>
+                          <li>
+                            {{
+                              'home_unstructured_dataset_like_web_pages_info'
+                                | translate
+                            }}
+                          </li>
+                          <li>
+                            {{
+                              'home_result_template_tailored_desc' | translate
+                            }}
+                          </li>
+                          <li>
+                            {{
+                              'home_bussiness_rules_to_peronalise' | translate
+                            }}
+                          </li>
+                        </ul>
+                        <div class="box-data-ul">
+                          <div class="ul-heading">
+                            {{ 'home_example_search_queries' | translate }}
+                          </div>
+                          <ul>
+                            <li>
+                              {{
+                                'home_confluence_pages_created_desc' | translate
+                              }}
+                            </li>
+                            <li>
+                              {{ 'home_how_do_i_create_a_rfq' | translate }}
+                            </li>
+                            <li>
+                              {{ 'home_get_me_gdrive_docs_desc' | translate }}
+                            </li>
+                          </ul>
+                        </div>
+                      </div>
+                      <div class="tab-pane fade" id="ws">
+                        <div class="title">
+                          {{ 'home_website_search' | translate }}
+                        </div>
+                        <div class="desc-text-info">
+                          {{
+                            'home_the_website_search_usecase_is_info'
+                              | translate
+                          }}
+                        </div>
+                        <div class="ul-heading">
+                          {{
+                            'home_whats_included_in_the_sample_app' | translate
+                          }}
+                        </div>
+                        <ul>
+                          <li>
+                            Unstructured dataset which includes web pages
+                            crawled from the banking website on various services
+                            and offerings.
+                          </li>
+                          <li>
+                            Result templates tailored to enhance the Website
+                            Search Experience
+                          </li>
+                          <li>
+                            Business rules to personalize the results based on
+                            the user’s portfolio and interests
+                          </li>
+                        </ul>
+                        <div class="box-data-ul">
+                          <div class="ul-heading">
+                            {{ 'home_example_search_queries' | translate }}
+                          </div>
+                          <ul>
+                            <li>
+                              {{
+                                'home_how_do_i_apply_for_personal_loan'
+                                  | translate
+                              }}
+                            </li>
+                            <li>
+                              {{
+                                'home_what_are_the_benifits_on_mintlet_card'
+                                  | translate
+                              }}
+                            </li>
+                            <li>
+                              {{
+                                'home_i_want_to_pay_my_credit_card_bill'
+                                  | translate
+                              }}
+                            </li>
+                            <li>
+                              {{
+                                'home_what_are_the_benifits_on_my_travel_card'
+                                  | translate
+                              }}
+                            </li>
+                          </ul>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </ng-container>
+
+                <ng-container *ngIf="steps == 'showSearchExperience'">
+                  <div class="tabs-data-info-sample seach-virtual-assistance">
+                    <ul class="nav nav-pills">
+                      <li
+                        id="#topExperience"
+                        class="nav-item"
+                        (click)="selectSearchExperianceType('top')"
+                      >
+                        <a
+                          class="nav-link active"
+                          data-toggle="pill"
+                          href="#searchbar"
+                        >
+                          <span class="title">{{
+                            'home_search_bar' | translate
+                          }}</span>
+                          <i
+                            *ngIf="SearchExperianceType == 'top'"
+                            class="si-check"
+                          ></i>
+                          <div class="text-desc">
+                            {{
+                              'home_a_tradiational_search_bar_desc' | translate
+                            }}
+                          </div>
+                        </a>
+                      </li>
+                      <li
+                        class="nav-item"
+                        (click)="selectSearchExperianceType('bottom')"
+                      >
+                        <a
+                          class="nav-link"
+                          data-toggle="pill"
+                          href="#virtualassistance"
+                        >
+                          <span class="title">{{
+                            'home_virtual_assistant' | translate
+                          }}</span>
+                          <i
+                            *ngIf="SearchExperianceType == 'bottom'"
+                            class="si-check"
+                          ></i>
+                          <div class="text-desc">
+                            {{
+                              'home_a_unique_search_experience_desc' | translate
+                            }}
+                          </div>
+                        </a>
+                      </li>
+                    </ul>
+                    <!-- Tab panes  -->
+                    <div class="tab-content">
+                      <div class="tab-pane active" id="searchbar">
+                        <div class="img-block">
+                          <img src="assets/icons/onboarding/searchbar.png" />
+                        </div>
+                      </div>
+                      <div class="tab-pane fade" id="virtualassistance">
+                        <div class="img-block">
+                          <img
+                            src="assets/icons/onboarding/virtualassistance.png"
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </ng-container>
+              </ng-container>
+
+              <!-- Last step app name -->
+              <ng-container *ngIf="steps == 'displayApp'">
+                <div class="welcome-user-screen">
+                  <div class="welcome-user-img">
+                    <img
+                      src="assets/icons/onboarding/welcome-user-app-creation.png"
+                      title="welcome-user-app-creation"
+                      alt="welcome-user-app-creation"
+                    />
+                  </div>
+                  <div class="welcome-user-form">
+                    <div class="create-app-data">
+                      <div class="kr-sg-input-text form-group">
+                        <div class="label-text">
+                          {{ 'home_app_name' | translate
+                          }}<sup class="field-mandatory">*</sup>
+                        </div>
+                        <input
+                          type="text"
+                          [(ngModel)]="newApp.name"
+                          placeholder="{{
+                            'home_enter_the_app_name' | translate
+                          }}"
+                          class="input-text"
+                          [ngClass]="{ error: validateAppname }"
+                        />
+                        <div class="error-msg" *ngIf="validateAppname">
+                          {{ 'home_enter_the_app_name' | translate }}
+                        </div>
+                      </div>
+                      <div class="kr-sg-input-text-area form-group">
+                        <div class="label-text">
+                          {{ 'home_description' | translate }}
+                        </div>
+                        <textarea
+                          class="input-text"
+                          style="padding-top: 8px"
+                          [(ngModel)]="newApp.description"
+                          placeholder="{{
+                            'home_enter_app_description' | translate
+                          }}"
+                          autocomplete="off"
+                          name="appDesc"
+                        ></textarea>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </ng-container>
+            </div>
+          </perfect-scrollbar>
+          <div class="footer-btns-data" *ngIf="steps">
+            <button
+              class="kr-sg-button-secondary btn_lg back_button"
+              (click)="back()"
+            >
+              Back
+            </button>
+            <button
+              *ngIf="steps != 'showSearchExperience'"
+              class="kr-sg-button-primary btn_lg"
+              (click)="checkExperience()"
+            >
+              Continue
+            </button>
+            <button
+              *ngIf="steps == 'showSearchExperience'"
+              class="kr-sg-button-primary btn_lg"
+              (click)="checkExperience()"
+            >
+              {{ 'home_get_started' | translate }}
+            </button>
+          </div>
+        </div>
+      </ng-container>
+      <!-- End -->
+    </div>
+  </ng-container>
+</div>
+
+<kr-modal
+  modalType="default"
+  #createAppPop
+  modalClass="creating-new-app-modal app-homes-component-page"
+>
+  <div class="modal-body">
+    <div class="close_modal" (click)="closeCreateApp()">
+      <img src="assets/icons/close.svg" />
+    </div>
+    <div class="img-wrapper">
+      <img src="assets/icons/landing/create-app.png" />
+    </div>
+    <div class="actions-block">
+      <perfect-scrollbar>
+        <div class="inner-data">
+          <div class="borderindication"></div>
+          <div class="heading-text">
+            {{ 'home_start_by_creating_an_application' | translate }}
+          </div>
+          <div class="kr-sg-input-text">
+            <div class="label-text">
+              {{ 'home_name_your_application' | translate
+              }}<sup class="field-mandatory">*</sup>
+            </div>
+            <input
+              maxlength="60"
+              type="text"
+              autocomplete="off"
+              placeholder="{{ 'home_name_your_application' | translate }}"
+              [(ngModel)]="newApp.name"
+              name="appName"
+              id="enterAppName"
+              (blur)="inputChanged('enterName')"
+              (change)="inputChanged('enterName')"
+            />
+            <img
+              id="infoWarning"
+              src="assets/icons/warning_escalation.svg"
+              style="display: none"
+              height="12"
+              width="12"
+            />
+          </div>
+          <div class="kr-sg-input-text">
+            <div class="label-text">{{ 'home_description' | translate }}</div>
+            <input
+              class="input-text"
+              maxlength="250"
+              placeholder="{{ 'home_enter_app_description' | translate }}"
+              autocomplete="off"
+              [(ngModel)]="newApp.description"
+              name="appDesc"
+            />
+          </div>
+          <!-- <div class="kr-sg-dropdowns w-100">
+            <div class="label-text">Language</div>
+            <div class="dropdown dropdown-open">
+              <button class="dropdown-toggle dropdown-input" data-toggle="dropdown" disabled>English</button>
+              <ul class="dropdown-menu content-menu">
+                <li><a>English</a></li>
+              </ul>
+            </div>
+          </div> -->
+          <div class="mt-5 text-right">
+            <button
+              type="button"
+              class="kr-sg-button-primary btn_lg"
+              data-dismiss="modal"
+              (click)="validateSource()"
+            >
+              {{ 'home_get_started' | translate }}
+            </button>
+          </div>
+        </div>
+      </perfect-scrollbar>
+    </div>
+  </div>
+  <!-- <div class="modal-footer" [ngClass]="{'disabled': creatingInProgress}">
+    <button type="button" class="kr-sg-button-secondary btn_lg" data-dismiss="modal" (click)="closeCreateApp()">Cancel</button>
+    <button type="button" class="kr-sg-button-primary btn_lg" data-dismiss="modal" (click)='validateSource()'>Create</button>
+  </div> -->
+</kr-modal>
+
+<kr-modal
+  modalType="center"
+  #createBoardingJourney
+  modalClass="modal_popups_ onboardingJourney-landing-popup"
+>
+  <div class="video-info-section-data">
+    <div class="modal-header p-0">
+      <div class="close_icon" (click)="closeBoradingJourney()">
+        <i class="si-close"></i>
+      </div>
+    </div>
+    <div class="video-section-block">
+      <div class="video-player">
+        <iframe
+          src="https://player.vimeo.com/video/751634558?h=683f1edfdb&badge=0&autopause=0&player_id=0&app_id=58479/embed?hide_owner=true&hide_share=true&hide_title=true&hideEmbedTopBar=true"
+          frameborder="0"
+          webkitallowfullscreen
+          mozallowfullscreen
+          allowfullscreen
+        ></iframe>
+      </div>
+      <div class="video-header">
+        {{ 'home_welcome_to_search_assist' | translate }}
+      </div>
+      <div class="video-desc">{{ 'home_watch_a_quick_desc' | translate }}</div>
+    </div>
+  </div>
+</kr-modal>
+<!--popup for the delete -->
+<!--Delete confirmation modal start-->
+<kr-modal modalType="center" #confirmatiomAppPop modalClass="delete-app-popup">
+  <div class="modal-header">
+    <div *ngIf="!unlinkPop" class="modal-title">
+      {{ 'home_are_you_sure_you_want_to_delete' | translate }}
+    </div>
+    <div *ngIf="unlinkPop" class="modal-title">
+      {{ 'home_are_you_sure_you_want_to_remove_access' | translate }}
+    </div>
+    <div class="close_modal" (click)="closeConfirmApp()">
+      <img src="assets/icons/modal-close.svg" />
+    </div>
+  </div>
+  <div *ngIf="unlinkPop" class="modal-body">
+    <div class="info-desc">{{ 'home_removing_access_info' | translate }}</div>
+    <br />
+    <br />
+    <div class="info-desc">{{ 'home_d_you_want_to_continue' | translate }}</div>
+    <div class="btns-sec">
+      <button
+        class="kr-sg-button-secondary btn_lg mr-2"
+        (click)="closeConfirmApp()"
+      >
+        Cancel
+      </button>
+      <button class="kr-sg-button-primary btn_lg" (click)="unlinkApp()">
+        {{ 'home_a_traditional' | translate }}
+      </button>
+    </div>
+  </div>
+  <div *ngIf="!unlinkPop" class="modal-body">
+    <div class="info-desc">{{ 'deleteToConfirm' | translate }}</div>
+    <div class="kr-sg-input-text">
+      <input
+        type="text"
+        placeholder="{{ 'home_start_typing_here' | translate }} "
+        [(ngModel)]="confirmApp"
+        class="input-text"
+        [ngClass]="{
+          'err-block':
+            (!confirmApp && submitted) || (confirmApp != 'DELETE' && submitted)
+        }"
+      />
+      <div
+        class="error-msg"
+        *ngIf="
+          (!confirmApp && submitted) || (confirmApp != 'DELETE' && submitted)
+        "
+      >
+        <img
+          style="padding-right: 4px; height: 12px"
+          src="assets/icons/warning_escalation.svg"
+        />{{ 'home_please_type_delete' | translate }}
+      </div>
+    </div>
+    <div class="info-desc">
+      {{ 'home_deleting_your_application_desc' | translate }}
+    </div>
+    <div class="info-desc">
+      {{ 'home_are_you_sure_want_to_continue' | translate }}
+    </div>
+    <div class="btns-sec">
+      <button
+        class="kr-sg-button-secondary btn_lg mr-2"
+        (click)="closeConfirmApp()"
+      >
+        {{ 'sa_cancel' | translate }}
+      </button>
+      <button class="kr-sg-button-primary btn_lg" (click)="deleteApp()">
+        {{ 'sa_delete' | translate }}
+      </button>
+    </div>
+  </div>
+</kr-modal>
+<!--Delete confirmation modal end -->
+<!--popup for Details-->
+<kr-modal
+  modalType="center"
+  #detailsPopUp
+  modalClass="new-uses-registration-about-modal"
+>
+  <div class="modal-body">
+    <div class="close_modal" (click)="closeDetails()">
+      <img src="assets/icons/modal-close.svg" />
+    </div>
+    <div class="video-block">
+      <div class="video-content">
+        <video controls>
+          <source
+            src="https://www.w3schools.com/tags/movie.mp4"
+            type="video/mp4"
+          />
+          <source
+            src="https://www.w3schools.com/tags/movie.ogg"
+            type="video/ogg"
+          />
+          {{ 'home_your_browser_doesnot_support_video_tag' | translate }}
+        </video>
+      </div>
+      <div class="video-img">
+        <img src="assets/icons/video-placeholder.png" />
+      </div>
+    </div>
+    <div class="form-block-data">
+      <perfect-scrollbar>
+        <div class="scroll-content">
+          <div class="heading-main">
+            {{ 'home_just_few_more_details' | translate }}
+          </div>
+          <div class="desc-text">
+            {{ 'home_please_enter_below_details' | translate }}
+          </div>
+          <div class="kr-sg-input-text mb-20">
+            <div class="label-text">{{ 'home_job_title' | translate }}</div>
+            <input
+              type="text"
+              placeholder="{{ 'home_enter_your_role_title' | translate }}"
+              class="input-text"
+            />
+          </div>
+          <div class="kr-sg-dropdowns mb-20">
+            <div class="label-text">{{ 'home_department' | translate }}</div>
+            <div class="dropdown dropdown-open">
+              <button
+                class="dropdown-toggle dropdown-input"
+                data-toggle="dropdown"
+              >
+                {{ 'home_select' | translate }}
+              </button>
+              <ul class="dropdown-menu content-menu">
+                <li>
+                  <a href="#">{{ 'home_option1' | translate }}</a>
+                </li>
+              </ul>
+            </div>
+          </div>
+          <div class="kr-sg-dropdowns mb-2">
+            <div class="label-text">Industry</div>
+            <div class="dropdown dropdown-open">
+              <button
+                class="dropdown-toggle dropdown-input"
+                data-toggle="dropdown"
+              >
+                {{ 'home_others' | translate }}
+              </button>
+              <ul class="dropdown-menu content-menu">
+                <li>
+                  <a href="#">{{ 'home_option1' | translate }}</a>
+                </li>
+              </ul>
+            </div>
+          </div>
+          <div class="kr-sg-input-text mb-5">
+            <input
+              type="text"
+              placeholder="{{ 'home_enter_your_industry_name' | translate }}"
+              class="input-text"
+            />
+          </div>
+          <button class="kr-sg-button-primary btn_lg" disabled>
+            {{ 'home_submit' | translate }}
+          </button>
+        </div>
+      </perfect-scrollbar>
+    </div>
+  </div>
+</kr-modal>
+
+<!-- show/hide search gif -->
+<ng-container *ngIf="isShowSearchGif">
+  <div class="loader-container-block">
+    <img class="normal-img" src="assets/icons/onboarding/search-gif.gif" />
+  </div>
+</ng-container>

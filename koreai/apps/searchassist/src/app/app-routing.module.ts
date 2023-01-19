@@ -1,35 +1,34 @@
 import { NgModule } from '@angular/core';
-import { Routes, RouterModule, PreloadAllModules  } from '@angular/router';
+import { Routes, RouterModule, PreloadAllModules } from '@angular/router';
 import { AuthGuard } from '@kore.services/auth.guard';
 import { AppDataResolver } from '@kore.services/resolvers/app.data.resolve';
-import { AppsListingComponent } from './components/apps-home/apps-home';
-import { SummaryComponent } from './components/summary/summary.component';
-import { TraitsComponent } from './components/traits/traits.component';
-import { IndexComponent } from './components/index/index.component';
-import { SearchFieldPropertiesComponent } from './components/search-field-properties/search-field-properties.component';
-import { ResultRankingComponent } from './components/result-ranking/result-ranking.component';
-import { FacetsComponent } from './components/facets/facets.component';
-import { MetricsComponent } from './components/metrics/metrics.component';
-import { DashboardComponent } from './components/dashboard/dashboard.component';
-import { UserEngagementComponent } from './components/user-engagement/user-engagement.component';
-import { SearchInsightsComponent } from './components/search-insights/search-insights.component';
-import { ResultInsightsComponent } from './components/result-insights/result-insights.component';
-import { BusinessRulesComponent } from './components/business-rules/business-rules.component';
-import { SettingsComponent } from './components/settings/settings.component';
-import { CredentialsListComponent } from './components/credentials-list/credentials-list.component';
-import { FieldManagementComponent } from './components/field-management/field-management.component';
-import { AppExperimentsComponent } from './components/app-experiments/app-experiments.component';
-import { QueryPipelineResolver } from '@kore.services/resolvers/query.pipeline.resolve';
-import { SearchInterfaceComponent } from './components/search-interface/search-interface.component';
-import { TeamManagementComponent } from './components/team-management/team-management.component';
-import { SearchExperienceComponent } from './components/search-experience/search-experience.component';
-import { ActionsComponent } from './components/actions/actions.component';
-import { PricingComponent } from './components/pricing/pricing.component';
-import { InvoicesComponent } from './components/invoices/invoices.component';
-import { UsageLogComponent } from './components/usage-log/usage-log.component';
-import { GeneralSettingsComponent } from './components/general-settings/general-settings.component';
-import { ResultTemplatesComponent } from './components/result-templates/result-templates.component';
-import { IndexConfigurationSettingsComponent } from './components/index-configuration-settings/index-configuration-settings.component';
+// import { AppsListingComponent } from './components/apps-home/apps-home';
+// import { SummaryComponent } from './components/summary/summary.component';
+// import { TraitsComponent } from './components/traits/traits.component';
+// import { IndexComponent } from './components/index/index.component';
+// import { ResultRankingComponent } from './components/result-ranking/result-ranking.component';
+// import { FacetsComponent } from './components/facets/facets.component';
+// import { MetricsComponent } from './components/metrics/metrics.component';
+// import { DashboardComponent } from './components/dashboard/dashboard.component';
+// import { UserEngagementComponent } from './components/user-engagement/user-engagement.component';
+// import { SearchInsightsComponent } from './components/search-insights/search-insights.component';
+// import { ResultInsightsComponent } from './components/result-insights/result-insights.component';
+// import { BusinessRulesComponent } from './components/business-rules/business-rules.component';
+// import { SettingsComponent } from './components/settings/settings.component';
+// import { CredentialsListComponent } from './components/credentials-list/credentials-list.component';
+// import { FieldManagementComponent } from './components/field-management/field-management.component';
+// import { AppExperimentsComponent } from './components/app-experiments/app-experiments.component';
+// import { QueryPipelineResolver } from '@kore.services/resolvers/query.pipeline.resolve';
+// import { SearchInterfaceComponent } from './components/search-interface/search-interface.component';
+// import { TeamManagementComponent } from './components/team-management/team-management.component';
+// import { SearchExperienceComponent } from './components/search-experience/search-experience.component';
+// import { ActionsComponent } from './components/actions/actions.component';
+// import { PricingComponent } from './components/pricing/pricing.component';
+// import { InvoicesComponent } from './components/invoices/invoices.component';
+// import { UsageLogComponent } from './components/usage-log/usage-log.component';
+// import { GeneralSettingsComponent } from './components/general-settings/general-settings.component';
+// import { ResultTemplatesComponent } from './components/result-templates/result-templates.component';
+// import { IndexConfigurationSettingsComponent } from './components/index-configuration-settings/index-configuration-settings.component';
 
 const routes: Routes = [
   {
@@ -39,41 +38,114 @@ const routes: Routes = [
       appData: AppDataResolver,
     },
     children: [
-      { path: 'apps', component: AppsListingComponent },
-      { path: 'summary', component: SummaryComponent },
-      // { path: 'content', component: ContentSourceComponent },
-      // { path: 'faqs', component: FaqSourceComponent },
-      // { path: 'connectors', component: ConnectorsSourceComponent },
-      // { path: 'botActions', component: BotActionComponent },
-      { path: 'traits', component: TraitsComponent },
-      { path: 'rules', component: BusinessRulesComponent },
-      { path: 'facets', component: FacetsComponent },
-      { path: 'index', component: IndexComponent },
-      { path: 'experiments', component: AppExperimentsComponent },
-      { path: 'resultranking', component: ResultRankingComponent },
-      { path: 'metrics', component: MetricsComponent },
-      { path: 'dashboard', component: DashboardComponent },
-      { path: 'userEngagement', component: UserEngagementComponent },
-      { path: 'searchInsights', component: SearchInsightsComponent },
-      { path: 'resultInsights', component: ResultInsightsComponent },
-      { path: 'settings', component: SettingsComponent },
-      { path: 'credentials-list', component: CredentialsListComponent },
-      { path: 'actions', component: ActionsComponent },
-      { path: 'generalSettings', component: GeneralSettingsComponent },
-      { path: 'FieldManagementComponent', component: FieldManagementComponent },
-      { path: 'resultTemplate', component: ResultTemplatesComponent },
-      // { path: 'structuredData', component: StructuredDataComponent },
-      { path: 'team-management', component: TeamManagementComponent },
-      { path: 'search-experience', component: SearchExperienceComponent },
-      { path: 'pricing', component: PricingComponent },
-      { path: 'invoices', component: InvoicesComponent },
-      { path: 'usageLog', component: UsageLogComponent },
-      // { path: 'search-field-properties', component: SearchSettingsComponent },
-      // { path: 'search-field-properties', component: SearchFieldPropertiesComponent },
       {
-        path: 'index-configuration-settings',
-        component: IndexConfigurationSettingsComponent,
+        path: 'summary',
+        loadChildren: () =>
+          import('./modules/summary/summary.module').then(
+            (m) => m.SummaryModule
+          ),
       },
+      {
+        path: 'traits',
+        loadChildren: () =>
+          import('./modules/traits/traits.module').then((m) => m.TraitsModule),
+      },
+
+      {
+        path: 'rules',
+        loadChildren: () =>
+          import('./modules/business-rules/business-rules.module').then(
+            (m) => m.BusinessRulesModule
+          ),
+      },
+      {
+        path: 'facets',
+        loadChildren: () =>
+          import('./modules/facets/facets.module').then((m) => m.FacetsModule),
+      },
+      {
+        path: 'index',
+        loadChildren: () =>
+          import('./modules/index/index.module').then((m) => m.IndexModule),
+      },
+      {
+        path: 'experiments',
+        loadChildren: () =>
+          import('./modules/app-experiments/app-experiments.module').then(
+            (m) => m.AppExperimentsModule
+          ),
+      },
+      {
+        path: 'resultranking',
+        loadChildren: () =>
+          import('./modules/result-ranking/result-ranking.module').then(
+            (m) => m.ResultRankingModule
+          ),
+      },
+      {
+        path: 'metrics',
+        loadChildren: () =>
+          import('./modules/metrics/metrics.module').then(
+            (m) => m.MetricsModule
+          ),
+      },
+      {
+        path: 'dashboard',
+        loadChildren: () =>
+          import('./modules/dashboard/dashboard.module').then(
+            (m) => m.DashboardModule
+          ),
+      },
+      {
+        path: 'userEngagement',
+        loadChildren: () =>
+          import('./modules/user-engagement/user-engagement.module').then(
+            (m) => m.UserEngagementModule
+          ),
+      },
+      {
+        path: 'search-insights',
+        loadChildren: () =>
+          import('./modules/search-insights/search-insights.module').then(
+            (m) => m.SearchInsightsModule
+          ),
+      },
+      {
+        path: 'resultInsights',
+        loadChildren: () =>
+          import('./modules/result-insights/result-insights.module').then(
+            (m) => m.ResultInsightsModule
+          ),
+      },
+      {
+        path: 'settings',
+        loadChildren: () =>
+          import('./modules/settings/settings.module').then(
+            (m) => m.SettingsModule
+          ),
+      },
+      {
+        path: 'credentials-list',
+        loadChildren: () =>
+          import('./modules/credentials-list/credentials-list.module').then(
+            (m) => m.CredentialsListModule
+          ),
+      },
+      // { path: 'credentials-list', component: CredentialsListComponent },
+      // { path: 'actions', component: ActionsComponent },
+      // { path: 'generalSettings', component: GeneralSettingsComponent },
+      // { path: 'FieldManagementComponent', component: FieldManagementComponent },
+      // { path: 'resultTemplate', component: ResultTemplatesComponent },
+      // // { path: 'structuredData', component: StructuredDataComponent },
+      // { path: 'team-management', component: TeamManagementComponent },
+      // { path: 'search-experience', component: SearchExperienceComponent },
+      // { path: 'pricing', component: PricingComponent },
+      // { path: 'invoices', component: InvoicesComponent },
+      // { path: 'usageLog', component: UsageLogComponent },
+      // {
+      //   path: 'index-configuration-settings',
+      //   component: IndexConfigurationSettingsComponent,
+      // },
       {
         path: 'search-settings',
         loadChildren: () =>
@@ -91,7 +163,9 @@ const routes: Routes = [
       {
         path: 'content',
         loadChildren: () =>
-          import('./modules/content/content.module').then((m) => m.ContentModule),
+          import('./modules/content/content.module').then(
+            (m) => m.ContentModule
+          ),
       },
       {
         path: 'faqs',
@@ -119,15 +193,27 @@ const routes: Routes = [
             (m) => m.StructuredDataModule
           ),
       },
+      {
+        path: 'demo',
+        loadChildren: () =>
+          import('./modules/demo/demo.module').then((m) => m.DemoModule),
+      },
 
-      { path: '', component: AppsListingComponent, pathMatch: 'full' },
-      { path: '**', component: AppsListingComponent },
+      {
+        path: '',
+        loadChildren: () =>
+          import('./modules/apps/apps.module').then((m) => m.AppsModule),
+        pathMatch: 'full',
+      },
+      // { path: '**', redirectTo: 'apps' },
     ],
   },
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes, { preloadingStrategy: PreloadAllModules })],
-  exports: [RouterModule]
+  imports: [
+    RouterModule.forRoot(routes, { preloadingStrategy: PreloadAllModules }),
+  ],
+  exports: [RouterModule],
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {}

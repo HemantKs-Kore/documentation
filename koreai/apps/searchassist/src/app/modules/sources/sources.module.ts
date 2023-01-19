@@ -15,7 +15,7 @@ import { CommonModule } from '@angular/common';
 
 import { SourcesRoutingModule } from './sources-routing.module';
 import { SourcesComponent } from './sources.component';
-
+import { MatNativeDateModule } from '@angular/material/core';
 
 @NgModule({
   declarations: [SourcesComponent],
@@ -27,10 +27,11 @@ import { SourcesComponent } from './sources.component';
 
     // for modals - NR
     KrModalModule,
-    TranslateModule,
+    TranslateModule.forChild(),
     FormsModule,
     SchedulerModule,
-    TranslateModule,
+    MatNativeDateModule,
+    NgbTooltipModule,
 
     // add faq modal
     AddFaqModule,
@@ -38,7 +39,6 @@ import { SourcesComponent } from './sources.component';
     StructuredDataStatusModalModule,
     UpgradePlanModule,
     SharedPipesModule,
-    NgbTooltipModule,
   ],
   exports: [SourcesComponent],
 })

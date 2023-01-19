@@ -34,7 +34,6 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
 import { AppsListingComponent } from './components/apps-home/apps-home';
 import { ScrollSpyDirective } from './helpers/directives/scroll-spy.directive';
 import { ConfirmationDialogComponent } from './helpers/components/confirmation-dialog/confirmation-dialog.component';
-import { SharedModule } from './shared/shared.module';
 import { SummaryComponent } from './components/summary/summary.component';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
@@ -183,7 +182,6 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
     ReactiveFormsModule,
     DragDropModule,
     PerfectScrollbarModule,
-    SharedModule,
     MatMenuModule,
     MatProgressSpinnerModule,
     MatProgressBarModule,

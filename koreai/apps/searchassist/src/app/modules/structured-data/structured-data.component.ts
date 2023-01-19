@@ -153,7 +153,7 @@ export class StructuredDataComponent implements OnInit {
 
   ngOnInit(): void {
     this.selectedApp = this.workflowService.selectedApp();
-    this.serachIndexId = this.selectedApp.searchIndexes[0]._id;
+    this.serachIndexId = this.selectedApp?.searchIndexes[0]._id;
     this.getStructuredDataList();
     this.search = (text$: Observable<string>) =>
       text$.pipe(
@@ -184,7 +184,7 @@ export class StructuredDataComponent implements OnInit {
     this.isLoading = true;
     this.noItems = false;
     this.emptySearchResults = false;
-    const searchIndex = this.selectedApp.searchIndexes[0]._id;
+    const searchIndex = this.selectedApp?.searchIndexes[0]._id;
     const quaryparms: any = {
       searchIndexId: searchIndex,
       skip: 0,

@@ -12,25 +12,28 @@ import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
 import { SliderComponentComponent } from '../../../shared/slider-component/slider-component.component';
 import { FormsModule } from '@angular/forms';
 import { KrModalModule } from '../../../shared/kr-modal/kr-modal.module';
-import { FilterPipe } from '@kore.helpers/filters/filter.pipe';
+import { SharedPipesModule } from '@kore.helpers/filters/shared-pipes.module';
+import { SafePipe } from '../../../shared/pipes/safe.pipe';
 
 @NgModule({
   declarations: [
     HeaderComponent,
     OnboardingComponentComponent,
     SliderComponentComponent,
-    FilterPipe,
   ],
   imports: [
     CommonModule,
-    TranslateModule,
+    TranslateModule.forChild(),
     NgbProgressbarModule,
     PerfectScrollbarModule,
     FormsModule,
     KrModalModule,
     NgbTooltipModule,
     NgbDropdownModule,
+    SharedPipesModule,
+    SafePipe,
   ],
+  providers: [SafePipe],
   exports: [HeaderComponent],
 })
 export class HeaderModule {}

@@ -1,6 +1,9 @@
 import { UseronboardingJourneyModule } from './../../helpers/components/useronboarding-journey/useronboarding-journey.module';
 import { SharedPipesModule } from './../../helpers/filters/shared-pipes.module';
-import { NgbDropdownModule, NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
+import {
+  NgbDropdownModule,
+  NgbTooltipModule,
+} from '@ng-bootstrap/ng-bootstrap';
 import { EmptyScreenModule } from './../empty-screen/empty-screen.module';
 import { FormsModule } from '@angular/forms';
 import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
@@ -12,7 +15,7 @@ import { CommonModule } from '@angular/common';
 import { BotActionsRoutingModule } from './bot-actions-routing.module';
 import { BotActionsComponent } from './bot-actions.component';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-
+import { MatDialogModule } from '@angular/material/dialog';
 
 @NgModule({
   declarations: [BotActionsComponent],
@@ -20,7 +23,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
     CommonModule,
     BotActionsRoutingModule,
     KrModalModule,
-    TranslateModule,
+    TranslateModule.forChild(),
     PerfectScrollbarModule,
     FormsModule,
     EmptyScreenModule,
@@ -29,6 +32,8 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
     NgbDropdownModule,
     MatProgressSpinnerModule,
     UseronboardingJourneyModule,
+    MatDialogModule,
   ],
+  providers: [],
 })
 export class BotActionsModule {}

@@ -2,7 +2,11 @@ import { SharedPipesModule } from './../../helpers/filters/shared-pipes.module';
 import { UseronboardingJourneyModule } from './../../helpers/components/useronboarding-journey/useronboarding-journey.module';
 import { RecordPaginationModule } from './../../helpers/components/record-pagination/record-pagination.module';
 import { CodemirrorModule } from '@ctrl/ngx-codemirror';
-import { NgbDropdownModule, NgbTooltipModule, NgbTypeaheadModule } from '@ng-bootstrap/ng-bootstrap';
+import {
+  NgbDropdownModule,
+  NgbTooltipModule,
+  NgbTypeaheadModule,
+} from '@ng-bootstrap/ng-bootstrap';
 import { EmptyScreenModule } from './../empty-screen/empty-screen.module';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { AddStructuredDataModule } from './../../components/add-structured-data/add-structured-data.module';
@@ -16,6 +20,7 @@ import { CommonModule } from '@angular/common';
 
 import { StructuredDataRoutingModule } from './structured-data-routing.module';
 import { StructuredDataComponent } from './structured-data.component';
+import { MatDialogModule } from '@angular/material/dialog';
 
 @NgModule({
   declarations: [StructuredDataComponent],
@@ -24,7 +29,7 @@ import { StructuredDataComponent } from './structured-data.component';
     StructuredDataRoutingModule,
     KrModalModule,
     StructuredDataStatusModalModule,
-    TranslateModule,
+    TranslateModule.forChild(),
     PerfectScrollbarModule,
     FormsModule,
     AddStructuredDataModule,
@@ -36,7 +41,8 @@ import { StructuredDataComponent } from './structured-data.component';
     RecordPaginationModule,
     NgbTypeaheadModule,
     UseronboardingJourneyModule,
-    SharedPipesModule
+    SharedPipesModule,
+    MatDialogModule,
   ],
   exports: [StructuredDataComponent],
 })

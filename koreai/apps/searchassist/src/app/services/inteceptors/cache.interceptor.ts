@@ -5,7 +5,7 @@ import {
   HttpHandler,
   HttpEvent,
   HttpInterceptor,
-  HttpResponse
+  HttpResponse,
 } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
 
@@ -15,10 +15,8 @@ export class CacheInterceptor implements HttpInterceptor {
 
   intercept(
     req: HttpRequest<any>,
-    next: HttpHandler,
+    next: HttpHandler
   ): Observable<HttpEvent<any>> {
-    console.warn('CacheInterceptor');
-
     if (this.isRequestCachable(req)) {
       const cachedResponse = this.cache.get(req.url);
       if (cachedResponse) {
@@ -26,11 +24,11 @@ export class CacheInterceptor implements HttpInterceptor {
       }
 
       return next.handle(req).pipe(
-        tap(event => {
+        tap((event) => {
           if (event instanceof HttpResponse) {
             this.cache.set(req.url, event);
           }
-        }),
+        })
       );
     } else {
       return next.handle(req);
@@ -39,7 +37,10 @@ export class CacheInterceptor implements HttpInterceptor {
 
   isRequestCachable(request: HttpRequest<unknown>): boolean {
     if (request.method === 'GET') {
-      if (request.url.includes('indexPipeline') || request.url.includes('queryPipeline')) {
+      if (
+        request.url.includes('indexPipeline') ||
+        request.url.includes('queryPipeline')
+      ) {
         return true;
       }
 

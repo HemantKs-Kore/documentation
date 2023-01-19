@@ -1,10 +1,10 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import {MatDialogModule} from '@angular/material/dialog';
-import {MatProgressBarModule} from '@angular/material/progress-bar';
-import {MatExpansionModule} from '@angular/material/expansion';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { MatExpansionModule } from '@angular/material/expansion';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { SimplebarAngularModule } from 'simplebar-angular';
 
 import { AnnotoolRoutingModule } from './annotool-routing.module';
@@ -17,19 +17,17 @@ import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
 import { ReactiveFormsModule } from '@angular/forms';
 import { TruncatePipe } from './helpers/truncate.pipe';
 import { UserGuideComponent } from './components/user-guide/user-guide.component';
-import { SharedModule } from '../../shared/shared.module';
 import { ClickOutSideDirective } from './helpers/click-out-side.directive';
-import { SearchPipe } from "./helpers/search.pipe";
+import { SearchPipe } from './helpers/search.pipe';
 @NgModule({
   declarations: [
     AnnotoolComponent,
-    PdfAnnotationComponent,
     TruncatePipe,
     UserGuideComponent,
     ClickOutSideDirective,
     ConfirmationComponent,
     SummaryModalComponent,
-    SearchPipe
+    SearchPipe,
   ],
   imports: [
     CommonModule,
@@ -39,26 +37,26 @@ import { SearchPipe } from "./helpers/search.pipe";
     MatDialogModule,
     MatProgressBarModule,
     MatExpansionModule,
-    SharedModule,
     NgbModule,
     MatProgressSpinnerModule,
     SimplebarAngularModule,
     AnnotoolRoutingModule,
+    ReactiveFormsModule,
+    PdfAnnotationComponent,
   ],
   exports: [
     AnnotoolComponent,
-    PdfAnnotationComponent,
     TruncatePipe,
     UserGuideComponent,
     ClickOutSideDirective,
     ConfirmationComponent,
-    SummaryModalComponent
+    SummaryModalComponent,
   ],
   entryComponents: [
     PdfAnnotationComponent,
     UserGuideComponent,
     ConfirmationComponent,
-    SummaryModalComponent
+    SummaryModalComponent,
   ],
 })
-export class AnnotoolModule { }
+export class AnnotoolModule {}

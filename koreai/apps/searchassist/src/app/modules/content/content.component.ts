@@ -357,7 +357,7 @@ export class ContentComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.selectedApp = this.workflowService.selectedApp();
-    this.serachIndexId = this.selectedApp.searchIndexes[0]._id;
+    this.serachIndexId = this.selectedApp?.searchIndexes[0]._id;
     this.getDyanmicFilterData();
     this.getSourceList();
     this.getJobStatusForMessages();
@@ -521,7 +521,7 @@ export class ContentComponent implements OnInit, OnDestroy {
   ) {
     this.statusArr = [];
     this.docTypeArr = [];
-    const searchIndex = this.selectedApp.searchIndexes[0]._id;
+    const searchIndex = this.selectedApp?.searchIndexes[0]._id;
     const quaryparms: any = {
       searchIndexId: searchIndex,
       type: 'content',
@@ -2324,18 +2324,19 @@ export class ContentComponent implements OnInit, OnDestroy {
         }
         break;
       }
-      case 'lastUpdated': {
-        if (this.selectedSort == sortingField) {
-          if (this.isAsc == false && type == 'down') {
-            return 'display-block';
+      case 'lastUpdated':
+        {
+          if (this.selectedSort == sortingField) {
+            if (this.isAsc == false && type == 'down') {
+              return 'display-block';
+            }
+            if (this.isAsc == true && type == 'up') {
+              return 'display-block';
+            }
+            return 'display-none';
           }
-          if (this.isAsc == true && type == 'up') {
-            return 'display-block';
-          }
-          return 'display-none';
         }
-      }
-      break;
+        break;
     }
   }
 
