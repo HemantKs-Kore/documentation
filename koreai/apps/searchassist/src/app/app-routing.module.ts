@@ -39,11 +39,6 @@ const routes: Routes = [
     },
     children: [
       {
-        path: 'apps',
-        loadChildren: () =>
-          import('./modules/apps/apps.module').then((m) => m.AppsModule),
-      },
-      {
         path: 'summary',
         loadChildren: () =>
           import('./modules/summary/summary.module').then(
@@ -156,7 +151,12 @@ const routes: Routes = [
           import('./modules/demo/demo.module').then((m) => m.DemoModule),
       },
 
-      { path: '', redirectTo: 'apps', pathMatch: 'full' },
+      {
+        path: '',
+        loadChildren: () =>
+          import('./modules/apps/apps.module').then((m) => m.AppsModule),
+        pathMatch: 'full',
+      },
       // { path: '**', redirectTo: 'apps' },
     ],
   },
