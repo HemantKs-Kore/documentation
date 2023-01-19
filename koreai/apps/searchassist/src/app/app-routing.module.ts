@@ -117,13 +117,13 @@ const routes: Routes = [
             (m) => m.SourcesModule
           ),
       },
-      // {
-      //   path: 'content',
-      //   loadChildren: () =>
-      //     import('./modules/content/content.module').then(
-      //       (m) => m.ContentModule
-      //     ),
-      // },
+      {
+        path: 'content',
+        loadChildren: () =>
+          import('./modules/content/content.module').then(
+            (m) => m.ContentModule
+          ),
+      },
       // {
       //   path: 'faqs',
       //   loadChildren: () =>
