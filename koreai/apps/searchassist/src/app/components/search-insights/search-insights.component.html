@@ -111,13 +111,13 @@
                                             [container]="'body'" tooltipClass="dashboard-custom-tooltips"
                                             class="pl-1"><img src="assets/icons/Info_gray.svg"></span>
                                     </div>
-                                    <div class="col-1 title" (click)="sortByApi('QueriesWithResults','count')">
+                                    <div class="col-1 title" (click)="sortByApi('QueriesWithResults','clicks')">
                                         <span class="d-flex align-items-center flex-column mr-1">
                                             <img src="assets/icons/caretDown.svg"
-                                                (click)="getSortIconVisibility('count','asc')"
+                                                (click)="getSortIconVisibility('clicks','asc')"
                                                 class="sortImg downArrow">
                                             <img src="assets/icons/caretDown.svg"
-                                                (click)="getSortIconVisibility('count','asc')" class="sortImg upArrow">
+                                                (click)="getSortIconVisibility('clicks','asc')" class="sortImg upArrow">
                                         </span>
                                         {{'search_insights_No_of_Clicks'| translate}} <span class="info-icon"
                                             placement="top-center"
@@ -125,13 +125,13 @@
                                             [container]="'body'" tooltipClass="dashboard-custom-tooltips"
                                             class="pl-1"><img src="assets/icons/Info_gray.svg"></span>
                                     </div>
-                                    <div class="col-1 title" (click)="sortByApi('QueriesWithResults','count')">
+                                    <div class="col-1 title" (click)="sortByApi('QueriesWithResults','thumbsUps')">
                                         <span class="d-flex align-items-center flex-column mr-1">
                                             <img src="assets/icons/caretDown.svg"
-                                                (click)="getSortIconVisibility('count','asc')"
+                                                (click)="getSortIconVisibility('thumbsUps','asc')"
                                                 class="sortImg downArrow">
                                             <img src="assets/icons/caretDown.svg"
-                                                (click)="getSortIconVisibility('count','asc')" class="sortImg upArrow">
+                                                (click)="getSortIconVisibility('thumbsUps','asc')" class="sortImg upArrow">
                                         </span>
                                         {{'search_insights_Positive_Feedback'| translate}} <span
                                             class="info-icon" placement="top-center" [ngbTooltip]="feedbackDisableDate"
@@ -139,13 +139,13 @@
                                             *ngIf="!(searchExperienceConfig?.interactionsConfig?.feedbackExperience?.queryLevel)"><img
                                                 src="assets/icons/Info-red.svg"></span>
                                     </div>
-                                    <div class="col-1 title" (click)="sortByApi('QueriesWithResults','count')">
+                                    <div class="col-1 title" (click)="sortByApi('QueriesWithResults','thumbsDowns')">
                                         <span class="d-flex align-items-center flex-column mr-1">
                                             <img src="assets/icons/caretDown.svg"
-                                                (click)="getSortIconVisibility('count','asc')"
+                                                (click)="getSortIconVisibility('thumbsDowns','asc')"
                                                 class="sortImg downArrow">
                                             <img src="assets/icons/caretDown.svg"
-                                                (click)="getSortIconVisibility('count','asc')" class="sortImg upArrow">
+                                                (click)="getSortIconVisibility('thumbsDowns','asc')" class="sortImg upArrow">
                                         </span>
                                         {{'search_insights_Negative_Feedback'| translate}} <span
                                             class="info-icon" placement="top-center" [ngbTooltip]="feedbackDisableDate"
