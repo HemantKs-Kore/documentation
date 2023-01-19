@@ -3,7 +3,7 @@ import { Component, NgZone, OnDestroy, OnInit } from '@angular/core';
 import { WorkflowService } from '@kore.services/workflow.service';
 import { ServiceInvokerService } from '@kore.services/service-invoker.service';
 import { NotificationService } from '@kore.services/notification.service';
-import { AppSelectionService } from '@kore.services/app.selection.service'
+import { AppSelectionService } from '@kore.services/app.selection.service';
 import { Moment } from 'moment';
 import * as moment from 'moment';
 import { ConfirmationDialogComponent } from '../../helpers/components/confirmation-dialog/confirmation-dialog.component';
@@ -101,8 +101,8 @@ export class ResultRankingComponent implements OnInit, OnDestroy {
   }
   ngOnInit(): void {
     this.sdk_evenBind();
-    this.selectedApp = this.workflowService.selectedApp();
-    this.serachIndexId = this.selectedApp.searchIndexes[0]._id;
+    this.selectedApp = this.workflowService?.selectedApp();
+    this.serachIndexId = this.selectedApp?.searchIndexes[0]?._id;
     this.loadCustomRankingList();
     this.subscription = this.appSelectionService.queryConfigs.subscribe(
       (res) => {
@@ -140,15 +140,15 @@ export class ResultRankingComponent implements OnInit, OnDestroy {
     //   query,
     // };
     // const url = 'get.getFieldAutocomplete'
-    const url = 'get.presentableFields'
+    const url = 'get.presentableFields';
     const quaryparms: any = {
-      isSelected:true,
-      sortField: "fieldName",
+      isSelected: true,
+      sortField: 'fieldName',
       orderType: 'asc', //desc,
-      indexPipelineId:this.indexPipelineId,
-      streamId:this.selectedApp._id,
-      queryPipelineId:this.queryPipelineId,
-      searchKey:''
+      indexPipelineId: this.indexPipelineId,
+      streamId: this.selectedApp._id,
+      queryPipelineId: this.queryPipelineId,
+      searchKey: '',
     };
     this.service.invoke(url, quaryparms).subscribe(
       (res) => {
@@ -594,32 +594,82 @@ export class ResultRankingComponent implements OnInit, OnDestroy {
             }
           }
           // Connectors Key Words
-        if(data.target.contentType == 'serviceNow'){
-          actLog.icon = "assets/icons/resultranking/data-icon.svg";
-          actLog.title = data.target && data.target.contentInfo && data.target.contentInfo._source ? data.target.contentInfo._source.serviceNow_short_description : '';
-          actLog.desc = data.target && data.target.contentInfo && data.target.contentInfo._source ? data.target.contentInfo._source.serviceNow_text : '';
-        }
-        if(data.target.contentType == 'confluenceCloud'){
-          actLog.icon = "assets/icons/resultranking/data-icon.svg";
-          actLog.title = data.target && data.target.contentInfo && data.target.contentInfo._source ? data.target.contentInfo._source.confluenceCloud_name : '';
-          actLog.desc = data.target && data.target.contentInfo && data.target.contentInfo._source ? data.target.contentInfo._source.confluenceCloud_content : '';
-        }
-        if(data.target.contentType == 'confluenceServer'){
-          actLog.icon = "assets/icons/resultranking/data-icon.svg";
-          actLog.title = data.target && data.target.contentInfo && data.target.contentInfo._source ? data.target.contentInfo._source.confluenceServer_name : '';
-          actLog.desc = data.target && data.target.contentInfo && data.target.contentInfo._source ? data.target.contentInfo._source.confluenceServer_content : '';
-        }
-        if(data.target.contentType == 'zendesk'){
-          actLog.icon = "assets/icons/resultranking/data-icon.svg";
-          actLog.title = data.target && data.target.contentInfo && data.target.contentInfo._source ? data.target.contentInfo._source.zendesk_name : '';
-          actLog.desc = data.target && data.target.contentInfo && data.target.contentInfo._source ? data.target.contentInfo._source.zendesk_content : '';
-        }
-        if(data.target.contentType == 'googleDrive'){
-          actLog.icon = "assets/icons/resultranking/data-icon.svg";
-          actLog.title = data.target && data.target.contentInfo && data.target.contentInfo._source ? data.target.contentInfo._source.name : '';
-          actLog.desc = data.target && data.target.contentInfo && data.target.contentInfo._source ? data.target.contentInfo._source.content : '';
-        }
-        // Connectors Key Words
+          if (data.target.contentType == 'serviceNow') {
+            actLog.icon = 'assets/icons/resultranking/data-icon.svg';
+            actLog.title =
+              data.target &&
+              data.target.contentInfo &&
+              data.target.contentInfo._source
+                ? data.target.contentInfo._source.serviceNow_short_description
+                : '';
+            actLog.desc =
+              data.target &&
+              data.target.contentInfo &&
+              data.target.contentInfo._source
+                ? data.target.contentInfo._source.serviceNow_text
+                : '';
+          }
+          if (data.target.contentType == 'confluenceCloud') {
+            actLog.icon = 'assets/icons/resultranking/data-icon.svg';
+            actLog.title =
+              data.target &&
+              data.target.contentInfo &&
+              data.target.contentInfo._source
+                ? data.target.contentInfo._source.confluenceCloud_name
+                : '';
+            actLog.desc =
+              data.target &&
+              data.target.contentInfo &&
+              data.target.contentInfo._source
+                ? data.target.contentInfo._source.confluenceCloud_content
+                : '';
+          }
+          if (data.target.contentType == 'confluenceServer') {
+            actLog.icon = 'assets/icons/resultranking/data-icon.svg';
+            actLog.title =
+              data.target &&
+              data.target.contentInfo &&
+              data.target.contentInfo._source
+                ? data.target.contentInfo._source.confluenceServer_name
+                : '';
+            actLog.desc =
+              data.target &&
+              data.target.contentInfo &&
+              data.target.contentInfo._source
+                ? data.target.contentInfo._source.confluenceServer_content
+                : '';
+          }
+          if (data.target.contentType == 'zendesk') {
+            actLog.icon = 'assets/icons/resultranking/data-icon.svg';
+            actLog.title =
+              data.target &&
+              data.target.contentInfo &&
+              data.target.contentInfo._source
+                ? data.target.contentInfo._source.zendesk_name
+                : '';
+            actLog.desc =
+              data.target &&
+              data.target.contentInfo &&
+              data.target.contentInfo._source
+                ? data.target.contentInfo._source.zendesk_content
+                : '';
+          }
+          if (data.target.contentType == 'googleDrive') {
+            actLog.icon = 'assets/icons/resultranking/data-icon.svg';
+            actLog.title =
+              data.target &&
+              data.target.contentInfo &&
+              data.target.contentInfo._source
+                ? data.target.contentInfo._source.name
+                : '';
+            actLog.desc =
+              data.target &&
+              data.target.contentInfo &&
+              data.target.contentInfo._source
+                ? data.target.contentInfo._source.content
+                : '';
+          }
+          // Connectors Key Words
           actLog.action = data.customization.action;
           if (data.customization.action == 'pinned') {
             actLog.actionIcon = 'assets/icons/resultranking/pined.svg';
@@ -986,19 +1036,18 @@ export class ResultRankingComponent implements OnInit, OnDestroy {
 }
 
 class ActionLog {
-  selected : boolean = false;
-  drop : boolean = false;
-  contentType : string ="";
-  icon : string = "";
-  title : string = "";
-  desc : string = "";
-  action : string = "";
-  actionIcon : string = "";
-  actionDesc : string = "";
-  value : string = "";
-  addedResult : string = "";
-  lMod : string = "";
-  createdOn : string ="";
-  contentId : String = "";
+  selected: boolean = false;
+  drop: boolean = false;
+  contentType: string = '';
+  icon: string = '';
+  title: string = '';
+  desc: string = '';
+  action: string = '';
+  actionIcon: string = '';
+  actionDesc: string = '';
+  value: string = '';
+  addedResult: string = '';
+  lMod: string = '';
+  createdOn: string = '';
+  contentId: String = '';
 }
-

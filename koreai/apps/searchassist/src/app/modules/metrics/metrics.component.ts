@@ -67,8 +67,8 @@ export class MetricsComponent implements OnInit {
 
   ngOnInit(): void {
     //  console.log(this.route.snapshot.paramMap.get('index') );
-    this.selectedApp = this.workflowService.selectedApp();
-    this.serachIndexId = this.selectedApp.searchIndexes[0]._id;
+    this.selectedApp = this.workflowService?.selectedApp();
+    this.serachIndexId = this.selectedApp?.searchIndexes[0]?._id;
 
     this.userEngagementChart();
     this.mostClick();
