@@ -20,5 +20,6 @@ import { FormsModule } from '@angular/forms';
     TranslateModule,
     FormsModule,
   ],
+  exports: [ActionsComponent],
 })
 export class ActionsModule {}

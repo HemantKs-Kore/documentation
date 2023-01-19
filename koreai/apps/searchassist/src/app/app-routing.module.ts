@@ -138,11 +138,16 @@ const routes: Routes = [
             (m) => m.ActionsModule
           ),
       },
-      // { path: 'actions', component: ActionsComponent },
+      {
+        path: 'generalSettings',
+        loadChildren: () =>
+          import('./modules/general-settings/general-settings.module').then(
+            (m) => m.GeneralSettingsModule
+          ),
+      },
       // { path: 'generalSettings', component: GeneralSettingsComponent },
       // { path: 'FieldManagementComponent', component: FieldManagementComponent },
       // { path: 'resultTemplate', component: ResultTemplatesComponent },
-      // // { path: 'structuredData', component: StructuredDataComponent },
       // { path: 'team-management', component: TeamManagementComponent },
       // { path: 'search-experience', component: SearchExperienceComponent },
       // { path: 'pricing', component: PricingComponent },
