@@ -152,13 +152,6 @@ const routes: Routes = [
             (m) => m.FieldManagementModule
           ),
       },
-      {
-        path: 'resultTemplate',
-        loadChildren: () =>
-          import('./modules/result-templates/result-templates.module').then(
-            (m) => m.ResultTemplatesModule
-          ),
-      },
       // { path: 'resultTemplate', component: ResultTemplatesComponent },
       // { path: 'team-management', component: TeamManagementComponent },
       // { path: 'search-experience', component: SearchExperienceComponent },
@@ -231,6 +224,7 @@ const routes: Routes = [
       // { path: '**', redirectTo: 'apps' },
     ],
   },
+  { path: 'result-templates', loadChildren: () => import('./modules/result-templates/result-templates.module').then(m => m.ResultTemplatesModule) },
 ];
 
 @NgModule({
