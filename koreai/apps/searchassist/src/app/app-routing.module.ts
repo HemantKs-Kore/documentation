@@ -129,13 +129,13 @@ const routes: Routes = [
         loadChildren: () =>
           import('./modules/faqs/faqs.module').then((m) => m.FaqsModule),
       },
-      // {
-      //   path: 'connectors',
-      //   loadChildren: () =>
-      //     import('./modules/connectors/connectors.module').then(
-      //       (m) => m.ConnectorsModule
-      //     ),
-      // },
+      {
+        path: 'connectors',
+        loadChildren: () =>
+          import('./modules/connectors/connectors.module').then(
+            (m) => m.ConnectorsModule
+          ),
+      },
       {
         path: 'botActions',
         loadChildren: () =>
