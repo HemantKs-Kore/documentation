@@ -17,13 +17,13 @@
             top: -16px;
             left: 25px;
             font-size: 12px;
-        }  
-    } 
+        }
+    }
     .table_sec{
         height: 100%;
         margin: auto;
         text-align: center;
-       
+
         .seach_add_feild{
             display: flex;
             align-items: center;
@@ -32,19 +32,20 @@
             margin: 0px 0px 10px 0px;
             background: #F5F8FA;
             border-radius: 4px;
-            .title{               
+            height: 54px;
+            .title{
                 font-weight: 500;
                 font-size: 18px;
                 line-height: 22px;
-                color: #000000;                            
-            }  
+                color: #000000;
+            }
             .kr-sg-input-search{
                 display: inline-block;
                 width: 215px;
                 height: 20px;
                 position: relative;
                 bottom: 6px;
-                right: 10px;               
+                right: 10px;
                 &.active{
                     display: block;
                     width: 300px;
@@ -56,7 +57,7 @@
                     cursor: pointer;
                 }
                 .input-search{
-                    border: 1px solid #E4E5E7;                            
+                    border: 1px solid #E4E5E7;
                     border-radius: 4px;
                     padding-left: 36px;
                     padding-right: 15px;
@@ -73,7 +74,7 @@
                     top: 10px;
                     position: absolute;
                 }
-            } 
+            }
             .seach-block{
                 color: #202124;
                 font-style: normal;
@@ -111,15 +112,15 @@
                     font-size: 12px;
                     line-height: 14px;
                     text-transform: uppercase;
-                    color: #9AA0A6;                   
+                    color: #9AA0A6;
                 }
                 .col_{
-                    font-weight: 500;                       
+                    font-weight: 500;
                     color: #9AA0A6;
-                    font-size: 12px;   
-                    cursor: pointer; 
-                    justify-content: center;        
-                    .sortImg{                                                       
+                    font-size: 12px;
+                    cursor: pointer;
+                    justify-content: center;
+                    .sortImg{
                         position: static;
                         &.upArrow {
                             transform: none !important;
@@ -135,7 +136,7 @@
                         &.decending{
                             transform: rotate(0deg);
                         }
-                    } 
+                    }
                     .info-text-icon{
                         padding-left: 5px;
                         .icon-info{
@@ -145,7 +146,7 @@
                                 color: #26344A;
                             }
                         }
-                    }           
+                    }
                 }
             }
             .table_body_content{
@@ -153,7 +154,7 @@
                 text-align: left;
                 .table_body{
                     padding: 18px 15px;
-                    box-shadow: inset 0px -1px 0px #E4E5E7;                        
+                    box-shadow: inset 0px -1px 0px #E4E5E7;
                     transition: 0.3s all ease-in;
                     // cursor: pointer;
                     &:hover{
@@ -173,7 +174,7 @@
                         font-style: normal;
                         font-size: 14px;
                         line-height: normal;
-                        color: #202124;   
+                        color: #202124;
                         cursor: default;
                         word-break: break-word;
                         white-space: nowrap;
@@ -199,7 +200,7 @@
                                 font-weight: 400;
                                 font-size: 14px;
                             }
-                        } 
+                        }
                     }
                     .action_links{
                         padding: 0 5px;
@@ -209,11 +210,11 @@
             }
             .footer-simulate{
                 text-align: right;
-                margin: 30px 0;                    
+                margin: 30px 0;
             }
         }
     }
-  
+
 }
 .empty-list{
     width: 320px;
@@ -225,15 +226,15 @@
     -webkit-box-orient: vertical;
     -webkit-box-direction: normal;
     -ms-flex-direction: column;
-    flex-direction: column;                       
-    -webkit-box-pack: center;                       
-    -ms-flex-pack: center;                       
-    justify-content: center;   
+    flex-direction: column;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    justify-content: center;
     height: calc(100% - 146px);
     img{
         width: 75%;
         margin: 0 auto;
-    }     
+    }
     .heading{
         margin: 18px 0 8px 0;
         color: $primaryColor;
@@ -243,7 +244,7 @@
         font-size: 14px;
         padding-top: 10px;
     }
-} 
+}
 .kr-sg-inline-notification {
     padding-bottom: 10px;
     &.kr-protip-basic{
@@ -268,14 +269,14 @@
 .kr-sg-inline-notification .bulb-icon {
     margin-right: 5px;
     position: relative;
-    top: -1px;    
+    top: -1px;
 }
 perfect-scrollbar .ps--active-y{
     padding-bottom: 85px;
 }
 .type_sort_dropdown{
-    margin-left: 5px !important;   
-    .dropdown-open{                                
+    margin-left: 5px !important;
+    .dropdown-open{
         .dropdown-input{
             img{
                 top: 0px !important;
@@ -302,7 +303,7 @@ perfect-scrollbar .ps--active-y{
             height: 21px !important;
             line-height: 18px !important;
         }
-    }    
+    }
     .modal-body{
         padding: 10px 28px !important;
         .top_sec{
@@ -348,7 +349,7 @@ perfect-scrollbar .ps--active-y{
                     .checkbox-custom-label{
                       &::before{
                         margin-right: 0px;
-                      }  
+                      }
                     }
                 }
             }
@@ -356,18 +357,18 @@ perfect-scrollbar .ps--active-y{
 
         .dropdown_overflow{
             background: #FFFFFF;
-            box-shadow: 0px 10px 35px rgba(32, 33, 36, 0.2);    
+            box-shadow: 0px 10px 35px rgba(32, 33, 36, 0.2);
             padding: 0px;
-            border: 0;        
-            margin: 0px 0 0 0;    
-            max-height: 150px;            
+            border: 0;
+            margin: 0px 0 0 0;
+            max-height: 150px;
             .scroll-search-field-{
                 max-height: 150px;
                 .scroll_{
                     max-height: 150px;
                 }
             }
-        }        
+        }
     }
     .modal-footer{
         padding: 11px 30px !important;

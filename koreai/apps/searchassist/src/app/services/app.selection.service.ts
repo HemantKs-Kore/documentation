@@ -316,7 +316,11 @@ export class AppSelectionService {
     );
   }
   getInlineManualcall() {
+<<<<<<< HEAD
     let selectedApp = this.workflowService.selectedApp();
+=======
+    let selectedApp = this.workflowService?.selectedApp();
+>>>>>>> 75fa2112bef2a061c8f071ef0c5e360267f5f48e
     let searchIndexId = selectedApp ? selectedApp.searchIndexes[0]?._id : '';
     const quaryparms: any = {
       searchIndexId: searchIndexId,
@@ -387,9 +391,9 @@ export class AppSelectionService {
   }
   async setAppWorkFlowData(app, queryPipeline?) {
     // this.getStreamData(app);
-    this.workflowService.selectedApp(app);
+    this.workflowService?.selectedApp(app);
     const searchIndex = app.searchIndexes[0]?._id;
-    this.workflowService.selectedSearchIndex(searchIndex);
+    this.workflowService?.selectedSearchIndex(searchIndex);
     //this.getQureryPipelineIds(queryPipeline);
     await this.getIndexPipelineIds();
     this.headerService.updateSearchConfiguration();

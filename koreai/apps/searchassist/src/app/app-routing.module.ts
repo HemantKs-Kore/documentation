@@ -75,14 +75,62 @@ const routes: Routes = [
             (m) => m.AppExperimentsModule
           ),
       },
-      // { path: 'experiments', component: AppExperimentsComponent },
-      // { path: 'resultranking', component: ResultRankingComponent },
-      // { path: 'metrics', component: MetricsComponent },
-      // { path: 'dashboard', component: DashboardComponent },
-      // { path: 'userEngagement', component: UserEngagementComponent },
-      // { path: 'searchInsights', component: SearchInsightsComponent },
-      // { path: 'resultInsights', component: ResultInsightsComponent },
-      // { path: 'settings', component: SettingsComponent },
+      {
+        path: 'resultranking',
+        loadChildren: () =>
+          import('./modules/result-ranking/result-ranking.module').then(
+            (m) => m.ResultRankingModule
+          ),
+      },
+      {
+        path: 'metrics',
+        loadChildren: () =>
+          import('./modules/metrics/metrics.module').then(
+            (m) => m.MetricsModule
+          ),
+      },
+      {
+        path: 'dashboard',
+        loadChildren: () =>
+          import('./modules/dashboard/dashboard.module').then(
+            (m) => m.DashboardModule
+          ),
+      },
+      {
+        path: 'userEngagement',
+        loadChildren: () =>
+          import('./modules/user-engagement/user-engagement.module').then(
+            (m) => m.UserEngagementModule
+          ),
+      },
+      {
+        path: 'search-insights',
+        loadChildren: () =>
+          import('./modules/search-insights/search-insights.module').then(
+            (m) => m.SearchInsightsModule
+          ),
+      },
+      {
+        path: 'resultInsights',
+        loadChildren: () =>
+          import('./modules/result-insights/result-insights.module').then(
+            (m) => m.ResultInsightsModule
+          ),
+      },
+      {
+        path: 'settings',
+        loadChildren: () =>
+          import('./modules/settings/settings.module').then(
+            (m) => m.SettingsModule
+          ),
+      },
+      {
+        path: 'credentials-list',
+        loadChildren: () =>
+          import('./modules/credentials-list/credentials-list.module').then(
+            (m) => m.CredentialsListModule
+          ),
+      },
       // { path: 'credentials-list', component: CredentialsListComponent },
       // { path: 'actions', component: ActionsComponent },
       // { path: 'generalSettings', component: GeneralSettingsComponent },
