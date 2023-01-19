@@ -122,7 +122,13 @@ const routes: Routes = [
             (m) => m.ResultInsightsModule
           ),
       },
-      // { path: 'settings', component: SettingsComponent },
+      {
+        path: 'settings',
+        loadChildren: () =>
+          import('./modules/settings/settings.module').then(
+            (m) => m.SettingsModule
+          ),
+      },
       // { path: 'credentials-list', component: CredentialsListComponent },
       // { path: 'actions', component: ActionsComponent },
       // { path: 'generalSettings', component: GeneralSettingsComponent },
