@@ -159,7 +159,6 @@ const routes: Routes = [
             (m) => m.ResultTemplatesModule
           ),
       },
-      // { path: 'resultTemplate', component: ResultTemplatesComponent },
       // { path: 'team-management', component: TeamManagementComponent },
       // { path: 'search-experience', component: SearchExperienceComponent },
       // { path: 'pricing', component: PricingComponent },
@@ -231,6 +230,7 @@ const routes: Routes = [
       // { path: '**', redirectTo: 'apps' },
     ],
   },
+  { path: 'team-management', loadChildren: () => import('./modules/team-management/team-management.module').then(m => m.TeamManagementModule) },
 ];
 
 @NgModule({
