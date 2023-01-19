@@ -166,7 +166,13 @@ const routes: Routes = [
             (m) => m.SearchExperienceModule
           ),
       },
-      // { path: 'search-experience', component: SearchExperienceComponent },
+      {
+        path: 'invoices',
+        loadChildren: () =>
+          import('./modules/invoices/invoices.module').then(
+            (m) => m.InvoicesModule
+          ),
+      },
       // { path: 'pricing', component: PricingComponent },
       // { path: 'invoices', component: InvoicesComponent },
       // { path: 'usageLog', component: UsageLogComponent },
