@@ -173,8 +173,14 @@ const routes: Routes = [
             (m) => m.InvoicesModule
           ),
       },
+      {
+        path: 'usageLog',
+        loadChildren: () =>
+          import('./modules/usage-log/usage-log.module').then(
+            (m) => m.UsageLogModule
+          ),
+      },
       // { path: 'pricing', component: PricingComponent },
-      // { path: 'invoices', component: InvoicesComponent },
       // { path: 'usageLog', component: UsageLogComponent },
       // {
       //   path: 'index-configuration-settings',
