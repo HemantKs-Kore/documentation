@@ -159,13 +159,35 @@ const routes: Routes = [
             (m) => m.ResultTemplatesModule
           ),
       },
-      // { path: 'resultTemplate', component: ResultTemplatesComponent },
-      // { path: 'team-management', component: TeamManagementComponent },
-      // { path: 'search-experience', component: SearchExperienceComponent },
+      {
+        path: 'search-experience',
+        loadChildren: () =>
+          import('./modules/search-experience/search-experience.module').then(
+            (m) => m.SearchExperienceModule
+          ),
+      },
+      {
+        path: 'invoices',
+        loadChildren: () =>
+          import('./modules/invoices/invoices.module').then(
+            (m) => m.InvoicesModule
+          ),
+      },
+      {
+        path: 'usageLog',
+        loadChildren: () =>
+          import('./modules/usage-log/usage-log.module').then(
+            (m) => m.UsageLogModule
+          ),
+      },
+      {
+        path: 'index-configuration-settings',
+        loadChildren: () =>
+          import(
+            './modules/index-configuration-settings/index-configuration-settings.module'
+          ).then((m) => m.IndexConfigurationSettingsModule),
+      },
       // { path: 'pricing', component: PricingComponent },
-      // { path: 'invoices', component: InvoicesComponent },
-      // { path: 'usageLog', component: UsageLogComponent },
-      // {
       //   path: 'index-configuration-settings',
       //   component: IndexConfigurationSettingsComponent,
       // },
@@ -230,6 +252,13 @@ const routes: Routes = [
       },
       // { path: '**', redirectTo: 'apps' },
     ],
+  },
+  {
+    path: 'team-management',
+    loadChildren: () =>
+      import('./modules/team-management/team-management.module').then(
+        (m) => m.TeamManagementModule
+      ),
   },
 ];
 
