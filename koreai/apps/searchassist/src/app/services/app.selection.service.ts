@@ -316,11 +316,7 @@ export class AppSelectionService {
     );
   }
   getInlineManualcall() {
-<<<<<<< HEAD
-    let selectedApp = this.workflowService.selectedApp();
-=======
     let selectedApp = this.workflowService?.selectedApp();
->>>>>>> 75fa2112bef2a061c8f071ef0c5e360267f5f48e
     let searchIndexId = selectedApp ? selectedApp.searchIndexes[0]?._id : '';
     const quaryparms: any = {
       searchIndexId: searchIndexId,
