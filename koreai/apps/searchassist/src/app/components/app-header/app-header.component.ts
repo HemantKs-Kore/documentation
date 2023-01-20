@@ -6,36 +6,29 @@ import {
   EventEmitter,
   ViewChild,
 } from '@angular/core';
-import { AuthService } from '@kore.services/auth.service';
 import { SideBarService } from '../../services/header.service';
 import { KRModalComponent } from '../../shared/kr-modal/kr-modal.component';
 import { Router } from '@angular/router';
-import { WorkflowService } from '@kore.services/workflow.service';
-import { AppUrlsService } from '@kore.services/app.urls.service';
-import { LocalStoreService } from '@kore.services/localstore.service';
 import { Observable } from 'rxjs';
-import {
-  debounceTime,
-  distinctUntilChanged,
-  map,
-  filter,
-} from 'rxjs/operators';
-import { ServiceInvokerService } from '@kore.services/service-invoker.service';
+import { debounceTime, map } from 'rxjs/operators';
 import { SliderComponentComponent } from '../../shared/slider-component/slider-component.component';
 import { OnboardingComponentComponent } from '../../components/onboarding-component/onboarding-component.component';
-import { NotificationService } from '@kore.services/notification.service';
-import { AppSelectionService } from '@kore.services/app.selection.service';
 import { DockStatusService } from '../../services/dockstatusService/dock-status.service';
-import { MixpanelServiceService } from '@kore.services/mixpanel-service.service';
 import { from, interval, Subject, Subscription } from 'rxjs';
-import { environment } from '@kore.environment';
 import { startWith, elementAt } from 'rxjs/operators';
 import * as moment from 'moment';
 
 declare const $: any;
 import * as _ from 'underscore';
-import { Input } from '@angular/core';
-import { E } from '@angular/cdk/keycodes';
+import { AuthService } from '@kore.apps/services/auth.service';
+import { WorkflowService } from '@kore.apps/services/workflow.service';
+import { AppUrlsService } from '@kore.apps/services/app.urls.service';
+import { LocalStoreService } from '@kore.apps/services/localstore.service';
+import { ServiceInvokerService } from '@kore.apps/services/service-invoker.service';
+import { NotificationService } from '@kore.apps/services/notification.service';
+import { AppSelectionService } from '@kore.apps/services/app.selection.service';
+import { MixpanelServiceService } from '@kore.apps/services/mixpanel-service.service';
+import { environment } from 'apps/searchassist/src/environments/environment';
 @Component({
   selector: 'app-header',
   templateUrl: './app-header.component.html',

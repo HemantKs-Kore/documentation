@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
-import { environment } from '@kore.environment';
+import { environment } from '../../environments/environment';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class LocalStoreService {
   private storageType = 'localStorage';
@@ -25,8 +25,14 @@ export class LocalStoreService {
       } else {
         return false;
       }
-      if (this.isEmpty(_accountDetails) && window.location.search.indexOf('currentBotId') !== -1) {
-        window[this.storageType].setItem('currentBot', window.location.search.split('?currentBotId=')[1]);
+      if (
+        this.isEmpty(_accountDetails) &&
+        window.location.search.indexOf('currentBotId') !== -1
+      ) {
+        window[this.storageType].setItem(
+          'currentBot',
+          window.location.search.split('?currentBotId=')[1]
+        );
       }
 
       return _accountDetails;
@@ -38,7 +44,7 @@ export class LocalStoreService {
   public isEmpty(obj) {
     return Object.keys(obj).length === 0;
   }
-  public getPreviousState(){
+  public getPreviousState() {
     let _krPreviousState = window[this.storageType].getItem('krPreviousState');
     if (_krPreviousState) {
       _krPreviousState = JSON.parse(_krPreviousState);
@@ -60,7 +66,8 @@ export class LocalStoreService {
 
   public getSelectedAccount(): any {
     try {
-      let _selectedAccount = window[this.storageType].getItem('selectedAccount');
+      let _selectedAccount =
+        window[this.storageType].getItem('selectedAccount');
       if (_selectedAccount) {
         _selectedAccount = JSON.parse(_selectedAccount);
       } else {
@@ -73,8 +80,9 @@ export class LocalStoreService {
   }
   public getSelectedSSOAccount(): any {
     try {
-      let _selectedSSOAccount = window[this.storageType].getItem('selectedSSOAccount');
-      window[this.storageType].setItem('selectedAccount',_selectedSSOAccount);
+      let _selectedSSOAccount =
+        window[this.storageType].getItem('selectedSSOAccount');
+      window[this.storageType].setItem('selectedAccount', _selectedSSOAccount);
       if (_selectedSSOAccount) {
         _selectedSSOAccount = JSON.parse(_selectedSSOAccount);
         //window[this.storageType].removeItem('selectedSSOAccount');
@@ -93,7 +101,11 @@ export class LocalStoreService {
         _accountDetails = JSON.parse(_accountDetails);
 
         const currentAccount = _accountDetails.currentAccount;
-        if (currentAccount && currentAccount.associatedAccounts && currentAccount.associatedAccounts.length) {
+        if (
+          currentAccount &&
+          currentAccount.associatedAccounts &&
+          currentAccount.associatedAccounts.length
+        ) {
           return currentAccount.associatedAccounts;
         } else {
           return [];
@@ -101,10 +113,8 @@ export class LocalStoreService {
       } else {
         return [];
       }
-
     } catch (e) {
       return [];
     }
   }
-
 }

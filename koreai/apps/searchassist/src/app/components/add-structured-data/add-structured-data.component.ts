@@ -1,23 +1,29 @@
-import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
-import { AuthService } from '@kore.services/auth.service';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnInit,
+  Output,
+  ViewChild,
+} from '@angular/core';
 import { NotificationService } from '../../services/notification.service';
-import { ServiceInvokerService } from '@kore.services/service-invoker.service';
-import { WorkflowService } from '@kore.services/workflow.service';
 import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { MatDialog } from '@angular/material/dialog';
 import { ConfirmationDialogComponent } from '../../helpers/components/confirmation-dialog/confirmation-dialog.component';
-import { AppSelectionService } from '@kore.services/app.selection.service';
 import { PerfectScrollbarComponent } from 'ngx-perfect-scrollbar';
+import { AuthService } from '@kore.apps/services/auth.service';
+import { ServiceInvokerService } from '@kore.apps/services/service-invoker.service';
+import { WorkflowService } from '@kore.apps/services/workflow.service';
+import { AppSelectionService } from '@kore.apps/services/app.selection.service';
 declare const $: any;
 
 @Component({
   selector: 'app-add-structured-data',
   templateUrl: './add-structured-data.component.html',
-  styleUrls: ['./add-structured-data.component.scss']
+  styleUrls: ['./add-structured-data.component.scss'],
 })
 export class AddStructuredDataComponent implements OnInit {
-
   public newSourceObj: any = {};
   csvContent: any = '';
   fileObj: any = {};
@@ -25,29 +31,33 @@ export class AddStructuredDataComponent implements OnInit {
   structuredData: any = {};
   codeMirrorOptions: any = {
     theme: 'neo',
-    mode: "application/ld+json",
+    mode: 'application/ld+json',
     lineNumbers: true,
     lineWrapping: true,
     foldGutter: true,
-    gutters: ['CodeMirror-linenumbers', 'CodeMirror-foldgutter', 'CodeMirror-lint-markers'],
+    gutters: [
+      'CodeMirror-linenumbers',
+      'CodeMirror-foldgutter',
+      'CodeMirror-lint-markers',
+    ],
     autoCloseBrackets: true,
     matchBrackets: true,
     lint: false,
-    indentUnit: 2
+    indentUnit: 2,
   };
   selectedApp: any = {};
   selectedJsonForEdit: any;
   sampleJsonPath = '/home/assets/sampleData/sample.json';
   sampleCsvPath = '/home/assets/sampleData/sample.csv';
-  openingBrace = "{";
-  closingBrace = "}";
+  openingBrace = '{';
+  closingBrace = '}';
   startingValue: any;
   currentDataIndex: any;
   previousDataIndex: any;
   nextDataIndex: any;
   allStructuredData: any = [];
   submitted: boolean = false;
-  isInvalidJSON: boolean = false;;
+  isInvalidJSON: boolean = false;
 
   @Output() closeStructuredDataModal = new EventEmitter();
   @Input('selectedSourceType') selectedSourceType: any;
@@ -55,14 +65,16 @@ export class AddStructuredDataComponent implements OnInit {
   @ViewChild('codemirror') codemirror: any;
   @ViewChild('perfectScroll') perfectScroll: PerfectScrollbarComponent;
 
-  constructor(private http: HttpClient,
+  constructor(
+    private http: HttpClient,
     private notificationService: NotificationService,
     private service: ServiceInvokerService,
     private authService: AuthService,
     public workflowService: WorkflowService,
     private appSelectionService: AppSelectionService,
     private router: Router,
-    public dialog: MatDialog) { }
+    public dialog: MatDialog
+  ) {}
 
   ngOnInit(): void {
     this.selectedApp = this.workflowService.selectedApp();
@@ -74,8 +86,7 @@ export class AddStructuredDataComponent implements OnInit {
     }, 500);
   }
 
-  ngAfterViewInit() {
-  }
+  ngAfterViewInit() {}
 
   ngOnChanges(changes) {
     setTimeout(() => {
@@ -85,7 +96,11 @@ export class AddStructuredDataComponent implements OnInit {
     if (changes && changes.selectedSourceType) {
       this.submitted = false;
       // this.selectedSourceType.resourceAdded = false;
-      if (changes.selectedSourceType.currentValue && changes.selectedSourceType.currentValue.resourceType === 'structuredDataManual') {
+      if (
+        changes.selectedSourceType.currentValue &&
+        changes.selectedSourceType.currentValue.resourceType ===
+          'structuredDataManual'
+      ) {
         this.setRequirementsForManualInput(changes);
       }
     }
@@ -99,42 +114,47 @@ export class AddStructuredDataComponent implements OnInit {
       // this.structuredData.payload = this.selectedJsonForEdit.parsedData;
       if (changes.selectedSourceType.currentValue.viewMode) {
         this.codeMirrorOptions['readOnly'] = 'nocursor';
-      }
-      else {
+      } else {
         this.codeMirrorOptions['readOnly'] = '';
       }
 
-      if (changes.selectedSourceType.currentValue.allData && changes.selectedSourceType.currentValue.allData.length) {
-        this.allStructuredData = changes.selectedSourceType.currentValue.allData;
+      if (
+        changes.selectedSourceType.currentValue.allData &&
+        changes.selectedSourceType.currentValue.allData.length
+      ) {
+        this.allStructuredData =
+          changes.selectedSourceType.currentValue.allData;
       }
 
-      if (changes.selectedSourceType.currentValue.currentIndex || (changes.selectedSourceType.currentValue.currentIndex == 0)) {
-        this.currentDataIndex = changes.selectedSourceType.currentValue.currentIndex;
+      if (
+        changes.selectedSourceType.currentValue.currentIndex ||
+        changes.selectedSourceType.currentValue.currentIndex == 0
+      ) {
+        this.currentDataIndex =
+          changes.selectedSourceType.currentValue.currentIndex;
         if (this.currentDataIndex && this.currentDataIndex > 0) {
           this.previousDataIndex = this.currentDataIndex - 1;
-        }
-        else {
+        } else {
           this.previousDataIndex = undefined;
         }
-        if (this.currentDataIndex < (this.allStructuredData.length - 1)) {
+        if (this.currentDataIndex < this.allStructuredData.length - 1) {
           this.nextDataIndex = this.currentDataIndex + 1;
-        }
-        else {
+        } else {
           this.nextDataIndex = undefined;
         }
       }
       if (this.currentDataIndex) {
-        this.selectedJsonForEdit = this.allStructuredData[this.currentDataIndex];
-      }
-      else {
-        this.selectedJsonForEdit = changes.selectedSourceType.currentValue.payload;
+        this.selectedJsonForEdit =
+          this.allStructuredData[this.currentDataIndex];
+      } else {
+        this.selectedJsonForEdit =
+          changes.selectedSourceType.currentValue.payload;
       }
       this.structuredData.payload = this.selectedJsonForEdit.parsedData;
       setTimeout(() => {
         // this.indentObj();
-      }, 200)
-    }
-    else {
+      }, 200);
+    } else {
       this.codeMirrorOptions['readOnly'] = '';
       this.structuredData.payload = JSON.stringify({});
     }
@@ -151,23 +171,20 @@ export class AddStructuredDataComponent implements OnInit {
     }
   }
   navigateToRecord(key) {
-    if (this.currentDataIndex || (this.currentDataIndex == 0)) {
+    if (this.currentDataIndex || this.currentDataIndex == 0) {
       if (key) {
         this.currentDataIndex = this.currentDataIndex + 1;
-      }
-      else {
+      } else {
         this.currentDataIndex = this.currentDataIndex - 1;
       }
       if (this.currentDataIndex && this.currentDataIndex > 0) {
         this.previousDataIndex = this.currentDataIndex - 1;
-      }
-      else {
+      } else {
         this.previousDataIndex = undefined;
       }
-      if (this.currentDataIndex < (this.allStructuredData.length - 1)) {
+      if (this.currentDataIndex < this.allStructuredData.length - 1) {
         this.nextDataIndex = this.currentDataIndex + 1;
-      }
-      else {
+      } else {
         this.nextDataIndex = undefined;
       }
       this.selectedJsonForEdit = this.allStructuredData[this.currentDataIndex];
@@ -183,16 +200,18 @@ export class AddStructuredDataComponent implements OnInit {
       data: {
         newTitle: 'Are you sure you want to delete?',
         body: 'Selected data will be permanently deleted.',
-        buttons: [{ key: 'yes', label: 'Delete', type: 'danger', class: 'deleteBtn' }, { key: 'no', label: 'Cancel' }],
+        buttons: [
+          { key: 'yes', label: 'Delete', type: 'danger', class: 'deleteBtn' },
+          { key: 'no', label: 'Cancel' },
+        ],
         confirmationPopUp: true,
-      }
+      },
     });
-    dialogRef.componentInstance.onSelect.subscribe(res => {
+    dialogRef.componentInstance.onSelect.subscribe((res) => {
       if (res === 'yes') {
         dialogRef.close();
         this.deleteStructuredData(record);
-      }
-      else if (res === 'no') {
+      } else if (res === 'no') {
         dialogRef.close();
       }
     });
@@ -204,15 +223,18 @@ export class AddStructuredDataComponent implements OnInit {
     quaryparms.sourceId = Math.random().toString(36).substr(7);
     if (record) {
       quaryparms.contentId = record._id;
-      this.service.invoke('delete.structuredData', quaryparms).subscribe(res => {
-        if (res) {
-          this.notificationService.notify('Deleted Successfully', 'success');
-          this.cancleSourceAddition();
+      this.service.invoke('delete.structuredData', quaryparms).subscribe(
+        (res) => {
+          if (res) {
+            this.notificationService.notify('Deleted Successfully', 'success');
+            this.cancleSourceAddition();
+          }
+        },
+        (errRes) => {
+          // console.log("error", errRes);
+          this.notificationService.notify('Deletion has gone wrong.', 'error');
         }
-      }, errRes => {
-        // console.log("error", errRes);
-        this.notificationService.notify('Deletion has gone wrong.', 'error');
-      });
+      );
     }
   }
 
@@ -220,7 +242,13 @@ export class AddStructuredDataComponent implements OnInit {
     this.submitted = false;
     this.newSourceObj.url = '';
     let fileName = '';
-    if (event && event.target && event.target.files && event.target.files.length && event.target.files[0].name) {
+    if (
+      event &&
+      event.target &&
+      event.target.files &&
+      event.target.files.length &&
+      event.target.files[0].name
+    ) {
       fileName = event.target.files[0].name;
     } else {
       return;
@@ -228,7 +256,10 @@ export class AddStructuredDataComponent implements OnInit {
     const _ext = fileName.substring(fileName.lastIndexOf('.'));
     if (_ext !== '.json' && _ext !== '.csv') {
       $('#sourceFileUploader').val(null);
-      this.notificationService.notify('Please select a valid csv or json file', 'error');
+      this.notificationService.notify(
+        'Please select a valid csv or json file',
+        'error'
+      );
       return;
     } else {
       this.fileObj.fileUploadInProgress = true;
@@ -258,20 +289,29 @@ export class AddStructuredDataComponent implements OnInit {
 
   fileupload(payload) {
     const quaryparms: any = {
-      userId: this.userInfo.id
+      userId: this.userInfo.id,
     };
     this.service.invoke('post.fileupload', quaryparms, payload).subscribe(
-      res => {
+      (res) => {
         this.fileObj.fileAdded = true;
         this.fileObj.fileId = res.fileId;
         this.fileObj.fileUploadInProgress = false;
-        this.notificationService.notify('File uploaded successfully', 'success');
+        this.notificationService.notify(
+          'File uploaded successfully',
+          'success'
+        );
         this.selectedSourceType.resourceAdded = true;
         //  this.selectedSourceType.resourceType = 'webdomain';
       },
-      errRes => {
+      (errRes) => {
         this.fileObj.fileUploadInProgress = false;
-        if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
+        if (
+          errRes &&
+          errRes.error.errors &&
+          errRes.error.errors.length &&
+          errRes.error.errors[0] &&
+          errRes.error.errors[0].msg
+        ) {
           this.notificationService.notify(errRes.error.errors[0].msg, 'error');
         } else {
           this.notificationService.notify('Failed to upload file ', 'error');
@@ -285,7 +325,11 @@ export class AddStructuredDataComponent implements OnInit {
     // $('#sourceFileUploader').replaceWith($('#sourceFileUploader').val('').clone(true));
     this.resetfileSource();
     // this.service.invoke('post.fileupload').subscribe().unsubscribe();
-    if (!this.newSourceObj.url && this.selectedSourceType && this.selectedSourceType.resourceAdded) {
+    if (
+      !this.newSourceObj.url &&
+      this.selectedSourceType &&
+      this.selectedSourceType.resourceAdded
+    ) {
       this.selectedSourceType.resourceAdded = false;
     }
   }
@@ -296,7 +340,7 @@ export class AddStructuredDataComponent implements OnInit {
       fileId: null,
       fileUploadInProgress: false,
       fileUploadError: false,
-    }
+    };
   }
 
   cancleSourceAddition(event?) {
@@ -326,64 +370,63 @@ export class AddStructuredDataComponent implements OnInit {
     let endPoint = 'add.structuredData';
     this.submitted = true;
     if (this.validateStructuredData()) {
-      if (this.selectedSourceType && this.selectedSourceType.resourceType === 'structuredData') {
+      if (
+        this.selectedSourceType &&
+        this.selectedSourceType.resourceType === 'structuredData'
+      ) {
         // File Upload
         quaryparms.file = 'file';
         payload.fileId = this.fileObj.fileId;
         this.jsonInvoke(payload, endPoint, quaryparms);
-
-      }
-      else if (this.selectedSourceType && this.selectedSourceType.resourceType === 'structuredDataManual') {
+      } else if (
+        this.selectedSourceType &&
+        this.selectedSourceType.resourceType === 'structuredDataManual'
+      ) {
         try {
           let payload_temp = JSON.parse(this.structuredData.payload);
           // console.log("payload", payload);
           if (this.selectedJsonForEdit) {
             // edit
             this.updateStructuredData(payload_temp);
-          }
-          else {
+          } else {
             quaryparms.file = 'manual';
             this.jsonInvoke(payload_temp, endPoint, quaryparms);
           }
-        }
-        catch (e) {
+        } catch (e) {
           // console.log("error", e);
         }
       }
       this.appSelectionService.updateTourConfig('addData');
-    }
-    else {
-      if (this.selectedSourceType.resourceType == "structuredDataManual") {
+    } else {
+      if (this.selectedSourceType.resourceType == 'structuredDataManual') {
         this.notificationService.notify('Please enter valid JSON', 'error');
-      }
-      else {
-        this.notificationService.notify('Enter the required fields to proceed', 'error');
+      } else {
+        this.notificationService.notify(
+          'Enter the required fields to proceed',
+          'error'
+        );
       }
     }
   }
 
   validateStructuredData() {
-    if (this.selectedSourceType.resourceType == "structuredDataManual") {
+    if (this.selectedSourceType.resourceType == 'structuredDataManual') {
       let payload_temp;
       try {
         payload_temp = JSON.parse(this.structuredData.payload);
         if (!Object.values(payload_temp).length) {
           this.isInvalidJSON = true;
           return false;
-        }
-        else {
+        } else {
           return true;
         }
-      }
-      catch {
+      } catch {
         this.isInvalidJSON = true;
         return false;
       }
-    }
-    else if (!this.selectedSourceType.resourceAdded) {
+    } else if (!this.selectedSourceType.resourceAdded) {
       return false;
-    }
-    else {
+    } else {
       return true;
     }
   }
@@ -395,36 +438,59 @@ export class AddStructuredDataComponent implements OnInit {
     if (jsonData) {
       quaryparms.contentId = this.selectedJsonForEdit._id;
       quaryparms.sourceId = this.selectedJsonForEdit.extractionSourceId;
-      this.service.invoke('update.structuredData', quaryparms, jsonData).subscribe(res => {
-        if (res) {
-          this.cancleSourceAddition();
-          this.notificationService.notify('Updated Successfully', 'success');
-        }
-      }, errRes => {
-        // console.log("error", errRes);
-        this.notificationService.notify('Updation has gone wrong.', 'error');
-      });
+      this.service
+        .invoke('update.structuredData', quaryparms, jsonData)
+        .subscribe(
+          (res) => {
+            if (res) {
+              this.cancleSourceAddition();
+              this.notificationService.notify(
+                'Updated Successfully',
+                'success'
+              );
+            }
+          },
+          (errRes) => {
+            // console.log("error", errRes);
+            this.notificationService.notify(
+              'Updation has gone wrong.',
+              'error'
+            );
+          }
+        );
     }
   }
 
-
   jsonInvoke(payload, endPoint, quaryparms) {
-    this.service.invoke(endPoint, quaryparms, payload).subscribe(res => {
-      this.notificationService.notify('Added Successfully', 'success');
-      if (quaryparms.file === 'file') {
-        this.cancleSourceAddition({ showStatusModal: true, payload: res });
+    this.service.invoke(endPoint, quaryparms, payload).subscribe(
+      (res) => {
+        this.notificationService.notify('Added Successfully', 'success');
+        if (quaryparms.file === 'file') {
+          this.cancleSourceAddition({ showStatusModal: true, payload: res });
+        } else {
+          this.router.navigate(['/structuredData'], {
+            skipLocationChange: true,
+          });
+          this.cancleSourceAddition();
+        }
+      },
+      (errRes) => {
+        if (
+          errRes &&
+          errRes.error.errors &&
+          errRes.error.errors.length &&
+          errRes.error.errors[0] &&
+          errRes.error.errors[0].msg
+        ) {
+          this.notificationService.notify(errRes.error.errors[0].msg, 'error');
+        } else {
+          this.notificationService.notify(
+            'Duplicate name, try again!',
+            'error'
+          );
+        }
       }
-      else {
-        this.router.navigate(['/structuredData'], { skipLocationChange: true });
-        this.cancleSourceAddition();
-      }
-    }, errRes => {
-      if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
-        this.notificationService.notify(errRes.error.errors[0].msg, 'error');
-      } else {
-        this.notificationService.notify('Duplicate name, try again!', 'error');
-      }
-    });
+    );
   }
 
   setEditorContent(event) {
@@ -436,17 +502,15 @@ export class AddStructuredDataComponent implements OnInit {
       if (payload_temp) {
         this.selectedSourceType.resourceAdded = true;
       }
-    }
-    catch (e) {
+    } catch (e) {
       this.selectedSourceType.resourceAdded = false;
     }
   }
 
-
   indentObj() {
     let count = this.codemirror.codeMirror.lineCount();
     for (let i = 0; i <= count; i++) {
-      this.codemirror.codeMirror.indentLine(i, "smart");
+      this.codemirror.codeMirror.indentLine(i, 'smart');
     }
     // let partition = 1500;
     // let upperlmt=1500,lowerlmt=0;
@@ -469,22 +533,18 @@ export class AddStructuredDataComponent implements OnInit {
     if (key === 'json') {
       fileName = 'sample.json';
       filePath = this.sampleJsonPath;
-    }
-    else {
+    } else {
       fileName = 'sample.csv';
       filePath = this.sampleCsvPath;
     }
     fetch(filePath)
-      .then(res => res.blob()) // Gets the response and returns it as a blob
+      .then((res) => res.blob()) // Gets the response and returns it as a blob
       .then((blob: any) => {
         const link: any = document.createElement('a');
         let objectURL = URL.createObjectURL(blob);
         link.href = objectURL;
-        link.target = "_blank",
-          link.download = fileName,
-          link.click();
+        (link.target = '_blank'), (link.download = fileName), link.click();
         link.remove();
       });
   }
-
 }

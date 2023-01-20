@@ -1,9 +1,6 @@
 import { ElementRef, OnDestroy, ViewChild, ViewChildren } from '@angular/core';
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { NotificationService } from '@kore.services/notification.service';
-import { ServiceInvokerService } from '@kore.services/service-invoker.service';
-import { WorkflowService } from '@kore.services/workflow.service';
 import { ConfirmationDialogComponent } from '../../helpers/components/confirmation-dialog/confirmation-dialog.component';
 import { KRModalComponent } from '../../shared/kr-modal/kr-modal.component';
 import { ENTER, COMMA } from '@angular/cdk/keycodes';
@@ -15,15 +12,18 @@ import {
   MatAutocompleteSelectedEvent,
 } from '@angular/material/autocomplete';
 import { SortPipe } from '../../helpers/sortPipe/sort-pipe';
-import { AppSelectionService } from '@kore.services/app.selection.service';
 import { Subscription } from 'rxjs';
 import * as moment from 'moment';
-import { InlineManualService } from '@kore.services/inline-manual.service';
 import { UpgradePlanComponent } from '../../helpers/components/upgrade-plan/upgrade-plan.component';
 import { PerfectScrollbarComponent } from 'ngx-perfect-scrollbar';
-import { MixpanelServiceService } from '@kore.services/mixpanel-service.service';
 import { DomSanitizer } from '@angular/platform-browser';
 import { EMPTY_SCREEN } from '../../modules/empty-screen/empty-screen.constants';
+import { NotificationService } from '@kore.apps/services/notification.service';
+import { ServiceInvokerService } from '@kore.apps/services/service-invoker.service';
+import { WorkflowService } from '@kore.apps/services/workflow.service';
+import { AppSelectionService } from '@kore.apps/services/app.selection.service';
+import { InlineManualService } from '@kore.apps/services/inline-manual.service';
+import { MixpanelServiceService } from '@kore.apps/services/mixpanel-service.service';
 declare const $: any;
 declare global {
   interface String {

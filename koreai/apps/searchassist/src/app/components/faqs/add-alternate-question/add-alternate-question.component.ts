@@ -1,41 +1,52 @@
-import { Component, OnInit, ViewChild, EventEmitter, ElementRef, Input, Output } from '@angular/core';
-import { AuthService } from '@kore.services/auth.service';
+import {
+  Component,
+  OnInit,
+  ViewChild,
+  EventEmitter,
+  ElementRef,
+  Input,
+  Output,
+} from '@angular/core';
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
 import { NotificationService } from '../../../services/notification.service';
-import { KgDataService } from '@kore.services/componentsServices/kg-data.service';
 import { MatChipInputEvent } from '@angular/material/chips';
-import { ServiceInvokerService } from '@kore.services/service-invoker.service';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 declare const $: any;
 import * as _ from 'underscore';
+import { AuthService } from '@kore.apps/services/auth.service';
+import { KgDataService } from '@kore.apps/services/componentsServices/kg-data.service';
+import { ServiceInvokerService } from '@kore.apps/services/service-invoker.service';
 
 @Component({
   selector: 'app-add-alternate-question',
   templateUrl: './add-alternate-question.component.html',
-  styleUrls: ['./add-alternate-question.component.scss']
+  styleUrls: ['./add-alternate-question.component.scss'],
 })
 export class AddAlternateQuestionComponent implements OnInit {
-
   suggestionTags = [];
   typedQuery = '';
   readonly separatorKeysCodes: number[] = [ENTER, COMMA];
   tags: any[] = [];
   @ViewChild('suggestedInput') suggestedInput: ElementRef<HTMLInputElement>;
   f: any = {
-    question: ''
+    question: '',
   };
   @Input() faqServ: any;
   @Input() isFromFaqsForm: boolean;
- @Output() cancelAltQuestion  = new EventEmitter();
- @Output() saveAltQuestion  = new EventEmitter();
-  constructor(private authService: AuthService,
-              private kgService: KgDataService,
-              private notify: NotificationService,
-              private service: ServiceInvokerService) { }
+  @Output() cancelAltQuestion = new EventEmitter();
+  @Output() saveAltQuestion = new EventEmitter();
+  constructor(
+    private authService: AuthService,
+    private kgService: KgDataService,
+    private notify: NotificationService,
+    private service: ServiceInvokerService
+  ) {}
 
   ngOnInit(): void {
-    setTimeout(()=>{
-      this.faqServ.addVariation.alternate?$('#alt').focus():$('#follow').focus();
+    setTimeout(() => {
+      this.faqServ.addVariation.alternate
+        ? $('#alt').focus()
+        : $('#follow').focus();
     }, 200);
   }
 
@@ -52,15 +63,18 @@ export class AddAlternateQuestionComponent implements OnInit {
   }
   getAltTags(e) {
     const payload = {
-      query: this.f.question
-    }
+      query: this.f.question,
+    };
     const params = {
       userId: this.authService.getUserId(),
-      ktId: this.kgService.getKgTaskId()
-    }
-    this.service.invoke('get.possibletags', params, payload).subscribe(res => {
-      this.suggestionTags = res;
-    }, err=> {} )
+      ktId: this.kgService.getKgTaskId(),
+    };
+    this.service.invoke('get.possibletags', params, payload).subscribe(
+      (res) => {
+        this.suggestionTags = res;
+      },
+      (err) => {}
+    );
   }
 
   remove(tag): void {
@@ -86,38 +100,45 @@ export class AddAlternateQuestionComponent implements OnInit {
   }
 
   checkDuplicateTags(suggestion: string = ''): boolean {
-    return this.tags.every(f => f.toLowerCase() !== suggestion.toLowerCase())
+    return this.tags.every((f) => f.toLowerCase() !== suggestion.toLowerCase());
   }
 
   addFaq() {
-    if(this.f.question.trim() == '') {
+    if (this.f.question.trim() == '') {
       return;
     }
     let params = {
-      question: ((this.faqServ||{}).faqData ||{}).question || "",
-      answer: ((this.faqServ||{}).faqData ||{}).answer || "",
-      _source:{
-        faq_alt_questions: (((this.faqServ||{}).faqData ||{})._source || ({})).faq_alt_questions || (((this.faqServ||{}).addAltFaq ||{})._source || ({})).faq_alt_questions || []
+      question: ((this.faqServ || {}).faqData || {}).question || '',
+      answer: ((this.faqServ || {}).faqData || {}).answer || '',
+      _source: {
+        faq_alt_questions:
+          (((this.faqServ || {}).faqData || {})._source || {})
+            .faq_alt_questions ||
+          (((this.faqServ || {}).addAltFaq || {})._source || {})
+            .faq_alt_questions ||
+          [],
       },
-      followupQuestions: ((this.faqServ||{}).faqData ||{}).followupQuestions || []
+      followupQuestions:
+        ((this.faqServ || {}).faqData || {}).followupQuestions || [],
     };
-    if(this.faqServ.addVariation.alternate) {
+    if (this.faqServ.addVariation.alternate) {
       // params._source.faq_alt_questions.push({question: this.f.question, keywords: _.map(this.tags, o=>{return {keyword: o}})});
 
       /**To restrict if duplicate Alternate Questions are entered on click of Alt Ques Button**/
-      params._source.faq_alt_questions.forEach(element => {
+      params._source.faq_alt_questions.forEach((element) => {
         if (element === this.f.question) {
           this.f.question = '';
-          this.notify.notify('Duplicate FAQ question detected. Kindly edit FAQ Question to update changes', 'error')
+          this.notify.notify(
+            'Duplicate FAQ question detected. Kindly edit FAQ Question to update changes',
+            'error'
+          );
         }
       });
       if (this.f.question != '') {
         params._source.faq_alt_questions.push(this.f.question);
         this.faqServ.addAltQues.next(params);
       }
-
-    }
-    else if (this.faqServ.addVariation.followUp) {
+    } else if (this.faqServ.addVariation.followUp) {
       params.followupQuestions.push(this.f.question);
       this.faqServ.addFollowQues.next(params);
     }
@@ -129,27 +150,25 @@ export class AddAlternateQuestionComponent implements OnInit {
     this.faqServ.cancel.next(undefined);
   }
 
-  updateFaq() {
-
-  }
-/**To restrict if duplicate Alternate Questions are entered on click of Enter**/
+  updateFaq() {}
+  /**To restrict if duplicate Alternate Questions are entered on click of Enter**/
   checkDuplicateAltQues() {
     if (this.f.question) {
       if (this.faqServ && this.faqServ.faqData) {
-        this.faqServ.faqData._source.faq_alt_questions.forEach(element => {
+        this.faqServ.faqData._source.faq_alt_questions.forEach((element) => {
           if (element === this.f.question) {
-            this.faqServ.faqData._source.faq_alt_questions.slice(element)
-            this.notify.notify('Duplicate FAQ question detected. Kindly edit FAQ Question to update changes', 'error')
+            this.faqServ.faqData._source.faq_alt_questions.slice(element);
+            this.notify.notify(
+              'Duplicate FAQ question detected. Kindly edit FAQ Question to update changes',
+              'error'
+            );
             this.f.question = '';
           }
-
         });
         this.saveAltQuestion.emit(true);
-      }
-      else {
+      } else {
         this.saveAltQuestion.emit(true); //Else cond is if the array is 0 and for entering 1st Alt Ques
       }
     }
   }
-
 }

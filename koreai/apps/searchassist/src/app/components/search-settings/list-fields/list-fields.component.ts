@@ -6,8 +6,6 @@ import {
   Input,
   EventEmitter,
 } from '@angular/core';
-import { WorkflowService } from '@kore.services/workflow.service';
-import { AppSelectionService } from '@kore.services/app.selection.service';
 import {
   PerfectScrollbarComponent,
   PerfectScrollbarDirective,
@@ -15,10 +13,13 @@ import {
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
-import { ServiceInvokerService } from '@kore.services/service-invoker.service';
-import { NotificationService } from '@kore.services/notification.service';
 import { KRModalComponent } from '../../../shared/kr-modal/kr-modal.component';
-import { ConfirmationDialogComponent } from '@kore.helpers/components/confirmation-dialog/confirmation-dialog.component';
+import { WorkflowService } from '@kore.apps/services/workflow.service';
+import { AppSelectionService } from '@kore.apps/services/app.selection.service';
+import { ServiceInvokerService } from '@kore.apps/services/service-invoker.service';
+import { NotificationService } from '@kore.apps/services/notification.service';
+import { ConfirmationDialogComponent } from '@kore.apps/helpers/components/confirmation-dialog/confirmation-dialog.component';
+
 declare const $: any;
 
 @Component({

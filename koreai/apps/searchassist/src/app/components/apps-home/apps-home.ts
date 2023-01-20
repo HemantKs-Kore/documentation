@@ -1,24 +1,24 @@
 import { Component, OnInit, Inject, ViewChild } from '@angular/core';
-import { LocalStoreService } from '@kore.services/localstore.service';
-import { ServiceInvokerService } from '@kore.services/service-invoker.service';
-import { WorkflowService } from '@kore.services/workflow.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { KRModalComponent } from '../../shared/kr-modal/kr-modal.component';
-import { NotificationService } from '@kore.services/notification.service';
-import { SideBarService } from '@kore.services/header.service';
-import { AppSelectionService } from '@kore.services/app.selection.service'
-import { AuthService } from '@kore.services/auth.service';
-import { InlineManualService } from '@kore.services/inline-manual.service';
-import { MixpanelServiceService } from '@kore.services/mixpanel-service.service';
 import { AppHeaderComponent } from '../app-header/app-header.component';
 import { EMPTY_SCREEN } from '../../modules/empty-screen/empty-screen.constants';
+import { LocalStoreService } from '@kore.apps/services/localstore.service';
+import { ServiceInvokerService } from '@kore.apps/services/service-invoker.service';
+import { WorkflowService } from '@kore.apps/services/workflow.service';
+import { NotificationService } from '@kore.apps/services/notification.service';
+import { SideBarService } from '@kore.apps/services/header.service';
+import { AppSelectionService } from '@kore.apps/services/app.selection.service';
+import { AuthService } from '@kore.apps/services/auth.service';
+import { InlineManualService } from '@kore.apps/services/inline-manual.service';
+import { MixpanelServiceService } from '@kore.apps/services/mixpanel-service.service';
 declare const $: any;
 declare var PureJSCarousel: any;
 @Component({
   // tslint:disable-next-line:component-selector
   selector: 'apps-home',
   templateUrl: './apps-home.html',
-  styleUrls: ['./apps-home.scss']
+  styleUrls: ['./apps-home.scss'],
 })
 export class AppsListingComponent implements OnInit {
   emptyScreen = EMPTY_SCREEN.APP;
@@ -39,13 +39,13 @@ export class AppsListingComponent implements OnInit {
   confirmatiomAppPopRef: any;
   detailsPopUpRef: any;
   creatingInProgress = false;
-  appTypevalue:any;
+  appTypevalue: any;
   searchApp = '';
   apps: any = [];
   progressBar: any = [];
   stepBar = 1;
   displayApp: boolean = false;
-  newUser:boolean = false;
+  newUser: boolean = false;
   hideWelcomepage: boolean = true;
   showSearchExperices: boolean = false;
   validateAppname: boolean = false;
@@ -71,7 +71,7 @@ export class AppsListingComponent implements OnInit {
   loadingApps = true;
   newApp: any = {
     name: '',
-    description: ''
+    description: '',
   };
   appTypes = ['All', 'My', 'Shared'];
   sortBy = ['Created Date', 'Alphabetical Order'];
@@ -81,7 +81,7 @@ export class AppsListingComponent implements OnInit {
   testRepeat = false;
   createdAppData: any = {};
   pollingInterval;
-  isShowSearchGif:boolean=false;
+  isShowSearchGif: boolean = false;
   @ViewChild('createAppPop') createAppPop: KRModalComponent;
   @ViewChild('createBoardingJourney') createBoardingJourney: KRModalComponent;
   @ViewChild('confirmatiomAppPop') confirmatiomAppPop: KRModalComponent;
@@ -109,35 +109,48 @@ export class AppsListingComponent implements OnInit {
     $('.krFindlyAppComponent').removeClass('appSelected');
     //const apps = this.workflowService.findlyApps();
     //this.prepareApps(apps);
-      this.getAllApps();
+    this.getAllApps();
     setTimeout(() => {
       $('#serachInputBox').focus();
     }, 100);
     // this.buildCarousel();
   }
-   //Checks whether user is new or not
-   checkForNewUser(){
-    let accountId:any;
-    let selectAccountDetail = window[this.storageType].getItem('selectedAccount') ? JSON.parse(window[this.storageType].getItem('selectedAccount')) : {};
-    let currentAccountDetail = window[this.storageType].getItem('jStorage') ? JSON.parse(window[this.storageType].getItem('jStorage')) : {};
-    let currentAccountID = currentAccountDetail?currentAccountDetail?.currentAccount?.accountId:null;
-    if(!selectAccountDetail){
+  //Checks whether user is new or not
+  checkForNewUser() {
+    let accountId: any;
+    let selectAccountDetail = window[this.storageType].getItem(
+      'selectedAccount'
+    )
+      ? JSON.parse(window[this.storageType].getItem('selectedAccount'))
+      : {};
+    let currentAccountDetail = window[this.storageType].getItem('jStorage')
+      ? JSON.parse(window[this.storageType].getItem('jStorage'))
+      : {};
+    let currentAccountID = currentAccountDetail
+      ? currentAccountDetail?.currentAccount?.accountId
+      : null;
+    if (!selectAccountDetail) {
       accountId = currentAccountID;
-    }
-    else if(selectAccountDetail && selectAccountDetail.accountId){
+    } else if (selectAccountDetail && selectAccountDetail.accountId) {
       accountId = selectAccountDetail.accountId;
     }
-    if(accountId){
+    if (accountId) {
       const quaryParms: any = {
-        accountId : accountId
+        accountId: accountId,
       };
-      this.service.invoke('get.checkNewUser',quaryParms).subscribe(res => {
-        this.newUser = !res.isInitialAppCreated;
-      }, errRes => {
-        this.notificationService.notify('Checking for New User has gone wrong ', 'error');
-      });
+      this.service.invoke('get.checkNewUser', quaryParms).subscribe(
+        (res) => {
+          this.newUser = !res.isInitialAppCreated;
+        },
+        (errRes) => {
+          this.notificationService.notify(
+            'Checking for New User has gone wrong ',
+            'error'
+          );
+        }
+      );
     }
-   }
+  }
 
   //call mixpanel api for tellmemore button
   callMixPanel() {
@@ -152,25 +165,31 @@ export class AppsListingComponent implements OnInit {
     });
     this.apps = apps;
   }
-  openApp(app,isUpgrade?) {
-    $('#test-btn-launch-sdk').attr("disabled", "disabled").button('refresh');
-    this.appSelectionService.tourConfigCancel.next({ name: undefined, status: 'pending' });
+  openApp(app, isUpgrade?) {
+    $('#test-btn-launch-sdk').attr('disabled', 'disabled').button('refresh');
+    this.appSelectionService.tourConfigCancel.next({
+      name: undefined,
+      status: 'pending',
+    });
     const isDemo = this.appType == 'sampleData' ? true : false;
-    this.appSelectionService.openApp(app, isDemo,isUpgrade);
+    this.appSelectionService.openApp(app, isDemo, isUpgrade);
     this.workflowService.selectedIndexPipelineId = '';
   }
   openBoradingJourney() {
     this.headerService.openJourneyForfirstTime = true;
     this.onboardingpopupjourneyRef = this.createBoardingJourney.open();
     this.mixpanel.postEvent('User Onboarding - Journey Presented', {});
-    this.mixpanel.postEvent('Welcome video Shown',{})
+    this.mixpanel.postEvent('Welcome video Shown', {});
   }
   closeBoradingJourney() {
-    if (this.onboardingpopupjourneyRef && this.onboardingpopupjourneyRef.close) {
+    if (
+      this.onboardingpopupjourneyRef &&
+      this.onboardingpopupjourneyRef.close
+    ) {
       this.onboardingpopupjourneyRef.close();
       this.mixpanel.postEvent('User Onboarding - Journey Cancelled', {});
-      this.mixpanel.postEvent('Welcome video Played',{})
-      this.mixpanel.postEvent('Explore App page',{})
+      this.mixpanel.postEvent('Welcome video Played', {});
+      this.mixpanel.postEvent('Explore App page', {});
     }
     // this.showBoarding = false;
   }
@@ -181,13 +200,12 @@ export class AppsListingComponent implements OnInit {
       this.progressBar = [];
       for (let i = 0; i < val; i++) {
         var obj = {
-          class: 'active-bar'
-        }
+          class: 'active-bar',
+        };
 
-        this.progressBar.push(obj)
+        this.progressBar.push(obj);
       }
-    }
-    else {
+    } else {
       this.progressBar = [];
     }
     // this.progressBar = val;
@@ -195,50 +213,50 @@ export class AppsListingComponent implements OnInit {
   welcomeStep(type) {
     this.appType = type;
     this.hideWelcomepage = false;
-    if( type =='selfExplore'){
-    this.steps = 'displayApp';
-    this.progressBarFun(4, 2)
-    this.mixpanel.postEvent('Explore App Type selected',{'Explore App Type':'Own'})
-    }
-    else if (type == 'sampleData') {
+    if (type == 'selfExplore') {
+      this.steps = 'displayApp';
+      this.progressBarFun(4, 2);
+      this.mixpanel.postEvent('Explore App Type selected', {
+        'Explore App Type': 'Own',
+      });
+    } else if (type == 'sampleData') {
       this.steps = 'demoOptions';
       this.demoType = 'e-commerce';
-      this.progressBarFun(4, 2)
-      this.mixpanel.postEvent('Explore App Type selected',{'Explore App Type':'Sample'})
+      this.progressBarFun(4, 2);
+      this.mixpanel.postEvent('Explore App Type selected', {
+        'Explore App Type': 'Sample',
+      });
     }
   }
 
-  mixpanelEventValues(){
-    if(this.demoType == 'e-commerce'){
+  mixpanelEventValues() {
+    if (this.demoType == 'e-commerce') {
       this.appTypevalue = 'E-commerce';
-    }
-    else if (this.demoType == 'website-search'){
+    } else if (this.demoType == 'website-search') {
       this.appTypevalue = 'Website';
-    }
-    else{
+    } else {
       this.appTypevalue = 'Knowledge';
     }
-    this.mixpanel.postEvent('Explore App Data selected',{'Explore App Data Type':this.appTypevalue})
+    this.mixpanel.postEvent('Explore App Data selected', {
+      'Explore App Data Type': this.appTypevalue,
+    });
   }
-  exploreSampleDate(){
+  exploreSampleDate() {
     this.hideWelcomepage = false;
-    if(this.steps == 'demoOptions'){
-      this.steps = 'showSearchExperience'
-      this.SearchExperianceType ='top';
-      this.progressBarFun(4, 3)
+    if (this.steps == 'demoOptions') {
+      this.steps = 'showSearchExperience';
+      this.SearchExperianceType = 'top';
+      this.progressBarFun(4, 3);
       this.mixpanelEventValues();
-    }
-    else if (this.steps == 'showSearchExperience'){
-      this.steps = 'displayApp'
-      this.progressBarFun(4, 4)
-      this.mixpanel.postEvent('Explore App Search experience selected',{})
-    }
-    else if (this.steps == 'displayApp' && this.newApp.name){
+    } else if (this.steps == 'showSearchExperience') {
+      this.steps = 'displayApp';
+      this.progressBarFun(4, 4);
+      this.mixpanel.postEvent('Explore App Search experience selected', {});
+    } else if (this.steps == 'displayApp' && this.newApp.name) {
       this.appCreationAtOnboarding();
-      this.mixpanel.postEvent('Explore App named',{})
-    }
-    else {
-      this.validateAppname = true
+      this.mixpanel.postEvent('Explore App named', {});
+    } else {
+      this.validateAppname = true;
     }
   }
 
@@ -247,27 +265,23 @@ export class AppsListingComponent implements OnInit {
   }
   selectSearchExperianceType(data) {
     this.SearchExperianceType = data;
-
   }
   back() {
     this.validateAppname = false;
     if (this.steps == 'showSearchExperience') {
       this.steps = 'demoOptions';
       this.SearchExperianceType = '';
-      this.progressBarFun(4, 2)
-    }
-    else if (this.steps == 'demoOptions') {
+      this.progressBarFun(4, 2);
+    } else if (this.steps == 'demoOptions') {
       this.steps = '';
       this.demoType = '';
       this.newApp = { name: '', description: '' };
       this.progressBar = [];
-    }
-    else if (this.steps == 'displayApp') {
-      if(this.appType == 'sampleData'){
+    } else if (this.steps == 'displayApp') {
+      if (this.appType == 'sampleData') {
         this.steps = 'showSearchExperience';
-        this.progressBarFun(4, 3)
-      }
-      else{
+        this.progressBarFun(4, 3);
+      } else {
         this.steps = '';
         this.newApp = { name: '', description: '' };
         this.progressBar = [];
@@ -276,13 +290,15 @@ export class AppsListingComponent implements OnInit {
   }
   appCreationAtOnboarding() {
     if (this.appType == 'selfExplore' && this.newApp.name) {
-      this.mixpanel.postEvent('Explore App Named',{})
+      this.mixpanel.postEvent('Explore App Named', {});
       this.validateSource();
-    }
-    else if (this.appType == 'sampleData' && this.newApp.name && this.SearchExperianceType) {
+    } else if (
+      this.appType == 'sampleData' &&
+      this.newApp.name &&
+      this.SearchExperianceType
+    ) {
       this.validateSource();
-    }
-    else {
+    } else {
       this.validateAppname = true;
     }
   }
@@ -291,10 +307,10 @@ export class AppsListingComponent implements OnInit {
     if (this.appType == 'selfExplore') {
       this.appCreationAtOnboarding();
     }
-      if (this.appType == 'sampleData') {
-        this.exploreSampleDate();
-      }
-}
+    if (this.appType == 'sampleData') {
+      this.exploreSampleDate();
+    }
+  }
   openDetails() {
     this.detailsPopUpRef = this.detailsPopUp.open();
   }
@@ -308,8 +324,11 @@ export class AppsListingComponent implements OnInit {
   }
   openCreateApp() {
     this.createAppPopRef = this.createAppPop.open();
-    this.mixpanel.postEvent('Start create app',{})
-    if (this.onboardingpopupjourneyRef && this.onboardingpopupjourneyRef.close) {
+    this.mixpanel.postEvent('Start create app', {});
+    if (
+      this.onboardingpopupjourneyRef &&
+      this.onboardingpopupjourneyRef.close
+    ) {
       this.onboardingpopupjourneyRef.close();
     }
   }
@@ -338,22 +357,27 @@ export class AppsListingComponent implements OnInit {
     let quaryparms: any = {};
     quaryparms.streamId = this.slectedAppId;
     if (this.confirmApp == 'DELETE') {
-      this.service.invoke('delete.app', quaryparms).subscribe(res => {
-        if (res) {
-          this.notificationService.notify('Deleted Successfully', 'success');
-          this.closeConfirmApp();
-          this.apps = this.apps.filter((val) => { return val._id != this.slectedAppId });
-          this.prepareApps(this.apps);
-          this.selectedAppType(this.app_type);
-          this.confirmApp = '';
-          if(!this.apps.length){
-          this.emptyApp = true;
-          this.showBoarding = true;
+      this.service.invoke('delete.app', quaryparms).subscribe(
+        (res) => {
+          if (res) {
+            this.notificationService.notify('Deleted Successfully', 'success');
+            this.closeConfirmApp();
+            this.apps = this.apps.filter((val) => {
+              return val._id != this.slectedAppId;
+            });
+            this.prepareApps(this.apps);
+            this.selectedAppType(this.app_type);
+            this.confirmApp = '';
+            if (!this.apps.length) {
+              this.emptyApp = true;
+              this.showBoarding = true;
+            }
           }
+        },
+        (errRes) => {
+          this.notificationService.notify('Deletion has gone wrong.', 'error');
         }
-      }, errRes => {
-        this.notificationService.notify('Deletion has gone wrong.', 'error');
-      });
+      );
     }
   }
   openUnlinkApp(event, appInfo) {
@@ -366,21 +390,23 @@ export class AppsListingComponent implements OnInit {
     this.confirmatiomAppPopRef = this.confirmatiomAppPop.open();
   }
   unlinkApp() {
-
     let quaryparms: any = {};
     quaryparms.streamId = this.slectedUnlinkAppId;
 
-    this.service.invoke('Unlink.app', quaryparms).subscribe(res => {
-      if (res) {
-        this.notificationService.notify('Removed Successfully', 'success');
-        this.closeConfirmApp();
-        setTimeout(() => {
-          this.getAllApps();
-        }, 400);
+    this.service.invoke('Unlink.app', quaryparms).subscribe(
+      (res) => {
+        if (res) {
+          this.notificationService.notify('Removed Successfully', 'success');
+          this.closeConfirmApp();
+          setTimeout(() => {
+            this.getAllApps();
+          }, 400);
+        }
+      },
+      (errRes) => {
+        this.notificationService.notify('Something has gone wrong.', 'error');
       }
-    }, errRes => {
-      this.notificationService.notify('Something has gone wrong.', 'error');
-    });
+    );
   }
 
   checkForSharedApp() {
@@ -393,7 +419,13 @@ export class AppsListingComponent implements OnInit {
   }
 
   errorToaster(errRes, message) {
-    if (errRes && errRes.error && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0].msg) {
+    if (
+      errRes &&
+      errRes.error &&
+      errRes.error.errors &&
+      errRes.error.errors.length &&
+      errRes.error.errors[0].msg
+    ) {
       this.notificationService.notify(errRes.error.errors[0].msg, 'error');
     } else if (message) {
       this.notificationService.notify(message, 'error');
@@ -405,7 +437,7 @@ export class AppsListingComponent implements OnInit {
     if (this.showSearch && this.searchApp) {
       this.searchApp = '';
     }
-    this.showSearch = !this.showSearch
+    this.showSearch = !this.showSearch;
     setTimeout(() => {
       $('#serachInputBox').focus();
     }, 100);
@@ -414,57 +446,71 @@ export class AppsListingComponent implements OnInit {
   emptyApp: boolean = true;
   showBoarding: boolean = true;
   public getAllApps() {
-    this.service.invoke('get.apps').subscribe(res => {
-      if (res && res.length) {
-        if (localStorage.getItem('krPreviousState') && JSON.parse(localStorage.getItem('krPreviousState')) && JSON.parse(localStorage.getItem('krPreviousState')).route && (JSON.parse(localStorage.getItem('krPreviousState')).route != "/home")) {
-          let prDetails = JSON.parse(localStorage.getItem('krPreviousState'))
-          if (prDetails && prDetails.formAccount) {
-            this.redirectHome()
+    this.service.invoke('get.apps').subscribe(
+      (res) => {
+        if (res && res.length) {
+          if (
+            localStorage.getItem('krPreviousState') &&
+            JSON.parse(localStorage.getItem('krPreviousState')) &&
+            JSON.parse(localStorage.getItem('krPreviousState')).route &&
+            JSON.parse(localStorage.getItem('krPreviousState')).route != '/home'
+          ) {
+            let prDetails = JSON.parse(localStorage.getItem('krPreviousState'));
+            if (prDetails && prDetails.formAccount) {
+              this.redirectHome();
+            }
           }
-        }
-        this.prepareApps(res);
-        this.workflowService.showAppCreationHeader(false);
-        this.selectedAppType('All');
-        this.sortApp('Created Date');
-        this.showBoarding = false;
-        this.emptyApp = false;
-      }
-      else {
-        if (localStorage.getItem('krPreviousState') && JSON.parse(localStorage.getItem('krPreviousState')) && JSON.parse(localStorage.getItem('krPreviousState')).route && (JSON.parse(localStorage.getItem('krPreviousState')).route != "/home")) {
-          this.redirectHome()
+          this.prepareApps(res);
+          this.workflowService.showAppCreationHeader(false);
+          this.selectedAppType('All');
+          this.sortApp('Created Date');
+          this.showBoarding = false;
+          this.emptyApp = false;
         } else {
-
-          /** Issue Fix for multiple onboarding  function called */
-          // if (this.headerService.openJourneyForfirstTime) {
-          //   this.emptyApp = true;
-          //   this.showBoarding = true;
-          //   this.headerService.openJourneyForfirstTime = true;
-          //   this.openBoradingJourney();
-          // }
-          if (!this.headerService.openJourneyForfirstTime) {
-            this.emptyApp = true;
-            this.showBoarding = true;
-            this.headerService.openJourneyForfirstTime = true;
-            this.openBoradingJourney();
+          if (
+            localStorage.getItem('krPreviousState') &&
+            JSON.parse(localStorage.getItem('krPreviousState')) &&
+            JSON.parse(localStorage.getItem('krPreviousState')).route &&
+            JSON.parse(localStorage.getItem('krPreviousState')).route != '/home'
+          ) {
+            this.redirectHome();
+          } else {
+            /** Issue Fix for multiple onboarding  function called */
+            // if (this.headerService.openJourneyForfirstTime) {
+            //   this.emptyApp = true;
+            //   this.showBoarding = true;
+            //   this.headerService.openJourneyForfirstTime = true;
+            //   this.openBoradingJourney();
+            // }
+            if (!this.headerService.openJourneyForfirstTime) {
+              this.emptyApp = true;
+              this.showBoarding = true;
+              this.headerService.openJourneyForfirstTime = true;
+              this.openBoradingJourney();
+            }
           }
         }
-      }
-      this.loadingApps = false;
-      this.clearAccount();
-      //this.checkForSharedApp();
-    }, errRes => {
-    });
+        this.loadingApps = false;
+        this.clearAccount();
+        //this.checkForSharedApp();
+      },
+      (errRes) => {}
+    );
   }
   clearAccount() {
-    let prDetails = localStorage.getItem('krPreviousState') ? JSON.parse(localStorage.getItem('krPreviousState')) : null;
+    let prDetails = localStorage.getItem('krPreviousState')
+      ? JSON.parse(localStorage.getItem('krPreviousState'))
+      : null;
     if (prDetails && prDetails.formAccount) {
       prDetails.formAccount = false;
     }
     localStorage.setItem('krPreviousState', JSON.stringify(prDetails));
   }
   redirectHome() {
-    let prDetails = localStorage.getItem('krPreviousState') ? JSON.parse(localStorage.getItem('krPreviousState')) : null;
-    prDetails.route = "/home";
+    let prDetails = localStorage.getItem('krPreviousState')
+      ? JSON.parse(localStorage.getItem('krPreviousState'))
+      : null;
+    prDetails.route = '/home';
     localStorage.setItem('krPreviousState', JSON.stringify(prDetails));
     this.router.navigate(['/home'], { skipLocationChange: true });
   }
@@ -483,26 +529,28 @@ export class AppsListingComponent implements OnInit {
       skipMakeEditLinks: false,
       purpose: 'customer',
       errorCodes: {
-        pollError: []
+        pollError: [],
       },
       visibility: {
         namespace: [],
-        namespaceIds: []
+        namespaceIds: [],
       },
       defaultLanguage: 'en',
     };
     this.service.invoke('create.app', {}, payload).subscribe(
-      res => {
+      (res) => {
         this.createdAppData = res;
-        this.notificationService.notify(`${this.newApp.name} created successfully`, 'success');
+        this.notificationService.notify(
+          `${this.newApp.name} created successfully`,
+          'success'
+        );
         if (this.appType == 'sampleData') {
           this.createDemoApp(res?.searchIndexes[0]);
-        }
-        else {
+        } else {
           this.openCreatedApp();
         }
       },
-      errRes => {
+      (errRes) => {
         this.errorToaster(errRes, 'Error in creating app');
         self.creatingInProgress = false;
       }
@@ -514,7 +562,7 @@ export class AppsListingComponent implements OnInit {
     this.mixpanel.postEvent('New App Created', {});
     this.apps.push(res);
     this.prepareApps(this.apps);
-    this.openApp(res)
+    this.openApp(res);
     this.displayApp = false;
     this.workflowService.showAppCreationHeader(true);
     // this.appSelectionService.routeChanged.next({ name: 'pathchanged', path: '/sources' });
@@ -538,81 +586,113 @@ export class AppsListingComponent implements OnInit {
         streamId: obj?.streamId,
         appType: this.demoType,
         searchBarPosition: this.SearchExperianceType,
-      }
+      };
       this.service.invoke('post.createDemoApp', {}, payload).subscribe(
-        res => {
+        (res) => {
           if (res) {
-            this.isShowSearchGif=true;
+            this.isShowSearchGif = true;
             this.polling();
             $('body').addClass('demoScenarioCssForInlinemanual');
           }
         },
-        errRes => {
-          this.notificationService.notify('App creation has gone wrong', 'error');
+        (errRes) => {
+          this.notificationService.notify(
+            'App creation has gone wrong',
+            'error'
+          );
         }
       );
     }
   }
   //calling polling API To get traing status
   polling() {
-    this.pollingInterval = setInterval(() => { this.dockStatus() }, 700);
+    this.pollingInterval = setInterval(() => {
+      this.dockStatus();
+    }, 700);
   }
   //call dock status API
   dockStatus() {
     const queryParms = {
-      searchIndexId: this.createdAppData?.searchIndexes[0]?._id
-    }
-    this.service.invoke('get.dockStatus', queryParms).subscribe(res => {
+      searchIndexId: this.createdAppData?.searchIndexes[0]?._id,
+    };
+    this.service.invoke('get.dockStatus', queryParms).subscribe((res) => {
       const doc_status = JSON.parse(JSON.stringify(res));
-      if ((doc_status[0].status === 'SUCCESS' || doc_status[0].status === 'success') && doc_status[0].jobType === "TRAINING") {
+      if (
+        (doc_status[0].status === 'SUCCESS' ||
+          doc_status[0].status === 'success') &&
+        doc_status[0].jobType === 'TRAINING'
+      ) {
         clearInterval(this.pollingInterval);
-        this.isShowSearchGif=false;
+        this.isShowSearchGif = false;
         this.openCreatedApp();
-      }
-      else if ((doc_status[0].status === 'FAILURE' || doc_status[0].status === "FAILED") && doc_status[0].jobType === "TRAINING") {
+      } else if (
+        (doc_status[0].status === 'FAILURE' ||
+          doc_status[0].status === 'FAILED') &&
+        doc_status[0].jobType === 'TRAINING'
+      ) {
         clearInterval(this.pollingInterval);
-        this.isShowSearchGif=false;
+        this.isShowSearchGif = false;
         this.notificationService.notify(doc_status[0].message, 'error');
       }
-    }), errRes => {
-      this.notificationService.notify('Failed to get Status of Docker.', 'error');
-    }
+    }),
+      (errRes) => {
+        this.notificationService.notify(
+          'Failed to get Status of Docker.',
+          'error'
+        );
+      };
   }
   validateSource() {
-    let validField = true
+    let validField = true;
     if (!this.newApp.name) {
-      $("#enterAppName").css("border-color", "#DD3646");
-      $("#infoWarning").css({ "top": "58%", "position": "absolute", "right": "1.5%", "display": "block" });
-      this.notificationService.notify('Enter the required fields to proceed', 'error');
-      validField = false
+      $('#enterAppName').css('border-color', '#DD3646');
+      $('#infoWarning').css({
+        top: '58%',
+        position: 'absolute',
+        right: '1.5%',
+        display: 'block',
+      });
+      this.notificationService.notify(
+        'Enter the required fields to proceed',
+        'error'
+      );
+      validField = false;
     }
     if (validField && this.newApp.name) {
       let specialCharacters = /[!@#$%^&*()_+\-=\[\]{};':"\\|<>\/?→←↑↓]+/;
       if (!specialCharacters.test(this.newApp.description)) {
         this.createFindlyApp();
-      }
-      else {
-        this.notificationService.notify('Special characters not allowed', 'error');
+      } else {
+        this.notificationService.notify(
+          'Special characters not allowed',
+          'error'
+        );
       }
     }
   }
   inputChanged(type, i?) {
     if (type == 'enterName') {
       if (!this.newApp.name) {
-        $("#infoWarning").show();
-        $("#infoWarning").css({ "top": "58%", "position": "absolute", "right": "1.5%", "display": "block" });
+        $('#infoWarning').show();
+        $('#infoWarning').css({
+          top: '58%',
+          position: 'absolute',
+          right: '1.5%',
+          display: 'block',
+        });
+      } else {
+        $('#infoWarning').hide();
       }
-      else {
-        $("#infoWarning").hide()
-      }
-      $("#enterAppName").css("border-color", this.newApp.name != '' ? "#BDC1C6" : "#DD3646");
+      $('#enterAppName').css(
+        'border-color',
+        this.newApp.name != '' ? '#BDC1C6' : '#DD3646'
+      );
     }
   }
   callStream() {
     this.service.invoke('get.credential').subscribe(
-      res => {
-      },
-      errRes => {
+      (res) => {},
+      (errRes) => {
         this.errorToaster(errRes, 'Error in creating app');
       }
     );
@@ -625,12 +705,14 @@ export class AppsListingComponent implements OnInit {
     this.filteredApps = [];
     if (type === 'All') {
       this.filteredApps = this.apps;
-    }
-    else if (type === 'My') {
-      this.filteredApps = this.apps.filter(item => item.createdBy === this.userId)
-    }
-    else if (type === 'Shared') {
-      this.filteredApps = this.apps.filter(item => item.createdBy != this.userId)
+    } else if (type === 'My') {
+      this.filteredApps = this.apps.filter(
+        (item) => item.createdBy === this.userId
+      );
+    } else if (type === 'Shared') {
+      this.filteredApps = this.apps.filter(
+        (item) => item.createdBy != this.userId
+      );
     }
   }
   //sort app
@@ -648,17 +730,16 @@ export class AppsListingComponent implements OnInit {
         const D1: any = new Date(a.lastModifiedOn);
         return D2 - D1;
       });
-    }
-    else if (type == 'Alphabetical Order') {
-      this.filteredApps = this.filteredApps.sort((a, b) => a.name.localeCompare(b.name))
-    }
-    else if (type == 'Icon filter') {
+    } else if (type == 'Alphabetical Order') {
+      this.filteredApps = this.filteredApps.sort((a, b) =>
+        a.name.localeCompare(b.name)
+      );
+    } else if (type == 'Icon filter') {
       this.filteredApps = this.filteredApps.sort((a, b) => {
         if (this.order) {
           this.minToMax = false;
-          return a.name.localeCompare(b.name)
-        }
-        else {
+          return a.name.localeCompare(b.name);
+        } else {
           this.minToMax = true;
           return b.name.localeCompare(a.name);
         }
@@ -676,7 +757,7 @@ export class AppsListingComponent implements OnInit {
   focusinSearch(inputSearch) {
     setTimeout(() => {
       document.getElementById(inputSearch).focus();
-    }, 100)
+    }, 100);
   }
   // callStream(){
   //   this.service.invoke('get.credential').subscribe(

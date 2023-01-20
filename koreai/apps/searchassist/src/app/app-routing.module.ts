@@ -1,7 +1,8 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule, PreloadAllModules } from '@angular/router';
-import { AuthGuard } from '@kore.services/auth.guard';
-import { AppDataResolver } from '@kore.services/resolvers/app.data.resolve';
+import { AuthGuard } from './services/auth.guard';
+import { AppDataResolver } from './services/resolvers/app.data.resolve';
+
 // import { AppsListingComponent } from './components/apps-home/apps-home';
 // import { SummaryComponent } from './components/summary/summary.component';
 // import { TraitsComponent } from './components/traits/traits.component';

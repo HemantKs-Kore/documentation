@@ -1,19 +1,17 @@
 import { Component, OnInit, ViewChild, ElementRef, Input } from '@angular/core';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
-import { AuthService } from '@kore.services/auth.service';
-import { KgDataService } from '@kore.services/componentsServices/kg-data.service';
-import { ServiceInvokerService } from '@kore.services/service-invoker.service';
 import { MatChipInputEvent } from '@angular/material/chips';
 import { NotificationService } from '../../../services/notification.service';
-
+import { AuthService } from '@kore.apps/services/auth.service';
+import { KgDataService } from '@kore.apps/services/componentsServices/kg-data.service';
+import { ServiceInvokerService } from '@kore.apps/services/service-invoker.service';
 
 @Component({
   selector: 'app-tags-inp',
   templateUrl: './tags-inp.component.html',
-  styleUrls: ['./tags-inp.component.scss']
+  styleUrls: ['./tags-inp.component.scss'],
 })
-
 export class TagsInpComponent implements OnInit {
   suggestionTags = [];
   typedQuery = '';
@@ -21,17 +19,18 @@ export class TagsInpComponent implements OnInit {
   tags: any[] = [];
   @ViewChild('suggestedInput') suggestedInput: ElementRef<HTMLInputElement>;
   f: any = {
-    question: ''
+    question: '',
   };
   @Input() faqServ: any;
 
-  constructor(private authService: AuthService,
-              private kgService: KgDataService,
-              private service: ServiceInvokerService,
-              private notify: NotificationService) { }
+  constructor(
+    private authService: AuthService,
+    private kgService: KgDataService,
+    private service: ServiceInvokerService,
+    private notify: NotificationService
+  ) {}
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void {}
 
   selectedTag(data: MatAutocompleteSelectedEvent) {
     this.suggestedInput.nativeElement.value = '';
@@ -40,17 +39,19 @@ export class TagsInpComponent implements OnInit {
   }
   getAltTags(e) {
     const payload = {
-      query: this.f.question
-    }
+      query: this.f.question,
+    };
     const params = {
       userId: this.authService.getUserId(),
-      ktId: this.kgService.getKgTaskId()
-    }
-    this.service.invoke('get.possibletags', params, payload).subscribe(res => {
-      this.suggestionTags = res;
-    }, err=> {} )
+      ktId: this.kgService.getKgTaskId(),
+    };
+    this.service.invoke('get.possibletags', params, payload).subscribe(
+      (res) => {
+        this.suggestionTags = res;
+      },
+      (err) => {}
+    );
   }
-
 
   remove(tag): void {
     const index = this.tags.indexOf(tag);
@@ -81,7 +82,6 @@ export class TagsInpComponent implements OnInit {
   }
 
   checkDuplicateTags(suggestion: string = ''): boolean {
-    return this.tags.every(f => f.toLowerCase() !== suggestion.toLowerCase())
+    return this.tags.every((f) => f.toLowerCase() !== suggestion.toLowerCase());
   }
-  
 }

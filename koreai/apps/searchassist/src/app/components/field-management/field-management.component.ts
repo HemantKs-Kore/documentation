@@ -8,8 +8,6 @@ import {
   AfterViewInit,
 } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { NotificationService } from '@kore.services/notification.service';
-import { ServiceInvokerService } from '@kore.services/service-invoker.service';
 import { WorkflowService } from '@kore.services/workflow.service';
 import { ConfirmationDialogComponent } from '../../helpers/components/confirmation-dialog/confirmation-dialog.component';
 import { KRModalComponent } from '../../shared/kr-modal/kr-modal.component';
@@ -25,6 +23,8 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { MixpanelServiceService } from '@kore.services/mixpanel-service.service';
 import { DomSanitizer } from '@angular/platform-browser';
 import { IndexFieldsComfirmationDialogComponent } from '../../helpers/components/index-fields-comfirmation-dialog/index-fields-comfirmation-dialog.component';
+import { NotificationService } from '@kore.apps/services/notification.service';
+import { ServiceInvokerService } from '@kore.apps/services/service-invoker.service';
 
 declare const $: any;
 @Component({
