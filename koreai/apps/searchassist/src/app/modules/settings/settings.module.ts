@@ -7,9 +7,9 @@ import { TranslateModule } from '@ngx-translate/core';
 import { FormsModule } from '@angular/forms';
 import { KrModalModule } from '../../shared/kr-modal/kr-modal.module';
 import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
-import { SharedPipesModule } from '@kore.helpers/filters/shared-pipes.module';
 import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 import { MatDialogModule } from '@angular/material/dialog';
+import { SharedPipesModule } from '@kore.apps/helpers/filters/shared-pipes.module';
 
 @NgModule({
   declarations: [SettingsComponent],
