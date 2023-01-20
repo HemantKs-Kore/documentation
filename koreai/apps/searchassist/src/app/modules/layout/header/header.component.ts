@@ -28,6 +28,7 @@ import { NotificationService } from '@kore.apps/services/notification.service';
 import { AppSelectionService } from '@kore.apps/services/app.selection.service';
 import { MixpanelServiceService } from '@kore.apps/services/mixpanel-service.service';
 import { environment } from 'apps/searchassist/src/environments/environment';
+import { AppUrlsService } from '@kore.apps/services/app.urls.service';
 
 @Component({
   selector: 'app-header',

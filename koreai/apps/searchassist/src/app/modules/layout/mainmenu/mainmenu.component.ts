@@ -18,9 +18,9 @@ import { NotificationService } from '@kore.apps/services/notification.service';
 import { MixpanelServiceService } from '@kore.apps/services/mixpanel-service.service';
 import { KRModalComponent } from '@kore.apps/shared/kr-modal/kr-modal.component';
 import { SideBarService } from '@kore.apps/services/header.service';
-import { DockStatusService } from '@kore.apps/services/dock.status.service';
 import { ConfirmationDialogComponent } from '@kore.apps/helpers/components/confirmation-dialog/confirmation-dialog.component';
 import { UpgradePlanComponent } from '@kore.apps/helpers/components/upgrade-plan/upgrade-plan.component';
+import { DockStatusService } from '@kore.apps/services/dockstatusService/dock-status.service';
 declare const $: any;
 @Component({
   selector: 'app-mainmenu',

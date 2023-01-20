@@ -15,7 +15,11 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "@kore.apps/*": ["apps/searchassist/src/app/*"]
+      "@kore.apps/*": ["apps/searchassist/src/app/*"],
+      "@kore.services/*": ["apps/searchassist/src/app/services/*"],
+      "@kore.environment/*": ["apps/searchassist/src/environments/*"],
+      "@kore.components/*": ["apps/searchassist/src/app/components/*"],
+      "@kore.helpers/*": ["apps/searchassist/src/app/helpers/*"]
     }
   },
   "exclude": ["node_modules", "tmp"]

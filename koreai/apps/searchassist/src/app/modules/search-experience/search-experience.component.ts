@@ -18,6 +18,7 @@ import { AppSelectionService } from '@kore.apps/services/app.selection.service';
 import { InlineManualService } from '@kore.apps/services/inline-manual.service';
 import { WorkflowService } from '@kore.apps/services/workflow.service';
 import { MixpanelServiceService } from '@kore.apps/services/mixpanel-service.service';
+import { AuthService } from '@kore.apps/services/auth.service';
 declare const $: any;
 @Component({
   selector: 'app-search-experience',
