@@ -41,7 +41,7 @@ export class AppSelectionService {
   public inlineManualInfo: any = [];
   public env_dep_type: String = '';
   res_length: number = 0;
-  getTourArray: any = [];
+  getTourArray: any = {};
   private storageType = 'localStorage';
   constructor(
     private workflowService: WorkflowService,
@@ -406,7 +406,7 @@ export class AppSelectionService {
   }
   //get tour congfig data
   getTourConfig() {
-    this.getTourArray = [];
+    this.getTourArray = {};
     const appInfo: any = this.workflowService.selectedApp();
     // console.log("appInfo", appInfo)
     const quaryparms: any = {
@@ -427,42 +427,44 @@ export class AppSelectionService {
   public updateTourConfig(component) {
     let callApi: boolean;
     const appInfo: any = this.workflowService.selectedApp();
-    if (
-      component == 'addData' &&
-      !this.getTourArray.onBoardingChecklist[0].addData
-    ) {
-      this.getTourArray.onBoardingChecklist[0].addData = true;
-      callApi = true;
-    } else if (
-      component == 'indexing' &&
-      !this.getTourArray.onBoardingChecklist[1].indexData
-    ) {
-      this.getTourArray.onBoardingChecklist[1].indexData = true;
-      callApi = true;
-    } else if (
-      component == 'configure' &&
-      !this.getTourArray.onBoardingChecklist[2].optimiseSearchResults
-    ) {
-      this.getTourArray.onBoardingChecklist[2].optimiseSearchResults = true;
-      callApi = true;
-    } else if (
-      component == 'designing' &&
-      !this.getTourArray.onBoardingChecklist[3].designSearchExperience
-    ) {
-      this.getTourArray.onBoardingChecklist[3].designSearchExperience = true;
-      callApi = true;
-    } else if (
-      component == 'test' &&
-      !this.getTourArray.onBoardingChecklist[4].testApp
-    ) {
-      this.getTourArray.onBoardingChecklist[4].testApp = true;
-      callApi = true;
-    } else if (
-      component == 'optimize' &&
-      !this.getTourArray.onBoardingChecklist[5].fineTuneRelevance
-    ) {
-      this.getTourArray.onBoardingChecklist[5].fineTuneRelevance = true;
-      callApi = true;
+    if(this.getTourArray && this.getTourArray.onBoardingChecklist.length){
+      if (
+        component == 'addData' &&
+        !this.getTourArray.onBoardingChecklist[0].addData
+      ) {
+        this.getTourArray.onBoardingChecklist[0].addData = true;
+        callApi = true;
+      } else if (
+        component == 'indexing' &&
+        !this.getTourArray.onBoardingChecklist[1].indexData
+      ) {
+        this.getTourArray.onBoardingChecklist[1].indexData = true;
+        callApi = true;
+      } else if (
+        component == 'configure' &&
+        !this.getTourArray.onBoardingChecklist[2].optimiseSearchResults
+      ) {
+        this.getTourArray.onBoardingChecklist[2].optimiseSearchResults = true;
+        callApi = true;
+      } else if (
+        component == 'designing' &&
+        !this.getTourArray.onBoardingChecklist[3].designSearchExperience
+      ) {
+        this.getTourArray.onBoardingChecklist[3].designSearchExperience = true;
+        callApi = true;
+      } else if (
+        component == 'test' &&
+        !this.getTourArray.onBoardingChecklist[4].testApp
+      ) {
+        this.getTourArray.onBoardingChecklist[4].testApp = true;
+        callApi = true;
+      } else if (
+        component == 'optimize' &&
+        !this.getTourArray.onBoardingChecklist[5].fineTuneRelevance
+      ) {
+        this.getTourArray.onBoardingChecklist[5].fineTuneRelevance = true;
+        callApi = true;
+      }
     }
 
     if (callApi) {

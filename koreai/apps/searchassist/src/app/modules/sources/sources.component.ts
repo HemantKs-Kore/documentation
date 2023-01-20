@@ -1249,8 +1249,10 @@ export class SourcesComponent implements OnInit {
             'Files uploaded successfully',
             'success'
           );
-          // this.addSourceModalPopRef.close();
-          this.cancleSourceAddition();
+         // this.addSourceModalPopRef.close();
+          //this.cancleSourceAddition();
+          this.openStatusModal(); // if confirmation is Required for multiple File
+          //this.closeStatusModal(); // if confirmation not Required for multiple File
         },
         (errRes) => {
           this.fileObj.fileUploadInProgress = false;
