@@ -1,9 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
-import { AuthService } from '@kore.services/auth.service';
 import { NotificationService } from '../../services/notification.service';
-import { ServiceInvokerService } from '@kore.services/service-invoker.service';
-import { WorkflowService } from '@kore.services/workflow.service';
 import { KRModalComponent } from '../../shared/kr-modal/kr-modal.component';
 import { MatDialog } from '@angular/material/dialog';
 import { ConfirmationDialogComponent } from '../../helpers/components/confirmation-dialog/confirmation-dialog.component';
@@ -18,6 +15,9 @@ import { OnboardingComponentComponent } from '../../components/onboarding-compon
 import { SliderComponentComponent } from '../../shared/slider-component/slider-component.component';
 import * as moment from 'moment';
 import { EMPTY_SCREEN } from '../../modules/empty-screen/empty-screen.constants';
+import { AuthService } from '@kore.apps/services/auth.service';
+import { ServiceInvokerService } from '@kore.apps/services/service-invoker.service';
+import { WorkflowService } from '@kore.apps/services/workflow.service';
 @Component({
   selector: 'app-structured-data',
   templateUrl: './structured-data.component.html',

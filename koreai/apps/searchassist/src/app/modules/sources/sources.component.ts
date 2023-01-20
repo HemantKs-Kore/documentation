@@ -8,11 +8,8 @@ import {
   Output,
   EventEmitter,
 } from '@angular/core';
-import { ServiceInvokerService } from '@kore.services/service-invoker.service';
-import { WorkflowService } from '@kore.services/workflow.service';
 import { SliderComponentComponent } from '../../shared/slider-component/slider-component.component';
 import { KRModalComponent } from '../../shared/kr-modal/kr-modal.component';
-import { AuthService } from '@kore.services/auth.service';
 import { fadeInOutAnimation } from '../../helpers/animations/animations';
 import { NotificationService } from '../../services/notification.service';
 import { Router, ActivatedRoute } from '@angular/router';
@@ -30,14 +27,17 @@ import {
 import { MatDialog } from '@angular/material/dialog';
 //import { DockStatusService } from '../../services/dock.status.service';
 import { DockStatusService } from '../../services/dockstatusService/dock-status.service';
-import { AppSelectionService } from '@kore.services/app.selection.service';
-import { InlineManualService } from '@kore.services/inline-manual.service';
-import { UpgradePlanComponent } from '../../helpers/components/upgrade-plan/upgrade-plan.component';
 import { PerfectScrollbarComponent } from 'ngx-perfect-scrollbar';
-import { MixpanelServiceService } from '@kore.services/mixpanel-service.service';
 import { SchedulerComponent } from '../../components/scheduler/scheduler.component';
-import { RangySelectionService } from '@kore.components/annotool/services/rangy-selection.service';
-import { PdfAnnotationComponent } from '@kore.components/annotool/components/pdf-annotation/pdf-annotation.component';
+import { ServiceInvokerService } from '@kore.apps/services/service-invoker.service';
+import { WorkflowService } from '@kore.apps/services/workflow.service';
+import { AuthService } from '@kore.apps/services/auth.service';
+import { AppSelectionService } from '@kore.apps/services/app.selection.service';
+import { UpgradePlanComponent } from '@kore.apps/helpers/components/upgrade-plan/upgrade-plan.component';
+import { InlineManualService } from '@kore.apps/services/inline-manual.service';
+import { MixpanelServiceService } from '@kore.apps/services/mixpanel-service.service';
+import { RangySelectionService } from '@kore.apps/components/annotool/services/rangy-selection.service';
+import { PdfAnnotationComponent } from '@kore.apps/components/annotool/components/pdf-annotation/pdf-annotation.component';
 
 @Component({
   selector: 'app-sources',
@@ -1249,7 +1249,7 @@ export class SourcesComponent implements OnInit {
             'Files uploaded successfully',
             'success'
           );
-         // this.addSourceModalPopRef.close();
+          // this.addSourceModalPopRef.close();
           //this.cancleSourceAddition();
           this.openStatusModal(); // if confirmation is Required for multiple File
           //this.closeStatusModal(); // if confirmation not Required for multiple File

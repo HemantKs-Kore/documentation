@@ -1,17 +1,17 @@
 import { Component, OnInit, Inject, ViewChild } from '@angular/core';
-import { LocalStoreService } from '@kore.services/localstore.service';
-import { ServiceInvokerService } from '@kore.services/service-invoker.service';
-import { WorkflowService } from '@kore.services/workflow.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { KRModalComponent } from '../../shared/kr-modal/kr-modal.component';
-import { NotificationService } from '@kore.services/notification.service';
-import { SideBarService } from '@kore.services/header.service';
-import { AppSelectionService } from '@kore.services/app.selection.service';
-import { AuthService } from '@kore.services/auth.service';
-import { InlineManualService } from '@kore.services/inline-manual.service';
-import { MixpanelServiceService } from '@kore.services/mixpanel-service.service';
 // import { AppHeaderComponent } from '../app-header/app-header.component';
 import { EMPTY_SCREEN } from '../../modules/empty-screen/empty-screen.constants';
+import { LocalStoreService } from '@kore.apps/services/localstore.service';
+import { ServiceInvokerService } from '@kore.apps/services/service-invoker.service';
+import { WorkflowService } from '@kore.apps/services/workflow.service';
+import { NotificationService } from '@kore.apps/services/notification.service';
+import { SideBarService } from '@kore.apps/services/header.service';
+import { AppSelectionService } from '@kore.apps/services/app.selection.service';
+import { AuthService } from '@kore.apps/services/auth.service';
+import { InlineManualService } from '@kore.apps/services/inline-manual.service';
+import { MixpanelServiceService } from '@kore.apps/services/mixpanel-service.service';
 declare const $: any;
 declare const PureJSCarousel: any;
 @Component({

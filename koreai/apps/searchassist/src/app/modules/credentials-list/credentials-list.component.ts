@@ -1,15 +1,15 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { KRModalComponent } from '../../shared/kr-modal/kr-modal.component';
-import { WorkflowService } from '@kore.services/workflow.service';
-import { ServiceInvokerService } from '@kore.services/service-invoker.service';
-import { NotificationService } from '@kore.services/notification.service';
 import { ActivatedRoute } from '@angular/router';
-import { AuthService } from '@kore.services/auth.service';
 import { ConfirmationDialogComponent } from '../../helpers/components/confirmation-dialog/confirmation-dialog.component';
 import * as moment from 'moment';
 import { MatDialog } from '@angular/material/dialog';
-import { AppSelectionService } from '@kore.services/app.selection.service';
 import { EMPTY_SCREEN } from '../../modules/empty-screen/empty-screen.constants';
+import { WorkflowService } from '@kore.apps/services/workflow.service';
+import { ServiceInvokerService } from '@kore.apps/services/service-invoker.service';
+import { NotificationService } from '@kore.apps/services/notification.service';
+import { AuthService } from '@kore.apps/services/auth.service';
+import { AppSelectionService } from '@kore.apps/services/app.selection.service';
 
 declare const $: any;
 @Component({

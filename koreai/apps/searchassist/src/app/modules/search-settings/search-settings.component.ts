@@ -1,15 +1,15 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { KRModalComponent } from '../../shared/kr-modal/kr-modal.component';
-import { WorkflowService } from '@kore.services/workflow.service';
-import { AppSelectionService } from '@kore.services/app.selection.service';
 import { of, interval, Subject, Subscription } from 'rxjs';
 import {
   PerfectScrollbarComponent,
   PerfectScrollbarDirective,
 } from 'ngx-perfect-scrollbar';
-import { NotificationService } from '@kore.services/notification.service';
-import { ServiceInvokerService } from '@kore.services/service-invoker.service';
 import { Router } from '@angular/router';
+import { WorkflowService } from '@kore.apps/services/workflow.service';
+import { AppSelectionService } from '@kore.apps/services/app.selection.service';
+import { NotificationService } from '@kore.apps/services/notification.service';
+import { ServiceInvokerService } from '@kore.apps/services/service-invoker.service';
 
 @Component({
   selector: 'app-search-settings',

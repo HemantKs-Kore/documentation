@@ -1,5 +1,12 @@
-import { Component, OnInit,Input, Output, EventEmitter, OnChanges } from '@angular/core';
-import { NotificationService } from '@kore.services/notification.service';
+import {
+  Component,
+  OnInit,
+  Input,
+  Output,
+  EventEmitter,
+  OnChanges,
+} from '@angular/core';
+import { NotificationService } from '@kore.apps/services/notification.service';
 
 @Component({
   selector: 'app-custom-config-form',
@@ -10,12 +17,10 @@ export class CustomConfigFormComponent implements OnInit, OnChanges {
   @Input() formData;
   @Output() onFormSubmit = new EventEmitter();
   isEditing = false;
-  constructor(
-    public notificationService: NotificationService,
-  ) { }
+  constructor(public notificationService: NotificationService) {}
 
   ngOnInit(): void {
-    this.formData = {key: '', value: ''};
+    this.formData = { key: '', value: '' };
   }
 
   ngOnChanges(changes) {
@@ -24,15 +29,21 @@ export class CustomConfigFormComponent implements OnInit, OnChanges {
   }
 
   //**submit the form */
-  submitForm(customConfigForm) { 
+  submitForm(customConfigForm) {
     if (customConfigForm.invalid) {
       // show alert
       console.log('ERR');
-      this.notificationService.notify('Please enter the required fields to proceed', 'error');
+      this.notificationService.notify(
+        'Please enter the required fields to proceed',
+        'error'
+      );
       return;
-    } 
+    }
     if (this.formData._id) {
-      this.onFormSubmit.emit({_id: this.formData._id, ...customConfigForm.value });
+      this.onFormSubmit.emit({
+        _id: this.formData._id,
+        ...customConfigForm.value,
+      });
     } else {
       this.onFormSubmit.emit(customConfigForm.value);
     }

@@ -1,13 +1,13 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Router } from '@angular/router';
-import { AppSelectionService } from '@kore.services/app.selection.service';
-import { ParentBridgeService } from '@kore.services/parent-bridge.service';
-import { NotificationService } from '@kore.services/notification.service';
-import { ServiceInvokerService } from '@kore.services/service-invoker.service';
 import { Subscription } from 'rxjs';
 import { environment } from '../../../environments/environment';
 import { SafePipe } from '../../shared/pipes/safe.pipe';
 import { SafeResourceUrl } from '@angular/platform-browser';
+import { AppSelectionService } from '@kore.apps/services/app.selection.service';
+import { ParentBridgeService } from '@kore.apps/services/parent-bridge.service';
+import { NotificationService } from '@kore.apps/services/notification.service';
+import { ServiceInvokerService } from '@kore.apps/services/service-invoker.service';
 declare const $: any;
 
 @Component({

@@ -6,20 +6,20 @@ import {
   OnDestroy,
 } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { NotificationService } from '@kore.services/notification.service';
-import { ServiceInvokerService } from '@kore.services/service-invoker.service';
-import { WorkflowService } from '@kore.services/workflow.service';
-import { AuthService } from '@kore.services/auth.service';
 import * as _ from 'underscore';
-import { AppSelectionService } from '@kore.services/app.selection.service';
 import { of, interval, Subject, Subscription } from 'rxjs';
 import { PerfectScrollbarComponent } from 'ngx-perfect-scrollbar';
 import { nanoid } from 'nanoid';
 import { Router, ActivatedRoute } from '@angular/router';
-import { MixpanelServiceService } from '@kore.services/mixpanel-service.service';
-import { ConfirmationDialogComponent } from '@kore.helpers/components/confirmation-dialog/confirmation-dialog.component';
 import { KRModalComponent } from '../../shared/kr-modal/kr-modal.component';
 import { EMPTY_SCREEN } from '../empty-screen/empty-screen.constants';
+import { NotificationService } from '@kore.apps/services/notification.service';
+import { ServiceInvokerService } from '@kore.apps/services/service-invoker.service';
+import { WorkflowService } from '@kore.apps/services/workflow.service';
+import { AuthService } from '@kore.apps/services/auth.service';
+import { AppSelectionService } from '@kore.apps/services/app.selection.service';
+import { MixpanelServiceService } from '@kore.apps/services/mixpanel-service.service';
+import { ConfirmationDialogComponent } from '@kore.apps/helpers/components/confirmation-dialog/confirmation-dialog.component';
 
 declare const $: any;
 @Component({

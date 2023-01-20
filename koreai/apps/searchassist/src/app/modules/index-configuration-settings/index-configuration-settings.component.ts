@@ -1,16 +1,16 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { KRModalComponent } from '../../shared/kr-modal/kr-modal.component';
 import { PerfectScrollbarComponent } from 'ngx-perfect-scrollbar';
-import { ServiceInvokerService } from '@kore.services/service-invoker.service';
-import { NotificationService } from '@kore.services/notification.service';
-import { AppSelectionService } from '@kore.services/app.selection.service';
-import { WorkflowService } from '@kore.services/workflow.service';
 import { interval, Subscription } from 'rxjs';
 import { ConfirmationDialogComponent } from '../../helpers/components/confirmation-dialog/confirmation-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
 import { DockStatusService } from '../../services/dockstatusService/dock-status.service';
 import { startWith } from 'rxjs/operators';
 import * as _ from 'underscore';
+import { ServiceInvokerService } from '@kore.apps/services/service-invoker.service';
+import { NotificationService } from '@kore.apps/services/notification.service';
+import { AppSelectionService } from '@kore.apps/services/app.selection.service';
+import { WorkflowService } from '@kore.apps/services/workflow.service';
 
 declare const $: any;
 @Component({

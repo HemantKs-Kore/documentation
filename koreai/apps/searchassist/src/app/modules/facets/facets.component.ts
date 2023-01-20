@@ -6,17 +6,17 @@ import {
   ViewChild,
 } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { NotificationService } from '@kore.services/notification.service';
-import { ServiceInvokerService } from '@kore.services/service-invoker.service';
-import { WorkflowService } from '@kore.services/workflow.service';
 import { ConfirmationDialogComponent } from '../../helpers/components/confirmation-dialog/confirmation-dialog.component';
 import { KRModalComponent } from '../../shared/kr-modal/kr-modal.component';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import * as _ from 'underscore';
-import { AppSelectionService } from '@kore.services/app.selection.service';
 import { Subscription } from 'rxjs/internal/Subscription';
-import { InlineManualService } from '@kore.services/inline-manual.service';
 import { PerfectScrollbarComponent } from 'ngx-perfect-scrollbar';
+import { NotificationService } from '@kore.apps/services/notification.service';
+import { WorkflowService } from '@kore.apps/services/workflow.service';
+import { ServiceInvokerService } from '@kore.apps/services/service-invoker.service';
+import { AppSelectionService } from '@kore.apps/services/app.selection.service';
+import { InlineManualService } from '@kore.apps/services/inline-manual.service';
 declare const $: any;
 @Component({
   selector: 'app-facets',

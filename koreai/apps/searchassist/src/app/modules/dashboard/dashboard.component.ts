@@ -5,17 +5,17 @@ import {
   ElementRef,
   OnDestroy,
 } from '@angular/core';
-import { WorkflowService } from '@kore.services/workflow.service';
-import { ServiceInvokerService } from '@kore.services/service-invoker.service';
-import { AppSelectionService } from '@kore.services/app.selection.service'; //imported on 17/01
-import { NotificationService } from '@kore.services/notification.service';
 import { EChartOption } from 'echarts';
 import { Router } from '@angular/router';
 import { Moment } from 'moment';
 import * as moment from 'moment-timezone';
 import { DaterangepickerDirective } from 'ngx-daterangepicker-material';
 import { Subscription } from 'rxjs';
-import { SideBarService } from '@kore.services/header.service';
+import { WorkflowService } from '@kore.apps/services/workflow.service';
+import { ServiceInvokerService } from '@kore.apps/services/service-invoker.service';
+import { AppSelectionService } from '@kore.apps/services/app.selection.service';
+import { NotificationService } from '@kore.apps/services/notification.service';
+import { SideBarService } from '@kore.apps/services/header.service';
 
 declare const $: any;
 @Component({

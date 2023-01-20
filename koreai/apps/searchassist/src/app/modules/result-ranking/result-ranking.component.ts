@@ -1,16 +1,16 @@
 import { EMPTY_SCREEN } from './../../modules/empty-screen/empty-screen.constants';
 import { Component, NgZone, OnDestroy, OnInit } from '@angular/core';
-import { WorkflowService } from '@kore.services/workflow.service';
-import { ServiceInvokerService } from '@kore.services/service-invoker.service';
-import { NotificationService } from '@kore.services/notification.service';
-import { AppSelectionService } from '@kore.services/app.selection.service';
 import { Moment } from 'moment';
 import * as moment from 'moment';
 import { ConfirmationDialogComponent } from '../../helpers/components/confirmation-dialog/confirmation-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
 import { Subscription } from 'rxjs';
-import { SideBarService } from '@kore.services/header.service';
-import { InlineManualService } from '@kore.services/inline-manual.service';
+import { WorkflowService } from '@kore.apps/services/workflow.service';
+import { ServiceInvokerService } from '@kore.apps/services/service-invoker.service';
+import { NotificationService } from '@kore.apps/services/notification.service';
+import { AppSelectionService } from '@kore.apps/services/app.selection.service';
+import { InlineManualService } from '@kore.apps/services/inline-manual.service';
+import { SideBarService } from '@kore.apps/services/header.service';
 declare const $: any;
 
 @Component({

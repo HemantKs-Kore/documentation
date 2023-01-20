@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { SideBarService } from '@kore.services/header.service';
-import { WorkflowService } from '@kore.services/workflow.service';
-import { ServiceInvokerService } from '@kore.services/service-invoker.service';
-import { NotificationService } from '@kore.services/notification.service';
 import { fadeInOutAnimation } from '../../helpers/animations/animations';
-import { AuthService } from '@kore.services/auth.service';
 import { Router } from '@angular/router';
+import { SideBarService } from '@kore.apps/services/header.service';
+import { WorkflowService } from '@kore.apps/services/workflow.service';
+import { ServiceInvokerService } from '@kore.apps/services/service-invoker.service';
+import { NotificationService } from '@kore.apps/services/notification.service';
+import { AuthService } from '@kore.apps/services/auth.service';
 declare const $: any;
 
 @Component({

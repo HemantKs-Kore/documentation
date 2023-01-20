@@ -1,21 +1,21 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { AppSelectionService } from '@kore.services/app.selection.service';
-import { SideBarService } from '@kore.services/header.service';
-import { InlineManualService } from '@kore.services/inline-manual.service';
-import { NotificationService } from '@kore.services/notification.service';
-import { ServiceInvokerService } from '@kore.services/service-invoker.service';
-import { WorkflowService } from '@kore.services/workflow.service';
 import { KRModalComponent } from '../../shared/kr-modal/kr-modal.component';
 import { Subscription } from 'rxjs';
 import { ConfirmationDialogComponent } from '../../helpers/components/confirmation-dialog/confirmation-dialog.component';
 import * as moment from 'moment';
-import { LocalStoreService } from '@kore.services/localstore.service';
+import { AppSelectionService } from '@kore.apps/services/app.selection.service';
+import { SideBarService } from '@kore.apps/services/header.service';
+import { InlineManualService } from '@kore.apps/services/inline-manual.service';
+import { NotificationService } from '@kore.apps/services/notification.service';
+import { ServiceInvokerService } from '@kore.apps/services/service-invoker.service';
+import { WorkflowService } from '@kore.apps/services/workflow.service';
+import { LocalStoreService } from '@kore.apps/services/localstore.service';
 declare const $: any;
 @Component({
   selector: 'app-result-templates',
   templateUrl: './result-templates.component.html',
-  styleUrls: ['./result-templates.component.scss']
+  styleUrls: ['./result-templates.component.scss'],
 })
 export class ResultTemplatesComponent implements OnInit {
   customModalRef: any;
@@ -25,7 +25,7 @@ export class ResultTemplatesComponent implements OnInit {
   copyConfigObj: any = { loader: false, message: '' };
   serachIndexId: any;
   indexPipelineId: any;
-  queryPipelineId : any;
+  queryPipelineId: any;
   allFieldData: any;
   preview_title: any = '';
   preview_desc: any = '';
@@ -44,32 +44,32 @@ export class ResultTemplatesComponent implements OnInit {
   groupname: any = '';
   templateDataBind: any = {
     layout: {
-      behaviour: "webpage",
+      behaviour: 'webpage',
       isClickable: true,
-      layoutType: "l1",
-      listType: "classic",
+      layoutType: 'l1',
+      listType: 'classic',
       renderTitle: true,
-      textAlignment: "left",
-      title: "Web Pages",
+      textAlignment: 'left',
+      title: 'Web Pages',
     },
     mapping: {
-      description: "",
-      description1: "",
-      label1: "",
-      label2: "",
-      rateField: "",
-      strikedOffRate: "",
-      heading: "",
-      img: "",
-      url: "",
-      searchIndexId: "",
-      icon: "",
-      textField1: "",
-      textField2: "",
-      chips: "",
-      rating: ""
+      description: '',
+      description1: '',
+      label1: '',
+      label2: '',
+      rateField: '',
+      strikedOffRate: '',
+      heading: '',
+      img: '',
+      url: '',
+      searchIndexId: '',
+      icon: '',
+      textField1: '',
+      textField2: '',
+      chips: '',
+      rating: '',
     },
-    type: ''
+    type: '',
   };
   templateFieldValidateObj = {
     heading: true,
@@ -85,8 +85,8 @@ export class ResultTemplatesComponent implements OnInit {
     textField1: true,
     textField2: true,
     chips: true,
-    rating: true
-  }
+    rating: true,
+  };
   customtemplateBtndisable: boolean = false;
   heading_fieldData: any;
   desc_fieldData: any;
@@ -114,17 +114,22 @@ export class ResultTemplatesComponent implements OnInit {
   selectedTab: string = 'fullSearch';
   selectedTemplateName: string;
   postback: string = '';
-  tabList: any = [{ id: "liveSearch", name: "Live Search" }, { id: "conversationalSearch", name: "Conversational Search" }, { id: "fullSearch", name: "Full Page Result" }]
+  tabList: any = [
+    { id: 'liveSearch', name: 'Live Search' },
+    { id: 'conversationalSearch', name: 'Conversational Search' },
+    { id: 'fullSearch', name: 'Full Page Result' },
+  ];
   resultListObj: any = {
     facetsSetting: {
       aligned: 'left',
-      enabled: true
+      enabled: true,
     },
     groupResults: false,
     groupSetting: {
-      fieldId: '', fieldName: '',
-      conditions: []
-    }
+      fieldId: '',
+      fieldName: '',
+      conditions: [],
+    },
   };
   fieldValues: any;
   settingsId: string;
@@ -133,19 +138,24 @@ export class ResultTemplatesComponent implements OnInit {
   tabData: any;
   templateNames: any = ['list', 'carousel', 'grid'];
 
-  filterFacets: any = [{ name: 'Left Aligned', type: 'left' }, { name: 'Right Aligned', type: 'right' }, { name: 'Top Aligned', type: 'top' }]
+  filterFacets: any = [
+    { name: 'Left Aligned', type: 'left' },
+    { name: 'Right Aligned', type: 'right' },
+    { name: 'Top Aligned', type: 'top' },
+  ];
   @ViewChild('customModal') customModal: KRModalComponent;
   @ViewChild('templateModal') templateModal: KRModalComponent;
 
-  constructor(public workflowService: WorkflowService,
+  constructor(
+    public workflowService: WorkflowService,
     private service: ServiceInvokerService,
     private notificationService: NotificationService,
     private appSelectionService: AppSelectionService,
     public dialog: MatDialog,
     public headerService: SideBarService,
     public inlineManual: InlineManualService,
-    public localstore: LocalStoreService,
-  ) { }
+    public localstore: LocalStoreService
+  ) {}
 
   ngOnInit(): void {
     //Initializing Id's
@@ -157,29 +167,36 @@ export class ResultTemplatesComponent implements OnInit {
     // this.subscription = this.appSelectionService.appSelectedConfigs.subscribe(res => {
     //   this.loadFiledsData();
     // })
-    this.subscription = this.appSelectionService.queryConfigSelected.subscribe(res => {
-      this.indexPipelineId = this.workflowService.selectedIndexPipeline();
-      this.queryPipelineId = this.workflowService.selectedQueryPipeline() ? this.workflowService.selectedQueryPipeline()._id : ''
-      this.loadFiledsData();
-    })
+    this.subscription = this.appSelectionService.queryConfigSelected.subscribe(
+      (res) => {
+        this.indexPipelineId = this.workflowService.selectedIndexPipeline();
+        this.queryPipelineId = this.workflowService.selectedQueryPipeline()
+          ? this.workflowService.selectedQueryPipeline()._id
+          : '';
+        this.loadFiledsData();
+      }
+    );
     this.searchExperienceConfig = this.headerService.searchConfiguration;
-    this.searchConfigurationSubscription = this.headerService.savedSearchConfiguration.subscribe((res) => {
-      this.searchExperienceConfig = res;
-      this.loadFiledsData();
-      this.updateResultTemplateTabsAccess();
-    });
+    this.searchConfigurationSubscription =
+      this.headerService.savedSearchConfiguration.subscribe((res) => {
+        this.searchExperienceConfig = res;
+        this.loadFiledsData();
+        this.updateResultTemplateTabsAccess();
+      });
     this.updateResultTemplateTabsAccess();
     /** Inline Not yet Registered */
     if (!this.inlineManual.checkVisibility('RESULT_TEMPLATE') && false) {
-      this.inlineManual.openHelp('RESULT_TEMPLATE')
-      this.inlineManual.visited('RESULT_TEMPLATE')
+      this.inlineManual.openHelp('RESULT_TEMPLATE');
+      this.inlineManual.visited('RESULT_TEMPLATE');
     }
   }
 
   loadFiledsData() {
     this.indexPipelineId = this.workflowService.selectedIndexPipeline();
     if (this.indexPipelineId) {
-      this.queryPipelineId = this.workflowService.selectedQueryPipeline() ? this.workflowService.selectedQueryPipeline()._id : this.selectedApp.searchIndexes[0].queryPipelineId;
+      this.queryPipelineId = this.workflowService.selectedQueryPipeline()
+        ? this.workflowService.selectedQueryPipeline()._id
+        : this.selectedApp.searchIndexes[0].queryPipelineId;
       this.getFieldAutoComplete();
       // this.getAllSettings(this.selectedTab)
     }
@@ -198,43 +215,46 @@ export class ResultTemplatesComponent implements OnInit {
     //   indexPipelineId: this.indexPipelineId,
     //   query
     // };
-   // const url = 'get.getFieldAutocomplete';
-    const url = 'get.presentableFields'
+    // const url = 'get.getFieldAutocomplete';
+    const url = 'get.presentableFields';
     const quaryparms: any = {
-      isSelected:true,
-      sortField: "fieldName",
+      isSelected: true,
+      sortField: 'fieldName',
       orderType: 'asc', //desc,
-      indexPipelineId:this.indexPipelineId,
-      streamId:this.selectedApp._id,
-      queryPipelineId:this.queryPipelineId,
-      searchKey:''
+      indexPipelineId: this.indexPipelineId,
+      streamId: this.selectedApp._id,
+      queryPipelineId: this.queryPipelineId,
+      searchKey: '',
     };
-    this.service.invoke(url, quaryparms).subscribe(res => {
-      this.heading_fieldData = [...res.data];
-      this.desc_fieldData = [...res.data];
-      this.desc_fieldData1 = [...res.data];
-      this.label1_fieldData = [...res.data];
-      this.label2_fieldData = [...res.data];
-      this.rate_fieldData = [...res.data];
-      this.Strikedrate_fieldData = [...res.data];
-      this.img_fieldData = [...res.data];
-      this.url_fieldData = [...res.data];
-      this.icon_fieldData = [...res.data];
-      this.textField1_fieldData = [...res.data];
-      this.textField2_fieldData = [...res.data];
-      this.chips_fieldData = [...res.data];
-      this.rating_fieldData = [...res.data];
-      this.fieldData = [...res.data];
-      this.allFieldData = res;
-      // console.log('Field Data ....', res)
-    }, errRes => {
-      this.errorToaster(errRes, 'Failed to get fields');
-    });
+    this.service.invoke(url, quaryparms).subscribe(
+      (res) => {
+        this.heading_fieldData = [...res.data];
+        this.desc_fieldData = [...res.data];
+        this.desc_fieldData1 = [...res.data];
+        this.label1_fieldData = [...res.data];
+        this.label2_fieldData = [...res.data];
+        this.rate_fieldData = [...res.data];
+        this.Strikedrate_fieldData = [...res.data];
+        this.img_fieldData = [...res.data];
+        this.url_fieldData = [...res.data];
+        this.icon_fieldData = [...res.data];
+        this.textField1_fieldData = [...res.data];
+        this.textField2_fieldData = [...res.data];
+        this.chips_fieldData = [...res.data];
+        this.rating_fieldData = [...res.data];
+        this.fieldData = [...res.data];
+        this.allFieldData = res;
+        // console.log('Field Data ....', res)
+      },
+      (errRes) => {
+        this.errorToaster(errRes, 'Failed to get fields');
+      }
+    );
   }
   /** Field Selection */
   filedSelect(type, field) {
     if (type == 'heading') {
-      this.templateDataBind.mapping.heading = field._id
+      this.templateDataBind.mapping.heading = field._id;
       this.preview_title = field.fieldName;
       this.heading_fieldData = [...this.allFieldData];
       this.templateFieldValidateObj.heading = true;
@@ -268,14 +288,12 @@ export class ResultTemplatesComponent implements OnInit {
       this.preview_StrikedrateFiled = field.fieldName;
       this.Strikedrate_fieldData = [...this.allFieldData];
       this.templateFieldValidateObj.strikedOffRate = true;
-    }
-    else if (type == 'rating') {
+    } else if (type == 'rating') {
       this.templateDataBind.mapping.rating = field._id;
       this.preview_rating = field.fieldName;
       this.rating_fieldData = [...this.allFieldData];
       this.templateFieldValidateObj.rating = true;
-    }
-    else if (type == 'image') {
+    } else if (type == 'image') {
       this.templateDataBind.mapping.img = field._id;
       this.preview_img = field.fieldName;
       this.img_fieldData = [...this.allFieldData];
@@ -308,12 +326,12 @@ export class ResultTemplatesComponent implements OnInit {
     }
   }
   searchlist(type, valToSearch, filedData) {
-    let data = []
-    filedData.filter(element => {
+    let data = [];
+    filedData.filter((element) => {
       var filedNamelower = element.fieldName.toLocaleLowerCase();
       var valToSearchlower = valToSearch.toLocaleLowerCase();
       if (filedNamelower.includes(valToSearchlower)) {
-        data.push(element)
+        data.push(element);
       }
     });
     // filedData.filter(element => {
@@ -323,80 +341,91 @@ export class ResultTemplatesComponent implements OnInit {
     // });
     if (valToSearch) {
       if (type == 'heading') {
-        this.heading_fieldData = [...data]
+        this.heading_fieldData = [...data];
       } else if (type == 'description') {
-        this.desc_fieldData = [...data]
+        this.desc_fieldData = [...data];
       } else if (type == 'description1') {
-        this.desc_fieldData1 = [...data]
+        this.desc_fieldData1 = [...data];
       } else if (type == 'label1') {
-        this.label1_fieldData = [...data]
+        this.label1_fieldData = [...data];
       } else if (type == 'label2') {
-        this.label2_fieldData = [...data]
+        this.label2_fieldData = [...data];
       } else if (type == 'rateField') {
-        this.rate_fieldData = [...data]
+        this.rate_fieldData = [...data];
       } else if (type == 'strikedOffRate') {
-        this.Strikedrate_fieldData = [...data]
+        this.Strikedrate_fieldData = [...data];
       } else if (type == 'image') {
-        this.img_fieldData = [...data]
+        this.img_fieldData = [...data];
       } else if (type == 'url') {
-        this.url_fieldData = [...data]
+        this.url_fieldData = [...data];
       } else if (type == 'icon') {
-        this.icon_fieldData = [...data]
+        this.icon_fieldData = [...data];
       } else if (type == 'textField1') {
-        this.textField1_fieldData = [...data]
+        this.textField1_fieldData = [...data];
       } else if (type == 'textField2') {
-        this.textField2_fieldData = [...data]
+        this.textField2_fieldData = [...data];
       } else if (type == 'chips') {
-        this.chips_fieldData = [...data]
+        this.chips_fieldData = [...data];
       } else if (type == 'rating') {
-        this.rating_fieldData = [...data]
+        this.rating_fieldData = [...data];
       }
     } else {
       if (type == 'heading') {
-        this.heading_fieldData = [...filedData]
+        this.heading_fieldData = [...filedData];
       } else if (type == 'description1') {
-        this.desc_fieldData1 = [...filedData]
+        this.desc_fieldData1 = [...filedData];
       } else if (type == 'label1') {
-        this.label1_fieldData = [...filedData]
+        this.label1_fieldData = [...filedData];
       } else if (type == 'label2') {
-        this.label2_fieldData = [...filedData]
+        this.label2_fieldData = [...filedData];
       } else if (type == 'rateField') {
-        this.rate_fieldData = [...filedData]
+        this.rate_fieldData = [...filedData];
       } else if (type == 'strikedOffRate') {
-        this.Strikedrate_fieldData = [...filedData]
+        this.Strikedrate_fieldData = [...filedData];
       } else if (type == 'description') {
-        this.desc_fieldData = [...filedData]
+        this.desc_fieldData = [...filedData];
       } else if (type == 'image') {
-        this.img_fieldData = [...filedData]
+        this.img_fieldData = [...filedData];
       } else if (type == 'url') {
-        this.url_fieldData = [...filedData]
+        this.url_fieldData = [...filedData];
       } else if (type == 'icon') {
-        this.icon_fieldData = [...filedData]
+        this.icon_fieldData = [...filedData];
       } else if (type == 'textField1') {
-        this.textField1_fieldData = [...filedData]
+        this.textField1_fieldData = [...filedData];
       } else if (type == 'textField2') {
-        this.textField2_fieldData = [...filedData]
+        this.textField2_fieldData = [...filedData];
       } else if (type == 'chips') {
-        this.chips_fieldData = [...filedData]
+        this.chips_fieldData = [...filedData];
       } else if (type == 'rating') {
-        this.rating_fieldData = [...filedData]
+        this.rating_fieldData = [...filedData];
       }
     }
-
   }
   /** Chat SDK approach and by-default Data */
   updateResultTemplateTabsAccess() {
     // console.log("searchExperienceConfig", this.searchExperienceConfig)
-    if (this.searchExperienceConfig && Object.values(this.searchExperienceConfig).length) {
-      if (this.searchExperienceConfig && this.searchExperienceConfig.experienceConfig && this.searchExperienceConfig.experienceConfig.searchBarPosition) {
-        this.searchTemplatesDisabled = this.searchExperienceConfig.experienceConfig.searchBarPosition === 'top' ? true : false;
+    if (
+      this.searchExperienceConfig &&
+      Object.values(this.searchExperienceConfig).length
+    ) {
+      if (
+        this.searchExperienceConfig &&
+        this.searchExperienceConfig.experienceConfig &&
+        this.searchExperienceConfig.experienceConfig.searchBarPosition
+      ) {
+        this.searchTemplatesDisabled =
+          this.searchExperienceConfig.experienceConfig.searchBarPosition ===
+          'top'
+            ? true
+            : false;
         this.getAllSettings(this.selectedTab);
         if (this.searchTemplatesDisabled) {
-          this.filterFacets = this.filterFacets.filter(res => res.type !== 'right');
+          this.filterFacets = this.filterFacets.filter(
+            (res) => res.type !== 'right'
+          );
         }
       }
-    }
-    else {
+    } else {
       this.searchTemplatesDisabled = false;
     }
   }
@@ -405,21 +434,27 @@ export class ResultTemplatesComponent implements OnInit {
     const quaryparms: any = {
       searchIndexId: this.serachIndexId,
       indexPipelineId: this.indexPipelineId,
-      queryPipelineId : this.queryPipelineId,
-      interface: setting
+      queryPipelineId: this.queryPipelineId,
+      interface: setting,
     };
-    this.service.invoke('get.settingsByInterface', quaryparms).subscribe(res => {
-      this.resultListObj = res;
-      this.defaultFieldName = this.resultListObj.groupSetting.fieldName;
-      this.settingsId = res._id;
-      const obj = { _id: this.resultListObj.groupSetting.fieldId, fieldName: this.resultListObj.groupSetting.fieldName };
-      this.getFieldValues(obj);
-      if (type === 'emptycondition') {
-        this.addNewTemplateValues('add');
+    this.service.invoke('get.settingsByInterface', quaryparms).subscribe(
+      (res) => {
+        this.resultListObj = res;
+        this.defaultFieldName = this.resultListObj.groupSetting.fieldName;
+        this.settingsId = res._id;
+        const obj = {
+          _id: this.resultListObj.groupSetting.fieldId,
+          fieldName: this.resultListObj.groupSetting.fieldName,
+        };
+        this.getFieldValues(obj);
+        if (type === 'emptycondition') {
+          this.addNewTemplateValues('add');
+        }
+      },
+      (errRes) => {
+        this.errorToaster(errRes, 'Failed to fetch all Setting Informations');
       }
-    }, errRes => {
-      this.errorToaster(errRes, 'Failed to fetch all Setting Informations');
-    });
+    );
     //get.settingsById
     // update.settings
     // copy.settings
@@ -432,60 +467,104 @@ export class ResultTemplatesComponent implements OnInit {
       searchIndexId: this.serachIndexId,
       templateId: templateData.templateId,
       indexPipelineId: this.indexPipelineId,
-      queryPipelineId : this.queryPipelineId,
+      queryPipelineId: this.queryPipelineId,
     };
-    this.service.invoke('get.templateById', quaryparms).subscribe((res: any) => {
-      this.templateDataBind = res;
-      if (type === 'modal') {
-        this.fieldsDisplay(res.mapping);
-        this.openTemplateModal();
-        this.templateTypeSelection(res.layout.layoutType);
-        if (this.templateDataBind.layout.behaviour === 'postback') {
-          this.postback = this.templateDataBind.layout.postbackUrl;
+    this.service.invoke('get.templateById', quaryparms).subscribe(
+      (res: any) => {
+        this.templateDataBind = res;
+        if (type === 'modal') {
+          this.fieldsDisplay(res.mapping);
+          this.openTemplateModal();
+          this.templateTypeSelection(res.layout.layoutType);
+          if (this.templateDataBind.layout.behaviour === 'postback') {
+            this.postback = this.templateDataBind.layout.postbackUrl;
+          }
         }
+        this.customtemplateBtndisable = false;
+      },
+      (errRes) => {
+        this.customtemplateBtndisable = false;
+        this.errorToaster(errRes, 'Failed to fetch Template');
       }
-      this.customtemplateBtndisable = false;
-    }, errRes => {
-      this.customtemplateBtndisable = false;
-      this.errorToaster(errRes, 'Failed to fetch Template');
-    });
+    );
   }
 
   fieldsDisplay(mapping) {
     for (const property in mapping) {
-      this.fieldData.forEach(element => {
-        if (`${property}` == 'heading' && element._id == `${mapping[property]}`) {
+      this.fieldData.forEach((element) => {
+        if (
+          `${property}` == 'heading' &&
+          element._id == `${mapping[property]}`
+        ) {
           this.preview_title = element.fieldName;
-        } else if (`${property}` == 'description' && element._id == `${mapping[property]}`) {
+        } else if (
+          `${property}` == 'description' &&
+          element._id == `${mapping[property]}`
+        ) {
           this.preview_desc = element.fieldName;
-        } else if (`${property}` == 'description1' && element._id == `${mapping[property]}`) {
+        } else if (
+          `${property}` == 'description1' &&
+          element._id == `${mapping[property]}`
+        ) {
           this.preview_desc1 = element.fieldName;
-        } else if (`${property}` == 'label1' && element._id == `${mapping[property]}`) {
+        } else if (
+          `${property}` == 'label1' &&
+          element._id == `${mapping[property]}`
+        ) {
           this.preview_label1 = element.fieldName;
-        } else if (`${property}` == 'label2' && element._id == `${mapping[property]}`) {
+        } else if (
+          `${property}` == 'label2' &&
+          element._id == `${mapping[property]}`
+        ) {
           this.preview_label2 = element.fieldName;
-        } else if (`${property}` == 'rateField' && element._id == `${mapping[property]}`) {
+        } else if (
+          `${property}` == 'rateField' &&
+          element._id == `${mapping[property]}`
+        ) {
           this.preview_rateFiled = element.fieldName;
-        } else if (`${property}` == 'strikedOffRate' && element._id == `${mapping[property]}`) {
+        } else if (
+          `${property}` == 'strikedOffRate' &&
+          element._id == `${mapping[property]}`
+        ) {
           this.preview_StrikedrateFiled = element.fieldName;
-        } else if (`${property}` == 'img' && element._id == `${mapping[property]}`) {
+        } else if (
+          `${property}` == 'img' &&
+          element._id == `${mapping[property]}`
+        ) {
           this.preview_img = element.fieldName;
-        } else if (`${property}` == 'url' && element._id == `${mapping[property]}`) {
+        } else if (
+          `${property}` == 'url' &&
+          element._id == `${mapping[property]}`
+        ) {
           this.preview_url = element.fieldName;
-        } else if (`${property}` == 'icon' && element._id == `${mapping[property]}`) {
+        } else if (
+          `${property}` == 'icon' &&
+          element._id == `${mapping[property]}`
+        ) {
           this.preview_icon = element.fieldName;
-        } else if (`${property}` == 'chips' && element._id == `${mapping[property]}`) {
+        } else if (
+          `${property}` == 'chips' &&
+          element._id == `${mapping[property]}`
+        ) {
           this.preview_chips = element.fieldName;
-        } else if (`${property}` == 'textField1' && element._id == `${mapping[property]}`) {
+        } else if (
+          `${property}` == 'textField1' &&
+          element._id == `${mapping[property]}`
+        ) {
           this.preview_textField1 = element.fieldName;
-        } else if (`${property}` == 'textField2' && element._id == `${mapping[property]}`) {
+        } else if (
+          `${property}` == 'textField2' &&
+          element._id == `${mapping[property]}`
+        ) {
           this.preview_textField2 = element.fieldName;
-        } else if (`${property}` == 'rating' && element._id == `${mapping[property]}`) {
+        } else if (
+          `${property}` == 'rating' &&
+          element._id == `${mapping[property]}`
+        ) {
           this.preview_rating = element.fieldName;
         }
       });
     }
-
   }
   /** type selection */
   templateTypeSelection(layoutType) {
@@ -493,10 +572,12 @@ export class ResultTemplatesComponent implements OnInit {
     this.submitted = false;
   }
   renderTitleChange() {
-    this.templateDataBind.layout.renderTitle = !this.templateDataBind.layout.renderTitle;
+    this.templateDataBind.layout.renderTitle =
+      !this.templateDataBind.layout.renderTitle;
   }
   clickableChange() {
-    this.templateDataBind.layout.isClickable = !this.templateDataBind.layout.isClickable;
+    this.templateDataBind.layout.isClickable =
+      !this.templateDataBind.layout.isClickable;
     this.templateDataBind.layout.behaviour = 'webpage';
   }
   clickBehaviorChange(behaviour) {
@@ -504,18 +585,24 @@ export class ResultTemplatesComponent implements OnInit {
   }
   //Open Template Modal
   openTemplateConatiner(templateData, type, groupname?) {
-    const templateName = this.tabList.filter(data => data.id == this.selectedTab);
+    const templateName = this.tabList.filter(
+      (data) => data.id == this.selectedTab
+    );
     this.selectedTemplateName = templateName[0].name;
-    this.selectedGroupName = templateData?.templateId ? (templateData?.fieldValue) : (templateData?.defaultTemplateType);
+    this.selectedGroupName = templateData?.templateId
+      ? templateData?.fieldValue
+      : templateData?.defaultTemplateType;
     this.customtemplateBtndisable = true;
     if (groupname == 'Default') {
       this.selectedGroupName = groupname;
     }
     if (templateData?.templateId) {
-      this.getTemplate(templateData, type)
-    }
-    else {
-      this.getTemplate({ templateId: this.resultListObj.defaultTemplateId }, type);
+      this.getTemplate(templateData, type);
+    } else {
+      this.getTemplate(
+        { templateId: this.resultListObj.defaultTemplateId },
+        type
+      );
     }
     this.preview_title = '';
     this.preview_desc = '';
@@ -556,8 +643,7 @@ export class ResultTemplatesComponent implements OnInit {
       if (this.fieldPopupType === 'add') {
         this.resultListObj.groupSetting.fieldName = '';
         this.resultListObj.groupSetting.fieldId = '';
-      }
-      else if (this.fieldPopupType === 'edit') {
+      } else if (this.fieldPopupType === 'edit') {
         this.resultListObj.groupSetting.fieldName = this.defaultFieldName;
         this.getAllSettings(this.selectedTab);
       }
@@ -584,22 +670,31 @@ export class ResultTemplatesComponent implements OnInit {
     const quaryparms: any = {
       sidx: this.serachIndexId,
       indexPipelineId: this.workflowService.selectedIndexPipeline() || '',
-      fieldId: field._id
+      fieldId: field._id,
     };
-    this.service.invoke('get.facetValues', quaryparms).subscribe(res => {
-      this.fieldValues = res.values;
-      // if (res.values.length) {
-      //   res.values.forEach(ele => {
-      //     const obj = { fieldValue: ele, templateId: '' }
-      //     this.resultListObj.groupSetting.conditions.push(obj);
-      //   })
-      // }
-    }, errRes => {
-      this.errorToaster(errRes, 'Failed to get field values');
-    });
+    this.service.invoke('get.facetValues', quaryparms).subscribe(
+      (res) => {
+        this.fieldValues = res.values;
+        // if (res.values.length) {
+        //   res.values.forEach(ele => {
+        //     const obj = { fieldValue: ele, templateId: '' }
+        //     this.resultListObj.groupSetting.conditions.push(obj);
+        //   })
+        // }
+      },
+      (errRes) => {
+        this.errorToaster(errRes, 'Failed to get field values');
+      }
+    );
   }
   errorToaster(errRes, message) {
-    if (errRes && errRes.error && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0].msg) {
+    if (
+      errRes &&
+      errRes.error &&
+      errRes.error.errors &&
+      errRes.error.errors.length &&
+      errRes.error.errors[0].msg
+    ) {
       this.notificationService.notify(errRes.error.errors[0].msg, 'error');
     } else if (message) {
       this.notificationService.notify(message, 'error');
@@ -612,29 +707,35 @@ export class ResultTemplatesComponent implements OnInit {
     const quaryparms: any = {
       searchIndexId: this.serachIndexId,
       indexPipelineId: this.workflowService.selectedIndexPipeline() || '',
-      queryPipelineId : this.queryPipelineId,
+      queryPipelineId: this.queryPipelineId,
     };
     const payload = { type: type };
-    this.service.invoke('post.templates', quaryparms, payload).subscribe(res => {
-      if (index === 'default') {
-        this.resultListObj.defaultTemplateType = type;
-        this.resultListObj.defaultTemplateId = res._id;
+    this.service.invoke('post.templates', quaryparms, payload).subscribe(
+      (res) => {
+        if (index === 'default') {
+          this.resultListObj.defaultTemplateType = type;
+          this.resultListObj.defaultTemplateId = res._id;
+        } else {
+          this.resultListObj.groupSetting.conditions[index].templateId =
+            res._id;
+        }
+        this.updateSettings();
+        this.openTemplateConatiner(value, 'modal');
+      },
+      (errRes) => {
+        this.errorToaster(errRes, 'Failed to get field values');
       }
-      else {
-        this.resultListObj.groupSetting.conditions[index].templateId = res._id;
-      }
-      this.updateSettings();
-      this.openTemplateConatiner(value, 'modal')
-    }, errRes => {
-      this.errorToaster(errRes, 'Failed to get field values');
-    });
+    );
   }
   //add new templates values row dynamically
   addNewTemplateValues(type, index?) {
     if (type === 'add') {
-      this.resultListObj.groupSetting.conditions.push({ fieldValue: '', templateType: '', templateId: '' })
-    }
-    else if (type === 'delete') {
+      this.resultListObj.groupSetting.conditions.push({
+        fieldValue: '',
+        templateType: '',
+        templateId: '',
+      });
+    } else if (type === 'delete') {
       this.resultListObj.groupSetting.conditions.splice(index, 1);
       this.updateSettings('', 'delete');
     }
@@ -642,29 +743,32 @@ export class ResultTemplatesComponent implements OnInit {
   //result group configuration popup
   overwriteConfiguration() {
     const modalData: any = {
-      newTitle: 'Existing result group configurations will be overwritten with the field you chose.',
+      newTitle:
+        'Existing result group configurations will be overwritten with the field you chose.',
       body: 'Are you sure you want to continue ?',
-      buttons: [{ key: 'yes', label: 'Continue', type: 'danger' }, { key: 'no', label: 'Cancel' }],
-      confirmationPopUp: true
-    }
+      buttons: [
+        { key: 'yes', label: 'Continue', type: 'danger' },
+        { key: 'no', label: 'Cancel' },
+      ],
+      confirmationPopUp: true,
+    };
     const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
       width: '530px',
       height: 'auto',
       panelClass: 'delete-popup-result',
       data: modalData,
     });
-    dialogRef.componentInstance.onSelect
-      .subscribe(result => {
-        if (result === 'yes') {
-          this.updateSettings(dialogRef);
-        } else if (result === 'no') {
-          dialogRef.close();
-        }
-      })
+    dialogRef.componentInstance.onSelect.subscribe((result) => {
+      if (result === 'yes') {
+        this.updateSettings(dialogRef);
+      } else if (result === 'no') {
+        dialogRef.close();
+      }
+    });
   }
   //scroll to preview
   scrollPreview() {
-    var element = document.getElementById("imgScroll");
+    var element = document.getElementById('imgScroll');
     setTimeout(() => {
       if (element) {
         element.scrollIntoView();
@@ -677,32 +781,43 @@ export class ResultTemplatesComponent implements OnInit {
       searchIndexId: this.serachIndexId,
       settingsId: this.settingsId,
       indexPipelineId: this.indexPipelineId,
-      queryPipelineId : this.queryPipelineId,
+      queryPipelineId: this.queryPipelineId,
     };
     this.resultListObj.resultsLimit = 20;
     if (dialogRef) {
       this.resultListObj.groupSetting.conditions = [];
     }
-    this.service.invoke('update.settings', quaryparms, this.resultListObj).subscribe((res: any) => {
-      // this.scrollPreview();
-      if (res) {
-        this.notificationService.notify(`Result setting ${type === 'delete' ? 'deleted' : 'saved'} successfully`, 'success');
-        if (dialogRef) {
-          dialogRef.close();
-          this.closeCustomModal();
-          this.getAllSettings(this.selectedTab, 'emptycondition');
+    this.service
+      .invoke('update.settings', quaryparms, this.resultListObj)
+      .subscribe(
+        (res: any) => {
+          // this.scrollPreview();
+          if (res) {
+            this.notificationService.notify(
+              `Result setting ${
+                type === 'delete' ? 'deleted' : 'saved'
+              } successfully`,
+              'success'
+            );
+            if (dialogRef) {
+              dialogRef.close();
+              this.closeCustomModal();
+              this.getAllSettings(this.selectedTab, 'emptycondition');
+            }
+          }
+        },
+        (errRes) => {
+          this.errorToaster(errRes, 'Failed to update settings');
         }
-      }
-    }, errRes => {
-      this.errorToaster(errRes, 'Failed to update settings');
-    });
+      );
   }
   //update template
   updateTemplate() {
     this.submitted = true;
     let checkTitle: boolean = true;
     if (this.templateDataBind.layout.renderTitle) {
-      checkTitle = (this.templateDataBind.layout?.title?.length > 0) ? true : false;
+      checkTitle =
+        this.templateDataBind.layout?.title?.length > 0 ? true : false;
     }
     //let validateText = this.validateFieldValues();
     if (this.validateTemplate() && checkTitle) {
@@ -710,7 +825,7 @@ export class ResultTemplatesComponent implements OnInit {
         searchIndexId: this.serachIndexId,
         templateId: this.templateDataBind._id,
         indexPipelineId: this.indexPipelineId,
-        queryPipelineId : this.queryPipelineId
+        queryPipelineId: this.queryPipelineId,
       };
       if (this.templateDataBind.layout.renderTitle === false) {
         this.templateDataBind.layout.title = '';
@@ -718,25 +833,33 @@ export class ResultTemplatesComponent implements OnInit {
       if (this.templateDataBind.layout.behaviour === 'postback') {
         this.templateDataBind.layout.postbackUrl = this.postback;
         this.templateDataBind.mapping.url = '';
-      }
-      else if (this.templateDataBind.layout.behaviour === 'webpage') {
+      } else if (this.templateDataBind.layout.behaviour === 'webpage') {
         this.templateDataBind.layout.postbackUrl = '';
       }
-      this.service.invoke('update.template', quaryparms, this.templateDataBind).subscribe((res: any) => {
-        if (res) {
-          this.closeTemplateModal();
-          this.submitted = false;
-          this.notificationService.notify('Template updated successfully', 'success');
-        }
-      }, errRes => {
-        this.errorToaster(errRes, 'Failed to update template');
-      });
-    }
-    else {
-      this.notificationService.notify('Enter the required fields to proceed', 'error');
+      this.service
+        .invoke('update.template', quaryparms, this.templateDataBind)
+        .subscribe(
+          (res: any) => {
+            if (res) {
+              this.closeTemplateModal();
+              this.submitted = false;
+              this.notificationService.notify(
+                'Template updated successfully',
+                'success'
+              );
+            }
+          },
+          (errRes) => {
+            this.errorToaster(errRes, 'Failed to update template');
+          }
+        );
+    } else {
+      this.notificationService.notify(
+        'Enter the required fields to proceed',
+        'error'
+      );
     }
   }
-
 
   //validate template fields
   validateTemplate() {
@@ -744,27 +867,34 @@ export class ResultTemplatesComponent implements OnInit {
       this.templateDataBind.mapping.description = '';
       this.templateDataBind.mapping.img = '';
       return this.preview_title.length ? true : false;
-    }
-    else if (this.templateDataBind.layout.layoutType === 'l2') {
+    } else if (this.templateDataBind.layout.layoutType === 'l2') {
       this.templateDataBind.mapping.heading = '';
       this.templateDataBind.mapping.img = '';
       return this.preview_desc.length ? true : false;
-    }
-    else if (this.templateDataBind.layout.layoutType === 'l3' || this.templateDataBind.layout.layoutType === 'l10' || this.templateDataBind.layout.layoutType === 'l11') {
+    } else if (
+      this.templateDataBind.layout.layoutType === 'l3' ||
+      this.templateDataBind.layout.layoutType === 'l10' ||
+      this.templateDataBind.layout.layoutType === 'l11'
+    ) {
       this.templateDataBind.mapping.img = '';
-      return (this.preview_title.length && this.preview_desc.length) ? true : false;
-    }
-    else if (this.templateDataBind.layout.layoutType === 'l5') {
+      return this.preview_title.length && this.preview_desc.length
+        ? true
+        : false;
+    } else if (this.templateDataBind.layout.layoutType === 'l5') {
       this.templateDataBind.mapping.heading = '';
       this.templateDataBind.mapping.description = '';
-      return (this.preview_img.length) ? true : false;
-    }
-    else if (['l4', 'l6', 'l7', 'l9'].includes(this.templateDataBind.layout.layoutType)) {
-      return (this.preview_title.length && this.preview_desc.length && this.preview_img.length) ? true : false;
-    }
-    else if (this.templateDataBind.layout.layoutType === 'l8') {
+      return this.preview_img.length ? true : false;
+    } else if (
+      ['l4', 'l6', 'l7', 'l9'].includes(this.templateDataBind.layout.layoutType)
+    ) {
+      return this.preview_title.length &&
+        this.preview_desc.length &&
+        this.preview_img.length
+        ? true
+        : false;
+    } else if (this.templateDataBind.layout.layoutType === 'l8') {
       this.templateDataBind.mapping.heading = '';
-      return (this.preview_desc.length && this.preview_img.length) ? true : false;
+      return this.preview_desc.length && this.preview_img.length ? true : false;
     }
   }
 
@@ -839,122 +969,121 @@ export class ResultTemplatesComponent implements OnInit {
   //copy configuration method
   copyConfiguration(type, tab?) {
     this.copyConfigObj.message = '';
-    this.tabData = this.tabList.filter(item => item.id === tab);
+    this.tabData = this.tabList.filter((item) => item.id === tab);
     if (type === 'open') {
       this.copyConfigObj.loader = true;
       const quaryparms: any = {
         searchIndexId: this.serachIndexId,
         indexPipelineId: this.workflowService.selectedIndexPipeline() || '',
-        queryPipelineId : this.queryPipelineId,
+        queryPipelineId: this.queryPipelineId,
         settingsId: this.resultListObj._id,
-        fromInterface: tab
+        fromInterface: tab,
       };
       const payload = this.resultListObj;
-      this.service.invoke('copy.settings', quaryparms, payload).subscribe(res => {
-        this.copyConfigObj.loader = false;
-        const date = moment(res.copiedOn).format('dddd, MMMM Do YYYY, h:mm:ss a');
-        this.copyConfigObj.message = `Configurations applied from ${this.tabData[0].name} | ${date}.`;
-        this.notificationService.notify(' Result copied successfully', 'success');
-        this.getAllSettings(this.selectedTab);
-      }, errRes => {
-        this.copyConfigObj.loader = false;
-        this.errorToaster(errRes, 'Failed to get field values');
-      });
-    }
-    else if (type === 'close') {
+      this.service.invoke('copy.settings', quaryparms, payload).subscribe(
+        (res) => {
+          this.copyConfigObj.loader = false;
+          const date = moment(res.copiedOn).format(
+            'dddd, MMMM Do YYYY, h:mm:ss a'
+          );
+          this.copyConfigObj.message = `Configurations applied from ${this.tabData[0].name} | ${date}.`;
+          this.notificationService.notify(
+            ' Result copied successfully',
+            'success'
+          );
+          this.getAllSettings(this.selectedTab);
+        },
+        (errRes) => {
+          this.copyConfigObj.loader = false;
+          this.errorToaster(errRes, 'Failed to get field values');
+        }
+      );
+    } else if (type === 'close') {
       this.copyConfigObj = { loader: false, message: '' };
     }
   }
-
 
   ngOnDestroy() {
     if (this.subscription) {
       this.subscription.unsubscribe();
     }
-    this.searchConfigurationSubscription ? this.searchConfigurationSubscription.unsubscribe() : false;
+    this.searchConfigurationSubscription
+      ? this.searchConfigurationSubscription.unsubscribe()
+      : false;
   }
 
   clearcontent() {
     if ($('#searchBoxId') && $('#searchBoxId').length) {
-      $('#searchBoxId')[0].value = "";
+      $('#searchBoxId')[0].value = '';
       this.searchlist('heading', '', this.fieldData);
       this.field_name = '';
     }
-
   }
   // clear content for desc
   clearcontentdesc() {
     if ($('#searchBoxId1') && $('#searchBoxId1').length) {
-      $('#searchBoxId1')[0].value = "";
+      $('#searchBoxId1')[0].value = '';
       this.searchlist('description', '', this.fieldData);
       this.field_name = '';
     }
-
   }
   clearcontentdesc1() {
     if ($('#searchBoxIdDec') && $('#searchBoxIdDec').length) {
-      $('#searchBoxIdDec')[0].value = "";
+      $('#searchBoxIdDec')[0].value = '';
       this.searchlist('description1', '', this.fieldData);
       this.field_name = '';
     }
-
   }
   clearcontentLabel1() {
     if ($('#searchBoxIdLabel1') && $('#searchBoxIdLabel1').length) {
-      $('#searchBoxIdLabel1')[0].value = "";
+      $('#searchBoxIdLabel1')[0].value = '';
       this.searchlist('label1', '', this.fieldData);
       this.field_name = '';
     }
-
   }
   clearcontentLabel2() {
     if ($('#searchBoxIdLabel2') && $('#searchBoxIdLabel2').length) {
-      $('#searchBoxIdLabel2')[0].value = "";
+      $('#searchBoxIdLabel2')[0].value = '';
       this.searchlist('label2', '', this.fieldData);
       this.field_name = '';
     }
-
   }
   clearcontentRateField() {
     if ($('#searchBoxIdRateField') && $('#searchBoxIdRateField').length) {
-      $('#searchBoxIdRateField')[0].value = "";
+      $('#searchBoxIdRateField')[0].value = '';
       this.searchlist('rateField', '', this.fieldData);
       this.field_name = '';
     }
-
   }
   clearcontentStrikedRateField() {
-    if ($('#searchBoxIdStrikedRateField') && $('#searchBoxIdStrikedRateField').length) {
-      $('#searchBoxIdStrikedRateField')[0].value = "";
+    if (
+      $('#searchBoxIdStrikedRateField') &&
+      $('#searchBoxIdStrikedRateField').length
+    ) {
+      $('#searchBoxIdStrikedRateField')[0].value = '';
       this.searchlist('strikedOffRate', '', this.fieldData);
       this.field_name = '';
     }
-
   }
 
   // clear content for image
   clearcontentimage() {
     if ($('#searchBoxId2') && $('#searchBoxId2').length) {
-      $('#searchBoxId2')[0].value = "";
+      $('#searchBoxId2')[0].value = '';
       this.searchlist('image', '', this.fieldData);
       this.field_name = '';
     }
-
   }
 
   // clear content for URL
   clearcontenturl() {
     if ($('#searchBoxId3') && $('#searchBoxId3').length) {
-      $('#searchBoxId3')[0].value = "";
+      $('#searchBoxId3')[0].value = '';
       this.searchlist('url', '', this.fieldData);
       this.field_name = '';
     }
-
   }
   openUserMetaTagsSlider() {
     this.appSelectionService.topicGuideShow.next(undefined);
   }
-
 }
-
-

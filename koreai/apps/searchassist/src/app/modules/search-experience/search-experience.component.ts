@@ -7,18 +7,17 @@ import {
 } from '@angular/core';
 import { KRModalComponent } from '../../shared/kr-modal/kr-modal.component';
 import { RangeSlider } from '../../helpers/models/range-slider.model';
-import { WorkflowService } from '@kore.services/workflow.service';
-import { AuthService } from '@kore.services/auth.service';
-import { ServiceInvokerService } from '@kore.services/service-invoker.service';
 import { NotificationService } from '../../services/notification.service';
 import { HttpClient } from '@angular/common/http';
-import { AppSelectionService } from '@kore.services/app.selection.service';
-import { SideBarService } from './../../services/header.service';
 import { Subscription } from 'rxjs';
 import { LocalStoreService } from './../../services/localstore.service';
 import { NgbDropdown, NgbDropdownMenu } from '@ng-bootstrap/ng-bootstrap';
-import { InlineManualService } from '@kore.services/inline-manual.service';
-import { MixpanelServiceService } from '@kore.services/mixpanel-service.service';
+import { ServiceInvokerService } from '@kore.apps/services/service-invoker.service';
+import { SideBarService } from '@kore.apps/services/header.service';
+import { AppSelectionService } from '@kore.apps/services/app.selection.service';
+import { InlineManualService } from '@kore.apps/services/inline-manual.service';
+import { WorkflowService } from '@kore.apps/services/workflow.service';
+import { MixpanelServiceService } from '@kore.apps/services/mixpanel-service.service';
 declare const $: any;
 @Component({
   selector: 'app-search-experience',

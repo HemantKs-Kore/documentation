@@ -2,17 +2,17 @@ import { EMPTY_SCREEN } from './../../../empty-screen/empty-screen.constants';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ENTER, COMMA } from '@angular/cdk/keycodes';
 import { MatChipInputEvent } from '@angular/material/chips';
-import { WorkflowService } from '@kore.services/workflow.service';
-import { ServiceInvokerService } from '@kore.services/service-invoker.service';
-import { NotificationService } from '@kore.services/notification.service';
-import { AuthService } from '@kore.services/auth.service';
 import { Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import * as _ from 'underscore';
-import { AppSelectionService } from '@kore.services/app.selection.service'
 import { Observable, Subscription } from 'rxjs';
-import { InlineManualService } from '@kore.services/inline-manual.service';
-import { ConfirmationDialogComponent } from '@kore.helpers/components/confirmation-dialog/confirmation-dialog.component';
+import { WorkflowService } from '@kore.apps/services/workflow.service';
+import { ServiceInvokerService } from '@kore.apps/services/service-invoker.service';
+import { AuthService } from '@kore.apps/services/auth.service';
+import { NotificationService } from '@kore.apps/services/notification.service';
+import { AppSelectionService } from '@kore.apps/services/app.selection.service';
+import { InlineManualService } from '@kore.apps/services/inline-manual.service';
+import { ConfirmationDialogComponent } from '@kore.apps/helpers/components/confirmation-dialog/confirmation-dialog.component';
 declare const $: any;
 
 @Component({
@@ -30,7 +30,7 @@ export class SynonymsComponent implements OnInit, OnDestroy {
   serachIndexId;
   loadingContent = true;
   skip = 0;
-  timeoutId:any;
+  timeoutId: any;
   filteroneWaySynonym: boolean;
   filterSynonym: boolean;
   haveRecord = false;
@@ -200,13 +200,11 @@ export class SynonymsComponent implements OnInit, OnDestroy {
     const input = event.input;
     const value = event.value;
     if ((value || '').trim()) {
-      let synObj = type == 'add'?this.addNewSynonymObj.synonyms:this.editSynonymObj.synonyms
-      if (
-        !this.checkDuplicateTags(
-          (value || '').trim(),
-          synObj
-        )
-      ) {
+      let synObj =
+        type == 'add'
+          ? this.addNewSynonymObj.synonyms
+          : this.editSynonymObj.synonyms;
+      if (!this.checkDuplicateTags((value || '').trim(), synObj)) {
         this.notificationService.notify(
           'Duplicate tags are not allowed',
           'warning'
@@ -249,23 +247,28 @@ export class SynonymsComponent implements OnInit, OnDestroy {
       }
     );
   }
-   debouncedSearch(){
+  debouncedSearch() {
     clearTimeout(this.timeoutId);
     this.timeoutId = setTimeout(() => {
-      this.searchKeyword = this.synonymSearch
-      this.getSynonyms()
+      this.searchKeyword = this.synonymSearch;
+      this.getSynonyms();
     }, 300);
   }
-  validateSynonyms(){
-      if( this.addNewSynonymObj?.type === 'oneWaySynonym' && !this.addNewSynonymObj?.keyword && !this.addNewSynonymObj?.synonyms?.length){
-        return false;
-      }
-      else if( this.addNewSynonymObj?.type === 'synonym' && !(this.addNewSynonymObj?.synonyms.length > 1) ){
-        return false;
-      }
-      else {
+  validateSynonyms() {
+    if (
+      this.addNewSynonymObj?.type === 'oneWaySynonym' &&
+      !this.addNewSynonymObj?.keyword &&
+      !this.addNewSynonymObj?.synonyms?.length
+    ) {
+      return false;
+    } else if (
+      this.addNewSynonymObj?.type === 'synonym' &&
+      !(this.addNewSynonymObj?.synonyms.length > 1)
+    ) {
+      return false;
+    } else {
       return true;
-     }
+    }
   }
   //SELECTING SYNONYMN TYPE
   changeSynonymType() {
@@ -304,12 +307,15 @@ export class SynonymsComponent implements OnInit, OnDestroy {
         this.filterSynonym = true;
       }
       this.addOrUpddate(obj, 'add');
-      } else if (this.addNewSynonymObj?.type === 'synonym' && this.addNewSynonymObj?.synonyms.length === 1) {
+    } else if (
+      this.addNewSynonymObj?.type === 'synonym' &&
+      this.addNewSynonymObj?.synonyms.length === 1
+    ) {
       this.notificationService.notify(
         'Synonyms should be more than one',
         'warning'
       );
-     } else {
+    } else {
       this.notificationService.notify(
         'Enter the required fields to proceed',
         'error'
@@ -331,7 +337,7 @@ export class SynonymsComponent implements OnInit, OnDestroy {
     };
     var url: any = '';
     if (synonymData.type == 'synonym') delete payload.keyword;
-      url =  type == 'add'?'put.addSynonym':'put.EditSynonym';
+    url = type == 'add' ? 'put.addSynonym' : 'put.EditSynonym';
     this.service.invoke(url, quaryparms, payload).subscribe(
       (res) => {
         this.getSynonyms();
@@ -343,7 +349,10 @@ export class SynonymsComponent implements OnInit, OnDestroy {
         if (dialogRef && dialogRef.close) {
           dialogRef.close();
         }
-        this.notificationService.notify('Synonym Added Successfully','success')
+        this.notificationService.notify(
+          'Synonym Added Successfully',
+          'success'
+        );
       },
       (errRes) => {
         this.errorToaster(errRes, 'Failed To Add Synonym');
@@ -379,7 +388,7 @@ export class SynonymsComponent implements OnInit, OnDestroy {
 
     dialogRef.componentInstance.onSelect.subscribe((result) => {
       if (result === 'yes') {
-        if ((this.showFlag === true)) {
+        if (this.showFlag === true) {
           this.deleteSynonymn(synonym, index, dialogRef);
         }
       } else if (result === 'no') {
@@ -490,7 +499,6 @@ export class SynonymsComponent implements OnInit, OnDestroy {
   //-------------------------(Author:BHARADWAJ)
 }
 class SynonymClass {
-  type: String
-  synonyms: Array<String>
+  type: String;
+  synonyms: Array<String>;
 }
-

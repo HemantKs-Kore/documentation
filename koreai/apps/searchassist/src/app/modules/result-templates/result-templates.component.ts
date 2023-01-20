@@ -1,16 +1,16 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { AppSelectionService } from '@kore.services/app.selection.service';
-import { SideBarService } from '@kore.services/header.service';
-import { InlineManualService } from '@kore.services/inline-manual.service';
-import { NotificationService } from '@kore.services/notification.service';
-import { ServiceInvokerService } from '@kore.services/service-invoker.service';
-import { WorkflowService } from '@kore.services/workflow.service';
 import { KRModalComponent } from '../../shared/kr-modal/kr-modal.component';
 import { Subscription } from 'rxjs';
 import { ConfirmationDialogComponent } from '../../helpers/components/confirmation-dialog/confirmation-dialog.component';
 import * as moment from 'moment';
-import { LocalStoreService } from '@kore.services/localstore.service';
+import { AppSelectionService } from '@kore.apps/services/app.selection.service';
+import { SideBarService } from '@kore.apps/services/header.service';
+import { InlineManualService } from '@kore.apps/services/inline-manual.service';
+import { NotificationService } from '@kore.apps/services/notification.service';
+import { WorkflowService } from '@kore.apps/services/workflow.service';
+import { ServiceInvokerService } from '@kore.apps/services/service-invoker.service';
+import { LocalStoreService } from '@kore.apps/services/localstore.service';
 declare const $: any;
 @Component({
   selector: 'app-result-templates',

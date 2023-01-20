@@ -1,25 +1,24 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { WorkflowService } from '@kore.services/workflow.service';
-import { ServiceInvokerService } from '@kore.services/service-invoker.service';
-import { NotificationService } from '@kore.services/notification.service';
 import { MatDialog } from '@angular/material/dialog';
-import { AuthService } from '@kore.services/auth.service';
-import { AppSelectionService } from '@kore.services/app.selection.service';
 import { of, interval, Subject, Subscription } from 'rxjs';
-import { saveAs } from 'file-saver';
 import { EMPTY_SCREEN } from '../../modules/empty-screen/empty-screen.constants';
-declare var require: any
+import { WorkflowService } from '@kore.apps/services/workflow.service';
+import { ServiceInvokerService } from '@kore.apps/services/service-invoker.service';
+import { NotificationService } from '@kore.apps/services/notification.service';
+import { AuthService } from '@kore.apps/services/auth.service';
+import { AppSelectionService } from '@kore.apps/services/app.selection.service';
+declare var require: any;
 const FileSaver = require('file-saver');
 @Component({
   selector: 'app-invoices',
   templateUrl: './invoices.component.html',
-  styleUrls: ['./invoices.component.scss']
+  styleUrls: ['./invoices.component.scss'],
 })
 export class InvoicesComponent implements OnInit, OnDestroy {
   emptyScreen = EMPTY_SCREEN.MANAGE_ORDERS_INVOICES;
   invoices = [];
   showSearch = false;
-  searchInvoice:string='';
+  searchInvoice: string = '';
   searchImgSrc: any = 'assets/icons/search_gray.svg';
   searchFocusIn = false;
   selectedApp;
@@ -31,11 +30,11 @@ export class InvoicesComponent implements OnInit, OnDestroy {
   loading = false;
   isAsc = true;
   current_plan_name;
- sortedObject = {
-    type : '',
-    value : '',
-    position: ''
-  }
+  sortedObject = {
+    type: '',
+    value: '',
+    position: '',
+  };
   componentType: string = 'addData';
   constructor(
     public workflowService: WorkflowService,
@@ -44,7 +43,7 @@ export class InvoicesComponent implements OnInit, OnDestroy {
     public dialog: MatDialog,
     public authService: AuthService,
     private appSelectionService: AppSelectionService
-  ) { }
+  ) {}
 
   ngOnInit(): void {
     this.selectedApp = this.workflowService.selectedApp();
@@ -56,7 +55,7 @@ export class InvoicesComponent implements OnInit, OnDestroy {
     if (this.showSearch && this.searchInvoice) {
       this.searchInvoice = '';
     }
-    this.showSearch = !this.showSearch
+    this.showSearch = !this.showSearch;
   }
   loadInvoices() {
     this.indexPipelineId = this.workflowService.selectedIndexPipeline();
@@ -64,95 +63,101 @@ export class InvoicesComponent implements OnInit, OnDestroy {
       this.getInvoices();
     }
   }
-  searchItems() { }
-  getInvoices(offset?,sortHeaderOption?,sortValue?,navigate?,request?) {
+  searchItems() {}
+  getInvoices(offset?, sortHeaderOption?, sortValue?, navigate?, request?) {
     this.loading = true;
     const quaryparms: any = {
       streamId: this.selectedApp._id,
       skip: offset || 0,
       limit: 10,
-      sortByInvoiceDate: 1
+      sortByInvoiceDate: 1,
     };
-    if(sortHeaderOption && sortValue && navigate){
+    if (sortHeaderOption && sortValue && navigate) {
       quaryparms.sortByInvoiceDate = sortValue;
     }
 
-    this.service.invoke('get.allInvoices', quaryparms).subscribe(res => {
-      this.invoices = res.data || [];
-      this.totalRecord = res.total;
-      this.loading = false;
-    }, errRes => {
-      this.loading = false;
-      this.errorToaster(errRes, 'Failed to get invoices');
-    });
+    this.service.invoke('get.allInvoices', quaryparms).subscribe(
+      (res) => {
+        this.invoices = res.data || [];
+        this.totalRecord = res.total;
+        this.loading = false;
+      },
+      (errRes) => {
+        this.loading = false;
+        this.errorToaster(errRes, 'Failed to get invoices');
+      }
+    );
   }
-  sortInvoices(sortHeaderOption?,sortValue?,navigate?){
+  sortInvoices(sortHeaderOption?, sortValue?, navigate?) {
     // fieldsFilter(searchValue?,searchSource?, source?,headerOption?, sortHeaderOption?,sortValue?,navigate?)
     // this.loadingContent = true;
-    if(sortValue){
+    if (sortValue) {
       this.sortedObject = {
-        type : sortHeaderOption,
-        value : sortValue,
-        position: navigate
-      }
+        type: sortHeaderOption,
+        value: sortValue,
+        position: navigate,
+      };
     }
     const quaryparms: any = {
       searchIndexID: this.serachIndexId,
       indexPipelineId: this.workflowService.selectedIndexPipeline() || '',
       queryPipelineId: this.workflowService.selectedQueryPipeline()._id,
       offset: 0,
-      limit: 10
+      limit: 10,
     };
-    let request:any={}
-    if(!sortValue){
+    let request: any = {};
+    if (!sortValue) {
       request = {
-        "sort":{
-          'fieldName':1
-        }
-    }
-    }
-    else if(sortValue){
-      const sort :any ={}
-      request= {
-        sort
-      }
-    }
-    else {
-    request={}
+        sort: {
+          fieldName: 1,
+        },
+      };
+    } else if (sortValue) {
+      const sort: any = {};
+      request = {
+        sort,
+      };
+    } else {
+      request = {};
     }
 
-    if(sortValue){
-      this.getSortIconVisibility(sortHeaderOption,navigate);
-       //Sort start
-    if(sortHeaderOption === 'sortByInvoiceDate' ){
-      request.sort.sortByInvoiceDate = sortValue
+    if (sortValue) {
+      this.getSortIconVisibility(sortHeaderOption, navigate);
+      //Sort start
+      if (sortHeaderOption === 'sortByInvoiceDate') {
+        request.sort.sortByInvoiceDate = sortValue;
+      }
+      // end
     }
-    // end
-    }
-    this.getInvoices(null,sortHeaderOption,sortValue,navigate,request);
+    this.getInvoices(null, sortHeaderOption, sortValue, navigate, request);
   }
-  sortByApi(sort){
+  sortByApi(sort) {
     this.selectedSort = sort;
     if (this.selectedSort !== sort) {
       this.isAsc = true;
     } else {
       this.isAsc = !this.isAsc;
     }
-    var naviagtionArrow ='';
-    var checkSortValue= 1;
-    if(this.isAsc){
-      naviagtionArrow= 'up';
+    var naviagtionArrow = '';
+    var checkSortValue = 1;
+    if (this.isAsc) {
+      naviagtionArrow = 'up';
       checkSortValue = 1;
-    }
-    else{
-      naviagtionArrow ='down';
+    } else {
+      naviagtionArrow = 'down';
       checkSortValue = -1;
     }
-    this.getInvoices(null,sort,checkSortValue,naviagtionArrow)
+    this.getInvoices(null, sort, checkSortValue, naviagtionArrow);
   }
 
   errorToaster(errRes, message) {
-    if (errRes && errRes.error && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0].msg) {
+    if (
+      errRes &&
+      errRes.error &&
+      errRes.error.errors &&
+      errRes.error.errors.length &&
+      errRes.error.errors[0].msg
+    ) {
       this.notificationService.notify(errRes.error.errors[0].msg, 'error');
     } else if (message) {
       this.notificationService.notify(message, 'error');
@@ -162,30 +167,33 @@ export class InvoicesComponent implements OnInit, OnDestroy {
   }
 
   paginate(event) {
-    this.getInvoices(event.skip)
+    this.getInvoices(event.skip);
   }
 
-  downloadAll(){
-    this.invoices.forEach(item=>{
-      this.downloadInvoice(item?.viewInvoice,item?._id);
-    })
+  downloadAll() {
+    this.invoices.forEach((item) => {
+      this.downloadInvoice(item?.viewInvoice, item?._id);
+    });
   }
 
   downloadInvoice(url, invoiceId) {
-    FileSaver.saveAs(url + '&DownloadPdf=true', 'invoice_' + invoiceId + '.pdf');
+    FileSaver.saveAs(
+      url + '&DownloadPdf=true',
+      'invoice_' + invoiceId + '.pdf'
+    );
   }
 
   getSortIconVisibility(sortingField: string, type: string) {
     switch (this.selectedSort) {
-      case "invoiceCreatedDate": {
+      case 'invoiceCreatedDate': {
         if (this.selectedSort == sortingField) {
           if (this.isAsc == false && type == 'down') {
-            return "display-block";
+            return 'display-block';
           }
           if (this.isAsc == true && type == 'up') {
-            return "display-block";
+            return 'display-block';
           }
-          return "display-none"
+          return 'display-none';
         }
       }
     }
@@ -204,8 +212,14 @@ export class InvoicesComponent implements OnInit, OnDestroy {
     const sortedData = data.sort((a, b) => {
       const isAsc = this.isAsc;
       switch (sort) {
-        case 'invoiceCreatedDate': return this.compare(a.invoiceCreatedDate, b.invoiceCreatedDate, isAsc);
-        default: return 0;
+        case 'invoiceCreatedDate':
+          return this.compare(
+            a.invoiceCreatedDate,
+            b.invoiceCreatedDate,
+            isAsc
+          );
+        default:
+          return 0;
       }
     });
     this.invoices = sortedData;
