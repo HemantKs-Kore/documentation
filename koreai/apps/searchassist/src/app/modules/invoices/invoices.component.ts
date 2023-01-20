@@ -1,13 +1,13 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { WorkflowService } from '@kore.services/workflow.service';
-import { ServiceInvokerService } from '@kore.services/service-invoker.service';
-import { NotificationService } from '@kore.services/notification.service';
 import { MatDialog } from '@angular/material/dialog';
-import { AuthService } from '@kore.services/auth.service';
-import { AppSelectionService } from '@kore.services/app.selection.service';
 import { of, interval, Subject, Subscription } from 'rxjs';
 import { saveAs } from 'file-saver';
 import { EMPTY_SCREEN } from '../../modules/empty-screen/empty-screen.constants';
+import { WorkflowService } from '@kore.apps/services/workflow.service';
+import { ServiceInvokerService } from '@kore.apps/services/service-invoker.service';
+import { NotificationService } from '@kore.apps/services/notification.service';
+import { AuthService } from '@kore.apps/services/auth.service';
+import { AppSelectionService } from '@kore.apps/services/app.selection.service';
 declare var require: any;
 const FileSaver = require('file-saver');
 @Component({

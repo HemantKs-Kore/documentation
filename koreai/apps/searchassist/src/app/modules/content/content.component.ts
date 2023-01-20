@@ -5,12 +5,8 @@ import {
   OnDestroy,
   TestabilityRegistry,
 } from '@angular/core';
-import { ServiceInvokerService } from '@kore.services/service-invoker.service';
-import { WorkflowService } from '@kore.services/workflow.service';
-import { AppSelectionService } from '@kore.services/app.selection.service';
 import { SliderComponentComponent } from '../../shared/slider-component/slider-component.component';
 import { KRModalComponent } from '../../shared/kr-modal/kr-modal.component';
-import { AuthService } from '@kore.services/auth.service';
 import { fadeInOutAnimation } from '../../helpers/animations/animations';
 import { NotificationService } from '../../services/notification.service';
 import { Router } from '@angular/router';
@@ -28,16 +24,20 @@ import {
   BlockUrl,
   scheduleOpts,
 } from '../../helpers/models/Crwal-advance.model';
-import { InlineManualService } from '@kore.services/inline-manual.service';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 import { DockStatusService } from '../../services/dockstatusService/dock-status.service';
-import { MixpanelServiceService } from '@kore.services/mixpanel-service.service';
 import { OnboardingComponentComponent } from '../../components/onboarding-component/onboarding-component.component';
 import { SchedulerComponent } from '../../components/scheduler/scheduler.component';
 import { EMPTY_SCREEN } from '../../modules/empty-screen/empty-screen.constants';
 declare var require: any;
 import { UpgradePlanComponent } from '../../helpers/components/upgrade-plan/upgrade-plan.component';
-declare var require: any;
+import { ServiceInvokerService } from '@kore.apps/services/service-invoker.service';
+import { WorkflowService } from '@kore.apps/services/workflow.service';
+import { AppSelectionService } from '@kore.apps/services/app.selection.service';
+import { AuthService } from '@kore.apps/services/auth.service';
+import { InlineManualService } from '@kore.apps/services/inline-manual.service';
+import { MixpanelServiceService } from '@kore.apps/services/mixpanel-service.service';
+
 const FileSaver = require('file-saver');
 @Component({
   selector: 'app-content',

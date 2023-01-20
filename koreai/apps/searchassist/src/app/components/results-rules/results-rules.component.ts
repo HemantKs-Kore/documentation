@@ -1,23 +1,29 @@
-import { Component, OnInit, ViewChild, ViewEncapsulation, OnDestroy } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  ViewChild,
+  ViewEncapsulation,
+  OnDestroy,
+} from '@angular/core';
 import { KRModalComponent } from '../../shared/kr-modal/kr-modal.component';
 import { MatChipInputEvent } from '@angular/material/chips';
 import { NotificationService } from '../../services/notification.service';
 import { MdEditorOption } from '../../helpers/lib/md-editor.types';
 import { ENTER, COMMA } from '@angular/cdk/keycodes';
-import { ServiceInvokerService } from '@kore.services/service-invoker.service';
-import { WorkflowService } from '@kore.services/workflow.service';
 import { MatDialog } from '@angular/material/dialog';
 import { ConfirmationDialogComponent } from '../../helpers/components/confirmation-dialog/confirmation-dialog.component';
-import { cloneDeep } from "lodash";
+import { cloneDeep } from 'lodash';
 
 import * as _ from 'underscore';
 import { ResultsRulesService } from '../../services/componentsServices/results-rules.service';
 import { Subscription } from 'rxjs';
+import { ServiceInvokerService } from '@kore.apps/services/service-invoker.service';
+import { WorkflowService } from '@kore.apps/services/workflow.service';
 @Component({
   selector: 'app-results-rules',
   templateUrl: './results-rules.component.html',
   styleUrls: ['./results-rules.component.scss'],
-  encapsulation: ViewEncapsulation.None
+  encapsulation: ViewEncapsulation.None,
 })
 export class ResultsRulesComponent implements OnInit, OnDestroy {
   validationRules: any = {
@@ -25,65 +31,166 @@ export class ResultsRulesComponent implements OnInit, OnDestroy {
     rules: [],
     then: {
       resultCategory: 'BoostResults',
-      values: []
-    }
-  }
+      values: [],
+    },
+  };
   validationOperators: any = {
     operatorsObj: {
-      equalTo: { operator: '==', type: 'equalTo', valueTypes: ['value', 'field', 'currentDate'], inputType: 'text' },
-      notEqualTo: { operator: '!=', type: 'notEqualTo', valueTypes: ['value', 'field', 'currentDate'], inputType: 'text' },
-      contains: { operator: 'contains', type: 'contains', valueTypes: ['value', 'field', 'valueType'], inputType: 'text' },
-      doesNotContain: { operator: 'doesNotContains', type: 'doesNotContain', valueTypes: ['value', 'field', 'valueType'], inputType: 'text' },
-      greaterThan: { operator: '>', type: 'greaterThan', valueTypes: ['value', 'field', 'currentDate'], inputType: 'number' },
-      lessThan: { operator: '<', type: 'lessThan', valueTypes: ['value', 'field', 'currentDate'], inputType: 'number' },
+      equalTo: {
+        operator: '==',
+        type: 'equalTo',
+        valueTypes: ['value', 'field', 'currentDate'],
+        inputType: 'text',
+      },
+      notEqualTo: {
+        operator: '!=',
+        type: 'notEqualTo',
+        valueTypes: ['value', 'field', 'currentDate'],
+        inputType: 'text',
+      },
+      contains: {
+        operator: 'contains',
+        type: 'contains',
+        valueTypes: ['value', 'field', 'valueType'],
+        inputType: 'text',
+      },
+      doesNotContain: {
+        operator: 'doesNotContains',
+        type: 'doesNotContain',
+        valueTypes: ['value', 'field', 'valueType'],
+        inputType: 'text',
+      },
+      greaterThan: {
+        operator: '>',
+        type: 'greaterThan',
+        valueTypes: ['value', 'field', 'currentDate'],
+        inputType: 'number',
+      },
+      lessThan: {
+        operator: '<',
+        type: 'lessThan',
+        valueTypes: ['value', 'field', 'currentDate'],
+        inputType: 'number',
+      },
       greaterThanOrEqualTo: {
-        operator: '>=', type: 'greaterThanOrEqualTo', valueTypes: ['value', 'field', 'currentDate']
-        , inputType: 'number'
+        operator: '>=',
+        type: 'greaterThanOrEqualTo',
+        valueTypes: ['value', 'field', 'currentDate'],
+        inputType: 'number',
       },
       lessThanOrEqualTo: {
-        operator: '<=', type: 'lessThanOrEqualTo', valueTypes: ['value', 'field', 'currentDate']
-        , inputType: 'number'
+        operator: '<=',
+        type: 'lessThanOrEqualTo',
+        valueTypes: ['value', 'field', 'currentDate'],
+        inputType: 'number',
       },
       // regex: {operator:'regex',type:'regex',valueTypes:['value'],inputType:'text'},
       // noOfDecimals: {operator:'noOfDecimals',type:'noOfDecimals',valueTypes:['value'],inputType:'text'},
-      partOf: { operator: 'partOf', type: 'partOf', valueTypes: ['value', 'field'], inputType: 'text' },
-      notPartof: { operator: 'notPartof', type: 'notPartof', valueTypes: ['value', 'field'], inputType: 'text' },
-      minLength: { operator: 'minLength', type: 'minLength', valueTypes: ['value'], inputType: 'number' },
-      maxLength: { operator: 'maxLength', type: 'maxLength', valueTypes: ['value'], inputType: 'number' },
-      futureDates: { operator: 'futureDates', type: 'futureDates', valueTypes: ['value'], inputType: 'text' },
-      pastDates: { operator: 'pastDates', type: 'pastDates', valueTypes: ['value'], inputType: 'text' },
+      partOf: {
+        operator: 'partOf',
+        type: 'partOf',
+        valueTypes: ['value', 'field'],
+        inputType: 'text',
+      },
+      notPartof: {
+        operator: 'notPartof',
+        type: 'notPartof',
+        valueTypes: ['value', 'field'],
+        inputType: 'text',
+      },
+      minLength: {
+        operator: 'minLength',
+        type: 'minLength',
+        valueTypes: ['value'],
+        inputType: 'number',
+      },
+      maxLength: {
+        operator: 'maxLength',
+        type: 'maxLength',
+        valueTypes: ['value'],
+        inputType: 'number',
+      },
+      futureDates: {
+        operator: 'futureDates',
+        type: 'futureDates',
+        valueTypes: ['value'],
+        inputType: 'text',
+      },
+      pastDates: {
+        operator: 'pastDates',
+        type: 'pastDates',
+        valueTypes: ['value'],
+        inputType: 'text',
+      },
     },
     valueTypes: [
-      { operator: 'onlyNumbers', type: 'onlyNumbers', valueTypes: [], inputType: 'number' },
-      { operator: 'onlyAlphaNumeric', type: 'onlyAlphaNumeric', valueTypes: [], inputType: 'text' },
-      { operator: 'onlyAlphabet', type: 'onlyAlphabet', valueTypes: [], inputType: 'text' },
+      {
+        operator: 'onlyNumbers',
+        type: 'onlyNumbers',
+        valueTypes: [],
+        inputType: 'number',
+      },
+      {
+        operator: 'onlyAlphaNumeric',
+        type: 'onlyAlphaNumeric',
+        valueTypes: [],
+        inputType: 'text',
+      },
+      {
+        operator: 'onlyAlphabet',
+        type: 'onlyAlphabet',
+        valueTypes: [],
+        inputType: 'text',
+      },
     ],
     rulesObj: {
       operator: '',
       listContextTypes: ['Search Context', 'User Context', 'Page Context'],
-      listContextCategories: ['Customer Type', 'Accounts', 'Recent Searches', 'Device Type', 'Location', 'Page Name', ' Page Id']
+      listContextCategories: [
+        'Customer Type',
+        'Accounts',
+        'Recent Searches',
+        'Device Type',
+        'Location',
+        'Page Name',
+        ' Page Id',
+      ],
     },
     ruleConditionOr: {
       condition: 'OR',
-      rules: []
+      rules: [],
     },
     ruleConditionAnd: {
       condition: 'AND',
-      rules: []
-    }
-  }
+      rules: [],
+    },
+  };
   listContextTypes = ['Search Context', 'User Context', 'Page Context'];
-  listContextCategories = ['Customer Type', 'Accounts', 'Recent Searches', 'Device Type', 'Location', 'Page Name', ' Page Id'];
+  listContextCategories = [
+    'Customer Type',
+    'Accounts',
+    'Recent Searches',
+    'Device Type',
+    'Location',
+    'Page Name',
+    ' Page Id',
+  ];
   dispContextCategories = [];
-  listResultsCategories = ['Filter Results', 'Hide Results', 'Boost Results', 'Surplus Results', 'Rewrite Query'];
+  listResultsCategories = [
+    'Filter Results',
+    'Hide Results',
+    'Boost Results',
+    'Surplus Results',
+    'Rewrite Query',
+  ];
   rulesObjOO = {
     then: {
       resultCategory: '',
-      values: []
-    }
-  }
+      values: [],
+    },
+  };
   selectedTab = 'rules';
-  loadingTabDetails
+  loadingTabDetails;
   addAttributesModalPopRef: any;
   addRulesModalPopRef: any;
   addSignalsModalPopRef: any;
@@ -91,17 +198,17 @@ export class ResultsRulesComponent implements OnInit, OnDestroy {
     name: '',
     attributes: [],
     type: '',
-    isFacet: ''
+    isFacet: '',
   };
   name = {
-    na: ''
+    na: '',
   };
   ruleEditId: string;
   addEditRule: any = {};
   typedQuery;
   options: MdEditorOption = {
     showPreviewPanel: false,
-    hideIcons: ['TogglePreview']
+    hideIcons: ['TogglePreview'],
   };
   isAdd: boolean;
   isEdit: boolean;
@@ -111,8 +218,8 @@ export class ResultsRulesComponent implements OnInit, OnDestroy {
   draftRules: any = [];
   inReviewRules: any = [];
   approvedRules: any = [];
-  selectedApp
-  serachIndexId
+  selectedApp;
+  serachIndexId;
   groupsAdded: any = [];
   searchBlock = '';
   loading = true;
@@ -125,8 +232,8 @@ export class ResultsRulesComponent implements OnInit, OnDestroy {
   tabsList: any = [
     { name: 'Drafts', isSelected: true, count: 0 },
     { name: 'In-review', isSelected: false, count: 0 },
-    { name: 'Approved', isSelected: false, count: 0 }
-  ]
+    { name: 'Approved', isSelected: false, count: 0 },
+  ];
   selectAllSub: Subscription;
   openAddRulesModalSub: Subscription;
   deleteRuleSub: Subscription;
@@ -142,7 +249,7 @@ export class ResultsRulesComponent implements OnInit, OnDestroy {
     private workflowService: WorkflowService,
     public dialog: MatDialog,
     private rulesService: ResultsRulesService
-  ) { }
+  ) {}
   ngOnInit() {
     this.selectedApp = this.workflowService.selectedApp();
     this.serachIndexId = this.selectedApp.searchIndexes[0]._id;
@@ -157,21 +264,33 @@ export class ResultsRulesComponent implements OnInit, OnDestroy {
     this.rulesObjOO = {
       then: {
         resultCategory: '',
-        values: []
-      }
-    }
+        values: [],
+      },
+    };
     this.validationRules.rules = [
       {
-        "condition": "AND",
-        "rules": [
+        condition: 'AND',
+        rules: [
           {
-            "operator": ""
-          }
-        ]
-      }
+            operator: '',
+          },
+        ],
+      },
     ];
-    this.validationRules.rules[0].rules[0].listContextTypes = ['Search Context', 'User Context', 'Page Context'];
-    this.validationRules.rules[0].rules[0].listContextCategories = ['Customer Type', 'Accounts', 'Recent Searches', 'Device Type', 'Location', 'Page Name', ' Page Id'];
+    this.validationRules.rules[0].rules[0].listContextTypes = [
+      'Search Context',
+      'User Context',
+      'Page Context',
+    ];
+    this.validationRules.rules[0].rules[0].listContextCategories = [
+      'Customer Type',
+      'Accounts',
+      'Recent Searches',
+      'Device Type',
+      'Location',
+      'Page Name',
+      ' Page Id',
+    ];
   }
   selectTab(tab) {
     this.selectedTab = tab;
@@ -186,11 +305,13 @@ export class ResultsRulesComponent implements OnInit, OnDestroy {
     ruleData.contextCategory = null;
     if (val == 'User Context') {
       ruleData.dispContextCategories = ['Customer Type', 'Accounts'];
-    }
-    else if (val == 'Search Context') {
-      ruleData.dispContextCategories = ['Recent Searches', 'Device Type', 'Location'];
-    }
-    else if (val == 'Page Context') {
+    } else if (val == 'Search Context') {
+      ruleData.dispContextCategories = [
+        'Recent Searches',
+        'Device Type',
+        'Location',
+      ];
+    } else if (val == 'Page Context') {
       ruleData.dispContextCategories = ['Page Name', ' Page Id'];
     }
   }
@@ -213,19 +334,25 @@ export class ResultsRulesComponent implements OnInit, OnDestroy {
     ruleSet.rules.push(rule);
   }
   addRuleSetToRuleSet(ruleSet) {
-    const tempRuleSet = JSON.parse(JSON.stringify(this.validationOperators.ruleConditionAnd));
+    const tempRuleSet = JSON.parse(
+      JSON.stringify(this.validationOperators.ruleConditionAnd)
+    );
     const rule = JSON.parse(JSON.stringify(this.validationOperators.rulesObj));
     tempRuleSet.rules.push(rule);
     ruleSet.rules.push(tempRuleSet);
   }
   addNewSimpleRuleSet() {
-    const tempObj = JSON.parse(JSON.stringify(this.validationOperators.ruleConditionOr));
-    const tempRuleSet = JSON.parse(JSON.stringify(this.validationOperators.ruleConditionAnd))
+    const tempObj = JSON.parse(
+      JSON.stringify(this.validationOperators.ruleConditionOr)
+    );
+    const tempRuleSet = JSON.parse(
+      JSON.stringify(this.validationOperators.ruleConditionAnd)
+    );
     const rule = JSON.parse(JSON.stringify(this.validationOperators.rulesObj));
     tempRuleSet.rules.push(rule);
     if (!(this.validationRules.rules && this.validationRules.rules.length)) {
       tempObj.rules.push(tempRuleSet);
-      this.validationRules = tempObj
+      this.validationRules = tempObj;
     } else if (this.validationRules.rules && this.validationRules.condition) {
       this.validationRules.rules.push(tempRuleSet);
     }
@@ -233,22 +360,30 @@ export class ResultsRulesComponent implements OnInit, OnDestroy {
   getAttributes() {
     const quaryparamats = {
       searchIndexId: this.serachIndexId,
-    }
+    };
     this.service.invoke('get.groups', quaryparamats).subscribe(
-      res => {
-        res.groups = _.filter(res.groups, o => o.action != 'delete')
+      (res) => {
+        res.groups = _.filter(res.groups, (o) => o.action != 'delete');
         this.allGroups = _.pluck(res.groups, 'name');
-        this.allValues = _.map(_.pluck(res.groups, 'attributes'), o => { return _.pluck(o, 'value') });
+        this.allValues = _.map(_.pluck(res.groups, 'attributes'), (o) => {
+          return _.pluck(o, 'value');
+        });
         this.groupVal = _.object(this.allGroups, this.allValues);
-        this.groupIds = _.map(res.groups, function (o) { return _.pick(o, 'name', '_id') });
-        let temp = _.pluck(res.groups, 'attributes').filter(o => { return o.length != 0 });
+        this.groupIds = _.map(res.groups, function (o) {
+          return _.pick(o, 'name', '_id');
+        });
+        let temp = _.pluck(res.groups, 'attributes').filter((o) => {
+          return o.length != 0;
+        });
         let tempVals = [];
-        temp.forEach(o => { tempVals.push(...o) });
+        temp.forEach((o) => {
+          tempVals.push(...o);
+        });
         this.valueIds = tempVals;
         this.attributes = res;
         this.loading = false;
       },
-      errRes => {
+      (errRes) => {
         this.loading = false;
       }
     );
@@ -259,32 +394,59 @@ export class ResultsRulesComponent implements OnInit, OnDestroy {
       for (var i = 0; i < event.length; i++) {
         if (event[i].indexOf(':') == -1) {
           let temp3 = {
-            "type": "string",
-            "value": event[i]
-          }
+            type: 'string',
+            value: event[i],
+          };
           rule.values.push(temp3);
-        }
-        else {
-          let temp1 = { type: 'group', groupId: _.findWhere(this.groupIds, { name: event[i].split(':')[0] })._id, value: event[i].split(':')[0] };
-          let temp2 = { type: 'groupValue', groupId: _.findWhere(this.groupIds, { name: event[i].split(':')[0] })._id, groupValueId: _.findWhere(this.valueIds, { value: event[i].split(':')[1] })._id, value: event[i] };
+        } else {
+          let temp1 = {
+            type: 'group',
+            groupId: _.findWhere(this.groupIds, {
+              name: event[i].split(':')[0],
+            })._id,
+            value: event[i].split(':')[0],
+          };
+          let temp2 = {
+            type: 'groupValue',
+            groupId: _.findWhere(this.groupIds, {
+              name: event[i].split(':')[0],
+            })._id,
+            groupValueId: _.findWhere(this.valueIds, {
+              value: event[i].split(':')[1],
+            })._id,
+            value: event[i],
+          };
           rule.values.push(temp1);
           rule.values.push(temp2);
         }
       }
-    }
-    else if (type == 'then') {
+    } else if (type == 'then') {
       this.rulesObjOO.then.values = [];
       for (var i = 0; i < event.length; i++) {
         if (event[i].indexOf(':') == -1) {
           let temp3 = {
-            "type": "string",
-            "value": event[i]
-          }
+            type: 'string',
+            value: event[i],
+          };
           this.rulesObjOO.then.values.push(temp3);
-        }
-        else {
-          let temp1 = { type: 'group', groupId: _.findWhere(this.groupIds, { name: event[i].split(':')[0] })._id, value: event[i].split(':')[0] };
-          let temp2 = { type: 'groupValue', groupId: _.findWhere(this.groupIds, { name: event[i].split(':')[0] })._id, groupValueId: _.findWhere(this.valueIds, { value: event[i].split(':')[1] })._id, value: event[i] };
+        } else {
+          let temp1 = {
+            type: 'group',
+            groupId: _.findWhere(this.groupIds, {
+              name: event[i].split(':')[0],
+            })._id,
+            value: event[i].split(':')[0],
+          };
+          let temp2 = {
+            type: 'groupValue',
+            groupId: _.findWhere(this.groupIds, {
+              name: event[i].split(':')[0],
+            })._id,
+            groupValueId: _.findWhere(this.valueIds, {
+              value: event[i].split(':')[1],
+            })._id,
+            value: event[i],
+          };
           this.rulesObjOO.then.values.push(temp1);
           this.rulesObjOO.then.values.push(temp2);
         }
@@ -293,7 +455,6 @@ export class ResultsRulesComponent implements OnInit, OnDestroy {
   }
 
   editRules() {
-
     if (this.name.na.trim() == '') {
       this.notify.notify('Please enter rule name', 'error');
       return;
@@ -303,31 +464,39 @@ export class ResultsRulesComponent implements OnInit, OnDestroy {
       this.notify.notify('Atleast one rule is mandatory to proceed', 'error');
       return;
     }
-    if (this.rulesObjOO.then.resultCategory == '' || this.rulesObjOO.then.values.length == 0) {
+    if (
+      this.rulesObjOO.then.resultCategory == '' ||
+      this.rulesObjOO.then.values.length == 0
+    ) {
       this.notify.notify('THEN rule is mandatory to proceed', 'error');
       return;
     }
-    rulesCheck = _.map(rulesCheck, o => { return _.pick(o, 'contextCategory', 'contextType', 'operator', 'values') });
+    rulesCheck = _.map(rulesCheck, (o) => {
+      return _.pick(o, 'contextCategory', 'contextType', 'operator', 'values');
+    });
     this.validationRules.rules[0].rules = rulesCheck;
     let params = {
       searchIndexId: this.serachIndexId,
-      ruleId: this.ruleEditId
+      ruleId: this.ruleEditId,
     };
     let payload = {
       name: this.name.na,
       type: 'web',
-      definition: { if: {}, then: {} }
-    }
+      definition: { if: {}, then: {} },
+    };
     payload.definition.if = this.validationRules;
     payload.definition.then = this.rulesObjOO.then;
 
-    this.service.invoke('update.rule', params, payload).subscribe(res => {
-      this.closeAddRulesModal();
-      this.notify.notify('Rule has been updated', 'success');
-      this.getRules();
-    }, err => {
-      this.closeAddRulesModal()
-    })
+    this.service.invoke('update.rule', params, payload).subscribe(
+      (res) => {
+        this.closeAddRulesModal();
+        this.notify.notify('Rule has been updated', 'success');
+        this.getRules();
+      },
+      (err) => {
+        this.closeAddRulesModal();
+      }
+    );
   }
 
   addEditRules(rule) {
@@ -342,7 +511,7 @@ export class ResultsRulesComponent implements OnInit, OnDestroy {
       this.addEditRule = {
         name: '',
         definition: [],
-      }
+      };
       this.resetRule();
       this.isEdit = false;
       this.isAdd = true;
@@ -353,23 +522,33 @@ export class ResultsRulesComponent implements OnInit, OnDestroy {
   deleteAttributes(attribute) {
     const quaryparamats = {
       searchIndexId: this.serachIndexId,
-      groupId: attribute._id
-    }
+      groupId: attribute._id,
+    };
     this.service.invoke('delete.group', quaryparamats).subscribe(
-      res => {
+      (res) => {
         console.log(res);
       },
-      errRes => {
-      }
+      (errRes) => {}
     );
   }
 
-
   tabActive(tab) {
-    this.tabsList.map(o => { o.isSelected = false; return o; });
-    this.draftRules.map(o => { o.isChecked = false; return o; });
-    this.inReviewRules.map(o => { o.isChecked = false; return o; });
-    this.approvedRules.map(o => { o.isChecked = false; return o; });
+    this.tabsList.map((o) => {
+      o.isSelected = false;
+      return o;
+    });
+    this.draftRules.map((o) => {
+      o.isChecked = false;
+      return o;
+    });
+    this.inReviewRules.map((o) => {
+      o.isChecked = false;
+      return o;
+    });
+    this.approvedRules.map((o) => {
+      o.isChecked = false;
+      return o;
+    });
     this.searchBlock = '';
     this.rulesService.isCheckAll = false;
     this.rulesService.showReviewFooter = false;
@@ -377,25 +556,39 @@ export class ResultsRulesComponent implements OnInit, OnDestroy {
   }
 
   allSubscribe() {
-    this.selectAllSub = this.rulesService.selectAll.subscribe(res => {
+    this.selectAllSub = this.rulesService.selectAll.subscribe((res) => {
       let tabActive = _.findWhere(this.tabsList, { isSelected: true }).name;
       if (tabActive == 'Drafts') {
-        this.draftRules = _.map(this.draftRules, o => { o.isChecked = !this.rulesService.isCheckAll; return o; });
-        this.rulesService.showReviewFooter = _.where(this.rules, { isChecked: true }).length > 0;
+        this.draftRules = _.map(this.draftRules, (o) => {
+          o.isChecked = !this.rulesService.isCheckAll;
+          return o;
+        });
+        this.rulesService.showReviewFooter =
+          _.where(this.rules, { isChecked: true }).length > 0;
       } else if (tabActive == 'In-review') {
-        this.inReviewRules = _.map(this.inReviewRules, o => { o.isChecked = !this.rulesService.isCheckAll; return o; });
-        this.rulesService.showReviewFooter = _.where(this.rules, { isChecked: true }).length > 0;
+        this.inReviewRules = _.map(this.inReviewRules, (o) => {
+          o.isChecked = !this.rulesService.isCheckAll;
+          return o;
+        });
+        this.rulesService.showReviewFooter =
+          _.where(this.rules, { isChecked: true }).length > 0;
       } else if (tabActive == 'Approved') {
-        this.approvedRules = _.map(this.approvedRules, o => { o.isChecked = !this.rulesService.isCheckAll; return o; });
-        this.rulesService.showReviewFooter = _.where(this.rules, { isChecked: true }).length > 0;
+        this.approvedRules = _.map(this.approvedRules, (o) => {
+          o.isChecked = !this.rulesService.isCheckAll;
+          return o;
+        });
+        this.rulesService.showReviewFooter =
+          _.where(this.rules, { isChecked: true }).length > 0;
       }
     });
 
-    this.openAddRulesModalSub = this.rulesService.openAddRulesModal.subscribe(res => {
-      this.addEditRules(res);
-      // this.addRulesModalPopRef  = this.addRulesModalPop.open();
-    });
-    this.deleteRuleSub = this.rulesService.deleteRule.subscribe(res => {
+    this.openAddRulesModalSub = this.rulesService.openAddRulesModal.subscribe(
+      (res) => {
+        this.addEditRules(res);
+        // this.addRulesModalPopRef  = this.addRulesModalPop.open();
+      }
+    );
+    this.deleteRuleSub = this.rulesService.deleteRule.subscribe((res) => {
       const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
         width: '530px',
         height: 'auto',
@@ -403,109 +596,151 @@ export class ResultsRulesComponent implements OnInit, OnDestroy {
         data: {
           newTitle: 'Are you sure you want to delete ?',
           body: 'Selected rule will be deleted.',
-          buttons: [{ key: 'yes', label: 'Delete', type: 'danger' }, { key: 'no', label: 'Cancel' }],
-          confirmationPopUp: true
+          buttons: [
+            { key: 'yes', label: 'Delete', type: 'danger' },
+            { key: 'no', label: 'Cancel' },
+          ],
+          confirmationPopUp: true,
+        },
+      });
+      dialogRef.componentInstance.onSelect.subscribe((result) => {
+        if (result === 'yes') {
+          const params = {
+            searchIndexId: this.serachIndexId,
+            ruleId: res,
+          };
+          this.service.invoke('delete.rule', params).subscribe(
+            (res) => {
+              this.getRules();
+            },
+            (err) => {}
+          );
+          dialogRef.close();
+        } else if (result === 'no') {
+          dialogRef.close();
         }
       });
-      dialogRef.componentInstance.onSelect
-        .subscribe(result => {
-          if (result === 'yes') {
-            const params = {
-              searchIndexId: this.serachIndexId,
-              ruleId: res
-            };
-            this.service.invoke('delete.rule', params).subscribe(
-              res => {
-                this.getRules();
-              }, err => {
-
-              })
-            dialogRef.close();
-          } else if (result === 'no') { dialogRef.close(); }
-        });
     });
-    this.bulkSendSub = this.rulesService.bulkSend.subscribe(res => {
+    this.bulkSendSub = this.rulesService.bulkSend.subscribe((res) => {
       let tabActive = _.findWhere(this.tabsList, { isSelected: true }).name;
       let selectedIds = [];
       if (tabActive == 'Drafts') {
-        selectedIds = _.map(_.where(this.draftRules, { isChecked: true }), o => _.pick(o, '_id'));
+        selectedIds = _.map(
+          _.where(this.draftRules, { isChecked: true }),
+          (o) => _.pick(o, '_id')
+        );
       } else if (tabActive == 'In-review') {
-        selectedIds = _.map(_.where(this.inReviewRules, { isChecked: true }), o => _.pick(o, '_id'));
+        selectedIds = _.map(
+          _.where(this.inReviewRules, { isChecked: true }),
+          (o) => _.pick(o, '_id')
+        );
       } else if (tabActive == 'Approved') {
-        selectedIds = _.map(_.where(this.approvedRules, { isChecked: true }), o => _.pick(o, '_id'));
+        selectedIds = _.map(
+          _.where(this.approvedRules, { isChecked: true }),
+          (o) => _.pick(o, '_id')
+        );
       }
       let params = {
-        searchIndexId: this.serachIndexId
-      }
+        searchIndexId: this.serachIndexId,
+      };
       let payload = {
         rules: selectedIds,
         state: res,
-        action: 'edit'
+        action: 'edit',
       };
-      this.service.invoke('updateBulk.rule', params, payload).subscribe(res => {
-        this.notify.notify(res.msg, 'success');
-        this.rulesService.showReviewFooter = false;
-        this.rulesService.isCheckAll = false;
-        this.getRules();
-      }, err => {
-
-      });
+      this.service.invoke('updateBulk.rule', params, payload).subscribe(
+        (res) => {
+          this.notify.notify(res.msg, 'success');
+          this.rulesService.showReviewFooter = false;
+          this.rulesService.isCheckAll = false;
+          this.getRules();
+        },
+        (err) => {}
+      );
     });
-    this.bulkDeleteSub = this.rulesService.bulkDelete.subscribe(res => {
+    this.bulkDeleteSub = this.rulesService.bulkDelete.subscribe((res) => {
       let tabActive = _.findWhere(this.tabsList, { isSelected: true }).name;
       let selectedIds = [];
       if (tabActive == 'Drafts') {
-        selectedIds = _.map(_.where(this.draftRules, { isChecked: true }), o => _.pick(o, '_id'));
+        selectedIds = _.map(
+          _.where(this.draftRules, { isChecked: true }),
+          (o) => _.pick(o, '_id')
+        );
       } else if (tabActive == 'In-review') {
-        selectedIds = _.map(_.where(this.inReviewRules, { isChecked: true }), o => _.pick(o, '_id'));
+        selectedIds = _.map(
+          _.where(this.inReviewRules, { isChecked: true }),
+          (o) => _.pick(o, '_id')
+        );
       } else if (tabActive == 'Approved') {
-        selectedIds = _.map(_.where(this.approvedRules, { isChecked: true }), o => _.pick(o, '_id'));
+        selectedIds = _.map(
+          _.where(this.approvedRules, { isChecked: true }),
+          (o) => _.pick(o, '_id')
+        );
       }
       let params = {
-        searchIndexId: this.serachIndexId
-      }
+        searchIndexId: this.serachIndexId,
+      };
       let payload = {
         rules: selectedIds,
-        action: 'delete'
+        action: 'delete',
       };
-      this.service.invoke('updateBulk.rule', params, payload).subscribe(res => {
-        this.notify.notify('Rules deleted successfully', 'success');
-        this.rulesService.showReviewFooter = false;
-        this.rulesService.isCheckAll = false;
-        this.getRules();
-      }, err => {
-
-      });
+      this.service.invoke('updateBulk.rule', params, payload).subscribe(
+        (res) => {
+          this.notify.notify('Rules deleted successfully', 'success');
+          this.rulesService.showReviewFooter = false;
+          this.rulesService.isCheckAll = false;
+          this.getRules();
+        },
+        (err) => {}
+      );
     });
-
   }
 
   getRules() {
     const quaryparamats = {
       searchIndexId: this.serachIndexId,
-    }
+    };
     this.service.invoke('get.rules', quaryparamats).subscribe(
-      res => {
-        this.rules = _.map(res.rules, o => { o.isChecked = false; return o });
-        this.rules = _.filter(res.rules, function (o) { return o.action != "delete"; });
+      (res) => {
+        this.rules = _.map(res.rules, (o) => {
+          o.isChecked = false;
+          return o;
+        });
+        this.rules = _.filter(res.rules, function (o) {
+          return o.action != 'delete';
+        });
 
-        this.rules.forEach(o => {
-          o.definition.if.rules.map(oo => {
-            oo.rules.map(ooo => {
-              ooo.listContextTypes = ['Search Context', 'User Context', 'Page Context'];
-              ooo.listContextCategories = ['Customer Type', 'Accounts', 'Recent Searches', 'Device Type', 'Location', 'Page Name', ' Page Id'];
+        this.rules.forEach((o) => {
+          o.definition.if.rules.map((oo) => {
+            oo.rules.map((ooo) => {
+              ooo.listContextTypes = [
+                'Search Context',
+                'User Context',
+                'Page Context',
+              ];
+              ooo.listContextCategories = [
+                'Customer Type',
+                'Accounts',
+                'Recent Searches',
+                'Device Type',
+                'Location',
+                'Page Name',
+                ' Page Id',
+              ];
               if (ooo.contextType == 'User Context') {
                 ooo.dispContextCategories = ['Customer Type', 'Accounts'];
-              }
-              else if (ooo.contextType == 'Search Context') {
-                ooo.dispContextCategories = ['Recent Searches', 'Device Type', 'Location'];
-              }
-              else if (ooo.contextType == 'Page Context') {
+              } else if (ooo.contextType == 'Search Context') {
+                ooo.dispContextCategories = [
+                  'Recent Searches',
+                  'Device Type',
+                  'Location',
+                ];
+              } else if (ooo.contextType == 'Page Context') {
                 ooo.dispContextCategories = ['Page Name', ' Page Id'];
               }
               return ooo;
-            })
-          })
+            });
+          });
         });
         this.draftRules = _.where(this.rules, { state: 'draft' });
         this.inReviewRules = _.where(this.rules, { state: 'in-review' });
@@ -515,14 +750,21 @@ export class ResultsRulesComponent implements OnInit, OnDestroy {
         this.tabsList[2].count = this.approvedRules.length;
         this.loadingRules = false;
       },
-      errRes => {
-        this.errorToaster(errRes)
-        this.loadingRules = false
-      });
+      (errRes) => {
+        this.errorToaster(errRes);
+        this.loadingRules = false;
+      }
+    );
   }
 
   errorToaster(errRes, message?) {
-    if (errRes && errRes.error && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0].msg) {
+    if (
+      errRes &&
+      errRes.error &&
+      errRes.error.errors &&
+      errRes.error.errors.length &&
+      errRes.error.errors[0].msg
+    ) {
       this.notify.notify(errRes.error.errors[0].msg, 'error');
     } else if (message) {
       this.notify.notify(message, 'error');
@@ -532,15 +774,21 @@ export class ResultsRulesComponent implements OnInit, OnDestroy {
   }
 
   validateRules(rulesList) {
-    return _.filter(rulesList, o => {
-      return o.operator != '' && o.hasOwnProperty('contextType') && o.hasOwnProperty('contextCategory') && o.hasOwnProperty('values') && o.values.length > 0;
+    return _.filter(rulesList, (o) => {
+      return (
+        o.operator != '' &&
+        o.hasOwnProperty('contextType') &&
+        o.hasOwnProperty('contextCategory') &&
+        o.hasOwnProperty('values') &&
+        o.values.length > 0
+      );
     });
   }
 
   saveRules() {
     const quaryparamats = {
-      searchIndexId: this.serachIndexId
-    }
+      searchIndexId: this.serachIndexId,
+    };
     if (this.name.na.trim() == '') {
       this.notify.notify('Please enter rule name', 'error');
       return;
@@ -550,31 +798,38 @@ export class ResultsRulesComponent implements OnInit, OnDestroy {
       this.notify.notify('Atleast one rule is mandatory to proceed', 'error');
       return;
     }
-    if (this.rulesObjOO.then.resultCategory == '' || this.rulesObjOO.then.values.length == 0) {
+    if (
+      this.rulesObjOO.then.resultCategory == '' ||
+      this.rulesObjOO.then.values.length == 0
+    ) {
       this.notify.notify('THEN rule is mandatory to proceed', 'error');
       return;
     }
-    rulesCheck = _.map(rulesCheck, o => { return _.pick(o, 'contextCategory', 'contextType', 'operator', 'values') });
+    rulesCheck = _.map(rulesCheck, (o) => {
+      return _.pick(o, 'contextCategory', 'contextType', 'operator', 'values');
+    });
     this.validationRules.rules[0].rules = rulesCheck;
     const params = {
-      searchIndexId: this.serachIndexId
-    }
+      searchIndexId: this.serachIndexId,
+    };
     let payload = {
       name: this.name.na,
       type: 'web',
-      definition: { if: {}, then: {} }
-    }
+      definition: { if: {}, then: {} },
+    };
     payload.definition.if = this.validationRules;
     payload.definition.then = this.rulesObjOO.then;
     this.service.invoke('create.rule', params, payload).subscribe(
-      res => {
+      (res) => {
         console.log(res);
         this.closeAddRulesModal();
         this.getRules();
         this.resetRule();
-      }, err => {
+      },
+      (err) => {
         this.errorToaster(err, 'Unable to save the rule');
-      });
+      }
+    );
   }
   checkDuplicateTags(suggestion: string): boolean {
     return this.addEditattribute.attributes.every((f) => f.tag !== suggestion);
@@ -586,7 +841,6 @@ export class ResultsRulesComponent implements OnInit, OnDestroy {
 
     // Add our tag
     if ((value || '').trim()) {
-
       if (!this.checkDuplicateTags((value || '').trim())) {
         this.notify.notify('Duplicate tags are not allowed', 'warning');
       } else {
@@ -635,5 +889,4 @@ export class ResultsRulesComponent implements OnInit, OnDestroy {
     this.bulkSendSub ? this.bulkSendSub.unsubscribe() : false;
     this.bulkDeleteSub ? this.bulkDeleteSub.unsubscribe() : false;
   }
-
 }

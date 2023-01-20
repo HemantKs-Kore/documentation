@@ -1,21 +1,16 @@
-import { Injectable, Output, EventEmitter } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { WorkflowService } from './workflow.service';
 import { ServiceInvokerService } from './service-invoker.service';
-import {
-  BehaviorSubject,
-  pipe,
-  ReplaySubject,
-  Subject,
-  Subscription,
-} from 'rxjs';
+import { BehaviorSubject, ReplaySubject, Subject } from 'rxjs';
 import * as _ from 'underscore';
 import { Router } from '@angular/router';
 import { SideBarService } from './header.service';
-import { AuthService } from '@kore.services/auth.service';
-import { LocalStoreService } from '@kore.services/localstore.service';
 import { NotificationService } from './notification.service';
 import { AppUrlsService } from './app.urls.service';
-import { environment } from '@kore.environment';
+import { AuthService } from './auth.service';
+import { environment } from '../../environments/environment';
+import { LocalStoreService } from './localstore.service';
+environment;
 @Injectable()
 export class AppSelectionService {
   queryList: any = [];

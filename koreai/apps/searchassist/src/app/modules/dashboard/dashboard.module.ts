@@ -6,12 +6,12 @@ import { DashboardComponent } from './dashboard.component';
 import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
 import { TranslateModule } from '@ngx-translate/core';
 import { FormsModule } from '@angular/forms';
-import { UseronboardingJourneyModule } from '@kore.helpers/components/useronboarding-journey/useronboarding-journey.module';
 import {
   NgbTimepickerModule,
   NgbTooltipModule,
 } from '@ng-bootstrap/ng-bootstrap';
 import { NgxDaterangepickerMd } from 'ngx-daterangepicker-material';
+import { UseronboardingJourneyModule } from '@kore.apps/helpers/components/useronboarding-journey/useronboarding-journey.module';
 
 @NgModule({
   declarations: [DashboardComponent],

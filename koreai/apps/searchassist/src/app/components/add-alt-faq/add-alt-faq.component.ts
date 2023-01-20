@@ -1,12 +1,22 @@
-import { Component, OnInit, Input, OnChanges, SimpleChanges, Output, EventEmitter, ElementRef, ViewChild } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  Input,
+  OnChanges,
+  SimpleChanges,
+  Output,
+  EventEmitter,
+  ElementRef,
+  ViewChild,
+} from '@angular/core';
 import { MatChipInputEvent } from '@angular/material/chips';
-import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete'
+import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { ENTER, COMMA } from '@angular/cdk/keycodes';
 import { NgbTooltipConfig } from '@ng-bootstrap/ng-bootstrap';
-import { ServiceInvokerService } from '@kore.services/service-invoker.service';
 import { NotificationService } from '../../services/notification.service';
-import { AuthService } from '@kore.services/auth.service';
-import { KgDataService } from '@kore.services/componentsServices/kg-data.service';
+import { ServiceInvokerService } from '@kore.apps/services/service-invoker.service';
+import { AuthService } from '@kore.apps/services/auth.service';
+import { KgDataService } from '@kore.apps/services/componentsServices/kg-data.service';
 declare const $: any;
 @Component({
   selector: 'app-add-alt-faq',
@@ -48,7 +58,10 @@ export class AddAltFaqComponent implements OnInit, OnChanges {
   ngOnChanges(changes: SimpleChanges) {
     if (changes.selectedFaq && !changes.selectedFaq.firstChange) {
       this.reset();
-      if (changes.selectedFaq.previousValue && changes.selectedFaq.previousValue.questionPayload) {
+      if (
+        changes.selectedFaq.previousValue &&
+        changes.selectedFaq.previousValue.questionPayload
+      ) {
         // this.altTags = changes.selectedFaq.previousValue.questionPayload.tagsPayload || [];
         // this.altTags = this.options;
       }
@@ -72,7 +85,7 @@ export class AddAltFaqComponent implements OnInit, OnChanges {
       (res) => {
         this.suggestionTags = res;
       },
-      (err) => { }
+      (err) => {}
     );
   }
 
@@ -91,7 +104,6 @@ export class AddAltFaqComponent implements OnInit, OnChanges {
 
     // Add our tag
     if ((value || '').trim()) {
-
       if (!this.checkDuplicateTags((value || '').trim())) {
         this.notify.notify('Duplicate tags are not allowed', 'warning');
       } else {
@@ -165,7 +177,7 @@ export class AddAltFaqComponent implements OnInit, OnChanges {
       }
     }, 2000);
   }
-  toggleEnter() { }
+  toggleEnter() {}
   containFocused(isFocused) {
     this.isFocused = isFocused;
   }

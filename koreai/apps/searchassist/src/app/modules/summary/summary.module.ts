@@ -4,9 +4,9 @@ import { CommonModule } from '@angular/common';
 import { SummaryRoutingModule } from './summary-routing.module';
 import { SummaryComponent } from './summary.component';
 import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
-import { UseronboardingJourneyModule } from '@kore.helpers/components/useronboarding-journey/useronboarding-journey.module';
 import { TranslateModule } from '@ngx-translate/core';
-import { SharedPipesModule } from '@kore.helpers/filters/shared-pipes.module';
+import { UseronboardingJourneyModule } from '@kore.apps/helpers/components/useronboarding-journey/useronboarding-journey.module';
+import { SharedPipesModule } from '@kore.apps/helpers/filters/shared-pipes.module';
 
 @NgModule({
   declarations: [SummaryComponent],

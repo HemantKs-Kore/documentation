@@ -1,21 +1,27 @@
-import { Component, OnInit, ViewChild, ElementRef, OnDestroy } from '@angular/core';
-import { WorkflowService } from '@kore.services/workflow.service';
-import { ServiceInvokerService } from '@kore.services/service-invoker.service';
-import { AppSelectionService } from '@kore.services/app.selection.service'; //imported on 17/01
-import { NotificationService } from '@kore.services/notification.service';
+import {
+  Component,
+  OnInit,
+  ViewChild,
+  ElementRef,
+  OnDestroy,
+} from '@angular/core';
 import { EChartOption } from 'echarts';
 import { Router } from '@angular/router';
 import { Moment } from 'moment';
 import * as moment from 'moment-timezone';
 import { DaterangepickerDirective } from 'ngx-daterangepicker-material';
 import { Subscription } from 'rxjs';
-import { SideBarService } from '@kore.services/header.service';
+import { WorkflowService } from '@kore.apps/services/workflow.service';
+import { ServiceInvokerService } from '@kore.apps/services/service-invoker.service';
+import { AppSelectionService } from '@kore.apps/services/app.selection.service';
+import { NotificationService } from '@kore.apps/services/notification.service';
+import { SideBarService } from '@kore.apps/services/header.service';
 
 declare const $: any;
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
-  styleUrls: ['./dashboard.component.scss']
+  styleUrls: ['./dashboard.component.scss'],
 })
 export class DashboardComponent implements OnInit, OnDestroy {
   math = Math;
@@ -75,15 +81,15 @@ export class DashboardComponent implements OnInit, OnDestroy {
   userEngagementChartData: EChartOption;
   selectedSort = '';
   sortedObject = {
-    'type': 'fieldName',
-    'position': 'up',
-    "value": 'asc',
-  }
+    type: 'fieldName',
+    position: 'up',
+    value: 'asc',
+  };
   isAsc = true;
   slider = 0;
-  dateType = "hour";
-  group = "week";
-  isyAxisMostClickPostiondata = false
+  dateType = 'hour';
+  group = 'week';
+  isyAxisMostClickPostiondata = false;
   startDate: any = moment().subtract({ days: 7 });
   endDate: any = moment();
   defaultSelectedDay = 7;
@@ -93,19 +99,24 @@ export class DashboardComponent implements OnInit, OnDestroy {
   searchConfigurationSubscription: Subscription;
   appSubscription: Subscription;
   indexPipelineId: string;
-  selected: { startDate: Moment, endDate: Moment } = { startDate: this.startDate, endDate: this.endDate }
-  @ViewChild(DaterangepickerDirective, { static: true }) pickerDirective: DaterangepickerDirective;
+  selected: { startDate: Moment; endDate: Moment } = {
+    startDate: this.startDate,
+    endDate: this.endDate,
+  };
+  @ViewChild(DaterangepickerDirective, { static: true })
+  pickerDirective: DaterangepickerDirective;
   @ViewChild('datetimeTrigger') datetimeTrigger: ElementRef<HTMLElement>;
-  constructor(public workflowService: WorkflowService,
+  constructor(
+    public workflowService: WorkflowService,
     private service: ServiceInvokerService,
     private router: Router,
     public headerService: SideBarService,
     private appSelectionService: AppSelectionService,
-    private notificationService: NotificationService) { }
-    indexConfigs: any = [];//added on 17/01
+    private notificationService: NotificationService
+  ) {}
+  indexConfigs: any = []; //added on 17/01
 
   ngOnInit(): void {
-
     this.selectedApp = this.workflowService.selectedApp();
     //this.indexConfigs = this.appSelectionService.appSelectedConfigs;
     this.serachIndexId = this.selectedApp.searchIndexes[0]._id;
@@ -128,60 +139,62 @@ export class DashboardComponent implements OnInit, OnDestroy {
     //     }
     //   }
 
-
-
     //  }) //changes ends here
 
-
     this.indexPipelineId = this.workflowService.selectedIndexPipeline();
-    this.appSubscription = this.appSelectionService.appSelectedConfigs.subscribe(res => {
-      this.indexPipelineId = this.workflowService.selectedIndexPipeline();
-    })
+    this.appSubscription =
+      this.appSelectionService.appSelectedConfigs.subscribe((res) => {
+        this.indexPipelineId = this.workflowService.selectedIndexPipeline();
+      });
     this.searchExperienceConfig = this.headerService.searchConfiguration;
-
-
-
-
   }
 
   getIndexPipeline() {
     const header: any = {
-      'x-timezone-offset': '-330'
+      'x-timezone-offset': '-330',
     };
     const quaryparms: any = {
       searchIndexId: this.serachIndexId,
       offset: 0,
-      limit: 100
+      limit: 100,
     };
-    this.service.invoke('get.indexPipeline', quaryparms, header).subscribe(res => {
-      this.indexConfigs = res;
-      this.indexConfigs.forEach(element => {
+    this.service.invoke('get.indexPipeline', quaryparms, header).subscribe(
+      (res) => {
+        this.indexConfigs = res;
+        this.indexConfigs.forEach((element) => {
           this.indexConfigObj[element._id] = element;
-         });
-      if (res.length >= 0){
-            // this.selectedIndexConfig = this.workflowService.selectedIndexPipeline();
-            for(let i=0;i<res.length;i++){
-              if(res[i].default=== true){
-                this.selectedIndexConfig=res[i]._id;
-              }
+        });
+        if (res.length >= 0) {
+          // this.selectedIndexConfig = this.workflowService.selectedIndexPipeline();
+          for (let i = 0; i < res.length; i++) {
+            if (res[i].default === true) {
+              this.selectedIndexConfig = res[i]._id;
             }
-            this.getAllgraphdetails(this.selectedIndexConfig);
-            // for(let i=0;i<res.length;i++){
-            //   if(res[i].default=== true){
-            //     this.selecteddropname=res[i].name;
-            //   }
-            // }
           }
+          this.getAllgraphdetails(this.selectedIndexConfig);
+          // for(let i=0;i<res.length;i++){
+          //   if(res[i].default=== true){
+          //     this.selecteddropname=res[i].name;
+          //   }
+          // }
+        }
 
-      //this.getQueryPipeline(res[0]._id);
-    }, errRes => {
-      if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
-        this.notificationService.notify(errRes.error.errors[0].msg, 'error');
-      } else {
-        this.notificationService.notify('Failed ', 'error');
+        //this.getQueryPipeline(res[0]._id);
+      },
+      (errRes) => {
+        if (
+          errRes &&
+          errRes.error.errors &&
+          errRes.error.errors.length &&
+          errRes.error.errors[0] &&
+          errRes.error.errors[0].msg
+        ) {
+          this.notificationService.notify(errRes.error.errors[0].msg, 'error');
+        } else {
+          this.notificationService.notify('Failed ', 'error');
+        }
       }
-    });
-
+    );
   }
 
   /*added on 21/01 creating seperate function for caputuring res inside funcstion rather than calling in ngOninit */
@@ -203,19 +216,17 @@ export class DashboardComponent implements OnInit, OnDestroy {
   //  })
   // }
   /* added on 17/01 */
-  getAllgraphdetails(selectedindexpipeline){
-    this.selecteddropId=selectedindexpipeline;
-    this.getQueries("TotalUsersStats",selectedindexpipeline);
-    this.getQueries("TotalSearchesStats",selectedindexpipeline);
-    this.getQueries("TopQuriesWithNoResults",selectedindexpipeline);
-    this.getQueries("MostSearchedQuries",selectedindexpipeline);
-    this.getQueries("QueriesWithNoClicks",selectedindexpipeline);
-    this.getQueries("SearchHistogram",selectedindexpipeline);
-    this.getQueries("TopSearchResults",selectedindexpipeline);
-    this.getQueries("MostClickedPositions",selectedindexpipeline);
-    this.getQueries("FeedbackStats",selectedindexpipeline);
-
-
+  getAllgraphdetails(selectedindexpipeline) {
+    this.selecteddropId = selectedindexpipeline;
+    this.getQueries('TotalUsersStats', selectedindexpipeline);
+    this.getQueries('TotalSearchesStats', selectedindexpipeline);
+    this.getQueries('TopQuriesWithNoResults', selectedindexpipeline);
+    this.getQueries('MostSearchedQuries', selectedindexpipeline);
+    this.getQueries('QueriesWithNoClicks', selectedindexpipeline);
+    this.getQueries('SearchHistogram', selectedindexpipeline);
+    this.getQueries('TopSearchResults', selectedindexpipeline);
+    this.getQueries('MostClickedPositions', selectedindexpipeline);
+    this.getQueries('FeedbackStats', selectedindexpipeline);
   }
   /*added selectindex pipeline function to capture the id's of selection dropdowns on 17/01*/
   // selectIndexPipelineId(indexConfigs, event?, type?) {
@@ -244,7 +255,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
   openDateTimePicker(e) {
     setTimeout(() => {
       this.pickerDirective.open(e);
-    })
+    });
   }
   onDatesUpdated($event) {
     this.startDate = this.selected.startDate;
@@ -261,25 +272,24 @@ export class DashboardComponent implements OnInit, OnDestroy {
       } else {
         this.showDateRange = false;
       }
-    }
-    else if (range === 7) {
+    } else if (range === 7) {
       this.startDate = moment().subtract({ days: 6 });
       this.endDate = moment();
-      this.dateLimt('week')
+      this.dateLimt('week');
       // this.callFlowJourneyData();
       this.showDateRange = false;
     } else if (range === 1) {
       this.startDate = moment().subtract({ hours: 23 });
       this.endDate = moment();
-      this.dateLimt('hour')
+      this.dateLimt('hour');
       // this.callFlowJourneyData();
       this.showDateRange = false;
     }
   }
   tab(index) {
-    this.slider = index
+    this.slider = index;
     if (index == 2) {
-      this.pageLimit = 10
+      this.pageLimit = 10;
     }
   }
   paginate(event) {
@@ -288,145 +298,165 @@ export class DashboardComponent implements OnInit, OnDestroy {
   dateLimt(type) {
     this.dateType = type;
     /*passing the selectedindexpipeline to getQueries added on 17/01 */
-    let selectedindexpipeline=this.selecteddropId;
-    if(selectedindexpipeline){
-    this.getQueries("TotalUsersStats",selectedindexpipeline);
-    this.getQueries("TotalSearchesStats",selectedindexpipeline);
-    this.getQueries("TopQuriesWithNoResults",selectedindexpipeline);
-    this.getQueries("MostSearchedQuries",selectedindexpipeline);
-    this.getQueries("QueriesWithNoClicks",selectedindexpipeline);
-    this.getQueries("SearchHistogram",selectedindexpipeline);
-    this.getQueries("TopSearchResults",selectedindexpipeline);
-    this.getQueries("MostClickedPositions",selectedindexpipeline);
-    this.getQueries("FeedbackStats",selectedindexpipeline);
-  }}
-  getQueries(type,selectedindexpipeline?,sortHeaderOption?,sortValue?,navigate?,request?) {
+    let selectedindexpipeline = this.selecteddropId;
+    if (selectedindexpipeline) {
+      this.getQueries('TotalUsersStats', selectedindexpipeline);
+      this.getQueries('TotalSearchesStats', selectedindexpipeline);
+      this.getQueries('TopQuriesWithNoResults', selectedindexpipeline);
+      this.getQueries('MostSearchedQuries', selectedindexpipeline);
+      this.getQueries('QueriesWithNoClicks', selectedindexpipeline);
+      this.getQueries('SearchHistogram', selectedindexpipeline);
+      this.getQueries('TopSearchResults', selectedindexpipeline);
+      this.getQueries('MostClickedPositions', selectedindexpipeline);
+      this.getQueries('FeedbackStats', selectedindexpipeline);
+    }
+  }
+  getQueries(
+    type,
+    selectedindexpipeline?,
+    sortHeaderOption?,
+    sortValue?,
+    navigate?,
+    request?
+  ) {
     var today = new Date();
     var yesterday = new Date(Date.now() - 864e5);
-    var week = new Date(Date.now() - (6 * 864e5));
-    var custom = new Date(Date.now() - (29 * 864e5));
+    var week = new Date(Date.now() - 6 * 864e5);
+    var custom = new Date(Date.now() - 29 * 864e5);
     let from = new Date();
     if (this.dateType == 'hour') {
       from = yesterday;
-      this.group = "hour";
+      this.group = 'hour';
     } else if (this.dateType == 'week') {
       from = week;
-      this.group = "date";
+      this.group = 'date';
     } else if (this.dateType == 'custom') {
       from = custom;
       //this.group = "week";
-      var duration = moment.duration(Date.parse(this.endDate.toJSON()) - Date.parse(this.startDate.toJSON()), 'milliseconds');
+      var duration = moment.duration(
+        Date.parse(this.endDate.toJSON()) - Date.parse(this.startDate.toJSON()),
+        'milliseconds'
+      );
       var days = duration.asDays();
       // console.log(days);
       if (days > 28) {
-        this.group = "week";
+        this.group = 'week';
         // this.dateType = this.group;
       } else if (days == 1) {
-        this.group = "hour";
+        this.group = 'hour';
         this.dateType = this.group;
       } else {
-        this.group = "date"; // The group indicates the payload value
+        this.group = 'date'; // The group indicates the payload value
         this.dateType = 'week'; // The dateType indicates the graphs rendering condition value
       }
     }
     const header: any = {
-      'x-timezone-offset': '-330'
+      'x-timezone-offset': '-330',
     };
 
     const quaryparms: any = {
       searchIndexId: this.serachIndexId,
       /* adding indexPipelineid to query params on 17/01*/
-     indexPipelineId:selectedindexpipeline,
-     //indexPipelineId:selectedindexpipeline ? selectedindexpipeline : this.defaultPipelineid,
+      indexPipelineId: selectedindexpipeline,
+      //indexPipelineId:selectedindexpipeline ? selectedindexpipeline : this.defaultPipelineid,
       offset: 0,
-      limit: this.pageLimit
+      limit: this.pageLimit,
     };
     let payload: any = {
       type: type,
       filters: {
-        from: this.startDate.toJSON(),//from.toJSON(),
-        to: this.endDate.toJSON()
+        from: this.startDate.toJSON(), //from.toJSON(),
+        to: this.endDate.toJSON(),
       },
-    }
+    };
     if (sortHeaderOption) {
       payload.sort = {
         order: sortValue,
-        by: sortHeaderOption
-      }
+        by: sortHeaderOption,
+      };
     }
-    if (type == "TotalUsersStats" || type == "TotalSearchesStats") {
+    if (type == 'TotalUsersStats' || type == 'TotalSearchesStats') {
       //payload.group = this.group
     } else {
-      payload.group = this.group
+      payload.group = this.group;
     }
-    if (type == "QueriesWithNoClicks") {
+    if (type == 'QueriesWithNoClicks') {
       payload.sort = {
-        order: "desc",
-        by: "timestamp"
-      }
+        order: 'desc',
+        by: 'timestamp',
+      };
     }
-    this.service.invoke('get.queries', quaryparms, payload, header).subscribe(res => {
-      if (type == 'TopQuriesWithNoResults') {
-        this.topQuriesWithNoResults = res.response;
-        this.tsqNoRtotalRecord = res.response.length;
-        this.tsqNoRPtotalRecord = res.response.length;
-        if (!res.response.length) {
-          this.tsqNoRtotalRecord = 0
-          this.tsqNoRlimitpage = 0;
-          this.tsqNoRrecordEnd = 0;
+    this.service.invoke('get.queries', quaryparms, payload, header).subscribe(
+      (res) => {
+        if (type == 'TopQuriesWithNoResults') {
+          this.topQuriesWithNoResults = res.response;
+          this.tsqNoRtotalRecord = res.response.length;
+          this.tsqNoRPtotalRecord = res.response.length;
+          if (!res.response.length) {
+            this.tsqNoRtotalRecord = 0;
+            this.tsqNoRlimitpage = 0;
+            this.tsqNoRrecordEnd = 0;
+          }
+          this.pagination(this.topQuriesWithNoResults, type);
+        } else if (type == 'MostSearchedQuries') {
+          this.mostSearchedQuries = res.result;
+          this.tsqtotalRecord = res.result.length;
+          this.tsqPtotalRecord = res.result.length;
+          if (!res.result.length) {
+            this.tsqtotalRecord = 0;
+            this.tsqlimitpage = 0;
+            this.tsqrecordEnd = 0;
+          }
+          this.pagination(this.mostSearchedQuries, type);
+        } else if (type == 'QueriesWithNoClicks') {
+          this.queriesWithNoClicks = res.result;
+          this.tsqNoCtotalRecord = res.result.length;
+          this.tsqNoCPtotalRecord = res.result.length;
+          if (!res.result.length) {
+            this.tsqNoCtotalRecord = 0;
+            this.tsqNoClimitpage = 0;
+            this.tsqNoCrecordEnd = 0;
+          }
+          this.pagination(this.queriesWithNoClicks, type);
+        } else if (type == 'SearchHistogram') {
+          this.searchHistogram = res.result;
+          this.summaryChart();
+        } else if (type == 'TopSearchResults') {
+          this.topSearchResults = res.result;
+        } else if (type == 'MostClickedPositions') {
+          this.mostClickedPositions = res.results;
+          this.mostClick();
+        } else if (type == 'FeedbackStats') {
+          this.feedbackStats = res || {};
+          this.feedback();
+        } else if (type == 'TotalUsersStats') {
+          this.totalUsersStats = res;
+        } else if (type == 'TotalSearchesStats') {
+          this.totalSearchesStats = res;
         }
-        this.pagination(this.topQuriesWithNoResults, type)
-      } else if (type == 'MostSearchedQuries') {
-        this.mostSearchedQuries = res.result;
-        this.tsqtotalRecord = res.result.length;
-        this.tsqPtotalRecord = res.result.length;
-        if (!res.result.length) {
-          this.tsqtotalRecord = 0;
-          this.tsqlimitpage = 0;
-          this.tsqrecordEnd = 0;
+      },
+      (errRes) => {
+        if (
+          errRes &&
+          errRes.error.errors &&
+          errRes.error.errors.length &&
+          errRes.error.errors[0] &&
+          errRes.error.errors[0].msg
+        ) {
+          this.notificationService.notify(errRes.error.errors[0].msg, 'error');
+        } else {
+          this.notificationService.notify('Failed ', 'error');
         }
-        this.pagination(this.mostSearchedQuries, type)
-      } else if (type == 'QueriesWithNoClicks') {
-        this.queriesWithNoClicks = res.result;
-        this.tsqNoCtotalRecord = res.result.length;
-        this.tsqNoCPtotalRecord = res.result.length;
-        if (!res.result.length) {
-          this.tsqNoCtotalRecord = 0
-          this.tsqNoClimitpage = 0;
-          this.tsqNoCrecordEnd = 0;
-        }
-        this.pagination(this.queriesWithNoClicks, type)
-      } else if (type == 'SearchHistogram') {
-        this.searchHistogram = res.result;
-        this.summaryChart();
-      } else if (type == 'TopSearchResults') {
-        this.topSearchResults = res.result;
-      } else if (type == "MostClickedPositions") {
-        this.mostClickedPositions = res.results;
-        this.mostClick();
-      } else if (type == "FeedbackStats") {
-        this.feedbackStats = res || {};
-        this.feedback();
-      } else if (type == "TotalUsersStats") {
-        this.totalUsersStats = res;
-      } else if (type == "TotalSearchesStats") {
-        this.totalSearchesStats = res;
       }
-    }, errRes => {
-      if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
-        this.notificationService.notify(errRes.error.errors[0].msg, 'error');
-      } else {
-        this.notificationService.notify('Failed ', 'error');
-      }
-    });
+    );
   }
   sortAnalytics(type?, sortHeaderOption?, sortValue?, navigate?) {
     if (sortValue) {
       this.sortedObject = {
         type: sortHeaderOption,
         value: sortValue,
-        position: navigate
-      }
+        position: navigate,
+      };
     }
     // const quaryparms: any = {
     //   searchIndexID: this.serachIndexId,
@@ -435,7 +465,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
     //   offset: 0,
     //   limit: 10
     // };
-    let request: any = {}
+    let request: any = {};
     // if(!sortValue){
     //   request = {
     //     "extractionType": "content",
@@ -445,10 +475,10 @@ export class DashboardComponent implements OnInit, OnDestroy {
     // }
     // }
     if (sortValue) {
-      const sort: any = {}
+      const sort: any = {};
       request = {
-        sort
-      }
+        sort,
+      };
     }
     // else {
     // request={}
@@ -458,45 +488,49 @@ export class DashboardComponent implements OnInit, OnDestroy {
       //Sort start
       if (type === 'TotalSearchesStats' || type === 'TopQuriesWithNoResults') {
         if (sortHeaderOption === 'query') {
-          request.sort.order = sortValue
-          request.sort.by = sortHeaderOption
+          request.sort.order = sortValue;
+          request.sort.by = sortHeaderOption;
         }
         if (sortHeaderOption === 'count') {
-          request.sort.order = sortValue
-          request.sort.by = sortHeaderOption
+          request.sort.order = sortValue;
+          request.sort.by = sortHeaderOption;
         }
       }
-
 
       if (type === 'TopSearchResults') {
         if (sortHeaderOption === 'answer') {
-          request.sort.order = sortValue
-          request.sort.by = sortHeaderOption
+          request.sort.order = sortValue;
+          request.sort.by = sortHeaderOption;
         }
         if (sortHeaderOption === 'clicks') {
-          request.sort.order = sortValue
-          request.sort.by = sortHeaderOption
+          request.sort.order = sortValue;
+          request.sort.by = sortHeaderOption;
         }
         if (sortHeaderOption === 'appearances') {
-          request.sort.order = sortValue
-          request.sort.by = sortHeaderOption
+          request.sort.order = sortValue;
+          request.sort.by = sortHeaderOption;
         }
         if (sortHeaderOption === 'clickThroughRate') {
-          request.sort.order = sortValue
-          request.sort.by = sortHeaderOption
+          request.sort.order = sortValue;
+          request.sort.by = sortHeaderOption;
         }
         if (sortHeaderOption === 'avgPosition') {
-          request.sort.order = sortValue
-          request.sort.by = sortHeaderOption
+          request.sort.order = sortValue;
+          request.sort.by = sortHeaderOption;
         }
       }
 
-
       // end
     }
-    this.getQueries(type,this.selecteddropId,sortHeaderOption,sortValue,navigate,request)
+    this.getQueries(
+      type,
+      this.selecteddropId,
+      sortHeaderOption,
+      sortValue,
+      navigate,
+      request
+    );
     // this.getSourceList(null,searchValue,searchSource, source,headerOption, sortHeaderOption,sortValue,navigate,request);
-
   }
   sortByApi(type, sort) {
     this.selectedSort = sort;
@@ -510,103 +544,124 @@ export class DashboardComponent implements OnInit, OnDestroy {
     if (this.isAsc) {
       naviagtionArrow = 'up';
       checkSortValue = 'asc';
-    }
-    else {
+    } else {
       naviagtionArrow = 'down';
       checkSortValue = 'desc';
     }
-    this.sortAnalytics(type, sort, checkSortValue, naviagtionArrow)
+    this.sortAnalytics(type, sort, checkSortValue, naviagtionArrow);
     // this.fieldsFilter(null,null,null,null,sort,checkSortValue,naviagtionArrow)
   }
   getSortIconVisibility(sortingField: string, type: string) {
     switch (this.selectedSort) {
-      case "answer": {
+      case 'answer': {
         if (this.selectedSort == sortingField) {
           if (this.isAsc == false && type == 'down') {
-            return "display-block";
+            return 'display-block';
           }
           if (this.isAsc == true && type == 'up') {
-            return "display-block";
+            return 'display-block';
           }
-          return "display-none"
+          return 'display-none';
         }
         break;
       }
-      case "clicks": {
+      case 'clicks': {
         if (this.selectedSort == sortingField) {
           if (this.isAsc == false && type == 'down') {
-            return "display-block";
+            return 'display-block';
           }
           if (this.isAsc == true && type == 'up') {
-            return "display-block";
+            return 'display-block';
           }
-          return "display-none"
+          return 'display-none';
         }
         break;
       }
-      case "appearances": {
+      case 'appearances': {
         if (this.selectedSort == sortingField) {
           if (this.isAsc == false && type == 'down') {
-            return "display-block";
+            return 'display-block';
           }
           if (this.isAsc == true && type == 'up') {
-            return "display-block";
+            return 'display-block';
           }
-          return "display-none"
+          return 'display-none';
         }
         break;
       }
-      case "clickThroughRate": {
+      case 'clickThroughRate': {
         if (this.selectedSort == sortingField) {
           if (this.isAsc == false && type == 'down') {
-            return "display-block";
+            return 'display-block';
           }
           if (this.isAsc == true && type == 'up') {
-            return "display-block";
+            return 'display-block';
           }
-          return "display-none"
+          return 'display-none';
         }
         break;
       }
-      case "avgPosition": {
-        if (this.selectedSort == sortingField) {
-          if (this.isAsc == false && type == 'down') {
-            return "display-block";
+      case 'avgPosition':
+        {
+          if (this.selectedSort == sortingField) {
+            if (this.isAsc == false && type == 'down') {
+              return 'display-block';
+            }
+            if (this.isAsc == true && type == 'up') {
+              return 'display-block';
+            }
+            return 'display-none';
           }
-          if (this.isAsc == true && type == 'up') {
-            return "display-block";
-          }
-          return "display-none"
         }
-      }
-      break;
+        break;
     }
   }
 
   pagination(data, type) {
     if (type == 'MostSearchedQuries') {
-      if (data.length <= this.tsqlimitpage) { this.tsqlimitpage = data.length }
-      if (data.length <= this.tsqrecordEnd) { this.tsqrecordEnd = data.length }
+      if (data.length <= this.tsqlimitpage) {
+        this.tsqlimitpage = data.length;
+      }
+      if (data.length <= this.tsqrecordEnd) {
+        this.tsqrecordEnd = data.length;
+      }
 
-      if (data.length <= this.tsqPlimitpage) { this.tsqPlimitpage = data.length }
-      if (data.length <= this.tsqPrecordEnd) { this.tsqPrecordEnd = data.length }
-
+      if (data.length <= this.tsqPlimitpage) {
+        this.tsqPlimitpage = data.length;
+      }
+      if (data.length <= this.tsqPrecordEnd) {
+        this.tsqPrecordEnd = data.length;
+      }
     }
     if (type == 'TopQuriesWithNoResults') {
-      if (data.length <= this.tsqNoRlimitpage) { this.tsqNoRlimitpage = data.length }
-      if (data.length <= this.tsqNoRrecordEnd) { this.tsqNoRrecordEnd = data.length }
+      if (data.length <= this.tsqNoRlimitpage) {
+        this.tsqNoRlimitpage = data.length;
+      }
+      if (data.length <= this.tsqNoRrecordEnd) {
+        this.tsqNoRrecordEnd = data.length;
+      }
 
-      if (data.length <= this.tsqNoRPlimitpage) { this.tsqNoRPlimitpage = data.length }
-      if (data.length <= this.tsqNoRPrecordEnd) { this.tsqNoRPrecordEnd = data.length }
-
+      if (data.length <= this.tsqNoRPlimitpage) {
+        this.tsqNoRPlimitpage = data.length;
+      }
+      if (data.length <= this.tsqNoRPrecordEnd) {
+        this.tsqNoRPrecordEnd = data.length;
+      }
     }
     if (type == 'QueriesWithNoClicks') {
-      if (data.length <= this.tsqNoClimitpage) { this.tsqNoClimitpage = data.length }
-      if (data.length <= this.tsqNoCrecordEnd) { this.tsqNoCrecordEnd = data.length }
+      if (data.length <= this.tsqNoClimitpage) {
+        this.tsqNoClimitpage = data.length;
+      }
+      if (data.length <= this.tsqNoCrecordEnd) {
+        this.tsqNoCrecordEnd = data.length;
+      }
 
-      if (data.length <= this.tsqNoCPlimitpage) { this.tsqNoCPlimitpage = data.length }
-      if (data.length <= this.tsqNoCPrecordEnd) { this.tsqNoCPrecordEnd = data.length }
-
+      if (data.length <= this.tsqNoCPlimitpage) {
+        this.tsqNoCPlimitpage = data.length;
+      }
+      if (data.length <= this.tsqNoCPrecordEnd) {
+        this.tsqNoCPrecordEnd = data.length;
+      }
     }
   }
   // compare(a: number | string, b: number | string, isAsc: boolean) {
@@ -633,32 +688,66 @@ export class DashboardComponent implements OnInit, OnDestroy {
   //   this.resources = sortedData;
   // }
   summaryChart() {
-
-    const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+    const monthNames = [
+      'Jan',
+      'Feb',
+      'Mar',
+      'Apr',
+      'May',
+      'Jun',
+      'Jul',
+      'Aug',
+      'Sep',
+      'Oct',
+      'Nov',
+      'Dec',
+    ];
     var totaldata = [];
     let summaryData = [];
     this.totalSearchSum = 0;
     for (var i = 0; i < this.searchHistogram.length; i++) {
-      summaryData.push(Math.max(this.searchHistogram[i].totalSearches, this.searchHistogram[i].searchesWithResults, this.searchHistogram[i].searchesWithClicks));
+      summaryData.push(
+        Math.max(
+          this.searchHistogram[i].totalSearches,
+          this.searchHistogram[i].searchesWithResults,
+          this.searchHistogram[i].searchesWithClicks
+        )
+      );
       if (this.dateType == 'hour' && i > 0 && i <= 24) {
-        totaldata.push([i + 'hr', this.searchHistogram[i].totalSearches, this.searchHistogram[i].searchesWithResults, this.searchHistogram[i].searchesWithClicks, i + 'hr'])
+        totaldata.push([
+          i + 'hr',
+          this.searchHistogram[i].totalSearches,
+          this.searchHistogram[i].searchesWithResults,
+          this.searchHistogram[i].searchesWithClicks,
+          i + 'hr',
+        ]);
       } else if (this.dateType == 'week' || this.dateType == 'custom') {
         let date = new Date(this.searchHistogram[i].date);
         // xAxisData.push(date.getDate() + " " +monthNames[date.getMonth()])
         // totaldata.push([date.getDate() + " " + monthNames[date.getMonth()], this.searchHistogram[i].totalSearches, this.searchHistogram[i].searchesWithResults, this.searchHistogram[i].searchesWithClicks, moment(date,"Do MMM, YYYY")])
-        totaldata.push([moment.utc(date).format("Do MMM"), this.searchHistogram[i].totalSearches, this.searchHistogram[i].searchesWithResults, this.searchHistogram[i].searchesWithClicks, moment.utc(date).format("DD MMM YYYY")])
+        totaldata.push([
+          moment.utc(date).format('Do MMM'),
+          this.searchHistogram[i].totalSearches,
+          this.searchHistogram[i].searchesWithResults,
+          this.searchHistogram[i].searchesWithClicks,
+          moment.utc(date).format('DD MMM YYYY'),
+        ]);
       }
       // else if(this.dateType == 'custom'){
       //   let date = new Date(this.searchHistogram[i].date);
       //   totaldata.push([i+'hr',this.searchHistogram[i].totalSearches,this.searchHistogram[i].searchesWithResults,this.searchHistogram[i].searchesWithClicks])
       // }
-      this.totalSearchSum = this.totalSearchSum + this.searchHistogram[i].totalSearches;
-      this.searchesWithResultsSum = this.searchesWithResultsSum + this.searchHistogram[i].searchesWithResults;
-      this.searchesWithClicksSum = this.searchesWithClicksSum + this.searchHistogram[i].searchesWithClicks
+      this.totalSearchSum =
+        this.totalSearchSum + this.searchHistogram[i].totalSearches;
+      this.searchesWithResultsSum =
+        this.searchesWithResultsSum +
+        this.searchHistogram[i].searchesWithResults;
+      this.searchesWithClicksSum =
+        this.searchesWithClicksSum + this.searchHistogram[i].searchesWithClicks;
     }
 
-    var searchWithResultdata = []
-    var searchWithClickdata = []
+    var searchWithResultdata = [];
+    var searchWithClickdata = [];
 
     var dateList = totaldata.map(function (item) {
       return item[0];
@@ -678,13 +767,12 @@ export class DashboardComponent implements OnInit, OnDestroy {
       return item[4];
     });
 
-
     this.chartOption = {
       grid: {
         left: '4%',
         right: '4%',
         bottom: '3%',
-        containLabel: true
+        containLabel: true,
       },
       // 4th August, 2020
       tooltip: {
@@ -701,69 +789,77 @@ export class DashboardComponent implements OnInit, OnDestroy {
   </div>
       `,
         position: 'top',
-        padding: 0
+        padding: 0,
       },
 
-      xAxis: [{
-        data: dateList,
-        type: 'category',
-        // type: 'time',
-        minInterval: 8,
-        boundaryGap: false,
-        show: true,
-        axisLine: {
-          show: false, // Hide full Line
+      xAxis: [
+        {
+          data: dateList,
+          type: 'category',
+          // type: 'time',
+          minInterval: 8,
+          boundaryGap: false,
+          show: true,
+          axisLine: {
+            show: false, // Hide full Line
+          },
+          axisTick: {
+            show: false, // Hide Ticks,
+          },
+          //data: ['1st Aug', '2nd Aug' , '3rd Aug', '4th Aug', '5th Aug', '6th Aug', '7th Aug']
+          //splitLine: {show: true}
         },
-        axisTick: {
-          show: false, // Hide Ticks,
+      ],
+      yAxis: [
+        {
+          type: 'value',
+          name: 'Count',
+          nameLocation: 'middle',
+          min: 0,
+          max: 5,
+          nameGap: 50,
+          nameTextStyle: {
+            color: '#9AA0A6',
+            fontWeight: 'normal',
+            fontSize: 12,
+            fontFamily: 'Inter',
+          },
+          axisLine: {
+            show: false, // Hide full Line
+          },
+          axisTick: {
+            show: false, // Hide Ticks,
+          },
+          splitLine: { show: true },
         },
-        //data: ['1st Aug', '2nd Aug' , '3rd Aug', '4th Aug', '5th Aug', '6th Aug', '7th Aug']
-        //splitLine: {show: true}
-      }],
-      yAxis: [{
-        type: 'value',
-        name: 'Count',
-        nameLocation: 'middle',
-        min: 0,
-        max: 5,
-        nameGap: 50,
-        nameTextStyle: {
-          color: "#9AA0A6",
-          fontWeight: "normal",
-          fontSize: 12,
-          fontFamily: "Inter"
-        },
-        axisLine: {
-          show: false, // Hide full Line
-        },
-        axisTick: {
-          show: false, // Hide Ticks,
-        },
-        splitLine: { show: true }
-      }],
+      ],
 
-      series: [{
-        type: 'line',
-        showSymbol: false,
-        data: valueList,
-        lineStyle: { color: '#0D6EFD' }
-      }, {
-        type: 'line',
-        showSymbol: false,
-        data: valueList1,
-        lineStyle: { color: '#28A745' }
-      }
-        , {
-        type: 'line',
-        showSymbol: false,
-        data: valueList2,
-        lineStyle: { color: '#7027E5' }
-      }, {
-        type: 'line',
-        showSymbol: false,
-        data: dateTooltipList,
-        lineStyle: { color: '#7027E5' }
-      }]
+      series: [
+        {
+          type: 'line',
+          showSymbol: false,
+          data: valueList,
+          lineStyle: { color: '#0D6EFD' },
+        },
+        {
+          type: 'line',
+          showSymbol: false,
+          data: valueList1,
+          lineStyle: { color: '#28A745' },
+        },
+        {
+          type: 'line',
+          showSymbol: false,
+          data: valueList2,
+          lineStyle: { color: '#7027E5' },
+        },
+        {
+          type: 'line',
+          showSymbol: false,
+          data: dateTooltipList,
+          lineStyle: { color: '#7027E5' },
+        },
+      ],
     };
     if (Math.max(...summaryData) > 5) {
       delete this.chartOption.yAxis[0].min;
@@ -775,15 +871,16 @@ export class DashboardComponent implements OnInit, OnDestroy {
         left: '3%',
         right: '4%',
         bottom: '3%',
-        containLabel: true
+        containLabel: true,
       },
       xAxis: {
         type: 'category',
         data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
         scale: true,
         show: true,
-        splitLine: {//remove grid lines
-          show: false
+        splitLine: {
+          //remove grid lines
+          show: false,
         },
         //splitArea : {show : false}// remove the grid area
       },
@@ -792,9 +889,9 @@ export class DashboardComponent implements OnInit, OnDestroy {
         scale: true,
         show: true,
         splitLine: {
-          show: true
+          show: true,
         },
-        splitArea: { show: false }
+        splitArea: { show: false },
       },
       // tooltip: {
       //     axisPointer: {
@@ -804,7 +901,6 @@ export class DashboardComponent implements OnInit, OnDestroy {
       //     }
       // },
       tooltip: {
-
         formatter: `
           <div class="metrics-tooltips-hover">
           <div class="main-title">4th August, 2020</div>
@@ -817,72 +913,77 @@ export class DashboardComponent implements OnInit, OnDestroy {
       </div>
           `,
         position: 'top',
-        padding: 0
+        padding: 0,
       },
-      series: [{
-        data: [7, 10, 14, 18, 15, 10, 6],
-        type: 'line',
-        lineStyle: {
-          color: '#202124',
-        }
-      },
-      {
-        data: [8, 11, 21, 15, 10, 5, 5],
-        type: 'line',
-        lineStyle: {
-          color: '#3368BB',
-        }
-      },
-      {
-        data: [8, 11, 16, 15, 10, 5, 5],
-        type: 'line',
-        lineStyle: {
-          color: '#009DAB',
-        }
-      }
-      ]
+      series: [
+        {
+          data: [7, 10, 14, 18, 15, 10, 6],
+          type: 'line',
+          lineStyle: {
+            color: '#202124',
+          },
+        },
+        {
+          data: [8, 11, 21, 15, 10, 5, 5],
+          type: 'line',
+          lineStyle: {
+            color: '#3368BB',
+          },
+        },
+        {
+          data: [8, 11, 16, 15, 10, 5, 5],
+          type: 'line',
+          lineStyle: {
+            color: '#009DAB',
+          },
+        },
+      ],
     };
   }
   mostClick() {
     let xAxisData = [];
     let yAxisData = [];
-    let barColor = "#B893F2";
+    let barColor = '#B893F2';
     if (this.mostClickedPositions) {
-      this.mostClickedPositions.forEach(element => {
-        if (element.position == 0) yAxisData.push(Number(element.position + 1) + "st Position")
-        if (element.position == 1) yAxisData.push(Number(element.position + 1) + "nd Position")
-        if (element.position == 2) yAxisData.push(Number(element.position + 1) + "rd Position")
-        if (element.position > 2) yAxisData.push(Number(element.position + 1) + "th Position");
-        xAxisData.push(element.clicks)
+      this.mostClickedPositions.forEach((element) => {
+        if (element.position == 0)
+          yAxisData.push(Number(element.position + 1) + 'st Position');
+        if (element.position == 1)
+          yAxisData.push(Number(element.position + 1) + 'nd Position');
+        if (element.position == 2)
+          yAxisData.push(Number(element.position + 1) + 'rd Position');
+        if (element.position > 2)
+          yAxisData.push(Number(element.position + 1) + 'th Position');
+        xAxisData.push(element.clicks);
       });
       if (xAxisData.length) {
         this.isyAxisMostClickPostiondata = true;
-        barColor = "#B893F2"
+        barColor = '#B893F2';
       } else {
         xAxisData = [120, 200, 150];
-        yAxisData = ['1st Position', '2nd Position', '3rd Position']
+        yAxisData = ['1st Position', '2nd Position', '3rd Position'];
         this.isyAxisMostClickPostiondata = false;
-        barColor = "#EFF0F1"
+        barColor = '#EFF0F1';
       }
 
       // xAxisData = [120];
       // yAxisData= ['1st']
     } else {
       xAxisData = [120, 200, 150];
-      yAxisData = ['1st Position', '2nd Position', '3rd Position']
+      yAxisData = ['1st Position', '2nd Position', '3rd Position'];
       this.isyAxisMostClickPostiondata = false;
-      barColor = "#EFF0F1"
+      barColor = '#EFF0F1';
     }
 
     this.mostClickBar = {
       grid: {
         containLabel: true,
-        left: "5%"
+        left: '5%',
       },
       tooltip: {
         trigger: 'axis',
         axisPointer: {
-          type: 'none'
+          type: 'none',
         },
         formatter: `
               <div class="metrics-tooltips-hover agent_drop_tolltip">
@@ -893,8 +994,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
             `,
         position: 'top',
-        padding: 0
-
+        padding: 0,
       },
       xAxis: {
         type: 'value',
@@ -922,25 +1022,27 @@ export class DashboardComponent implements OnInit, OnDestroy {
         },
       },
       barWidth: 40,
-      series: [{
-        label: {
-          normal: {
-            show: false,
-            position: 'outside',
-            color: '#202124',
-            //textBorderColor: '#202124',
-            //textBorderWidth: 1
-          }
-        },
-        itemStyle: {
-          normal: {
-            color: barColor,
+      series: [
+        {
+          label: {
+            normal: {
+              show: false,
+              position: 'outside',
+              color: '#202124',
+              //textBorderColor: '#202124',
+              //textBorderWidth: 1
+            },
           },
+          itemStyle: {
+            normal: {
+              color: barColor,
+            },
+          },
+          data: xAxisData, //[120, 200, 150],
+          type: 'bar',
+          barWidth: '90%',
         },
-        data: xAxisData,//[120, 200, 150],
-        type: 'bar',
-        barWidth: '90%',
-      }]
+      ],
     };
     if (Math.max(...xAxisData) > 5) {
       delete this.mostClickBar.xAxis.min;
@@ -952,46 +1054,54 @@ export class DashboardComponent implements OnInit, OnDestroy {
     var colorPaletteSearch = ['#28A745', '#EAF6EC'];
     var colorPaletteResult = ['#FF784B', '#FFF1ED'];
     this.feedbackPieSearches = {
-      series: [{
-        type: 'pie',
-        radius: 90,
-        color: colorPaletteSearch,
-        hoverAnimation: false,
-        center: ['50%', '50%'],
-        data: [this.feedbackStats.percentages.totalSearchesPercent, this.feedbackStats.percentages.feedbackReceivedPercent],
-        label: {
-          show: true,
-          position: 'inner',
-          formatter: (params) => {
-            return params.percent ? params.percent + '%' : '';
+      series: [
+        {
+          type: 'pie',
+          radius: 90,
+          color: colorPaletteSearch,
+          hoverAnimation: false,
+          center: ['50%', '50%'],
+          data: [
+            this.feedbackStats.percentages.totalSearchesPercent,
+            this.feedbackStats.percentages.feedbackReceivedPercent,
+          ],
+          label: {
+            show: true,
+            position: 'inner',
+            formatter: (params) => {
+              return params.percent ? params.percent + '%' : '';
+            },
           },
-
         },
-      }
-      ]
+      ],
     };
     this.feedbackPieResult = {
-      series: [{
-        type: 'pie',
-        radius: 90,
-        color: colorPaletteResult,
-        hoverAnimation: false,
-        center: ['50%', '50%'],
-        data: [this.feedbackStats.percentages.negativeFeedbackPercent, this.feedbackStats.percentages.postitiveFeedbackPercent],
-        label: {
-          show: true,
-          position: 'inner',
-          formatter: (params) => {
-            return params.percent ? params.percent + '%' : '';
-          }
+      series: [
+        {
+          type: 'pie',
+          radius: 90,
+          color: colorPaletteResult,
+          hoverAnimation: false,
+          center: ['50%', '50%'],
+          data: [
+            this.feedbackStats.percentages.negativeFeedbackPercent,
+            this.feedbackStats.percentages.postitiveFeedbackPercent,
+          ],
+          label: {
+            show: true,
+            position: 'inner',
+            formatter: (params) => {
+              return params.percent ? params.percent + '%' : '';
+            },
+          },
         },
-      }
-      ]
+      ],
     };
-
   }
   ngOnDestroy() {
-    this.searchConfigurationSubscription ? this.searchConfigurationSubscription.unsubscribe() : false;
+    this.searchConfigurationSubscription
+      ? this.searchConfigurationSubscription.unsubscribe()
+      : false;
     this.appSubscription ? this.appSubscription.unsubscribe() : false;
   }
   // busyHours(){

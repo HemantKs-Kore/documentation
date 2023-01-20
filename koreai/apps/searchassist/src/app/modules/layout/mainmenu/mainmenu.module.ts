@@ -10,10 +10,10 @@ import {
   NgbProgressbarModule,
   NgbTooltipModule,
 } from '@ng-bootstrap/ng-bootstrap';
-import { UpgradePlanModule } from '@kore.helpers/components/upgrade-plan/upgrade-plan.module';
 import { KrModalModule } from '../../../shared/kr-modal/kr-modal.module';
-import { SharedPipesModule } from '@kore.helpers/filters/shared-pipes.module';
 import { MatDialogModule } from '@angular/material/dialog';
+import { UpgradePlanModule } from '@kore.apps/helpers/components/upgrade-plan/upgrade-plan.module';
+import { SharedPipesModule } from '@kore.apps/helpers/filters/shared-pipes.module';
 
 @NgModule({
   declarations: [MainMenuComponent],

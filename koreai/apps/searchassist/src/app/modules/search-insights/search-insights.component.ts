@@ -1,13 +1,13 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { KRModalComponent } from '../../shared/kr-modal/kr-modal.component';
-import { WorkflowService } from '@kore.services/workflow.service';
-import { ServiceInvokerService } from '@kore.services/service-invoker.service';
-import { NotificationService } from '@kore.services/notification.service';
 import { Moment } from 'moment';
 import * as moment from 'moment-timezone';
 import { DaterangepickerDirective } from 'ngx-daterangepicker-material';
-import { SideBarService } from '@kore.services/header.service';
-import { AppSelectionService } from '@kore.services/app.selection.service';
+import { WorkflowService } from '@kore.apps/services/workflow.service';
+import { ServiceInvokerService } from '@kore.apps/services/service-invoker.service';
+import { AppSelectionService } from '@kore.apps/services/app.selection.service';
+import { SideBarService } from '@kore.apps/services/header.service';
+import { NotificationService } from '@kore.apps/services/notification.service';
 declare const $: any;
 
 @Component({

@@ -1,14 +1,14 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { EChartOption } from 'echarts';
-import { WorkflowService } from '@kore.services/workflow.service';
-import { ServiceInvokerService } from '@kore.services/service-invoker.service';
-import { NotificationService } from '@kore.services/notification.service';
+import { WorkflowService } from '@kore.apps/services/workflow.service';
+import { ServiceInvokerService } from '@kore.apps/services/service-invoker.service';
+import { NotificationService } from '@kore.apps/services/notification.service';
 declare const $: any;
 
 @Component({
   selector: 'app-insights',
   templateUrl: './insights.component.html',
-  styleUrls: ['./insights.component.scss']
+  styleUrls: ['./insights.component.scss'],
 })
 export class InsightsComponent implements OnInit {
   @Input() data: any;
@@ -34,87 +34,108 @@ export class InsightsComponent implements OnInit {
       type: 'category',
       data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
       scale: true,
-
     },
     yAxis: {
       type: 'value',
       scale: true,
       show: false,
       splitLine: {
-        show: false
+        show: false,
       },
-      splitArea: { show: false }
+      splitArea: { show: false },
     },
 
-    series: [{
-      data: [7, 10, 14, 18, 15, 10, 6],
-      type: 'line',
-      smooth: true,
-      lineStyle: {
-        color: '#202124',
-      }
-    },
-    {
-      data: [8, 11, 21, 15, 10, 5, 5],
-      type: 'line',
-      smooth: true,
-      lineStyle: {
-        color: '#3368BB',
-      }
-    },
-    {
-      data: [8, 11, 16, 15, 10, 5, 5],
-      type: 'line',
-      smooth: true,
-      lineStyle: {
-        color: '#009DAB',
-      }
-    }
-    ]
-  }
+    series: [
+      {
+        data: [7, 10, 14, 18, 15, 10, 6],
+        type: 'line',
+        smooth: true,
+        lineStyle: {
+          color: '#202124',
+        },
+      },
+      {
+        data: [8, 11, 21, 15, 10, 5, 5],
+        type: 'line',
+        smooth: true,
+        lineStyle: {
+          color: '#3368BB',
+        },
+      },
+      {
+        data: [8, 11, 16, 15, 10, 5, 5],
+        type: 'line',
+        smooth: true,
+        lineStyle: {
+          color: '#009DAB',
+        },
+      },
+    ],
+  };
 
-
-  constructor(public workflowService: WorkflowService, private service: ServiceInvokerService, private notificationService: NotificationService) { }
+  constructor(
+    public workflowService: WorkflowService,
+    private service: ServiceInvokerService,
+    private notificationService: NotificationService
+  ) {}
   getQueryLevelAnalytics() {
     // if(window.koreWidgetSDKInstance.vars.searchObject.searchText){
     //    this.query = window.koreWidgetSDKInstance.vars.searchObject.searchText;
-    // } 
+    // }
     //this.query = "Open bank account"
     this.getAppDetails();
     let date = new Date();
-    let _month_old_date = new Date(Date.now() - (30 * 864e5));
+    let _month_old_date = new Date(Date.now() - 30 * 864e5);
     let sdate = new Date(Date.now());
-    let startDate = date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate();
-    let endDate = _month_old_date.getFullYear() + "-" + (_month_old_date.getMonth() + 1) + "-" + _month_old_date.getDate();
+    let startDate =
+      date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate();
+    let endDate =
+      _month_old_date.getFullYear() +
+      '-' +
+      (_month_old_date.getMonth() + 1) +
+      '-' +
+      _month_old_date.getDate();
     const quaryparms: any = {
       searchIndexId: this.serachIndexId,
-      startDate: _month_old_date.toJSON(),// startDate,  //"2020-10-10",
-      endDate: sdate.toJSON() //endDate,  //"2020-11-10"//endDate,
-    }
+      startDate: _month_old_date.toJSON(), // startDate,  //"2020-10-10",
+      endDate: sdate.toJSON(), //endDate,  //"2020-11-10"//endDate,
+    };
     var payload = {
-      "searchQuery": this.query
-    }
+      searchQuery: this.query,
+    };
     const header: any = {
-      'x-timezone-offset': '-330'
+      'x-timezone-offset': '-330',
     };
     // this.analystic =  {
     //   "searches": 5983,
     //   "clicks": 4254
     // };
-    this.ctrVal = Math.floor(this.analystic['clicks'] / this.analystic['searches']) * 100;
+    this.ctrVal =
+      Math.floor(this.analystic['clicks'] / this.analystic['searches']) * 100;
 
-    this.service.invoke('get.QueryLevelAnalytics', quaryparms, payload,header).subscribe(res => {
-      // console.log(res)
-      this.analyticGraph(res)
-      this.analystic = res;
-      if (this.analystic['searches'] == 0 || this.analystic['clicks'] == 0) {
-        this.ctrVal = 0;
-      } else {
-        this.ctrVal = Math.floor(this.analystic['clicks'] / this.analystic['searches']) * 100;
-      }
-    }, error => {
-      // console.log(error);
-    });
+    this.service
+      .invoke('get.QueryLevelAnalytics', quaryparms, payload, header)
+      .subscribe(
+        (res) => {
+          // console.log(res)
+          this.analyticGraph(res);
+          this.analystic = res;
+          if (
+            this.analystic['searches'] == 0 ||
+            this.analystic['clicks'] == 0
+          ) {
+            this.ctrVal = 0;
+          } else {
+            this.ctrVal =
+              Math.floor(
+                this.analystic['clicks'] / this.analystic['searches']
+              ) * 100;
+          }
+        },
+        (error) => {
+          // console.log(error);
+        }
+      );
   }
   ngOnInit(): void {
     this.getAppDetails();
@@ -125,44 +146,58 @@ export class InsightsComponent implements OnInit {
     this.getQueryLevelAnalytics();
     //},5000)
     //this.getcustomizeList();
-
   }
   getAppDetails() {
     this.selectedApp = this.workflowService.selectedApp();
     this.serachIndexId = this.selectedApp.searchIndexes[0]._id;
     //this.queryPipelineId = this.selectedApp.searchIndexes[0].queryPipelineId;
-    this.queryPipelineId = this.workflowService.selectedQueryPipeline() ? this.workflowService.selectedQueryPipeline()._id : this.selectedApp.searchIndexes[0].queryPipelineId;;
+    this.queryPipelineId = this.workflowService.selectedQueryPipeline()
+      ? this.workflowService.selectedQueryPipeline()._id
+      : this.selectedApp.searchIndexes[0].queryPipelineId;
   }
   analyticGraph(responseData) {
     let search_x_axis_data = [];
     let click_x_axis_data = [];
     let ctr_x_axis_data = [];
     let _y_axis_data = [];
-    const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+    const monthNames = [
+      'Jan',
+      'Feb',
+      'Mar',
+      'Apr',
+      'May',
+      'Jun',
+      'Jul',
+      'Aug',
+      'Sep',
+      'Oct',
+      'Nov',
+      'Dec',
+    ];
 
     if (responseData.searchesData) {
-      responseData.searchesData.forEach(element => {
+      responseData.searchesData.forEach((element) => {
         let date = new Date(element.date);
-        _y_axis_data.push(date.getDate() + " " + monthNames[date.getMonth()])
+        _y_axis_data.push(date.getDate() + ' ' + monthNames[date.getMonth()]);
         search_x_axis_data.push(element.searches);
         _y_axis_data.push(element.date);
       });
     }
     if (responseData.clicksData) {
-      responseData.clicksData.forEach(element => {
+      responseData.clicksData.forEach((element) => {
         click_x_axis_data.push(element.clicks);
         //_y_axis_data.push(element.date);
       });
     }
     if (responseData.ctrData) {
-      responseData.ctrData.forEach(element => {
+      responseData.ctrData.forEach((element) => {
         ctr_x_axis_data.push(element.ctr);
       });
     }
     this.chartOption = {
       xAxis: {
         type: 'category',
-        data: _y_axis_data,//['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+        data: _y_axis_data, //['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
         scale: true,
         //  show:false,
         //  splitLine:{//remove grid lines
@@ -175,41 +210,43 @@ export class InsightsComponent implements OnInit {
         scale: true,
         show: false,
         splitLine: {
-          show: true
+          show: true,
         },
-        splitArea: { show: false }
+        splitArea: { show: false },
       },
       tooltip: {
         axisPointer: {
           label: {
             //backgroundColor: '#6a7985'
-          }
-        }
+          },
+        },
       },
-      series: [{
-        data: search_x_axis_data,//[7, 10, 14, 18, 15, 10, 6],
-        type: 'line',
-        smooth: true,
-        lineStyle: {
-          color: '#202124',
-        }
-      },
-      {
-        data: click_x_axis_data, //[8, 11, 21, 15, 10, 5, 5],
-        type: 'line',
-        smooth: true,
-        lineStyle: {
-          color: '#3368BB',
-        }
-      },
-      {
-        data: ctr_x_axis_data, //[8, 11, 17, 15, 35, 5, 5],
-        type: 'line',
-        smooth: true,
-        lineStyle: {
-          color: '#009DAB',
-        }
-      }]
+      series: [
+        {
+          data: search_x_axis_data, //[7, 10, 14, 18, 15, 10, 6],
+          type: 'line',
+          smooth: true,
+          lineStyle: {
+            color: '#202124',
+          },
+        },
+        {
+          data: click_x_axis_data, //[8, 11, 21, 15, 10, 5, 5],
+          type: 'line',
+          smooth: true,
+          lineStyle: {
+            color: '#3368BB',
+          },
+        },
+        {
+          data: ctr_x_axis_data, //[8, 11, 17, 15, 35, 5, 5],
+          type: 'line',
+          smooth: true,
+          lineStyle: {
+            color: '#009DAB',
+          },
+        },
+      ],
     };
   }
   customInit() {
@@ -300,20 +337,20 @@ export class InsightsComponent implements OnInit {
     //     "selected" : false
     //   }
     // ]
-    this.actionLogDatBack = [...this.actionLogData]
-    this.actionLogData.forEach(element => {
-      this.filterArray.push(element.status)
+    this.actionLogDatBack = [...this.actionLogData];
+    this.actionLogData.forEach((element) => {
+      this.filterArray.push(element.status);
     });
     this.filterArray = new Set(this.filterArray);
     //console.log(this.data)
   }
   filterRecord(type) {
     this.actionLogData = [...this.actionLogDatBack];
-    if (type == "all") {
+    if (type == 'all') {
       this.actionLogData = [...this.actionLogDatBack];
     } else {
       this.actionLogData = this.actionLogData.filter((data) => {
-        return data.status == type
+        return data.status == type;
       });
     }
   }
@@ -326,11 +363,9 @@ export class InsightsComponent implements OnInit {
   mouseLeave() {
     //this.graphMode = false;
   }
-  filter() {
-
-  }
+  filter() {}
   toggle(icontoggle, selected) {
-    let previousIndex = this.iconIndex
+    let previousIndex = this.iconIndex;
     //previousIndex == index ? this.icontoggle = !icontoggle : this.icontoggle = icontoggle;
     this.icontoggle = !icontoggle;
     //this.iconIndex  = index;
@@ -339,60 +374,77 @@ export class InsightsComponent implements OnInit {
   swapSlider(slide) {
     this.slider = slide;
     if (this.slider == 0 && $('.tab-name').length) {
-      $('.tab-ana').addClass('active')
-      $('.tab-act').removeClass('active')
+      $('.tab-ana').addClass('active');
+      $('.tab-act').removeClass('active');
     } else {
-      $('.tab-act').addClass('active')
-      $('.tab-ana').removeClass('active')
+      $('.tab-act').addClass('active');
+      $('.tab-ana').removeClass('active');
     }
     // console.log('button clicked')
   }
 
   getcustomizeList() {
-    this.getAppDetails()
+    this.getAppDetails();
     const quaryparms: any = {
       searchIndexId: this.serachIndexId,
       queryPipelineId: this.queryPipelineId,
-      indexpipelineId: this.workflowService.selectedIndexPipeline() || ''
+      indexpipelineId: this.workflowService.selectedIndexPipeline() || '',
     };
-    this.service.invoke('get.queryCustomizeList', quaryparms).subscribe(res => {
-      if (res.length) {
-        this.actionLog_id = res[res.length - 1]._id;
-        this.clickCustomizeRecord(res[res.length - 1]._id);
+    this.service.invoke('get.queryCustomizeList', quaryparms).subscribe(
+      (res) => {
+        if (res.length) {
+          this.actionLog_id = res[res.length - 1]._id;
+          this.clickCustomizeRecord(res[res.length - 1]._id);
+        }
+      },
+      (errRes) => {
+        if (
+          errRes &&
+          errRes.error.errors &&
+          errRes.error.errors.length &&
+          errRes.error.errors[0] &&
+          errRes.error.errors[0].msg
+        ) {
+          this.notificationService.notify(errRes.error.errors[0].msg, 'error');
+        } else {
+          this.notificationService.notify('Failed ', 'error');
+        }
       }
-    }, errRes => {
-      if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
-        this.notificationService.notify(errRes.error.errors[0].msg, 'error');
-      } else {
-        this.notificationService.notify('Failed ', 'error');
-      }
-    });
+    );
   }
   clickCustomizeRecord(_id) {
     const quaryparms: any = {
       searchIndexId: this.serachIndexId,
       queryPipelineId: this.queryPipelineId,
       rankingAndPinningId: _id,
-      indexPipelineId: this.workflowService.selectedIndexPipeline() || ''
+      indexPipelineId: this.workflowService.selectedIndexPipeline() || '',
     };
-    this.service.invoke('get.customisationLogs', quaryparms).subscribe(res => {
-      //this.customizeList = res;
-      this.actionLogData = res;
-      for (let i = 0; i < this.actionLogData.length; i++) {
-        this.actionLogData[i]["selected"] = false;
-        this.actionLogData[i]["drop"] = false;
-        // if(this.actionLogData[i].target.contentType == 'faq'){
-        //   this.faqDesc = this.actionLogData[i].target.contentInfo.defaultAnswers[0].payload
-        // }
+    this.service.invoke('get.customisationLogs', quaryparms).subscribe(
+      (res) => {
+        //this.customizeList = res;
+        this.actionLogData = res;
+        for (let i = 0; i < this.actionLogData.length; i++) {
+          this.actionLogData[i]['selected'] = false;
+          this.actionLogData[i]['drop'] = false;
+          // if(this.actionLogData[i].target.contentType == 'faq'){
+          //   this.faqDesc = this.actionLogData[i].target.contentInfo.defaultAnswers[0].payload
+          // }
+        }
+        // console.log(res);
+      },
+      (errRes) => {
+        if (
+          errRes &&
+          errRes.error.errors &&
+          errRes.error.errors.length &&
+          errRes.error.errors[0] &&
+          errRes.error.errors[0].msg
+        ) {
+          this.notificationService.notify(errRes.error.errors[0].msg, 'error');
+        } else {
+          this.notificationService.notify('Failed', 'error');
+        }
       }
-      // console.log(res);
-    }, errRes => {
-      if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
-        this.notificationService.notify(errRes.error.errors[0].msg, 'error');
-      } else {
-        this.notificationService.notify('Failed', 'error');
-      }
-    });
+    );
   }
-
 }

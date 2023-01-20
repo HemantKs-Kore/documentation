@@ -6,19 +6,19 @@ import {
   ViewChild,
 } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { WorkflowService } from '@kore.services/workflow.service';
-import { ServiceInvokerService } from '@kore.services/service-invoker.service';
-import { NotificationService } from '@kore.services/notification.service';
-import { AppSelectionService } from '@kore.services/app.selection.service';
 import * as _ from 'underscore';
 import { Subscription } from 'rxjs';
 import { PerfectScrollbarComponent } from 'ngx-perfect-scrollbar';
-import { InlineManualService } from '@kore.services/inline-manual.service';
-import { MixpanelServiceService } from '@kore.services/mixpanel-service.service';
-import { ConfirmationDialogComponent } from '@kore.helpers/components/confirmation-dialog/confirmation-dialog.component';
-import { RangeSlider } from '@kore.helpers/models/range-slider.model';
-import { KRModalComponent } from 'apps/searchassist/src/app/shared/kr-modal/kr-modal.component';
 import { ActivatedRoute } from '@angular/router';
+import { WorkflowService } from '@kore.apps/services/workflow.service';
+import { ServiceInvokerService } from '@kore.apps/services/service-invoker.service';
+import { NotificationService } from '@kore.apps/services/notification.service';
+import { AppSelectionService } from '@kore.apps/services/app.selection.service';
+import { InlineManualService } from '@kore.apps/services/inline-manual.service';
+import { MixpanelServiceService } from '@kore.apps/services/mixpanel-service.service';
+import { ConfirmationDialogComponent } from '@kore.apps/helpers/components/confirmation-dialog/confirmation-dialog.component';
+import { RangeSlider } from '@kore.apps/helpers/models/range-slider.model';
+import { KRModalComponent } from '@kore.apps/shared/kr-modal/kr-modal.component';
 declare const $: any;
 @Component({
   selector: 'app-weights',
@@ -72,7 +72,7 @@ export class WeightsComponent implements OnInit, OnDestroy {
     public inlineManual: InlineManualService,
     public mixpanel: MixpanelServiceService,
     private route: ActivatedRoute
-  ) { }
+  ) {}
   selectedApp: any = {};
   serachIndexId;
   queryPipelineId;
@@ -87,10 +87,11 @@ export class WeightsComponent implements OnInit, OnDestroy {
     this.selectedApp = this.workflowService.selectedApp();
     this.serachIndexId = this.selectedApp.searchIndexes[0]._id;
     this.indexPipelineId = this.workflowService.selectedIndexPipeline();
-    this.queryPipelineId = this.workflowService.selectedQueryPipeline() ? this.workflowService.selectedQueryPipeline()._id : '';
+    this.queryPipelineId = this.workflowService.selectedQueryPipeline()
+      ? this.workflowService.selectedQueryPipeline()._id
+      : '';
 
     this.loadWeights();
-
 
     // this.subscription = this.appSelectionService.queryConfigs.subscribe(res =>
     // {
@@ -102,8 +103,8 @@ export class WeightsComponent implements OnInit, OnDestroy {
     this.weights = data;
     this.prepereWeights();
     if (!this.inlineManual.checkVisibility('WEIGHTS')) {
-      this.inlineManual.openHelp('WEIGHTS')
-      this.inlineManual.visited('WEIGHTS')
+      this.inlineManual.openHelp('WEIGHTS');
+      this.inlineManual.visited('WEIGHTS');
     }
   }
 
@@ -124,43 +125,48 @@ export class WeightsComponent implements OnInit, OnDestroy {
     let weightArr = [];
     if (this.weights) {
       this.weights.forEach((element, i) => {
-        const name = (element.fieldName || '').replace(/[^\w]/gi, '')
+        const name = (element.fieldName || '').replace(/[^\w]/gi, '');
         const obj = {
           fieldName: element.fieldName,
           fieldDataType: element.fieldDataType,
           fieldId: element._id,
-          sliderObj: new RangeSlider(0, 10, 1,element.weight.value, name + i,'',true)
-        }
+          sliderObj: new RangeSlider(
+            0,
+            10,
+            1,
+            element.weight.value,
+            name + i,
+            '',
+            true
+          ),
+        };
         weightArr.push(obj);
       });
       this.weightsList = [...weightArr];
     }
     this.loadingContent = false;
   }
-  restore(dialogRef?)
-  {
+  restore(dialogRef?) {
     const quaryparms: any = {
       streamId: this.selectedApp._id,
       queryPipelineId: this.queryPipelineId,
       indexPipelineId: this.workflowService.selectedIndexPipeline() || '',
     };
-    this.service.invoke('put.restoreWeights', quaryparms).subscribe(res =>
-    {
-      this.notificationService.notify('Weights has been restored', 'success');
-      this.getWeights();
-      if (dialogRef && dialogRef.close)
-      {
-        dialogRef.close();
+    this.service.invoke('put.restoreWeights', quaryparms).subscribe(
+      (res) => {
+        this.notificationService.notify('Weights has been restored', 'success');
+        this.getWeights();
+        if (dialogRef && dialogRef.close) {
+          dialogRef.close();
+        }
+      },
+      (errRes) => {
+        this.errorToaster(errRes, 'Failed to reset weights');
       }
-    }, errRes =>
-    {
-      this.errorToaster(errRes, 'Failed to reset weights');
-    });
+    );
   }
-  restoreWeights(event)
-  {
-    if (event)
-    {
+  restoreWeights(event) {
+    if (event) {
       event.stopImmediatePropagation();
       event.preventDefault();
     }
@@ -173,22 +179,21 @@ export class WeightsComponent implements OnInit, OnDestroy {
         text: 'Are you sure you want to restore weights?',
         newTitle: 'Are you sure you want to continue ?',
         body: 'Reset to default will set the system-defined fields back to their default values',
-        buttons: [{ key: 'yes', label: 'Continue' }, { key: 'no', label: 'Cancel' }],
-        confirmationPopUp: true
-      }
+        buttons: [
+          { key: 'yes', label: 'Continue' },
+          { key: 'no', label: 'Cancel' },
+        ],
+        confirmationPopUp: true,
+      },
     });
 
-    dialogRef.componentInstance.onSelect
-      .subscribe(result =>
-      {
-        if (result === 'yes')
-        {
-          this.restore(dialogRef)
-        } else if (result === 'no')
-        {
-          dialogRef.close();
-        }
-      })
+    dialogRef.componentInstance.onSelect.subscribe((result) => {
+      if (result === 'yes') {
+        this.restore(dialogRef);
+      } else if (result === 'no') {
+        dialogRef.close();
+      }
+    });
   }
 
   displayError(errRes) {
@@ -196,28 +201,27 @@ export class WeightsComponent implements OnInit, OnDestroy {
     this.errorToaster(errRes, 'Failed to get weights');
   }
 
-  getWeights(){
+  getWeights() {
     const quaryparms: any = {
       streamId: this.selectedApp._id,
       queryPipelineId: this.queryPipelineId,
       indexPipelineId: this.workflowService.selectedIndexPipeline() || '',
-      sortField:this.selectedSort?this.selectedSort:'filedName',
-      orderType:this.checksort?this.checksort:'asc',
+      sortField: this.selectedSort ? this.selectedSort : 'filedName',
+      orderType: this.checksort ? this.checksort : 'asc',
       // pageNo: 1,
       // pageNo: this.pageNumber,
       // noOfRecords: 10,
       // noOfRecords: this.numberofweigths,
-      isSelected : true
+      isSelected: true,
     };
-    this.service.invoke('get.weightsList', quaryparms).subscribe(res =>
-    {
-
-      this.displayFields(true, res.data);
-
-    }, errRes =>
-    {
-      this.displayError(errRes);
-    });
+    this.service.invoke('get.weightsList', quaryparms).subscribe(
+      (res) => {
+        this.displayFields(true, res.data);
+      },
+      (errRes) => {
+        this.displayError(errRes);
+      }
+    );
   }
   valueEvent(val, weight, index) {
     if (!this.sliderOpen) {

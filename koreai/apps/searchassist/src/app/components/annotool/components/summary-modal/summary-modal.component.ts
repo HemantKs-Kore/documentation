@@ -1,14 +1,18 @@
 import { Component, OnInit, Inject } from '@angular/core';
-import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import {
+  MatDialog,
+  MatDialogRef,
+  MAT_DIALOG_DATA,
+} from '@angular/material/dialog';
 import { NotificationService } from '../../../../services/notification.service';
-import { ServiceInvokerService } from '@kore.services/service-invoker.service';
 import { FormControl } from '@angular/forms';
 import { ConfirmationComponent } from '../confirmation/confirmation.component';
+import { ServiceInvokerService } from '@kore.apps/services/service-invoker.service';
 
 @Component({
   selector: 'kr-summary-modal',
   templateUrl: './summary-modal.component.html',
-  styleUrls: ['./summary-modal.component.scss']
+  styleUrls: ['./summary-modal.component.scss'],
 })
 export class SummaryModalComponent implements OnInit {
   loaderFlag: boolean = false;
@@ -20,7 +24,8 @@ export class SummaryModalComponent implements OnInit {
     private messageNotify: NotificationService,
     public dialog: MatDialog,
     public dialogRef: MatDialogRef<SummaryModalComponent>,
-    @Inject(MAT_DIALOG_DATA) public dialogData: any) { }
+    @Inject(MAT_DIALOG_DATA) public dialogData: any
+  ) {}
 
   ngOnInit() {
     // console.log(this.dialogData);
@@ -28,27 +33,31 @@ export class SummaryModalComponent implements OnInit {
   }
   // No data found
   checkNoDataFound() {
-    if (!this.dialogData.pdfResponse.title.length && !this.dialogData.pdfResponse.header.length
-      && !this.dialogData.pdfResponse.ignoreText.length && !this.dialogData.pdfResponse.footer.length) {
+    if (
+      !this.dialogData.pdfResponse.title.length &&
+      !this.dialogData.pdfResponse.header.length &&
+      !this.dialogData.pdfResponse.ignoreText.length &&
+      !this.dialogData.pdfResponse.footer.length
+    ) {
       this.noDataFound = true;
     }
   }
   // delete data
   deleteRow(index, option, selectedText) {
     let obj = {
-      title: "Confirmation",
-      confirmationMsg: "Are you sure?",
-      yes: "Confirm",
-      no: "Close",
-      type: "removeAnnotation"
+      title: 'Confirmation',
+      confirmationMsg: 'Are you sure?',
+      yes: 'Confirm',
+      no: 'Close',
+      type: 'removeAnnotation',
     };
     const dialogRef = this.dialog.open(ConfirmationComponent, {
       data: { info: obj },
       panelClass: 'kr-confirmation-panel',
       disableClose: true,
-      autoFocus: true
+      autoFocus: true,
     });
-    dialogRef.afterClosed().subscribe(res => {
+    dialogRef.afterClosed().subscribe((res) => {
       if (res) {
         if (option === 'title') {
           this.dialogData.pdfResponse.title.splice(index, 1);
@@ -70,12 +79,17 @@ export class SummaryModalComponent implements OnInit {
         this.checkNoDataFound();
       }
     });
-
   }
   // canel serilization data
   cancelSerializationData(text: string) {
-    if (text && this.dialogData.pdfResponse.serialization && this.dialogData.pdfResponse.serialization.length) {
-      let index = this.dialogData.pdfResponse.serialization.findIndex(res => res.selectedText === text);
+    if (
+      text &&
+      this.dialogData.pdfResponse.serialization &&
+      this.dialogData.pdfResponse.serialization.length
+    ) {
+      let index = this.dialogData.pdfResponse.serialization.findIndex(
+        (res) => res.selectedText === text
+      );
       this.dialogData.pdfResponse.serialization.splice(index, 1);
     }
   }
@@ -83,5 +97,4 @@ export class SummaryModalComponent implements OnInit {
   close() {
     this.dialogRef.close();
   }
-
 }

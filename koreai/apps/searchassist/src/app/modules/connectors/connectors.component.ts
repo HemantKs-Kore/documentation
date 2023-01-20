@@ -1,9 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { AppSelectionService } from '@kore.services/app.selection.service';
-import { NotificationService } from '@kore.services/notification.service';
-import { ServiceInvokerService } from '@kore.services/service-invoker.service';
-import { WorkflowService } from '@kore.services/workflow.service';
 import { ConfirmationDialogComponent } from '../../helpers/components/confirmation-dialog/confirmation-dialog.component';
 import { UpgradePlanComponent } from '../../helpers/components/upgrade-plan/upgrade-plan.component';
 import { KRModalComponent } from '../../shared/kr-modal/kr-modal.component';
@@ -11,6 +7,10 @@ import { OnboardingComponentComponent } from '../../components/onboarding-compon
 import { SliderComponentComponent } from '../../shared/slider-component/slider-component.component';
 import { Router } from '@angular/router';
 import { EMPTY_SCREEN } from '../../modules/empty-screen/empty-screen.constants';
+import { AppSelectionService } from '@kore.apps/services/app.selection.service';
+import { NotificationService } from '@kore.apps/services/notification.service';
+import { ServiceInvokerService } from '@kore.apps/services/service-invoker.service';
+import { WorkflowService } from '@kore.apps/services/workflow.service';
 declare const $: any;
 @Component({
   selector: 'app-connectors',

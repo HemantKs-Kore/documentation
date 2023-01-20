@@ -7,20 +7,20 @@ import {
   ViewChild,
   OnDestroy,
 } from '@angular/core';
-import { WorkflowService } from '@kore.services/workflow.service';
 import { ActivatedRoute, Routes, Router } from '@angular/router';
-import { AppSelectionService } from '@kore.services/app.selection.service';
-import { ServiceInvokerService } from '@kore.services/service-invoker.service';
 import { Subscription } from 'rxjs';
-import { NotificationService } from '@kore.services/notification.service';
-import { MatDialog } from '@angular/material/dialog';
 import * as _ from 'underscore';
-import { MixpanelServiceService } from '@kore.services/mixpanel-service.service';
-import { SideBarService } from '@kore.services/header.service';
-import { KRModalComponent } from '../../../shared/kr-modal/kr-modal.component';
-import { DockStatusService } from '@kore.services/dockstatusService/dock-status.service';
-import { ConfirmationDialogComponent } from '@kore.helpers/components/confirmation-dialog/confirmation-dialog.component';
-import { UpgradePlanComponent } from '@kore.helpers/components/upgrade-plan/upgrade-plan.component';
+import { WorkflowService } from '@kore.apps/services/workflow.service';
+import { AppSelectionService } from '@kore.apps/services/app.selection.service';
+import { ServiceInvokerService } from '@kore.apps/services/service-invoker.service';
+import { MatDialog } from '@angular/material/dialog';
+import { NotificationService } from '@kore.apps/services/notification.service';
+import { MixpanelServiceService } from '@kore.apps/services/mixpanel-service.service';
+import { KRModalComponent } from '@kore.apps/shared/kr-modal/kr-modal.component';
+import { SideBarService } from '@kore.apps/services/header.service';
+import { ConfirmationDialogComponent } from '@kore.apps/helpers/components/confirmation-dialog/confirmation-dialog.component';
+import { UpgradePlanComponent } from '@kore.apps/helpers/components/upgrade-plan/upgrade-plan.component';
+import { DockStatusService } from '@kore.apps/services/dockstatusService/dock-status.service';
 declare const $: any;
 @Component({
   selector: 'app-mainmenu',

@@ -7,17 +7,20 @@ import { FindlySharedModule } from '../../../findly-shared/findly-shared.module'
 import { CustomConfigFormComponent } from './components/custom-config-form/custom-config-form.component';
 import { CustomConfigListComponent } from './components/custom-config-list/custom-config-list.component';
 import { FormsModule } from '@angular/forms';
-import { ConfirmationDialogComponent } from '@kore.helpers/components/confirmation-dialog/confirmation-dialog.component';
-
+import { ConfirmationDialogComponent } from '@kore.apps/helpers/components/confirmation-dialog/confirmation-dialog.component';
 
 @NgModule({
-  declarations: [CustomConfigurationsComponent, CustomConfigFormComponent, CustomConfigListComponent],
+  declarations: [
+    CustomConfigurationsComponent,
+    CustomConfigFormComponent,
+    CustomConfigListComponent,
+  ],
   imports: [
     CommonModule,
     CustomConfigurationsRoutingModule,
     FindlySharedModule,
-    FormsModule
+    FormsModule,
   ],
-  entryComponents:[ConfirmationDialogComponent]
+  entryComponents: [ConfirmationDialogComponent],
 })
-export class CustomConfigurationsModule { }
+export class CustomConfigurationsModule {}

@@ -8,19 +8,19 @@ import {
   Router,
   RouterEvent,
 } from '@angular/router';
-import { AppSelectionService } from '@kore.services/app.selection.service';
-import { AuthService } from '@kore.services/auth.service';
-import { DockStatusService } from '@kore.services/dock.status.service';
-import { EndPointsService } from '@kore.services/end-points.service';
-import { SideBarService } from '@kore.services/header.service';
-import { InlineManualService } from '@kore.services/inline-manual.service';
-import { LocalStoreService } from '@kore.services/localstore.service';
-import { MixpanelServiceService } from '@kore.services/mixpanel-service.service';
-import { ServiceInvokerService } from '@kore.services/service-invoker.service';
-import { WorkflowService } from '@kore.services/workflow.service';
 import { TranslateService } from '@ngx-translate/core';
 import { Subscription } from 'rxjs';
 import * as _ from 'underscore';
+import { AppSelectionService } from './services/app.selection.service';
+import { AuthService } from './services/auth.service';
+import { DockStatusService } from './services/dock.status.service';
+import { EndPointsService } from './services/end-points.service';
+import { SideBarService } from './services/header.service';
+import { InlineManualService } from './services/inline-manual.service';
+import { LocalStoreService } from './services/localstore.service';
+import { MixpanelServiceService } from './services/mixpanel-service.service';
+import { ServiceInvokerService } from './services/service-invoker.service';
+import { WorkflowService } from './services/workflow.service';
 
 declare const $: any;
 declare const FindlySDK: any;

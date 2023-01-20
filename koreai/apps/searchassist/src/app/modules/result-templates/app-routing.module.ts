@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule, PreloadAllModules } from '@angular/router';
-import { AuthGuard } from '@kore.services/auth.guard';
-import { AppDataResolver } from '@kore.services/resolvers/app.data.resolve';
+import { AuthGuard } from '@kore.apps/services/auth.guard';
+import { AppDataResolver } from '@kore.apps/services/resolvers/app.data.resolve';
 // import { AppsListingComponent } from './components/apps-home/apps-home';
 // import { SummaryComponent } from './components/summary/summary.component';
 // import { TraitsComponent } from './components/traits/traits.component';
@@ -224,7 +224,13 @@ const routes: Routes = [
       // { path: '**', redirectTo: 'apps' },
     ],
   },
-  { path: 'result-templates', loadChildren: () => import('./modules/result-templates/result-templates.module').then(m => m.ResultTemplatesModule) },
+  {
+    path: 'result-templates',
+    loadChildren: () =>
+      import('./modules/result-templates/result-templates.module').then(
+        (m) => m.ResultTemplatesModule
+      ),
+  },
 ];
 
 @NgModule({

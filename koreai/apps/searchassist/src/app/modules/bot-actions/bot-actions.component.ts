@@ -1,20 +1,20 @@
 import { Component, EventEmitter, OnInit, ViewChild } from '@angular/core';
-import { WorkflowService } from '@kore.services/workflow.service';
-import { ServiceInvokerService } from '@kore.services/service-invoker.service';
-import { NotificationService } from '@kore.services/notification.service';
-import { AuthService } from '@kore.services/auth.service';
 import { Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import * as _ from 'underscore';
-import { AppSelectionService } from '@kore.services/app.selection.service';
-import { environment } from '@kore.environment';
 import { KRModalComponent } from '../../shared/kr-modal/kr-modal.component';
 import { NgbPanelChangeEvent } from '@ng-bootstrap/ng-bootstrap';
-import { InlineManualService } from '@kore.services/inline-manual.service';
 import { PerfectScrollbarComponent } from 'ngx-perfect-scrollbar';
 import { OnboardingComponentComponent } from '../../components/onboarding-component/onboarding-component.component';
 import { SliderComponentComponent } from '../../shared/slider-component/slider-component.component';
 import { EMPTY_SCREEN } from '../../modules/empty-screen/empty-screen.constants';
+import { WorkflowService } from '@kore.apps/services/workflow.service';
+import { ServiceInvokerService } from '@kore.apps/services/service-invoker.service';
+import { NotificationService } from '@kore.apps/services/notification.service';
+import { AuthService } from '@kore.apps/services/auth.service';
+import { AppSelectionService } from '@kore.apps/services/app.selection.service';
+import { InlineManualService } from '@kore.apps/services/inline-manual.service';
+import { environment } from '@kore.environment/environment';
 declare const $: any;
 @Component({
   selector: 'app-bot-actions',

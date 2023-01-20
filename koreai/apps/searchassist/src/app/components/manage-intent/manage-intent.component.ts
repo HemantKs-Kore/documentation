@@ -1,30 +1,34 @@
 import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
-import { SideBarService } from '@kore.services/header.service';
-import { WorkflowService } from '@kore.services/workflow.service';
-import { ServiceInvokerService } from '@kore.services/service-invoker.service';
-import { AuthService } from '@kore.services/auth.service';
-import { finalize, debounceTime, distinctUntilChanged, switchMap } from 'rxjs/operators';
+import {
+  finalize,
+  debounceTime,
+  distinctUntilChanged,
+  switchMap,
+} from 'rxjs/operators';
 import { fadeInOutAnimation } from '../../helpers/animations/animations';
 import { MatDialog } from '@angular/material/dialog';
-import { MatChipInputEvent } from '@angular/material/chips'
+import { MatChipInputEvent } from '@angular/material/chips';
 import { ImportFaqsModalComponent } from './../import-faqs-modal/import-faqs-modal.component';
 import * as uuid from 'uuid';
 import { ConfirmationDialogComponent } from '../../helpers/components/confirmation-dialog/confirmation-dialog.component';
 import { Subject, of, Subscription, from } from 'rxjs';
-import { KgDataService } from '@kore.services/componentsServices/kg-data.service';
-import { NotificationService } from '@kore.services/notification.service';
 import { AddAltFaqComponent } from '../add-alt-faq/add-alt-faq.component';
 import { ActivatedRoute } from '@angular/router';
+import { SideBarService } from '@kore.apps/services/header.service';
+import { WorkflowService } from '@kore.apps/services/workflow.service';
+import { ServiceInvokerService } from '@kore.apps/services/service-invoker.service';
+import { AuthService } from '@kore.apps/services/auth.service';
+import { KgDataService } from '@kore.apps/services/componentsServices/kg-data.service';
+import { NotificationService } from '@kore.apps/services/notification.service';
 declare const $: any;
 
 @Component({
   selector: 'app-manage-intent',
   templateUrl: './manage-intent.component.html',
   styleUrls: ['./manage-intent.component.scss'],
-  animations: [fadeInOutAnimation]
+  animations: [fadeInOutAnimation],
 })
 export class ManageIntentComponent implements OnInit, OnDestroy {
-
   selectedApp: any;
   selectedFaq: any;
   altQuestionIndex: number = null;
@@ -57,16 +61,15 @@ export class ManageIntentComponent implements OnInit, OnDestroy {
     private kgService: KgDataService,
     private notificationService: NotificationService,
     private route: ActivatedRoute
-  ) {
-  }
+  ) {}
 
   ngOnInit() {
-
-    this.completedPercentage = this.route.snapshot.queryParams.completedPercentage;
+    this.completedPercentage =
+      this.route.snapshot.queryParams.completedPercentage;
     const toogleObj = {
       title: 'Manage Intents',
-      toShowWidgetNavigation: this.workflowService.showAppCreationHeader()
-    }
+      toShowWidgetNavigation: this.workflowService.showAppCreationHeader(),
+    };
     this.headerService.toggle(toogleObj);
     this.selectedApp = this.workflowService.findlyApps();
     this.getKnowledgeTasks();
@@ -75,35 +78,43 @@ export class ManageIntentComponent implements OnInit, OnDestroy {
       this.getKnowledgeTasks();
       this.initSearchFaqs();
     });
-    this.kgService.importFaqs.subscribe(res=>{this.importFaqs(-1)});
+    this.kgService.importFaqs.subscribe((res) => {
+      this.importFaqs(-1);
+    });
   }
   getKnowledgeTasks() {
     const _params = {
       userId: this.authService.getUserId(),
       streamId: this.selectedApp._id || this.selectedApp[0]._id,
-    }
+    };
 
-    this.service.invoke('get.knowledgetasks', _params).subscribe(res => {
-      if (!res) return;
-      if (res && res.length === 0) {
-        this.createKnowledgeTask();
-      } else {
-        this.ktId = res[0]._id;
-        this.kgService.setKgTaskId(res[0]._id);
-        this.nodeId = res[0].taxonomy[0].nodeId;
-        this.getFaqs();
+    this.service.invoke('get.knowledgetasks', _params).subscribe(
+      (res) => {
+        if (!res) return;
+        if (res && res.length === 0) {
+          this.createKnowledgeTask();
+        } else {
+          this.ktId = res[0]._id;
+          this.kgService.setKgTaskId(res[0]._id);
+          this.nodeId = res[0].taxonomy[0].nodeId;
+          this.getFaqs();
+        }
+      },
+      (err) => {
+        this.loading = false;
+        this.showError = true;
+        this.notificationService.notify(
+          'Unable to fetch knowledge tasks',
+          'error'
+        );
       }
-    }, err => {
-      this.loading = false;
-      this.showError = true;
-      this.notificationService.notify('Unable to fetch knowledge tasks', 'error');
-    })
+    );
   }
 
   createKnowledgeTask() {
     const _params = {
       userId: this.authService.getUserId(),
-    }
+    };
 
     const nodeId = uuid.v4();
 
@@ -116,15 +127,13 @@ export class ManageIntentComponent implements OnInit, OnDestroy {
           label: this.selectedApp.name || this.selectedApp[0].name,
           level: 'l0',
           parent: [],
-          synonyms: []
-        }
+          synonyms: [],
+        },
       ],
       isGraph: true,
       visibility: {
         namespace: 'private',
-        namespaceIds: [
-          this.authService.getUserId()
-        ]
+        namespaceIds: [this.authService.getUserId()],
       },
       streamId: this.selectedApp._id || this.selectedApp[0]._id,
       metadata: {
@@ -136,21 +145,27 @@ export class ManageIntentComponent implements OnInit, OnDestroy {
             level: 'l0',
             parent: [],
             synonyms: [],
-            nodes: []
-          }
-        ]
-      }
-    }
+            nodes: [],
+          },
+        ],
+      },
+    };
 
-    this.service.invoke('create.knowledgetask', _params, _payload).subscribe(res => {
-      this.ktId = res._id;
-      this.nodeId = nodeId;
-      this.getFaqs();
-    }, err => {
-      this.loading = false;
-      this.showError = true;
-      this.notificationService.notify('Unable to create knowledge tasks', 'error');
-    })
+    this.service.invoke('create.knowledgetask', _params, _payload).subscribe(
+      (res) => {
+        this.ktId = res._id;
+        this.nodeId = nodeId;
+        this.getFaqs();
+      },
+      (err) => {
+        this.loading = false;
+        this.showError = true;
+        this.notificationService.notify(
+          'Unable to create knowledge tasks',
+          'error'
+        );
+      }
+    );
   }
 
   getFaqs() {
@@ -162,50 +177,58 @@ export class ManageIntentComponent implements OnInit, OnDestroy {
       searchParam: '',
       parentId: this.nodeId,
       withallchild: true,
-      filter: 'all'
-    }
+      filter: 'all',
+    };
 
-    this.service.invoke('get.getorsearchfaq', _params)
-      .pipe(
-        finalize(() => this.loading = false))
-      .subscribe(res => {
-        if (!(res && res.faqs)) return;
-        const faqs = res.faqs;
-        this.isEmpty = faqs.length === 0;
-        this.faqs = faqs.map(faq => this.decodeFaq(faq));
-        this.faqsCount = res.count;
-        this.showAddFaqSection = this.isEmpty;
-      }, err => {
-        this.notificationService.notify('Unable to fetch FAQs', 'error');
-        this.showError = true;
-      })
+    this.service
+      .invoke('get.getorsearchfaq', _params)
+      .pipe(finalize(() => (this.loading = false)))
+      .subscribe(
+        (res) => {
+          if (!(res && res.faqs)) return;
+          const faqs = res.faqs;
+          this.isEmpty = faqs.length === 0;
+          this.faqs = faqs.map((faq) => this.decodeFaq(faq));
+          this.faqsCount = res.count;
+          this.showAddFaqSection = this.isEmpty;
+        },
+        (err) => {
+          this.notificationService.notify('Unable to fetch FAQs', 'error');
+          this.showError = true;
+        }
+      );
   }
 
   initSearchFaqs() {
-    this.searchTerm$.pipe(
-      debounceTime(400),
-      distinctUntilChanged(),
-      switchMap(term => {
-        // if (!term.trim()) return of(this.faqs);
-        const _params = {
-          userId: this.authService.getUserId(),
-          ktId: this.ktId,
-          limit: 1000,
-          offSet: 0,
-          searchParam: term,
-          parentId: this.nodeId,
-          withallchild: true,
-          filter: 'all'
-        }
+    this.searchTerm$
+      .pipe(
+        debounceTime(400),
+        distinctUntilChanged(),
+        switchMap((term) => {
+          // if (!term.trim()) return of(this.faqs);
+          const _params = {
+            userId: this.authService.getUserId(),
+            ktId: this.ktId,
+            limit: 1000,
+            offSet: 0,
+            searchParam: term,
+            parentId: this.nodeId,
+            withallchild: true,
+            filter: 'all',
+          };
 
-        return this.service.invoke('get.getorsearchfaq', _params);
-      })
-    ).subscribe(res => {
-      if (!(res && res.faqs)) return;
-      this.faqs = res.faqs.map(faq => this.decodeFaq(faq));;
-    }, err => {
-      this.notificationService.notify('Unable to fetch FAQs', 'error');
-    })
+          return this.service.invoke('get.getorsearchfaq', _params);
+        })
+      )
+      .subscribe(
+        (res) => {
+          if (!(res && res.faqs)) return;
+          this.faqs = res.faqs.map((faq) => this.decodeFaq(faq));
+        },
+        (err) => {
+          this.notificationService.notify('Unable to fetch FAQs', 'error');
+        }
+      );
   }
 
   onClickAddFaqs() {
@@ -220,9 +243,7 @@ export class ManageIntentComponent implements OnInit, OnDestroy {
         tagsPayload: data.tags,
       },
       knowledgeTaskId: this.ktId,
-      subQuestions: [
-
-      ],
+      subQuestions: [],
       responseType: 'message',
       streamId: this.selectedApp._id || this.selectedApp[0]._id,
       parent: this.nodeId,
@@ -231,91 +252,96 @@ export class ManageIntentComponent implements OnInit, OnDestroy {
         {
           text: this.encode(data.response),
           type: 'basic',
-          channel: 'default'
-        }
+          channel: 'default',
+        },
       ],
-      subAnswers: [
-
-      ]
-    }
+      subAnswers: [],
+    };
   }
 
   addFaq($event) {
     // "text": "You%20can%20test%20it%20with%20deflect.ai",
-    const _params = { userId: this.authService.getUserId() }
+    const _params = { userId: this.authService.getUserId() };
     const _payload = this._prepareFaqPayload($event);
 
-    this.service.invoke('create.faqs', _params, _payload)
-      .subscribe(res => {
+    this.service.invoke('create.faqs', _params, _payload).subscribe(
+      (res) => {
         this.faqs.push(this.decodeFaq(res));
         this.isEmpty = false;
         this.showAddFaqSection = false;
         this.notificationService.notify('FAQ added successfully!', 'success');
         $event.cb('success');
-      }, err => {
+      },
+      (err) => {
         this.notificationService.notify('Failed to Add FAQ', 'error');
         $event.cb('error');
-      })
+      }
+    );
   }
 
   editFaq($event) {
-    const _params: any = { userId: this.authService.getUserId() }
+    const _params: any = { userId: this.authService.getUserId() };
     const _payload = this._prepareFaqPayload($event);
     _payload._id = $event._id;
     _params.faqID = $event._id;
 
-    this.service.invoke('edit.faq', _params, _payload)
-      .subscribe(res => {
-        const index = this.faqs.findIndex(f => f._id === $event._id);
+    this.service.invoke('edit.faq', _params, _payload).subscribe(
+      (res) => {
+        const index = this.faqs.findIndex((f) => f._id === $event._id);
         this.faqs.splice(index, 1, this.decodeFaq(res));
-        this.faqs.forEach(e => e.showEditSection = false);
+        this.faqs.forEach((e) => (e.showEditSection = false));
         this.notificationService.notify('FAQ updated successfully!', 'success');
         $event.cb('success');
-      }, err => {
+      },
+      (err) => {
         this.notificationService.notify('Failed to update FAQ', 'error');
         $event.cb('error');
-      })
+      }
+    );
   }
 
   updateFaq($event) {
-    const _params: any = { userId: this.authService.getUserId() }
+    const _params: any = { userId: this.authService.getUserId() };
     const _payload = $event.faq;
     _params.faqID = $event.faq._id;
 
-    this.service.invoke('edit.faq', _params, _payload)
-      .subscribe(res => {
-        const index = this.faqs.findIndex(f => f._id === $event.faq._id);
+    this.service.invoke('edit.faq', _params, _payload).subscribe(
+      (res) => {
+        const index = this.faqs.findIndex((f) => f._id === $event.faq._id);
         this.faqs.splice(index, 1, this.decodeFaq(res));
         this.selectedFaq = res;
         setTimeout(() => {
           $('#' + 'collapse' + index).collapse('show'); // to keep card open
         });
         this.notificationService.notify('FAQ updated successfully!', 'success');
-        $event.cb('success')
-      }, err => {
+        $event.cb('success');
+      },
+      (err) => {
         this.notificationService.notify('Failed to update FAQ', 'error');
         $event.cb('error');
-      })
+      }
+    );
   }
 
   deleteFaq(faq) {
     const _params = {
       userId: this.authService.getUserId(),
-      faqID: faq._id
-    }
-    this.service.invoke('delete.faq', _params)
-      .subscribe(res => {
-        const index = this.faqs.findIndex(f => f._id === faq._id);
+      faqID: faq._id,
+    };
+    this.service.invoke('delete.faq', _params).subscribe(
+      (res) => {
+        const index = this.faqs.findIndex((f) => f._id === faq._id);
         this.faqs.splice(index, 1);
         this.checkFaqs();
         this.notificationService.notify('FAQ has been deleted', 'success');
-      }, err => {
+      },
+      (err) => {
         this.notificationService.notify('Failed to delete FAQ', 'error');
-      })
+      }
+    );
   }
 
   deleteAltQuestion(index) {
-
     const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
       width: '530px',
       height: 'auto',
@@ -323,22 +349,25 @@ export class ManageIntentComponent implements OnInit, OnDestroy {
       data: {
         title: 'Delete Alternate Question',
         text: 'Are you sure you want to delete selected alternate question?',
-        newTitle:'Are you sure you want to delete selected alternate question?',
-        buttons: [{ key: 'yes', label: 'OK', type: 'danger' }, { key: 'no', label: 'Cancel' }],
-        confirmationPopUp:true
-      }
+        newTitle:
+          'Are you sure you want to delete selected alternate question?',
+        buttons: [
+          { key: 'yes', label: 'OK', type: 'danger' },
+          { key: 'no', label: 'Cancel' },
+        ],
+        confirmationPopUp: true,
+      },
     });
 
-    dialogRef.componentInstance.onSelect
-      .subscribe(result => {
-        if (result === 'yes') {
-          dialogRef.close();
-          this.selectedFaq.subQuestions.splice(index, 1);
-          this.updateFaq(this.selectedFaq);
-        } else if (result === 'no') {
-          dialogRef.close();
-        }
-      })
+    dialogRef.componentInstance.onSelect.subscribe((result) => {
+      if (result === 'yes') {
+        dialogRef.close();
+        this.selectedFaq.subQuestions.splice(index, 1);
+        this.updateFaq(this.selectedFaq);
+      } else if (result === 'no') {
+        dialogRef.close();
+      }
+    });
   }
 
   importFaqs(step) {
@@ -347,13 +376,12 @@ export class ManageIntentComponent implements OnInit, OnDestroy {
       height: '340px',
       disableClose: true,
       panelClass: 'import-faqs-popup',
-      data: {step}
+      data: { step },
     });
-
   }
 
   prepareTags(tagsPayload = []) {
-    return tagsPayload.map(e => '#' + e.tag).join(', ');
+    return tagsPayload.map((e) => '#' + e.tag).join(', ');
   }
 
   checkFaqs() {
@@ -367,17 +395,19 @@ export class ManageIntentComponent implements OnInit, OnDestroy {
       this.searchTerm = '';
       this.searchTerm$.next('');
     }
-    this.showAddFaqSection = true
-
+    this.showAddFaqSection = true;
   }
 
   onClickFaq(faq, $event) {
-    this.faqs.forEach(e => e.showEditSection = false);
+    this.faqs.forEach((e) => (e.showEditSection = false));
     $('.card-link[data-toggle=collapse]').each(function () {
       $(this).parent().removeClass('expanded');
-    })
+    });
 
-    if ($($event.target).attr('aria-expanded') === 'false' || !$($event.target).attr('aria-expanded')) {
+    if (
+      $($event.target).attr('aria-expanded') === 'false' ||
+      !$($event.target).attr('aria-expanded')
+    ) {
       this.selectedFaq = faq;
       $($event.target).parent().addClass('expanded');
     } else {
@@ -387,7 +417,7 @@ export class ManageIntentComponent implements OnInit, OnDestroy {
 
   onClickEditFaq(faq, id) {
     $('#' + id).collapse('hide');
-    this.faqs.forEach(e => {
+    this.faqs.forEach((e) => {
       if (faq._id === e._id) {
         e.showEditSection = !e.showEditSection;
       } else {
@@ -407,21 +437,23 @@ export class ManageIntentComponent implements OnInit, OnDestroy {
         title: 'Delete FAQ',
         text: 'Are you sure you want to delete selected FAQ?',
         newTitle: 'Are you sure you want to delete selected FAQ?',
-        body:'Selected FAQ will be deleted.',
-        buttons: [{ key: 'yes', label: 'OK', type: 'danger' }, { key: 'no', label: 'Cancel' }],
-        confirmationPopUp:true
-      }
+        body: 'Selected FAQ will be deleted.',
+        buttons: [
+          { key: 'yes', label: 'OK', type: 'danger' },
+          { key: 'no', label: 'Cancel' },
+        ],
+        confirmationPopUp: true,
+      },
     });
 
-    dialogRef.componentInstance.onSelect
-      .subscribe(result => {
-        if (result === 'yes') {
-          dialogRef.close();
-          this.deleteFaq(faq)
-        } else if (result === 'no') {
-          dialogRef.close();
-        }
-      })
+    dialogRef.componentInstance.onSelect.subscribe((result) => {
+      if (result === 'yes') {
+        dialogRef.close();
+        this.deleteFaq(faq);
+      } else if (result === 'no') {
+        dialogRef.close();
+      }
+    });
   }
 
   openJSModal(faq) {
@@ -431,11 +463,11 @@ export class ManageIntentComponent implements OnInit, OnDestroy {
       height: '80%',
       panelClass: 'js-faq-popup',
       data: {
-        title: 'Delete FAQ'
-      }
+        title: 'Delete FAQ',
+      },
     });
     this.jsConent = `\`\`\`javascript\n${faq.answerPayload[0].text} \`\`\``;
-    dialogRef.afterClosed().subscribe((res) => this.jsConent = '');
+    dialogRef.afterClosed().subscribe((res) => (this.jsConent = ''));
   }
 
   onClickAltQuestion(index) {
