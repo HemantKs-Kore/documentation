@@ -7,6 +7,7 @@
     "build": "ng build searchassist",
     "ng": "nx",
     "lint": "ng lint searchassist",
+    "lintfix": "nx lint searchassist --fix",
     "test": "ng test searchassist",
     "e2e": "ng e2e searchassist-e2e --watch",
     "postinstall": "node ./decorate-angular-cli.js",

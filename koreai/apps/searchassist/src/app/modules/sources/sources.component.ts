@@ -20,7 +20,6 @@ import { startWith, take } from 'rxjs/operators';
 import { MatDatepickerInputEvent } from '@angular/material/datepicker';
 import {
   CrwalObj,
-  AdvanceOpts,
   scheduleOpts,
 } from '../../helpers/models/Crwal-advance.model';
 
