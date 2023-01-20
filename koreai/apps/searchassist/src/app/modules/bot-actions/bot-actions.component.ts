@@ -13,8 +13,8 @@ import { ServiceInvokerService } from '@kore.apps/services/service-invoker.servi
 import { NotificationService } from '@kore.apps/services/notification.service';
 import { AuthService } from '@kore.apps/services/auth.service';
 import { AppSelectionService } from '@kore.apps/services/app.selection.service';
-import { environment } from 'apps/searchassist/src/environments/environment';
 import { InlineManualService } from '@kore.apps/services/inline-manual.service';
+import { environment } from '@kore.environment/environment';
 declare const $: any;
 @Component({
   selector: 'app-bot-actions',

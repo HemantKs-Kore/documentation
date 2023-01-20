@@ -10,7 +10,6 @@ import * as _ from 'underscore';
 import { Subscription } from 'rxjs';
 import { PerfectScrollbarComponent } from 'ngx-perfect-scrollbar';
 import { ActivatedRoute } from '@angular/router';
-import { KRModalComponent } from 'apps/searchassist/src/app/shared/kr-modal/kr-modal.component';
 import { WorkflowService } from '@kore.apps/services/workflow.service';
 import { ServiceInvokerService } from '@kore.apps/services/service-invoker.service';
 import { NotificationService } from '@kore.apps/services/notification.service';
@@ -19,6 +18,7 @@ import { InlineManualService } from '@kore.apps/services/inline-manual.service';
 import { MixpanelServiceService } from '@kore.apps/services/mixpanel-service.service';
 import { ConfirmationDialogComponent } from '@kore.apps/helpers/components/confirmation-dialog/confirmation-dialog.component';
 import { RangeSlider } from '@kore.apps/helpers/models/range-slider.model';
+import { KRModalComponent } from '@kore.apps/shared/kr-modal/kr-modal.component';
 declare const $: any;
 @Component({
   selector: 'app-weights',

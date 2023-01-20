@@ -27,8 +27,8 @@ import { ServiceInvokerService } from '@kore.apps/services/service-invoker.servi
 import { NotificationService } from '@kore.apps/services/notification.service';
 import { AppSelectionService } from '@kore.apps/services/app.selection.service';
 import { MixpanelServiceService } from '@kore.apps/services/mixpanel-service.service';
-import { environment } from 'apps/searchassist/src/environments/environment';
 import { AppUrlsService } from '@kore.apps/services/app.urls.service';
+import { environment } from '@kore.environment/environment';
 
 @Component({
   selector: 'app-header',
