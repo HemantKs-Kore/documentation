@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule, PreloadAllModules } from '@angular/router';
+import { AppsDataResolver } from './modules/apps/services/apps-data.resolver';
 import { AuthGuard } from './services/auth.guard';
 import { AppDataResolver } from './services/resolvers/app.data.resolve';
 
@@ -250,6 +251,7 @@ const routes: Routes = [
         loadChildren: () =>
           import('./modules/apps/apps.module').then((m) => m.AppsModule),
         pathMatch: 'full',
+        // resolve: [AppsDataResolver],
       },
       // { path: '**', redirectTo: 'apps' },
     ],
