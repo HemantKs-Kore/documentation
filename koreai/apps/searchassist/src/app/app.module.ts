@@ -1,3 +1,11 @@
+import { StoreModule } from '@ngrx/store';
+import { EffectsModule } from '@ngrx/effects';
+import { EntityDataModule } from '@ngrx/data';
+import { extModules } from '../build-specifics';
+import { appReducers } from './store/reducers';
+import { metaReducers } from './store/meta-reducers';
+import { entityConfig } from './store/entity-metadata';
+import { StoreRouterConnectingModule } from '@ngrx/router-store';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
@@ -65,6 +73,12 @@ export function createTranslateLoader(http: HttpClient) {
     NgxDaterangepickerMd.forRoot(),
     HeaderModule,
     MainMenuModule,
+
+    StoreModule.forRoot(appReducers, { metaReducers }),
+    StoreRouterConnectingModule.forRoot(),
+    extModules,
+    EffectsModule.forRoot([]),
+    EntityDataModule.forRoot(entityConfig),
   ],
   // tslint:disable-next-line:max-line-length
   entryComponents: [
