@@ -54,8 +54,8 @@ export class StopWordsComponent implements OnInit, OnDestroy {
     private appSelectionService: AppSelectionService
   ) {}
   ngOnInit(): void {
-    this.selectedApp = this.workflowService.selectedApp();
-    this.serachIndexId = this.selectedApp.searchIndexes[0]._id;
+    this.selectedApp = this.workflowService?.selectedApp();
+    this.serachIndexId = this.selectedApp?.searchIndexes[0]?._id;
     this.loadStopwords();
     this.subscription = this.appSelectionService.queryConfigs.subscribe(
       (res) => {
@@ -76,11 +76,11 @@ export class StopWordsComponent implements OnInit, OnDestroy {
     }
   }
   loadStopwords() {
-    this.indexPipelineId = this.workflowService.selectedIndexPipeline();
+    this.indexPipelineId = this.workflowService?.selectedIndexPipeline();
     if (this.indexPipelineId) {
-      this.queryPipelineId = this.workflowService.selectedQueryPipeline()
-        ? this.workflowService.selectedQueryPipeline()._id
-        : this.selectedApp.searchIndexes[0].queryPipelineId;
+      this.queryPipelineId = this.workflowService?.selectedQueryPipeline()
+        ? this.workflowService.selectedQueryPipeline()?._id
+        : this.selectedApp.searchIndexes[0]?.queryPipelineId;
       if (this.queryPipelineId) {
         this.getStopWordsList();
         this.getQuerypipeline();

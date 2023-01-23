@@ -427,7 +427,7 @@ export class AppSelectionService {
   public updateTourConfig(component) {
     let callApi: boolean;
     const appInfo: any = this.workflowService.selectedApp();
-    if(this.getTourArray && this.getTourArray.onBoardingChecklist.length){
+    if (this.getTourArray && this.getTourArray?.onBoardingChecklist?.length) {
       if (
         component == 'addData' &&
         !this.getTourArray.onBoardingChecklist[0].addData

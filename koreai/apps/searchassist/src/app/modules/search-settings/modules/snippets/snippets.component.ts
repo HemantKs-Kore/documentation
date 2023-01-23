@@ -27,18 +27,18 @@ export class SnippetsComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.selectedApp = this.workflowService.selectedApp();
-    this.serachIndexId = this.selectedApp.searchIndexes[0]._id;
-    this.indexPipelineId = this.workflowService.selectedIndexPipeline();
-    this.queryPipelineId = this.workflowService.selectedQueryPipeline()
-      ? this.workflowService.selectedQueryPipeline()._id
+    this.selectedApp = this.workflowService?.selectedApp();
+    this.serachIndexId = this.selectedApp?.searchIndexes[0]._id;
+    this.indexPipelineId = this.workflowService?.selectedIndexPipeline();
+    this.queryPipelineId = this.workflowService?.selectedQueryPipeline()
+      ? this.workflowService.selectedQueryPipeline()?._id
       : '';
     if (this.indexPipelineId && this.queryPipelineId) this.getQuerypipeline();
     this.querySubscription =
       this.appSelectionService.queryConfigSelected.subscribe((res) => {
-        this.indexPipelineId = this.workflowService.selectedIndexPipeline();
-        this.queryPipelineId = this.workflowService.selectedQueryPipeline()
-          ? this.workflowService.selectedQueryPipeline()._id
+        this.indexPipelineId = this.workflowService?.selectedIndexPipeline();
+        this.queryPipelineId = this.workflowService?.selectedQueryPipeline()
+          ? this.workflowService.selectedQueryPipeline()?._id
           : '';
         this.getQuerypipeline();
       });
@@ -69,9 +69,9 @@ export class SnippetsComponent implements OnInit {
 
   sildervaluechanged(event) {
     const quaryparms: any = {
-      indexPipelineId: this.workflowService.selectedIndexPipeline(),
-      queryPipelineId: this.workflowService.selectedQueryPipeline()
-        ? this.workflowService.selectedQueryPipeline()._id
+      indexPipelineId: this.workflowService?.selectedIndexPipeline(),
+      queryPipelineId: this.workflowService?.selectedQueryPipeline()
+        ? this.workflowService.selectedQueryPipeline()?._id
         : '',
       searchIndexId: this.serachIndexId,
     };

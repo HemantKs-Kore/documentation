@@ -108,8 +108,8 @@ export class SynonymsComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.selectedApp = this.workflowService.selectedApp();
-    this.serachIndexId = this.selectedApp.searchIndexes[0]._id;
+    this.selectedApp = this.workflowService?.selectedApp();
+    this.serachIndexId = this.selectedApp?.searchIndexes[0]?._id;
     this.loadSynonyms();
     this.subscription = this.appSelectionService.queryConfigs.subscribe(
       (res) => {
@@ -129,11 +129,11 @@ export class SynonymsComponent implements OnInit, OnDestroy {
     }
   }
   loadSynonyms() {
-    this.indexPipelineId = this.workflowService.selectedIndexPipeline();
+    this.indexPipelineId = this.workflowService?.selectedIndexPipeline();
     if (this.indexPipelineId) {
-      this.queryPipelineId = this.workflowService.selectedQueryPipeline()
-        ? this.workflowService.selectedQueryPipeline()._id
-        : this.selectedApp.searchIndexes[0].queryPipelineId;
+      this.queryPipelineId = this.workflowService?.selectedQueryPipeline()
+        ? this.workflowService.selectedQueryPipeline()?._id
+        : this.selectedApp.searchIndexes[0]?.queryPipelineId;
       if (this.queryPipelineId) {
         this.getSynonyms();
       }

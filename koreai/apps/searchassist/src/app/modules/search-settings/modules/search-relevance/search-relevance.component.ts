@@ -49,19 +49,19 @@ export class SearchRelevanceComponent implements OnInit {
   sliderOpen;
   disableCancle: any = true;
   ngOnInit(): void {
-    this.selectedApp = this.workflowService.selectedApp();
-    this.serachIndexId = this.selectedApp.searchIndexes[0]._id;
-    this.indexPipelineId = this.workflowService.selectedIndexPipeline();
-    this.queryPipelineId = this.workflowService.selectedQueryPipeline()
-      ? this.workflowService.selectedQueryPipeline()._id
+    this.selectedApp = this.workflowService?.selectedApp();
+    this.serachIndexId = this.selectedApp?.searchIndexes[0]?._id;
+    this.indexPipelineId = this.workflowService?.selectedIndexPipeline();
+    this.queryPipelineId = this.workflowService?.selectedQueryPipeline()
+      ? this.workflowService.selectedQueryPipeline()?._id
       : '';
     if (this.indexPipelineId && this.queryPipelineId)
       this.prepareThreshold('menu');
     this.querySubscription =
       this.appSelectionService.queryConfigSelected.subscribe((res) => {
-        this.indexPipelineId = this.workflowService.selectedIndexPipeline();
-        this.queryPipelineId = this.workflowService.selectedQueryPipeline()
-          ? this.workflowService.selectedQueryPipeline()._id
+        this.indexPipelineId = this.workflowService?.selectedIndexPipeline();
+        this.queryPipelineId = this.workflowService?.selectedQueryPipeline()
+          ? this.workflowService.selectedQueryPipeline()?._id
           : '';
         this.prepareThreshold('menu');
       });
