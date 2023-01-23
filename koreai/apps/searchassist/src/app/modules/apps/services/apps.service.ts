@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
+import { appsFeatureKey } from '@kore.apps/store/entity-metadata';
 import {
   EntityCollectionServiceBase,
   EntityCollectionServiceElementsFactory,
 } from '@ngrx/data';
 import { map } from 'rxjs';
-import { appsFeatureKey } from '../apps.module';
 
 @Injectable({
   providedIn: 'root',
@@ -23,6 +23,14 @@ export class AppsService extends EntityCollectionServiceBase<any> {
           });
         }
         return apps[0];
+      })
+    );
+  }
+
+  getSearchIndexId() {
+    return this.getSelectedAppById().pipe(
+      map((app) => {
+        return app?.searchIndexes[0]._id;
       })
     );
   }

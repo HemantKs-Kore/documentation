@@ -12,6 +12,7 @@ import { AppSelectionService } from '@kore.apps/services/app.selection.service';
 import { AuthService } from '@kore.apps/services/auth.service';
 import { InlineManualService } from '@kore.apps/services/inline-manual.service';
 import { MixpanelServiceService } from '@kore.apps/services/mixpanel-service.service';
+import { AppsService } from './services/apps.service';
 declare const $: any;
 declare const PureJSCarousel: any;
 @Component({
@@ -98,7 +99,8 @@ export class AppsComponent implements OnInit {
     public authService: AuthService,
     public inlineManual: InlineManualService,
     private route: ActivatedRoute,
-    public mixpanel: MixpanelServiceService
+    public mixpanel: MixpanelServiceService,
+    private appsService: AppsService
   ) {
     this.authInfo = localstore.getAuthInfo();
     this.userId = this.authService.getUserId();
@@ -371,6 +373,8 @@ export class AppsComponent implements OnInit {
             if (!this.apps.length) {
               this.emptyApp = true;
               this.showBoarding = true;
+
+              this.appsService.clearCache();
             }
           }
         },
@@ -539,6 +543,7 @@ export class AppsComponent implements OnInit {
     };
     this.service.invoke('create.app', {}, payload).subscribe(
       (res) => {
+        this.appsService.addOneToCache(res);
         this.createdAppData = res;
         this.notificationService.notify(
           `${this.newApp.name} created successfully`,

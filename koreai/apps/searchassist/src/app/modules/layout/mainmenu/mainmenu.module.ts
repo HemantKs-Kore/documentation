@@ -14,9 +14,10 @@ import { KrModalModule } from '../../../shared/kr-modal/kr-modal.module';
 import { MatDialogModule } from '@angular/material/dialog';
 import { UpgradePlanModule } from '@kore.apps/helpers/components/upgrade-plan/upgrade-plan.module';
 import { SharedPipesModule } from '@kore.apps/helpers/filters/shared-pipes.module';
+import { ConfirmationDialogComponent } from '@kore.apps/helpers/components/confirmation-dialog/confirmation-dialog.component';
 
 @NgModule({
-  declarations: [MainMenuComponent],
+  declarations: [MainMenuComponent, ConfirmationDialogComponent],
   imports: [
     CommonModule,
     UpgradePlanModule,
@@ -31,6 +32,7 @@ import { SharedPipesModule } from '@kore.apps/helpers/filters/shared-pipes.modul
     SharedPipesModule,
     MatDialogModule,
   ],
+  entryComponents: [ConfirmationDialogComponent],
   exports: [MainMenuComponent],
 })
 export class MainMenuModule {}

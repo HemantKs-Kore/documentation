@@ -1,10 +1,20 @@
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
-import { EntityDataModule } from '@ngrx/data';
+import {
+  EntityDataModule,
+  EntityDataService,
+  EntityDefinitionService,
+  EntityMetadataMap,
+} from '@ngrx/data';
 import { extModules } from '../build-specifics';
 import { appReducers } from './store/reducers';
 import { metaReducers } from './store/meta-reducers';
-import { entityConfig } from './store/entity-metadata';
+import {
+  appsFeatureKey,
+  entityConfig,
+  indexPipelineFeatureKey,
+  queryPipelineFeatureKey,
+} from './store/entity-metadata';
 import { StoreRouterConnectingModule } from '@ngrx/router-store';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
@@ -37,6 +47,9 @@ import { MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material/form-field';
 import { CommonModule } from '@angular/common';
 import { FindlySharedModule } from './modules/findly-shared/findly-shared.module';
 import { MainMenuModule } from './modules/layout/mainmenu/mainmenu.module';
+import { AppsDataService } from './modules/apps/services/apps-data.service';
+import { QueryPipelineDataService } from './modules/summary/services/query-pipeline-data.service';
+import { IndexPipelineDataService } from './modules/summary/services/index-pipeline-data.service';
 
 // AoT requires an exported function for factories
 export function createTranslateLoader(http: HttpClient) {
@@ -105,8 +118,34 @@ export function createTranslateLoader(http: HttpClient) {
     MatDatepickerModule,
     AppSelectionService,
     DockStatusService,
+    AppsDataService,
+    IndexPipelineDataService,
+    QueryPipelineDataService,
   ],
   // exports: [NgbdDatepickerRange],
   bootstrap: [AppComponent],
 })
-export class AppModule {}
+export class AppModule {
+  constructor(
+    // private eds: EntityDefinitionService,
+    private entityDataService: EntityDataService,
+    private appsDataService: AppsDataService,
+    private indexPipelineDataService: IndexPipelineDataService,
+    private queryPipelineDataService: QueryPipelineDataService
+  ) {
+    // this.eds.registerMetadataMap(entityMetadata);
+    this.entityDataService.registerService(
+      appsFeatureKey,
+      this.appsDataService
+    );
+
+    this.entityDataService.registerService(
+      indexPipelineFeatureKey,
+      this.indexPipelineDataService
+    );
+    this.entityDataService.registerService(
+      queryPipelineFeatureKey,
+      this.queryPipelineDataService
+    );
+  }
+}

@@ -788,6 +788,11 @@ export class HeaderComponent implements OnInit, OnDestroy {
     this.analyticsClick(menu, true);
     this.router.navigate([menu], { skipLocationChange: true });
   }
+
+  openRoute(path) {
+    this.router.navigate([path], { skipLocationChange: true });
+  }
+
   analyticsClick(menu, skipRouterLink?) {
     this.mainMenu = menu;
     if (this.menuItems?.anlytics?.includes(menu) || menu == '/summary') {
@@ -1903,7 +1908,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
       this.onboardingOpened = false;
       this.onBoardingComponent.closeSupport();
     }
-    this.sliderComponent.closeSlider('#supportOnboarding');
+    this.sliderComponent?.closeSlider('#supportOnboarding');
   }
   emitStatus(event) {
     this.displyStatusBar = event;

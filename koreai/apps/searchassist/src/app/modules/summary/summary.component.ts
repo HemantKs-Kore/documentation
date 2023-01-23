@@ -9,7 +9,7 @@ import { fadeInOutAnimation } from '../../helpers/animations/animations';
 import { Router } from '@angular/router';
 import { KRModalComponent } from '../../shared/kr-modal/kr-modal.component';
 import { UseronboardingJourneyComponent } from '../../helpers/components/useronboarding-journey/useronboarding-journey.component';
-import { Subscription } from 'rxjs';
+import { filter, Subscription, switchMap } from 'rxjs';
 import { SideBarService } from '@kore.apps/services/header.service';
 import { WorkflowService } from '@kore.apps/services/workflow.service';
 import { ServiceInvokerService } from '@kore.apps/services/service-invoker.service';
@@ -17,6 +17,8 @@ import { NotificationService } from '@kore.apps/services/notification.service';
 import { AuthService } from '@kore.apps/services/auth.service';
 import { AppSelectionService } from '@kore.apps/services/app.selection.service';
 import { InlineManualService } from '@kore.apps/services/inline-manual.service';
+import { IndexPipelineService } from './services/index-pipeline.service';
+import { QueryPipelineService } from './services/query-pipeline.service';
 declare const $: any;
 @Component({
   selector: 'app-summary',
@@ -25,6 +27,7 @@ declare const $: any;
   animations: [fadeInOutAnimation],
 })
 export class SummaryComponent implements OnInit, AfterViewInit, OnDestroy {
+  sub: Subscription;
   math = Math;
   serachIndexId;
   indices: any = [];
@@ -142,8 +145,22 @@ export class SummaryComponent implements OnInit, AfterViewInit, OnDestroy {
     private authService: AuthService,
     private router: Router,
     public inlineManual: InlineManualService,
-    public appSelectionService: AppSelectionService
-  ) {}
+    public appSelectionService: AppSelectionService,
+    private indexPipelineService: IndexPipelineService,
+    private queryPipelineService: QueryPipelineService
+  ) {
+    this.getQueryPipelines();
+  }
+
+  getQueryPipelines() {
+    this.sub = this.indexPipelineService
+      .getItemById()
+      .pipe(
+        filter((res) => !!res),
+        switchMap((res) => this.queryPipelineService.getQueryPipelines(res))
+      )
+      .subscribe();
+  }
 
   async ngOnInit() {
     //moved the below flag to ngOnInit to fix the NAN display issue for few sec in summary screen on 08/03
@@ -449,5 +466,7 @@ export class SummaryComponent implements OnInit, AfterViewInit, OnDestroy {
       ? this.currentPlanSubscription.unsubscribe()
       : null;
     this.updateUsageData ? this.updateUsageData.unsubscribe() : false;
+
+    this.sub?.unsubscribe();
   }
 }

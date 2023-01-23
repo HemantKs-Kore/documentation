@@ -21,6 +21,7 @@ import { SideBarService } from '@kore.apps/services/header.service';
 import { ConfirmationDialogComponent } from '@kore.apps/helpers/components/confirmation-dialog/confirmation-dialog.component';
 import { UpgradePlanComponent } from '@kore.apps/helpers/components/upgrade-plan/upgrade-plan.component';
 import { DockStatusService } from '@kore.apps/services/dockstatusService/dock-status.service';
+import { IndexPipelineService } from '@kore.apps/modules/summary/services/index-pipeline.service';
 declare const $: any;
 @Component({
   selector: 'app-mainmenu',
@@ -96,7 +97,8 @@ export class MainMenuComponent implements OnInit, OnDestroy {
     private appSelectionService: AppSelectionService,
     public dockService: DockStatusService,
     public dialog: MatDialog,
-    public mixpanel: MixpanelServiceService
+    public mixpanel: MixpanelServiceService,
+    private indexPipelineService: IndexPipelineService
   ) {}
   goHome() {
     this.workflowService.selectedApp(null);
@@ -196,6 +198,7 @@ export class MainMenuComponent implements OnInit, OnDestroy {
         } else {
           this.notify.notify('Set to default Index successfully', 'success');
         }
+        this.indexPipelineService.updateOneInCache(res);
         this.appSelectionService.getIndexPipelineIds(config);
         this.selectedIndexConfig = config._id;
         // this.appSelectionService.getIndexPipelineIds(config);
@@ -304,6 +307,7 @@ export class MainMenuComponent implements OnInit, OnDestroy {
         .subscribe(
           (res) => {
             if (res && res._id) {
+              this.indexPipelineService.addOneToCache(res);
               if (this.newIndexConfigObj.method === 'clone') {
                 this.notify.notify(
                   'New Index config cloned successfully',
@@ -466,6 +470,7 @@ export class MainMenuComponent implements OnInit, OnDestroy {
           }
         );
         if (type == 'index') {
+          this.indexPipelineService.removeOneFromCache(indexConfigs);
           this.indexConfigs.splice(deleteIndex, 1);
           let default_index = this.indexConfigs.filter(
             (item) => item.default == true

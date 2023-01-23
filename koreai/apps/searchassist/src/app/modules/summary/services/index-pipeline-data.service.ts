@@ -1,24 +1,40 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { AppsService } from '@kore.apps/modules/apps/services/apps.service';
 import { ServiceInvokerService } from '@kore.apps/services/service-invoker.service';
-import { appsFeatureKey } from '@kore.apps/store/entity-metadata';
+import { indexPipelineFeatureKey } from '@kore.apps/store/entity-metadata';
 import { DefaultDataService, HttpUrlGenerator } from '@ngrx/data';
-import { Observable } from 'rxjs';
+import { Observable, switchMap } from 'rxjs';
 
 @Injectable()
-export class AppsDataService extends DefaultDataService<any> {
+export class IndexPipelineDataService extends DefaultDataService<any> {
   // API_URL = 'https://jsonplaceholder.typicode.com/users';
 
   constructor(
     http: HttpClient,
     httpUrlGenerator: HttpUrlGenerator,
-    private service: ServiceInvokerService
+    private service: ServiceInvokerService,
+    private appsService: AppsService
   ) {
-    super(appsFeatureKey, http, httpUrlGenerator);
+    super(indexPipelineFeatureKey, http, httpUrlGenerator);
   }
 
   override getAll(): Observable<any[]> {
-    return this.service.invoke('get.apps');
+    const header: any = {
+      'x-timezone-offset': '-330',
+    };
+
+    return this.appsService.getSearchIndexId().pipe(
+      switchMap((searchIndexId) => {
+        const quaryparms: any = {
+          searchIndexId,
+          offset: 0,
+          limit: 100,
+        };
+
+        return this.service.invoke('get.indexPipeline', quaryparms, header);
+      })
+    );
   }
 
   // add(user): Observable<UserInterface> {

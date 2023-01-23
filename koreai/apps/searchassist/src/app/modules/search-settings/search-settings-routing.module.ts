@@ -111,11 +111,11 @@ const routes: Routes = [
             (m) => m.SearchRelevanceModule
           ),
       },
-      {
-        path: '',
-        redirectTo: 'weights',
-        pathMatch: 'full',
-      },
+      // {
+      //   path: '',
+      //   redirectTo: 'weights',
+      //   pathMatch: 'full',
+      // },
     ],
   },
 ];
