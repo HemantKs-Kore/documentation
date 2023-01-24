@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { AppsService } from '@kore.apps/modules/apps/services/apps.service';
 import { ServiceInvokerService } from '@kore.apps/services/service-invoker.service';
-import { indexPipelineFeatureKey } from '@kore.apps/store/entity-metadata';
+// import { indexPipelineFeatureKey } from '@kore.apps/store/entity-metadata';
 import { DefaultDataService, HttpUrlGenerator } from '@ngrx/data';
 import { Observable, switchMap } from 'rxjs';
 
@@ -16,7 +16,7 @@ export class IndexPipelineDataService extends DefaultDataService<any> {
     private service: ServiceInvokerService,
     private appsService: AppsService
   ) {
-    super(indexPipelineFeatureKey, http, httpUrlGenerator);
+    super('indexPipelineFeatureKey', http, httpUrlGenerator);
   }
 
   override getAll(): Observable<any[]> {

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { indexPipelineFeatureKey } from '@kore.apps/store/entity-metadata';
+// import { indexPipelineFeatureKey } from '@kore.apps/store/entity-metadata';
 import {
   EntityCollectionServiceBase,
   EntityCollectionServiceElementsFactory,
@@ -11,7 +11,7 @@ import { map } from 'rxjs';
 })
 export class IndexPipelineService extends EntityCollectionServiceBase<any> {
   constructor(serviceElementsFactory: EntityCollectionServiceElementsFactory) {
-    super(indexPipelineFeatureKey, serviceElementsFactory);
+    super('indexPipelineFeatureKey', serviceElementsFactory);
   }
 
   getItemById(dataId?) {

@@ -17,8 +17,8 @@ import { NotificationService } from '@kore.apps/services/notification.service';
 import { AuthService } from '@kore.apps/services/auth.service';
 import { AppSelectionService } from '@kore.apps/services/app.selection.service';
 import { InlineManualService } from '@kore.apps/services/inline-manual.service';
-import { IndexPipelineService } from './services/index-pipeline.service';
-import { QueryPipelineService } from './services/query-pipeline.service';
+// import { IndexPipelineService } from './services/index-pipeline.service';
+// import { QueryPipelineService } from './services/query-pipeline.service';
 declare const $: any;
 @Component({
   selector: 'app-summary',
@@ -145,22 +145,22 @@ export class SummaryComponent implements OnInit, AfterViewInit, OnDestroy {
     private authService: AuthService,
     private router: Router,
     public inlineManual: InlineManualService,
-    public appSelectionService: AppSelectionService,
-    private indexPipelineService: IndexPipelineService,
-    private queryPipelineService: QueryPipelineService
-  ) {
-    this.getQueryPipelines();
+    public appSelectionService: AppSelectionService
+  ) // private indexPipelineService: IndexPipelineService,
+  // private queryPipelineService: QueryPipelineService
+  {
+    // this.getQueryPipelines();
   }
 
-  getQueryPipelines() {
-    this.sub = this.indexPipelineService
-      .getItemById()
-      .pipe(
-        filter((res) => !!res),
-        switchMap((res) => this.queryPipelineService.getQueryPipelines(res))
-      )
-      .subscribe();
-  }
+  // getQueryPipelines() {
+  //   this.sub = this.indexPipelineService
+  //     .getItemById()
+  //     .pipe(
+  //       filter((res) => !!res),
+  //       switchMap((res) => this.queryPipelineService.getQueryPipelines(res))
+  //     )
+  //     .subscribe();
+  // }
 
   async ngOnInit() {
     //moved the below flag to ngOnInit to fix the NAN display issue for few sec in summary screen on 08/03

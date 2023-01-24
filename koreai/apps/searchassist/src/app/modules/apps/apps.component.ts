@@ -99,9 +99,9 @@ export class AppsComponent implements OnInit {
     public authService: AuthService,
     public inlineManual: InlineManualService,
     private route: ActivatedRoute,
-    public mixpanel: MixpanelServiceService,
-    private appsService: AppsService
-  ) {
+    public mixpanel: MixpanelServiceService
+  ) // private appsService: AppsService
+  {
     this.authInfo = localstore.getAuthInfo();
     this.userId = this.authService.getUserId();
   }
@@ -374,7 +374,7 @@ export class AppsComponent implements OnInit {
               this.emptyApp = true;
               this.showBoarding = true;
 
-              this.appsService.clearCache();
+              // this.appsService.clearCache();
             }
           }
         },
@@ -543,7 +543,7 @@ export class AppsComponent implements OnInit {
     };
     this.service.invoke('create.app', {}, payload).subscribe(
       (res) => {
-        this.appsService.addOneToCache(res);
+        // this.appsService.addOneToCache(res);
         this.createdAppData = res;
         this.notificationService.notify(
           `${this.newApp.name} created successfully`,

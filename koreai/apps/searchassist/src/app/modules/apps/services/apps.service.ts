@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { appsFeatureKey } from '@kore.apps/store/entity-metadata';
+// import { appsFeatureKey } from '@kore.apps/store/entity-metadata';
 import {
   EntityCollectionServiceBase,
   EntityCollectionServiceElementsFactory,
@@ -11,7 +11,7 @@ import { map } from 'rxjs';
 })
 export class AppsService extends EntityCollectionServiceBase<any> {
   constructor(serviceElementsFactory: EntityCollectionServiceElementsFactory) {
-    super(appsFeatureKey, serviceElementsFactory);
+    super('appsFeatureKey', serviceElementsFactory);
   }
 
   getSelectedAppById(appId?) {
@@ -23,6 +23,14 @@ export class AppsService extends EntityCollectionServiceBase<any> {
           });
         }
         return apps[0];
+      })
+    );
+  }
+
+  getSelectedAppId() {
+    return this.getSelectedAppById().pipe(
+      map((app) => {
+        return app?._id;
       })
     );
   }

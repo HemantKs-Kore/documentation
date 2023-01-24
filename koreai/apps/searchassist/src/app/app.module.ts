@@ -1,20 +1,7 @@
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
-import {
-  EntityDataModule,
-  EntityDataService,
-  EntityDefinitionService,
-  EntityMetadataMap,
-} from '@ngrx/data';
 import { extModules } from '../build-specifics';
 import { appReducers } from './store/reducers';
-import { metaReducers } from './store/meta-reducers';
-import {
-  appsFeatureKey,
-  entityConfig,
-  indexPipelineFeatureKey,
-  queryPipelineFeatureKey,
-} from './store/entity-metadata';
 import { StoreRouterConnectingModule } from '@ngrx/router-store';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
@@ -87,11 +74,12 @@ export function createTranslateLoader(http: HttpClient) {
     HeaderModule,
     MainMenuModule,
 
-    StoreModule.forRoot(appReducers, { metaReducers }),
+    // StoreModule.forRoot(appReducers, { metaReducers }),
+    StoreModule.forRoot(appReducers),
     StoreRouterConnectingModule.forRoot(),
     extModules,
     EffectsModule.forRoot([]),
-    EntityDataModule.forRoot(entityConfig),
+    // EntityDataModule.forRoot(entityConfig),
   ],
   // tslint:disable-next-line:max-line-length
   entryComponents: [
@@ -126,26 +114,25 @@ export function createTranslateLoader(http: HttpClient) {
   bootstrap: [AppComponent],
 })
 export class AppModule {
-  constructor(
-    // private eds: EntityDefinitionService,
-    private entityDataService: EntityDataService,
-    private appsDataService: AppsDataService,
-    private indexPipelineDataService: IndexPipelineDataService,
-    private queryPipelineDataService: QueryPipelineDataService
-  ) {
-    // this.eds.registerMetadataMap(entityMetadata);
-    this.entityDataService.registerService(
-      appsFeatureKey,
-      this.appsDataService
-    );
-
-    this.entityDataService.registerService(
-      indexPipelineFeatureKey,
-      this.indexPipelineDataService
-    );
-    this.entityDataService.registerService(
-      queryPipelineFeatureKey,
-      this.queryPipelineDataService
-    );
-  }
+  // constructor(
+  //   // private eds: EntityDefinitionService,
+  //   private entityDataService: EntityDataService,
+  //   private appsDataService: AppsDataService,
+  //   private indexPipelineDataService: IndexPipelineDataService,
+  //   private queryPipelineDataService: QueryPipelineDataService
+  // ) {
+  //   // this.eds.registerMetadataMap(entityMetadata);
+  //   this.entityDataService.registerService(
+  //     appsFeatureKey,
+  //     this.appsDataService
+  //   );
+  //   this.entityDataService.registerService(
+  //     indexPipelineFeatureKey,
+  //     this.indexPipelineDataService
+  //   );
+  //   this.entityDataService.registerService(
+  //     queryPipelineFeatureKey,
+  //     this.queryPipelineDataService
+  //   );
+  // }
 }

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { ServiceInvokerService } from '@kore.apps/services/service-invoker.service';
-import { queryPipelineFeatureKey } from '@kore.apps/store/entity-metadata';
+// import { queryPipelineFeatureKey } from '@kore.apps/store/entity-metadata';
 import {
   EntityCollectionServiceBase,
   EntityCollectionServiceElementsFactory,
@@ -15,7 +15,7 @@ export class QueryPipelineService extends EntityCollectionServiceBase<any> {
     serviceElementsFactory: EntityCollectionServiceElementsFactory,
     private service: ServiceInvokerService
   ) {
-    super(queryPipelineFeatureKey, serviceElementsFactory);
+    super('queryPipelineFeatureKey', serviceElementsFactory);
   }
 
   getItemById(dataId?) {
