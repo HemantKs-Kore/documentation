@@ -794,6 +794,11 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
 
   analyticsClick(menu, skipRouterLink?) {
+    if (!menu) {
+      // this.router.navigateByUrl('/', { skipLocationChange: true });
+      return;
+    }
+
     this.mainMenu = menu;
     if (this.menuItems?.anlytics?.includes(menu) || menu == '/summary') {
       this.showMainMenu = false;
