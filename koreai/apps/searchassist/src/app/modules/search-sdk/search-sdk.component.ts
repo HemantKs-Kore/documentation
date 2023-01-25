@@ -137,19 +137,19 @@ export class SearchSdkComponent implements OnInit, OnDestroy {
   }
 
   loadStyles() {
-    this.helperService.loadStyle(
-      'assets/web-kore-sdk/demo/libs/jquery-ui.min.css'
-    );
-    this.helperService.loadStyle(
-      'assets/web-kore-sdk/demo/custom/customTemplate.css'
-    );
-    this.helperService.loadStyle('assets/web-kore-sdk/demo/chatWindow.css');
-    this.helperService.loadStyle(
-      'assets/web-kore-sdk/libs/emojione.sprites.css'
-    );
-    this.helperService.loadStyle(
-      'assets/web-kore-sdk/libs/prefect-scrollbar.css'
-    );
+    // this.helperService.loadStyle(
+    //   'assets/web-kore-sdk/demo/libs/jquery-ui.min.css'
+    // );
+    // this.helperService.loadStyle(
+    //   'assets/web-kore-sdk/demo/custom/customTemplate.css'
+    // );
+    // this.helperService.loadStyle('assets/web-kore-sdk/demo/chatWindow.css');
+    // this.helperService.loadStyle(
+    //   'assets/web-kore-sdk/libs/emojione.sprites.css'
+    // );
+    // this.helperService.loadStyle(
+    //   'assets/web-kore-sdk/libs/prefect-scrollbar.css'
+    // );
     this.helperService.loadStyle(
       'assets/web-kore-sdk/demo/findly/findly-sdk.css'
     );
