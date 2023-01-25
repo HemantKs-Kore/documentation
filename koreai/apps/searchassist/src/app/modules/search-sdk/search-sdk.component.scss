@@ -1,0 +1,148 @@
+@import 'variables/variables.scss';
+::ng-deep {
+  .toShowAppHeader {
+    display: none;
+  }
+  .appContent {
+    padding-right: 0;
+    padding-top: 0;
+    padding-left: 0px;
+    .botContainer {
+      .table-list-content {
+        .kr-sg-data-table {
+          .table-action-header {
+          }
+
+          .table-content {
+            .table-scroll-perfect {
+              .content-body {
+                cursor: default;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+  .autoSearchTools {
+    display: none;
+  }
+  .trainBlock {
+    display: none;
+  }
+  .headerTabsContainer {
+    display: none;
+  }
+  .myappname {
+    display: none;
+  }
+  .no-landing-screen {
+    display: none;
+    transition: 0.1s all ease;
+    &:hover {
+      // filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
+      &::before {
+        display: block !important;
+      }
+    }
+  }
+  .app-dropdown {
+    display: none;
+  }
+  .test-button {
+    display: none;
+  }
+  .new-train-btn {
+    visibility: hidden;
+  }
+  .notification-dropdown {
+    visibility: hidden;
+  }
+  .dropdown-toggle.dropdown-input.notification {
+    pointer-events: none;
+  }
+  .notification-block {
+    visibility: hidden;
+  }
+  .show-search1 {
+    visibility: hidden;
+  }
+  &.appSelected {
+    .trainBlock {
+      display: block !important;
+    }
+    .headerTabsContainer {
+      display: block !important;
+    }
+    .myappname {
+      display: block !important;
+    }
+    .toShowAppHeader {
+      display: block !important;
+    }
+    .appContent {
+      padding-left: 245px;
+      display: block;
+      padding-right: 0;
+      padding-top: 61px;
+    }
+    .autoSearchTools {
+      display: list-item;
+    }
+    .landing-screen {
+      display: none;
+    }
+    .no-landing-screen {
+      display: block !important;
+    }
+    .app-dropdown {
+      display: block !important;
+    }
+    .test-button {
+      display: block !important;
+    }
+    .notification-dropdown {
+      visibility: visible !important;
+    }
+    .dropdown-toggle.dropdown-input.notification {
+      pointer-events: unset;
+    }
+    .new-train-btn {
+      visibility: visible !important;
+    }
+    .notification-block {
+      visibility: visible !important;
+    }
+    .show-search1 {
+      visibility: visible !important;
+    }
+    // .findlyHeader {
+    //     .navbar-nav {
+    //         .nav-item.workspace-data {
+    //             .workspace-dropdwon {
+    //                 .workspace-btn {
+    //                     padding: 0 !important;
+    //                     border: 0 !important;
+    //                     .workspace-active {
+    //                         .alphabet-name{
+    //                             margin: 0 !important;
+    //                         }
+    //                         .name-workspace{
+    //                             display: none;
+    //                         }
+    //                         i{
+    //                             display: none;
+    //                         }
+    //                     }
+    //                 }
+    //             }
+    //         }
+    //     }
+    // }
+  }
+}
+// app-content{
+// &.container-fluid{
+// 	@extend %noPadding;
+// }
+// }

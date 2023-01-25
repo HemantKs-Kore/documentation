@@ -1,4 +1,10 @@
-import { Component, HostListener } from '@angular/core';
+import {
+  Component,
+  ComponentFactoryResolver,
+  HostListener,
+  ViewChild,
+  ViewContainerRef,
+} from '@angular/core';
 import {
   ActivatedRoute,
   NavigationCancel,
@@ -32,10 +38,13 @@ declare const FindlySDK: any;
   styleUrls: ['./app.component.scss'],
 })
 export class AppComponent {
+  @ViewChild('dynamic', { read: ViewContainerRef }) dynamic!: ViewContainerRef;
   showMainMenu = true;
   settingMainMenu = false;
   sourceMenu = false;
   appSelected = false;
+  isSdkBundleLoaded = false;
+  sdkCmpRef = null;
   // subscription: Subscription;
   // SearchConfigurationSubscription: Subscription;
   // searchSDKSubscription: Subscription;
@@ -55,6 +64,7 @@ export class AppComponent {
   // searchInstance: any;
   bridgeDataInsights = true;
   addNewResult = true;
+
   // showInsightFull = false;
   // findlyBusinessConfig: any = {};
   // searchExperienceConfig: any;
@@ -767,6 +777,22 @@ export class AppComponent {
     //   }
     // }
   }
+
+  ngOnInit() {}
+
+  // loadSearchSdk() {
+  //   if (!this.isSdkBundleLoaded) {
+  //     import('./modules/search-sdk/search-sdk.component').then(
+  //       ({ SearchSdkComponent }) => {
+  //         this.isSdkBundleLoaded = true;
+
+  //         this.viewContainerRef.clear();
+  //         this.sdkCmpRef =
+  //           this.viewContainerRef.createComponent(SearchSdkComponent);
+  //       }
+  //     );
+  //   }
+  // }
 
   onRouteEvents() {
     this.router.events.subscribe((event: any) => {
