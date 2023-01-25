@@ -1867,7 +1867,7 @@
     // 	handleChartOnClick();
     // }, 200);
   };
-  carouselTemplateCount = 0;
+  let carouselTemplateCount = 0;
   var carouselEles = [];
   customTemplate.prototype.bindMiniTableChartEvents = function (
     template,

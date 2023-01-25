@@ -18,14 +18,7 @@ function _typeof(obj) {
   return _typeof(obj);
 }
 
-(function (factory) {
-  //if (typeof define === 'function' && define.amd) { // AMD
-  //    define(factory);
-  //} else if (typeof module !== 'undefined') {      // CommonJS
-  //    module.exports = factory();
-  //} else {                                         // browser globals
-  window.FindlySDK = factory(); //}
-})(function () {
+(function ($) {
   var koreJquery;
   if (
     window &&
@@ -54,7 +47,7 @@ function _typeof(obj) {
     KRPerfectScrollbar = window.PerfectScrollbar;
   }
 
-  return (function ($, jstz, KRPerfectScrollbar) {
+  const sdk = (function ($, jstz, KRPerfectScrollbar) {
     //get dependencies as arguments here
 
     /**
@@ -26996,4 +26989,7 @@ function _typeof(obj) {
     // window.KoreSDK.FindlySDK = FindlySDK;
     return FindlySDK;
   })(koreJquery, korejstz, KRPerfectScrollbar);
-});
+
+  window.FindlySDK = sdk;
+  return sdk;
+})(jQuery);
