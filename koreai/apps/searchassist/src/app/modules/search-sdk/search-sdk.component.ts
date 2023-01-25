@@ -8,6 +8,33 @@ import { WorkflowService } from '@kore.apps/services/workflow.service';
 import { AppSelectionService } from '@kore.apps/services/app.selection.service';
 import { EndPointsService } from '@kore.apps/services/end-points.service';
 import { ServiceInvokerService } from '@kore.apps/services/service-invoker.service';
+import { HelperService } from '@kore.shared/*';
+
+// import('../../../assets/web-kore-sdk/demo/libs/kore-no-conflict-start.js');
+// import('../../../assets/web-kore-sdk/libs/uuid.min.js');
+// // import('../../../assets/web-kore-sdk/demo/libs/jquery.js');
+// import('../../../assets/web-kore-sdk/libs/d3.v4.min.js');
+// import('../../../assets/web-kore-sdk/libs/KoreGraphAdapter.js');
+// import('../../../assets/web-kore-sdk/libs/pubsub.js');
+// import('../../../assets/web-kore-sdk/demo/libs/jquery.tmpl.min.js');
+// import('../../../assets/web-kore-sdk/demo/libs/jquery-ui.min.js');
+
+// import('../../../assets/web-kore-sdk/kore-bot-sdk-client.js');
+// import('../../../assets/web-kore-sdk/demo/custom/searchTemplate.js');
+
+// import('../../../assets/web-kore-sdk/demo/custom/customTemplate.js');
+// import('../../../assets/web-kore-sdk/demo/i18n/en.js');
+// import('../../../assets/web-kore-sdk/demo/i18n/ja.js');
+// import('../../../assets/web-kore-sdk/demo/i18n/ko.js');
+// import('../../../assets/web-kore-sdk/libs/emoji.js');
+// import('../../../assets/web-kore-sdk/libs/perfect-scrollbar.js');
+// import('../../../assets/web-kore-sdk/libs/kore-pickers.js');
+// import('../../../assets/web-kore-sdk/demo/findly/findly-sdk.js');
+// import('../../../assets/web-kore-sdk/libs/purejscarousel.js');
+// import('../../../assets/web-kore-sdk/demo/findly/findly-config.js');
+// import('../../../assets/web-kore-sdk/demo/libs/kore-no-conflict-end.js');
+// import('../../../assets/web-kore-sdk/libs/lodash.min.js');
+// declare const $: any;
 declare const FindlySDK: any;
 
 @Component({
@@ -75,12 +102,16 @@ export class SearchSdkComponent implements OnInit, OnDestroy {
     // public inlineManual: InlineManualService,
     // public mixpanel: MixpanelServiceService,
     // private translate: TranslateService,
-    private searchSdkService: SearchSdkService // private loaderService: LoaderService,
+    private searchSdkService: SearchSdkService,
+    private helperService: HelperService
   ) {}
 
   ngOnInit(): void {
+    this.loadStyles();
+    // this.loadScripts().then(() => {
     this.initSearchSDK();
     this.searchSDKHeader();
+    // });
     this.toggleSdkPopup();
   }
 
@@ -104,6 +135,64 @@ export class SearchSdkComponent implements OnInit, OnDestroy {
       }
     });
   }
+
+  loadStyles() {
+    this.helperService.loadStyle(
+      'assets/web-kore-sdk/demo/libs/jquery-ui.min.css'
+    );
+    this.helperService.loadStyle(
+      'assets/web-kore-sdk/demo/custom/customTemplate.css'
+    );
+    this.helperService.loadStyle('assets/web-kore-sdk/demo/chatWindow.css');
+    this.helperService.loadStyle(
+      'assets/web-kore-sdk/libs/emojione.sprites.css'
+    );
+    this.helperService.loadStyle(
+      'assets/web-kore-sdk/libs/prefect-scrollbar.css'
+    );
+    this.helperService.loadStyle(
+      'assets/web-kore-sdk/demo/findly/findly-sdk.css'
+    );
+
+    this.helperService.loadStyle(
+      'assets/web-kore-sdk/demo/findly/findly-demo.css'
+    );
+    this.helperService.loadStyle('assets/web-kore-sdk/demo/css/top-search.css');
+    this.helperService.loadStyle(
+      'assets/web-kore-sdk/demo/custom/customFindly.css'
+    );
+  }
+
+  // async loadScripts() {
+  //   await import(
+  //     '../../../assets/web-kore-sdk/demo/libs/kore-no-conflict-start.js'
+  //   );
+  //   await import('../../../assets/web-kore-sdk/libs/uuid.min.js');
+  //   // await import('../../../assets/web-kore-sdk/demo/libs/jquery.js');
+  //   await import('../../../assets/web-kore-sdk/libs/d3.v4.min.js');
+  //   await import('../../../assets/web-kore-sdk/libs/KoreGraphAdapter.js');
+  //   await import('../../../assets/web-kore-sdk/libs/pubsub.js');
+  //   await import('../../../assets/web-kore-sdk/demo/libs/jquery.tmpl.min.js');
+  //   await import('../../../assets/web-kore-sdk/demo/libs/jquery-ui.min.js');
+
+  //   await import('../../../assets/web-kore-sdk/kore-bot-sdk-client.js');
+  //   await import('../../../assets/web-kore-sdk/demo/custom/searchTemplate.js');
+
+  //   await import('../../../assets/web-kore-sdk/demo/custom/customTemplate.js');
+  //   await import('../../../assets/web-kore-sdk/demo/i18n/en.js');
+  //   await import('../../../assets/web-kore-sdk/demo/i18n/ja.js');
+  //   await import('../../../assets/web-kore-sdk/demo/i18n/ko.js');
+  //   await import('../../../assets/web-kore-sdk/libs/emoji.js');
+  //   await import('../../../assets/web-kore-sdk/libs/perfect-scrollbar.js');
+  //   await import('../../../assets/web-kore-sdk/libs/kore-pickers.js');
+  //   await import('../../../assets/web-kore-sdk/demo/findly/findly-sdk.js');
+  //   await import('../../../assets/web-kore-sdk/libs/purejscarousel.js');
+  //   await import('../../../assets/web-kore-sdk/demo/findly/findly-config.js');
+  //   await import(
+  //     '../../../assets/web-kore-sdk/demo/libs/kore-no-conflict-end.js'
+  //   );
+  //   await import('../../../assets/web-kore-sdk/libs/lodash.min.js');
+  // }
 
   initSearchSDK() {
     const _self = this;
@@ -427,6 +516,7 @@ export class SearchSdkComponent implements OnInit, OnDestroy {
     this.findlyBusinessConfig = this;
     findlyConfig.findlyBusinessConfig = this.findlyBusinessConfig;
     this.distroyTopDownSearch();
+
     this.topDownSearchInstance = new FindlySDK(findlyConfig);
     this.resetFindlyTopDownSearchSDK(this.workflowService.selectedApp());
     const currentSubscriptionPlan =

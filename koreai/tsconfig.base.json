@@ -19,7 +19,8 @@
       "@kore.components/*": ["apps/searchassist/src/app/components/*"],
       "@kore.environment/*": ["apps/searchassist/src/environments/*"],
       "@kore.helpers/*": ["apps/searchassist/src/app/helpers/*"],
-      "@kore.services/*": ["apps/searchassist/src/app/services/*"]
+      "@kore.services/*": ["apps/searchassist/src/app/services/*"],
+      "@kore.shared/*": ["libs/shared/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]
