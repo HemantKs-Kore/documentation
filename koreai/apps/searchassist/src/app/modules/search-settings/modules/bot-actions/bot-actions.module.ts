@@ -5,14 +5,8 @@ import { BotActionsRoutingModule } from './bot-actions-routing.module';
 import { BotActionsComponent } from './bot-actions.component';
 import { FindlySharedModule } from '../../../findly-shared/findly-shared.module';
 
-
-
 @NgModule({
   declarations: [BotActionsComponent],
-  imports: [
-    CommonModule,
-    BotActionsRoutingModule,
-    FindlySharedModule
-  ]
+  imports: [CommonModule, BotActionsRoutingModule, FindlySharedModule],
 })
-export class BotActionsModule { }
+export class BotActionsModule {}

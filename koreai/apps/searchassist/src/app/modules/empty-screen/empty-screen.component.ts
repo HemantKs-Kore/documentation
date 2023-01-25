@@ -1,12 +1,18 @@
-import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  EventEmitter,
+  Input,
+  Output,
+} from '@angular/core';
 
 @Component({
   selector: 'app-empty-screen',
   templateUrl: './empty-screen.component.html',
   styleUrls: ['./empty-screen.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class EmptyScreenComponent  {
+export class EmptyScreenComponent {
   @Input() imgName = 'no-data.svg';
   @Input() width = 200;
   @Input() height = 200;

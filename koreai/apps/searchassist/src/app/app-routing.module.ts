@@ -191,6 +191,13 @@ const routes: Routes = [
             './modules/index-configuration-settings/index-configuration-settings.module'
           ).then((m) => m.IndexConfigurationSettingsModule),
       },
+      {
+        path: 'team-management',
+        loadChildren: () =>
+          import('./modules/team-management/team-management.module').then(
+            (m) => m.TeamManagementModule
+          ),
+      },
       // { path: 'pricing', component: PricingComponent },
       //   path: 'index-configuration-settings',
       //   component: IndexConfigurationSettingsComponent,
@@ -258,13 +265,6 @@ const routes: Routes = [
       },
       // { path: '**', redirectTo: 'apps' },
     ],
-  },
-  {
-    path: 'team-management',
-    loadChildren: () =>
-      import('./modules/team-management/team-management.module').then(
-        (m) => m.TeamManagementModule
-      ),
   },
 ];
 

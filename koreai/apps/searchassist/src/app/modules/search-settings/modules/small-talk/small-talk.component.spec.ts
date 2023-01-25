@@ -8,9 +8,8 @@ describe('SmallTalkComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ SmallTalkComponent ]
-    })
-    .compileComponents();
+      declarations: [SmallTalkComponent],
+    }).compileComponents();
   });
 
   beforeEach(() => {

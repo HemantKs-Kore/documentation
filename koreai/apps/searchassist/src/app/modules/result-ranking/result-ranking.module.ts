@@ -6,16 +6,13 @@ import { ResultRankingComponent } from './result-ranking.component';
 import { TranslateModule } from '@ngx-translate/core';
 import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 
-
 @NgModule({
-  declarations: [
-    ResultRankingComponent
-  ],
+  declarations: [ResultRankingComponent],
   imports: [
     CommonModule,
     ResultRankingRoutingModule,
     TranslateModule,
-    NgbTooltipModule
-  ]
+    NgbTooltipModule,
+  ],
 })
-export class ResultRankingModule { }
+export class ResultRankingModule {}

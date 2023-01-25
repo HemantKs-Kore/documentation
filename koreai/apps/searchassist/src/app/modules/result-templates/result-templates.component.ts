@@ -214,62 +214,65 @@ export class ResultTemplatesComponent implements OnInit {
     const quaryparms: any = {
       searchIndexID: this.serachIndexId,
       indexPipelineId: this.indexPipelineId,
-      query
+      query,
     };
-   const url = 'get.getFieldAutocomplete';
-   
-   /** url & QuerryParam for Presentable Fields */
-  //   const url = 'get.presentableFields'
-  //   const quaryparms: any = {
-  //     isSelected:true,
-  //     sortField: "fieldName",
-  //     orderType: 'asc', //desc,
-  //     indexPipelineId:this.indexPipelineId,
-  //     streamId:this.selectedApp._id,
-  //     queryPipelineId:this.queryPipelineId,
-  //     searchKey:''
-  //   };
-    this.service.invoke(url, quaryparms).subscribe(res => {
-      /**  for Presentable Fields */
+    const url = 'get.getFieldAutocomplete';
 
-      // this.heading_fieldData = [...res.data];
-      // this.desc_fieldData = [...res.data];
-      // this.desc_fieldData1 = [...res.data];
-      // this.label1_fieldData = [...res.data];
-      // this.label2_fieldData = [...res.data];
-      // this.rate_fieldData = [...res.data];
-      // this.Strikedrate_fieldData = [...res.data];
-      // this.img_fieldData = [...res.data];
-      // this.url_fieldData = [...res.data];
-      // this.icon_fieldData = [...res.data];
-      // this.textField1_fieldData = [...res.data];
-      // this.textField2_fieldData = [...res.data];
-      // this.chips_fieldData = [...res.data];
-      // this.rating_fieldData = [...res.data];
-      // this.fieldData = [...res.data];
-      // this.allFieldData = res.data;
+    /** url & QuerryParam for Presentable Fields */
+    //   const url = 'get.presentableFields'
+    //   const quaryparms: any = {
+    //     isSelected:true,
+    //     sortField: "fieldName",
+    //     orderType: 'asc', //desc,
+    //     indexPipelineId:this.indexPipelineId,
+    //     streamId:this.selectedApp._id,
+    //     queryPipelineId:this.queryPipelineId,
+    //     searchKey:''
+    //   };
+    this.service.invoke(url, quaryparms).subscribe(
+      (res) => {
+        /**  for Presentable Fields */
 
-      /** for All Fields */
-      this.heading_fieldData = [...res];
-      this.desc_fieldData = [...res];
-      this.desc_fieldData1 = [...res];
-      this.label1_fieldData = [...res];
-      this.label2_fieldData = [...res];
-      this.rate_fieldData = [...res];
-      this.Strikedrate_fieldData = [...res];
-      this.img_fieldData = [...res];
-      this.url_fieldData = [...res];
-      this.icon_fieldData = [...res];
-      this.textField1_fieldData = [...res];
-      this.textField2_fieldData = [...res];
-      this.chips_fieldData = [...res];
-      this.rating_fieldData = [...res];
-      this.fieldData = [...res];
-      this.allFieldData = res;
-      // console.log('Field Data ....', res)
-    }, errRes => {
-      this.errorToaster(errRes, 'Failed to get fields');
-    });
+        // this.heading_fieldData = [...res.data];
+        // this.desc_fieldData = [...res.data];
+        // this.desc_fieldData1 = [...res.data];
+        // this.label1_fieldData = [...res.data];
+        // this.label2_fieldData = [...res.data];
+        // this.rate_fieldData = [...res.data];
+        // this.Strikedrate_fieldData = [...res.data];
+        // this.img_fieldData = [...res.data];
+        // this.url_fieldData = [...res.data];
+        // this.icon_fieldData = [...res.data];
+        // this.textField1_fieldData = [...res.data];
+        // this.textField2_fieldData = [...res.data];
+        // this.chips_fieldData = [...res.data];
+        // this.rating_fieldData = [...res.data];
+        // this.fieldData = [...res.data];
+        // this.allFieldData = res.data;
+
+        /** for All Fields */
+        this.heading_fieldData = [...res];
+        this.desc_fieldData = [...res];
+        this.desc_fieldData1 = [...res];
+        this.label1_fieldData = [...res];
+        this.label2_fieldData = [...res];
+        this.rate_fieldData = [...res];
+        this.Strikedrate_fieldData = [...res];
+        this.img_fieldData = [...res];
+        this.url_fieldData = [...res];
+        this.icon_fieldData = [...res];
+        this.textField1_fieldData = [...res];
+        this.textField2_fieldData = [...res];
+        this.chips_fieldData = [...res];
+        this.rating_fieldData = [...res];
+        this.fieldData = [...res];
+        this.allFieldData = res;
+        // console.log('Field Data ....', res)
+      },
+      (errRes) => {
+        this.errorToaster(errRes, 'Failed to get fields');
+      }
+    );
   }
   /** Field Selection */
   filedSelect(type, field) {

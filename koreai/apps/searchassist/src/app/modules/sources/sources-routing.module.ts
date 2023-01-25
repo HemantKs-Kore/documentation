@@ -3,9 +3,7 @@ import { Routes, RouterModule } from '@angular/router';
 
 import { SourcesComponent } from './sources.component';
 
-const routes: Routes = [
-  { path: '', component: SourcesComponent },
-];
+const routes: Routes = [{ path: '', component: SourcesComponent }];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],

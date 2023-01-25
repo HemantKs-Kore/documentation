@@ -8,9 +8,8 @@ describe('SpellCorrectionComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ SpellCorrectionComponent ]
-    })
-    .compileComponents();
+      declarations: [SpellCorrectionComponent],
+    }).compileComponents();
   });
 
   beforeEach(() => {

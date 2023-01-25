@@ -8,9 +8,8 @@ describe('ConnectorsComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ ConnectorsComponent ]
-    })
-    .compileComponents();
+      declarations: [ConnectorsComponent],
+    }).compileComponents();
   });
 
   beforeEach(() => {

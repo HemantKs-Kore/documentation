@@ -4,15 +4,15 @@
   height: calc(100vh - 62px);
 
   .info-link-bot-notification {
-    background: #F3F8FF;
-    border: 1px solid #85B7FE;
+    background: #f3f8ff;
+    border: 1px solid #85b7fe;
     box-sizing: border-box;
     border-radius: 4px;
     padding: 10px 12px;
     width: 75%;
     font-size: 12px;
     line-height: 18px;
-    color: #07377F;
+    color: #07377f;
     margin: 0px 25px;
     display: flex !important;
     position: relative;
@@ -26,7 +26,7 @@
       }
 
       span {
-        color: #0D6EFD;
+        color: #0d6efd;
       }
     }
   }
@@ -53,7 +53,7 @@
     }
 
     .desc-text {
-      color: #9AA0A6;
+      color: #9aa0a6;
       font-weight: normal;
       font-size: 14px;
       line-height: 20px;
@@ -62,7 +62,7 @@
   }
 
   .header-sec {
-    background: #F8F9FA;
+    background: #f8f9fa;
     padding: 15px 25px;
 
     .title-header {
@@ -84,7 +84,6 @@
           position: relative;
           top: -1px;
         }
-
       }
 
       .view-all-bots {
@@ -99,8 +98,8 @@
 
   .linked-bot-data {
     margin: 20px 25px 0 25px;
-    background: #F8F9FA;
-    border: 1px solid #E4E5E7;
+    background: #f8f9fa;
+    border: 1px solid #e4e5e7;
     box-sizing: border-box;
     border-radius: 6px;
     padding: 16px 0;
@@ -128,13 +127,13 @@
           padding-left: 20px;
 
           .bot-name-sec {
-            color: #5F6368;
+            color: #5f6368;
             font-weight: 500;
             font-size: 16px;
             line-height: 19px;
 
             .bot-name-title {
-              color: #3C4043;
+              color: #3c4043;
               font-weight: bold;
               font-size: 16px;
               line-height: 19px;
@@ -142,7 +141,7 @@
           }
 
           .bot-desc {
-            color: #9AA0A6;
+            color: #9aa0a6;
             font-weight: normal;
             font-size: 12px;
             line-height: 15px;
@@ -150,11 +149,11 @@
           }
 
           .bot_type {
-            color: #07377F;
+            color: #07377f;
             font-weight: normal;
             font-size: 10px;
             line-height: 12px;
-            background: #E7F1FF;
+            background: #e7f1ff;
             border-radius: 100px;
             display: inline-block;
             padding: 4px 13px;
@@ -179,11 +178,11 @@
         }
 
         &:hover {
-          background: #EFF0F1;
+          background: #eff0f1;
         }
 
         &.show {
-          background: #EFF0F1;
+          background: #eff0f1;
         }
 
         .content-menu {
@@ -208,8 +207,8 @@
     .info-data-links {
       display: flex;
       align-items: center;
-      background: #F3F8FF;
-      border: 1px solid #85B7FE;
+      background: #f3f8ff;
+      border: 1px solid #85b7fe;
       box-sizing: border-box;
       border-radius: 4px;
       width: 780px;
@@ -219,7 +218,7 @@
 
       .info-text {
         span {
-          color: #07377F;
+          color: #07377f;
           font-weight: normal;
           font-size: 12px;
           line-height: 18px;
@@ -228,7 +227,7 @@
       }
 
       .ext_link {
-        color: #0D6EFD;
+        color: #0d6efd;
         font-weight: normal;
         font-size: 12px;
         line-height: 14px;
@@ -252,12 +251,12 @@
         padding: 0 10px;
         height: 53px;
         align-items: center;
-        background: #FFFFFF;
+        background: #ffffff;
 
         .tab-name {
           .name-task {
             display: inline-block;
-            color: #9AA0A6;
+            color: #9aa0a6;
             text-transform: capitalize;
             font-weight: 500;
             font-size: 12px;
@@ -324,7 +323,7 @@
         padding: 0;
         height: 53px;
         align-items: center;
-        background: #FFFFFF;
+        background: #ffffff;
 
         .selected-count {
           padding-left: 14px;
@@ -338,7 +337,8 @@
           display: flex;
           align-items: center;
 
-          img {}
+          img {
+          }
 
           .label-text {
             color: #202124;
@@ -358,10 +358,10 @@
         margin: 0 0 5px 0;
         padding: 7px 5px;
         align-items: center;
-        background: #FFFFFF;
-        border: 1px solid #EFF0F1;
+        background: #ffffff;
+        border: 1px solid #eff0f1;
         box-sizing: border-box;
-        box-shadow: inset 0px -1px 0px #E4E5E7;
+        box-shadow: inset 0px -1px 0px #e4e5e7;
         border-radius: 4px;
 
         &.checked-item {
@@ -416,12 +416,11 @@
               line-height: 20px;
               color: #828282;
             }
-
           }
         }
 
         .task-type {
-          color: #9AA0A6;
+          color: #9aa0a6;
           font-weight: normal;
           font-size: 10px;
           line-height: 20px;
@@ -430,7 +429,7 @@
         }
 
         .enable-title {
-          color: #9AA0A6;
+          color: #9aa0a6;
           font-weight: normal;
           font-size: 10px;
           line-height: 20px;
@@ -444,7 +443,7 @@
 
           .clicks-view-info {
             display: flex;
-            color: #3C4043;
+            color: #3c4043;
             font-weight: 600;
             font-size: 12px;
             line-height: 15px;
@@ -466,9 +465,6 @@
     }
   }
 }
-
-
-
 
 ::ng-deep .linkExistingBotsModal {
   .modal-dialog {
@@ -495,7 +491,7 @@
           line-height: 17px;
 
           .gray-text-link {
-            color: #9AA0A6;
+            color: #9aa0a6;
           }
         }
       }
@@ -509,7 +505,7 @@
 
           .show-how-btn {
             cursor: pointer;
-            color: #0D6EFD;
+            color: #0d6efd;
           }
         }
 
@@ -522,8 +518,8 @@
         }
 
         .more-info-link-text {
-          background: #FFFFFF;
-          border: 1px solid #E7F1FF;
+          background: #ffffff;
+          border: 1px solid #e7f1ff;
           box-sizing: border-box;
           border-radius: 6px;
           padding: 12px 19px;
@@ -539,7 +535,7 @@
             color: #000000;
 
             .step-text {
-              color: #9AA0A6;
+              color: #9aa0a6;
               font-weight: 600;
               font-size: 14px;
               line-height: 17px;
@@ -562,7 +558,7 @@
             font-weight: 500;
             font-size: 14px;
             line-height: 20px;
-            background: #0D6EFD;
+            background: #0d6efd;
             border-radius: 4px;
             padding: 8px 12px;
             height: 34px;
@@ -609,7 +605,7 @@
           .table-header {
             padding: 0 15px;
             margin: 0;
-            background: #FFFFFF;
+            background: #ffffff;
             box-shadow: inset 0px -1px 0px #e4e5e7;
             height: 45px;
             align-items: center;
@@ -627,7 +623,7 @@
             margin: 0 0 0px 0;
             padding: 8px 0 8px 0;
             min-height: 60px;
-            box-shadow: inset 0px -1px 0px #E4E5E7;
+            box-shadow: inset 0px -1px 0px #e4e5e7;
 
             .bot-name-data {
               align-items: center;
@@ -639,7 +635,7 @@
                 line-height: 20px;
 
                 .bot-type {
-                  background: #E7F1FF;
+                  background: #e7f1ff;
                   border-radius: 100px;
                   font-weight: normal;
                   font-size: 10px;
@@ -650,7 +646,7 @@
 
               .shares-data {
                 padding: 0 10px 0 0px;
-                color: #5F6368;
+                color: #5f6368;
                 font-weight: normal;
                 font-size: 12px;
                 line-height: 20px;
@@ -675,8 +671,8 @@
               padding-right: 22px;
 
               .link-bot-btn {
-                background: #FFFFFF;
-                border: 1px solid #BDC1C6;
+                background: #ffffff;
+                border: 1px solid #bdc1c6;
                 box-sizing: border-box;
                 border-radius: 4px;
                 font-weight: normal;
@@ -699,7 +695,6 @@
         }
       }
     }
-
   }
 
   .link-action-bot-empty {
@@ -713,7 +708,7 @@
       font-weight: 500;
       font-size: 18px;
       line-height: 20px;
-      color: #3C4043;
+      color: #3c4043;
       margin: 15px 0;
     }
   }
@@ -724,7 +719,7 @@
 }
 
 .link-bot-disable.link-bot-btn {
-  color: #BDC1C6 !important;
+  color: #bdc1c6 !important;
 }
 
 .mt-6px {

@@ -7,6 +7,6 @@ const routes: Routes = [{ path: '', component: StopWordsComponent }];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class StopWordsRoutingModule { }
+export class StopWordsRoutingModule {}

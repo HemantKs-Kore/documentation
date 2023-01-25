@@ -154,7 +154,7 @@ export class ActionsComponent implements OnInit {
                   this.associatedBots.push(element);
                 }
                 if (this.streamId == element._id) {
-                  if ((this.loadingBotContent1 = true)) {
+                  if (this.loadingBotContent1 == true) {
                     this.LinkABot = element._id;
                     this.loadingBotContent = true;
                     this.botLinked = true;
@@ -164,7 +164,7 @@ export class ActionsComponent implements OnInit {
                     // }
                   }
                 } else if (this.streamId == null) {
-                  if ((this.loadingBotContent = true)) {
+                  if (this.loadingBotContent == true) {
                     this.LinkABot != element._id;
                     this.botLinked = false;
                     this.loader = false;
@@ -177,7 +177,7 @@ export class ActionsComponent implements OnInit {
               }
             );
           } else {
-            if ((this.loadingBotContent = true)) {
+            if (this.loadingBotContent == true) {
               this.LinkABot = null;
               this.botLinked = false;
               this.loader = false;
@@ -187,7 +187,7 @@ export class ActionsComponent implements OnInit {
     }
   }
   topDownOrBottomUp(type) {
-    let payload: any = {};
+    const payload: any = {};
     // if (this.previewTopBottom == "top") {
     //   this.bottomActionsTop = false;
     //   this.bottomActionsBottom = false;

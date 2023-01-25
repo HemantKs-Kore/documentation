@@ -7,6 +7,6 @@ const routes: Routes = [{ path: '', component: HighlightingComponent }];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class HighlightingRoutingModule { }
+export class HighlightingRoutingModule {}

@@ -27,13 +27,13 @@ export class AppsComponent implements OnInit {
   openJourney = false;
   saveInProgress = false;
   toShowAppHeader: boolean;
-  demoType: string = '';
-  SearchExperianceType: string = '';
+  demoType = '';
+  SearchExperianceType = '';
   appsData: any;
   streamID: any;
   private storageType = 'localStorage';
   searchIndexID: any;
-  demoOptions: boolean = false;
+  demoOptions = false;
   createAppPopRef: any;
   onboardingpopupjourneyRef: any;
   loadingAppcreationRef: any;
@@ -45,11 +45,11 @@ export class AppsComponent implements OnInit {
   apps: any = [];
   progressBar: any = [];
   stepBar = 1;
-  displayApp: boolean = false;
-  newUser: boolean = false;
-  hideWelcomepage: boolean = true;
-  showSearchExperices: boolean = false;
-  validateAppname: boolean = false;
+  displayApp = false;
+  newUser = false;
+  hideWelcomepage = true;
+  showSearchExperices = false;
+  validateAppname = false;
   sharedApp = false;
   selectedApp: any;
   serachIndexId: any;
@@ -58,12 +58,14 @@ export class AppsComponent implements OnInit {
   validateName: any = '';
   appType: any;
   steps: any;
-  displaydemoOptions: boolean = false;
+  displaydemoOptions = false;
   slectedAppId: any = '';
   slectedUnlinkAppId: any = '';
   unlinkPop = true;
   showSearch = false;
-  submitted: boolean = false;
+  submitted = false;
+  emptyApp = true;
+  showBoarding = true;
   activeClose = false;
   searchImgSrc: any = 'assets/icons/search_gray.svg';
   carousel: any = [];
@@ -78,11 +80,11 @@ export class AppsComponent implements OnInit {
   sortBy = ['Created Date', 'Alphabetical Order'];
   userId: any;
   recentApps: any;
-  currentPage: number = 1;
+  currentPage = 1;
   testRepeat = false;
   createdAppData: any = {};
   pollingInterval;
-  isShowSearchGif: boolean = false;
+  isShowSearchGif = false;
   @ViewChild('createAppPop') createAppPop: KRModalComponent;
   @ViewChild('createBoardingJourney') createBoardingJourney: KRModalComponent;
   @ViewChild('confirmatiomAppPop') confirmatiomAppPop: KRModalComponent;
@@ -99,9 +101,8 @@ export class AppsComponent implements OnInit {
     public authService: AuthService,
     public inlineManual: InlineManualService,
     private route: ActivatedRoute,
-    public mixpanel: MixpanelServiceService
-  ) // private appsService: AppsService
-  {
+    public mixpanel: MixpanelServiceService // private appsService: AppsService
+  ) {
     this.authInfo = localstore.getAuthInfo();
     this.userId = this.authService.getUserId();
   }
@@ -120,15 +121,15 @@ export class AppsComponent implements OnInit {
   //Checks whether user is new or not
   checkForNewUser() {
     let accountId: any;
-    let selectAccountDetail = window[this.storageType].getItem(
+    const selectAccountDetail = window[this.storageType].getItem(
       'selectedAccount'
     )
       ? JSON.parse(window[this.storageType].getItem('selectedAccount'))
       : {};
-    let currentAccountDetail = window[this.storageType].getItem('jStorage')
+    const currentAccountDetail = window[this.storageType].getItem('jStorage')
       ? JSON.parse(window[this.storageType].getItem('jStorage'))
       : {};
-    let currentAccountID = currentAccountDetail
+    const currentAccountID = currentAccountDetail
       ? currentAccountDetail?.currentAccount?.accountId
       : null;
     if (!selectAccountDetail) {
@@ -201,7 +202,7 @@ export class AppsComponent implements OnInit {
     if (val) {
       this.progressBar = [];
       for (let i = 0; i < val; i++) {
-        var obj = {
+        const obj = {
           class: 'active-bar',
         };
 
@@ -356,7 +357,7 @@ export class AppsComponent implements OnInit {
   //Delete App function
   deleteApp() {
     this.submitted = true;
-    let quaryparms: any = {};
+    const quaryparms: any = {};
     quaryparms.streamId = this.slectedAppId;
     if (this.confirmApp == 'DELETE') {
       this.service.invoke('delete.app', quaryparms).subscribe(
@@ -394,7 +395,7 @@ export class AppsComponent implements OnInit {
     this.confirmatiomAppPopRef = this.confirmatiomAppPop.open();
   }
   unlinkApp() {
-    let quaryparms: any = {};
+    const quaryparms: any = {};
     quaryparms.streamId = this.slectedUnlinkAppId;
 
     this.service.invoke('Unlink.app', quaryparms).subscribe(
@@ -447,8 +448,7 @@ export class AppsComponent implements OnInit {
     }, 100);
   }
   //get all apps
-  emptyApp: boolean = true;
-  showBoarding: boolean = true;
+
   public getAllApps() {
     this.service.invoke('get.apps').subscribe(
       (res) => {
@@ -459,7 +459,9 @@ export class AppsComponent implements OnInit {
             JSON.parse(localStorage.getItem('krPreviousState')).route &&
             JSON.parse(localStorage.getItem('krPreviousState')).route != '/home'
           ) {
-            let prDetails = JSON.parse(localStorage.getItem('krPreviousState'));
+            const prDetails = JSON.parse(
+              localStorage.getItem('krPreviousState')
+            );
             if (prDetails && prDetails.formAccount) {
               this.redirectHome();
             }
@@ -502,7 +504,7 @@ export class AppsComponent implements OnInit {
     );
   }
   clearAccount() {
-    let prDetails = localStorage.getItem('krPreviousState')
+    const prDetails = localStorage.getItem('krPreviousState')
       ? JSON.parse(localStorage.getItem('krPreviousState'))
       : null;
     if (prDetails && prDetails.formAccount) {
@@ -511,7 +513,7 @@ export class AppsComponent implements OnInit {
     localStorage.setItem('krPreviousState', JSON.stringify(prDetails));
   }
   redirectHome() {
-    let prDetails = localStorage.getItem('krPreviousState')
+    const prDetails = localStorage.getItem('krPreviousState')
       ? JSON.parse(localStorage.getItem('krPreviousState'))
       : null;
     prDetails.route = '/home';
@@ -664,7 +666,7 @@ export class AppsComponent implements OnInit {
       validField = false;
     }
     if (validField && this.newApp.name) {
-      let specialCharacters = /[!@#$%^&*()_+\-=\[\]{};':"\\|<>\/?→←↑↓]+/;
+      const specialCharacters = /[!@#$%^&*()_+\-=\[\]{};':"\\|<>\/?→←↑↓]+/;
       if (!specialCharacters.test(this.newApp.description)) {
         this.createFindlyApp();
       } else {

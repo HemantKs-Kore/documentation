@@ -6,6 +6,6 @@ const routes: Routes = [{ path: '', component: ResultRankingComponent }];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class ResultRankingRoutingModule { }
+export class ResultRankingRoutingModule {}

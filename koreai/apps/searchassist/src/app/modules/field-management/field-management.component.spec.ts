@@ -8,9 +8,8 @@ describe('FieldManagementComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ FieldManagementComponent ]
-    })
-    .compileComponents();
+      declarations: [FieldManagementComponent],
+    }).compileComponents();
   });
 
   beforeEach(() => {

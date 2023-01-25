@@ -90,8 +90,6 @@ export class InvoicesComponent implements OnInit, OnDestroy {
     );
   }
   sortInvoices(sortHeaderOption?, sortValue?, navigate?) {
-    // fieldsFilter(searchValue?,searchSource?, source?,headerOption?, sortHeaderOption?,sortValue?,navigate?)
-    // this.loadingContent = true;
     if (sortValue) {
       this.sortedObject = {
         type: sortHeaderOption,

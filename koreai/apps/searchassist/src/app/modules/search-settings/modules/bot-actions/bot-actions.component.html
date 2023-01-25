@@ -1,51 +1,95 @@
 <div class="mainLoadingSpinner" *ngIf="isLoading">
   <mat-spinner diameter="18" strokeWidth="2"></mat-spinner>
-  <span class="please-wait-message">{{'sa_please_wait'| translate}}</span>
+  <span class="please-wait-message">{{ 'sa_please_wait' | translate }}</span>
 </div>
 
 <ng-container *ngIf="!isLoading">
   <div class="landing-page-common-block">
     <div class="widget-header-block" id="sa_widget_hedaer">
-      <div class="widget-header">{{"search_settingsa_bot_actions" |translate}}
-        <span class="module-topic" tooltipClass="tooltip-global-" [container]="'body'"
-            ngbTooltip="{{'contentSource_topic_guide' | translate}}" placement="right-center"
-            (click)="openUserMetaTagsSlider()">
-            <i class="si-topic-guide-1"></i>
-          </span>
+      <div class="widget-header">
+        {{ 'search_settingsa_bot_actions' | translate }}
+        <span
+          class="module-topic"
+          tooltipClass="tooltip-global-"
+          [container]="'body'"
+          ngbTooltip="{{ 'contentSource_topic_guide' | translate }}"
+          placement="right-center"
+          (click)="openUserMetaTagsSlider()"
+        >
+          <i class="si-topic-guide-1"></i>
+        </span>
       </div>
-      <div class="widget-desc">{{"search_settings_bot_action_desc" |translate}}</div>
+      <div class="widget-desc">
+        {{ 'search_settings_bot_action_desc' | translate }}
+      </div>
     </div>
     <div class="landing-page-toggle" id="sa-land-page-toggle">
       <label class="kr-sg-toggle with-label" id="sa-land-page-label">
-        <input type="checkbox" id="sa_checkbox_slider" [checked]="botactionsdata?.enable"  (change)="silderValuechanged($event)">
+        <input
+          type="checkbox"
+          id="sa_checkbox_slider"
+          [checked]="botactionsdata?.enable"
+          (change)="silderValuechanged($event)"
+        />
         <div class="slider">
-          <span class="no" id="sa_checkbox_no">{{"search_settings_disable" |translate}}</span>
-          <span class="yes" id="sa_checkbox_yes">{{"search_settings_bot_action_enable" |translate}}</span>
+          <span class="no" id="sa_checkbox_no">{{
+            'search_settings_disable' | translate
+          }}</span>
+          <span class="yes" id="sa_checkbox_yes">{{
+            'search_settings_bot_action_enable' | translate
+          }}</span>
         </div>
       </label>
     </div>
-    <div class="block-separate-line"></div> <hr class="mb-0 mt-0">
-  
-    <div class="widget-header-block second-header-block" id="sa_widget_second_hedaer_block">
-      <div class="widget-header" id="sa_widget_heading_block">{{"search_settings_bot_action_behavior" |translate}}</div>
-      <div class="widget-desc" id="sa_widget_desc_block">{{"search_settings_enable_disable_desc" |translate}}</div>
+    <div class="block-separate-line"></div>
+    <hr class="mb-0 mt-0" />
+
+    <div
+      class="widget-header-block second-header-block"
+      id="sa_widget_second_hedaer_block"
+    >
+      <div class="widget-header" id="sa_widget_heading_block">
+        {{ 'search_settings_bot_action_behavior' | translate }}
+      </div>
+      <div class="widget-desc" id="sa_widget_desc_block">
+        {{ 'search_settings_enable_disable_desc' | translate }}
+      </div>
     </div>
-  
+
     <div class="bot-actions-radio-grp-block">
       <div class="group-radiobutton">
         <div class="kr-sg-radiobutton d-block">
-            <input id="auto_execute" name="radio" class="radio-custom" type="radio" 
-            [checked]="botactionsdata?.executeIntents" (click)="selectRadiobutton('execute')">
-            <label for="auto_execute" class="radio-custom-label">{{"search_settings_bot_action_auto_execute_win_intent" |translate}}</label>
-        </div> 
+          <input
+            id="auto_execute"
+            name="radio"
+            class="radio-custom"
+            type="radio"
+            [checked]="botactionsdata?.executeIntents"
+            (click)="selectRadiobutton('execute')"
+          />
+          <label for="auto_execute" class="radio-custom-label">{{
+            'search_settings_bot_action_auto_execute_win_intent' | translate
+          }}</label>
+        </div>
         <div class="kr-sg-radiobutton d-block" id="sa_radio_button">
-            <input id="do_not_auto_execute" name="radio" class="radio-custom" type="radio" 
-            [checked]="!botactionsdata?.executeIntents" (click)="selectRadiobutton('dontexecute')">
-            <label for="do_not_auto_execute" id="sa_radio_button_label" class="radio-custom-label">{{"search_settings_bot_action_do_not_win_intent" |translate}}</label>
-        </div> 
+          <input
+            id="do_not_auto_execute"
+            name="radio"
+            class="radio-custom"
+            type="radio"
+            [checked]="!botactionsdata?.executeIntents"
+            (click)="selectRadiobutton('dontexecute')"
+          />
+          <label
+            for="do_not_auto_execute"
+            id="sa_radio_button_label"
+            class="radio-custom-label"
+            >{{
+              'search_settings_bot_action_do_not_win_intent' | translate
+            }}</label
+          >
+        </div>
+      </div>
     </div>
-    </div>
-  
-  
   </div>
 </ng-container>

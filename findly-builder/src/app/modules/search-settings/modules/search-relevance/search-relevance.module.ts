@@ -5,13 +5,8 @@ import { SearchRelevanceRoutingModule } from './search-relevance-routing.module'
 import { SearchRelevanceComponent } from './search-relevance.component';
 import { FindlySharedModule } from 'src/app/modules/findly-shared/findly-shared.module';
 
-
 @NgModule({
   declarations: [SearchRelevanceComponent],
-  imports: [
-    CommonModule,
-    SearchRelevanceRoutingModule,
-    FindlySharedModule
-  ]
+  imports: [CommonModule, SearchRelevanceRoutingModule, FindlySharedModule],
 })
-export class SearchRelevanceModule { }
+export class SearchRelevanceModule {}

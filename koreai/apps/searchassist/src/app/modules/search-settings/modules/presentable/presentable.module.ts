@@ -6,14 +6,9 @@ import { PresentableComponent } from './presentable.component';
 import { FindlySharedModule } from '../../../findly-shared/findly-shared.module';
 // import { TranslateService } from '@ngx-translate/core';
 
-
 @NgModule({
   declarations: [PresentableComponent],
-  imports: [
-    CommonModule,
-    PresentableRoutingModule,
-    FindlySharedModule
-  ]
+  imports: [CommonModule, PresentableRoutingModule, FindlySharedModule],
 })
 export class PresentableModule {
   // constructor(private translate: TranslateService) {}

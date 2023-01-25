@@ -8,9 +8,8 @@ describe('StopWordsComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ StopWordsComponent ]
-    })
-    .compileComponents();
+      declarations: [StopWordsComponent],
+    }).compileComponents();
   });
 
   beforeEach(() => {

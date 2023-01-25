@@ -8,9 +8,8 @@ describe('CustomConfigListComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ CustomConfigListComponent ]
-    })
-    .compileComponents();
+      declarations: [CustomConfigListComponent],
+    }).compileComponents();
   });
 
   beforeEach(() => {

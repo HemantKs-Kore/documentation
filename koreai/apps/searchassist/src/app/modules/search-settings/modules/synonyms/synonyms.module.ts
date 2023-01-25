@@ -9,7 +9,6 @@ import { MatChipsModule } from '@angular/material/chips';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 
-
 @NgModule({
   declarations: [SynonymsComponent],
   imports: [
@@ -19,7 +18,7 @@ import { MatIconModule } from '@angular/material/icon';
     MatChipsModule,
     MatFormFieldModule,
     MatIconModule,
-    EmptyScreenModule
-  ]
+    EmptyScreenModule,
+  ],
 })
-export class SynonymsModule { }
+export class SynonymsModule {}

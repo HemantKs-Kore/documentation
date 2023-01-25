@@ -129,5 +129,5 @@ export const EMPTY_SCREEN = {
     DESC: 'Results Ranking is an interactive and visual way to tune results. SearchAssist allows you to preview and customize the search results as per the business needs',
     TITLE_SEARCH: 'No search results found',
     DESC_SEARCH: 'We couldn’t find what you are looking for',
-  }
+  },
 };

@@ -1,30 +1,42 @@
-
-<form class="table_body row empty-skelaton py-3" #form="ngForm" (ngSubmit)="submitForm(form)">
-    <div class="col-5 title text-left text-truncate">
-      <div class="kr-sg-input-text cc-input-text">
-        <input type="text" placeholder="Enter Key Here" class="input-text" [class.err-block]="form.submitted && key.invalid" name="key" [ngModel]="formData.key" autocomplete="off" required #key="ngModel">
+<form
+  class="table_body row empty-skelaton py-3"
+  #form="ngForm"
+  (ngSubmit)="submitForm(form)"
+>
+  <div class="col-5 title text-left text-truncate">
+    <div class="kr-sg-input-text cc-input-text">
+      <input
+        type="text"
+        placeholder="Enter Key Here"
+        class="input-text"
+        [class.err-block]="form.submitted && key.invalid"
+        name="key"
+        [ngModel]="formData.key"
+        autocomplete="off"
+        required
+        #key="ngModel"
+      />
     </div>
+  </div>
+  <div class="col-5 title text-left p-0">
+    <div class="kr-sg-input-text cc-input-text">
+      <input
+        type="text"
+        placeholder="Enter Value Here"
+        class="input-text"
+        [class.err-block]="form.submitted && value.invalid"
+        name="value"
+        [ngModel]="formData.value"
+        autocomplete="off"
+        required
+        #value="ngModel"
+      />
     </div>
-    <div class="col-5 title text-left p-0">
-      <div class="kr-sg-input-text cc-input-text">
-        <input type="text" placeholder="Enter Value Here" class="input-text" [class.err-block]="form.submitted && value.invalid" name="value" [ngModel]="formData.value" autocomplete="off" required #value="ngModel">
-    </div>
-    </div>
-    <div class="col-2 p-0 text-center">
-        <!-- <div class="action_links">
-          <span class="action_link-icon">
-            <i class="si-check"></i>
-        </span>
-          <span class="action_link-icon">
-              <i class="si-pencil-edit mr-2"></i>
-          </span>
-          <span class="action_link-icon link-delete">
-            <i class="si-delete1"></i>
-          </span>
-        </div> -->
-        <button class="kr-sg-button-primary btn_lg" type="submit">
-            {{formData._id ? 'Save' : 'Add'}}
-        </button>
-    </div>
+  </div>
+  <div class="col-2 p-0 text-center">
+    <button class="kr-sg-button-primary btn_lg" type="submit">
+      {{ formData._id ? 'Save' : 'Add' }}
+    </button>
+  </div>
 </form>
 <div class="block-separate-line"></div>

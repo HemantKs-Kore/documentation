@@ -282,7 +282,7 @@
                                             <img src="assets/icons/clone-blue.svg" (click)="openDeleteApp($event)">
                                           </div> -->
                         <div
-                          *ngIf="filter.createdBy == userId"
+                          *ngIf="filter.createdBy === userId"
                           class="delete-icon"
                           tooltipClass="tooltip-global- ml-14"
                           [container]="'body'"
@@ -295,7 +295,7 @@
                           />
                         </div>
                         <div
-                          *ngIf="filter.createdBy != userId"
+                          *ngIf="filter.createdBy !== userId"
                           class="delete-icon"
                           tooltipClass="tooltip-global- ml-14"
                           [container]="'body'"
@@ -332,7 +332,7 @@
                       {{ filter.userDetails.fullName }}
                     </div>
                     <div
-                      *ngIf="filter.createdBy != userId"
+                      *ngIf="filter.createdBy !== userId"
                       class="shared-app-text"
                     >
                       <img src="assets/icons/share-icon.svg" />
@@ -593,7 +593,7 @@
               <div
                 *ngFor="let bar of progressBar; let i = index"
                 class="not-active-bar"
-                [ngClass]="{ 'active-bar': i == 0 }"
+                [ngClass]="{ 'active-bar': i === 0 }"
               ></div>
             </div>
             <!-- <button style="width: 50px;height:15px" (click)="openAppLoadingScreen()"></button> -->
@@ -697,18 +697,18 @@
               <!-- <div class="back-btn" (click)="backToWelcomePage();progressBar.length=0">
                   <i class="si-back-arrow"></i>
                 </div> -->
-              <div *ngIf="steps == 'displayApp'" class="title-start">
+              <div *ngIf="steps === 'displayApp'" class="title-start">
                 {{ 'home_give_a_name_to_your_App' | translate }}
               </div>
-              <div *ngIf="steps == 'demoOptions'" class="title-start">
+              <div *ngIf="steps === 'demoOptions'" class="title-start">
                 {{ 'home_choose_sample_data' | translate }}
               </div>
-              <div *ngIf="steps == 'showSearchExperience'" class="title-start">
+              <div *ngIf="steps === 'showSearchExperience'" class="title-start">
                 {{ 'home_choose_the_expeience' | translate }}
               </div>
 
               <ng-container>
-                <ng-container *ngIf="steps == 'demoOptions'">
+                <ng-container *ngIf="steps === 'demoOptions'">
                   <div class="tabs-data-info-sample">
                     <ul class="nav nav-pills">
                       <li class="nav-item">
@@ -720,7 +720,7 @@
                           href="#ecommerce"
                           >{{ 'home_e_commerece' | translate }}
                           <i
-                            *ngIf="demoType == 'e-commerce'"
+                            *ngIf="demoType === 'e-commerce'"
                             class="si-check"
                           ></i
                         ></a>
@@ -733,7 +733,7 @@
                           href="#ks"
                           >{{ 'home_knowledge_search' | translate }}
                           <i
-                            *ngIf="demoType == 'knowledge-search'"
+                            *ngIf="demoType === 'knowledge-search'"
                             class="si-check"
                           ></i
                         ></a>
@@ -930,7 +930,7 @@
                   </div>
                 </ng-container>
 
-                <ng-container *ngIf="steps == 'showSearchExperience'">
+                <ng-container *ngIf="steps === 'showSearchExperience'">
                   <div class="tabs-data-info-sample seach-virtual-assistance">
                     <ul class="nav nav-pills">
                       <li
@@ -947,7 +947,7 @@
                             'home_search_bar' | translate
                           }}</span>
                           <i
-                            *ngIf="SearchExperianceType == 'top'"
+                            *ngIf="SearchExperianceType === 'top'"
                             class="si-check"
                           ></i>
                           <div class="text-desc">
@@ -970,7 +970,7 @@
                             'home_virtual_assistant' | translate
                           }}</span>
                           <i
-                            *ngIf="SearchExperianceType == 'bottom'"
+                            *ngIf="SearchExperianceType === 'bottom'"
                             class="si-check"
                           ></i>
                           <div class="text-desc">
@@ -1001,7 +1001,7 @@
               </ng-container>
 
               <!-- Last step app name -->
-              <ng-container *ngIf="steps == 'displayApp'">
+              <ng-container *ngIf="steps === 'displayApp'">
                 <div class="welcome-user-screen">
                   <div class="welcome-user-img">
                     <img
@@ -1059,14 +1059,14 @@
               Back
             </button>
             <button
-              *ngIf="steps != 'showSearchExperience'"
+              *ngIf="steps !== 'showSearchExperience'"
               class="kr-sg-button-primary btn_lg"
               (click)="checkExperience()"
             >
               Continue
             </button>
             <button
-              *ngIf="steps == 'showSearchExperience'"
+              *ngIf="steps === 'showSearchExperience'"
               class="kr-sg-button-primary btn_lg"
               (click)="checkExperience()"
             >
@@ -1232,13 +1232,13 @@
         class="input-text"
         [ngClass]="{
           'err-block':
-            (!confirmApp && submitted) || (confirmApp != 'DELETE' && submitted)
+            (!confirmApp && submitted) || (confirmApp !== 'DELETE' && submitted)
         }"
       />
       <div
         class="error-msg"
         *ngIf="
-          (!confirmApp && submitted) || (confirmApp != 'DELETE' && submitted)
+          (!confirmApp && submitted) || (confirmApp !== 'DELETE' && submitted)
         "
       >
         <img

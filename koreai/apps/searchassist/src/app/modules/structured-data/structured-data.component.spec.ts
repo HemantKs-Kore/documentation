@@ -8,9 +8,8 @@ describe('StructuredDataComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ StructuredDataComponent ]
-    })
-    .compileComponents();
+      declarations: [StructuredDataComponent],
+    }).compileComponents();
   });
 
   beforeEach(() => {

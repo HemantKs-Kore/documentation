@@ -7,6 +7,6 @@ const routes: Routes = [{ path: '', component: SearchRelevanceComponent }];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class SearchRelevanceRoutingModule { }
+export class SearchRelevanceRoutingModule {}

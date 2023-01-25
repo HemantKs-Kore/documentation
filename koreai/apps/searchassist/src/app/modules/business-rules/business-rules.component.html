@@ -189,10 +189,6 @@
           </div>
         </div>
         <div class="content m-l-33" (click)="sortByApi('ruleName')">
-          <!-- <div class="kr-sg-checkbox p-0 m-0">
-                        <input id="selectAllRules" class="checkbox-custom" type="checkbox" (change)="selectAll()" [(ngModel)]="selcectionObj.selectAll" />
-                        <label for="selectAllRules" class="checkbox-custom-label"></label>
-                    </div>-->
           <div class="d-flex align-items-center title cursor-pointer">
             <span class="d-flex align-items-center flex-column mr-1">
               <img
@@ -206,8 +202,7 @@
                 class="sortImg upArrow"
               />
             </span>
-            <!-- <img  src="assets/icons/sort_up_down.svg" class="pr-1" />
-                        <img   src="assets/icons/caretDown.svg" class="pr-1" /> -->
+
             {{ 'businessRules_name_caps' | translate }}
           </div>
         </div>
@@ -628,9 +623,6 @@
       <img src="assets/icons/modal-close.svg" />
     </div>
   </div>
-  <!-- <perfect-scrollbar class="perfect-scroll-modal-body" #perfectScroll>
-
-    </perfect-scrollbar> -->
   <div class="modal-body">
     <div class="col-6 rule-name-input">
       <div class="kr-sg-input-text">
@@ -659,26 +651,6 @@
               <div class="text-title">
                 {{ 'businessRules_condition' | translate }}
               </div>
-              <!-- <span class="info-tooltip-data" *ngIf="selcectionObj?.ruleType==='contextual'">
-                                <i class="si-help"></i>
-                                <div class="conditon-info-tooltip">
-                                    <div class="left-data-info">
-                                        <div class="info-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                                            Auctor posuere amet malesuada in. Et nullam.</div>
-                                        <div class="info-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                                            Auctor posuere amet malesuada in. Et nullam.</div>
-                                    </div>
-                                    <div class="img-data">
-                                        <img src="assets/icons/business-rules/conditions.png">
-                                    </div>
-                                     <div class="right-data-info">
-                                        <div class="info-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                                            Auctor posuere amet malesuada in. Et nullam.</div>
-                                        <div class="info-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                                            Auctor posuere amet malesuada in. Et nullam.</div>
-                                    </div>
-                                </div>
-                            </span> -->
             </div>
             <div class="sub-text text-truncate">
               {{ 'businessRules_the_context_selection' | translate }}
@@ -1092,28 +1064,6 @@
                                   }}</span>
                                 </ng-container>
                               </ng-container>
-                              <!-- <ng-container *ngIf="ruleObj.value && ruleObj.value.length && (ruleObj.dataType === 'date') && (ruleObj.operator !== 'between')">
-                                                        <ng-container *ngFor="let value of ruleObj.value; let index = index">
-                                                            <mat-chip [selectable]="selectable" (removed)="removeTag(ruleObj.value, tag,index)">
-                                                                <span class="mat-val" *ngIf="value">{{value | dateFormatPipe: 'DD MMM YYYY'}}</span>
-                                                                <mat-icon matChipRemove><img src="assets/images/close.svg" /></mat-icon>
-                                                            </mat-chip>
-                                                            <span>{{'businessRules_or'| translate}}</span>
-                                                        </ng-container>
-                                                    </ng-container>
-                                                    <ng-container *ngIf="ruleObj.value && ruleObj.value.length && (ruleObj.dataType === 'date') && (ruleObj.operator === 'between')">
-                                                        <ng-container *ngFor="let value of ruleObj.value; let index = index">
-                                                            <mat-chip [selectable]="selectable" (removed)="removeTag(ruleObj.value, tag,index)">
-                                                                <span class="mat-val" *ngIf="value && value.length">
-                                <span *ngFor="let date of value; let dateIndex = index">
-                                  {{date | dateFormatPipe: 'DD MMM YYYY'}} <span *ngIf="!dateIndex"> - </span>
-                                                                </span>
-                                                                </span>
-                                                                <mat-icon matChipRemove><img src="assets/images/close.svg" /></mat-icon>
-                                                            </mat-chip>
-                                                            <span>{{'businessRules_or'| translate}}</span>
-                                                        </ng-container>
-                                                    </ng-container> -->
                               <ng-container
                                 *ngIf="
                                   ruleObj.value &&

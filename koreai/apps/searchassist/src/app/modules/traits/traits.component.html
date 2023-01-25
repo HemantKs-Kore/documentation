@@ -319,25 +319,6 @@
               </button>
             </div>
           </app-empty-screen>
-
-          <!-- <div class="img-block" *ngIf="!emptyItems"><img class="action_icon" (load)="imageLoad()" -->
-          <!-- src="assets/images/traits-empty.png"></div> -->
-          <!-- <ng-container *ngIf="loadImageText">
-                        <div class="empty-title">{{'traits_you_havenot_added_any_traits_yet' | translate}}</div>
-                        <div class="desc-text">{{'traits_traits_are_specific_entities' | translate}}
-                        </div>
-                        <div class="kr-sg-dropdowns" #selectSourceDrop='ngbDropdown' ngbDropdown [container]="'body'">
-                            <div class="dropdown dropdown-open">
-                                <button class='kr-sg-button-primary btn_lg px-3'
-                                    (click)='createNewTraits()'>{{'traits_add_traits' | translate}}</button>
-                            </div>
-                        </div>
-                    </ng-container> -->
-          <!-- <ng-container *ngIf="noItems && emptySearchResults">
-                        HEMANNATT
-                        <div class="desc-text">{{'traits_your_search_query_doesnot_match_with_any_record' | translate}}
-                        </div>
-                    </ng-container> -->
         </div>
       </perfect-scrollbar>
     </ng-container>
@@ -461,7 +442,6 @@
             *ngIf="showEditTraitInput !== index"
           >
             <ng-container>
-              <!-- <img src="assets/icons/add_blue.svg" (click)="openAddUtteranceModel(index,item.key,item.data)" placement="top-center" container='body' ngbTooltip="Add Utterance" tooltipClass="ngb_tooltip_custom_class sampleJson">                       -->
               <img
                 src="assets/icons/edit-pencil.svg"
                 id="btn_edit_traits"

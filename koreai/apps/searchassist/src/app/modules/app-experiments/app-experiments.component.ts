@@ -36,6 +36,8 @@ export class AppExperimentsComponent implements OnInit {
   };
   activeClose = false;
   conn: any = [true, true];
+  selectedSort = '';
+  isAsc = true;
   tool: any = [true];
   star: any = [100];
   someRange: any;
@@ -52,7 +54,7 @@ export class AppExperimentsComponent implements OnInit {
   // add Experiment
   form_type;
   exp_id;
-  exp_status: string;
+  exp_status;
   trafficData: any = [];
   queryPipeline: any = {};
   indexConfig: any = [];
@@ -69,19 +71,20 @@ export class AppExperimentsComponent implements OnInit {
   // filter list using tabs
   setTab = 'all';
   exp_totalRecord: number;
-  exp_limitPage: number = 10;
-  exp_skipPage: number = 0;
+  exp_limitPage = 10;
+  exp_skipPage = 0;
   test = 33.33;
   loadingContent1: boolean;
   currentSubscriptionPlan: any;
   currentSubsciptionData: Subscription;
-  componentType: string = 'experiment';
+  componentType = 'experiment';
+  loadImageText = false;
   skip = 0;
-  ctrTooltip: string =
+  ctrTooltip =
     'Click Through Rate is the percentage of searches which got at least one click of all the searches performed';
-  searchTooltip: string =
+  searchTooltip =
     'Searches are the total of live searches and search queries entered';
-  searchResultTooltip: string =
+  searchResultTooltip =
     'Searches with results are the total of live search results and search queries with results';
   filterSystem: any = {
     statusfilter: 'all',
@@ -120,7 +123,7 @@ export class AppExperimentsComponent implements OnInit {
       this.inlineManual.visited('EXPERIMENTS');
     }
   }
-  loadImageText: boolean = false;
+
   imageLoaded() {
     this.loadingContent = false;
     this.loadingContent1 = true;
@@ -506,13 +509,15 @@ export class AppExperimentsComponent implements OnInit {
 
         this.imageLoaded();
         const result = res.experiments.map((data) => {
-          let hours = moment().diff(moment(data.end), 'hours');
-          let days = moment().diff(moment(data.end), 'days');
-          let days_result =
+          const hours = moment().diff(moment(data.end), 'hours');
+          const days = moment().diff(moment(data.end), 'days');
+          const days_result =
             Math.abs(hours) > 24
               ? Math.abs(days) + ' days'
               : Math.abs(hours) + ' hrs';
-          let res_obj = data.variants.reduce((p, c) => (p.ctr > c.ctr ? p : c));
+          const res_obj = data.variants.reduce((p, c) =>
+            p.ctr > c.ctr ? p : c
+          );
           return {
             ...data,
             total_days: days_result,
@@ -659,8 +664,8 @@ export class AppExperimentsComponent implements OnInit {
     } else {
       this.isAsc = !this.isAsc;
     }
-    var naviagtionArrow = '';
-    var checkSortValue = 1;
+    let naviagtionArrow = '';
+    let checkSortValue = 1;
     if (this.isAsc) {
       naviagtionArrow = 'up';
       checkSortValue = 1;
@@ -692,10 +697,11 @@ export class AppExperimentsComponent implements OnInit {
     );
   }
   //dynamically show status
+  // eslint-disable-next-line @typescript-eslint/member-ordering
   dynamicStatus: any = [];
   statusList(result) {
     this.dynamicStatus = new Set();
-    for (let i in result) {
+    for (const i in result) {
       this.dynamicStatus.add(result[i].state);
     }
   }
@@ -712,8 +718,8 @@ export class AppExperimentsComponent implements OnInit {
   // add new experiment method
   async createExperiment() {
     if (this.variantsArray[0].indexPipelineId === undefined) {
-      let index = this.indexConfig.filter((index) => index.default == true);
-      let query = this.queryPipeline[0].filter(
+      const index = this.indexConfig.filter((index) => index.default == true);
+      const query = this.queryPipeline[0].filter(
         (query) => query.default == true
       );
       this.variantsArray[0] = {
@@ -991,13 +997,13 @@ export class AppExperimentsComponent implements OnInit {
         });
         if (status === 'active') {
           this.filterExperiments = this.filterExperiments.map((data) => {
-            let hours = moment().diff(moment(data.end), 'hours');
-            let days = moment().diff(moment(data.end), 'days');
-            let days_result =
+            const hours = moment().diff(moment(data.end), 'hours');
+            const days = moment().diff(moment(data.end), 'days');
+            const days_result =
               Math.abs(hours) > 24
                 ? Math.abs(days) + ' days'
                 : Math.abs(hours) + ' hrs';
-            let res_obj = data.variants.reduce((p, c) =>
+            const res_obj = data.variants.reduce((p, c) =>
               p.ctr > c.ctr ? p : c
             );
             return {
@@ -1120,9 +1126,8 @@ export class AppExperimentsComponent implements OnInit {
   //   this.getExperiments();
   // }
   //show or hide sort icon
-  selectedSort = '';
-  isAsc = true;
-  getSortIconVisibility(sortingField: string, type: string) {
+
+  getSortIconVisibility(sortingField, type) {
     switch (this.selectedSort) {
       case 'name': {
         if (this.selectedSort == sortingField) {

@@ -7,6 +7,6 @@ const routes: Routes = [{ path: '', component: SynonymsComponent }];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class SynonymsRoutingModule { }
+export class SynonymsRoutingModule {}

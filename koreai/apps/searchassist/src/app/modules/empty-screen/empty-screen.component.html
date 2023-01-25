@@ -1,11 +1,9 @@
-
-
 <div class="empty-screen-wrapper" [hidden]="isLoading">
-  <img 
-    [style.width.px]="width" 
-    [style.height.px]="height" 
-    src="assets/images/empty-screen/{{ imgName }}" 
-    alt="Empty Screen" 
+  <img
+    [style.width.px]="width"
+    [style.height.px]="height"
+    src="assets/images/empty-screen/{{ imgName }}"
+    alt="Empty Screen"
     (load)="hideLoader()"
     (error)="hideLoader()"
   />
@@ -14,8 +12,7 @@
   </h2>
   <div class="desc-text">
     <ng-container *ngIf="desc; else contentPassed">
-      <div  [innerHTML]='desc'>
-      </div>
+      <div [innerHTML]="desc"></div>
     </ng-container>
     <ng-template #contentPassed>
       <ng-content></ng-content>

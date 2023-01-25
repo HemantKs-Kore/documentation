@@ -8,9 +8,8 @@ describe('SynonymsComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ SynonymsComponent ]
-    })
-    .compileComponents();
+      declarations: [SynonymsComponent],
+    }).compileComponents();
   });
 
   beforeEach(() => {

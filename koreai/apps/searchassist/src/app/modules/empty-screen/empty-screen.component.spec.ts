@@ -8,9 +8,8 @@ describe('EmptyScreenComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ EmptyScreenComponent ]
-    })
-    .compileComponents();
+      declarations: [EmptyScreenComponent],
+    }).compileComponents();
   });
 
   beforeEach(() => {

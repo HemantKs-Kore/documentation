@@ -7,6 +7,6 @@ const routes: Routes = [{ path: '', component: SmallTalkComponent }];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class SmallTalkRoutingModule { }
+export class SmallTalkRoutingModule {}

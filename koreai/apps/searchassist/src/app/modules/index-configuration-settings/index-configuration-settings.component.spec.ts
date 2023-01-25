@@ -8,9 +8,8 @@ describe('IndexConfigurationSettingsComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ IndexConfigurationSettingsComponent ]
-    })
-    .compileComponents();
+      declarations: [IndexConfigurationSettingsComponent],
+    }).compileComponents();
   });
 
   beforeEach(() => {

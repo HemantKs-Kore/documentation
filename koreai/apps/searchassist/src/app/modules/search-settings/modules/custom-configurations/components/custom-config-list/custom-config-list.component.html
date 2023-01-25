@@ -1,49 +1,48 @@
-<!-- <div class="mainLoadingSpinner" *ngIf="loadingContent">
-  <mat-spinner diameter="18" strokeWidth="2"></mat-spinner>
-  <span class="please-wait-message">{{'sa_please_wait'| translate}}</span>
-</div> -->
-<!-- <--<div *ngIf="!loadingContent">
-  <div class="empty-table" *ngIf="!customConfigList.length">  -->
-    <!-- <img src="assets/images/icons/empty_ill.svg"> -->
-    <!-- <div class="heading">{{'search_settings_empty_custom_config'| translate}}</div>
-    <div class="desc">{{'search_settings_empty_custom_config_desc'| translate}}</div>
-  </div> -->
-
-   <ng-container *ngIf="customConfigList.length; else noRecords">
-    <div class="table_body row m-0 py-3" *ngFor="let item of customConfigList; ">
-      <div class="col-5 title text-left text-truncate" title="">
-          {{ item.key }}
+<ng-container *ngIf="customConfigList.length; else noRecords">
+  <div class="table_body row m-0 py-3" *ngFor="let item of customConfigList">
+    <div class="col-5 title text-left text-truncate" title="">
+      {{ item.key }}
+    </div>
+    <div class="col-5 title text-left">
+      {{ item.value }}
+    </div>
+    <div class="col-2 p-0 text-left">
+      <div class="action_links">
+        <span class="action_link-icon" (click)="updateCustomConfig(item)">
+          <i
+            ngbTooltip="{{ 'sa_edit' | translate }}"
+            container="body"
+            class="si-pencil-edit mr-2"
+          ></i>
+        </span>
+        <span
+          class="action_link-icon link-delete"
+          (click)="removeCustomConfig(item)"
+        >
+          <i
+            ngbTooltip="{{ 'sa_delete' | translate }}"
+            container="body"
+            class="si-delete1"
+          ></i>
+        </span>
       </div>
-      <div class="col-5 title text-left">
-          {{ item.value }}
-      </div>
-      <div class="col-2 p-0 text-left">
-        <div class="action_links">
-          <span class="action_link-icon" (click)="updateCustomConfig(item)">
-              <i ngbTooltip="{{'sa_edit' | translate}}" container='body' class="si-pencil-edit mr-2"></i>
-          </span>
-          <span class="action_link-icon link-delete" (click)="removeCustomConfig(item)">
-            <i ngbTooltip="{{'sa_delete' | translate}}"  container='body' class="si-delete1"></i>
-          </span>
-        </div>
-      </div>
+    </div>
   </div>
-   </ng-container> 
-   <ng-template #noRecords>
-      <ng-container *ngIf="isLoading; else emptyResult">
-        <div class="mainLoadingSpinner">
-          <mat-spinner diameter="18" strokeWidth="2"></mat-spinner>
-          <span class="please-wait-message">{{'sa_please_wait'| translate}}</span>
-       </div>
-      </ng-container>
-      <ng-template #emptyResult>
-        <div class="empty-table">
-          <div class="heading">{{'search_settings_empty_custom_config'| translate}}</div>
-          <!-- <div class="desc">{{'search_settings_empty_custom_config_desc'| translate}}</div>    -->
-        </div>
-      </ng-template>
-    
-
+</ng-container>
+<ng-template #noRecords>
+  <ng-container *ngIf="isLoading; else emptyResult">
+    <div class="mainLoadingSpinner">
+      <mat-spinner diameter="18" strokeWidth="2"></mat-spinner>
+      <span class="please-wait-message">{{
+        'sa_please_wait' | translate
+      }}</span>
+    </div>
+  </ng-container>
+  <ng-template #emptyResult>
+    <div class="empty-table">
+      <div class="heading">
+        {{ 'search_settings_empty_custom_config' | translate }}
+      </div>
+    </div>
   </ng-template>
-
-<!-- </div> -->
+</ng-template>

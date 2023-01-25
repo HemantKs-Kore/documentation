@@ -1,409 +1,886 @@
 <div class="fieldManagementComponent">
-    <div class="mainLoadingSpinner" *ngIf="loadingContent">
-        <mat-spinner diameter="18" strokeWidth="2"></mat-spinner>
-        <span class="please-wait-message">{{'sa_please_wait' | translate}}</span>
-    </div>
-    <div class="table_sec" *ngIf="!loadingContent">
-        <app-useronboarding-journey [componentType]='componentType'></app-useronboarding-journey>
-            <div class="seach_add_feild">
-                <div class="title">{{'fields_fields' | translate}}
-                    <span class="module-topic" tooltipClass="tooltip-global-" [container]="'body'" ngbTooltip='Topic Guide'
- placement="right-center"(click)="openUserMetaTagsSlider()">
-                        <i class="si-topic-guide-1"></i>
-                    </span>
-                </div>
-                <div class="d-flex align-items-center">
-                    <div class="kr-sg-input-search m-0" [ngClass]="{'d-none': !showSearch}">
-                        <input type="text" placeholder="{{'sa_search' | translate}}" maxlength="60" class="input-search"  [ngClass]="{'pl-33':!searchFields,'pl-2':searchFields}"
-                            autocomplete="off" id="fieldSearchId" [(ngModel)]="searchFields" (keyup)="fieldsFilter(searchFields,'search')"
-                            (mouseover)="searchImgSrc = (searchFocusIn ? 'assets/icons/search_gray.svg' :'assets/icons/search_gray_dark.svg')"
-                            (mouseout)="searchFocusIn=false;searchImgSrc = 'assets/icons/search_gray.svg'"
-                            (focus)="searchFocusIn=true;searchImgSrc = 'assets/icons/search_gray.svg'">
-                        <img [src]="searchImgSrc" class="search-icon" *ngIf="!searchFields">
-                        <img class="close-icon" src="assets/icons/close_icon.svg" [ngClass]="{'pr-22':searchFields}" (mouseover)="activeClose=true" (mouseout)="activeClose=false"
-                            (click)="focusoutSearch()" placement="top-center" container='body' ngbTooltip="{{'sa_cancel' | translate}}"
-                            tooltipClass="ngb_tooltip_custom_class sampleJson">
-                    </div>
-                    <div class="seach-block" (click)="showSearch=!showSearch;focusinSearch('fieldSearchId')">
-                        <span [ngClass]="{'d-none': showSearch}"  class="mr-3" id="btn_toggle_search_structured_data" ><img src="assets/icons/search.svg" [ngClass]="{'d-none': showSearch}">{{'search' | translate}}</span>
-                    </div>
-                    <div class="add_feild" (click)="addEditFiled()"><img src="assets/icons/add_plus.svg">{{'fields_add_field' | translate}}</div>
-                </div>
-            </div>
-            <div class="empty-list"  *ngIf="!(filelds && filelds.length)">
-
-              <app-empty-screen class="empty-sm" [width]="100" [height]="100" [title]="emptyScreen.TITLE_SEARCH_FIELD"
-                [desc]="emptyScreen.DESC_SEARCH_FIELD" [imgName]="emptyScreen.IMG_NAME">
-              </app-empty-screen>
-            </div>
-            <div>
-                <div class="table_data_content" *ngIf="filelds && filelds.length" >
-                    <div class="table_header row m-0" *ngIf="!(filelds && filelds.length) || filelds && filelds.length" >
-                        <div class="col_ col-3 title d-flex align-items-center justify-content-start" (click)="sortByApi('fieldName')" > <!--(click)="sortByApi('fieldName')"-->
-                            <span class="d-flex align-items-center flex-column mr-1">
-                                <img  [ngClass]="getSortIconVisibility('fieldName', 'down')"   src="assets/icons/caretDown.svg" class="ml-1 sortImg downArrow">
-                                <img [ngClass]="getSortIconVisibility('fieldName', 'up')"  src="assets/icons/caretDown.svg" class="ml-1 sortImg upArrow">
-                              </span>
-                              {{'fields_field_name' | translate}}</div>
-                        <div class="col_  col-3 title d-flex align-items-center" (click)="sortByApi('fieldDataType')">
-                            <span class="d-flex align-items-center flex-column mr-1">
-                                <img  [ngClass]="getSortIconVisibility('fieldDataType', 'down')"   src="assets/icons/caretDown.svg" class="ml-1 sortImg downArrow">
-                                <img [ngClass]="getSortIconVisibility('fieldDataType', 'up')"  src="assets/icons/caretDown.svg" class="ml-1 sortImg upArrow">
-                              </span>
-                              {{'fields_type' | translate}}
-                            <div class="kr-sg-dropdowns type_sort_dropdown" #sourceFilter="ngbDropdown" ngbDropdown [container]="'body'"
-                            [autoClose]="true" [placement]="'bottom-right'">
-                            <div class="dropdown dropdown-open">
-                                <button class="dropdown-toggle dropdown-input" ngbDropdownToggle
-                                    (click)="$event.stopImmediatePropagation()">
-
-                                    <img class="custom-dropdown-toggle-icon" src="assets/icons/Fields_Vector.svg">
-                                </button>
-
-                                    <ul class="dropdown-menu data-type-dropdown content-menu type_sort_dropdown-content" ngbDropdownMenu>
-                                        <li (click)="sourceFilter.close();filterTable('all','fieldDataType')"><span
-                                                class="list-name">{{'fields_all' | translate}} </span><img
-                                                [ngClass]="{'hide': filterSystem.typefilter !== 'all'}"
-                                                src="assets/icons/check-blue.svg"></li>
-                                            <div class="data-type-dropdown-scroll">
-                                                <li *ngFor="let fieldDataType of fieldDataTypeArr"
-                                                    (click)="sourceFilter.close();filterTable(fieldDataType,'fieldDataType')">
-                                                    <span class="list-name">{{fieldDataType | translate}}</span><img
-                                                        [ngClass]="{'hide': filterSystem.typefilter !== fieldDataType}"
-                                                        src="assets/icons/check-blue.svg">
-                                                </li>
-                                            </div>
-                                    </ul>
-                            </div>
-                        </div>
-                        </div>
-                        <!-- new table headers are added here -->
-                        <div class="col_  col-3 title d-flex align-items-center" (click)="sortByApi('isSearchable')">
-                            <span class="d-flex align-items-center flex-column mr-1">
-                                <img [ngClass]="getSortIconVisibility('isSearchable', 'down')"  src="assets/icons/caretDown.svg" class="ml-1 sortImg downArrow">
-                                <img  [ngClass]="getSortIconVisibility('isSearchable', 'up')"  src="assets/icons/caretDown.svg" class="ml-1 sortImg upArrow">
-                              </span>
-                              {{'fields_searchable' | translate}}
-                              <span class="info-text-icon" [container]="'body'" ngbTooltip='Text goes here' placement="bottom-left"><i class="si-info icon-info"></i></span>
-                            <div class="kr-sg-dropdowns type_sort_dropdown" #searchableFilter="ngbDropdown" ngbDropdown [container]="'body'"
-                            [container]="'body'" [autoClose]="true" [placement]="'bottom-right'">
-                            <div class="dropdown dropdown-open">
-                                <button class="dropdown-toggle dropdown-input" ngbDropdownToggle
-                                    (click)="$event.stopImmediatePropagation()">
-                                    <img class="custom-dropdown-toggle-icon" src="assets/icons/Fields_Vector.svg">
-                                </button>
-                                <ul class="dropdown-menu data-type-dropdown content-menu type_sort_dropdown-content" ngbDropdownMenu>
-                                    <li (click)="searchableFilter.close();filterTable('all','isSearchable')"><span
-                                            class="list-name">{{'fields_all' | translate}}</span><img
-                                            [ngClass]="{'hide': filterSystem.isSearchableFilter !== 'all'}"
-                                            src="assets/icons/check-blue.svg"></li>
-                                            <div class="data-type-dropdown-scroll">
-                                    <li *ngFor="let docType of isSearchableArr"
-                                        (click)="searchableFilter.close();filterTable(docType,'isSearchable')">
-                                        <span class="list-name">{{docType == false ? 'No' :(docType == true? 'Yes':
-                                            '')}}</span><img
-                                            [ngClass]="{'hide': filterSystem.isSearchableFilter !== docType}"
-                                            src="assets/icons/check-blue.svg">
-                                    </li>
-                                </div>
-                                </ul>
-                            </div>
-                        </div>
-
-                        </div>
-                        <div class="col_  col-2 title d-flex align-items-center" (click)="sortByApi('isAutosuggest')">
-                            <span class="d-flex align-items-center flex-column mr-1">
-                                <img [ngClass]="getSortIconVisibility('isAutosuggest', 'down')"  src="assets/icons/caretDown.svg" class="ml-1 sortImg downArrow">
-                                <img  [ngClass]="getSortIconVisibility('isAutosuggest', 'up')"  src="assets/icons/caretDown.svg" class="ml-1 sortImg upArrow">
-                              </span>
-                              {{'fields_auto_suggest' | translate}}
-                              <span class="info-text-icon" [container]="'body'" ngbTooltip='Text goes here' placement="bottom-left"><i class="si-info icon-info"></i></span>
-                            <div class="kr-sg-dropdowns type_sort_dropdown" #selectFilter="ngbDropdown" ngbDropdown [container]="'body'"
-                            [container]="'body'" [autoClose]="true" [placement]="'bottom-right'">
-                            <div class="dropdown dropdown-open">
-                                <button class="dropdown-toggle dropdown-input" ngbDropdownToggle
-                                    (click)="$event.stopImmediatePropagation()">
-                                    <img class="custom-dropdown-toggle-icon" src="assets/icons/Fields_Vector.svg">
-                                </button>
-                                <ul class="dropdown-menu data-type-dropdown content-menu type_sort_dropdown-content" ngbDropdownMenu>
-                                    <li (click)="selectFilter.close();filterTable('all','isAutosuggest')"><span
-                                            class="list-name">{{'fields_all' | translate}}</span><img
-                                            [ngClass]="{'hide': filterSystem.isAutosuggestFilter !== 'all'}"
-                                            src="assets/icons/check-blue.svg"></li>
-                                            <div class="data-type-dropdown-scroll">
-                                    <li *ngFor="let docType of isAutosuggestArr"
-                                        (click)="selectFilter.close();filterTable(docType,'isAutosuggest')">
-                                        <span class="list-name">{{docType == false ? 'No' :(docType == true? 'Yes':
-                                            '')}}</span><img
-                                            [ngClass]="{'hide': filterSystem.isAutosuggestFilter !== docType}"
-                                            src="assets/icons/check-blue.svg">
-                                    </li>
-                                </div>
-                                </ul>
-                            </div>
-                        </div>
-                        </div>
-                   </div>
-                <perfect-scrollbar class="table_body_content">
-                    <div class="table_body row m-0" *ngFor="let field of filelds;let i=index">
-                        <!-- <div class="table_body row m-0" *ngFor="let field of filelds | fieldsFilter: [ searchFields, 'fieldName'];let i=index"> -->
-                        <div class="col-3 title text-left" [title]="field.fieldName">{{field.fieldName}}</div>
-                        <div class="col-3 title">{{field.fieldDataType | translate}}</div>
-                        <div class="col-3 title">
-                            <span class="field-value" [ngClass]="field.isSearchable ? 'yes' : 'no'">{{field.isSearchable?'Yes':'No'}}</span>
-                        </div>
-                        <!-- <div class="col-2 title">{{field.isRequired?'Yes':'No'}}</div>
-                        <div class="col-2 title">{{field.isStored?'Yes':'No'}}</div> -->
-                        <div class="col-2 title">
-                            <span class="field-value" [ngClass]="field.isAutosuggest ? 'yes' : 'no'">{{field.isAutosuggest?'Yes':'No'}}</span>
-                        </div>
-                        <div class="col-1">
-                            <div class="action_links text-right" [ngClass]="applyDisableClass(field.fieldName)">
-                                <!-- <img src="assets/images/edit-pencil.svg" ngbTooltip="{{'fields.edit' | translate}}"
-                                    [container]="'body'" placement="{{i==0?'bottom':'top'}}"
-                                    (click)="addEditFiled(field)">
-
-                                <img src="assets/icons/delete-table.svg" ngbTooltip="{{'fields.delete' | translate}}"
-                                    [container]="'body'" placement="{{i==0?'bottom':'top'}}" class="ml-3"
-                                    (click)="deleteFieldPop(field)"> -->
-
-                                    <span class="action_link-icon" ngbTooltip="{{'fields.edit' | translate}}"
-                                    [container]="'body'" placement="{{i==0?'bottom':'top'}}"
-                                    (click)="addEditFiled(field)"><i class="si-pencil-edit "></i></span>
-
-                                    <span ngbTooltip="{{'sa_delete' | translate}}"
-                                    [container]="'body'" placement="{{i==0?'bottom':'top'}}" class="action_link-icon deleteIcon ml-3"
-                                    (click)="deleteFieldPop(field)"><i class="si-delete1"></i></span>
-                            </div>
-                        </div>
-
-                    </div>
-                    <div class="divBlockEmptylastChild text-center">
-                        <div class="desc">{{'fields_no_search_results_found' | translate}}</div>
-                    </div>
-                    <div style="margin-right: 10px;">
-                        <app-record-pagination *ngIf="totalRecord && totalRecord>10" [totalRecord]='totalRecord'
-                            [limitpage]='10' (pageChanged)="paginate($event)"></app-record-pagination>
-                    </div>
-                </perfect-scrollbar>
-            </div>
-
+  <div class="mainLoadingSpinner" *ngIf="loadingContent">
+    <mat-spinner diameter="18" strokeWidth="2"></mat-spinner>
+    <span class="please-wait-message">{{ 'sa_please_wait' | translate }}</span>
+  </div>
+  <div class="table_sec" *ngIf="!loadingContent">
+    <app-useronboarding-journey
+      [componentType]="componentType"
+    ></app-useronboarding-journey>
+    <div class="seach_add_feild">
+      <div class="title">
+        {{ 'fields_fields' | translate }}
+        <span
+          class="module-topic"
+          tooltipClass="tooltip-global-"
+          [container]="'body'"
+          ngbTooltip="Topic Guide"
+          placement="right-center"
+          (click)="openUserMetaTagsSlider()"
+        >
+          <i class="si-topic-guide-1"></i>
+        </span>
+      </div>
+      <div class="d-flex align-items-center">
+        <div
+          class="kr-sg-input-search m-0"
+          [ngClass]="{ 'd-none': !showSearch }"
+        >
+          <input
+            type="text"
+            placeholder="{{ 'sa_search' | translate }}"
+            maxlength="60"
+            class="input-search"
+            [ngClass]="{ 'pl-33': !searchFields, 'pl-2': searchFields }"
+            autocomplete="off"
+            id="fieldSearchId"
+            [(ngModel)]="searchFields"
+            (keyup)="fieldsFilter(searchFields, 'search')"
+            (mouseover)="
+              searchImgSrc = searchFocusIn
+                ? 'assets/icons/search_gray.svg'
+                : 'assets/icons/search_gray_dark.svg'
+            "
+            (mouseout)="
+              searchFocusIn = false;
+              searchImgSrc = 'assets/icons/search_gray.svg'
+            "
+            (focus)="
+              searchFocusIn = true;
+              searchImgSrc = 'assets/icons/search_gray.svg'
+            "
+          />
+          <img [src]="searchImgSrc" class="search-icon" *ngIf="!searchFields" />
+          <img
+            class="close-icon"
+            src="assets/icons/close_icon.svg"
+            [ngClass]="{ 'pr-22': searchFields }"
+            (mouseover)="activeClose = true"
+            (mouseout)="activeClose = false"
+            (click)="focusoutSearch()"
+            placement="top-center"
+            container="body"
+            ngbTooltip="{{ 'sa_cancel' | translate }}"
+            tooltipClass="ngb_tooltip_custom_class sampleJson"
+          />
         </div>
-
+        <div
+          class="seach-block"
+          (click)="showSearch = !showSearch; focusinSearch('fieldSearchId')"
+        >
+          <span
+            [ngClass]="{ 'd-none': showSearch }"
+            class="mr-3"
+            id="btn_toggle_search_structured_data"
+            ><img
+              src="assets/icons/search.svg"
+              [ngClass]="{ 'd-none': showSearch }"
+            />{{ 'search' | translate }}</span
+          >
+        </div>
+        <div class="add_feild" (click)="addEditFiled()">
+          <img src="assets/icons/add_plus.svg" />{{
+            'fields_add_field' | translate
+          }}
+        </div>
+      </div>
     </div>
+    <div class="empty-list" *ngIf="!(filelds && filelds.length)">
+      <app-empty-screen
+        class="empty-sm"
+        [width]="100"
+        [height]="100"
+        [title]="emptyScreen.TITLE_SEARCH_FIELD"
+        [desc]="emptyScreen.DESC_SEARCH_FIELD"
+        [imgName]="emptyScreen.IMG_NAME"
+      >
+      </app-empty-screen>
+    </div>
+    <div>
+      <div class="table_data_content" *ngIf="filelds && filelds.length">
+        <div
+          class="table_header row m-0"
+          *ngIf="!(filelds && filelds.length) || (filelds && filelds.length)"
+        >
+          <div
+            class="col_ col-3 title d-flex align-items-center justify-content-start"
+            (click)="sortByApi('fieldName')"
+          >
+            <span class="d-flex align-items-center flex-column mr-1">
+              <img
+                [ngClass]="getSortIconVisibility('fieldName', 'down')"
+                src="assets/icons/caretDown.svg"
+                class="ml-1 sortImg downArrow"
+              />
+              <img
+                [ngClass]="getSortIconVisibility('fieldName', 'up')"
+                src="assets/icons/caretDown.svg"
+                class="ml-1 sortImg upArrow"
+              />
+            </span>
+            {{ 'fields_field_name' | translate }}
+          </div>
+          <div
+            class="col_ col-3 title d-flex align-items-center"
+            (click)="sortByApi('fieldDataType')"
+          >
+            <span class="d-flex align-items-center flex-column mr-1">
+              <img
+                [ngClass]="getSortIconVisibility('fieldDataType', 'down')"
+                src="assets/icons/caretDown.svg"
+                class="ml-1 sortImg downArrow"
+              />
+              <img
+                [ngClass]="getSortIconVisibility('fieldDataType', 'up')"
+                src="assets/icons/caretDown.svg"
+                class="ml-1 sortImg upArrow"
+              />
+            </span>
+            {{ 'fields_type' | translate }}
+            <div
+              class="kr-sg-dropdowns type_sort_dropdown"
+              #sourceFilter="ngbDropdown"
+              ngbDropdown
+              [container]="'body'"
+              [autoClose]="true"
+              [placement]="'bottom-right'"
+            >
+              <div class="dropdown dropdown-open">
+                <button
+                  class="dropdown-toggle dropdown-input"
+                  ngbDropdownToggle
+                  (click)="$event.stopImmediatePropagation()"
+                >
+                  <img
+                    class="custom-dropdown-toggle-icon"
+                    src="assets/icons/Fields_Vector.svg"
+                  />
+                </button>
+
+                <ul
+                  class="dropdown-menu data-type-dropdown content-menu type_sort_dropdown-content"
+                  ngbDropdownMenu
+                >
+                  <li
+                    (click)="
+                      sourceFilter.close(); filterTable('all', 'fieldDataType')
+                    "
+                  >
+                    <span class="list-name"
+                      >{{ 'fields_all' | translate }} </span
+                    ><img
+                      [ngClass]="{ hide: filterSystem.typefilter !== 'all' }"
+                      src="assets/icons/check-blue.svg"
+                    />
+                  </li>
+                  <div class="data-type-dropdown-scroll">
+                    <li
+                      *ngFor="let fieldDataType of fieldDataTypeArr"
+                      (click)="
+                        sourceFilter.close();
+                        filterTable(fieldDataType, 'fieldDataType')
+                      "
+                    >
+                      <span class="list-name">{{
+                        fieldDataType | translate
+                      }}</span
+                      ><img
+                        [ngClass]="{
+                          hide: filterSystem.typefilter !== fieldDataType
+                        }"
+                        src="assets/icons/check-blue.svg"
+                      />
+                    </li>
+                  </div>
+                </ul>
+              </div>
+            </div>
+          </div>
+          <!-- new table headers are added here -->
+          <div
+            class="col_ col-3 title d-flex align-items-center"
+            (click)="sortByApi('isSearchable')"
+          >
+            <span class="d-flex align-items-center flex-column mr-1">
+              <img
+                [ngClass]="getSortIconVisibility('isSearchable', 'down')"
+                src="assets/icons/caretDown.svg"
+                class="ml-1 sortImg downArrow"
+              />
+              <img
+                [ngClass]="getSortIconVisibility('isSearchable', 'up')"
+                src="assets/icons/caretDown.svg"
+                class="ml-1 sortImg upArrow"
+              />
+            </span>
+            {{ 'fields_searchable' | translate }}
+            <span
+              class="info-text-icon"
+              [container]="'body'"
+              ngbTooltip="Text goes here"
+              placement="bottom-left"
+              ><i class="si-info icon-info"></i
+            ></span>
+            <div
+              class="kr-sg-dropdowns type_sort_dropdown"
+              #searchableFilter="ngbDropdown"
+              ngbDropdown
+              [container]="'body'"
+              [container]="'body'"
+              [autoClose]="true"
+              [placement]="'bottom-right'"
+            >
+              <div class="dropdown dropdown-open">
+                <button
+                  class="dropdown-toggle dropdown-input"
+                  ngbDropdownToggle
+                  (click)="$event.stopImmediatePropagation()"
+                >
+                  <img
+                    class="custom-dropdown-toggle-icon"
+                    src="assets/icons/Fields_Vector.svg"
+                  />
+                </button>
+                <ul
+                  class="dropdown-menu data-type-dropdown content-menu type_sort_dropdown-content"
+                  ngbDropdownMenu
+                >
+                  <li
+                    (click)="
+                      searchableFilter.close();
+                      filterTable('all', 'isSearchable')
+                    "
+                  >
+                    <span class="list-name">{{ 'fields_all' | translate }}</span
+                    ><img
+                      [ngClass]="{
+                        hide: filterSystem.isSearchableFilter !== 'all'
+                      }"
+                      src="assets/icons/check-blue.svg"
+                    />
+                  </li>
+                  <div class="data-type-dropdown-scroll">
+                    <li
+                      *ngFor="let docType of isSearchableArr"
+                      (click)="
+                        searchableFilter.close();
+                        filterTable(docType, 'isSearchable')
+                      "
+                    >
+                      <span class="list-name">{{
+                        docType == false ? 'No' : docType == true ? 'Yes' : ''
+                      }}</span
+                      ><img
+                        [ngClass]="{
+                          hide: filterSystem.isSearchableFilter !== docType
+                        }"
+                        src="assets/icons/check-blue.svg"
+                      />
+                    </li>
+                  </div>
+                </ul>
+              </div>
+            </div>
+          </div>
+          <div
+            class="col_ col-2 title d-flex align-items-center"
+            (click)="sortByApi('isAutosuggest')"
+          >
+            <span class="d-flex align-items-center flex-column mr-1">
+              <img
+                [ngClass]="getSortIconVisibility('isAutosuggest', 'down')"
+                src="assets/icons/caretDown.svg"
+                class="ml-1 sortImg downArrow"
+              />
+              <img
+                [ngClass]="getSortIconVisibility('isAutosuggest', 'up')"
+                src="assets/icons/caretDown.svg"
+                class="ml-1 sortImg upArrow"
+              />
+            </span>
+            {{ 'fields_auto_suggest' | translate }}
+            <span
+              class="info-text-icon"
+              [container]="'body'"
+              ngbTooltip="Text goes here"
+              placement="bottom-left"
+              ><i class="si-info icon-info"></i
+            ></span>
+            <div
+              class="kr-sg-dropdowns type_sort_dropdown"
+              #selectFilter="ngbDropdown"
+              ngbDropdown
+              [container]="'body'"
+              [container]="'body'"
+              [autoClose]="true"
+              [placement]="'bottom-right'"
+            >
+              <div class="dropdown dropdown-open">
+                <button
+                  class="dropdown-toggle dropdown-input"
+                  ngbDropdownToggle
+                  (click)="$event.stopImmediatePropagation()"
+                >
+                  <img
+                    class="custom-dropdown-toggle-icon"
+                    src="assets/icons/Fields_Vector.svg"
+                  />
+                </button>
+                <ul
+                  class="dropdown-menu data-type-dropdown content-menu type_sort_dropdown-content"
+                  ngbDropdownMenu
+                >
+                  <li
+                    (click)="
+                      selectFilter.close(); filterTable('all', 'isAutosuggest')
+                    "
+                  >
+                    <span class="list-name">{{ 'fields_all' | translate }}</span
+                    ><img
+                      [ngClass]="{
+                        hide: filterSystem.isAutosuggestFilter !== 'all'
+                      }"
+                      src="assets/icons/check-blue.svg"
+                    />
+                  </li>
+                  <div class="data-type-dropdown-scroll">
+                    <li
+                      *ngFor="let docType of isAutosuggestArr"
+                      (click)="
+                        selectFilter.close();
+                        filterTable(docType, 'isAutosuggest')
+                      "
+                    >
+                      <span class="list-name">{{
+                        docType == false ? 'No' : docType == true ? 'Yes' : ''
+                      }}</span
+                      ><img
+                        [ngClass]="{
+                          hide: filterSystem.isAutosuggestFilter !== docType
+                        }"
+                        src="assets/icons/check-blue.svg"
+                      />
+                    </li>
+                  </div>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+        <perfect-scrollbar class="table_body_content">
+          <div
+            class="table_body row m-0"
+            *ngFor="let field of filelds; let i = index"
+          >
+            <div class="col-3 title text-left" [title]="field.fieldName">
+              {{ field.fieldName }}
+            </div>
+            <div class="col-3 title">{{ field.fieldDataType | translate }}</div>
+            <div class="col-3 title">
+              <span
+                class="field-value"
+                [ngClass]="field.isSearchable ? 'yes' : 'no'"
+                >{{ field.isSearchable ? 'Yes' : 'No' }}</span
+              >
+            </div>
+            <div class="col-2 title">
+              <span
+                class="field-value"
+                [ngClass]="field.isAutosuggest ? 'yes' : 'no'"
+                >{{ field.isAutosuggest ? 'Yes' : 'No' }}</span
+              >
+            </div>
+            <div class="col-1">
+              <div
+                class="action_links text-right"
+                [ngClass]="applyDisableClass(field.fieldName)"
+              >
+                <span
+                  class="action_link-icon"
+                  ngbTooltip="{{ 'fields.edit' | translate }}"
+                  [container]="'body'"
+                  placement="{{ i == 0 ? 'bottom' : 'top' }}"
+                  (click)="addEditFiled(field)"
+                  ><i class="si-pencil-edit"></i
+                ></span>
+
+                <span
+                  ngbTooltip="{{ 'sa_delete' | translate }}"
+                  [container]="'body'"
+                  placement="{{ i == 0 ? 'bottom' : 'top' }}"
+                  class="action_link-icon deleteIcon ml-3"
+                  (click)="deleteFieldPop(field)"
+                  ><i class="si-delete1"></i
+                ></span>
+              </div>
+            </div>
+          </div>
+          <div class="divBlockEmptylastChild text-center">
+            <div class="desc">
+              {{ 'fields_no_search_results_found' | translate }}
+            </div>
+          </div>
+          <div style="margin-right: 10px">
+            <app-record-pagination
+              *ngIf="totalRecord && totalRecord > 10"
+              [totalRecord]="totalRecord"
+              [limitpage]="10"
+              (pageChanged)="paginate($event)"
+            ></app-record-pagination>
+          </div>
+        </perfect-scrollbar>
+      </div>
+    </div>
+  </div>
 </div>
 
-<kr-modal modalType="center" modalClass="modal_popups_ addFieldModalPop fieldsAddModalPopup smallModal"
-    #addFieldModalPop>
-    <div class="modal-header">
-        <div class="title">{{(newFieldObj && newFieldObj._id)?('fields_edit_field' | translate):('fields_add_field' |
-            translate)}}</div>
-        <div class="close_icon" (click)="closeModalPopup()"><img src="assets/icons/modal-close.svg"></div>
+<kr-modal
+  modalType="center"
+  modalClass="modal_popups_ addFieldModalPop fieldsAddModalPopup smallModal"
+  #addFieldModalPop
+>
+  <div class="modal-header">
+    <div class="title">
+      {{
+        newFieldObj && newFieldObj._id
+          ? ('fields_edit_field' | translate)
+          : ('fields_add_field' | translate)
+      }}
     </div>
-    <ng-container *ngIf="newFieldObj">
-        <perfect-scrollbar class="perfect-scroll-modal-body" #perfectScroll>
-            <div class="modal-body textAlignLeft">
-                <div class="top_sec">
-                    <div class="row m-0 mb-20">
-                        <div class="kr-sg-input-text col-12 p-0">
-                            <div class="label-text">{{'fields_field_name' | translate}}<sup class="field-mandatory">*</sup></div>
-                            <div class="kr-sg-dropdowns col-12 p-0">
-                                <div class="kr-sg-input-search dropdown dropdown-open line-height-0">
-                                    <input type="text" placeholder="{{'fields.enter_field_name' | translate}}"
-                                        maxlength="60" class="input-search dropdown-toggle dropdown-input"
-                                        [ngClass]="{'err-block' : (!newFieldObj.fieldName.length && submitted)}"
-                                        data-toggle="dropdown" [(ngModel)]="newFieldObj.fieldName">
-                                    <!-- <input type="text" placeholder="Enter Field Name" maxlength="60" class="input-search dropdown-toggle dropdown-input" [ngClass]="{'err-block' : (!newFieldObj.fieldName.length && submitted)}" data-toggle="dropdown"  [(ngModel)]="newFieldObj.fieldName" (keyup)="getFieldAutoComplete(newFieldObj.fieldName)"> -->
-                                    <ul class="dropdown-menu content-menu" [hidden]="!newFieldObj.fieldName">
-                                        <perfect-scrollbar class="scroll-search-field">
-                                            <li *ngFor="let suggesition of fieldAutoSuggestion | filter : [newFieldObj.fieldName, 'fieldName'] "
-                                                (click)="newFieldObj.fieldName = suggesition.fieldName; "><a
-                                                    *ngIf="suggesition && suggesition.fieldName">{{suggesition.fieldName}}</a>
-                                            </li>
-                                        </perfect-scrollbar>
-                                    </ul>
-                                    <img *ngIf="!newFieldObj.fieldName.length && submitted" id="fieldNameWarning"
-                                        src="assets/icons/warning_escalation.svg"
-                                        style="top: 31%; position: absolute; right: 1.5%; display: block;" height="12"
-                                        width="12" />
-                                </div>
-                                <div class="kr-sg-inline-notification"
-                                    *ngIf="selectedFieldId === selectedField?.fieldId && addEditFacetObj?.showFieldWarning && addEditFacetObj?.showFieldWarning === 'NOT_INDEXED'">
-                                    <div class="bulb-icon"><img src="assets/icons/info-blue.svg"></div>
-                                    <div class="tost-text">{{selectedField.fieldName}} {{'fields_is_not_indexed' |
-                                        translate}} </div>
-                                </div>
-                                <div class="kr-sg-inline-notification"
-                                    *ngIf="selectedFieldId === selectedField?.fieldId && addEditFacetObj?.showFieldWarning && addEditFacetObj?.showFieldWarning === 'CHANGE_IN_TYPE'">
-                                    <div class="bulb-icon"><img src="assets/icons/info-blue.svg"></div>
-                                    <div class="tost-text">{{'fields_the_field_type_has_been_changed' | translate}}
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- <input type="text" placeholder="Enter Field Name" class="input-text" [(ngModel)]="newFieldObj.fieldName"> -->
-                        </div>
-                    </div>
-                    <div class="label-text col-12 p-0 mb-1">{{'fields_field_type' | translate}}</div>
-                    <div class="row m-0 align-items-center">
-                        <div class="kr-sg-dropdowns col-12 p-0">
-                            <div class="dropdown dropdown-open">
-                                <button class="dropdown-toggle dropdown-input" data-toggle="dropdown"
-                                    data-boundary="window">{{(newFieldObj.fieldDataType ? newFieldObj.fieldDataType:'choose_an_option')
-                                    | translate}}</button>
-                                <ul class="dropdown-menu content-menu dropdown_overflow">
-                                    <perfect-scrollbar class="scroll-search-field-">
-                                        <div class="scroll_">
-                                            <li *ngFor="let type of fieldTypesArray" [ngClass]="{'font-weight-bold':(type===newFieldObj?.fieldDataType)}" (click)="selectFieldType(type)"><a>{{'fields_'+type|translate}}</a></li>
-                                        </div>
-                                    </perfect-scrollbar>
-                                </ul>
-                            </div>
-                        </div>
-                        <div class="kr-sg-checkbox col-2 pl-5 pr-0 m-0 d-none">
-                            <input id="checkbox-1" class="checkbox-custom" type="checkbox"
-                                [(ngModel)]="newFieldObj.isDynamic">
-                            <label for="checkbox-1" class="checkbox-custom-label">{{'fields_dynamic' |
-                                translate}}</label>
-                        </div>
-                    </div>
-                </div>
-                <div class="option-selection-block">
-                    <div class="option-selection-header">{{'fields_select_ones_that_apply' | translate}}</div>
-                    <div class="option-selection-type">
-                        <div class="option-selection-hding">{{'fields_searchable' | translate}}</div>
-                        <div class="option-selection-desc"> {{'fields_searchable_desc' | translate}}</div>
-                        <div class="option-selection-checkbox">
-                            <div class="kr-sg-checkbox">
-                                <input id="searchable_option" class="checkbox-custom" type="checkbox" (click)="getFieldUsageData(newFieldObj,'checkbox')" [(ngModel)]="newFieldObj.isSearchable">
-                                <label for="searchable_option" class="checkbox-custom-label"></label>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="option-selection-type" [ngClass]="{'disable-actionlinks':(newFieldObj?.fieldDataType!=='string')}">
-                        <div class="option-selection-hding"> {{'fields_auto_suggest' | translate}}</div>
-                        <div class="option-selection-desc">  {{'fields_auto_suggest_desc' | translate}} </div>
-                        <div class="option-selection-checkbox">
-                            <div class="kr-sg-checkbox">
-                                <input id="auto_suggest_option" class="checkbox-custom" type="checkbox" [(ngModel)]="newFieldObj.isAutosuggest">
-                                <label for="auto_suggest_option" class="checkbox-custom-label"></label>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <!-- added warning tags content from line 418 to 432 -->
-                <!-- <div class="kr-sg-inline-notification align-items-start" *ngIf="!newFieldObj.isIndexed">
-                    <div class="bulb-icon"><img src="assets/icons/info-blue.svg"></div>
-                    <div class="tost-text">{{'fields.indexed_property_has_been_set_to_false' | translate}}
-                        {{indexedWarningMessage?(indexedWarningMessage+'.'):indexedWarningMessage}}</div>
-                </div> -->
-                <ng-template #tipContent container="body">
-                    <div class="inner-content-html">
-                        <p>{{"search_settings_impacted_settings" |translate}}</p>
-                        <ul>
-                            <li *ngFor="let tip of tooltipArr">
-                                {{ tip }}
-                            </li>
-                        </ul>
-                    </div>
-                </ng-template>
-
-                <div class="kr-sg-inline-notification kr-protip-basic align-items-start"
-                *ngIf="newFieldObj._id && (newFieldObj.previousFieldDataType !== newFieldObj.fieldDataType)">
-                <div class="tost-text"> {{'fields.the_field_type_has_been_changed_from' | translate}}
-                    {{newFieldObj.previousFieldDataType | translate}} {{'fields.to' | translate}}
-                    {{newFieldObj.fieldDataType | translate}}.
-                    <span class="pr-1" *ngIf="indexedWarningMessage" [innerHTML]="editresultTest">
-                    </span>
-                    <span class="bulb-icon" [ngbTooltip]="tipContent">
-                        <!-- <img src="assets/icons/info-blue.svg"> -->    
-                        <i *ngIf="!showSearchSettingsTooltip && !tooltipArr" class="si-info">
-                        </i>
-                        <i *ngIf="showSearchSettingsTooltip && tooltipArr.length" class="si-info"></i>
-                    </span>
-                </div>
-               </div>
-               <div class="kr-sg-inline-notification kr-protip-basic align-items-start"
-               *ngIf="!newFieldObj.isSearchable && showSearchableToaster">
-               <div class="tost-text"> 
-                   <span class="pr-1" *ngIf="indexedWarningMessage" [innerHTML]="searchableCheckboxMsg">
-                   </span>
-                   <span class="bulb-icon" [ngbTooltip]="tipContent">  
-                       <i *ngIf="!showSearchSettingsTooltip && !tooltipArr" class="si-info">
-                       </i>
-                       <i *ngIf="showSearchSettingsTooltip && tooltipArr.length" class="si-info"></i>
-                   </span>
-               </div>
+    <div class="close_icon" (click)="closeModalPopup()">
+      <img src="assets/icons/modal-close.svg" />
+    </div>
+  </div>
+  <ng-container *ngIf="newFieldObj">
+    <perfect-scrollbar class="perfect-scroll-modal-body" #perfectScroll>
+      <div class="modal-body textAlignLeft">
+        <div class="top_sec">
+          <div class="row m-0 mb-20">
+            <div class="kr-sg-input-text col-12 p-0">
+              <div class="label-text">
+                {{ 'fields_field_name' | translate
+                }}<sup class="field-mandatory">*</sup>
               </div>
-
-                <div class="bottom_sec d-none">
-                    <div class="group-checkbox mb-3 add-fields-checkbox">
-                        <div class="label-text mb-2">{{'fields_select_ones_that_apply' | translate}}</div>
-                        <div class="kr-sg-checkbox">
-                            <input id="checkbox_grpfd" class="checkbox-custom" type="checkbox"
-                                [(ngModel)]="newFieldObj.isMultiValued">
-                            <label for="checkbox_grpfd" class="checkbox-custom-label">{{'fields.multi_valued' |
-                                translate}}</label><span placement="bottom"
-                                ngbTooltip="{{'fields.document_might_contain_multiple' | translate}}"
-                                [container]="'body'" tooltipClass="dashboard-custom-tooltips" class=""><img class="ml-2"
-                                    src="assets/icons/Info_gray.svg"></span>
-                        </div>
-                        <div class="kr-sg-checkbox">
-                            <input id="checkbox_grpf" class="checkbox-custom" type="checkbox"
-                                [(ngModel)]="newFieldObj.isRequired">
-                            <label for="checkbox_grpf" class="checkbox-custom-label">{{'fields.required' |
-                                translate}}</label><span placement="bottom"
-                                ngbTooltip="{{'fields.documents_that_do_not_contain_value' | translate}}"
-                                [container]="'body'" tooltipClass="dashboard-custom-tooltips" class=""><img class="ml-2"
-                                    src="assets/icons/Info_gray.svg"></span>
-                        </div>
-                        <div class="kr-sg-checkbox">
-                            <input id="checkbox_grpd" class="checkbox-custom" type="checkbox"
-                                [(ngModel)]="newFieldObj.isStored"
-                                (change)="newFieldObj.isIndexed = newFieldObj.isStored;">
-                            <label for="checkbox_grpd" class="checkbox-custom-label">{{'fields.stored' |
-                                translate}}</label><span placement="bottom"
-                                ngbTooltip="{{'fields.value_of_the_field_can_be_fetched_by_the_search_queries' | translate}}"
-                                [container]="'body'" tooltipClass="dashboard-custom-tooltips" class=""><img class="ml-2"
-                                    src="assets/icons/Info_gray.svg"></span>
-                        </div>
-                        <div class="kr-sg-checkbox">
-                            <input id="checkbox_grpe" class="checkbox-custom" type="checkbox"
-                                [(ngModel)]="newFieldObj.isIndexed"
-                                (change)="newFieldObj.isIndexed?(newFieldObj.isStored=true):return">
-                            <label for="checkbox_grpe" class="checkbox-custom-label">{{'fields.indexed' |
-                                translate}}</label><span placement="bottom"
-                                ngbTooltip="{{'fields.value_of_the_field_can_be_used_in_search_queries' | translate}}"
-                                [container]="'body'" tooltipClass="dashboard-custom-tooltips" class=""><img class="ml-2"
-                                    src="assets/icons/Info_gray.svg"></span>
-                        </div>
-                    </div>
-                    <div class="kr-sg-input-text col-10 p-0  d-none">
-                        <div class="label-text">{{'fields.defalult_value_optional' | translate}}</div>
-                        <input type="text" placeholder="{{'fields.add_value_here' | translate}}" class="input-text"
-                            [(ngModel)]="newFieldObj.defaultValue" maxlength="60">
-                    </div>
-                    <div class="kr-sg-inline-notification align-items-start" *ngIf="!newFieldObj.isIndexed">
-                        <div class="bulb-icon"><img src="assets/icons/info-blue.svg"></div>
-                        <div class="tost-text">{{'fields.indexed_property_has_been_set_to_false' | translate}}
-                            {{indexedWarningMessage?(indexedWarningMessage+'.'):indexedWarningMessage}}</div>
-                    </div>
-                    <div class="kr-sg-inline-notification align-items-start"
-                        *ngIf="newFieldObj._id && (newFieldObj.previousFieldDataType !== newFieldObj.fieldDataType)">
-                        <div class="bulb-icon"><img src="assets/icons/info-blue.svg"></div>
-                        <div class="tost-text">{{'fields.the_field_type_has_been_changed_from' | translate}}
-                            {{newFieldObj.previousFieldDataType | translate}} {{'fields.to' | translate}}
-                            {{newFieldObj.fieldDataType | translate}}.
-                            {{indexedWarningMessage?(indexedWarningMessage+'.'):indexedWarningMessage}}</div>
-                    </div>
+              <div class="kr-sg-dropdowns col-12 p-0">
+                <div
+                  class="kr-sg-input-search dropdown dropdown-open line-height-0"
+                >
+                  <input
+                    type="text"
+                    placeholder="{{ 'fields.enter_field_name' | translate }}"
+                    maxlength="60"
+                    class="input-search dropdown-toggle dropdown-input"
+                    [ngClass]="{
+                      'err-block': !newFieldObj.fieldName.length && submitted
+                    }"
+                    data-toggle="dropdown"
+                    [(ngModel)]="newFieldObj.fieldName"
+                  />
+                  <ul
+                    class="dropdown-menu content-menu"
+                    [hidden]="!newFieldObj.fieldName"
+                  >
+                    <perfect-scrollbar class="scroll-search-field">
+                      <li
+                        *ngFor="
+                          let suggesition of fieldAutoSuggestion
+                            | filter : [newFieldObj.fieldName, 'fieldName']
+                        "
+                        (click)="newFieldObj.fieldName = suggesition.fieldName"
+                      >
+                        <a *ngIf="suggesition && suggesition.fieldName">{{
+                          suggesition.fieldName
+                        }}</a>
+                      </li>
+                    </perfect-scrollbar>
+                  </ul>
+                  <img
+                    *ngIf="!newFieldObj.fieldName.length && submitted"
+                    id="fieldNameWarning"
+                    src="assets/icons/warning_escalation.svg"
+                    style="
+                      top: 31%;
+                      position: absolute;
+                      right: 1.5%;
+                      display: block;
+                    "
+                    height="12"
+                    width="12"
+                  />
                 </div>
+                <div
+                  class="kr-sg-inline-notification"
+                  *ngIf="
+                    selectedFieldId === selectedField?.fieldId &&
+                    addEditFacetObj?.showFieldWarning &&
+                    addEditFacetObj?.showFieldWarning === 'NOT_INDEXED'
+                  "
+                >
+                  <div class="bulb-icon">
+                    <img src="assets/icons/info-blue.svg" />
+                  </div>
+                  <div class="tost-text">
+                    {{ selectedField.fieldName }}
+                    {{ 'fields_is_not_indexed' | translate }}
+                  </div>
+                </div>
+                <div
+                  class="kr-sg-inline-notification"
+                  *ngIf="
+                    selectedFieldId === selectedField?.fieldId &&
+                    addEditFacetObj?.showFieldWarning &&
+                    addEditFacetObj?.showFieldWarning === 'CHANGE_IN_TYPE'
+                  "
+                >
+                  <div class="bulb-icon">
+                    <img src="assets/icons/info-blue.svg" />
+                  </div>
+                  <div class="tost-text">
+                    {{ 'fields_the_field_type_has_been_changed' | translate }}
+                  </div>
+                </div>
+              </div>
             </div>
-        </perfect-scrollbar>
-        <div class="modal-footer text-left">
-            <button type="button" class="kr-sg-button-primary btn_lg float-right"
-                (click)="addField()">{{newFieldObj._id?('fields_save' | translate):('fields_add' | translate)}}</button>
-            <!-- [disabled]="!(newFieldObj.fieldName) || !(newFieldObj.fieldDataType)" -->
-            <button type="button" class="kr-sg-button-secondary btn_lg float-right"
-                (click)="closeModalPopup()">{{'fields_cancel' | translate}}</button>
+          </div>
+          <div class="label-text col-12 p-0 mb-1">
+            {{ 'fields_field_type' | translate }}
+          </div>
+          <div class="row m-0 align-items-center">
+            <div class="kr-sg-dropdowns col-12 p-0">
+              <div class="dropdown dropdown-open">
+                <button
+                  class="dropdown-toggle dropdown-input"
+                  data-toggle="dropdown"
+                  data-boundary="window"
+                >
+                  {{
+                    (newFieldObj.fieldDataType
+                      ? newFieldObj.fieldDataType
+                      : 'choose_an_option'
+                    ) | translate
+                  }}
+                </button>
+                <ul class="dropdown-menu content-menu dropdown_overflow">
+                  <perfect-scrollbar class="scroll-search-field-">
+                    <div class="scroll_">
+                      <li
+                        *ngFor="let type of fieldTypesArray"
+                        [ngClass]="{
+                          'font-weight-bold':
+                            type === newFieldObj?.fieldDataType
+                        }"
+                        (click)="selectFieldType(type)"
+                      >
+                        <a>{{ 'fields_' + type | translate }}</a>
+                      </li>
+                    </div>
+                  </perfect-scrollbar>
+                </ul>
+              </div>
+            </div>
+            <div class="kr-sg-checkbox col-2 pl-5 pr-0 m-0 d-none">
+              <input
+                id="checkbox-1"
+                class="checkbox-custom"
+                type="checkbox"
+                [(ngModel)]="newFieldObj.isDynamic"
+              />
+              <label for="checkbox-1" class="checkbox-custom-label">{{
+                'fields_dynamic' | translate
+              }}</label>
+            </div>
+          </div>
         </div>
-    </ng-container>
+        <div class="option-selection-block">
+          <div class="option-selection-header">
+            {{ 'fields_select_ones_that_apply' | translate }}
+          </div>
+          <div class="option-selection-type">
+            <div class="option-selection-hding">
+              {{ 'fields_searchable' | translate }}
+            </div>
+            <div class="option-selection-desc">
+              {{ 'fields_searchable_desc' | translate }}
+            </div>
+            <div class="option-selection-checkbox">
+              <div class="kr-sg-checkbox">
+                <input
+                  id="searchable_option"
+                  class="checkbox-custom"
+                  type="checkbox"
+                  (click)="getFieldUsageData(newFieldObj, 'checkbox')"
+                  [(ngModel)]="newFieldObj.isSearchable"
+                />
+                <label
+                  for="searchable_option"
+                  class="checkbox-custom-label"
+                ></label>
+              </div>
+            </div>
+          </div>
+          <div
+            class="option-selection-type"
+            [ngClass]="{
+              'disable-actionlinks': newFieldObj?.fieldDataType !== 'string'
+            }"
+          >
+            <div class="option-selection-hding">
+              {{ 'fields_auto_suggest' | translate }}
+            </div>
+            <div class="option-selection-desc">
+              {{ 'fields_auto_suggest_desc' | translate }}
+            </div>
+            <div class="option-selection-checkbox">
+              <div class="kr-sg-checkbox">
+                <input
+                  id="auto_suggest_option"
+                  class="checkbox-custom"
+                  type="checkbox"
+                  [(ngModel)]="newFieldObj.isAutosuggest"
+                />
+                <label
+                  for="auto_suggest_option"
+                  class="checkbox-custom-label"
+                ></label>
+              </div>
+            </div>
+          </div>
+        </div>
+        <ng-template #tipContent container="body">
+          <div class="inner-content-html">
+            <p>{{ 'search_settings_impacted_settings' | translate }}</p>
+            <ul>
+              <li *ngFor="let tip of tooltipArr">
+                {{ tip }}
+              </li>
+            </ul>
+          </div>
+        </ng-template>
+
+        <div
+          class="kr-sg-inline-notification kr-protip-basic align-items-start"
+          *ngIf="
+            newFieldObj._id &&
+            newFieldObj.previousFieldDataType !== newFieldObj.fieldDataType
+          "
+        >
+          <div class="tost-text">
+            {{ 'fields.the_field_type_has_been_changed_from' | translate }}
+            {{ newFieldObj.previousFieldDataType | translate }}
+            {{ 'fields.to' | translate }}
+            {{ newFieldObj.fieldDataType | translate }}.
+            <span
+              class="pr-1"
+              *ngIf="indexedWarningMessage"
+              [innerHTML]="editresultTest"
+            >
+            </span>
+            <span class="bulb-icon" [ngbTooltip]="tipContent">
+              <i
+                *ngIf="!showSearchSettingsTooltip && !tooltipArr"
+                class="si-info"
+              >
+              </i>
+              <i
+                *ngIf="showSearchSettingsTooltip && tooltipArr.length"
+                class="si-info"
+              ></i>
+            </span>
+          </div>
+        </div>
+        <div
+          class="kr-sg-inline-notification kr-protip-basic align-items-start"
+          *ngIf="!newFieldObj.isSearchable && showSearchableToaster"
+        >
+          <div class="tost-text">
+            <span
+              class="pr-1"
+              *ngIf="indexedWarningMessage"
+              [innerHTML]="searchableCheckboxMsg"
+            >
+            </span>
+            <span class="bulb-icon" [ngbTooltip]="tipContent">
+              <i
+                *ngIf="!showSearchSettingsTooltip && !tooltipArr"
+                class="si-info"
+              >
+              </i>
+              <i
+                *ngIf="showSearchSettingsTooltip && tooltipArr.length"
+                class="si-info"
+              ></i>
+            </span>
+          </div>
+        </div>
+
+        <div class="bottom_sec d-none">
+          <div class="group-checkbox mb-3 add-fields-checkbox">
+            <div class="label-text mb-2">
+              {{ 'fields_select_ones_that_apply' | translate }}
+            </div>
+            <div class="kr-sg-checkbox">
+              <input
+                id="checkbox_grpfd"
+                class="checkbox-custom"
+                type="checkbox"
+                [(ngModel)]="newFieldObj.isMultiValued"
+              />
+              <label for="checkbox_grpfd" class="checkbox-custom-label">{{
+                'fields.multi_valued' | translate
+              }}</label
+              ><span
+                placement="bottom"
+                ngbTooltip="{{
+                  'fields.document_might_contain_multiple' | translate
+                }}"
+                [container]="'body'"
+                tooltipClass="dashboard-custom-tooltips"
+                class=""
+                ><img class="ml-2" src="assets/icons/Info_gray.svg"
+              /></span>
+            </div>
+            <div class="kr-sg-checkbox">
+              <input
+                id="checkbox_grpf"
+                class="checkbox-custom"
+                type="checkbox"
+                [(ngModel)]="newFieldObj.isRequired"
+              />
+              <label for="checkbox_grpf" class="checkbox-custom-label">{{
+                'fields.required' | translate
+              }}</label
+              ><span
+                placement="bottom"
+                ngbTooltip="{{
+                  'fields.documents_that_do_not_contain_value' | translate
+                }}"
+                [container]="'body'"
+                tooltipClass="dashboard-custom-tooltips"
+                class=""
+                ><img class="ml-2" src="assets/icons/Info_gray.svg"
+              /></span>
+            </div>
+            <div class="kr-sg-checkbox">
+              <input
+                id="checkbox_grpd"
+                class="checkbox-custom"
+                type="checkbox"
+                [(ngModel)]="newFieldObj.isStored"
+                (change)="newFieldObj.isIndexed = newFieldObj.isStored"
+              />
+              <label for="checkbox_grpd" class="checkbox-custom-label">{{
+                'fields.stored' | translate
+              }}</label
+              ><span
+                placement="bottom"
+                ngbTooltip="{{
+                  'fields.value_of_the_field_can_be_fetched_by_the_search_queries'
+                    | translate
+                }}"
+                [container]="'body'"
+                tooltipClass="dashboard-custom-tooltips"
+                class=""
+                ><img class="ml-2" src="assets/icons/Info_gray.svg"
+              /></span>
+            </div>
+            <div class="kr-sg-checkbox">
+              <input
+                id="checkbox_grpe"
+                class="checkbox-custom"
+                type="checkbox"
+                [(ngModel)]="newFieldObj.isIndexed"
+                (change)="
+                  newFieldObj.isIndexed ? (newFieldObj.isStored = true) : return
+                "
+              />
+              <label for="checkbox_grpe" class="checkbox-custom-label">{{
+                'fields.indexed' | translate
+              }}</label
+              ><span
+                placement="bottom"
+                ngbTooltip="{{
+                  'fields.value_of_the_field_can_be_used_in_search_queries'
+                    | translate
+                }}"
+                [container]="'body'"
+                tooltipClass="dashboard-custom-tooltips"
+                class=""
+                ><img class="ml-2" src="assets/icons/Info_gray.svg"
+              /></span>
+            </div>
+          </div>
+          <div class="kr-sg-input-text col-10 p-0 d-none">
+            <div class="label-text">
+              {{ 'fields.defalult_value_optional' | translate }}
+            </div>
+            <input
+              type="text"
+              placeholder="{{ 'fields.add_value_here' | translate }}"
+              class="input-text"
+              [(ngModel)]="newFieldObj.defaultValue"
+              maxlength="60"
+            />
+          </div>
+          <div
+            class="kr-sg-inline-notification align-items-start"
+            *ngIf="!newFieldObj.isIndexed"
+          >
+            <div class="bulb-icon">
+              <img src="assets/icons/info-blue.svg" />
+            </div>
+            <div class="tost-text">
+              {{ 'fields.indexed_property_has_been_set_to_false' | translate }}
+              {{
+                indexedWarningMessage
+                  ? indexedWarningMessage + '.'
+                  : indexedWarningMessage
+              }}
+            </div>
+          </div>
+          <div
+            class="kr-sg-inline-notification align-items-start"
+            *ngIf="
+              newFieldObj._id &&
+              newFieldObj.previousFieldDataType !== newFieldObj.fieldDataType
+            "
+          >
+            <div class="bulb-icon">
+              <img src="assets/icons/info-blue.svg" />
+            </div>
+            <div class="tost-text">
+              {{ 'fields.the_field_type_has_been_changed_from' | translate }}
+              {{ newFieldObj.previousFieldDataType | translate }}
+              {{ 'fields.to' | translate }}
+              {{ newFieldObj.fieldDataType | translate }}.
+              {{
+                indexedWarningMessage
+                  ? indexedWarningMessage + '.'
+                  : indexedWarningMessage
+              }}
+            </div>
+          </div>
+        </div>
+      </div>
+    </perfect-scrollbar>
+    <div class="modal-footer text-left">
+      <button
+        type="button"
+        class="kr-sg-button-primary btn_lg float-right"
+        (click)="addField()"
+      >
+        {{
+          newFieldObj._id
+            ? ('fields_save' | translate)
+            : ('fields_add' | translate)
+        }}
+      </button>
+      <button
+        type="button"
+        class="kr-sg-button-secondary btn_lg float-right"
+        (click)="closeModalPopup()"
+      >
+        {{ 'fields_cancel' | translate }}
+      </button>
+    </div>
+  </ng-container>
 </kr-modal>

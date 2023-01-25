@@ -5,16 +5,9 @@ import { SmallTalkRoutingModule } from './small-talk-routing.module';
 import { SmallTalkComponent } from './small-talk.component';
 import { FindlySharedModule } from 'src/app/modules/findly-shared/findly-shared.module';
 
-
 @NgModule({
   declarations: [SmallTalkComponent],
-  imports: [
-    CommonModule,
-    SmallTalkRoutingModule,
-    FindlySharedModule
-  ],
-  exports: [
-    SmallTalkComponent
-  ]
+  imports: [CommonModule, SmallTalkRoutingModule, FindlySharedModule],
+  exports: [SmallTalkComponent],
 })
-export class SmallTalkModule { }
+export class SmallTalkModule {}
