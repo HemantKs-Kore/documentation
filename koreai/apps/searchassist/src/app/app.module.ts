@@ -10,12 +10,12 @@ import { globalProviders } from '@kore.services/inteceptors';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { NgxDaterangepickerMd } from 'ngx-daterangepicker-material';
-import { NgxEchartsModule } from 'ngx-echarts';
+// import { NgxEchartsModule } from 'ngx-echarts';
 import { ToastrModule } from 'ngx-toastr';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { LoaderModule } from './shared/loader/loader.module';
-import * as echarts from 'echarts';
+// import * as echarts from 'echarts';
 import { AppDataResolver } from '@kore.services/resolvers/app.data.resolve';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -53,9 +53,9 @@ export function createTranslateLoader(http: HttpClient) {
     HttpClientModule,
     CommonModule,
     FindlySharedModule,
-    NgxEchartsModule.forRoot({
-      echarts: { init: echarts.init },
-    }),
+    // NgxEchartsModule.forRoot({
+    //   echarts: { init: echarts.init },
+    // }),
     TranslateModule.forRoot({
       defaultLanguage: 'en',
       loader: {
