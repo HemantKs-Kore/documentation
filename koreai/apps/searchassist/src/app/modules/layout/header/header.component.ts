@@ -6,6 +6,11 @@ import {
   EventEmitter,
   ViewChild,
   OnDestroy,
+  ApplicationRef,
+  ElementRef,
+  Injector,
+  Input,
+  ViewContainerRef,
 } from '@angular/core';
 import { SideBarService } from '../../../services/header.service';
 import { KRModalComponent } from '../../../shared/kr-modal/kr-modal.component';
@@ -29,6 +34,7 @@ import { AppSelectionService } from '@kore.apps/services/app.selection.service';
 import { MixpanelServiceService } from '@kore.apps/services/mixpanel-service.service';
 import { AppUrlsService } from '@kore.apps/services/app.urls.service';
 import { environment } from '@kore.environment/environment';
+import { SearchSdkService } from '@kore.apps/modules/search-sdk/services/search-sdk.service';
 
 @Component({
   selector: 'app-header',
@@ -36,6 +42,7 @@ import { environment } from '@kore.environment/environment';
   styleUrls: ['./header.component.scss'],
 })
 export class HeaderComponent implements OnInit, OnDestroy {
+  isSdkBundleLoaded = false;
   toShowAppHeader;
   mainMenu = '';
   showMainMenu = true;
@@ -347,7 +354,9 @@ export class HeaderComponent implements OnInit, OnDestroy {
     private notificationService: NotificationService,
     public mixpanel: MixpanelServiceService,
     public dockService: DockStatusService,
-    private appSelectionService: AppSelectionService
+    private appSelectionService: AppSelectionService,
+    private searchSdkService: SearchSdkService,
+    private viewContainerRef: ViewContainerRef
   ) {
     this.userId = this.authService.getUserId();
     if (environment && environment.USE_SESSION_STORE) {
@@ -373,7 +382,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
       (res) => {
         if (res.name != undefined) {
           this.analyticsClick(res.path, false);
-          this.isRouteDisabled = res?.disable;
+          // this.isRouteDisabled = res?.disable;
         }
         if (res?.isDemo == true) {
           this.viewCheckList();
@@ -1719,7 +1728,26 @@ export class HeaderComponent implements OnInit, OnDestroy {
       }
     );
   }
+
+  handleSearchSdk() {
+    if (!this.isSdkBundleLoaded) {
+      import('../../search-sdk/search-sdk.component').then(
+        ({ SearchSdkComponent }) => {
+          this.isSdkBundleLoaded = true;
+
+          this.viewContainerRef.clear();
+          const sdkCmpRef =
+            this.viewContainerRef.createComponent(SearchSdkComponent);
+        }
+      );
+    } else {
+      this.searchSdkService.toggleSdkPopup();
+    }
+  }
+
   openOrCloseSearchSDK() {
+    this.handleSearchSdk();
+
     this.loadHeader();
     if (this.queryPipelineId) {
       this.headerService.openSearchSDK(true);
@@ -1742,7 +1770,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
     }
   }
   openSDKwithQuery() {
-    this.headerService.openSearchSDK(true);
+    // this.headerService.openSearchSDK(true);
     this.getcustomizeList(20, 0);
     this.displayToolTip();
   }
