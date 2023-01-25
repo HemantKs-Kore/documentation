@@ -22,8 +22,8 @@ import { OnboardingComponentComponent } from '../../../components/onboarding-com
 import { DockStatusService } from '../../../services/dockstatusService/dock-status.service';
 import { interval, Subscription } from 'rxjs';
 import * as moment from 'moment';
-
-declare const $: any;
+import $ from 'jquery';
+// declare const $: any;
 import * as _ from 'underscore';
 import { AuthService } from '@kore.apps/services/auth.service';
 import { WorkflowService } from '@kore.apps/services/workflow.service';

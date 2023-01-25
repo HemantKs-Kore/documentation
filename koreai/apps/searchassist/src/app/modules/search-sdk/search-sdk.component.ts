@@ -9,6 +9,7 @@ import { AppSelectionService } from '@kore.apps/services/app.selection.service';
 import { EndPointsService } from '@kore.apps/services/end-points.service';
 import { ServiceInvokerService } from '@kore.apps/services/service-invoker.service';
 import { HelperService } from '@kore.shared/*';
+import { LocalStoreService } from '@kore.services/localstore.service';
 
 // import('../../../assets/web-kore-sdk/demo/libs/kore-no-conflict-start.js');
 // import('../../../assets/web-kore-sdk/libs/uuid.min.js');
@@ -103,16 +104,87 @@ export class SearchSdkComponent implements OnInit, OnDestroy {
     // public mixpanel: MixpanelServiceService,
     // private translate: TranslateService,
     private searchSdkService: SearchSdkService,
-    private helperService: HelperService
+    private helperService: HelperService,
+    public localstore: LocalStoreService
   ) {}
 
   ngOnInit(): void {
     this.loadStyles();
+    this.SearchConfigurationSubscription =
+      this.headerService.resetSearchConfiguration.subscribe((res) => {
+        this.distroySearch();
+        this.loadSearchExperience();
+        this.getSearchExperience();
+      });
     this.loadScripts().then(() => {
       this.initSearchSDK();
       this.searchSDKHeader();
     });
     this.toggleSdkPopup();
+  }
+  loadSearchExperience() {
+    this.indexPipelineId = this.workflowService.selectedIndexPipeline();
+    this.queryPipelineId = this.workflowService.selectedQueryPipeline()
+      ? this.workflowService.selectedQueryPipeline()._id
+      : this.selectedApp.searchIndexes[0].queryPipelineId;
+    /** fetching the ID from Previous state for refresh app */
+    if (!this.queryPipelineId) {
+      const preStateData = this.localstore.getPreviousState();
+      if (preStateData && preStateData.selectedQueryPipeline) {
+        this.queryPipelineId = preStateData.selectedQueryPipeline._id;
+      }
+    }
+    if (
+      this.indexPipelineId &&
+      this.queryPipelineId &&
+      this.searchExperinceLoading === false
+    ) {
+      this.getSearchExperience();
+    }
+  }
+  // added setTimeout function and verifying for indexpipeline before we make api call, for  resolving the search interface failure issue
+  getSearchExperience() {
+    // let selectedApp: any;
+    var _self = this;
+    const selectedApp = this.workflowService.selectedApp();
+    const searchIndex = selectedApp.searchIndexes[0]._id;
+    const quaryparms: any = {
+      searchIndexId: searchIndex,
+      indexPipelineId: this.workflowService.selectedIndexPipeline(),
+      queryPipelineId: this.workflowService.selectedQueryPipeline()
+        ? this.workflowService.selectedQueryPipeline()._id
+        : this.queryPipelineId,
+    };
+    setTimeout(function () {
+      if (!quaryparms.indexPipelineId) {
+        quaryparms.indexPipelineId =
+          _self.workflowService.selectedIndexPipelineId;
+      }
+      if (!quaryparms.queryPipelineId) {
+        quaryparms.queryPipelineId =
+          _self.workflowService.selectedQueryPipeline()
+            ? _self.workflowService.selectedQueryPipeline()._id
+            : _self.selectedApp.searchIndexes[0].queryPipelineId;
+      }
+      if (quaryparms.indexPipelineId && quaryparms.queryPipelineId) {
+        _self.service.invoke('get.searchexperience.list', quaryparms).subscribe(
+          (res) => {
+            _self.searchExperienceConfig = res;
+            _self.searchExperinceLoading = true;
+            _self.headerService.updateSearchConfigurationValue(res);
+            $('#test-btn-launch-sdk').removeAttr('disabled').button('refresh');
+            _self.headerService.searchConfiguration = res;
+            //if (_self.isDemoApp) _self.searchSDKHeader();
+          },
+          (errRes) => {
+            // console.log("getSearchExperience failed happen");
+            // console.log(errRes);
+          }
+        );
+      } else {
+        _self.getSearchExperience();
+      }
+    }, 100);
   }
 
   openSdk() {
