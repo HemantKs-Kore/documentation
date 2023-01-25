@@ -1,7 +1,4 @@
-<div
-  class="krFindlyAppComponent container-fluid appContent"
-  [class.appSelected]="appSelected"
->
+<div class="krFindlyAppComponent" [class.appSelected]="appSelected">
   <app-header
     (showMenu)="showMenu($event)"
     (settingMenu)="settingMenu($event)"
@@ -17,7 +14,7 @@
         <app-body (initSearchSDK)="initSearchSDK()" (closeResultBody)="closeResultBody($event)" [query]="queryText"
             [bridgeData]="bridgeDataInsights" [showInsightFull]="showInsightFull" [addNewResult]="addNewResult"
             class="container-fluid appContent" [ngClass]="{'pl-0': !showMainMenu}" [structure]="structure" [searchRequestId]="searchRequestId"></app-body> -->
-  <div [ngClass]="{ 'pl-0': !showMainMenu }">
+  <div [ngClass]="{ 'pl-0': !showMainMenu }" class="container-fluid appContent">
     <router-outlet></router-outlet>
   </div>
   <div
