@@ -73,6 +73,7 @@
             }
           ],
           "outputHashing": "all",
+          "vendorChunk": true,
           "namedChunks": true
         },
         "development": {
