@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { HeaderComponent } from './header.component';
 import { TranslateModule } from '@ngx-translate/core';
 import {
+  NgbActiveModal,
   NgbDropdownModule,
   NgbProgressbarModule,
   NgbTooltipModule,
@@ -14,6 +15,8 @@ import { KrModalModule } from '../../../shared/kr-modal/kr-modal.module';
 import { SafePipe } from '../../../shared/pipes/safe.pipe';
 import { OnboardingComponentComponent } from '@kore.apps/components/onboarding-component/onboarding-component.component';
 import { SharedPipesModule } from '@kore.apps/helpers/filters/shared-pipes.module';
+import { SideBarService } from '@kore.apps/services/header.service';
+import { AppSelectionService } from '@kore.apps/services/app.selection.service';
 
 @NgModule({
   declarations: [
@@ -33,7 +36,7 @@ import { SharedPipesModule } from '@kore.apps/helpers/filters/shared-pipes.modul
     SharedPipesModule,
     SafePipe,
   ],
-  providers: [SafePipe],
+  providers: [SafePipe, SideBarService, AppSelectionService, NgbActiveModal],
   exports: [HeaderComponent],
 })
 export class HeaderModule {}

@@ -9,7 +9,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { globalProviders } from '@kore.services/inteceptors';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
-import { NgxDaterangepickerMd } from 'ngx-daterangepicker-material';
+// import { NgxDaterangepickerMd } from 'ngx-daterangepicker-material';
 // import { NgxEchartsModule } from 'ngx-echarts';
 import { ToastrModule } from 'ngx-toastr';
 import { AppRoutingModule } from './app-routing.module';
@@ -20,23 +20,23 @@ import { AppDataResolver } from '@kore.services/resolvers/app.data.resolve';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HeaderModule } from './modules/layout/header/header.module';
-import { SideBarService } from '@kore.services/header.service';
-import { AppSelectionService } from '@kore.services/app.selection.service';
-import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-import { DockStatusService } from '@kore.services/dock.status.service';
-import { MatDatepickerModule } from '@angular/material/datepicker';
-import { ConvertMDtoHTML } from '@kore.helpers/lib/convertHTML';
-import { AccountsDataService } from '@kore.services/dataservices/accounts-data.service';
-import { QueryPipelineResolver } from '@kore.services/resolvers/query.pipeline.resolve';
+// import { SideBarService } from '@kore.services/header.service';
+// import { AppSelectionService } from '@kore.services/app.selection.service';
+// import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+// import { DockStatusService } from '@kore.services/dock.status.service';
+// import { MatDatepickerModule } from '@angular/material/datepicker';
+// import { ConvertMDtoHTML } from '@kore.helpers/lib/convertHTML';
+// import { AccountsDataService } from '@kore.services/dataservices/accounts-data.service';
+// import { QueryPipelineResolver } from '@kore.services/resolvers/query.pipeline.resolve';
 import { AuthGuard } from '@kore.services/auth.guard';
-import { SortPipe } from '@kore.helpers/sortPipe/sort-pipe';
+// import { SortPipe } from '@kore.helpers/sortPipe/sort-pipe';
 import { MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material/form-field';
 import { CommonModule } from '@angular/common';
-import { FindlySharedModule } from './modules/findly-shared/findly-shared.module';
+// import { FindlySharedModule } from './modules/findly-shared/findly-shared.module';
 import { MainMenuModule } from './modules/layout/mainmenu/mainmenu.module';
-import { AppsDataService } from './modules/apps/services/apps-data.service';
-import { QueryPipelineDataService } from './modules/summary/services/query-pipeline-data.service';
-import { IndexPipelineDataService } from './modules/summary/services/index-pipeline-data.service';
+// import { AppsDataService } from './modules/apps/services/apps-data.service';
+// import { QueryPipelineDataService } from './modules/summary/services/query-pipeline-data.service';
+// import { IndexPipelineDataService } from './modules/summary/services/index-pipeline-data.service';
 
 // AoT requires an exported function for factories
 export function createTranslateLoader(http: HttpClient) {
@@ -52,7 +52,7 @@ export function createTranslateLoader(http: HttpClient) {
     AppRoutingModule,
     HttpClientModule,
     CommonModule,
-    FindlySharedModule,
+    // FindlySharedModule,
     // NgxEchartsModule.forRoot({
     //   echarts: { init: echarts.init },
     // }),
@@ -70,7 +70,7 @@ export function createTranslateLoader(http: HttpClient) {
       autoDismiss: false,
       closeButton: true,
     }),
-    NgxDaterangepickerMd.forRoot(),
+    // NgxDaterangepickerMd.forRoot(),
     HeaderModule,
     MainMenuModule,
 
@@ -94,21 +94,21 @@ export function createTranslateLoader(http: HttpClient) {
       provide: MAT_FORM_FIELD_DEFAULT_OPTIONS,
       useValue: { appearance: 'fill' },
     },
-    SortPipe,
+    // SortPipe,
     AuthGuard,
     AppDataResolver,
-    QueryPipelineResolver,
-    AccountsDataService,
-    SideBarService,
-    NgbActiveModal,
+    // QueryPipelineResolver,
+    // AccountsDataService,
+    // SideBarService,
+    // NgbActiveModal,
     MatSnackBar,
-    ConvertMDtoHTML,
-    MatDatepickerModule,
-    AppSelectionService,
-    DockStatusService,
-    AppsDataService,
-    IndexPipelineDataService,
-    QueryPipelineDataService,
+    // ConvertMDtoHTML,
+    // MatDatepickerModule,
+    // AppSelectionService,
+    // DockStatusService,
+    // AppsDataService,
+    // IndexPipelineDataService,
+    // QueryPipelineDataService,
   ],
   // exports: [NgbdDatepickerRange],
   bootstrap: [AppComponent],
