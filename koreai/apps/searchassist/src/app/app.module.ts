@@ -9,7 +9,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { globalProviders } from '@kore.services/inteceptors';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
-// import { NgxDaterangepickerMd } from 'ngx-daterangepicker-material';
+import { NgxDaterangepickerMd } from 'ngx-daterangepicker-material';
 // import { NgxEchartsModule } from 'ngx-echarts';
 import { ToastrModule } from 'ngx-toastr';
 import { AppRoutingModule } from './app-routing.module';
@@ -70,7 +70,7 @@ export function createTranslateLoader(http: HttpClient) {
       autoDismiss: false,
       closeButton: true,
     }),
-    // NgxDaterangepickerMd.forRoot(),
+    NgxDaterangepickerMd.forRoot(),
     HeaderModule,
     MainMenuModule,
 

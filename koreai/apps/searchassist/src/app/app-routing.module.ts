@@ -108,7 +108,7 @@ const routes: Routes = [
           ),
       },
       {
-        path: 'search-insights',
+        path: 'searchInsights',
         loadChildren: () =>
           import('./modules/search-insights/search-insights.module').then(
             (m) => m.SearchInsightsModule
