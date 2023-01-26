@@ -14,8 +14,9 @@ import {
   Router,
   RouterEvent,
 } from '@angular/router';
+import { LazyLoadService } from '@kore.shared/*';
 import { TranslateService } from '@ngx-translate/core';
-import { Subscription } from 'rxjs';
+import { forkJoin, Observable, Subscription } from 'rxjs';
 import * as _ from 'underscore';
 import { AppSelectionService } from './services/app.selection.service';
 import { AuthService } from './services/auth.service';
@@ -95,9 +96,11 @@ export class AppComponent {
     // public inlineManual: InlineManualService,
     // public mixpanel: MixpanelServiceService,
     // private translate: TranslateService
-    private loaderService: LoaderService
+    private loaderService: LoaderService,
+    private lazyLoadService: LazyLoadService
   ) {
     this.onRouteEvents();
+    this.lazyLoadService.loadScript;
     //   this.mixpanel.init();
     //   router.events.subscribe((event: any) => {
     //     this.navigationInterceptor(event);
@@ -778,7 +781,9 @@ export class AppComponent {
     // }
   }
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.lazyLoadAssets();
+  }
 
   // loadSearchSdk() {
   //   if (!this.isSdkBundleLoaded) {
@@ -828,5 +833,18 @@ export class AppComponent {
   }
   settingMenu(event) {
     this.settingMainMenu = event;
+  }
+
+  lazyLoadCodeMirror(): Observable<any[]> {
+    // return forkJoin([
+    //   // this.loadScript('assets/quill/quill.min.js'),
+    //   this.lazyLoadService.loadStyle('codemirror.min.css'),
+    // ]);
+
+    return this.lazyLoadService.loadStyle('codemirror.min.css');
+  }
+
+  lazyLoadAssets() {
+    this.lazyLoadCodeMirror().subscribe();
   }
 }

@@ -8,7 +8,7 @@ import { WorkflowService } from '@kore.apps/services/workflow.service';
 import { AppSelectionService } from '@kore.apps/services/app.selection.service';
 import { EndPointsService } from '@kore.apps/services/end-points.service';
 import { ServiceInvokerService } from '@kore.apps/services/service-invoker.service';
-import { HelperService } from '@kore.shared/*';
+import { LazyLoadService } from '@kore.shared/*';
 import { LocalStoreService } from '@kore.services/localstore.service';
 
 // import('../../../assets/web-kore-sdk/demo/libs/kore-no-conflict-start.js');
@@ -48,6 +48,7 @@ declare const FindlySDK: any;
 export class SearchSdkComponent implements OnInit, OnDestroy {
   searchExperienceConfig: any = {};
   sub: Subscription;
+  styleSub: Subscription;
 
   loading = true;
   userInfo: any = {};
@@ -104,8 +105,8 @@ export class SearchSdkComponent implements OnInit, OnDestroy {
     // public mixpanel: MixpanelServiceService,
     // private translate: TranslateService,
     private searchSdkService: SearchSdkService,
-    private helperService: HelperService,
-    public localstore: LocalStoreService
+    public localstore: LocalStoreService,
+    private lazyLoadService: LazyLoadService
   ) {}
 
   ngOnInit(): void {
@@ -209,30 +210,9 @@ export class SearchSdkComponent implements OnInit, OnDestroy {
   }
 
   loadStyles() {
-    // this.helperService.loadStyle(
-    //   'assets/web-kore-sdk/demo/libs/jquery-ui.min.css'
-    // );
-    // this.helperService.loadStyle(
-    //   'assets/web-kore-sdk/demo/custom/customTemplate.css'
-    // );
-    // this.helperService.loadStyle('assets/web-kore-sdk/demo/chatWindow.css');
-    // this.helperService.loadStyle(
-    //   'assets/web-kore-sdk/libs/emojione.sprites.css'
-    // );
-    // this.helperService.loadStyle(
-    //   'assets/web-kore-sdk/libs/prefect-scrollbar.css'
-    // );
-    this.helperService.loadStyle(
-      'assets/web-kore-sdk/demo/findly/findly-sdk.css'
-    );
-
-    this.helperService.loadStyle(
-      'assets/web-kore-sdk/demo/findly/findly-demo.css'
-    );
-    this.helperService.loadStyle('assets/web-kore-sdk/demo/css/top-search.css');
-    this.helperService.loadStyle(
-      'assets/web-kore-sdk/demo/custom/customFindly.css'
-    );
+    this.styleSub = this.lazyLoadService
+      .loadStyle('searchsdk.min.css')
+      .subscribe();
   }
 
   async loadScripts() {
@@ -412,6 +392,7 @@ export class SearchSdkComponent implements OnInit, OnDestroy {
   }
   ngOnDestroy(): void {
     this.sub?.unsubscribe();
+    this.styleSub?.unsubscribe();
   }
 
   initSearch() {
