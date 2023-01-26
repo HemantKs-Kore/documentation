@@ -1703,38 +1703,40 @@ export class UserEngagementComponent implements OnInit {
     };
   }
   ngAfterViewInit() {
-    document.getElementsByClassName('ng5-slider-floor')[0]['style'].display =
-      'none'; // 00
-    document.getElementsByClassName('ng5-slider-ceil')[0]['style'].display =
-      'none'; //24
-
-    document.getElementsByClassName('ng5-slider-model-value')[0]['style'].top =
-      '12px';
-    document.getElementsByClassName('ng5-slider-model-value')[0][
-      'style'
-    ].fontWeight = 'bold';
-    document.getElementsByClassName('ng5-slider-model-value')[0][
-      'style'
-    ].fontSize = '12px';
-
-    document.getElementsByClassName('ng5-slider-model-high')[0]['style'].top =
-      '12px';
-    document.getElementsByClassName('ng5-slider-model-high')[0][
-      'style'
-    ].fontWeight = 'bold';
-    document.getElementsByClassName('ng5-slider-model-high')[0][
-      'style'
-    ].fontSize = '12px';
-
-    document.getElementsByClassName('ng5-slider-combined')[0]['style'].top =
-      '12px';
-    document.getElementsByClassName('ng5-slider-combined')[0][
-      'style'
-    ].fontWeight = 'bold';
-    document.getElementsByClassName('ng5-slider-combined')[0][
-      'style'
-    ].fontSize = '12px';
-
+    const slideFloor: any =
+      document.getElementsByClassName('ng5-slider-floor')[0];
+    const slideCeil: any =
+      document.getElementsByClassName('ng5-slider-ceil')[0];
+    const slideModelValue: any = document.getElementsByClassName(
+      'ng5-slider-model-value'
+    )[0];
+    const slideModelHigh: any = document.getElementsByClassName(
+      'ng5-slider-model-high'
+    )[0];
+    const sliderCombined: any = document.getElementsByClassName(
+      'ng5-slider-combined'
+    )[0];
+    if (slideFloor) {
+      slideFloor['style'].display = 'none'; // 00
+    }
+    if (slideCeil) {
+      slideCeil['style'].display = 'none'; // 00
+    }
+    if (slideModelValue) {
+      slideModelValue['style'].top = '12px'; // 00
+      slideModelValue['style'].fontWeight = 'bold';
+      slideModelValue['style'].fontSize = '12px';
+    }
+    if (slideModelHigh) {
+      slideModelHigh['style'].top = '12px'; // 00
+      slideModelHigh['style'].fontWeight = 'bold';
+      slideModelHigh['style'].fontSize = '12px';
+    }
+    if (sliderCombined) {
+      sliderCombined['style'].top = '12px'; // 00
+      sliderCombined['style'].fontWeight = 'bold';
+      sliderCombined['style'].fontSize = '12px';
+    }
     $(document).on('hover', '.ng5-slider-selection-bar', () => {
       let val = this.highValue - this.lowValue;
       val > 1 ? val + ' hrs' : val + ' hr';
