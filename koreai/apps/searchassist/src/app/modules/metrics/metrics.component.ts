@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { EChartOption } from 'echarts';
+// import { EChartsOption } from 'echarts';
 import { ActivatedRoute } from '@angular/router';
 import { WorkflowService } from '@kore.apps/services/workflow.service';
 import { NotificationService } from '@kore.apps/services/notification.service';
@@ -48,13 +48,13 @@ export class MetricsComponent implements OnInit {
   mostSearchedQuries: any = {};
   queriesWithNoClicks: any;
   searchHistogram: any;
-  heatMapChartOption: EChartOption;
-  feedbackPieSearches: EChartOption;
-  feedbackPieResult: EChartOption;
-  mostClickBar: EChartOption;
-  chartOption: EChartOption;
-  chartOption1: EChartOption;
-  userEngagementChartData: EChartOption;
+  heatMapChartOption: any;
+  feedbackPieSearches: any;
+  feedbackPieResult: any;
+  mostClickBar: any;
+  chartOption: any;
+  chartOption1: any;
+  userEngagementChartData: any;
   isAsc = true;
   slider = 0;
 

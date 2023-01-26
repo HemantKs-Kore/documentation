@@ -5,7 +5,7 @@ import {
   ElementRef,
   OnDestroy,
 } from '@angular/core';
-import { EChartOption } from 'echarts';
+// import { EChartOption } from 'echarts';
 import { Router } from '@angular/router';
 import { Moment } from 'moment';
 import * as moment from 'moment-timezone';
@@ -72,13 +72,13 @@ export class DashboardComponent implements OnInit, OnDestroy {
   selecteddropId: any;
   mostClickedPositions: any = [];
   feedbackStats: any;
-  heatMapChartOption: EChartOption;
-  feedbackPieSearches: EChartOption;
-  feedbackPieResult: EChartOption;
-  mostClickBar: EChartOption;
-  chartOption: EChartOption;
-  chartOption1: EChartOption;
-  userEngagementChartData: EChartOption;
+  heatMapChartOption: any;
+  feedbackPieSearches: any;
+  feedbackPieResult: any;
+  mostClickBar: any;
+  chartOption: any;
+  chartOption1: any;
+  userEngagementChartData: any;
   selectedSort = '';
   sortedObject = {
     type: 'fieldName',

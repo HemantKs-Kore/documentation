@@ -12,6 +12,7 @@ import {
 } from '@ng-bootstrap/ng-bootstrap';
 import { NgxDaterangepickerMd } from 'ngx-daterangepicker-material';
 import { UseronboardingJourneyModule } from '@kore.apps/helpers/components/useronboarding-journey/useronboarding-journey.module';
+import { NgxEchartsModule } from 'ngx-echarts';
 
 @NgModule({
   declarations: [DashboardComponent],
@@ -25,6 +26,7 @@ import { UseronboardingJourneyModule } from '@kore.apps/helpers/components/usero
     NgbTimepickerModule,
     NgbTooltipModule,
     NgxDaterangepickerMd,
+    NgxEchartsModule.forChild(),
   ],
 })
 export class DashboardModule {}

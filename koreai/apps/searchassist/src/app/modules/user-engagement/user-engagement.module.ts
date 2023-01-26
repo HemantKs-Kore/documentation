@@ -9,6 +9,7 @@ import { FormsModule } from '@angular/forms';
 import { NgxDaterangepickerMd } from 'ngx-daterangepicker-material';
 import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 import { UseronboardingJourneyModule } from '@kore.apps/helpers/components/useronboarding-journey/useronboarding-journey.module';
+import { NgxEchartsModule } from 'ngx-echarts';
 
 @NgModule({
   declarations: [UserEngagementComponent],
@@ -21,6 +22,7 @@ import { UseronboardingJourneyModule } from '@kore.apps/helpers/components/usero
     NgxDaterangepickerMd,
     NgbTooltipModule,
     UseronboardingJourneyModule,
+    NgxEchartsModule.forChild(),
   ],
 })
 export class UserEngagementModule {}

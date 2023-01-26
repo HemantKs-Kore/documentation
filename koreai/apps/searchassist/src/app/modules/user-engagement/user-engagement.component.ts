@@ -6,7 +6,7 @@ import {
   ElementRef,
   ViewChild,
 } from '@angular/core';
-import { EChartOption } from 'echarts';
+// import { EChartOption } from 'echarts';
 import { Options } from 'ng5-slider';
 import { Moment } from 'moment';
 import * as moment from 'moment-timezone';
@@ -106,17 +106,16 @@ export class UserEngagementComponent implements OnInit {
   mostSearchedQuries: any = {};
   queriesWithNoClicks: any;
   searchHistogram: any;
-  heatMapChartOption: EChartOption;
-  feedbackPieSearches: EChartOption;
-  feedbackPieResult: EChartOption;
-  mostUsedDeviceBar: EChartOption;
-  chartOption: EChartOption;
-  chartOption1: EChartOption;
-  mostUsedBrowserBar: EChartOption;
-  userEngagementChartData: EChartOption;
-  geoBar: EChartOption;
+  heatMapChartOption: any;
+  feedbackPieSearches: any;
+  feedbackPieResult: any;
+  mostUsedDeviceBar: any;
+  chartOption: any;
+  chartOption1: any;
+  mostUsedBrowserBar: any;
+  userEngagementChartData: any;
+  geoBar: any;
   sentimentsBar;
-  EChartOption;
   isAsc = true;
   slider = 1;
   totalUser = 0;

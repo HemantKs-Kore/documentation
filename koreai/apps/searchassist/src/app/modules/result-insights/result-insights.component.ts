@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
-import { EChartOption } from 'echarts';
+// import { EChartOption } from 'echarts';
 import { KRModalComponent } from '../../shared/kr-modal/kr-modal.component';
 import { Moment } from 'moment';
 import * as moment from 'moment-timezone';

@@ -10,12 +10,10 @@ import { globalProviders } from '@kore.services/inteceptors';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { NgxDaterangepickerMd } from 'ngx-daterangepicker-material';
-// import { NgxEchartsModule } from 'ngx-echarts';
 import { ToastrModule } from 'ngx-toastr';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { LoaderModule } from './shared/loader/loader.module';
-// import * as echarts from 'echarts';
 import { AppDataResolver } from '@kore.services/resolvers/app.data.resolve';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -27,16 +25,12 @@ import { HeaderModule } from './modules/layout/header/header.module';
 // import { MatDatepickerModule } from '@angular/material/datepicker';
 // import { ConvertMDtoHTML } from '@kore.helpers/lib/convertHTML';
 // import { AccountsDataService } from '@kore.services/dataservices/accounts-data.service';
-// import { QueryPipelineResolver } from '@kore.services/resolvers/query.pipeline.resolve';
 import { AuthGuard } from '@kore.services/auth.guard';
 // import { SortPipe } from '@kore.helpers/sortPipe/sort-pipe';
 import { MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material/form-field';
 import { CommonModule } from '@angular/common';
-// import { FindlySharedModule } from './modules/findly-shared/findly-shared.module';
 import { MainMenuModule } from './modules/layout/mainmenu/mainmenu.module';
-// import { AppsDataService } from './modules/apps/services/apps-data.service';
-// import { QueryPipelineDataService } from './modules/summary/services/query-pipeline-data.service';
-// import { IndexPipelineDataService } from './modules/summary/services/index-pipeline-data.service';
+import { NgxEchartsModule } from 'ngx-echarts';
 
 // AoT requires an exported function for factories
 export function createTranslateLoader(http: HttpClient) {
@@ -52,10 +46,9 @@ export function createTranslateLoader(http: HttpClient) {
     AppRoutingModule,
     HttpClientModule,
     CommonModule,
-    // FindlySharedModule,
-    // NgxEchartsModule.forRoot({
-    //   echarts: { init: echarts.init },
-    // }),
+    NgxEchartsModule.forRoot({
+      echarts: () => import('echarts'),
+    }),
     TranslateModule.forRoot({
       defaultLanguage: 'en',
       loader: {

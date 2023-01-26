@@ -11,6 +11,7 @@ import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgxDaterangepickerMd } from 'ngx-daterangepicker-material';
 import { SharedPipesModule } from '@kore.apps/helpers/filters/shared-pipes.module';
 import { UseronboardingJourneyModule } from '@kore.apps/helpers/components/useronboarding-journey/useronboarding-journey.module';
+import { NgxEchartsModule } from 'ngx-echarts';
 
 @NgModule({
   declarations: [ResultInsightsComponent],
@@ -25,6 +26,7 @@ import { UseronboardingJourneyModule } from '@kore.apps/helpers/components/usero
     NgbTooltipModule,
     UseronboardingJourneyModule,
     NgxDaterangepickerMd,
+    NgxEchartsModule.forChild(),
   ],
 })
 export class ResultInsightsModule {}
