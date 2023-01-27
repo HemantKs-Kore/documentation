@@ -1,10 +1,6 @@
 import { Injectable } from '@angular/core';
-import { LazyLoadService } from '@kore.shared/*';
 import mixpanel from 'mixpanel-browser';
-import { take } from 'rxjs';
 import { environment } from '../../environments/environment';
-
-declare let mixpanel: any;
 
 @Injectable({
   providedIn: 'root',
@@ -21,24 +17,7 @@ export class MixpanelServiceService {
     'vomoto.com',
     '.xyz',
   ];
-  constructor(private lazyLoadService: LazyLoadService) {
-    this.lozyLoadAssets();
-  }
-
-  lozyLoadAssets() {
-    this.lazyLoadService
-      .loadScript(
-        '../../../../../node_modules/mixpanel-browser/dist/mixpanel.cjs.js'
-      )
-      .pipe(take(1))
-      .subscribe((res) => {
-        if (!mixpanel) {
-          mixpanel = res;
-          this.init();
-        }
-      });
-  }
-
+  constructor() {} /** */
   checkForEmailDomains = (email) => {
     let valid = true;
     this.excludedMailDomains.forEach((domain) => {

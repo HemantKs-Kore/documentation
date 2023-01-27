@@ -18,7 +18,6 @@ import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { debounceTime, map, startWith } from 'rxjs/operators';
 import { SliderComponentComponent } from '../../../shared/slider-component/slider-component.component';
-import { OnboardingComponentComponent } from '../../../components/onboarding-component/onboarding-component.component';
 import { DockStatusService } from '../../../services/dockstatusService/dock-status.service';
 import { interval, Subscription } from 'rxjs';
 // import * as moment from 'moment';
@@ -35,6 +34,7 @@ import { MixpanelServiceService } from '@kore.apps/services/mixpanel-service.ser
 import { AppUrlsService } from '@kore.apps/services/app.urls.service';
 import { environment } from '@kore.environment/environment';
 import { SearchSdkService } from '@kore.apps/modules/search-sdk/services/search-sdk.service';
+import { OnboardingComponent } from '@kore.apps/modules/onboarding/onboarding.component';
 
 @Component({
   selector: 'app-header',
@@ -144,8 +144,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
   @ViewChild('testButtonTooltip') testButtonTooltip: any;
   @ViewChild(SliderComponentComponent, { static: true })
   sliderComponent: SliderComponentComponent;
-  @ViewChild(OnboardingComponentComponent, { static: true })
-  onBoardingComponent: OnboardingComponentComponent;
+  @ViewChild(OnboardingComponent, { static: true })
+  onBoardingComponent: OnboardingComponent;
   @ViewChild('browseWorkspace') browseWorkspace: KRModalComponent;
   availableRouts = [
     { displayName: 'Summary', routeId: '/summary', quaryParms: {} },

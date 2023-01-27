@@ -18,7 +18,7 @@ import { LazyLoadService } from '@kore.shared/*';
 import { TranslateService } from '@ngx-translate/core';
 import { forkJoin, Observable, Subscription } from 'rxjs';
 import * as _ from 'underscore';
-import { AppSelectionService } from './services/app.selection.service';
+// import { AppSelectionService } from './services/app.selection.service';
 import { AuthService } from './services/auth.service';
 import { DockStatusService } from './services/dock.status.service';
 import { EndPointsService } from './services/end-points.service';

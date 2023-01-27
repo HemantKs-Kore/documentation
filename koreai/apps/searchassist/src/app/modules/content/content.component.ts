@@ -26,10 +26,8 @@ import {
 } from '../../helpers/models/Crwal-advance.model';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 import { DockStatusService } from '../../services/dockstatusService/dock-status.service';
-import { OnboardingComponentComponent } from '../../components/onboarding-component/onboarding-component.component';
 import { SchedulerComponent } from '../../components/scheduler/scheduler.component';
 import { EMPTY_SCREEN } from '../../modules/empty-screen/empty-screen.constants';
-declare var require: any;
 import { UpgradePlanComponent } from '../../helpers/components/upgrade-plan/upgrade-plan.component';
 import { ServiceInvokerService } from '@kore.apps/services/service-invoker.service';
 import { WorkflowService } from '@kore.apps/services/workflow.service';
@@ -37,7 +35,9 @@ import { AppSelectionService } from '@kore.apps/services/app.selection.service';
 import { AuthService } from '@kore.apps/services/auth.service';
 import { InlineManualService } from '@kore.apps/services/inline-manual.service';
 import { MixpanelServiceService } from '@kore.apps/services/mixpanel-service.service';
+import { OnboardingComponent } from '../onboarding/onboarding.component';
 
+declare let require: any;
 const FileSaver = require('file-saver');
 @Component({
   selector: 'app-content',
@@ -53,7 +53,7 @@ export class ContentComponent implements OnInit, OnDestroy {
   searchFocusIn = false;
   executionPop = -1;
   loadingcheckForUpdate = false;
-  isEditDoc: boolean = false;
+  isEditDoc = false;
   editDocObj: any = {};
   isEdittitle;
   contentId;
@@ -63,8 +63,8 @@ export class ContentComponent implements OnInit, OnDestroy {
   edit: any = {};
   Id;
   editConfObj: any = {};
-  editTitleFlag: boolean = false;
-  isConfig: boolean = false;
+  editTitleFlag = false;
+  isConfig = false;
   numberOf: any = {};
   allowUrl: AllowUrl = new AllowUrl();
   blockUrl: BlockUrl = new BlockUrl();
@@ -101,7 +101,7 @@ export class ContentComponent implements OnInit, OnDestroy {
   selectedFilter: any = '';
   executionLogStatus = false;
   componentType: string = 'addData';
-  onboardingOpened: boolean = false;
+  onboardingOpened = false;
   currentRouteData: any = '';
   contentTypes = {
     webdomain: 'Web',
@@ -243,7 +243,7 @@ export class ContentComponent implements OnInit, OnDestroy {
   totalRecord: number = 0;
   limitpage: number = 10;
   limitAllpage: number = 10;
-  allInOne: boolean = false;
+  allInOne = false;
   urlConditionAllow = 'is';
   urlConditionBlock = 'is';
   doesntContains = "Doesn't Contains";
@@ -256,7 +256,7 @@ export class ContentComponent implements OnInit, OnDestroy {
   useCookies = false;
   respectRobotTxtDirectives = false;
   crawlBeyondSitemaps = false;
-  loadingContent1: boolean;
+  loadingContent1;
   isJavaScriptRendered = true;
   blockHttpsMsgs = false;
   crawlDepth: number;
@@ -265,7 +265,7 @@ export class ContentComponent implements OnInit, OnDestroy {
   structuredDataModalRef: any;
   addStructuredDataModalPopRef: any;
   selectedSourceType: any;
-  isStructuredDataAdd: boolean = false;
+  isStructuredDataAdd = false;
   sortedObject = {
     type: 'fieldName',
     position: 'up',
@@ -275,8 +275,8 @@ export class ContentComponent implements OnInit, OnDestroy {
     type: '',
     header: '',
   };
-  isSearchLoading: boolean = false;
-  isPageDelete: boolean = false;
+  isSearchLoading = false;
+  isPageDelete = false;
   @ViewChild('statusModalDocument') statusModalDocument: KRModalComponent;
   @ViewChild('perfectScroll') perfectScroll: PerfectScrollbarComponent;
   @ViewChild('addSourceModalPop') addSourceModalPop: KRModalComponent;
@@ -288,11 +288,11 @@ export class ContentComponent implements OnInit, OnDestroy {
   sliderComponent: SliderComponentComponent;
   @ViewChild('schedular') schedular: SchedulerComponent;
   @ViewChild('plans') plans: UpgradePlanComponent;
-  @ViewChild(OnboardingComponentComponent, { static: true })
-  onBoardingComponent: OnboardingComponentComponent;
+  @ViewChild(OnboardingComponent, { static: true })
+  onBoardingComponent: OnboardingComponent;
   templateState = new Subject();
-  loadingData: boolean = true;
-  isSourceSearchClear: boolean = false;
+  loadingData = true;
+  isSourceSearchClear = false;
 
   //latest object wrt crawl changes
   editSource: any;
@@ -336,10 +336,10 @@ export class ContentComponent implements OnInit, OnDestroy {
   authenticationTypes: Array<String> = ['basic', 'form'];
   crawlOptions: Array<String> = ['any', 'block', 'allow'];
   inputTypes: Array<String> = ['textbox', 'password'];
-  isPasswordShow: Boolean = false;
-  isShowSchedlerModal: Boolean = false;
+  isPasswordShow = false;
+  isShowSchedlerModal = false;
   scheduleObject: any = {};
-  isContentPage: boolean = false;
+  isContentPage = false;
   pagesSearchModelChanged = new Subject<string>();
   sourcesSearchModelChanged = new Subject<string>();
   constructor(
@@ -382,7 +382,7 @@ export class ContentComponent implements OnInit, OnDestroy {
   scroll = (event): void => {
     //console.log(event)
   };
-  loadImageText: boolean = false;
+  loadImageText = false;
 
   hoverExecutionLog() {
     this.executionLogStatus = true;
@@ -426,7 +426,7 @@ export class ContentComponent implements OnInit, OnDestroy {
     }
   }
 
-  compare(a: number | string, b: number | string, isAsc: boolean) {
+  compare(a: number | string, b: number | string, isAsc) {
     return (a < b ? -1 : 1) * (isAsc ? 1 : -1);
   }
   sortBy(sort) {

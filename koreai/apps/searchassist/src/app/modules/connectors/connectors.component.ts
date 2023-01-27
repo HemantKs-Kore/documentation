@@ -3,7 +3,6 @@ import { MatDialog } from '@angular/material/dialog';
 import { ConfirmationDialogComponent } from '../../helpers/components/confirmation-dialog/confirmation-dialog.component';
 import { UpgradePlanComponent } from '../../helpers/components/upgrade-plan/upgrade-plan.component';
 import { KRModalComponent } from '../../shared/kr-modal/kr-modal.component';
-import { OnboardingComponentComponent } from '../../components/onboarding-component/onboarding-component.component';
 import { SliderComponentComponent } from '../../shared/slider-component/slider-component.component';
 import { Router } from '@angular/router';
 import { EMPTY_SCREEN } from '../../modules/empty-screen/empty-screen.constants';
@@ -11,6 +10,7 @@ import { AppSelectionService } from '@kore.apps/services/app.selection.service';
 import { NotificationService } from '@kore.apps/services/notification.service';
 import { ServiceInvokerService } from '@kore.apps/services/service-invoker.service';
 import { WorkflowService } from '@kore.apps/services/workflow.service';
+import { OnboardingComponent } from '../onboarding/onboarding.component';
 declare const $: any;
 @Component({
   selector: 'app-connectors',
@@ -127,8 +127,8 @@ export class ConnectorsComponent implements OnInit {
   ];
   @ViewChild('plans') plans: UpgradePlanComponent;
   @ViewChild('deleteModel') deleteModel: KRModalComponent;
-  @ViewChild(OnboardingComponentComponent, { static: true })
-  onBoardingComponent: OnboardingComponentComponent;
+  @ViewChild(OnboardingComponent, { static: true })
+  onBoardingComponent: OnboardingComponent;
   @ViewChild(SliderComponentComponent)
   sliderComponent: SliderComponentComponent;
 

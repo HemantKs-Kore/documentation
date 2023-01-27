@@ -20,6 +20,7 @@ import { CommonModule } from '@angular/common';
 import { FaqsRoutingModule } from './faqs-routing.module';
 import { FaqsComponent } from './faqs.component';
 import { DragDropModule } from '@angular/cdk/drag-drop';
+import { OnboardingModule } from '../onboarding/onboarding.module';
 
 @NgModule({
   declarations: [FaqsComponent],
@@ -42,6 +43,7 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
     RecordPaginationModule,
     FormsModule,
     UseronboardingJourneyModule,
+    OnboardingModule,
   ],
 })
 export class FaqsModule {}

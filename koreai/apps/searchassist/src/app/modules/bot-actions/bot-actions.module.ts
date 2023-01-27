@@ -16,6 +16,7 @@ import { BotActionsRoutingModule } from './bot-actions-routing.module';
 import { BotActionsComponent } from './bot-actions.component';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatDialogModule } from '@angular/material/dialog';
+import { OnboardingModule } from '../onboarding/onboarding.module';
 
 @NgModule({
   declarations: [BotActionsComponent],
@@ -33,6 +34,7 @@ import { MatDialogModule } from '@angular/material/dialog';
     MatProgressSpinnerModule,
     UseronboardingJourneyModule,
     MatDialogModule,
+    OnboardingModule,
   ],
   providers: [],
 })

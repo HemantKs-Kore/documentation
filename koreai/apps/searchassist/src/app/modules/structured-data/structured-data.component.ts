@@ -11,13 +11,14 @@ import { SideBarService } from './../../services/header.service';
 import { InlineManualService } from '../../services/inline-manual.service';
 import { AppSelectionService } from './../../services/app.selection.service';
 import { PerfectScrollbarComponent } from 'ngx-perfect-scrollbar';
-import { OnboardingComponentComponent } from '../../components/onboarding-component/onboarding-component.component';
 import { SliderComponentComponent } from '../../shared/slider-component/slider-component.component';
 import * as moment from 'moment';
 import { EMPTY_SCREEN } from '../../modules/empty-screen/empty-screen.constants';
 import { AuthService } from '@kore.apps/services/auth.service';
 import { ServiceInvokerService } from '@kore.apps/services/service-invoker.service';
 import { WorkflowService } from '@kore.apps/services/workflow.service';
+import { OnboardingComponent } from '../onboarding/onboarding.component';
+
 @Component({
   selector: 'app-structured-data',
   templateUrl: './structured-data.component.html',
@@ -133,8 +134,8 @@ export class StructuredDataComponent implements OnInit {
   @ViewChild('structuredDataStatusModalPop')
   structuredDataStatusModalPop: KRModalComponent;
   @ViewChild('perfectScroll') perfectScroll: PerfectScrollbarComponent;
-  @ViewChild(OnboardingComponentComponent, { static: true })
-  onBoardingComponent: OnboardingComponentComponent;
+  @ViewChild(OnboardingComponent, { static: true })
+  onBoardingComponent: OnboardingComponent;
   @ViewChild(SliderComponentComponent)
   sliderComponent: SliderComponentComponent;
 

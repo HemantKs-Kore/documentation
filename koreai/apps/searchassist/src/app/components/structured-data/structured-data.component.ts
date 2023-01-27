@@ -15,11 +15,10 @@ import { SideBarService } from './../../services/header.service';
 import { InlineManualService } from '../../services/inline-manual.service';
 import { AppSelectionService } from './../../services/app.selection.service';
 import { PerfectScrollbarComponent } from 'ngx-perfect-scrollbar';
-import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
-import { OnboardingComponentComponent } from '../../components/onboarding-component/onboarding-component.component';
 import { SliderComponentComponent } from '../../shared/slider-component/slider-component.component';
 import * as moment from 'moment';
 import { EMPTY_SCREEN } from '../../modules/empty-screen/empty-screen.constants';
+import { OnboardingComponent } from '@kore.apps/modules/onboarding/onboarding.component';
 @Component({
   selector: 'app-structured-data',
   templateUrl: './structured-data.component.html',
@@ -135,8 +134,8 @@ export class StructuredDataComponent implements OnInit {
   @ViewChild('structuredDataStatusModalPop')
   structuredDataStatusModalPop: KRModalComponent;
   @ViewChild('perfectScroll') perfectScroll: PerfectScrollbarComponent;
-  @ViewChild(OnboardingComponentComponent, { static: true })
-  onBoardingComponent: OnboardingComponentComponent;
+  @ViewChild(OnboardingComponent, { static: true })
+  onBoardingComponent: OnboardingComponent;
   @ViewChild(SliderComponentComponent)
   sliderComponent: SliderComponentComponent;
 
@@ -1199,7 +1198,6 @@ export class StructuredDataComponent implements OnInit {
     ) {
       payload = this.appliedAdvancedSearch;
     }
-
 
     this.service
       .invoke('get.searchStructuredData', quaryparms, payload)

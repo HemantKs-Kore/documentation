@@ -1,7 +1,8 @@
-import { Injectable, Output, EventEmitter } from '@angular/core'
+import { Injectable, Output, EventEmitter } from '@angular/core';
 
-
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class SideBarService {
   @Output() change: EventEmitter<boolean> = new EventEmitter();
   @Output() fromCallFlowExpand: EventEmitter<boolean> = new EventEmitter();
@@ -9,15 +10,16 @@ export class SideBarService {
   @Output() resultRankData: EventEmitter<any> = new EventEmitter();
   @Output() resetSearchConfiguration: EventEmitter<any> = new EventEmitter();
   @Output() openFaqExtractsFromDocker: EventEmitter<any> = new EventEmitter();
-  @Output() showHideMainMenu : EventEmitter<any> = new EventEmitter();
-  @Output() showHideSettingsMenu : EventEmitter<any> = new EventEmitter();
-  @Output() showHideSourceMenu : EventEmitter<any> = new EventEmitter();
-  @Output() headerMainMenuUpdate : EventEmitter<any> = new EventEmitter();
-  @Output() hideSDK : EventEmitter<any> = new EventEmitter();
-  @Output() savedSearchConfiguration : EventEmitter<any> = new EventEmitter();
-  @Output() updatedResultTemplateMapping : EventEmitter<any> = new EventEmitter();
+  @Output() showHideMainMenu: EventEmitter<any> = new EventEmitter();
+  @Output() showHideSettingsMenu: EventEmitter<any> = new EventEmitter();
+  @Output() showHideSourceMenu: EventEmitter<any> = new EventEmitter();
+  @Output() headerMainMenuUpdate: EventEmitter<any> = new EventEmitter();
+  @Output() hideSDK: EventEmitter<any> = new EventEmitter();
+  @Output() savedSearchConfiguration: EventEmitter<any> = new EventEmitter();
+  @Output() updatedResultTemplateMapping: EventEmitter<any> =
+    new EventEmitter();
   isOnboardingPage = false;
-  openJourneyForfirstTime = false
+  openJourneyForfirstTime = false;
   searchConfiguration: any;
   isSDKCached: boolean = false;
   isSDKOpen: boolean = false;
@@ -45,31 +47,31 @@ export class SideBarService {
     this.openFaqExtractsFromDocker.next(undefined);
   }
 
-  updateShowHideMainMenu(data){
+  updateShowHideMainMenu(data) {
     this.showHideMainMenu.next(data);
   }
 
-  updateShowHideSettingsMenu(data){
+  updateShowHideSettingsMenu(data) {
     this.showHideSettingsMenu.next(data);
   }
 
-  updateShowHideSourceMenu(data){
+  updateShowHideSourceMenu(data) {
     this.showHideSourceMenu.next(data);
   }
 
-  updateMainMenuInHeader(data){
+  updateMainMenuInHeader(data) {
     this.headerMainMenuUpdate.next(data);
   }
 
-  updateSearchConfigurationValue(data){
+  updateSearchConfigurationValue(data) {
     this.savedSearchConfiguration.next(data);
   }
 
-  updateResultTemplateMapping(data){
+  updateResultTemplateMapping(data) {
     this.updatedResultTemplateMapping.next(data);
   }
 
-  closeSdk(){
+  closeSdk() {
     this.hideSDK.next(undefined);
   }
 }

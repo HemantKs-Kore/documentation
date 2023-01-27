@@ -12,18 +12,12 @@ import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
 import { SliderComponentComponent } from '../../../shared/slider-component/slider-component.component';
 import { FormsModule } from '@angular/forms';
 import { KrModalModule } from '../../../shared/kr-modal/kr-modal.module';
-import { SafePipe } from '../../../shared/pipes/safe.pipe';
-import { OnboardingComponentComponent } from '@kore.apps/components/onboarding-component/onboarding-component.component';
 import { SharedPipesModule } from '@kore.apps/helpers/filters/shared-pipes.module';
-import { SideBarService } from '@kore.apps/services/header.service';
 import { AppSelectionService } from '@kore.apps/services/app.selection.service';
+import { OnboardingModule } from '@kore.apps/modules/onboarding/onboarding.module';
 
 @NgModule({
-  declarations: [
-    HeaderComponent,
-    OnboardingComponentComponent,
-    SliderComponentComponent,
-  ],
+  declarations: [HeaderComponent, SliderComponentComponent],
   imports: [
     CommonModule,
     TranslateModule.forChild(),
@@ -34,9 +28,9 @@ import { AppSelectionService } from '@kore.apps/services/app.selection.service';
     NgbTooltipModule,
     NgbDropdownModule,
     SharedPipesModule,
-    SafePipe,
+    OnboardingModule,
   ],
-  providers: [SafePipe, SideBarService, AppSelectionService, NgbActiveModal],
+  providers: [AppSelectionService, NgbActiveModal],
   exports: [HeaderComponent],
 })
 export class HeaderModule {}

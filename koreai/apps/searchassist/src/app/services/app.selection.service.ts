@@ -11,7 +11,9 @@ import { AuthService } from './auth.service';
 import { environment } from '../../environments/environment';
 import { LocalStoreService } from './localstore.service';
 environment;
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class AppSelectionService {
   queryList: any = [];
   indexList: any = [];

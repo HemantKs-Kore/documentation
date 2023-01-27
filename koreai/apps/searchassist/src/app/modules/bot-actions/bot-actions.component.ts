@@ -5,7 +5,6 @@ import * as _ from 'underscore';
 import { KRModalComponent } from '../../shared/kr-modal/kr-modal.component';
 import { NgbPanelChangeEvent } from '@ng-bootstrap/ng-bootstrap';
 import { PerfectScrollbarComponent } from 'ngx-perfect-scrollbar';
-import { OnboardingComponentComponent } from '../../components/onboarding-component/onboarding-component.component';
 import { SliderComponentComponent } from '../../shared/slider-component/slider-component.component';
 import { EMPTY_SCREEN } from '../../modules/empty-screen/empty-screen.constants';
 import { WorkflowService } from '@kore.apps/services/workflow.service';
@@ -15,6 +14,7 @@ import { AuthService } from '@kore.apps/services/auth.service';
 import { AppSelectionService } from '@kore.apps/services/app.selection.service';
 import { InlineManualService } from '@kore.apps/services/inline-manual.service';
 import { environment } from '@kore.environment/environment';
+import { OnboardingComponent } from '../onboarding/onboarding.component';
 declare const $: any;
 @Component({
   selector: 'app-bot-actions',
@@ -74,8 +74,8 @@ export class BotActionsComponent implements OnInit {
   botsConfigurationModalElement: KRModalComponent;
   @ViewChild('perfectScroll') perfectScroll: PerfectScrollbarComponent;
   @ViewChild('perfectScroll2') perfectScroll2: PerfectScrollbarComponent;
-  @ViewChild(OnboardingComponentComponent, { static: true })
-  onBoardingComponent: OnboardingComponentComponent;
+  @ViewChild(OnboardingComponent, { static: true })
+  onBoardingComponent: OnboardingComponent;
   @ViewChild(SliderComponentComponent)
   sliderComponent: SliderComponentComponent;
   searchBots: string;

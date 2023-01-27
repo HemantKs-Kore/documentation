@@ -32,7 +32,6 @@ import {
 declare const $: any;
 import * as moment from 'moment';
 import { SideBarService } from './../../services/header.service';
-import { OnboardingComponentComponent } from '../../components/onboarding-component/onboarding-component.component';
 import { EMPTY_SCREEN } from '../../modules/empty-screen/empty-screen.constants';
 import { PdfAnnotationComponent } from '@kore.apps/components/annotool/components/pdf-annotation/pdf-annotation.component';
 import { WorkflowService } from '@kore.apps/services/workflow.service';
@@ -42,6 +41,8 @@ import { AuthService } from '@kore.apps/services/auth.service';
 import { AppSelectionService } from '@kore.apps/services/app.selection.service';
 import { MixpanelServiceService } from '@kore.apps/services/mixpanel-service.service';
 import { InlineManualService } from '@kore.apps/services/inline-manual.service';
+import { OnboardingComponent } from '../onboarding/onboarding.component';
+
 @Component({
   selector: 'faqs-source',
   templateUrl: './faqs.component.html',
@@ -59,13 +60,13 @@ export class FaqsComponent implements OnInit, AfterViewInit, OnDestroy {
   currentView = 'list';
   searchSources = '';
   pagesSearch = '';
-  viewDetails: boolean;
+  viewDetails;
   // addAltFaq :any;
   selectedFaq: any = null;
   numberOf: any = {};
   singleSelectedFaq: any = null;
   showAddFaqSection = false;
-  noManulaRecords: boolean = false;
+  noManulaRecords = false;
   selectedApp: any = {};
   fileName: ' ';
   statsApiLoading = false;
@@ -79,7 +80,7 @@ export class FaqsComponent implements OnInit, AfterViewInit, OnDestroy {
   filterObject = {};
   manualFilterSelected = false;
   initialFaqCall = false;
-  showResponse: boolean;
+  showResponse;
   loading = false;
   faqSelectionObj: any = {
     selectAll: false,
@@ -172,7 +173,7 @@ export class FaqsComponent implements OnInit, AfterViewInit, OnDestroy {
   followAddSub: Subscription;
   followCancelSub: Subscription;
   componentType: string = 'addData';
-  onboardingOpened: boolean = false;
+  onboardingOpened = false;
   currentRouteData: any = '';
   openExtractsSubs: Subscription;
   searchImgSrc: any = 'assets/icons/search_gray.svg';
@@ -193,9 +194,9 @@ export class FaqsComponent implements OnInit, AfterViewInit, OnDestroy {
   sliderComponent: SliderComponentComponent;
   @ViewChild('statusModalPop') statusModalPop: KRModalComponent;
   @ViewChild('perfectScroll') perfectScroll: PerfectScrollbarComponent;
-  @ViewChild(OnboardingComponentComponent, { static: true })
-  onBoardingComponent: OnboardingComponentComponent;
-  allPageSelected: boolean = false;
+  @ViewChild(OnboardingComponent, { static: true })
+  onBoardingComponent: OnboardingComponent;
+  allPageSelected = false;
   checkedAll: any[] = [];
   checkedAllState: any[] = [];
 
@@ -268,10 +269,10 @@ export class FaqsComponent implements OnInit, AfterViewInit, OnDestroy {
       this.filterObject[type] = value;
     }
   }
-  loadingFaqs1: boolean;
-  loadImageText: boolean = false;
+  loadingFaqs1;
+  loadImageText = false;
 
-  compare(a: number | string, b: number | string, isAsc: boolean) {
+  compare(a: number | string, b: number | string, isAsc) {
     return (a < b ? -1 : 1) * (isAsc ? 1 : -1);
   }
   sortBy(sort) {

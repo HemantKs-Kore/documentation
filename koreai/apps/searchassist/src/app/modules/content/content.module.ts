@@ -17,6 +17,7 @@ import { CommonModule } from '@angular/common';
 
 import { ContentRoutingModule } from './content-routing.module';
 import { ContentComponent } from './content.component';
+import { OnboardingModule } from '../onboarding/onboarding.module';
 
 @NgModule({
   declarations: [ContentComponent],
@@ -36,6 +37,7 @@ import { ContentComponent } from './content.component';
     StructuredDataModule,
     UpgradePlanModule,
     SourcesModule,
+    OnboardingModule,
   ],
 })
 export class ContentModule {}
