@@ -100,7 +100,6 @@ export class AppComponent {
     private lazyLoadService: LazyLoadService
   ) {
     this.onRouteEvents();
-    this.lazyLoadService.loadScript;
     //   this.mixpanel.init();
     //   router.events.subscribe((event: any) => {
     //     this.navigationInterceptor(event);
