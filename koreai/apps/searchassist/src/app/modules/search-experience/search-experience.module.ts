@@ -8,6 +8,7 @@ import { KrModalModule } from '../../shared/kr-modal/kr-modal.module';
 import { TranslateModule } from '@ngx-translate/core';
 import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 import { UseronboardingJourneyModule } from '@kore.apps/helpers/components/useronboarding-journey/useronboarding-journey.module';
+import { PickerModule } from '@ctrl/ngx-emoji-mart';
 
 @NgModule({
   declarations: [SearchExperienceComponent],
@@ -19,6 +20,7 @@ import { UseronboardingJourneyModule } from '@kore.apps/helpers/components/usero
     TranslateModule,
     UseronboardingJourneyModule,
     NgbTooltipModule,
+    PickerModule,
   ],
 })
 export class SearchExperienceModule {}
