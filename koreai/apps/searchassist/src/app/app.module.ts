@@ -31,6 +31,8 @@ import { MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material/form-field';
 import { CommonModule } from '@angular/common';
 import { MainMenuModule } from './modules/layout/mainmenu/mainmenu.module';
 import { NgxEchartsModule } from 'ngx-echarts';
+// import { AddResultModule } from './modules/add-result/add-result.module';
+// import { InsightsModule } from './modules/insights/insights.module';
 
 // AoT requires an exported function for factories
 export function createTranslateLoader(http: HttpClient) {
@@ -46,6 +48,7 @@ export function createTranslateLoader(http: HttpClient) {
     AppRoutingModule,
     HttpClientModule,
     CommonModule,
+    // AddResultModule,
     NgxEchartsModule.forRoot({
       echarts: () => import('echarts'),
     }),
@@ -72,6 +75,7 @@ export function createTranslateLoader(http: HttpClient) {
     StoreRouterConnectingModule.forRoot(),
     extModules,
     EffectsModule.forRoot([]),
+    // InsightsModule,
     // EntityDataModule.forRoot(entityConfig),
   ],
   // tslint:disable-next-line:max-line-length
