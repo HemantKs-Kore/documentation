@@ -35,6 +35,11 @@ import { AppDataResolver } from './services/resolvers/app.data.resolve';
 
 const routes: Routes = [
   {
+    path: 'demo',
+    loadChildren: () =>
+      import('./modules/demo/demo.module').then((m) => m.DemoModule),
+  },
+  {
     path: '',
     canActivate: [AuthGuard],
     resolve: {
@@ -249,11 +254,6 @@ const routes: Routes = [
           import('./modules/structured-data/structured-data.module').then(
             (m) => m.StructuredDataModule
           ),
-      },
-      {
-        path: 'demo',
-        loadChildren: () =>
-          import('./modules/demo/demo.module').then((m) => m.DemoModule),
       },
 
       {

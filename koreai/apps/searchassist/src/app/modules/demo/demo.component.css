@@ -1,0 +1,11 @@
+img {
+  width: 100%;
+  transform: scale(1.5);
+}
+
+.detail {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
