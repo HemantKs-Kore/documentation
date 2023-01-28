@@ -17,7 +17,8 @@
     "sme": "npm run sme-build && source-map-explorer dist/**/*.js --no-border-checks",
     "wba-build": "ng build searchassist --stats-json",
     "wba": "npm run wba-build && webpack-bundle-analyzer dist/apps/searchassist/stats.json",
-    "sonar": "sonar-scanner"
+    "sonar": "sonar-scanner",
+    "compodoc": "compodoc -p apps/searchassist/tsconfig.doc.json --includes  docs -s"
   },
   "private": true,
   "dependencies": {
@@ -89,6 +90,7 @@
     "@angular/cli": "~15.1.0",
     "@angular/compiler-cli": "~15.1.0",
     "@angular/language-service": "~15.1.0",
+    "@compodoc/compodoc": "^1.1.19",
     "@nrwl/cli": "15.5.1",
     "@nrwl/cypress": "15.5.1",
     "@nrwl/eslint-plugin-nx": "15.5.1",

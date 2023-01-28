@@ -1,0 +1,20 @@
+[
+  {
+    "title": "Getting Started",
+    "file": "get-started.md"
+  },
+  {
+    "title": "Performance",
+    "file": "performance.md",
+    "children": [
+      {
+        "title": "Best Practices",
+        "file": "perf/best-practices.md"
+      },
+      {
+        "title": "Performance Guide",
+        "file": "perf/guide.md"
+      }
+    ]
+  }
+]
