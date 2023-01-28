@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { Routes, RouterModule, PreloadAllModules } from '@angular/router';
+import { Routes, RouterModule } from '@angular/router';
 // import { AppsDataResolver } from './modules/apps/services/apps-data.resolver';
 
 import { AuthGuard } from './services/auth.guard';

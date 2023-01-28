@@ -1,4 +1,4 @@
-import { Component, OnInit, Inject, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { KRModalComponent } from '../../shared/kr-modal/kr-modal.component';
 // import { AppHeaderComponent } from '../app-header/app-header.component';
@@ -12,9 +12,8 @@ import { AppSelectionService } from '@kore.apps/services/app.selection.service';
 import { AuthService } from '@kore.apps/services/auth.service';
 import { InlineManualService } from '@kore.apps/services/inline-manual.service';
 import { MixpanelServiceService } from '@kore.apps/services/mixpanel-service.service';
-import { AppsService } from './services/apps.service';
 declare const $: any;
-declare const PureJSCarousel: any;
+
 @Component({
   // tslint:disable-next-line:component-selector
   selector: 'app-apps',

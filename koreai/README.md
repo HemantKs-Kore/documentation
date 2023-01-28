@@ -59,3 +59,7 @@ ng g m test --route test --module app
 Lazy load modules
 
 https://www.wittyprogramming.dev/articles/lazy-load-component-angular-without-routing/
+
+## Budget
+
+https://googlechrome.github.io/lighthouse/scorecalc/

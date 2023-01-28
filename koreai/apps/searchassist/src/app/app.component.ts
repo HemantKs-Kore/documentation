@@ -1,37 +1,14 @@
+import { Component, ViewChild, ViewContainerRef } from '@angular/core';
 import {
-  Component,
-  ComponentFactoryResolver,
-  HostListener,
-  ViewChild,
-  ViewContainerRef,
-} from '@angular/core';
-import {
-  ActivatedRoute,
   NavigationCancel,
   NavigationEnd,
   NavigationError,
   NavigationStart,
   Router,
-  RouterEvent,
 } from '@angular/router';
 import { LazyLoadService } from '@kore.shared/*';
-import { TranslateService } from '@ngx-translate/core';
-import { forkJoin, Observable, Subscription } from 'rxjs';
-import * as _ from 'underscore';
-// import { AppSelectionService } from './services/app.selection.service';
-import { AuthService } from './services/auth.service';
-import { DockStatusService } from './services/dock.status.service';
-import { EndPointsService } from './services/end-points.service';
-import { SideBarService } from './services/header.service';
-import { InlineManualService } from './services/inline-manual.service';
-import { LocalStoreService } from './services/localstore.service';
-import { MixpanelServiceService } from './services/mixpanel-service.service';
-import { ServiceInvokerService } from './services/service-invoker.service';
-import { WorkflowService } from './services/workflow.service';
+import { Observable } from 'rxjs';
 import { LoaderService } from './shared/loader/loader.service';
-
-declare const $: any;
-declare const FindlySDK: any;
 
 @Component({
   selector: 'app-root',
@@ -46,56 +23,11 @@ export class AppComponent {
   appSelected = false;
   isSdkBundleLoaded = false;
   sdkCmpRef = null;
-  // subscription: Subscription;
-  // SearchConfigurationSubscription: Subscription;
-  // searchSDKSubscription: Subscription;
-  // resultRankDataSubscription: Subscription;
-  // showHideMainMenuSubscription: Subscription;
-  // showHideSettingsMenuSubscription: Subscription;
-  // showHideSourceMenuSubscription: Subscription;
-  // closeSDKSubscription: Subscription;
-  // searchExperienceSubscription: Subscription;
-  // showSDKApp: Subscription;
-  // queryConfigsSubscription: Subscription;
-
-  // loading = false;
-  // userInfo: any = {};
-  // appsData;
-
-  // searchInstance: any;
   bridgeDataInsights = true;
   addNewResult = true;
 
-  // showInsightFull = false;
-  // findlyBusinessConfig: any = {};
-  // searchExperienceConfig: any;
-  // topDownSearchInstance: any;
-  // indexPipelineId: any;
-  // queryPipelineId: any;
-  // previousState;
-  // // isDemoApp: boolean = false;
-  // selectedApp: any;
-  // searchExperinceLoading = false;
-  // pathsObj: any = {
-  //   '/faq': 'Faqs',
-  //   '/content': 'Contnet',
-  //   '/sources': 'Source',
-  //   '/botActions': 'Bot Actions',
-  // };
   constructor(
     private router: Router,
-    // private authService: AuthService,
-    // public localstore: LocalStoreService,
-    // public workflowService: WorkflowService,
-    // private activatedRoute: ActivatedRoute,
-    // private headerService: SideBarService,
-    // public service: ServiceInvokerService, // changed to public for resolving the search interface failure issue
-    // private endpointservice: EndPointsService,
-    // private appSelectionService: AppSelectionService,
-    // public dockService: DockStatusService,
-    // public inlineManual: InlineManualService,
-    // public mixpanel: MixpanelServiceService,
-    // private translate: TranslateService
     private loaderService: LoaderService,
     private lazyLoadService: LazyLoadService
   ) {
