@@ -11,7 +11,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import { KrModalModule } from './../../shared/kr-modal/kr-modal.module';
 import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, NgOptimizedImage } from '@angular/common';
 
 import { SourcesRoutingModule } from './sources-routing.module';
 import { SourcesComponent } from './sources.component';
@@ -21,6 +21,7 @@ import { MatNativeDateModule } from '@angular/material/core';
   declarations: [SourcesComponent],
   imports: [
     CommonModule,
+    NgOptimizedImage,
     MatProgressBarModule,
     SourcesRoutingModule,
     PerfectScrollbarModule,

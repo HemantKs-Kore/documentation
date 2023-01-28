@@ -33,7 +33,13 @@
             (click)="selectSource(source)"
             *ngFor="let source of sourceCatagory.sources"
           >
-            <div class="img-block"><img src="{{ source.icon }}" /></div>
+            <div class="img-block">
+              <img
+                [ngSrc]="source.icon"
+                [width]="source.width"
+                [height]="source.height"
+              />
+            </div>
             <div class="titles-sec">
               <div class="p-title text-truncate" title="{{ source.name }}">
                 {{ source.name }}
