@@ -4,7 +4,7 @@ import { extModules } from '../build-specifics';
 import { appReducers } from './store/reducers';
 import { StoreRouterConnectingModule } from '@ngrx/router-store';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
-import { NgModule } from '@angular/core';
+import { NgModule, isDevMode } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { globalProviders } from '@kore.services/inteceptors';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
@@ -31,6 +31,7 @@ import { MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material/form-field';
 import { CommonModule } from '@angular/common';
 import { MainMenuModule } from './modules/layout/mainmenu/mainmenu.module';
 import { NgxEchartsModule } from 'ngx-echarts';
+import { ServiceWorkerModule } from '@angular/service-worker';
 // import { AddResultModule } from './modules/add-result/add-result.module';
 // import { InsightsModule } from './modules/insights/insights.module';
 
@@ -77,6 +78,12 @@ export function createTranslateLoader(http: HttpClient) {
     EffectsModule.forRoot([]),
     // InsightsModule,
     // EntityDataModule.forRoot(entityConfig),
+    ServiceWorkerModule.register('ngsw-worker.js', {
+      enabled: !isDevMode(),
+      // Register the ServiceWorker as soon as the application is stable
+      // or after 30 seconds (whichever comes first).
+      registrationStrategy: 'registerWhenStable:30000',
+    }),
   ],
   // tslint:disable-next-line:max-line-length
   entryComponents: [

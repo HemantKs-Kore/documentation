@@ -7,17 +7,24 @@
   "targets": {
     "build": {
       "executor": "@angular-devkit/build-angular:browser",
-      "outputs": ["{options.outputPath}"],
+      "outputs": [
+        "{options.outputPath}"
+      ],
       "options": {
         "baseHref": "/home/",
         "outputPath": "dist/apps/searchassist",
         "index": "apps/searchassist/src/index.html",
         "main": "apps/searchassist/src/main.ts",
-        "polyfills": ["zone.js"],
+        "polyfills": [
+          "zone.js"
+        ],
         "tsConfig": "apps/searchassist/tsconfig.app.json",
         "inlineStyleLanguage": "scss",
         "stylePreprocessorOptions": {
-          "includePaths": ["scss", "apps/searchassist/src/scss"]
+          "includePaths": [
+            "scss",
+            "apps/searchassist/src/scss"
+          ]
         },
         "assets": [
           "apps/searchassist/src/favicon.ico",
@@ -26,7 +33,8 @@
             "glob": "**/*",
             "input": "assets/",
             "output": "assets/"
-          }
+          },
+          "apps/searchassist/src/manifest.webmanifest"
         ],
         "styles": [
           "apps/searchassist/src/scss/styles.scss",
@@ -64,7 +72,9 @@
           "node_modules/rangy/lib/rangy-selectionsaverestore.js",
           "node_modules/rangy/lib/rangy-serializer.js",
           "node_modules/rangy/lib/rangy-textrange.js"
-        ]
+        ],
+        "serviceWorker": true,
+        "ngswConfigPath": "apps/searchassist/ngsw-config.json"
       },
       "configurations": {
         "production": {
@@ -365,7 +375,9 @@
     },
     "test": {
       "executor": "@nrwl/jest:jest",
-      "outputs": ["coverage/apps/searchassist"],
+      "outputs": [
+        "coverage/apps/searchassist"
+      ],
       "options": {
         "jestConfig": "apps/searchassist/jest.config.ts",
         "passWithNoTests": true

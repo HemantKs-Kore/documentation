@@ -53,6 +53,8 @@ ng g m test --route test --module app
 - Prettier code formatter
 - Lazy load theme and component specific style
 - Resolver to prefetch data before routing to page
+- Documentation
+- PWA
 
 ## Resources
 
