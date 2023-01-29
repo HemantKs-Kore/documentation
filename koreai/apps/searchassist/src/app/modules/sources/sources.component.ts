@@ -2,20 +2,19 @@ import {
   Component,
   OnInit,
   ViewChild,
-  OnDestroy,
-  AfterViewInit,
   Input,
   Output,
   EventEmitter,
+  AfterViewInit,
+  OnDestroy,
 } from '@angular/core';
 import { SliderComponentComponent } from '../../shared/slider-component/slider-component.component';
 import { KRModalComponent } from '../../shared/kr-modal/kr-modal.component';
-import { fadeInOutAnimation } from '../../helpers/animations/animations';
 import { NotificationService } from '../../services/notification.service';
 import { Router, ActivatedRoute } from '@angular/router';
 declare const $: any;
 import * as _ from 'underscore';
-import { of, interval, Subject } from 'rxjs';
+import { interval, Subject } from 'rxjs';
 import { startWith, take } from 'rxjs/operators';
 import { MatDatepickerInputEvent } from '@angular/material/datepicker';
 import {
@@ -24,7 +23,6 @@ import {
 } from '../../helpers/models/Crwal-advance.model';
 
 import { MatDialog } from '@angular/material/dialog';
-//import { DockStatusService } from '../../services/dock.status.service';
 import { DockStatusService } from '../../services/dockstatusService/dock-status.service';
 import { PerfectScrollbarComponent } from 'ngx-perfect-scrollbar';
 import { SchedulerComponent } from '../../components/scheduler/scheduler.component';
@@ -43,7 +41,8 @@ import { PdfAnnotationComponent } from '@kore.apps/components/annotool/component
   templateUrl: './sources.component.html',
   styleUrls: ['./sources.component.scss'],
 })
-export class SourcesComponent implements OnInit {
+export class SourcesComponent implements OnInit, AfterViewInit, OnDestroy {
+  datainc = 0;
   fileObj: any = {};
   crwalEvery = false;
   crawlOkDisable = false;
@@ -103,8 +102,8 @@ export class SourcesComponent implements OnInit {
   removedArr = [];
   submitted = false;
   showPassword = false;
-  url_failed: boolean = false;
-  btnDisabled: boolean = false;
+  url_failed = false;
+  btnDisabled = false;
   configurationLink: any = {
     postUrl: '',
     accessToken: '',
@@ -120,7 +119,7 @@ export class SourcesComponent implements OnInit {
   multipleFileArr = [];
   importFaqInprogress = false;
   selectedLinkBotConfig: any;
-  schedulerOpen: boolean = false;
+  schedulerOpen = false;
   @Input() inputClass: string;
   @Input() resourceIDToOpen: any;
   @Output() saveEvent = new EventEmitter();
@@ -277,16 +276,16 @@ export class SourcesComponent implements OnInit {
   ];
   anntationObj: any = {};
   showSourceTitle = false;
-  noAssociatedBots: boolean = true;
+  noAssociatedBots = true;
   associatedBots: any = [];
   streamID: any;
   showProgressBar: boolean;
   searchAssociatedBots: any;
   structuredData: any = {};
   structuredDataDocPayload: any;
-  selectExtractType: string = 'file';
+  selectExtractType = 'file';
 
-  allowURLValues: Array<String> = [
+  allowURLValues: Array<string> = [
     'is',
     'isNot',
     'beginsWith',
@@ -294,8 +293,8 @@ export class SourcesComponent implements OnInit {
     'contains',
     'doesNotContains',
   ];
-  allowURLArray: Array<Object> = [{ condition: 'contains', url: '' }];
-  blockURLArray: Array<Object> = [{ condition: 'contains', url: '' }];
+  allowURLArray: any[] = [{ condition: 'contains', url: '' }];
+  blockURLArray: any[] = [{ condition: 'contains', url: '' }];
   authorizationFieldObj: any = {
     type: '',
     key: '',
@@ -316,18 +315,18 @@ export class SourcesComponent implements OnInit {
     isEditable: false,
     duplicateObj: { type: '', key: '', value: '' },
   };
-  autorizationFieldTypes: Array<String> = [
+  autorizationFieldTypes: Array<string> = [
     'header',
     'payload',
     'querystring',
     'pathparam',
   ];
-  testTypes: Array<String> = ['text_presence', 'redirection_to', 'status_code'];
-  authenticationTypes: Array<String> = ['basic', 'form'];
-  crawlOptions: Array<String> = ['any', 'block', 'allow'];
-  crwalOptionLabel: String = 'any';
-  inputTypes: Array<String> = ['textbox', 'password'];
-  isPasswordShow: Boolean = false;
+  testTypes: Array<string> = ['text_presence', 'redirection_to', 'status_code'];
+  authenticationTypes: Array<string> = ['basic', 'form'];
+  crawlOptions: Array<string> = ['any', 'block', 'allow'];
+  crwalOptionLabel = 'any';
+  inputTypes: Array<string> = ['textbox', 'password'];
+  isPasswordShow = false;
 
   constructor(
     public workflowService: WorkflowService,
@@ -361,7 +360,6 @@ export class SourcesComponent implements OnInit {
   @ViewChild('schedularDataPop') schedularDataPop: KRModalComponent;
   @ViewChild('contentStatusModalPop') contentStatusModalPop: KRModalComponent;
   ngOnInit() {
-    const _self = this;
     this.router.routeReuseStrategy.shouldReuseRoute = () => {
       return false;
     };
@@ -400,7 +398,7 @@ export class SourcesComponent implements OnInit {
             if (source.id === resourceType) {
               this.loadFullComponent = false;
               setTimeout(() => {
-                _self.selectSource(source);
+                this.selectSource(source);
               }, 100);
             }
           });
@@ -585,7 +583,6 @@ export class SourcesComponent implements OnInit {
       }
     );
   }
-  datainc = 0;
   poling(jobId, schedule?) {
     if (this.pollingSubscriber) {
       this.pollingSubscriber.unsubscribe();
@@ -722,7 +719,6 @@ export class SourcesComponent implements OnInit {
       $('.addSourceModalComponent').addClass('hide');
     }
     this.statusObject = { ...this.defaultStatusObj };
-    const self = this;
     if (this.pollingSubscriber) {
       this.pollingSubscriber.unsubscribe();
     }
@@ -734,7 +730,6 @@ export class SourcesComponent implements OnInit {
     }
     this.importFaqInprogress = false;
     this.saveEvent.emit();
-    const self = this;
     if (this.pollingSubscriber) {
       this.pollingSubscriber.unsubscribe();
     }
@@ -744,7 +739,6 @@ export class SourcesComponent implements OnInit {
   }
   closeCrawlModal() {
     this.saveEvent.emit();
-    const self = this;
     if (this.pollingSubscriber) {
       this.pollingSubscriber.unsubscribe();
     }
@@ -903,7 +897,7 @@ export class SourcesComponent implements OnInit {
   }
   //To check validations wrt faq && content for file upload
   showProgValidation(element, event, index) {
-    let showProg: boolean = false;
+    let showProg = false;
     this.extension = '.' + element.file_ext;
     if (this.selectedSourceType.sourceType === 'content') {
       if (
@@ -982,7 +976,7 @@ export class SourcesComponent implements OnInit {
 
   //Triggers while selecting multiple files
   multipleFileChangeListner(event) {
-    let fileArr = [];
+    const fileArr = [];
     if (
       event &&
       event.target &&
@@ -1002,7 +996,7 @@ export class SourcesComponent implements OnInit {
             event.target.files[i].name.lastIndexOf('.')
           );
           // this.extension = _ext
-          let fileObj = {
+          const fileObj = {
             fileUploadInProgress: true,
             fileName: event.target.files[i].name,
             file_ext: _ext.replace('.', ''), // Check this.
@@ -1026,7 +1020,7 @@ export class SourcesComponent implements OnInit {
   //Triggers on select of a file
   fileChangeListener(event) {
     this.newSourceObj.url = '';
-    let fileName = '';
+    const fileName = '';
     // console.log(this.filesListData, this.multipleData)
     if (
       event &&
@@ -1076,8 +1070,8 @@ export class SourcesComponent implements OnInit {
   onFileSelect(input: HTMLInputElement, ext) {
     this.files = input.files;
     const content = this.csvContent;
-    let resourceType = this.selectedSourceType.resourceType;
-    let resourceType_import = resourceType;
+    const resourceType = this.selectedSourceType.resourceType;
+    const resourceType_import = resourceType;
     if (this.files && this.files.length === 1) {
       this.prepareFileUploadData(input, ext, this.files, resourceType_import);
     } else {
@@ -1169,7 +1163,7 @@ export class SourcesComponent implements OnInit {
     this.service.invoke('post.fileupload', quaryparms, payload).subscribe(
       (res) => {
         this.fileObj.fileId = res.fileId;
-        let obj = {
+        const obj = {
           name: fileDataElement.name.replace(
             fileDataElement.name.substring(
               fileDataElement.name.lastIndexOf('.')
@@ -1182,7 +1176,7 @@ export class SourcesComponent implements OnInit {
 
         //Independant file loader
         this.filesListData.forEach((element) => {
-          let elementName = element.name.replace(
+          const elementName = element.name.replace(
             element.name.substring(element.name.lastIndexOf('.')),
             ''
           );
@@ -1193,7 +1187,7 @@ export class SourcesComponent implements OnInit {
 
         // To show the notification after all the files are uploaded
         if (this.multipleData.files.length === this.multipleFileArr.length) {
-          let statusMessage =
+          const statusMessage =
             this.multipleFileArr.length + ' files uploaded successfully';
           this.notificationService.notify(statusMessage, 'success');
         }
@@ -1435,8 +1429,8 @@ export class SourcesComponent implements OnInit {
           //For deleting unacceptable files while uploading
           else if (this.multipleFileArr.length > 1) {
             if (this.multipleData.files.length != this.filesListData.length) {
-              let parentArr = [...this.removedArr];
-              let childArr = [...this.multipleData.files];
+              const parentArr = [...this.removedArr];
+              const childArr = [...this.multipleData.files];
               parentArr.forEach((parentArrElement) => {
                 childArr.forEach((childElement, index) => {
                   if (
@@ -1577,7 +1571,7 @@ export class SourcesComponent implements OnInit {
     payload = this.newSourceObj;
     let endPoint = 'add.sourceMaterialFaq';
     let resourceType = this.selectedSourceType.resourceType;
-    let resourceType_import = resourceType;
+    const resourceType_import = resourceType;
 
     this.dockService.trigger(true);
     if (
@@ -1661,7 +1655,7 @@ export class SourcesComponent implements OnInit {
         } else {
           delete payload.advanceOpts.maxUrlLimit;
         }
-        for (let item of payload.authorizationProfle.authorizationFields) {
+        for (const item of payload.authorizationProfle.authorizationFields) {
           delete item.duplicateObj;
           delete item.isEditable;
           delete item.isShow;
@@ -1670,7 +1664,7 @@ export class SourcesComponent implements OnInit {
           payload.authorizationProfle.formFields =
             payload.authorizationProfle.basicFields;
         } else if (payload.authorizationProfle.sso_type === 'form') {
-          for (let item of payload.authorizationProfle.formFields) {
+          for (const item of payload.authorizationProfle.formFields) {
             delete item.duplicateObj;
             delete item.isEditable;
             delete item.isShow;
@@ -2037,7 +2031,7 @@ export class SourcesComponent implements OnInit {
       this.service.invoke('get.AssociatedBots', queryParams).subscribe(
         (res) => {
           // console.log('Associated Bots', res);
-          let bots = JSON.parse(JSON.stringify(res));
+          const bots = JSON.parse(JSON.stringify(res));
           //this.associatedBots = JSON.parse(JSON.stringify(res));
           this.associatedBots = [];
           bots.forEach((element) => {
@@ -2249,7 +2243,6 @@ export class SourcesComponent implements OnInit {
   // Code for Structured Data Ends
 
   ngOnDestroy() {
-    const self = this;
     if (this.pollingSubscriber) {
       this.pollingSubscriber.unsubscribe();
     }
@@ -2458,7 +2451,7 @@ export class SourcesComponent implements OnInit {
   }
 
   showPasword() {
-    var show: any = document.getElementById('password');
+    const show: any = document.getElementById('password');
     if (show.type === 'password') {
       this.showPassword = true;
       show.type = 'text';
@@ -2533,7 +2526,7 @@ export class SourcesComponent implements OnInit {
     }
   }
   unlinkBotWhithPublish(linkingBotID) {
-    let requestBody: any = {};
+    const requestBody: any = {};
     let selectedApp: any;
     if (this.searchIndexId) {
       // this.loadingContent = true;
@@ -2604,7 +2597,7 @@ export class SourcesComponent implements OnInit {
               .indexOf('hookInstance') + 1
           ];
       }
-      let payload = {
+      const payload = {
         linkBotId: this.selectedLinkBotConfig._id,
         linkBotName: this.selectedLinkBotConfig.name,
         channels: [
@@ -2628,7 +2621,7 @@ export class SourcesComponent implements OnInit {
         (res) => {
           this.allBotArray = [];
           res.configuredBots.forEach((element) => {
-            let obj = {
+            const obj = {
               _id: element._id,
               state: 'new',
             };
@@ -2890,7 +2883,7 @@ export class SourcesComponent implements OnInit {
 
   //validation method
   validationInputs(type) {
-    let inputs = ['contentURL', 'addSourceTitleInput'];
+    const inputs = ['contentURL', 'addSourceTitleInput'];
     if (type === 'web') {
       if (
         this.crwalObject.advanceOpts.blockedOpt ||
@@ -2950,9 +2943,9 @@ export class SourcesComponent implements OnInit {
   //count validation input's
   countValidationInputs(data) {
     let count = 0;
-    for (let item of data) {
+    for (const item of data) {
       let text = 0;
-      let id: any = document.getElementById(item);
+      const id: any = document.getElementById(item);
       if (id?.type === 'submit') {
         text = [
           'Select Authentication Type',

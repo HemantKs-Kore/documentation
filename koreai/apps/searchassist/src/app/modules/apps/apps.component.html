@@ -217,7 +217,7 @@
                       class="tab-name"
                       *ngFor="let app of appTypes"
                       (click)="selectedAppType(app)"
-                      [class.active-tab-name]="app == app_type"
+                      [class.active-tab-name]="app === app_type"
                     >
                       {{ app }} {{ 'home_apps' | translate }}
                     </div>
@@ -235,7 +235,9 @@
                       </button>
                       <ul class="dropdown-menu content-menu">
                         <li *ngFor="let sort of sortBy" (click)="sortApp(sort)">
-                          <a [class.selected]="sort == sort_type">{{ sort }}</a>
+                          <a [class.selected]="sort === sort_type">{{
+                            sort
+                          }}</a>
                         </li>
                       </ul>
                     </div>

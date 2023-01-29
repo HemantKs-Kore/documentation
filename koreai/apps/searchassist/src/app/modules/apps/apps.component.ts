@@ -84,6 +84,11 @@ export class AppsComponent implements OnInit {
   createdAppData: any = {};
   pollingInterval;
   isShowSearchGif = false;
+  sort_type: string;
+  minToMax = false;
+  order = false;
+  filteredApps = [];
+  app_type: string;
   @ViewChild('createAppPop') createAppPop: KRModalComponent;
   @ViewChild('createBoardingJourney') createBoardingJourney: KRModalComponent;
   @ViewChild('confirmatiomAppPop') confirmatiomAppPop: KRModalComponent;
@@ -524,8 +529,7 @@ export class AppsComponent implements OnInit {
   }
   //create app
   createFindlyApp() {
-    const self = this;
-    self.creatingInProgress = true;
+    this.creatingInProgress = true;
     const payload: any = {
       name: this.newApp.name,
       icon: '',
@@ -558,7 +562,7 @@ export class AppsComponent implements OnInit {
       },
       (errRes) => {
         this.errorToaster(errRes, 'Error in creating app');
-        self.creatingInProgress = false;
+        this.creatingInProgress = false;
       }
     );
   }
@@ -665,7 +669,7 @@ export class AppsComponent implements OnInit {
       validField = false;
     }
     if (validField && this.newApp.name) {
-      const specialCharacters = /[!@#$%^&*()_+\-=\[\]{};':"\\|<>\/?→←↑↓]+/;
+      const specialCharacters = /[!@#$%^&*()_+\-=[\]{};':"\\|<>/?→←↑↓]+/;
       if (!specialCharacters.test(this.newApp.description)) {
         this.createFindlyApp();
       } else {
@@ -704,8 +708,7 @@ export class AppsComponent implements OnInit {
     );
   }
   //select app type
-  filteredApps = [];
-  app_type: string;
+
   selectedAppType(type) {
     this.app_type = type;
     this.filteredApps = [];
@@ -722,9 +725,6 @@ export class AppsComponent implements OnInit {
     }
   }
   //sort app
-  sort_type: string;
-  minToMax: boolean = false;
-  order: boolean = false;
   sortApp(type) {
     if (type !== 'Icon filter') {
       this.sort_type = type;

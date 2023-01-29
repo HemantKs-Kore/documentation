@@ -1,4 +1,4 @@
-import { Component, ViewChild, ViewContainerRef } from '@angular/core';
+import { Component, OnInit, ViewChild, ViewContainerRef } from '@angular/core';
 import {
   NavigationCancel,
   NavigationEnd,
@@ -15,7 +15,7 @@ import { LoaderService } from './shared/loader/loader.service';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
   @ViewChild('dynamic', { read: ViewContainerRef }) dynamic!: ViewContainerRef;
   showMainMenu = true;
   settingMainMenu = false;

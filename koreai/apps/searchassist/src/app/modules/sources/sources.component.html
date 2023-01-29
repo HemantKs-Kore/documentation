@@ -209,7 +209,7 @@
             >
               <ul
                 class="nav nav-tabs"
-                *ngIf="selectedSourceType.id != 'faqDoc'"
+                *ngIf="selectedSourceType.id !== 'faqDoc'"
                 role="tablist"
               >
                 <li class="nav-item">
@@ -283,7 +283,7 @@
                         [ngClass]="{
                           'after-selection-items':
                             fileObj.fileName &&
-                            selectedSourceType.sourceType == 'content'
+                            selectedSourceType.sourceType === 'content'
                         }"
                       >
                         <ng-container *ngIf="!fileObj.fileName">
@@ -309,8 +309,8 @@
                           />
                           <input
                             *ngIf="
-                              selectedSourceType.sourceType == 'content' &&
-                              selectedSourceType.resourceType == 'file'
+                              selectedSourceType.sourceType === 'content' &&
+                              selectedSourceType.resourceType === 'file'
                             "
                             type="file"
                             id="sourceFileUploader"
@@ -328,8 +328,8 @@
                           <div
                             class="info_text"
                             *ngIf="
-                              selectedSourceType.resourceType != 'importfaq' &&
-                              selectedSourceType.resourceType != ''
+                              selectedSourceType.resourceType !== 'importfaq' &&
+                              selectedSourceType.resourceType !== ''
                             "
                           >
                             {{ 'contentSource_drag_and_drop_desc' | translate }}
@@ -337,8 +337,8 @@
                           <div
                             class="info_text"
                             *ngIf="
-                              selectedSourceType.sourceType == 'faq' &&
-                              selectedSourceType.resourceType == ''
+                              selectedSourceType.sourceType === 'faq' &&
+                              selectedSourceType.resourceType === ''
                             "
                           >
                             {{ 'contentSource_drag_and_drop_a' | translate
@@ -373,8 +373,8 @@
                           <div
                             class="info_help_text"
                             *ngIf="
-                              selectedSourceType.sourceType == 'content' &&
-                              selectedSourceType.resourceType == 'file'
+                              selectedSourceType.sourceType === 'content' &&
+                              selectedSourceType.resourceType === 'file'
                             "
                           >
                             <img src="assets/icons/info.svg" />
@@ -384,7 +384,7 @@
                             }}
                           </div>
                           <div
-                            *ngIf="selectedSourceType.sourceType == 'content'"
+                            *ngIf="selectedSourceType.sourceType === 'content'"
                             class="not-limit-size"
                           >
                             {{
@@ -396,7 +396,7 @@
                         <ng-container
                           *ngIf="
                             fileObj.fileName &&
-                            selectedSourceType.sourceType == 'faq'
+                            selectedSourceType.sourceType === 'faq'
                           "
                         >
                           <div class="kr-sg-file-drag-drop w-100">
@@ -495,7 +495,7 @@
                         <ng-container
                           *ngIf="
                             fileObj.fileName &&
-                            selectedSourceType.sourceType == 'content'
+                            selectedSourceType.sourceType === 'content'
                           "
                         >
                           <div class="upload-files-radio-data">
@@ -610,7 +610,7 @@
                     <!-- Annotation Start Here -->
                     <div
                       class="pt2 annotation"
-                      *ngIf="selectedSourceType.resourceType == ''"
+                      *ngIf="selectedSourceType.resourceType === ''"
                     >
                       <div class="kr-sg-checkbox">
                         <input
@@ -2328,7 +2328,7 @@
                   <div
                     class="link-bot-btn"
                     (click)="unlinkBot(bot._id)"
-                    *ngIf="streamID == bot._id"
+                    *ngIf="streamID === bot._id"
                   >
                     <img src="assets/icons/actions/link-bot.svg" />{{
                       'botAction_unlink_bot' | translate
@@ -2347,13 +2347,13 @@
                       <div class="bots-modal-accordion-header-container">
                         <img class="bots-modal-bot-icon" src="assets/images/botIcon.svg">
                         <span class="bots-modal-accordion-header-title">{{bot.name}}</span>
-                        <button *ngIf="streamID != bot._id" class="kr-sg-button-primary bots-modal-button-link"
-                          (click)="linkBot(bot._id)" [disabled]="streamID != null">Link Bot</button>
-                        <span *ngIf="streamID == bot._id" class="bots-modal-span-link">
+                        <button *ngIf="streamID !== bot._id" class="kr-sg-button-primary bots-modal-button-link"
+                          (click)="linkBot(bot._id)" [disabled]="streamID !== null">Link Bot</button>
+                        <span *ngIf="streamID === bot._id" class="bots-modal-span-link">
                           <div class="bots-modal-check-icon-container"><img
                               src="assets/images/source-icos/check-green.svg"></div>&nbsp;Bot is linked
                         </span>
-                        <div *ngIf="streamID == bot._id" class="bots-modal-dropdown-control"><img class="ellipse-icon"
+                        <div *ngIf="streamID === bot._id" class="bots-modal-dropdown-control"><img class="ellipse-icon"
                             src="assets/icons/elipse.svg">
                           <div class="bots-modal-dropdown-content">
                             <ul class="bots-modal-dropdown-content-list">
@@ -2825,7 +2825,7 @@
               <div
                 class="content-title"
                 *ngIf="
-                  selectedSourceType?.resourceType == 'file' &&
+                  selectedSourceType?.resourceType === 'file' &&
                   ['success', 'running'].includes(statusObject?.status)
                 "
               >
@@ -2833,7 +2833,7 @@
                   src="assets/images/source-icos/check-green.svg"
                   *ngIf="
                     statusObject?.isURLValid ||
-                    selectedSourceType?.resourceType == 'file'
+                    selectedSourceType?.resourceType === 'file'
                   "
                   class="successfullyConnected"
                 />
@@ -2912,7 +2912,7 @@
           *ngIf="
             (selectedSourceType?.sourceType === 'faq' &&
               statusObject?.status !== 'success') ||
-            statusObject?.status == 'failed'
+            statusObject?.status === 'failed'
           "
         >
           {{ 'contentSource_cancel_extraction' | translate }}
