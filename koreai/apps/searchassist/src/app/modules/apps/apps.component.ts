@@ -12,6 +12,8 @@ import { AppSelectionService } from '@kore.apps/services/app.selection.service';
 import { AuthService } from '@kore.apps/services/auth.service';
 import { InlineManualService } from '@kore.apps/services/inline-manual.service';
 import { MixpanelServiceService } from '@kore.apps/services/mixpanel-service.service';
+import { Store } from '@ngrx/store';
+import { setAppId } from '@kore.apps/store/app.actions';
 declare const $: any;
 
 @Component({
@@ -105,7 +107,8 @@ export class AppsComponent implements OnInit {
     public authService: AuthService,
     public inlineManual: InlineManualService,
     private route: ActivatedRoute,
-    public mixpanel: MixpanelServiceService // private appsService: AppsService
+    public mixpanel: MixpanelServiceService,
+    private store: Store
   ) {
     this.authInfo = localstore.getAuthInfo();
     this.userId = this.authService.getUserId();
@@ -173,6 +176,9 @@ export class AppsComponent implements OnInit {
     this.apps = apps;
   }
   openApp(app, isUpgrade?) {
+    this.store.dispatch(
+      setAppId({ appId: app._id, searchIndexId: app.searchIndexes[0]._id })
+    );
     $('#test-btn-launch-sdk').attr('disabled', 'disabled').button('refresh');
     this.appSelectionService.tourConfigCancel.next({
       name: undefined,
