@@ -11,6 +11,7 @@ import { FormsModule } from '@angular/forms';
 import { MatDialogModule } from '@angular/material/dialog';
 import { UpgradePlanModule } from '@kore.apps/helpers/components/upgrade-plan/upgrade-plan.module';
 import { UseronboardingJourneyModule } from '@kore.apps/helpers/components/useronboarding-journey/useronboarding-journey.module';
+import { NgxDaterangepickerMd } from 'ngx-daterangepicker-material';
 
 @NgModule({
   declarations: [BusinessRulesComponent],
@@ -25,6 +26,7 @@ import { UseronboardingJourneyModule } from '@kore.apps/helpers/components/usero
     UseronboardingJourneyModule,
     FormsModule,
     MatDialogModule,
+    NgxDaterangepickerMd.forRoot(),
   ],
 })
 export class BusinessRulesModule {}

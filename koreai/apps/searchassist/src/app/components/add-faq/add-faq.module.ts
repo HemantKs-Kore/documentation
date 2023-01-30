@@ -26,11 +26,11 @@ import { NgxDaterangepickerMd } from 'ngx-daterangepicker-material';
     CodemirrorModule,
     FormsModule,
     MatIconModule,
-    NgxDaterangepickerMd,
+    NgxDaterangepickerMd.forRoot(),
     NgbTooltipModule,
     SharedPipesModule,
     AddAlternateQuestionModule,
-    MatFormFieldModule
+    MatFormFieldModule,
   ],
   exports: [AddFaqComponent],
 })

@@ -11,6 +11,7 @@ import { FormsModule } from '@angular/forms';
 import { NgxDaterangepickerMd } from 'ngx-daterangepicker-material';
 import { SharedPipesModule } from '@kore.apps/helpers/filters/shared-pipes.module';
 import { UseronboardingJourneyModule } from '@kore.apps/helpers/components/useronboarding-journey/useronboarding-journey.module';
+import { AnalyticsDropdownComponent } from '@kore.apps/helpers/components/analytics-dropdown/analytics-dropdown.component';
 
 @NgModule({
   declarations: [SearchInsightsComponent],
@@ -25,6 +26,7 @@ import { UseronboardingJourneyModule } from '@kore.apps/helpers/components/usero
     FormsModule,
     NgxDaterangepickerMd.forRoot(),
     UseronboardingJourneyModule,
+    AnalyticsDropdownComponent,
   ],
 })
 export class SearchInsightsModule {}
