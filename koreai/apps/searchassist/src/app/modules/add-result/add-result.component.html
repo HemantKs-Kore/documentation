@@ -19,28 +19,28 @@
           </button>
           <ul class="dropdown-menu content-menu">
             <li (click)="resultClick('faq')">
-              <a [ngClass]="{ 'sel-bold': searchRadioTypeTxt == 'FAQ' }">FAQ</a>
+              <a [ngClass]="{ 'sel-bold': searchRadioTypeTxt === 'FAQ' }">FAQ</a>
             </li>
             <li (click)="resultClick('content')">
-              <a [ngClass]="{ 'sel-bold': searchRadioTypeTxt == 'Content' }"
+              <a [ngClass]="{ 'sel-bold': searchRadioTypeTxt === 'Content' }"
                 >Content</a
               >
             </li>
             <li (click)="resultClick('task')">
-              <a [ngClass]="{ 'sel-bold': searchRadioTypeTxt == 'Bot Action' }"
+              <a [ngClass]="{ 'sel-bold': searchRadioTypeTxt === 'Bot Action' }"
                 >Bot Action</a
               >
             </li>
             <li (click)="resultClick('data')">
               <a
                 [ngClass]="{
-                  'sel-bold': searchRadioTypeTxt == 'Structured Data'
+                  'sel-bold': searchRadioTypeTxt === 'Structured Data'
                 }"
                 >Structured Data</a
               >
             </li>
             <li (click)="resultClick('all')">
-              <a [ngClass]="{ 'sel-bold': searchRadioTypeTxt == 'Any' }">Any</a>
+              <a [ngClass]="{ 'sel-bold': searchRadioTypeTxt === 'Any' }">Any</a>
             </li>
           </ul>
         </div>
@@ -93,7 +93,7 @@
       <div id="accordion" class="accordion-content">
         <!-- <div *ngIf ="extractedResults; else loading"> -->
         <div *ngFor="let result of extractedResults; let i = index">
-          <div class="card-content" *ngIf="searchType == 'faq'">
+          <div class="card-content" *ngIf="searchType === 'faq'">
             <div class="card_link collapsed">
               <div class="d-flex align-items-center">
                 <div
@@ -110,14 +110,14 @@
                   />
                   <label [attr.for]="i" class="checkbox-custom-label"></label>
                 </div>
-                <div class="title-desc-sec" *ngIf="searchType == 'faq'">
+                <div class="title-desc-sec" *ngIf="searchType === 'faq'">
                   <div class="title">{{ result.faq_question }}</div>
                   <div class="desc">{{ result.faq_answer }}</div>
                 </div>
               </div>
             </div>
           </div>
-          <div class="card-content" *ngIf="searchType == 'task'">
+          <div class="card-content" *ngIf="searchType === 'task'">
             <div class="card_link collapsed">
               <div class="d-flex align-items-center">
                 <div
@@ -141,7 +141,7 @@
               </div>
             </div>
           </div>
-          <div class="card-content" *ngIf="searchType == 'data'">
+          <div class="card-content" *ngIf="searchType === 'data'">
             <div class="card_link collapsed">
               <div class="d-flex align-items-center">
                 <div
@@ -160,7 +160,7 @@
                 </div>
                 <div
                   class="tiltles-sec"
-                  *ngIf="result.sys_content_type == 'data'"
+                  *ngIf="result.sys_content_type === 'data'"
                 >
                   <div class="primary-tiitle">{{ result.heading }}</div>
                   <div class="secondary-title">{{ result.description }}</div>
@@ -168,7 +168,7 @@
               </div>
             </div>
           </div>
-          <div class="card-content" *ngIf="searchType == 'all'">
+          <div class="card-content" *ngIf="searchType === 'all'">
             <div class="card_link collapsed">
               <div class="d-flex align-items-center">
                 <div
@@ -187,28 +187,28 @@
                 </div>
                 <div
                   class="title-desc-sec"
-                  *ngIf="result.sys_content_type == 'web'"
+                  *ngIf="result.sys_content_type === 'web'"
                 >
                   <div class="title">{{ result.page_title }}</div>
                   <div class="desc">{{ result.searchResultPreview }}</div>
                 </div>
                 <div
                   class="title-desc-sec"
-                  *ngIf="result.sys_content_type == 'faq'"
+                  *ngIf="result.sys_content_type === 'faq'"
                 >
                   <div class="title">{{ result.faq_question }}</div>
                   <div class="desc">{{ result.faq_answer[0].text }}</div>
                 </div>
                 <div
                   class="title-desc-sec"
-                  *ngIf="result.sys_content_type == 'task'"
+                  *ngIf="result.sys_content_type === 'task'"
                 >
                   <div class="title">{{ result.title }}</div>
                   <div class="desc">{{ result.searchResultPreview }}</div>
                 </div>
                 <div
                   class="tiltles-sec"
-                  *ngIf="result.sys_content_type == 'data'"
+                  *ngIf="result.sys_content_type === 'data'"
                 >
                   <div class="primary-tiitle">{{ result.heading }}</div>
                   <div class="secondary-title">{{ result.description }}</div>
@@ -216,7 +216,7 @@
               </div>
             </div>
           </div>
-          <div *ngIf="searchType == 'content'">
+          <div *ngIf="searchType === 'content'">
             <!-- <div *ngFor="let data of result.data ;let j = index"> -->
             <div class="card-content">
               <div class="card_link collapsed">
@@ -268,7 +268,7 @@
         name="radio"
         class="radio-custom"
         type="radio"
-        [checked]="positionRecord == 'top'"
+        [checked]="positionRecord === 'top'"
         (click)="positionRecord = 'top'"
       />
       <label for="radio-last" class="radio-custom-label">Add to the top</label>
@@ -279,7 +279,7 @@
         name="radio"
         class="radio-custom"
         type="radio"
-        [checked]="positionRecord == 'bottom'"
+        [checked]="positionRecord === 'bottom'"
         (click)="positionRecord = 'bottom'"
       />
       <label for="radio-top" class="radio-custom-label">Add to the last</label>
@@ -312,7 +312,7 @@
 <div
   class="add-new-result-container"
   *ngIf="!addNew"
-  [ngClass]="{ 'top-down-add-new-result': structure == 'top' }"
+  [ngClass]="{ 'top-down-add-new-result': structure === 'top' }"
 >
   <div class="result-container">
     <div class="header-sec">
@@ -335,28 +335,28 @@
           </button>
           <ul class="dropdown-menu content-menu">
             <li (click)="resultClick('faq')">
-              <a [ngClass]="{ selected: searchRadioTypeTxt == 'FAQ' }">FAQ</a>
+              <a [ngClass]="{ selected: searchRadioTypeTxt === 'FAQ' }">FAQ</a>
             </li>
             <li (click)="resultClick('content')">
-              <a [ngClass]="{ selected: searchRadioTypeTxt == 'Content' }"
+              <a [ngClass]="{ selected: searchRadioTypeTxt === 'Content' }"
                 >Content</a
               >
             </li>
             <li (click)="resultClick('task')">
-              <a [ngClass]="{ selected: searchRadioTypeTxt == 'Bot Action' }"
+              <a [ngClass]="{ selected: searchRadioTypeTxt === 'Bot Action' }"
                 >Bot Action</a
               >
             </li>
             <li (click)="resultClick('data')">
               <a
                 [ngClass]="{
-                  selected: searchRadioTypeTxt == 'Structured Data'
+                  selected: searchRadioTypeTxt === 'Structured Data'
                 }"
                 >Structured Data</a
               >
             </li>
             <li (click)="resultClick('all')">
-              <a [ngClass]="{ selected: searchRadioTypeTxt == 'Any' }">Any</a>
+              <a [ngClass]="{ selected: searchRadioTypeTxt === 'Any' }">Any</a>
             </li>
           </ul>
         </div>
@@ -386,7 +386,7 @@
         </div>
         <div class="result-data">
           <ng-container *ngFor="let result of extractedResults; let i = index">
-            <div class="row-with-checkbox selected" *ngIf="searchType == 'faq'">
+            <div class="row-with-checkbox selected" *ngIf="searchType === 'faq'">
               <div
                 class="kr-sg-checkbox d-block p-0 m-0"
                 (click)="$event.stopImmediatePropagation()"
@@ -408,7 +408,7 @@
             </div>
             <div
               class="row-with-checkbox selected"
-              *ngIf="searchType == 'task'"
+              *ngIf="searchType === 'task'"
             >
               <div
                 class="kr-sg-checkbox d-block p-0 m-0"
@@ -433,7 +433,7 @@
             </div>
             <div
               class="row-with-checkbox selected"
-              *ngIf="searchType == 'data'"
+              *ngIf="searchType === 'data'"
             >
               <div
                 class="kr-sg-checkbox d-block p-0 m-0"
@@ -454,7 +454,7 @@
                 <div class="secondary-title">{{ result.description }}</div>
               </div>
             </div>
-            <div class="row-with-checkbox selected" *ngIf="searchType == 'all'">
+            <div class="row-with-checkbox selected" *ngIf="searchType === 'all'">
               <div class="kr-sg-checkbox d-block p-0 m-0">
                 <input
                   [attr.id]="i"
@@ -468,11 +468,11 @@
               </div>
               <div
                 class="tiltles-sec"
-                *ngIf="result.sys_content_type == 'file'"
+                *ngIf="result.sys_content_type === 'file'"
               >
                 <div class="primary-tiitle">{{ result.file_title }}</div>
               </div>
-              <div class="tiltles-sec" *ngIf="result.sys_content_type == 'web'">
+              <div class="tiltles-sec" *ngIf="result.sys_content_type === 'web'">
                 <div class="primary-tiitle">{{ result.page_title }}</div>
                 <div
                   class="secondary-title"
@@ -486,7 +486,7 @@
                   </div>
                 </ng-template>
               </div>
-              <div class="tiltles-sec" *ngIf="result.sys_content_type == 'faq'">
+              <div class="tiltles-sec" *ngIf="result.sys_content_type === 'faq'">
                 <div class="primary-tiitle">{{ result.faq_question }}</div>
                 <div class="secondary-title">
                   {{ result.faq_answer[0].text }}
@@ -494,7 +494,7 @@
               </div>
               <div
                 class="tiltles-sec"
-                *ngIf="result.sys_content_type == 'task'"
+                *ngIf="result.sys_content_type === 'task'"
               >
                 <div class="primary-tiitle">{{ result.title }}</div>
                 <div class="secondary-title">
@@ -503,7 +503,7 @@
               </div>
               <div
                 class="tiltles-sec"
-                *ngIf="result.sys_content_type == 'data'"
+                *ngIf="result.sys_content_type === 'data'"
               >
                 <div class="primary-tiitle">{{ result.heading }}</div>
                 <div class="secondary-title">{{ result.description }}</div>
@@ -511,7 +511,7 @@
             </div>
             <div
               class="row-with-checkbox selected"
-              *ngIf="searchType == 'content'"
+              *ngIf="searchType === 'content'"
             >
               <div
                 class="kr-sg-checkbox d-block p-0 m-0"
@@ -529,11 +529,11 @@
               </div>
               <div
                 class="tiltles-sec"
-                *ngIf="result.sys_content_type == 'file'"
+                *ngIf="result.sys_content_type === 'file'"
               >
                 <div class="primary-tiitle">{{ result.file_title }}</div>
               </div>
-              <div class="tiltles-sec" *ngIf="result.sys_content_type == 'web'">
+              <div class="tiltles-sec" *ngIf="result.sys_content_type === 'web'">
                 <div class="primary-tiitle">{{ result.page_title }}</div>
                 <div
                   class="secondary-title"

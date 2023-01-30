@@ -12683,7 +12683,7 @@ function _typeof(obj) {
 
       var clientMessageId = new Date().getTime();
       var msgData = {};
-      fileUploaderCounter = 0;
+      let fileUploaderCounter = 0;
       //to send \n to server for new lines
       //chatInput.html(chatInput.html().replaceAll("<br>", "\n"));
       if (false && attachmentInfo && Object.keys(attachmentInfo).length) {
@@ -12705,7 +12705,7 @@ function _typeof(obj) {
         $('.kore-chat-window').removeClass('kore-chat-attachment');
         document.getElementById('captureAttachmnts').value = '';
       } else {
-        attachmentInfo = {};
+        var attachmentInfo = {};
         msgData = {
           type: 'currentUser',
           message: [

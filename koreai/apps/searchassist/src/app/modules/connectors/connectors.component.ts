@@ -67,10 +67,10 @@ export class ConnectorsComponent implements OnInit {
     },
   ];
   componentType = 'Connectors';
-  selectedContent: string = 'list';
-  selectAddContent: string = 'instructions';
-  selectedTab: string = 'overview';
-  connectorId: string = '';
+  selectedContent = 'list';
+  selectAddContent = 'instructions';
+  selectedTab = 'overview';
+  connectorId = '';
   searchIndexId: string;
   selectedApp: any;
   deleteModelRef: any;
@@ -90,26 +90,26 @@ export class ConnectorsComponent implements OnInit {
   };
   overViewData: any = { overview: [], coneten: [], jobs: [] };
   syncCount = { count: [], hours: 0, minutes: 0, days: 0 };
-  showProtecedText: Object = {
+  showProtecedText: any = {
     isClientShow: false,
     isSecretShow: false,
     isPassword: false,
     istenantIdShow: false,
   };
-  isEditable: boolean = false;
-  checkConfigButton: Boolean = true;
-  isPopupDelete: boolean = true;
-  isAuthorizeStatus: boolean = false;
-  isSyncLoading: boolean = true;
-  searchField: string = '';
-  isShowSearch: boolean = false;
-  isloadingBtn: boolean = false;
-  pageLoading: boolean = false;
+  isEditable = false;
+  checkConfigButton = true;
+  isPopupDelete = true;
+  isAuthorizeStatus = false;
+  isSyncLoading = true;
+  searchField = '';
+  isShowSearch = false;
+  isloadingBtn = false;
+  pageLoading = false;
   total_records: number;
-  onboardingOpened: boolean = false;
-  validation: boolean = false;
+  onboardingOpened = false;
+  validation = false;
   currentRouteData: any = '';
-  contentInputSearch: string = '';
+  contentInputSearch = '';
   addConnectorSteps: any = [
     { name: 'instructions', isCompleted: true, display: 'Introduction' },
     {
@@ -222,7 +222,7 @@ export class ConnectorsComponent implements OnInit {
           });
         }
         if (this.connectorsData.length) {
-          for (let item of this.Connectors) {
+          for (const item of this.Connectors) {
             const isPush = this.connectorsData?.some(
               (available) => available.type === item.type
             );
@@ -498,7 +498,7 @@ export class ConnectorsComponent implements OnInit {
     const quaryparms: any = {
       sidx: this.searchIndexId,
     };
-    let payload: any = {
+    const payload: any = {
       name: this.configurationObj.name,
       type: this.selectedConnector?.type,
       authDetails: {
@@ -539,7 +539,7 @@ export class ConnectorsComponent implements OnInit {
       sidx: this.searchIndexId,
       fcon: this.connectorId,
     };
-    let payload: any = {};
+    const payload: any = {};
     if (data?.type === 'confluenceCloud') {
       payload.url =
         window.location.protocol +
@@ -635,7 +635,7 @@ export class ConnectorsComponent implements OnInit {
       sidx: this.searchIndexId,
       fcon: this.connectorId,
     };
-    let payload: any = {
+    const payload: any = {
       name: Obj?.name,
       authDetails: {
         clientId: Obj?.clientId,
@@ -750,7 +750,7 @@ export class ConnectorsComponent implements OnInit {
 
   //call jobs api wrt status
   checkJobStatus() {
-    let jobInterval = setInterval(() => {
+    const jobInterval = setInterval(() => {
       if (this.connectorId) {
         this.appSelectionService
           .connectorSyncJobStatus(this.searchIndexId, this.connectorId)

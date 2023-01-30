@@ -376,7 +376,7 @@
             <div
               class="checkbox-partial-selected d-none partial-select-checkbox"
               *ngIf="
-                selcectionObj.selectedItems.length != linkedBotTasks.length
+                selcectionObj.selectedItems.length !== linkedBotTasks.length
               "
             >
               <img
@@ -559,7 +559,7 @@
                 <div
                   class="link-bot-btn"
                   (click)="unlinkBot(bot._id, 'bulk_unlink')"
-                  *ngIf="streamId == bot._id"
+                  *ngIf="streamId === bot._id"
                 >
                   <img src="assets/icons/actions/link-bot.svg" />{{
                     'botAction_unlink_bot' | translate
