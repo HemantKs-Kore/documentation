@@ -36,7 +36,7 @@ export class FacetsComponent implements OnInit, OnDestroy {
   selectedFieldId: any;
   indexPipelineId;
   loadingContent = true;
-  loadingData: boolean = true;
+  loadingData = true;
   addEditFacetObj: any = null;
   showSearch = false;
   searchImgSrc: any = 'assets/icons/search_gray.svg';
@@ -87,8 +87,8 @@ export class FacetsComponent implements OnInit, OnDestroy {
   docTypeArr: any = [];
   statusArr: any = [];
   selectTypeArr: any = [];
-  componentType: string = 'configure';
-  submitted: boolean = false;
+  componentType = 'configure';
+  submitted = false;
   //new code from here
   filterFacetObj: any = {
     fieldId: '',
@@ -125,27 +125,30 @@ export class FacetsComponent implements OnInit, OnDestroy {
     tabs: [],
   };
   configuredTabValues: any = [];
-  showConfiguredFacet: boolean = false;
+  showConfiguredFacet = false;
   currentFacetObj: any = {};
-  currentFacetTab: string = 'filter';
-  selectAllConfigure: boolean = false;
-  enable_Edit_Facet: boolean = false;
-  tab_configure_filed_name: string = 'Search';
-  disableSaveBtn: boolean = true;
-  hide_facet_info: boolean = false;
+  currentFacetTab = 'filter';
+  selectAllConfigure = false;
+  enable_Edit_Facet = false;
+  tab_configure_filed_name = 'Search';
+  disableSaveBtn = true;
+  hide_facet_info = false;
+  loadImageText = false;
+  loadingContent1: boolean;
   fieldsData: any;
   currentFieldId: string;
-  createNewTab: boolean = false;
+  createNewTab = false;
   facetType: any = [
     { name: 'Filter facet', type: 'filter' },
     { name: 'Sortable facet', type: 'sortable' },
     { name: 'Tab facet', type: 'tab' },
   ];
   @ViewChild('perfectScroll') perfectScroll: PerfectScrollbarComponent;
-  emptySearchResults: boolean = false;
-  SearchResults: boolean = false;
-  sortByArray: Array<String> = ['label', 'count'];
-  orderArray: Array<Object> = [
+  addRemovefacet;
+  emptySearchResults = false;
+  SearchResults = false;
+  sortByArray: Array<string> = ['label', 'count'];
+  orderArray = [
     { key: 'ascending', value: 'asc' },
     { key: 'descending', value: 'desc' },
   ];
@@ -172,8 +175,7 @@ export class FacetsComponent implements OnInit, OnDestroy {
     );
     // this.getFieldAutoComplete('');
   }
-  loadImageText: boolean = false;
-  loadingContent1: boolean;
+
   imageLoad() {
     this.loadingContent = false;
     this.loadingData = true;
@@ -208,13 +210,13 @@ export class FacetsComponent implements OnInit, OnDestroy {
     const selectedElements = $('.selectEachfacetInput:checkbox:checked');
     const allElements = $('.selectEachfacetInput');
     if (selectedElements.length === allElements.length) {
-      let partialElement: any = document.getElementsByClassName(
+      const partialElement: any = document.getElementsByClassName(
         'partial-select-checkbox'
       );
       if (partialElement.length) {
         partialElement[0].classList.add('d-none');
       }
-      let selectAllElement: any = document.getElementsByClassName(
+      const selectAllElement: any = document.getElementsByClassName(
         'select-all-checkbox'
       );
       if (selectAllElement.length) {
@@ -222,10 +224,10 @@ export class FacetsComponent implements OnInit, OnDestroy {
       }
       $('#selectAllFacets')[0].checked = true;
     } else {
-      let partialElement: any = document.getElementsByClassName(
+      const partialElement: any = document.getElementsByClassName(
         'partial-select-checkbox'
       );
-      let selectAllElement: any = document.getElementsByClassName(
+      const selectAllElement: any = document.getElementsByClassName(
         'select-all-checkbox'
       );
 
@@ -259,13 +261,13 @@ export class FacetsComponent implements OnInit, OnDestroy {
         }
       });
     }
-    let partialElement: any = document.getElementsByClassName(
+    const partialElement: any = document.getElementsByClassName(
       'partial-select-checkbox'
     );
     if (partialElement.length) {
       partialElement[0].classList.add('d-none');
     }
-    let selectAllElement: any = document.getElementsByClassName(
+    const selectAllElement: any = document.getElementsByClassName(
       'select-all-checkbox'
     );
     if (selectAllElement.length) {
@@ -287,13 +289,13 @@ export class FacetsComponent implements OnInit, OnDestroy {
     if ($('#selectAllFacets').length) {
       $('#selectAllFacets')[0].checked = false;
     }
-    let partialElement: any = document.getElementsByClassName(
+    const partialElement: any = document.getElementsByClassName(
       'partial-select-checkbox'
     );
     if (partialElement.length) {
       partialElement[0].classList.add('d-none');
     }
-    let selectAllElement: any = document.getElementsByClassName(
+    const selectAllElement: any = document.getElementsByClassName(
       'select-all-checkbox'
     );
     if (selectAllElement.length) {
@@ -331,7 +333,7 @@ export class FacetsComponent implements OnInit, OnDestroy {
       }
     );
   }
-  addRemovefacet;
+
   addRemovefacetFromSelection(facetId?, addtion?, clear?) {
     if (clear) {
       this.resetPartial();
@@ -375,7 +377,7 @@ export class FacetsComponent implements OnInit, OnDestroy {
         },
       };
     // let serviceId = 'get.allField';
-    let serviceId = 'post.allField';
+    const serviceId = 'post.allField';
     // let serviceId = 'get.allFieldsData';
     this.service.invoke(serviceId, quaryparms, payload).subscribe(
       (res) => {
@@ -497,7 +499,7 @@ export class FacetsComponent implements OnInit, OnDestroy {
   }
   defaultSortingAFacet(arr) {
     arr.sort(function (a, b) {
-      var keyA = a.size ? a.size : -1, // a.facetValue.size,
+      const keyA = a.size ? a.size : -1, // a.facetValue.size,
         keyB = b.size; //b.facetValue.size;
       // Compare the 2 dates
       if (keyA < keyB) return -1;
@@ -856,7 +858,7 @@ export class FacetsComponent implements OnInit, OnDestroy {
     if (!this.beforeFilterFacets.length) {
       this.beforeFilterFacets = JSON.parse(JSON.stringify(this.facets));
     }
-    let tempFacets = this.beforeFilterFacets.filter((facet: any) => {
+    const tempFacets = this.beforeFilterFacets.filter((facet: any) => {
       if (source !== 'all') {
         if (headerOption === 'facetType') {
           if (facet.type === source) {
@@ -923,7 +925,7 @@ export class FacetsComponent implements OnInit, OnDestroy {
   }
 
   modifyFieldWarningMsg(warningMessage) {
-    let index = warningMessage.indexOf('changed');
+    const index = warningMessage.indexOf('changed');
     if (index > -1) {
       return true;
     } else {
@@ -949,7 +951,7 @@ export class FacetsComponent implements OnInit, OnDestroy {
       this.currentFieldId = data.fieldId;
       this.facetType = this.facetType.filter((ele) => ele.type === data.type);
       if (data.type === 'tab') {
-        for (let item of this.currentFacetObj?.tabs) {
+        for (const item of this.currentFacetObj?.tabs || '') {
           this.configuredTabValues.push({
             Name: item.bucketName,
             Value: item.fieldValue,
@@ -1007,7 +1009,7 @@ export class FacetsComponent implements OnInit, OnDestroy {
         this.currentFacetObj = Object.assign({}, tab[0]);
         this.currentFieldId = tab[0].fieldId;
         this.tab_configure_filed_name = tab[0].fieldName;
-        for (let item of tab[0].tabs) {
+        for (const item of tab[0].tabs) {
           this.configuredTabValues.push({
             Name: item.bucketName,
             Value: item.fieldValue,
@@ -1162,7 +1164,7 @@ export class FacetsComponent implements OnInit, OnDestroy {
   clickConfiguredFacet() {
     this.configuredTabValues = [];
     this.currentFacetObj.fieldName = this.tab_configure_filed_name;
-    for (let item of this.currentFacetObj?.tabs) {
+    for (const item of this.currentFacetObj?.tabs || '') {
       this.configuredTabValues.push({
         Name: item.bucketName,
         Value: item.fieldValue,
@@ -1354,7 +1356,7 @@ export class FacetsComponent implements OnInit, OnDestroy {
         if (this.enable_Edit_Facet && type == 'input') {
           if (this.currentFieldId === id) {
             this.configuredTabValues = [];
-            for (let item of this.currentFacetObj?.tabs) {
+            for (const item of this.currentFacetObj?.tabs || '') {
               this.configuredTabValues.push({
                 Name: item.bucketName,
                 Value: item.fieldValue,

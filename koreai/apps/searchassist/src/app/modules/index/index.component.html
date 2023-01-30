@@ -457,7 +457,7 @@
                             "
                             [ngClass]="{
                               highlight:
-                                basic.fieldName == suggesition.fieldName
+                                basic.fieldName === suggesition.fieldName
                             }"
                           >
                             {{ suggesition.fieldName }}
@@ -475,7 +475,7 @@
                       data-toggle="dropdown"
                     >
                       {{
-                        basic.operator == ''
+                        basic.operator === ''
                           ? 'Select
                       Operator'
                           : camelCaseNames(basic.operator)
@@ -566,13 +566,13 @@
             <button
               class="kr-sg-button-secondary btn_lg mt-2"
               (click)="addCondition('add')"
-              *ngIf="selectedStage.condition.type == 'basic'"
+              *ngIf="selectedStage.condition.type === 'basic'"
             >
               <img src="assets/icons/pricing/plus-small.svg" />
               <span>{{ 'workbench_and_caps' | translate }}</span>
             </button>
             <div>
-              <div *ngIf="selectedStage.condition.type == 'script'">
+              <div *ngIf="selectedStage.condition.type === 'script'">
                 <div class="clear">
                   <span (click)="selectedStage.condition.value = ''">{{
                     'workbench_clear' | translate
@@ -893,7 +893,7 @@
                   <div
                     class="add_icon"
                     *ngIf="
-                      selectedStage.config.mappings.length - 1 == i &&
+                      selectedStage.config.mappings.length - 1 === i &&
                       !newMappingObj.hasOwnProperty('field_mapping')
                     "
                     (click)="addAfterRemoval()"
@@ -1326,7 +1326,7 @@
                                 "
                                 [ngClass]="{
                                   highlight:
-                                    map.source_field == suggesition.fieldName
+                                    map.source_field === suggesition.fieldName
                                 }"
                               >
                                 {{ suggesition.fieldName }}
@@ -1393,7 +1393,7 @@
                                 "
                                 [ngClass]="{
                                   highlight:
-                                    map.title_field == suggesition.fieldName
+                                    map.title_field === suggesition.fieldName
                                 }"
                               >
                                 {{ suggesition.fieldName }}
@@ -1458,7 +1458,7 @@
                                 "
                                 [ngClass]="{
                                   highlight:
-                                    map.url_field == suggesition.fieldName
+                                    map.url_field === suggesition.fieldName
                                 }"
                               >
                                 {{ suggesition.fieldName }}
@@ -1764,7 +1764,7 @@
                   <div
                     class="add_icon"
                     *ngIf="
-                      selectedStage.config.mappings.length - 1 == i &&
+                      selectedStage.config.mappings.length - 1 === i &&
                       !newMappingObj.hasOwnProperty('field_mapping')
                     "
                     (click)="addAfterRemoval()"
@@ -1839,7 +1839,7 @@
                             [ngClass]="{
                               highlight:
                                 newMappingObj[selectedStage.type].defaultValue
-                                  .source_field == suggesition.fieldName
+                                  .source_field === suggesition.fieldName
                             }"
                           >
                             {{ suggesition.fieldName }}
@@ -1905,7 +1905,7 @@
                             [ngClass]="{
                               highlight:
                                 newMappingObj[selectedStage.type].defaultValue
-                                  .title_field == suggesition.fieldName
+                                  .title_field === suggesition.fieldName
                             }"
                           >
                             {{ suggesition.fieldName }}
@@ -1971,7 +1971,7 @@
                             [ngClass]="{
                               highlight:
                                 newMappingObj[selectedStage.type].defaultValue
-                                  .url_field == suggesition.fieldName
+                                  .url_field === suggesition.fieldName
                             }"
                           >
                             {{ suggesition.fieldName }}
@@ -2517,27 +2517,27 @@
             >
               {{
                 (simulteObj.sourceType
-                  ? simulteObj.sourceType == 'faq'
+                  ? simulteObj.sourceType === 'faq'
                     ? 'FAQ'
-                    : simulteObj.sourceType == 'data'
+                    : simulteObj.sourceType === 'data'
                     ? 'Data'
-                    : simulteObj.sourceType == 'all'
+                    : simulteObj.sourceType === 'all'
                     ? 'All'
-                    : simulteObj.sourceType == 'file'
+                    : simulteObj.sourceType === 'file'
                     ? 'File'
-                    : simulteObj.sourceType == 'web'
+                    : simulteObj.sourceType === 'web'
                     ? 'Web'
-                    : simulteObj.sourceType == 'serviceNow'
+                    : simulteObj.sourceType === 'serviceNow'
                     ? 'Service Now'
-                    : simulteObj.sourceType == 'confluenceCloud'
+                    : simulteObj.sourceType === 'confluenceCloud'
                     ? 'Confluence Cloud'
-                    : simulteObj.sourceType == 'confluenceServer'
+                    : simulteObj.sourceType === 'confluenceServer'
                     ? 'Confluence Server'
                     : simulteObj.sourceType
                     ? 'Zendesk'
-                    : simulteObj.sourceType == 'zendesk'
+                    : simulteObj.sourceType === 'zendesk'
                     ? 'Share Point'
-                    : simulteObj.sourceType == 'sharepointOnline'
+                    : simulteObj.sourceType === 'sharepointOnline'
                   : 'choose_an_option'
                 ) | translate
               }}
