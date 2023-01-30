@@ -61,7 +61,7 @@ export class FieldManagementComponent implements OnInit {
   fieldDataTypeArr: any = [];
   isAutosuggestArr: any = [];
   isSearchableArr: any = [];
-  totalRecord: number = 0;
+  totalRecord = 0;
   filterSystem: any = {
     typefilter: 'all',
     isAutosuggestFilter: 'all',
@@ -74,8 +74,8 @@ export class FieldManagementComponent implements OnInit {
   subscription: Subscription;
   filterTableSource = 'all';
   firstFilter: any = { header: '', source: '' };
-  componentType: string = 'indexing';
-  submitted: boolean = false;
+  componentType = 'indexing';
+  submitted = false;
   searchImgSrc: any = 'assets/icons/search_gray.svg';
   searchFocusIn = false;
   sortedObject = {
@@ -83,13 +83,13 @@ export class FieldManagementComponent implements OnInit {
     position: 'up',
     value: 1,
   };
-  showSearchableToaster: boolean = false;
+  showSearchableToaster = false;
   deSelectCheckbox: boolean;
   filterObject = {
     type: '',
     header: '',
   };
-  fieldTypesArray: Array<String> = [
+  fieldTypesArray = [
     'string',
     'number',
     'trait',
@@ -236,8 +236,8 @@ export class FieldManagementComponent implements OnInit {
           nlpRules: false,
           entites: false,
         };
-        let usageText = '';
-        let usedArr = [];
+        const usageText = '';
+        const usedArr = [];
         this.showSearchSettingsTooltip = false;
         this.tooltipArr = [];
         let msg = 'SearchSettings';
@@ -332,14 +332,14 @@ export class FieldManagementComponent implements OnInit {
           this.sanitizer.bypassSecurityTrustHtml(data));
   }
   replaceLast(find, replace, string) {
-    var lastIndex = string.lastIndexOf(find);
+    const lastIndex = string.lastIndexOf(find);
 
     if (lastIndex === -1) {
       return string;
     }
 
-    var beginString = string.substring(0, lastIndex);
-    var endString = string.substring(lastIndex + find.length);
+    const beginString = string.substring(0, lastIndex);
+    const endString = string.substring(lastIndex + find.length);
 
     return beginString + replace + endString;
   }
@@ -354,12 +354,12 @@ export class FieldManagementComponent implements OnInit {
       queryPipelineId: this.workflowService.selectedQueryPipeline()._id,
       fieldId: record._id,
     };
-    let isDisableDeleteBtn = false;
+    const isDisableDeleteBtn = false;
     this.service.invoke('get.getFieldUsage', quaryparms).subscribe(
       (res) => {
         this.currentfieldUsage = res;
         this.fetchingFieldUsage = false;
-        let usageText = record.fieldName + ' will be deleted';
+        const usageText = record.fieldName + ' will be deleted';
         const deps: any = {
           facets: false,
           rules: false,
@@ -631,7 +631,7 @@ export class FieldManagementComponent implements OnInit {
     if (this.searchFields) {
       payload.search = this.searchFields;
     }
-    let serviceId = 'post.allField';
+    const serviceId = 'post.allField';
     // if (searchFields) {
     //   quaryparms.search = searchFields;
     //   serviceId = 'post.allField';
@@ -790,8 +790,8 @@ export class FieldManagementComponent implements OnInit {
     } else {
       this.isAsc = !this.isAsc;
     }
-    var naviagtionArrow = '';
-    var checkSortValue = 1;
+    let naviagtionArrow = '';
+    let checkSortValue = 1;
     if (this.isAsc) {
       naviagtionArrow = 'up';
       checkSortValue = 1;
@@ -1059,7 +1059,6 @@ export class FieldManagementComponent implements OnInit {
     // this.getFileds(event.skip, this.searchFields)
   }
   ngOnDestroy() {
-    const self = this;
     if (this.subscription) {
       this.subscription.unsubscribe();
     }

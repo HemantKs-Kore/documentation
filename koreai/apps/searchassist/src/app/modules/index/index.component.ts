@@ -74,9 +74,9 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
   any = {};
   selectedStageIndex: any = -1;
   pollingSubscriber: any = null;
-  submitted: boolean = false;
-  showNewStageType: boolean = false;
-  loadingSimulate: boolean = true;
+  submitted = false;
+  showNewStageType = false;
+  loadingSimulate = true;
   subscription: Subscription;
   @ViewChild('tleft') public tooltip: NgbTooltip;
   @ViewChild('addFieldModalPop') addFieldModalPop: KRModalComponent;
@@ -249,7 +249,7 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
   };
   simulateJson;
   filteredSimulatorRes: any;
-  componentType: string = 'addData';
+  componentType = 'addData';
   // containCondition: any[] = [];
   selectable = true;
   removable = true;
@@ -956,7 +956,7 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
     });
   }
   validateConditionForRD() {
-    let indexArray = [];
+    const indexArray = [];
     if (this.pipeline.length) {
       for (let k = 0; k < this.pipeline.length; k++) {
         if (this.pipeline[k].type === 'exclude_document') {
@@ -994,9 +994,9 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
     dialogRef.componentInstance.onSelect.subscribe((result) => {
       if (result === 'yes') {
         for (let i = 0; i < indexArrayLength; i++) {
-          let index = this.pipeline.findIndex((p) => !p.condition);
+          const index = this.pipeline.findIndex((p) => !p.condition);
           if (index > -1) {
-            let index2 = this.modifiedStages.createdStages.findIndex(
+            const index2 = this.modifiedStages.createdStages.findIndex(
               (d) => d.type == this.pipeline[index].type
             );
             if (index2 > -1) {
@@ -1081,7 +1081,7 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
   }
   //For Title appearence in UI (Entities)
   prepEntityObj(entityMappingArr) {
-    let entityTypeLocalArr = [];
+    const entityTypeLocalArr = [];
     entityMappingArr.forEach((element) => {
       element.entity_types.forEach((entityElement) => {
         this.entityNlp.forEach((nlpElement) => {
@@ -1104,7 +1104,7 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
     ) {
       plainScriptTxt = this.newMappingObj.custom_script.defaultValue.script;
     }
-    let indexArrayLength: any = this.validateConditionForRD();
+    const indexArrayLength: any = this.validateConditionForRD();
     if (indexArrayLength) {
       this.removeExcludeDocumentStage(indexArrayLength, true);
     } else {
@@ -1502,7 +1502,7 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
               this.newMappingObj.field_mapping.defaultValue.target_field &&
               this.newMappingObj.field_mapping.defaultValue.value
             ) {
-              let warningmessage =
+              const warningmessage =
                 'Chosen stage will be applied on all documents since there are no conditions provided';
               // this.notificationService.notify('Chosen stage will be applied on all documents since there are no conditions provided','warning')
               if (save === true) {
@@ -1584,7 +1584,7 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
               this.newMappingObj.field_mapping.defaultValue.source_field &&
               this.newMappingObj.field_mapping.defaultValue.target_field
             ) {
-              let warningmessage =
+              const warningmessage =
                 'Chosen stage will be applied on all documents since there are no conditions provided';
               // this.notificationService.notify('Chosen stage will be applied on all documents since there are no conditions provided','warning')
               if (save === true) {
@@ -1671,7 +1671,7 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
                 this.basic_fieldName === '') &&
               this.newMappingObj.field_mapping.defaultValue.target_field
             ) {
-              let warningmessage =
+              const warningmessage =
                 'Chosen stage will be applied on all documents since there are no conditions provided';
               // this.notificationService.notify('Chosen stage will be applied on all documents since there are no conditions provided','warning')
               if (save === true) {
@@ -1719,7 +1719,7 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
             this.newMappingObj[this.selectedStage.type].defaultValue
               .target_field
           ) {
-            let warningmessage =
+            const warningmessage =
               'Chosen stage will be applied on all documents since there are no conditions provided';
             // this.notificationService.notify('Chosen stage will be applied on all documents since there are no conditions provided','warning')
             if (save === true) {
@@ -1876,7 +1876,7 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
             this.newMappingObj[this.selectedStage.type].defaultValue
               .target_field
           ) {
-            let warningmessage =
+            const warningmessage =
               'Chosen stage will be applied on all documents since there are no conditions provided';
             // this.notificationService.notify('Chosen stage will be applied on all documents since there are no conditions provided','warning')
             if (save === true) {
@@ -2017,7 +2017,7 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
             this.newMappingObj[this.selectedStage.type].defaultValue
               .target_field
           ) {
-            let warningmessage =
+            const warningmessage =
               'Chosen stage will be applied on all documents since there are no conditions provided';
             // this.notificationService.notify('Chosen stage will be applied on all documents since there are no conditions provided','warning')
             if (save === true) {
@@ -2085,7 +2085,7 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
             this.newMappingObj[this.selectedStage.type].defaultValue
               .target_field
           ) {
-            let warningmessage =
+            const warningmessage =
               'Chosen stage will be applied on all documents since there are no conditions provided';
             // this.notificationService.notify('Chosen stage will be applied on all documents since there are no conditions provided','warning')
             if (save === true) {
@@ -2184,7 +2184,7 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
     ) {
       plainScriptTxt = this.newMappingObj.custom_script.defaultValue.script;
     }
-    let indexArrayLength: any = this.validateConditionForRD();
+    const indexArrayLength: any = this.validateConditionForRD();
     if (indexArrayLength) {
       this.removeExcludeDocumentStage(indexArrayLength, false);
     } else {
@@ -2317,7 +2317,7 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
           this.modifiedStages.deletedStages.push(this.pipeline[i]);
         } else {
           if (this.modifiedStages.createdStages.length) {
-            let index = this.modifiedStages.createdStages.findIndex(
+            const index = this.modifiedStages.createdStages.findIndex(
               (d) => d.type == this.pipeline[i].type
             );
             if (index > -1) {
@@ -2398,7 +2398,7 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
           fieldName: 1,
         },
       };
-    let serviceId = 'post.allField';
+    const serviceId = 'post.allField';
     // let serviceId ='get.allField';
     this.service.invoke(serviceId, quaryparms, payload).subscribe(
       (res) => {
@@ -2483,7 +2483,7 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
         this.mixpanel.postEvent('Enter Workbench', {});
         res.stages.map((data) => {
           return data?.condition?.mappings?.map((data1) => {
-            let obj = this.fields.find((da) => da._id === data1?.fieldId);
+            const obj = this.fields.find((da) => da._id === data1?.fieldId);
             data1.fieldName = obj?.fieldName;
           });
         });
@@ -2595,7 +2595,7 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
     this.pipeline = JSON.parse(JSON.stringify(this.pipelineCopy));
     this.pipeline.map((data) => {
       return data?.condition?.mappings?.map((data1) => {
-        let obj = this.fields.find((da) => da._id === data1.fieldId);
+        const obj = this.fields.find((da) => da._id === data1.fieldId);
         if (obj && obj.fieldName) {
           data1.fieldName = obj.fieldName;
         }
@@ -2968,7 +2968,7 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
   }
   getKeyByValue(object, searchSimulator) {
     searchSimulator = searchSimulator.toLowerCase();
-    let filteredObject: any = {};
+    const filteredObject: any = {};
     Object.keys(object).forEach((key) => {
       if (key.toLowerCase().search(searchSimulator) > -1) {
         filteredObject[key] = object[key];
@@ -3016,7 +3016,7 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   painlessScriptChanged(event) {
-    let count = this.codemirror.codeMirror.lineCount();
+    const count = this.codemirror.codeMirror.lineCount();
   }
   //matchip method
   add(event: MatChipInputEvent, index): void {

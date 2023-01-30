@@ -6,7 +6,7 @@ import { AppSelectionService } from '@kore.apps/services/app.selection.service';
   styleUrls: ['./general-settings.component.scss'],
 })
 export class GeneralSettingsComponent implements OnInit {
-  componentType: string = 'addData';
+  componentType = 'addData';
   constructor(private appSelectionService: AppSelectionService) {}
 
   ngOnInit(): void {}

@@ -93,8 +93,8 @@ export class DashboardComponent implements OnInit, OnDestroy {
   startDate: any = moment().subtract({ days: 7 });
   endDate: any = moment();
   defaultSelectedDay = 7;
-  showDateRange: boolean = false;
-  componentType: string = 'addData';
+  showDateRange = false;
+  componentType = 'addData';
   searchExperienceConfig: any;
   searchConfigurationSubscription: Subscription;
   appSubscription: Subscription;
@@ -298,7 +298,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
   dateLimt(type) {
     this.dateType = type;
     /*passing the selectedindexpipeline to getQueries added on 17/01 */
-    let selectedindexpipeline = this.selecteddropId;
+    const selectedindexpipeline = this.selecteddropId;
     if (selectedindexpipeline) {
       this.getQueries('TotalUsersStats', selectedindexpipeline);
       this.getQueries('TotalSearchesStats', selectedindexpipeline);
@@ -319,10 +319,10 @@ export class DashboardComponent implements OnInit, OnDestroy {
     navigate?,
     request?
   ) {
-    var today = new Date();
-    var yesterday = new Date(Date.now() - 864e5);
-    var week = new Date(Date.now() - 6 * 864e5);
-    var custom = new Date(Date.now() - 29 * 864e5);
+    const today = new Date();
+    const yesterday = new Date(Date.now() - 864e5);
+    const week = new Date(Date.now() - 6 * 864e5);
+    const custom = new Date(Date.now() - 29 * 864e5);
     let from = new Date();
     if (this.dateType == 'hour') {
       from = yesterday;
@@ -333,11 +333,11 @@ export class DashboardComponent implements OnInit, OnDestroy {
     } else if (this.dateType == 'custom') {
       from = custom;
       //this.group = "week";
-      var duration = moment.duration(
+      const duration = moment.duration(
         Date.parse(this.endDate.toJSON()) - Date.parse(this.startDate.toJSON()),
         'milliseconds'
       );
-      var days = duration.asDays();
+      const days = duration.asDays();
       // console.log(days);
       if (days > 28) {
         this.group = 'week';
@@ -362,7 +362,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
       offset: 0,
       limit: this.pageLimit,
     };
-    let payload: any = {
+    const payload: any = {
       type: type,
       filters: {
         from: this.startDate.toJSON(), //from.toJSON(),
@@ -539,8 +539,8 @@ export class DashboardComponent implements OnInit, OnDestroy {
     } else {
       this.isAsc = !this.isAsc;
     }
-    var naviagtionArrow = '';
-    var checkSortValue = '';
+    let naviagtionArrow = '';
+    let checkSortValue = '';
     if (this.isAsc) {
       naviagtionArrow = 'up';
       checkSortValue = 'asc';
@@ -702,10 +702,10 @@ export class DashboardComponent implements OnInit, OnDestroy {
       'Nov',
       'Dec',
     ];
-    var totaldata = [];
-    let summaryData = [];
+    const totaldata = [];
+    const summaryData = [];
     this.totalSearchSum = 0;
-    for (var i = 0; i < this.searchHistogram.length; i++) {
+    for (let i = 0; i < this.searchHistogram.length; i++) {
       summaryData.push(
         Math.max(
           this.searchHistogram[i].totalSearches,
@@ -722,7 +722,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
           i + 'hr',
         ]);
       } else if (this.dateType == 'week' || this.dateType == 'custom') {
-        let date = new Date(this.searchHistogram[i].date);
+        const date = new Date(this.searchHistogram[i].date);
         // xAxisData.push(date.getDate() + " " +monthNames[date.getMonth()])
         // totaldata.push([date.getDate() + " " + monthNames[date.getMonth()], this.searchHistogram[i].totalSearches, this.searchHistogram[i].searchesWithResults, this.searchHistogram[i].searchesWithClicks, moment(date,"Do MMM, YYYY")])
         totaldata.push([
@@ -746,24 +746,24 @@ export class DashboardComponent implements OnInit, OnDestroy {
         this.searchesWithClicksSum + this.searchHistogram[i].searchesWithClicks;
     }
 
-    var searchWithResultdata = [];
-    var searchWithClickdata = [];
+    const searchWithResultdata = [];
+    const searchWithClickdata = [];
 
-    var dateList = totaldata.map(function (item) {
+    const dateList = totaldata.map(function (item) {
       return item[0];
     });
 
-    var valueList = totaldata.map(function (item) {
+    const valueList = totaldata.map(function (item) {
       return item[1];
     });
-    var valueList1 = totaldata.map(function (item) {
+    const valueList1 = totaldata.map(function (item) {
       return item[2];
     });
 
-    var valueList2 = totaldata.map(function (item) {
+    const valueList2 = totaldata.map(function (item) {
       return item[3];
     });
-    var dateTooltipList = totaldata.map(function (item) {
+    const dateTooltipList = totaldata.map(function (item) {
       return item[4];
     });
 
@@ -1051,8 +1051,8 @@ export class DashboardComponent implements OnInit, OnDestroy {
   }
   feedback() {
     // this.feedbackStats
-    var colorPaletteSearch = ['#28A745', '#EAF6EC'];
-    var colorPaletteResult = ['#FF784B', '#FFF1ED'];
+    const colorPaletteSearch = ['#28A745', '#EAF6EC'];
+    const colorPaletteResult = ['#FF784B', '#FFF1ED'];
     this.feedbackPieSearches = {
       series: [
         {

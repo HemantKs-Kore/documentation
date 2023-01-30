@@ -217,7 +217,7 @@
         <div class="content-boxes faq_tasks_list">
           <div
             class="tab-sec d-flex"
-            *ngIf="faqSelectionObj.selectedCount == 0"
+            *ngIf="faqSelectionObj.selectedCount === 0"
           >
             <div
               class="tab_title"
@@ -246,7 +246,7 @@
               <span class="">({{ faqSelectionObj.stats.approved || 0 }})</span>
             </div>
           </div>
-          <div class="header-sec" *ngIf="faqSelectionObj.selectedCount == 0">
+          <div class="header-sec" *ngIf="faqSelectionObj.selectedCount === 0">
             <div
               class="kr-sg-checkbox"
               [ngStyle]="{ visibility: loadingTab ? 'hidden' : 'visible' }"
@@ -397,13 +397,13 @@
                 [hidden]="
                   !(
                     (selectedtab === 'draft' &&
-                      faqSelectionObj.selectedCount ==
+                      faqSelectionObj.selectedCount ===
                         faqSelectionObj.stats.draft) ||
                     (selectedtab === 'in_review' &&
-                      faqSelectionObj.selectedCount ==
+                      faqSelectionObj.selectedCount ===
                         faqSelectionObj.stats.in_review) ||
                     (selectedtab === 'approved' &&
-                      faqSelectionObj.selectedCount ==
+                      faqSelectionObj.selectedCount ===
                         faqSelectionObj.stats.approved) ||
                     faqSelectionObj.selectAll
                   )
@@ -1587,7 +1587,7 @@
                                       >
                                         <div
                                           class="rule-title pr-10"
-                                          *ngIf="ruleIndex == 0"
+                                          *ngIf="ruleIndex === 0"
                                         >
                                           {{
                                             'faqSource_when_caps' | translate
@@ -1606,7 +1606,7 @@
                                           'margin-bottom':
                                             showSeeAll(
                                               consitionalAnswer.conditions
-                                            ) && ruleIndex == 0
+                                            ) && ruleIndex === 0
                                               ? '10px'
                                               : '0px'
                                         }"
@@ -1668,7 +1668,7 @@
                                             class="rule-value"
                                             *ngIf="
                                               rule.dataType === 'date' &&
-                                              rule.operator == 'between'
+                                              rule.operator === 'between'
                                             "
                                             title="{{
                                               value
@@ -1702,18 +1702,18 @@
                                                   (rule.value.length > 3
                                                     ? 3
                                                     : rule.value.length - 1) &&
-                                                ruleIndex == 0 &&
+                                                ruleIndex === 0 &&
                                                 rule.operator !== 'between') ||
                                               (valueIndex < 1 &&
-                                                ruleIndex == 1 &&
+                                                ruleIndex === 1 &&
                                                 valueIndex !== 1) ||
                                               (valueIndex < 1 &&
                                                 valueIndex !==
                                                   (rule.value.length > 2
                                                     ? 2
                                                     : rule.value.length - 1) &&
-                                                ruleIndex == 0 &&
-                                                rule.operator == 'between')
+                                                ruleIndex === 0 &&
+                                                rule.operator === 'between')
                                             "
                                           >
                                             {{ 'or_caps' | translate }}
@@ -1895,7 +1895,7 @@
                                               >
                                                 <div
                                                   class="rule-title pr-10"
-                                                  *ngIf="ruleIndex == 0"
+                                                  *ngIf="ruleIndex === 0"
                                                 >
                                                   {{
                                                     'faqSource_when_caps'
@@ -1918,7 +1918,7 @@
                                                   'margin-bottom':
                                                     showSeeAll(
                                                       consitionalAnswer.conditions
-                                                    ) && ruleIndex == 0
+                                                    ) && ruleIndex === 0
                                                       ? '10px'
                                                       : '0px'
                                                 }"
@@ -1994,7 +1994,8 @@
                                                     *ngIf="
                                                       rule.dataType ===
                                                         'date' &&
-                                                      rule.operator == 'between'
+                                                      rule.operator ===
+                                                        'between'
                                                     "
                                                     title="{{
                                                       value
@@ -2033,11 +2034,11 @@
                                                             ? 3
                                                             : rule.value
                                                                 .length - 1) &&
-                                                        ruleIndex == 0 &&
+                                                        ruleIndex === 0 &&
                                                         rule.operator !==
                                                           'between') ||
                                                       (valueIndex < 1 &&
-                                                        ruleIndex == 1 &&
+                                                        ruleIndex === 1 &&
                                                         valueIndex !== 1) ||
                                                       (valueIndex < 1 &&
                                                         valueIndex !==
@@ -2045,8 +2046,8 @@
                                                             ? 2
                                                             : rule.value
                                                                 .length - 1) &&
-                                                        ruleIndex == 0 &&
-                                                        rule.operator ==
+                                                        ruleIndex === 0 &&
+                                                        rule.operator ===
                                                           'between')
                                                     "
                                                   >
@@ -2546,7 +2547,7 @@
                         "
                       >
                         <span class="list-name">{{
-                          docType == 'web' ? 'Web' : 'File'
+                          docType === 'web' ? 'Web' : 'File'
                         }}</span
                         ><img
                           [ngClass]="{
@@ -2624,11 +2625,11 @@
                       >
                         <span class="list-name"
                           >{{
-                            status == 'success'
+                            status === 'success'
                               ? 'Success'
-                              : status == 'failed'
+                              : status === 'failed'
                               ? 'Failed'
-                              : status == 'QUEUED'
+                              : status === 'QUEUED'
                               ? 'In-Queue'
                               : 'In Progress'
                           }}<img
@@ -2718,7 +2719,7 @@
                           src="assets/icons/failed-status.svg"
                           *ngIf="
                             statusObj[source.recentStatus] &&
-                            statusObj[source.recentStatus].name == 'Failed'
+                            statusObj[source.recentStatus].name === 'Failed'
                           "
                           placement="top"
                           container="body"
@@ -2729,7 +2730,7 @@
                         <img
                           *ngIf="
                             statusObj[source.recentStatus] &&
-                            statusObj[source.recentStatus].name == 'Success'
+                            statusObj[source.recentStatus].name === 'Success'
                           "
                           class="search-icon ml-2 mr-1"
                           placement="top"
@@ -2748,7 +2749,8 @@
                           src="assets/icons/ringLoading.svg"
                           *ngIf="
                             statusObj[source.recentStatus] &&
-                            statusObj[source.recentStatus].name == 'In Progress'
+                            statusObj[source.recentStatus].name ===
+                              'In Progress'
                           "
                           placement="top"
                           container="body"
@@ -2790,7 +2792,7 @@
                     <div class="col text-right last-child pl-0">
                       <span
                         class="actions-links"
-                        *ngIf="source.recentStatus == 'configured'"
+                        *ngIf="source.recentStatus === 'configured'"
                         (click)="resumeAnnotate(source)"
                         ><img
                           class="action_icon"
@@ -2866,7 +2868,9 @@
                     <div class="status-data">
                       <div
                         class="count-pages"
-                        *ngIf="statusObj[source.recentStatus].name == 'Success'"
+                        *ngIf="
+                          statusObj[source.recentStatus].name === 'Success'
+                        "
                       >
                         <span class="pagelength">{{
                           source.extractedFaqsCount
@@ -2891,7 +2895,7 @@
                         <img
                           src="assets/icons/failed-status.svg"
                           *ngIf="
-                            statusObj[source.recentStatus].name == 'Failed'
+                            statusObj[source.recentStatus].name === 'Failed'
                           "
                           placement="top"
                           container="body"
@@ -2901,7 +2905,8 @@
                           class="inprogressLoader"
                           src="assets/icons/ringLoading.svg"
                           *ngIf="
-                            statusObj[source.recentStatus].name == 'In Progress'
+                            statusObj[source.recentStatus].name ===
+                            'In Progress'
                           "
                           placement="top"
                           container="body"
@@ -2934,7 +2939,9 @@
                       </div>
                       <div
                         class="created-date"
-                        *ngIf="statusObj[source.recentStatus].name == 'Success'"
+                        *ngIf="
+                          statusObj[source.recentStatus].name === 'Success'
+                        "
                       >
                         {{ source.createdOn | dateFormatPipe }}
                       </div>

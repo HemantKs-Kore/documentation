@@ -32,7 +32,7 @@
         </div>
         <div
           class="kr-sg-checkbox p-0 ml-1 mb-0 adjust-checkbox-padding partial-select-checkbox d-none"
-          *ngIf="selcectionObj.selectedItems.length != facets.length"
+          *ngIf="selcectionObj.selectedItems.length !== facets.length"
         >
           <img
             (click)="selectAllFromPartial()"
@@ -307,7 +307,7 @@
                   }"
                 >
                   <span class="list-name">{{
-                    docType == false ? 'No' : 'Yes'
+                    docType === false ? 'No' : 'Yes'
                   }}</span
                   ><img
                     [ngClass]="{ hide: filterSystem.selectFilter !== docType }"
@@ -367,7 +367,7 @@
                   }"
                 >
                   <span class="list-name">{{
-                    docType == true ? 'Active' : 'Inactive'
+                    docType === true ? 'Active' : 'Inactive'
                   }}</span
                   ><img
                     [ngClass]="{ hide: filterSystem.statusFilter !== docType }"
@@ -716,7 +716,7 @@
                               "
                             >
                               {{
-                                currentFacetObj?.sortConfig?.sortBy == ''
+                                currentFacetObj?.sortConfig?.sortBy === ''
                                   ? 'Select'
                                   : (currentFacetObj.sortConfig.sortBy
                                     | titlecase)
@@ -754,10 +754,10 @@
                               "
                             >
                               {{
-                                currentFacetObj.sortConfig.order == ''
+                                currentFacetObj.sortConfig.order === ''
                                   ? 'Select
                                                             order'
-                                  : currentFacetObj?.sortConfig?.order == 'asc'
+                                  : currentFacetObj?.sortConfig?.order === 'asc'
                                   ? 'Ascending'
                                   : 'Descending'
                               }}
@@ -1030,9 +1030,9 @@
                               "
                             >
                               {{
-                                currentFacetObj?.sortConfig?.order == ''
+                                currentFacetObj?.sortConfig?.order === ''
                                   ? 'Select order'
-                                  : currentFacetObj?.sortConfig?.order == 'asc'
+                                  : currentFacetObj?.sortConfig?.order === 'asc'
                                   ? 'Ascending
                                                             Order'
                                   : 'Descending Order'

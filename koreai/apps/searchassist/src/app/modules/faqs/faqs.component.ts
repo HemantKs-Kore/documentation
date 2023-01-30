@@ -44,6 +44,7 @@ import { InlineManualService } from '@kore.apps/services/inline-manual.service';
 import { OnboardingComponent } from '../onboarding/onboarding.component';
 
 @Component({
+  // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'faqs-source',
   templateUrl: './faqs.component.html',
   styleUrls: ['./faqs.component.scss'],
@@ -168,11 +169,13 @@ export class FaqsComponent implements OnInit, AfterViewInit, OnDestroy {
   editFAQModalPopRef: any;
   showSourceAddition: any = null;
   moreLoading: any = {};
+  loadingFaqs1;
+  loadImageText = false;
   altAddSub: Subscription;
   altCancelSub: Subscription;
   followAddSub: Subscription;
   followCancelSub: Subscription;
-  componentType: string = 'addData';
+  componentType = 'addData';
   onboardingOpened = false;
   currentRouteData: any = '';
   openExtractsSubs: Subscription;
@@ -269,8 +272,6 @@ export class FaqsComponent implements OnInit, AfterViewInit, OnDestroy {
       this.filterObject[type] = value;
     }
   }
-  loadingFaqs1;
-  loadImageText = false;
 
   compare(a: number | string, b: number | string, isAsc) {
     return (a < b ? -1 : 1) * (isAsc ? 1 : -1);
@@ -423,7 +424,7 @@ export class FaqsComponent implements OnInit, AfterViewInit, OnDestroy {
       ).length;
       setTimeout(() => {
         if (Object.keys(this.faqSelectionObj.deSelectedItems).length > 0) {
-          let totalCount =
+          const totalCount =
             this.selectedtab === 'draft'
               ? this.faqSelectionObj.stats.draft
               : this.selectedtab === 'in_review'
@@ -641,7 +642,7 @@ export class FaqsComponent implements OnInit, AfterViewInit, OnDestroy {
     } else {
       if (Object.keys(this.faqSelectionObj.selectedItems).length) {
         Object.keys(this.faqSelectionObj.selectedItems).forEach((key) => {
-          let index = faqs.findIndex((d) => d._id === key);
+          const index = faqs.findIndex((d) => d._id === key);
           if (index > -1) {
             $('#selectFaqCheckBox_' + key)[0].checked = true;
             this.checkUncheckfaqs(faqs[index]);
@@ -931,7 +932,7 @@ export class FaqsComponent implements OnInit, AfterViewInit, OnDestroy {
           this.statusArr = [...new Set(this.statusArr)];
           this.docTypeArr = [...new Set(this.docTypeArr)];
         }
-        let array = [];
+        const array = [];
         // this.extractedResources.map(extractedElement => {
         //   this.statusMsgArr.map(statusElement => {
         //     let obj = {};
@@ -961,7 +962,7 @@ export class FaqsComponent implements OnInit, AfterViewInit, OnDestroy {
         if (res.sources && res.sources.length) {
           res.sources.forEach((d: any) => {
             if (d.extractedFaqsCount === 0) {
-              let index = this.resources.findIndex((f) => f.name == d.name);
+              const index = this.resources.findIndex((f) => f.name == d.name);
               if (index > -1) {
                 this.resources.splice(index, 1);
               }
@@ -1019,9 +1020,8 @@ export class FaqsComponent implements OnInit, AfterViewInit, OnDestroy {
             this.selectedFaq = null;
           }
           this.moreLoading.loadingText = 'No more results available';
-          const self = this;
           setTimeout(() => {
-            self.moreLoading.loading = false;
+            this.moreLoading.loading = false;
           }, 700);
         }
         if (serviceId === 'get.allFaqs') {
@@ -1167,7 +1167,7 @@ export class FaqsComponent implements OnInit, AfterViewInit, OnDestroy {
         if (res.sources && res.sources.length) {
           res.sources.forEach((d: any) => {
             if (d.extractedFaqsCount === 0) {
-              let index = this.resources.findIndex((f) => f._id == d._id);
+              const index = this.resources.findIndex((f) => f._id == d._id);
               if (index > -1) {
                 this.resources.splice(index, 1);
               }
@@ -1446,8 +1446,8 @@ export class FaqsComponent implements OnInit, AfterViewInit, OnDestroy {
     } else {
       this.isAsc = !this.isAsc;
     }
-    var naviagtionArrow = '';
-    var checkSortValue = 1;
+    let naviagtionArrow = '';
+    let checkSortValue = 1;
     if (this.isAsc) {
       naviagtionArrow = 'up';
       checkSortValue = 1;
@@ -2320,7 +2320,7 @@ export class FaqsComponent implements OnInit, AfterViewInit, OnDestroy {
       jobId: dockId,
       sidx: this.serachIndexId,
     };
-    let payload = {
+    const payload = {
       store: {
         toastSeen: true,
         urlParams: fileName,
@@ -2328,7 +2328,7 @@ export class FaqsComponent implements OnInit, AfterViewInit, OnDestroy {
     };
     this.service.invoke('attachment.file', params).subscribe(
       (res) => {
-        let hrefURL = res.fileUrl + fileName;
+        const hrefURL = res.fileUrl + fileName;
         window.open(hrefURL, '_self');
         this.service
           .invoke('put.dockStatus', params, payload)
@@ -2342,9 +2342,9 @@ export class FaqsComponent implements OnInit, AfterViewInit, OnDestroy {
 
   duration(duration) {
     if (duration) {
-      let hr = duration.split(':')[0];
-      let min = duration.split(':')[1];
-      let sec = duration.split(':')[2];
+      const hr = duration.split(':')[0];
+      const min = duration.split(':')[1];
+      const sec = duration.split(':')[2];
 
       if (hr > 0) {
         if (min > 0 && sec > 0)

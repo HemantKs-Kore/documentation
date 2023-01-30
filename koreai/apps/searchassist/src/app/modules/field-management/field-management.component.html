@@ -268,7 +268,7 @@
                       "
                     >
                       <span class="list-name">{{
-                        docType == false ? 'No' : docType == true ? 'Yes' : ''
+                        docType === false ? 'No' : docType === true ? 'Yes' : ''
                       }}</span
                       ><img
                         [ngClass]="{
@@ -352,7 +352,7 @@
                       "
                     >
                       <span class="list-name">{{
-                        docType == false ? 'No' : docType == true ? 'Yes' : ''
+                        docType === false ? 'No' : docType === true ? 'Yes' : ''
                       }}</span
                       ><img
                         [ngClass]="{
@@ -399,7 +399,7 @@
                   class="action_link-icon"
                   ngbTooltip="{{ 'fields.edit' | translate }}"
                   [container]="'body'"
-                  placement="{{ i == 0 ? 'bottom' : 'top' }}"
+                  placement="{{ i === 0 ? 'bottom' : 'top' }}"
                   (click)="addEditFiled(field)"
                   ><i class="si-pencil-edit"></i
                 ></span>
@@ -407,7 +407,7 @@
                 <span
                   ngbTooltip="{{ 'sa_delete' | translate }}"
                   [container]="'body'"
-                  placement="{{ i == 0 ? 'bottom' : 'top' }}"
+                  placement="{{ i === 0 ? 'bottom' : 'top' }}"
                   class="action_link-icon deleteIcon ml-3"
                   (click)="deleteFieldPop(field)"
                   ><i class="si-delete1"></i

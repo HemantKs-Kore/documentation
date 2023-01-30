@@ -20,12 +20,15 @@ declare const $: any;
 export class CredentialsListComponent implements OnInit {
   emptyScreen = EMPTY_SCREEN.MANAGE_CREDENTIALS;
   slider = 0;
-  showError: boolean = false;
+  showError = false;
   selectedApp: any;
   serachIndexId: any;
   firstlistData: any;
   params: any = {};
-  url: string = '';
+  loadImageText = false;
+  loadingContent1: boolean;
+  loadingContent: boolean;
+  url = '';
   appsData: any = [];
   displayScopes: any = [];
   addCredentialRef: any;
@@ -35,7 +38,7 @@ export class CredentialsListComponent implements OnInit {
   listData: any;
   configuredBot_streamId = '';
   searchcredential = '';
-  selectedTab: string = 'configuration';
+  selectedTab = 'configuration';
   credentialsTabs: any = [
     { name: 'Configuration', type: 'configuration' },
     { name: 'API Scopes', type: 'apiScopes' },
@@ -47,7 +50,7 @@ export class CredentialsListComponent implements OnInit {
   botID = '';
   data;
   isAlertsEnabled: boolean;
-  editTitleFlag: boolean = false;
+  editTitleFlag = false;
   AppUsage: true;
   channelEnabled: true;
   editCreden: any = {};
@@ -64,7 +67,7 @@ export class CredentialsListComponent implements OnInit {
   scopeDesc;
   selectedScopes = [];
   scopesList = [];
-  componentType: string = 'addData';
+  componentType = 'addData';
   @ViewChild('addCredential') addCredential: KRModalComponent;
   @ViewChild('credentialsList') credentialsList: KRModalComponent;
   @ViewChild('editCredentialPop') editCredentialPop: KRModalComponent;
@@ -89,9 +92,7 @@ export class CredentialsListComponent implements OnInit {
   jwtAuth(awt) {
     this.credntial.awt = awt;
   }
-  loadImageText: boolean = false;
-  loadingContent1: boolean;
-  loadingContent: boolean;
+
   imageLoad() {
     this.loadingContent = false;
     this.loadingContent1 = true;
@@ -155,7 +156,7 @@ export class CredentialsListComponent implements OnInit {
     this.editCreden.clientSecret = data.clientSecret;
     this.editCreden.clientId = data.clientId;
     if (data && data.scope && data.scope[2]) {
-      let selectedScope = data?.scope[2].scopes;
+      const selectedScope = data?.scope[2].scopes;
       this.scopesList?.forEach((element) => {
         selectedScope.forEach((data) => {
           if (element.scope == data) {
@@ -167,8 +168,8 @@ export class CredentialsListComponent implements OnInit {
   }
   //create and edit Credentials
   saveCredential() {
-    let scopeArr = [];
-    for (let item of this.scopesList) {
+    const scopeArr = [];
+    for (const item of this.scopesList) {
       if (item.isMandatory) scopeArr.push(item.scope);
     }
     if (!this.editTitleFlag) {
@@ -315,7 +316,7 @@ export class CredentialsListComponent implements OnInit {
         // });
         // console.log(this.channnelConguired)
         //End
-        let scopeObj = [];
+        const scopeObj = [];
         this.channnelConguired['customScopeObj'] = [];
         this.channnelConguired['customScopeObjTitle'] = [];
         this.channnelConguired.forEach((element) => {
@@ -332,8 +333,8 @@ export class CredentialsListComponent implements OnInit {
           element['arr'] = [];
           element.forEach((childElement) => {
             this.scopesList.forEach((scopeElement) => {
-              let tooltipObj: any = {};
-              let titleObj: any = {};
+              const tooltipObj: any = {};
+              const titleObj: any = {};
               if (childElement == scopeElement.scope) {
                 (tooltipObj['scopeTitle'] = scopeElement.displayName),
                   (titleObj['scopeTitle'] = scopeElement.displayName),
@@ -389,7 +390,7 @@ export class CredentialsListComponent implements OnInit {
       userId: this.authService.getUserId(),
       streamId: this.selectedApp._id,
     };
-    let payload = {
+    const payload = {
       type: 'rtm',
       name: 'Web / Mobile Client',
       app: {
