@@ -22,7 +22,7 @@
           <div
             class="headerMenuTab"
             [ngClass]="{
-              active: mainMenu == '/summary',
+              active: mainMenu === '/summary',
               disable_btn: isRouteDisabled
             }"
             skipLocationChange
@@ -99,32 +99,32 @@
                   class="experment-link"
                   (click)="analyticsClick('/experiments')"
                   id="experimentsTab"
-                  [ngClass]="{ active: mainMenu == '/experiments' }"
+                  [ngClass]="{ active: mainMenu === '/experiments' }"
                 >
                   <a>{{ 'header_experiments' | translate }}</a>
                 </li>
                 <li
                   (click)="analyticsClick('/dashboard')"
                   id="dashboardTab"
-                  [ngClass]="{ active: mainMenu == '/dashboard' }"
+                  [ngClass]="{ active: mainMenu === '/dashboard' }"
                 >
                   <a>{{ 'header_dashboard' | translate }}</a>
                 </li>
                 <li
                   (click)="analyticsClick('/userEngagement')"
-                  [ngClass]="{ active: mainMenu == '/userEngagement' }"
+                  [ngClass]="{ active: mainMenu === '/userEngagement' }"
                 >
                   <a>{{ 'header_userEngagement' | translate }}</a>
                 </li>
                 <li
                   (click)="analyticsClick('/searchInsights')"
-                  [ngClass]="{ active: mainMenu == '/searchInsights' }"
+                  [ngClass]="{ active: mainMenu === '/searchInsights' }"
                 >
                   <a>{{ 'header_searchInsights' | translate }}</a>
                 </li>
                 <li
                   (click)="analyticsClick('/resultInsights')"
-                  [ngClass]="{ active: mainMenu == '/resultInsights' }"
+                  [ngClass]="{ active: mainMenu === '/resultInsights' }"
                 >
                   <a>{{ 'header_resultInsights' | translate }}</a>
                 </li>
@@ -450,26 +450,27 @@
                                 <div class="col-9 pl-0 task_content">
                                   <!-- made changes on 24/02 as per new api contract in response we no longer get the name,its changed to title added updated code on 221 line*/ -->
                                   <!-- <div class="heading text-truncate"
-                                                                    [class.external_link]="(task.jobType == 'web' || task.jobType == 'faq' || task.jobType == 'STRUCTURED_DATA_INGESTION' || task.jobType == 'file' || task.jobType == 'FINDLY_FAQS_IMPORT')"
-                                                                    (click)="(task.jobType == 'web' || task.jobType == 'faq' || task.jobType == 'STRUCTURED_DATA_INGESTION' || task.jobType == 'file' || task.jobType == 'FINDLY_FAQS_IMPORT') && navigateTo(task)"
+                                                                    [class.external_link]="(task.jobType === 'web' || task.jobType === 'faq' || task.jobType === 'STRUCTURED_DATA_INGESTION' || task.jobType === 'file' || task.jobType === 'FINDLY_FAQS_IMPORT')"
+                                                                    (click)="(task.jobType === 'web' || task.jobType === 'faq' || task.jobType === 'STRUCTURED_DATA_INGESTION' || task.jobType === 'file' || task.jobType === 'FINDLY_FAQS_IMPORT') && navigateTo(task)"
                                                                     [title]="task.name">{{task.name}}</div> -->
                                   <div
                                     class="heading text-truncate"
                                     [class.external_link]="
-                                      task.jobType == 'web' ||
-                                      task.jobType == 'faq' ||
+                                      task.jobType === 'web' ||
+                                      task.jobType === 'faq' ||
                                       task.jobType ==
                                         'STRUCTURED_DATA_INGESTION' ||
-                                      task.jobType == 'file' ||
-                                      task.jobType == 'FINDLY_FAQS_IMPORT'
+                                      task.jobType === 'file' ||
+                                      task.jobType === 'FINDLY_FAQS_IMPORT'
                                     "
                                     (click)="
-                                      (task.jobType == 'web' ||
-                                        task.jobType == 'faq' ||
+                                      (task.jobType === 'web' ||
+                                        task.jobType === 'faq' ||
                                         task.jobType ==
                                           'STRUCTURED_DATA_INGESTION' ||
-                                        task.jobType == 'file' ||
-                                        task.jobType == 'FINDLY_FAQS_IMPORT') &&
+                                        task.jobType === 'file' ||
+                                        task.jobType ===
+                                          'FINDLY_FAQS_IMPORT') &&
                                         navigateTo(task)
                                     "
                                     [title]="task.name"
@@ -544,7 +545,7 @@
                                     <img
                                       src="assets/icons/docker/return.svg"
                                       *ngIf="
-                                        task.jobType == '!TRAINING' &&
+                                        task.jobType === '!TRAINING' &&
                                         (task.status === 'HALTED' ||
                                           task.status === 'halted')
                                       "
@@ -561,7 +562,7 @@
                                         task.status === 'success'
                                       "
                                     />
-                                    <!-- <img src="assets/icons/docker/external-link.svg" (click)="navigateTo(task)" *ngIf="(task.extractionSourceId && (task.jobType == 'web' || task.jobType == 'faq')) || (task.jobType == 'STRUCTURED_DATA_INGESTION')">                         -->
+                                    <!-- <img src="assets/icons/docker/external-link.svg" (click)="navigateTo(task)" *ngIf="(task.extractionSourceId && (task.jobType === 'web' || task.jobType === 'faq')) || (task.jobType === 'STRUCTURED_DATA_INGESTION')">                         -->
                                   </div>
                                   <div class="status-blcok">
                                     <!-- updated code in line 263 on 24/02 ,added condition for running status as per api contract since in_progress is updated to running state -->
@@ -583,7 +584,7 @@
                                       placement="top"
                                       container="body"
                                     />
-                                    <!-- <span *ngIf="(task.status == 'IN_PROGRESS' || task.status === 'validation' || task.status === 'QUEUED') && (task.percentageComplete > 0)" class="run-percentageDone">{{task.percentageComplete}}%</span> -->
+                                    <!-- <span *ngIf="(task.status === 'IN_PROGRESS' || task.status === 'validation' || task.status === 'QUEUED') && (task.percentageComplete > 0)" class="run-percentageDone">{{task.percentageComplete}}%</span> -->
                                     <!-- updated code in line 272 on 24/02 ,added condition for running status as per api contract since in_progress is updated to running state  -->
                                     <!-- <img src="assets/icons/docker/close.svg"
                                                                             (click)="removeRecord(task, index)"
@@ -652,10 +653,10 @@
           (click)="openUserMetaTagsSlider()"
           [ngClass]="{
             'd-none':
-              router.url == '/apps' ||
-              router.url == '/' ||
-              router.url == '/**' ||
-              router.url == '/home'
+              router.url === '/apps' ||
+              router.url === '/' ||
+              router.url === '/**' ||
+              router.url === '/home'
           }"
         >
           <img src="assets/icons/sidemenu/help.svg" />
@@ -1204,11 +1205,11 @@
   class="onboarding-status-card"
   [ngClass]="{
     'd-none':
-      router.url == '/apps' ||
-      router.url == '/' ||
-      router.url == '/**' ||
+      router.url === '/apps' ||
+      router.url === '/' ||
+      router.url === '/**' ||
       !displyStatusBar ||
-      checklistCount == null
+      checklistCount === null
   }"
 >
   <div class="card-details-status">

@@ -25,7 +25,7 @@ import { NgxEchartsModule } from 'ngx-echarts';
     FormsModule,
     NgbTooltipModule,
     UseronboardingJourneyModule,
-    NgxDaterangepickerMd,
+    NgxDaterangepickerMd.forRoot(),
     NgxEchartsModule.forChild(),
   ],
 })
