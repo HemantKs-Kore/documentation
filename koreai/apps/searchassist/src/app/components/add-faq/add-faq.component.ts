@@ -34,6 +34,7 @@ import { AuthService } from '@kore.apps/services/auth.service';
 import { KgDataService } from '@kore.apps/services/componentsServices/kg-data.service';
 import { ServiceInvokerService } from '@kore.apps/services/service-invoker.service';
 import { MixpanelServiceService } from '@kore.apps/services/mixpanel-service.service';
+import { LazyLoadService } from '@kore.shared/*';
 declare const $: any;
 // import {MatAutocompleteSelectedEvent, MatChipInputEvent} from '@angular/material';
 
@@ -210,7 +211,8 @@ export class AddFaqComponent implements OnInit, OnDestroy {
     public dialog: MatDialog,
     public mixpanel: MixpanelServiceService,
     @Inject('instance1') public faqServiceAlt: FaqsService,
-    @Inject('instance2') private faqServiceFollow: FaqsService
+    @Inject('instance2') private faqServiceFollow: FaqsService,
+    private lazyLoadService: LazyLoadService
   ) {
     config.container = 'body';
   }
@@ -281,7 +283,14 @@ export class AddFaqComponent implements OnInit, OnDestroy {
     this.groupAddSub = this.faqService.groupAdded.subscribe((res) => {
       this.groupsAdded = res;
     });
+
+    this.lazyLoadCodeMirror();
   }
+
+  lazyLoadCodeMirror(): Observable<any[]> {
+    return this.lazyLoadService.loadStyle('codemirror.min.css');
+  }
+
   // buildCurrentContextSuggetions(ruleObj) {
   //   const _ruleOptions = JSON.parse(JSON.stringify(this.ruleOptions))
   //   const mainContext = _ruleOptions.contextTypes;

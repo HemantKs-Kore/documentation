@@ -18,6 +18,7 @@ import { AuthService } from '@kore.apps/services/auth.service';
 import { ServiceInvokerService } from '@kore.apps/services/service-invoker.service';
 import { WorkflowService } from '@kore.apps/services/workflow.service';
 import { OnboardingComponent } from '../onboarding/onboarding.component';
+import { LazyLoadService } from '@kore.shared/*';
 
 @Component({
   selector: 'app-structured-data',
@@ -149,7 +150,8 @@ export class StructuredDataComponent implements OnInit {
     private router: Router,
     public dialog: MatDialog,
     public inlineManual: InlineManualService,
-    private appSelectionService: AppSelectionService
+    private appSelectionService: AppSelectionService,
+    private lazyLoadService: LazyLoadService
   ) {}
 
   ngOnInit(): void {
@@ -167,6 +169,12 @@ export class StructuredDataComponent implements OnInit {
         this.loadData();
       }
     );
+
+    this.lazyLoadCodeMirror();
+  }
+
+  lazyLoadCodeMirror(): Observable<any[]> {
+    return this.lazyLoadService.loadStyle('codemirror.min.css');
   }
 
   loadData() {

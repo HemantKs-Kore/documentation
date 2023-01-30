@@ -19,6 +19,7 @@ import { SliderComponentComponent } from '../../shared/slider-component/slider-c
 import * as moment from 'moment';
 import { EMPTY_SCREEN } from '../../modules/empty-screen/empty-screen.constants';
 import { OnboardingComponent } from '@kore.apps/modules/onboarding/onboarding.component';
+import { LazyLoadService } from '@kore.shared/*';
 @Component({
   selector: 'app-structured-data',
   templateUrl: './structured-data.component.html',
@@ -149,7 +150,8 @@ export class StructuredDataComponent implements OnInit {
     private router: Router,
     public dialog: MatDialog,
     public inlineManual: InlineManualService,
-    private appSelectionService: AppSelectionService
+    private appSelectionService: AppSelectionService,
+    private lazyLoadService: LazyLoadService
   ) {}
 
   ngOnInit(): void {
@@ -167,6 +169,12 @@ export class StructuredDataComponent implements OnInit {
         this.loadData();
       }
     );
+
+    this.lazyLoadCodeMirror();
+  }
+
+  lazyLoadCodeMirror(): Observable<any[]> {
+    return this.lazyLoadService.loadStyle('codemirror.min.css');
   }
 
   loadData() {
