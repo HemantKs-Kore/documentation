@@ -1,47 +1,53 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { WorkflowService } from '@kore.apps/services/workflow.service';
 import { ServiceInvokerService } from '@kore.apps/services/service-invoker.service';
 import { AppSelectionService } from '@kore.apps/services/app.selection.service';
 import { NotificationService } from '@kore.apps/services/notification.service';
 import { AuthService } from '@kore.apps/services/auth.service';
+import { Store } from '@ngrx/store';
+import { selectAppIds } from '@kore.apps/store/app.selectors';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-snippets',
   templateUrl: './snippets.component.html',
   styleUrls: ['./snippets.component.scss'],
 })
-export class SnippetsComponent implements OnInit {
+export class SnippetsComponent implements OnInit, OnDestroy {
   selectedApp;
   serachIndexId;
   indexPipelineId;
   queryPipelineId;
-  querySubscription;
-  snippetsData: boolean = false;
+  sub: Subscription;
+  streamId;
+  searchIndexId;
+  snippetsData = false;
 
   constructor(
     public workflowService: WorkflowService,
     private service: ServiceInvokerService,
     private notificationService: NotificationService,
     private authService: AuthService,
-    private appSelectionService: AppSelectionService
+    private appSelectionService: AppSelectionService,
+    private store: Store
   ) {}
 
   ngOnInit(): void {
-    this.selectedApp = this.workflowService?.selectedApp();
-    this.serachIndexId = this.selectedApp?.searchIndexes[0]._id;
-    this.indexPipelineId = this.workflowService?.selectedIndexPipeline();
-    this.queryPipelineId = this.workflowService?.selectedQueryPipeline()
-      ? this.workflowService.selectedQueryPipeline()?._id
-      : '';
-    if (this.indexPipelineId && this.queryPipelineId) this.getQuerypipeline();
-    this.querySubscription =
-      this.appSelectionService.queryConfigSelected.subscribe((res) => {
-        this.indexPipelineId = this.workflowService?.selectedIndexPipeline();
-        this.queryPipelineId = this.workflowService?.selectedQueryPipeline()
-          ? this.workflowService.selectedQueryPipeline()?._id
-          : '';
-        this.getQuerypipeline();
-      });
+    this.initAppIds();
+  }
+  initAppIds() {
+    const idsSub = this.store
+      .select(selectAppIds)
+      .subscribe(
+        ({ streamId, searchIndexId, indexPipelineId, queryPipelineId }) => {
+          this.streamId = streamId;
+          this.searchIndexId = searchIndexId;
+          this.indexPipelineId = indexPipelineId;
+          this.queryPipelineId = queryPipelineId;
+          this.getQuerypipeline();
+        }
+      );
+    this.sub?.add(idsSub);
   }
   //open topic guide
   openUserMetaTagsSlider() {
@@ -50,7 +56,7 @@ export class SnippetsComponent implements OnInit {
 
   getQuerypipeline() {
     const quaryparms: any = {
-      searchIndexID: this.serachIndexId,
+      searchIndexID: this.searchIndexId,
       queryPipelineId: this.queryPipelineId,
       indexPipelineId: this.indexPipelineId,
     };
@@ -69,11 +75,9 @@ export class SnippetsComponent implements OnInit {
 
   sildervaluechanged(event) {
     const quaryparms: any = {
-      indexPipelineId: this.workflowService?.selectedIndexPipeline(),
-      queryPipelineId: this.workflowService?.selectedQueryPipeline()
-        ? this.workflowService.selectedQueryPipeline()?._id
-        : '',
-      searchIndexId: this.serachIndexId,
+      indexPipelineId: this.indexPipelineId,
+      queryPipelineId: this.queryPipelineId,
+      searchIndexId: this.searchIndexId,
     };
     const payload: any = {
       settings: {
@@ -96,6 +100,6 @@ export class SnippetsComponent implements OnInit {
     );
   }
   ngOnDestroy() {
-    this.querySubscription ? this.querySubscription.unsubscribe() : false;
+    this.sub?.unsubscribe();
   }
 }
