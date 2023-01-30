@@ -23,7 +23,7 @@ import { UseronboardingJourneyModule } from '@kore.apps/helpers/components/usero
     SharedPipesModule,
     NgbTooltipModule,
     FormsModule,
-    NgxDaterangepickerMd,
+    NgxDaterangepickerMd.forRoot(),
     UseronboardingJourneyModule,
   ],
 })

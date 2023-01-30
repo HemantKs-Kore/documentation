@@ -19,7 +19,7 @@ import { NgxEchartsModule } from 'ngx-echarts';
     PerfectScrollbarModule,
     TranslateModule,
     FormsModule,
-    NgxDaterangepickerMd,
+    NgxDaterangepickerMd.forRoot(),
     NgbTooltipModule,
     UseronboardingJourneyModule,
     NgxEchartsModule.forChild(),

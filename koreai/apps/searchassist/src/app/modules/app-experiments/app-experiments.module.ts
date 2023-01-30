@@ -8,6 +8,9 @@ import { FormsModule } from '@angular/forms';
 import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
 import { KrModalModule } from '../../shared/kr-modal/kr-modal.module';
 import { MatDialogModule } from '@angular/material/dialog';
+import { NgxDaterangepickerMd } from 'ngx-daterangepicker-material';
+import { SharedPipesModule } from '@kore.apps/helpers/filters/shared-pipes.module';
+import { EmptyScreenModule } from '../empty-screen/empty-screen.module';
 
 @NgModule({
   declarations: [AppExperimentsComponent],
@@ -19,6 +22,9 @@ import { MatDialogModule } from '@angular/material/dialog';
     PerfectScrollbarModule,
     KrModalModule,
     MatDialogModule,
+    NgxDaterangepickerMd,
+    SharedPipesModule,
+    EmptyScreenModule,
   ],
 })
 export class AppExperimentsModule {}
