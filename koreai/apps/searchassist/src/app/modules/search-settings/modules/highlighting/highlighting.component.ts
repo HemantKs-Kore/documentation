@@ -325,9 +325,9 @@ export class HighlightingComponent implements OnInit, OnDestroy {
 
   /** Emited Value for Operation (Add/Delete)  */
   getRecord(recordData: any) {
-    let record = recordData.record;
+    const record = recordData.record;
     if (record?.fieldIds?.length > 0 || record?.length > 0) {
-      let deleteData = {
+      const deleteData = {
         url: 'delete.highlightFields',
         quaryparms: {
           streamId: this.streamId,
@@ -336,7 +336,7 @@ export class HighlightingComponent implements OnInit, OnDestroy {
           fieldId: record[0],
         },
       };
-      let addData = {
+      const addData = {
         url: 'add.highlightFields',
         quaryparms: {
           streamId: this.streamId,

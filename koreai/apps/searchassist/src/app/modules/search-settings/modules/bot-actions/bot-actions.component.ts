@@ -3,6 +3,8 @@ import { AppSelectionService } from '@kore.apps/services/app.selection.service';
 import { NotificationService } from '@kore.apps/services/notification.service';
 import { ServiceInvokerService } from '@kore.apps/services/service-invoker.service';
 import { WorkflowService } from '@kore.apps/services/workflow.service';
+import { selectAppIds } from '@kore.apps/store/app.selectors';
+import { Store } from '@ngrx/store';
 
 import { Subscription } from 'rxjs';
 
@@ -17,34 +19,50 @@ export class BotActionsComponent implements OnInit {
   selectedApp;
   indexPipelineId;
   streamId: any;
-  serachIndexId;
+  searchIndexId;
   queryPipelineId;
-  querySubscription: Subscription;
+  sub: Subscription;
   isLoading = false;
 
   constructor(
     public workflowService: WorkflowService,
     private appSelectionService: AppSelectionService,
     private notificationService: NotificationService,
-    private service: ServiceInvokerService
+    private service: ServiceInvokerService,
+    private store: Store
   ) {}
 
   ngOnInit(): void {
-    this.selectedApp = this.workflowService?.selectedApp();
-    this.serachIndexId = this.selectedApp?.searchIndexes[0]?._id;
-    this.indexPipelineId = this.workflowService?.selectedIndexPipeline();
-    this.queryPipelineId = this.workflowService?.selectedQueryPipeline()
-      ? this.workflowService.selectedQueryPipeline()?._id
-      : '';
-    if (this.indexPipelineId && this.queryPipelineId) this.getQuerypipeline();
-    this.querySubscription =
-      this.appSelectionService.queryConfigSelected.subscribe((res) => {
-        this.indexPipelineId = this.workflowService.selectedIndexPipeline();
-        this.queryPipelineId = this.workflowService.selectedQueryPipeline()
-          ? this.workflowService.selectedQueryPipeline()?._id
-          : '';
-        this.getQuerypipeline();
-      });
+    // this.selectedApp = this.workflowService?.selectedApp();
+    // this.serachIndexId = this.selectedApp?.searchIndexes[0]?._id;
+    // this.indexPipelineId = this.workflowService?.selectedIndexPipeline();
+    // this.queryPipelineId = this.workflowService?.selectedQueryPipeline()
+    //   ? this.workflowService.selectedQueryPipeline()?._id
+    //   : '';
+    // if (this.indexPipelineId && this.queryPipelineId) this.getQuerypipeline();
+    // this.querySubscription =
+    //   this.appSelectionService.queryConfigSelected.subscribe((res) => {
+    //     this.indexPipelineId = this.workflowService.selectedIndexPipeline();
+    //     this.queryPipelineId = this.workflowService.selectedQueryPipeline()
+    //       ? this.workflowService.selectedQueryPipeline()?._id
+    //       : '';
+    //     this.getQuerypipeline();
+    //   });
+    this.initAppIds();
+  }
+  initAppIds() {
+    const idsSub = this.store
+      .select(selectAppIds)
+      .subscribe(
+        ({ streamId, searchIndexId, indexPipelineId, queryPipelineId }) => {
+          this.streamId = streamId;
+          this.searchIndexId = searchIndexId;
+          this.indexPipelineId = indexPipelineId;
+          this.queryPipelineId = queryPipelineId;
+          this.getQuerypipeline();
+        }
+      );
+    this.sub?.add(idsSub);
   }
   //open topic guide
   openUserMetaTagsSlider() {
@@ -53,7 +71,7 @@ export class BotActionsComponent implements OnInit {
   //** get querypipeline API call*/
   getQuerypipeline() {
     const quaryparms: any = {
-      searchIndexID: this.serachIndexId,
+      searchIndexID: this.searchIndexId,
       queryPipelineId: this.queryPipelineId,
       indexPipelineId: this.indexPipelineId,
     };
@@ -76,11 +94,9 @@ export class BotActionsComponent implements OnInit {
   silderValuechanged(event) {
     console.log(event);
     const quaryparms: any = {
-      indexPipelineId: this.workflowService.selectedIndexPipeline(),
-      queryPipelineId: this.workflowService.selectedQueryPipeline()
-        ? this.workflowService.selectedQueryPipeline()._id
-        : '',
-      searchIndexId: this.serachIndexId,
+      indexPipelineId: this.indexPipelineId,
+      queryPipelineId: this.queryPipelineId,
+      searchIndexId: this.searchIndexId,
     };
     const payload: any = {
       settings: {
@@ -105,13 +121,11 @@ export class BotActionsComponent implements OnInit {
   //** Selecting the button of winning intent and calling the put query pipeline api */
   selectRadiobutton(type) {
     const quaryparms: any = {
-      indexPipelineId: this.workflowService.selectedIndexPipeline(),
-      queryPipelineId: this.workflowService.selectedQueryPipeline()
-        ? this.workflowService.selectedQueryPipeline()._id
-        : '',
-      searchIndexId: this.serachIndexId,
+      indexPipelineId: this.indexPipelineId,
+      queryPipelineId: this.queryPipelineId,
+      searchIndexId: this.searchIndexId,
     };
-    let payload: any = {
+    const payload: any = {
       settings: {
         botActions: {
           executeIntents: type == 'execute' ? true : false,
@@ -132,6 +146,6 @@ export class BotActionsComponent implements OnInit {
   }
   //** unsubscribing the query subscription */
   ngOnDestroy() {
-    this.querySubscription ? this.querySubscription.unsubscribe() : false;
+    this.sub?.unsubscribe();
   }
 }
