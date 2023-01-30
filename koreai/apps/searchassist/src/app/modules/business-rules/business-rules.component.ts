@@ -72,9 +72,9 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
   submitted = false;
   input_1: any = [];
   input_2: any = [];
-  removedCon: boolean = false;
-  iconImageCon: boolean = false;
-  iconImageOut: boolean = false;
+  removedCon = false;
+  iconImageCon = false;
+  iconImageOut = false;
   skip = 0;
   rules = [];
   allRules = [];
@@ -89,7 +89,7 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
     supportURL:
       'https://docs.kore.ai/searchassist/concepts/personalizing-results/personalizing-results-ranking/#Configuring_Business_Rules',
   };
-  totalRecord: number = 0;
+  totalRecord = 0;
   activeClose = false;
   sortObj: any = {};
   showSearch = false;
@@ -146,9 +146,9 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
   private contextSuggestedImput: ElementRef;
   autoSuggestInputItems: any;
   readonly separatorKeysCodes: number[] = [ENTER, COMMA];
-  componentType: string = 'configure';
-  loadImageText: boolean = false;
-  loadingContent1: boolean = false;
+  componentType = 'configure';
+  loadImageText = false;
+  loadingContent1 = false;
   sortedObject = {
     type: 'ruleName',
     position: 'up',
@@ -188,10 +188,10 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
     annotator: [],
     Legends: [],
   };
-  search_field: String = '';
-  filteredFields: Array<Object> = [];
-  isSearchClear: boolean = false;
-  isPaginating: boolean = false;
+  search_field = '';
+  filteredFields = [];
+  isSearchClear = false;
+  isPaginating = false;
   @ViewChild('contextSuggestedImput') set content(content: ElementRef) {
     if (content) {
       this.contextSuggestedImput = content;
@@ -357,7 +357,7 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
       if (this.selcectionObj?.ruleType === 'contextual') {
         this.rulesArrayforAddEdit = JSON.parse(JSON.stringify(ruleObj.rules));
       } else if (this.selcectionObj?.ruleType === 'nlp') {
-        for (let item of ruleObj.rules) {
+        for (const item of ruleObj.rules) {
           this.createColorSentence(item);
         }
         this.getLegends();
@@ -365,7 +365,7 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
     }
     if (ruleObj && ruleObj.outcomes && ruleObj.outcomes.length) {
       const _outcoms = [];
-      let ruleObjOutcomes = JSON.parse(JSON.stringify(ruleObj.outcomes));
+      const ruleObjOutcomes = JSON.parse(JSON.stringify(ruleObj.outcomes));
       ruleObjOutcomes.forEach((outcome, i) => {
         const tempObj: any = outcome;
         tempObj.sliderObj = this.prepereSliderObj(i, outcome.scale || 3);
@@ -513,9 +513,9 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
     } else {
       this.currentSugg = mainContext;
     }
-    let entitiesArray = [];
-    for (let annotator of this.nlpAnnotatorObj.annotator) {
-      for (let entity of annotator.entities) {
+    const entitiesArray = [];
+    for (const annotator of this.nlpAnnotatorObj.annotator) {
+      for (const entity of annotator.entities) {
         const entityObj = this.sys_entities.filter(
           (item) => item._id === entity.entityId
         );
@@ -639,7 +639,7 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
       request.sort.isRuleActive = value;
     }
 
-    let serviceId = 'post.businessRules';
+    const serviceId = 'post.businessRules';
     this.service.invoke(serviceId, quaryparms, request).subscribe(
       (res) => {
         this.rules = res.rules;
@@ -991,7 +991,7 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
         queryPipelineId: this.queryPipelineId,
         indexPipelineId: this.workflowService.selectedIndexPipeline() || '',
       };
-      let payload: any = {
+      const payload: any = {
         ruleName: this.addEditRuleObj.ruleName,
         isRuleActive: this.addEditRuleObj.isRuleActive,
         ruleType: this.selcectionObj?.ruleType,
@@ -1095,12 +1095,12 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
 
   //validate legends in all annotators
   validateLegends(type) {
-    let entityArray = [],
-      isValid = false,
-      count = 0;
+    const entityArray = [];
+    let isValid = false;
+    let count = 0;
     const legendCount = this.nlpAnnotatorObj.Legends.length;
     if (type === 'all') {
-      let entityCountArray = [];
+      const entityCountArray = [];
       this.nlpAnnotatorObj.annotator.forEach((item) => {
         entityCountArray.push(item.entities.length);
       });
@@ -1192,7 +1192,7 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
       payload = request;
     }
 
-    let serviceId = 'post.businessRules';
+    const serviceId = 'post.businessRules';
     if (this.searchRules) {
       payload.search = this.searchRules;
     }
@@ -1241,7 +1241,7 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
         indexPipelineId: this.workflowService.selectedIndexPipeline() || '',
         ruleId: rule._id,
       };
-      let payload: any = {
+      const payload: any = {
         ruleName: this.addEditRuleObj.ruleName,
         isRuleActive: this.addEditRuleObj.isRuleActive,
         ruleType: this.selcectionObj?.ruleType,
@@ -1540,7 +1540,7 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
     }, 100);
   }
   modifyFieldWarningMsg(warningMessage) {
-    let index = warningMessage.indexOf('changed');
+    const index = warningMessage.indexOf('changed');
     if (index > -1) {
       return true;
     } else {
@@ -1622,7 +1622,7 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
   //save entity or not
   saveEntity() {
     let isPush = false;
-    let entityArray =
+    const entityArray =
       this.selectEditIndex !== null
         ? this.nlpAnnotatorObj.annotator[this.selectEditIndex].entities
         : this.entityObj.entities;
@@ -1663,7 +1663,7 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
 
   //close edit mode in all annotators
   closeAllEditAnnotators() {
-    for (let item of this.nlpAnnotatorObj.annotator) {
+    for (const item of this.nlpAnnotatorObj.annotator) {
       item.isEditable = false;
     }
   }
@@ -1742,8 +1742,12 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
 
   //remove entities if word not matched with sentence
   removeEntities(data: any) {
-    let array = [];
-    for (let item of data?.entities) {
+    const array = [];
+    if (!data.entities) {
+      return;
+    }
+
+    for (const item of data.entities) {
       const sentence = data?.sentence;
       const word = item?.word;
       console.log(
@@ -1773,13 +1777,13 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
   //update string charaters
   getSentenceByEntity(entityArray, str) {
     String.prototype.replaceBetween = function (start, end, what) {
-      var value = this.substring(0, start + 1) + what + this.substring(end);
+      const value = this.substring(0, start + 1) + what + this.substring(end);
       return value;
     };
     entityArray.sort(function (a, b) {
       return b[0] - a[0];
     });
-    for (var ii = 0, triplet; !!(triplet = entityArray[ii]); ii++) {
+    for (let ii = 0, triplet; (triplet = entityArray[ii]); ii++) {
       str = str.replaceBetween(triplet[0] - 1, triplet[1], triplet[2]);
     }
     return str;
@@ -1788,7 +1792,7 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
   //after sentence changes click on add button
   AddSelectedEnity() {
     if (this.validateEntityObject()) {
-      let isCall: boolean = false;
+      let isCall = false;
       if (this.selectEditIndex !== null) {
         this.nlpAnnotatorObj.annotator[this.selectEditIndex].isEditable = false;
         this.selectEditIndex = null;
@@ -1931,11 +1935,11 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
             return item;
           }
         });
-        let rules = [];
-        for (let item of this.rules) {
-          let chips = [];
-          for (let rule of item?.rules) {
-            for (let entity of rule?.entities) {
+        const rules = [];
+        for (const item of this.rules) {
+          const chips = [];
+          for (const rule of item?.rules || item) {
+            for (const entity of rule?.entities || rule) {
               const entityName = res?.entities?.filter(
                 (ent) => ent._id === entity.entityId
               );
@@ -1975,10 +1979,10 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
     }
     this.setModalHeight(entity ? entity?.entityType : 'index');
     const fields = [];
-    for (let item of this.sys_entities) {
+    for (const item of this.sys_entities) {
       if (item?.entityType === 'index_field') fields.push(item?.fieldId);
     }
-    for (let field of this.fieldAutoSuggestion) {
+    for (const field of this.fieldAutoSuggestion) {
       const isInclude = fields.includes(field?._id);
       if (!isInclude && field?.fieldDataType !== 'number')
         this.filteredFields.push(field);
@@ -1991,7 +1995,7 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
     const url = this.nlpAnnotatorObj.entities.isEditable
       ? 'put.entities'
       : 'post.entities';
-    let quaryparms: any = {
+    const quaryparms: any = {
       sidx: this.serachIndexId,
       queryPipelineId: this.queryPipelineId,
       fip: this.workflowService.selectedIndexPipeline() || '',
@@ -2094,9 +2098,9 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
 
   //show legends method
   getLegends() {
-    let legends = [];
-    for (let annotator of this.nlpAnnotatorObj.annotator) {
-      for (let entity of annotator.entities) {
+    const legends = [];
+    for (const annotator of this.nlpAnnotatorObj.annotator) {
+      for (const entity of annotator.entities) {
         const Item = this.sys_entities.filter(
           (item) => item._id === entity.entityId
         );
@@ -2124,17 +2128,18 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
 
   //validate legends equality with annotators
   updateLegendAnnotators() {
-    for (let item of this.nlpAnnotatorObj?.annotator) {
-      let entities = [];
+    for (const item of this.nlpAnnotatorObj?.annotator ||
+      this.nlpAnnotatorObj) {
+      const entities = [];
       item.legends = [];
-      for (let entity of item?.entities) {
+      for (const entity of item?.entities || item) {
         const Item = this.sys_entities.filter(
           (item) => item._id === entity.entityId
         );
         entities.push(Item[0].entityName);
       }
-      if (this.nlpAnnotatorObj?.Legends) {
-        for (let legend of this.nlpAnnotatorObj?.Legends) {
+      if (this.nlpAnnotatorObj && this.nlpAnnotatorObj.Legends) {
+        for (const legend of this.nlpAnnotatorObj?.Legends || '') {
           if (!entities.includes(legend.name)) {
             item.legends.push({ name: legend.name, type: legend.type });
           }

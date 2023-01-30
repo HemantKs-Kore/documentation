@@ -296,17 +296,17 @@
                     "
                   >
                     <span class="list-name">{{
-                      status.toLowerCase() == 'success'
+                      status.toLowerCase() === 'success'
                         ? 'Success'
-                        : status.toLowerCase() == 'failed'
+                        : status.toLowerCase() === 'failed'
                         ? 'Failed'
-                        : status.toLowerCase() == 'queued'
+                        : status.toLowerCase() === 'queued'
                         ? 'In-Queue'
-                        : status.toLowerCase() == 'configured'
+                        : status.toLowerCase() === 'configured'
                         ? 'Validated'
-                        : status.toLowerCase() == 'halted'
+                        : status.toLowerCase() === 'halted'
                         ? 'Stopped'
-                        : status.toLowerCase() == 'scheduled'
+                        : status.toLowerCase() === 'scheduled'
                         ? 'Configured'
                         : 'In-progress'
                     }}</span>
@@ -338,18 +338,18 @@
               (click)="openStatusSlider(source)"
               [ngClass]="{
                 'cursor-pointer':
-                  statusObj[source.recentStatus]?.name == 'Success'
+                  statusObj[source.recentStatus]?.name === 'Success'
               }"
             >
               <div class="col_ col-3">
                 <div class="media-block">
                   <div class="media-logo">
                     <img
-                      *ngIf="source.extractionType == 'web'"
+                      *ngIf="source.extractionType === 'web'"
                       src="assets/icons/content/latest-content-icons/blue-internet.svg"
                     />
                     <img
-                      *ngIf="source.extractionType == 'file'"
+                      *ngIf="source.extractionType === 'file'"
                       src="assets/icons/content/latest-content-icons/green-check-document.svg"
                     />
                   </div>
@@ -426,7 +426,7 @@
                 <!-- status==='configured' -->
                 <div
                   class="media-block media-success"
-                  *ngIf="statusObj[source.recentStatus]?.name == 'Validated'"
+                  *ngIf="statusObj[source.recentStatus]?.name === 'Validated'"
                 >
                   <div class="media-right">
                     <div class="media-name">
@@ -438,7 +438,7 @@
                 <!-- status==='stopped' -->
                 <div
                   class="media-block media-stopped"
-                  *ngIf="statusObj[source.recentStatus]?.name == 'Stopped'"
+                  *ngIf="statusObj[source.recentStatus]?.name === 'Stopped'"
                 >
                   <div class="media-right">
                     <div class="media-name">
@@ -450,7 +450,7 @@
                 <!-- status==='In progress' -->
                 <div
                   class="media-block media-inprogress"
-                  *ngIf="statusObj[source.recentStatus]?.name == 'In Progress'"
+                  *ngIf="statusObj[source.recentStatus]?.name === 'In Progress'"
                 >
                   <div class="media-logo">
                     <img
@@ -512,7 +512,7 @@
                 <!-- status==='queue' -->
                 <div
                   class="media-block media-inQueue"
-                  *ngIf="statusObj[source.recentStatus]?.name == 'In-Queue'"
+                  *ngIf="statusObj[source.recentStatus]?.name === 'In-Queue'"
                 >
                   <div class="media-logo">
                     <img
@@ -532,7 +532,7 @@
                 <span
                   class="actions-links"
                   *ngIf="
-                    source.extractionType == 'web' &&
+                    source.extractionType === 'web' &&
                     ['Success', 'Stopped'].includes(
                       statusObj[source.recentStatus]?.name
                     ) &&
@@ -549,8 +549,8 @@
                 <span
                   class="actions-links"
                   *ngIf="
-                    source.extractionType == 'web' &&
-                    source.recentStatus == 'configured'
+                    source.extractionType === 'web' &&
+                    source.recentStatus === 'configured'
                   "
                   (click)="jobOndemand(source, $event)"
                   ><img
@@ -562,8 +562,8 @@
                 <span
                   class="actions-links"
                   *ngIf="
-                    statusObj[source.recentStatus]?.name == 'In Progress' &&
-                    source.recentStatus != 'queued'
+                    statusObj[source.recentStatus]?.name === 'In Progress' &&
+                    source.recentStatus !== 'queued'
                   "
                   (click)="stopCrwaling(source, $event)"
                   ><img
@@ -638,9 +638,9 @@
                       [ngClass]="{ doc: source.extractionType === 'file' }"
                     >
                       {{
-                        (source.extractionType == 'web'
+                        (source.extractionType === 'web'
                           ? 'Web'
-                          : source.extractionType == 'file'
+                          : source.extractionType === 'file'
                           ? 'Doc'
                           : ''
                         ) | uppercase
@@ -653,7 +653,7 @@
                     <div
                       class="timestamp"
                       *ngIf="
-                        statusObj[source.recentStatus]?.name ==
+                        statusObj[source.recentStatus]?.name ===
                           ('In Progress' || 'Queued');
                         else executed
                       "
@@ -669,7 +669,7 @@
                     <div
                       class="status text-right"
                       *ngIf="
-                        statusObj[source.recentStatus]?.name == 'In Progress'
+                        statusObj[source.recentStatus]?.name === 'In Progress'
                       "
                     >
                       <span class="img-block"
@@ -677,7 +677,7 @@
                           src="assets/icons/ringLoading.svg"
                           class="ml-2 inProgress"
                           *ngIf="
-                            statusObj[source.recentStatus]?.name ==
+                            statusObj[source.recentStatus]?.name ===
                             'In Progress'
                           "
                           placement="top"
@@ -692,7 +692,7 @@
                       /></span>
                       <span
                         *ngIf="
-                          statusObj[source.recentStatus]?.name == 'In Progress'
+                          statusObj[source.recentStatus]?.name === 'In Progress'
                         "
                         class="run-percentageDoneGrid"
                         >{{
@@ -717,7 +717,7 @@
                     </div>
                     <div
                       class="status text-right"
-                      *ngIf="statusObj[source.recentStatus]?.name == 'Failed'"
+                      *ngIf="statusObj[source.recentStatus]?.name === 'Failed'"
                     >
                       <span class="img-block"
                         ><img src="assets/icons/content/failed-status.svg"
@@ -731,8 +731,8 @@
                     <img
                       src="assets/icons/refresh-table.svg"
                       *ngIf="
-                        (source.extractionType == 'web' &&
-                          statusObj[source.recentStatus]?.name !=
+                        (source.extractionType === 'web' &&
+                          statusObj[source.recentStatus]?.name !==
                             'In Progress' &&
                           ['success'].includes(source.recentStatus)) ||
                         (source.recentStatus === 'failed' &&
@@ -746,8 +746,8 @@
                     <img
                       src="assets/icons/refresh-table.svg"
                       *ngIf="
-                        source.extractionType == 'web' &&
-                        source.recentStatus == 'configured'
+                        source.extractionType === 'web' &&
+                        source.recentStatus === 'configured'
                       "
                       (click)="jobOndemand(source, $event)"
                       ngbTooltip="{{ 'contentSource_crwal' | translate }}"
@@ -756,7 +756,7 @@
                     <img
                       src="assets/icons/validate.svg"
                       *ngIf="
-                        source.extractionType == 'web' &&
+                        source.extractionType === 'web' &&
                         source.recentStatus === 'failed' &&
                         !source?.validations?.url?.validated
                       "
@@ -767,8 +767,8 @@
                     <img
                       src="assets/icons/content/stop.svg"
                       *ngIf="
-                        statusObj[source.recentStatus]?.name == 'In Progress' &&
-                        source.recentStatus != 'queued'
+                        statusObj[source.recentStatus]?.name ===
+                          'In Progress' && source.recentStatus !== 'queued'
                       "
                       (click)="stopCrwaling(source, $event)"
                       ngbTooltip="{{ 'contentSource_stop' | translate }}"
@@ -874,7 +874,7 @@
                 class="tabname"
                 *ngIf="
                   executionHistoryData &&
-                  selectedSource.recentStatus != 'scheduled'
+                  selectedSource.recentStatus !== 'scheduled'
                 "
                 [ngClass]="{ active: execution }"
                 (click)="swapSlider('execution')"
@@ -2945,22 +2945,22 @@
                                 >
                                   <img
                                     *ngIf="
-                                      statlog.stageName == 'failed' &&
-                                      statlog.stageStatus == 'failed'
+                                      statlog.stageName === 'failed' &&
+                                      statlog.stageStatus === 'failed'
                                     "
                                     src="assets/icons/content/failed-circle.svg"
                                   />
                                   <img
                                     *ngIf="
-                                      statlog.stageName != 'failed' &&
-                                      statlog.stageStatus == 'failed'
+                                      statlog.stageName !== 'failed' &&
+                                      statlog.stageStatus === 'failed'
                                     "
                                     src="assets/icons/content/ex-stopped.svg"
                                   />
                                   <img
                                     *ngIf="
-                                      statlog.stageStatus != 'failed' &&
-                                      statlog.stageStatus != 'running'
+                                      statlog.stageStatus !== 'failed' &&
+                                      statlog.stageStatus !== 'running'
                                     "
                                     src="{{
                                       stateExecutionStageNameObj[
@@ -2994,16 +2994,16 @@
                                     <span
                                       class="time"
                                       *ngIf="
-                                        statlog.stageName != 'failed' &&
-                                        statlog.stageName != 'successful' &&
-                                        statlog.stageName != 'stopped' &&
+                                        statlog.stageName !== 'failed' &&
+                                        statlog.stageName !== 'successful' &&
+                                        statlog.stageName !== 'stopped' &&
                                         statlog.timeTaken
                                       "
                                       >( {{ statlog.timeTaken }} )</span
                                     >
                                     <span
                                       class="time"
-                                      *ngIf="statlog.stageName == 'stopped'"
+                                      *ngIf="statlog.stageName === 'stopped'"
                                     >
                                       by
                                       {{ history.executionStats.triggeredBy }}
@@ -3026,7 +3026,7 @@
                               <img
                                 *ngIf="
                                   history?.executionStats
-                                    ?.executionStatusMessage ==
+                                    ?.executionStatusMessage ===
                                   'Execution In Progress'
                                 "
                                 class="inProgress"
@@ -3035,7 +3035,7 @@
                               <img
                                 *ngIf="
                                   history?.executionStats
-                                    ?.executionStatusMessage !=
+                                    ?.executionStatusMessage !==
                                   'Execution In Progress'
                                 "
                                 [src]="
@@ -3051,7 +3051,7 @@
                               <span
                                 *ngIf="
                                   history?.executionStats
-                                    ?.executionStatusMessage ==
+                                    ?.executionStatusMessage ===
                                     'Execution In Progress' &&
                                   history?.executionStats?.percentageDone
                                 "

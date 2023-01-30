@@ -34,8 +34,8 @@ export class BotActionsComponent implements OnInit {
   refId: any = '';
   allBotArray: any = [];
   sortedBy: string;
-  sortInAscending: boolean = false;
-  associatedBotsExist: boolean = true;
+  sortInAscending = false;
+  associatedBotsExist = true;
   linkedBotID: any;
   linkedBotName: any;
   linkedBotDescription: any;
@@ -54,7 +54,7 @@ export class BotActionsComponent implements OnInit {
   userInfo: any;
   botsModalRef: any;
   botsConfigurationModalRef: any;
-  onboardingOpened: boolean = false;
+  onboardingOpened = false;
   searchAssociatedBots = '';
   currentRouteData: any = '';
   accessToken: any;
@@ -90,14 +90,15 @@ export class BotActionsComponent implements OnInit {
   searchFocusIn = false;
   activeClose = false;
   searchTasks = '';
+  loadImageText = false;
   selcectionObj: any = {
     selectAll: false,
     selectedItems: [],
   };
   isEnabledAll = 'disable';
 
-  loading: boolean = true;
-  componentType: string = 'addData';
+  loading = true;
+  componentType = 'addData';
   botBulilderUrl = '';
   constructor(
     public workflowService: WorkflowService,
@@ -113,13 +114,13 @@ export class BotActionsComponent implements OnInit {
     const selectedElements = $('.selectEachTaskInput:checkbox:checked');
     const allElements = $('.selectEachTaskInput');
     if (selectedElements.length === allElements.length) {
-      let partialElement: any = document.getElementsByClassName(
+      const partialElement: any = document.getElementsByClassName(
         'partial-select-checkbox'
       );
       if (partialElement.length) {
         partialElement[0].classList.add('d-none');
       }
-      let selectAllElement: any = document.getElementsByClassName(
+      const selectAllElement: any = document.getElementsByClassName(
         'select-all-checkbox'
       );
       if (selectAllElement.length) {
@@ -127,10 +128,10 @@ export class BotActionsComponent implements OnInit {
       }
       $('#selectAllTasks')[0].checked = true;
     } else {
-      let partialElement: any = document.getElementsByClassName(
+      const partialElement: any = document.getElementsByClassName(
         'partial-select-checkbox'
       );
-      let selectAllElement: any = document.getElementsByClassName(
+      const selectAllElement: any = document.getElementsByClassName(
         'select-all-checkbox'
       );
 
@@ -169,13 +170,13 @@ export class BotActionsComponent implements OnInit {
         }
       });
     }
-    let partialElement: any = document.getElementsByClassName(
+    const partialElement: any = document.getElementsByClassName(
       'partial-select-checkbox'
     );
     if (partialElement.length) {
       partialElement[0].classList.add('d-none');
     }
-    let selectAllElement: any = document.getElementsByClassName(
+    const selectAllElement: any = document.getElementsByClassName(
       'select-all-checkbox'
     );
     if (selectAllElement.length) {
@@ -217,13 +218,13 @@ export class BotActionsComponent implements OnInit {
     if ($('#selectAllTasks').length) {
       $('#selectAllTasks')[0].checked = false;
     }
-    let partialElement: any = document.getElementsByClassName(
+    const partialElement: any = document.getElementsByClassName(
       'partial-select-checkbox'
     );
     if (partialElement.length) {
       partialElement[0].classList.add('d-none');
     }
-    let selectAllElement: any = document.getElementsByClassName(
+    const selectAllElement: any = document.getElementsByClassName(
       'select-all-checkbox'
     );
     if (selectAllElement.length) {
@@ -259,7 +260,6 @@ export class BotActionsComponent implements OnInit {
       this.botBulilderUrl = (res || {}).botsPlatformUrl;
     });
   }
-  loadImageText: boolean = false;
 
   getdialog() {
     const queryParams = {
@@ -353,7 +353,7 @@ export class BotActionsComponent implements OnInit {
     if (!this.beforeFilterTasks.length) {
       this.beforeFilterTasks = JSON.parse(JSON.stringify(this.linkedBotTasks));
     }
-    let tempTasks = this.beforeFilterTasks.filter((task: any) => {
+    const tempTasks = this.beforeFilterTasks.filter((task: any) => {
       if (source !== 'all') {
         if (headerOption === 'isBotName') {
           if (task.botName === source) {
@@ -557,7 +557,7 @@ export class BotActionsComponent implements OnInit {
   }
   modifyStyles(elementRef, isActive) {
     // console.log(elementRef);
-    let element = document.getElementById(elementRef);
+    const element = document.getElementById(elementRef);
     // console.log(element);
     // console.log(isActive)
     // document.getElementById(elementRef).style.borderBottom = "none";
@@ -584,8 +584,8 @@ export class BotActionsComponent implements OnInit {
               if (element.type == 'default' || element.type == 'universalbot') {
                 element.publishedTasksCount = 0;
                 element.publishedFAQsCount = 0;
-                let dialogsArr = element.taskCounts?.dialogs ?? [];
-                let kTasksArr = element.taskCounts?.kTasksArr ?? [];
+                const dialogsArr = element.taskCounts?.dialogs ?? [];
+                const kTasksArr = element.taskCounts?.kTasksArr ?? [];
 
                 if (this.streamId == element._id) {
                   this.linkedBotName = element.name;
@@ -667,7 +667,7 @@ export class BotActionsComponent implements OnInit {
   linkAfterUnlink(botID) {
     event.stopPropagation();
 
-    let requestBody: any = {};
+    const requestBody: any = {};
     let selectedApp: any;
     // console.log(botID);
 
@@ -684,14 +684,14 @@ export class BotActionsComponent implements OnInit {
           // Universal Bot Publish here.
           this.allBotArray = [];
           res.configuredBots.forEach((element) => {
-            let obj = {
+            const obj = {
               _id: element._id,
               state: 'new',
             };
             this.allBotArray.push(obj);
           });
           res.unpublishedBots.forEach((element) => {
-            let obj = {
+            const obj = {
               _id: element._id,
               state: 'delete',
             };
@@ -834,7 +834,7 @@ export class BotActionsComponent implements OnInit {
       userId: this.authService.getUserId(),
       streamId: this.selectedApp._id,
     };
-    let payload = {
+    const payload = {
       bots: this.allBotArray,
       // [
       //   {
@@ -871,7 +871,7 @@ export class BotActionsComponent implements OnInit {
     const queryParams = {
       streamId: this.selectedApp._id,
     };
-    let payload = {
+    const payload = {
       resources: [
         {
           namespace: 'enterprise',
@@ -950,7 +950,7 @@ export class BotActionsComponent implements OnInit {
     );
   }
   unlinkBotWhithPublish(linkingBotID) {
-    let requestBody: any = {};
+    const requestBody: any = {};
     let selectedApp: any;
     if (this.searchIndexId) {
       this.loadingContent = true;
@@ -1005,7 +1005,7 @@ export class BotActionsComponent implements OnInit {
     // OLD LOGIC
     event.stopPropagation();
 
-    let requestBody: any = {};
+    const requestBody: any = {};
     let selectedApp: any;
 
     // console.log(botID);
@@ -1026,7 +1026,7 @@ export class BotActionsComponent implements OnInit {
           this.allBotArray = [];
 
           res.configuredBots.forEach((element) => {
-            let obj = {
+            const obj = {
               _id: element._id,
               state: 'new',
             };
@@ -1090,7 +1090,7 @@ export class BotActionsComponent implements OnInit {
           .subscribe(
             (res) => {
               this.linkedBotTasks = [];
-              let taskEnable = true;
+              const taskEnable = true;
               this.filterSystem.isTaskTypeFilter = 'all';
               this.filterSystem.isBotNameFilter = 'all';
               this.sortedBy = '';
@@ -1110,7 +1110,7 @@ export class BotActionsComponent implements OnInit {
                         element.description = stream.description;
                         this.linkedBotTasks.push(element);
                         if (this.isBotNameArr.length) {
-                          let taskIndex = this.isBotNameArr.findIndex(
+                          const taskIndex = this.isBotNameArr.findIndex(
                             (d: any) => d.botName == element.botName
                           );
                           if (taskIndex == -1) {
@@ -1189,9 +1189,9 @@ export class BotActionsComponent implements OnInit {
 
   enableTask(taskID) {
     event.preventDefault();
-    let requestBody = {};
+    const requestBody = {};
     requestBody['tasks'] = [];
-    let taskObject = {};
+    const taskObject = {};
 
     if (taskID && this.searchIndexId) {
       const queryParams: any = {
@@ -1269,7 +1269,7 @@ export class BotActionsComponent implements OnInit {
       ? this.linkedBotTasks
       : Object.keys(this.selcectionObj.selectedItems);
 
-    let requestBody = {};
+    const requestBody = {};
     requestBody['tasks'] = [];
 
     if (this.searchIndexId) {
@@ -1279,14 +1279,14 @@ export class BotActionsComponent implements OnInit {
       tasks.forEach((e: any) => {
         if (isEnabledAll) {
           if (e.isHidden == true) {
-            let taskObject: any = {};
+            const taskObject: any = {};
             taskObject['_id'] = e._id;
             taskObject['streamId'] = this.streamId;
             taskObject['isHidden'] = false;
             requestBody['tasks'].push(taskObject);
           }
         } else {
-          let taskObject: any = {};
+          const taskObject: any = {};
           taskObject['_id'] = e;
           taskObject['streamId'] = this.streamId;
           taskObject['isHidden'] = false;
@@ -1316,7 +1316,7 @@ export class BotActionsComponent implements OnInit {
                   element.type = element.type ?? 'Dialog';
                   this.linkedBotTasks.push(element);
                 }
-                let index = requestBody['tasks'].findIndex(
+                const index = requestBody['tasks'].findIndex(
                   (d) => d._id == element._id
                 );
                 if (index > -1) {
@@ -1353,9 +1353,9 @@ export class BotActionsComponent implements OnInit {
   }
   disableTask(taskID) {
     event.preventDefault();
-    let requestBody = {};
+    const requestBody = {};
     requestBody['tasks'] = [];
-    let taskObject = {};
+    const taskObject = {};
 
     if (taskID && this.searchIndexId) {
       const queryParams: any = {
@@ -1422,9 +1422,9 @@ export class BotActionsComponent implements OnInit {
     const tasks = isDisabledAll
       ? this.linkedBotTasks
       : Object.keys(this.selcectionObj.selectedItems);
-    let requestBody = {};
+    const requestBody = {};
     requestBody['tasks'] = [];
-    let taskObject = {};
+    const taskObject = {};
 
     if (this.searchIndexId) {
       const queryParams: any = {
@@ -1433,14 +1433,14 @@ export class BotActionsComponent implements OnInit {
       tasks.forEach((e: any) => {
         if (isDisabledAll) {
           if (e.isHidden == false) {
-            let taskObject: any = {};
+            const taskObject: any = {};
             taskObject['_id'] = e._id;
             taskObject['streamId'] = this.streamId;
             taskObject['isHidden'] = true;
             requestBody['tasks'].push(taskObject);
           }
         } else {
-          let taskObject: any = {};
+          const taskObject: any = {};
           taskObject['_id'] = e;
           taskObject['streamId'] = this.streamId;
           taskObject['isHidden'] = true;
@@ -1593,7 +1593,7 @@ export class BotActionsComponent implements OnInit {
               .indexOf('hookInstance') + 1
           ];
       }
-      let payload = {
+      const payload = {
         linkBotId: this.selectedLinkBotConfig._id,
         linkBotName: this.selectedLinkBotConfig.name,
         channels: [
@@ -1618,7 +1618,7 @@ export class BotActionsComponent implements OnInit {
         (res) => {
           this.allBotArray = [];
           res.configuredBots.forEach((element) => {
-            let obj = {
+            const obj = {
               _id: element._id,
               state: 'new',
             };
@@ -1701,7 +1701,7 @@ export class BotActionsComponent implements OnInit {
   }
 
   showPasword() {
-    var show: any = document.getElementById('password');
+    const show: any = document.getElementById('password');
     if (show.type === 'password') {
       this.showPassword = true;
       show.type = 'text';

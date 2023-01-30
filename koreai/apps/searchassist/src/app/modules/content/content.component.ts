@@ -100,7 +100,7 @@ export class ContentComponent implements OnInit, OnDestroy {
   docTypeArr = [];
   selectedFilter: any = '';
   executionLogStatus = false;
-  componentType: string = 'addData';
+  componentType = 'addData';
   onboardingOpened = false;
   currentRouteData: any = '';
   contentTypes = {
@@ -238,11 +238,11 @@ export class ContentComponent implements OnInit, OnDestroy {
   showSourceAddition: any = null;
   isAsc = true;
   selectedSort = '';
-  recordStr: number = 1;
-  recordEnd: number = 10;
-  totalRecord: number = 0;
-  limitpage: number = 10;
-  limitAllpage: number = 10;
+  recordStr = 1;
+  recordEnd = 10;
+  totalRecord = 0;
+  limitpage = 10;
+  limitAllpage = 10;
   allInOne = false;
   urlConditionAllow = 'is';
   urlConditionBlock = 'is';
@@ -296,7 +296,7 @@ export class ContentComponent implements OnInit, OnDestroy {
 
   //latest object wrt crawl changes
   editSource: any;
-  allowURLValues: Array<String> = [
+  allowURLValues: any = [
     'is',
     'isNot',
     'beginsWith',
@@ -304,8 +304,8 @@ export class ContentComponent implements OnInit, OnDestroy {
     'contains',
     'doesNotContains',
   ];
-  allowURLArray: Array<Object> = [{ condition: 'contains', url: '' }];
-  blockURLArray: Array<Object> = [{ condition: 'contains', url: '' }];
+  allowURLArray: any = [{ condition: 'contains', url: '' }];
+  blockURLArray: any = [{ condition: 'contains', url: '' }];
   authorizationFieldObj: any = {
     type: '',
     key: '',
@@ -326,16 +326,17 @@ export class ContentComponent implements OnInit, OnDestroy {
     isRequired: true,
     duplicateObj: { type: '', key: '', value: '' },
   };
-  autorizationFieldTypes: Array<String> = [
+  loadImageText = false;
+  autorizationFieldTypes: any = [
     'header',
     'payload',
     'querystring',
     'pathparam',
   ];
-  testTypes: Array<String> = ['text_presence', 'redirection_to', 'status_code'];
-  authenticationTypes: Array<String> = ['basic', 'form'];
-  crawlOptions: Array<String> = ['any', 'block', 'allow'];
-  inputTypes: Array<String> = ['textbox', 'password'];
+  testTypes: any = ['text_presence', 'redirection_to', 'status_code'];
+  authenticationTypes: any = ['basic', 'form'];
+  crawlOptions: any = ['any', 'block', 'allow'];
+  inputTypes: any = ['textbox', 'password'];
   isPasswordShow = false;
   isShowSchedlerModal = false;
   scheduleObject: any = {};
@@ -382,7 +383,6 @@ export class ContentComponent implements OnInit, OnDestroy {
   scroll = (event): void => {
     //console.log(event)
   };
-  loadImageText = false;
 
   hoverExecutionLog() {
     this.executionLogStatus = true;
@@ -458,10 +458,10 @@ export class ContentComponent implements OnInit, OnDestroy {
   }
   duration(duration) {
     if (duration) {
-      let hr = duration.split(':')[0];
-      let min = duration.split(':')[1];
-      let sec = duration.split(':')[2];
-      let milisec = duration.split(':')[3];
+      const hr = duration.split(':')[0];
+      const min = duration.split(':')[1];
+      const sec = duration.split(':')[2];
+      const milisec = duration.split(':')[3];
 
       if (hr > 0) {
         if (min >= 0 && sec > 0)
@@ -566,14 +566,16 @@ export class ContentComponent implements OnInit, OnDestroy {
                 hour = '';
               if (element?.advanceSettings?.scheduleOpts?.time?.hour)
                 hour =
-                  (element?.advanceSettings?.scheduleOpts?.time?.hour).toString()
-                    .length > 1
+                  (
+                    element?.advanceSettings?.scheduleOpts?.time?.hour || ''
+                  ).toString().length > 1
                     ? element?.advanceSettings?.scheduleOpts?.time?.hour
                     : '0' + element?.advanceSettings?.scheduleOpts?.time?.hour;
               if (element?.advanceSettings?.scheduleOpts?.time?.minute) {
                 minute =
-                  (element?.advanceSettings?.scheduleOpts?.time?.minute).toString()
-                    .length > 1
+                  (
+                    element?.advanceSettings?.scheduleOpts?.time?.minute || ''
+                  ).toString().length > 1
                     ? element?.advanceSettings?.scheduleOpts?.time?.minute
                     : '0' +
                       element?.advanceSettings?.scheduleOpts?.time?.minute;
@@ -772,6 +774,7 @@ export class ContentComponent implements OnInit, OnDestroy {
   }
   poling(type) {
     clearInterval(this.polingObj[type]);
+    // eslint-disable-next-line @typescript-eslint/no-this-alias
     const self = this;
     this.polingObj[type] = setInterval(() => {
       self.getJobStatus(type);
@@ -939,8 +942,8 @@ export class ContentComponent implements OnInit, OnDestroy {
         this.blockUrlArr = this.selectedSource.advanceSettings
           ? this.selectedSource.advanceSettings.blockedURLs
           : [];
-        let searchEl = document.getElementsByName('pagesSearch')[0];
-        let isFocused = document.activeElement === searchEl;
+        const searchEl = document.getElementsByName('pagesSearch')[0];
+        const isFocused = document.activeElement === searchEl;
         this.lastPageSearch = this.pagesSearch;
         this.lastData = data;
         if (data.length || this.pagesSearch || isFocused) {
@@ -1198,7 +1201,8 @@ export class ContentComponent implements OnInit, OnDestroy {
         this.editSource.authorizationProfle.authCheckUrl =
           source?.authorizationProfle?.authCheckUrl;
         if (source?.authorizationProfle?.authorizationFields?.length > 0) {
-          for (let item of source?.authorizationProfle?.authorizationFields) {
+          for (const item of source?.authorizationProfle?.authorizationFields ||
+            '') {
             const obj = {
               ...item,
               isEditable: false,
@@ -1225,7 +1229,7 @@ export class ContentComponent implements OnInit, OnDestroy {
           source?.authorizationProfle?.formFields?.length > 0 &&
           this.editSource.authorizationProfle.sso_type === 'form'
         ) {
-          for (let item of source?.authorizationProfle?.formFields) {
+          for (const item of source?.authorizationProfle?.formFields || '') {
             const obj = {
               ...item,
               isEditable: false,
@@ -1325,9 +1329,10 @@ export class ContentComponent implements OnInit, OnDestroy {
     }
   }
   onClickArrow(newStart, newEnd, offset, time) {
-    let preStart = this.recordStr;
-    let preEnd = this.recordEnd;
-    if (newStart < 1 || newEnd > this.totalRecord + this.limitpage) {
+    const preStart = this.recordStr;
+    const preEnd = this.recordEnd;
+    if (newStart < 1 || newEnd > this.totalRecord + this.limitpage || '') {
+      console.log('empty block');
     } else {
       if (preEnd == this.totalRecord) {
         newEnd = newStart + (this.limitpage - 1);
@@ -1851,8 +1856,8 @@ export class ContentComponent implements OnInit, OnDestroy {
     } else {
       this.isAsc = !this.isAsc;
     }
-    var naviagtionArrow = '';
-    var checkSortValue = 1;
+    let naviagtionArrow = '';
+    let checkSortValue = 1;
     if (this.isAsc) {
       naviagtionArrow = 'up';
       checkSortValue = 1;
@@ -2159,8 +2164,8 @@ export class ContentComponent implements OnInit, OnDestroy {
   //update source API call
   proceedWithConfigUpdate() {
     let payload: any = {};
-    let schdVal = true;
-    let crawler = this.editSource;
+    const schdVal = true;
+    const crawler = this.editSource;
     const quaryparms: any = {
       searchIndexId: this.serachIndexId,
       sourceId: this.selectedSource._id,
@@ -2209,7 +2214,7 @@ export class ContentComponent implements OnInit, OnDestroy {
       delete crawler.advanceOpts.maxUrlLimit;
     }
     payload = crawler;
-    for (let item of payload.authorizationProfle.authorizationFields) {
+    for (const item of payload.authorizationProfle.authorizationFields) {
       delete item.duplicateObj;
       delete item.isEditable;
       delete item.isShow;
@@ -2218,7 +2223,7 @@ export class ContentComponent implements OnInit, OnDestroy {
       payload.authorizationProfle.formFields =
         payload.authorizationProfle.basicFields;
     } else if (payload.authorizationProfle.sso_type === 'form') {
-      for (let item of payload.authorizationProfle.formFields) {
+      for (const item of payload.authorizationProfle.formFields) {
         delete item.duplicateObj;
         delete item.isEditable;
         delete item.isShow;
@@ -2676,7 +2681,7 @@ export class ContentComponent implements OnInit, OnDestroy {
 
   //validation method
   validationInputs() {
-    let inputs = ['addSourceTitleInput'];
+    const inputs = ['addSourceTitleInput'];
     if (
       this.editSource.advanceOpts.blockedOpt ||
       this.editSource.advanceOpts.allowedOpt
@@ -2734,9 +2739,9 @@ export class ContentComponent implements OnInit, OnDestroy {
   //count validation input's
   countValidationInputs(data) {
     let count = 0;
-    for (let item of data) {
+    for (const item of data) {
       let text = 0;
-      let id: any = document.getElementById(item);
+      const id: any = document.getElementById(item);
       if (id?.type === 'submit') {
         text = [
           'Select Authentication Type',

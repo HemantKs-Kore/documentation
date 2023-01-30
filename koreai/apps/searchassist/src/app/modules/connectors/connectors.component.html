@@ -734,7 +734,7 @@
                                 'font-bold':
                                   selectedConnector.type ===
                                     'sharepointOnline' &&
-                                  i == overViewData?.overview.length - 1
+                                  i === overViewData?.overview.length - 1
                               }"
                             >
                               {{ overview?.key | titlecase }}
@@ -745,7 +745,7 @@
                                 'font-bold':
                                   selectedConnector.type ===
                                     'sharepointOnline' &&
-                                  i == overViewData?.overview.length - 1
+                                  i === overViewData?.overview.length - 1
                               }"
                             >
                               {{ overview?.doc_count }}

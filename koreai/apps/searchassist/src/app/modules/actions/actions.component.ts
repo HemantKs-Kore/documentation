@@ -140,7 +140,7 @@ export class ActionsComponent implements OnInit {
       this.service
         .invoke('get.AssociatedBots', queryParams)
         .subscribe((res) => {
-          let bots = JSON.parse(JSON.stringify(res));
+          const bots = JSON.parse(JSON.stringify(res));
           this.associatedBots = [];
           this.loader = false;
           // this.botLinked = false;
