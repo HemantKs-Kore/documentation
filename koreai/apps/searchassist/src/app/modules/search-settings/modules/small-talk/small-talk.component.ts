@@ -5,6 +5,8 @@ import { ServiceInvokerService } from '@kore.apps/services/service-invoker.servi
 import { AppSelectionService } from '@kore.apps/services/app.selection.service';
 import { NotificationService } from '@kore.apps/services/notification.service';
 import { AuthService } from '@kore.apps/services/auth.service';
+import { Store } from '@ngrx/store';
+import { selectAppIds } from '@kore.apps/store/app.selectors';
 @Component({
   selector: 'app-small-talk',
   templateUrl: './small-talk.component.html',
@@ -16,7 +18,7 @@ export class SmallTalkComponent implements OnInit {
   LinkABot: any;
   streamId: any;
   enableSmallTalk: any;
-  querySubscription: Subscription;
+  sub: Subscription;
   enable = false;
   botLinked = false;
   smallTalkData: any;
@@ -28,26 +30,42 @@ export class SmallTalkComponent implements OnInit {
     private service: ServiceInvokerService,
     private notificationService: NotificationService,
     private authService: AuthService,
-    private appSelectionService: AppSelectionService
+    private appSelectionService: AppSelectionService,
+    private store: Store
   ) {}
   ngOnInit(): void {
-    this.selectedApp = this.workflowService?.selectedApp();
-    this.searchIndexId = this.selectedApp?.searchIndexes[0]?._id;
-    this.indexPipelineId = this.workflowService?.selectedIndexPipeline();
-    this.queryPipelineId = this.workflowService?.selectedQueryPipeline()
-      ? this.workflowService.selectedQueryPipeline()._id
-      : '';
-    if (this.searchIndexId && this.queryPipelineId && this.queryPipelineId) {
-      this.getQuerypipeline();
-    }
-    this.querySubscription =
-      this.appSelectionService.queryConfigSelected.subscribe((res) => {
-        this.indexPipelineId = this.workflowService.selectedIndexPipeline();
-        this.queryPipelineId = this.workflowService.selectedQueryPipeline()
-          ? this.workflowService.selectedQueryPipeline()._id
-          : '';
-        this.getQuerypipeline();
-      });
+    // this.selectedApp = this.workflowService?.selectedApp();
+    // this.searchIndexId = this.selectedApp?.searchIndexes[0]?._id;
+    // this.indexPipelineId = this.workflowService?.selectedIndexPipeline();
+    // this.queryPipelineId = this.workflowService?.selectedQueryPipeline()
+    //   ? this.workflowService.selectedQueryPipeline()._id
+    //   : '';
+    // if (this.searchIndexId && this.queryPipelineId && this.queryPipelineId) {
+    //   this.getQuerypipeline();
+    // }
+    // this.querySubscription =
+    //   this.appSelectionService.queryConfigSelected.subscribe((res) => {
+    //     this.indexPipelineId = this.workflowService.selectedIndexPipeline();
+    //     this.queryPipelineId = this.workflowService.selectedQueryPipeline()
+    //       ? this.workflowService.selectedQueryPipeline()._id
+    //       : '';
+    //     this.getQuerypipeline();
+    //   });
+    this.initAppIds();
+  }
+  initAppIds() {
+    const idsSub = this.store
+      .select(selectAppIds)
+      .subscribe(
+        ({ streamId, searchIndexId, indexPipelineId, queryPipelineId }) => {
+          this.streamId = streamId;
+          this.searchIndexId = searchIndexId;
+          this.indexPipelineId = indexPipelineId;
+          this.queryPipelineId = queryPipelineId;
+          this.getQuerypipeline();
+        }
+      );
+    this.sub?.add(idsSub);
   }
   //Open topic slider
   openUserMetaTagsSlider() {
@@ -73,10 +91,8 @@ export class SmallTalkComponent implements OnInit {
   }
   sildervaluechanged(event) {
     const quaryparms: any = {
-      indexPipelineId: this.workflowService.selectedIndexPipeline(),
-      queryPipelineId: this.workflowService.selectedQueryPipeline()
-        ? this.workflowService.selectedQueryPipeline()._id
-        : '',
+      indexPipelineId: this.indexPipelineId,
+      queryPipelineId: this.queryPipelineId,
       searchIndexId: this.searchIndexId,
     };
     const payload: any = {
@@ -99,6 +115,6 @@ export class SmallTalkComponent implements OnInit {
     );
   }
   ngOnDestroy() {
-    this.querySubscription ? this.querySubscription.unsubscribe() : false;
+    this.sub?.unsubscribe();
   }
 }
