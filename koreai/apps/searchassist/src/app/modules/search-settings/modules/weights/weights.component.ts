@@ -19,6 +19,8 @@ import { MixpanelServiceService } from '@kore.apps/services/mixpanel-service.ser
 import { ConfirmationDialogComponent } from '@kore.apps/helpers/components/confirmation-dialog/confirmation-dialog.component';
 import { RangeSlider } from '@kore.apps/helpers/models/range-slider.model';
 import { KRModalComponent } from '@kore.apps/shared/kr-modal/kr-modal.component';
+import { Store } from '@ngrx/store';
+import { selectAppIds } from '@kore.apps/store/app.selectors';
 declare const $: any;
 @Component({
   selector: 'app-weights',
@@ -71,7 +73,8 @@ export class WeightsComponent implements OnInit, OnDestroy {
     private appSelectionService: AppSelectionService,
     public inlineManual: InlineManualService,
     public mixpanel: MixpanelServiceService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private store: Store
   ) {}
   selectedApp: any = {};
   serachIndexId;
@@ -83,20 +86,21 @@ export class WeightsComponent implements OnInit, OnDestroy {
   weightsObj: any = {};
   currentEditDesc = '';
   subscription: Subscription;
+  streamId;
+  searchIndexId;
   ngOnInit(): void {
-    this.selectedApp = this.workflowService?.selectedApp();
-    this.serachIndexId = this.selectedApp?.searchIndexes[0]?._id;
-    this.indexPipelineId = this.workflowService.selectedIndexPipeline();
-    this.queryPipelineId = this.workflowService.selectedQueryPipeline()
-      ? this.workflowService.selectedQueryPipeline()?._id
-      : '';
-
+    const idsSub = this.store
+      .select(selectAppIds)
+      .subscribe(
+        ({ streamId, searchIndexId, indexPipelineId, queryPipelineId }) => {
+          this.streamId = streamId;
+          this.searchIndexId = searchIndexId;
+          this.indexPipelineId = indexPipelineId;
+          this.queryPipelineId = queryPipelineId;
+        }
+      );
+    this.subscription.add(idsSub);
     this.loadWeights();
-
-    // this.subscription = this.appSelectionService.queryConfigs.subscribe(res =>
-    // {
-    //   this.loadWeights();
-    // })
   }
 
   displayFields(isSelected = false, data = []) {
@@ -148,9 +152,9 @@ export class WeightsComponent implements OnInit, OnDestroy {
   }
   restore(dialogRef?) {
     const quaryparms: any = {
-      streamId: this.selectedApp?._id,
+      streamId: this.streamId,
       queryPipelineId: this.queryPipelineId,
-      indexPipelineId: this.workflowService.selectedIndexPipeline() || '',
+      indexPipelineId: this.indexPipelineId,
     };
     this.service.invoke('put.restoreWeights', quaryparms).subscribe(
       (res) => {
@@ -203,9 +207,9 @@ export class WeightsComponent implements OnInit, OnDestroy {
 
   getWeights() {
     const quaryparms: any = {
-      streamId: this.selectedApp?._id,
+      streamId: this.streamId,
       queryPipelineId: this.queryPipelineId,
-      indexPipelineId: this.workflowService.selectedIndexPipeline() || '',
+      indexPipelineId: this.indexPipelineId,
       sortField: this.selectedSort ? this.selectedSort : 'filedName',
       orderType: this.checksort ? this.checksort : 'asc',
       // pageNo: 1,
@@ -234,9 +238,9 @@ export class WeightsComponent implements OnInit, OnDestroy {
   }
   getAllFields() {
     const quaryparms: any = {
-      streamId: this.selectedApp?._id,
+      streamId: this.streamId,
       queryPipelineId: this.queryPipelineId,
-      indexPipelineId: this.workflowService.selectedIndexPipeline() || '',
+      indexPipelineId: this.indexPipelineId,
       isSearchable: true,
       isSelected: false,
     };
@@ -340,9 +344,9 @@ export class WeightsComponent implements OnInit, OnDestroy {
   addOrUpddate(weight, dialogRef?, type?, index?) {
     this.isAddLoading = true;
     const quaryparms: any = {
-      streamId: this.selectedApp?._id,
+      streamId: this.streamId,
       queryPipelineId: this.queryPipelineId,
-      indexPipelineId: this.workflowService.selectedIndexPipeline() || '',
+      indexPipelineId: this.indexPipelineId,
       fieldId: weight.fieldId,
     };
     const payload = {
@@ -421,9 +425,9 @@ export class WeightsComponent implements OnInit, OnDestroy {
   }
   deleteWeight(weight, index) {
     const quaryparms: any = {
-      streamId: this.selectedApp?._id,
+      streamId: this.streamId,
       queryPipelineId: this.queryPipelineId,
-      indexPipelineId: this.workflowService.selectedIndexPipeline() || '',
+      indexPipelineId: this.indexPipelineId,
       fieldId: weight.fieldId,
     };
     this.service.invoke('delete.Weight', quaryparms).subscribe(
