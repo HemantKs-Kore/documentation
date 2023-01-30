@@ -4,7 +4,6 @@ import { WorkflowService } from '../workflow.service';
 import { Injectable } from '@angular/core';
 import { Resolve, ActivatedRouteSnapshot } from '@angular/router';
 import { combineLatest, of } from 'rxjs';
-import { delay } from 'rxjs/operators';
 import {
   selectAppId,
   selectIndexPipelineId,

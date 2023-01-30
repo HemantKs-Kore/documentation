@@ -89,6 +89,11 @@ export class WeightsComponent implements OnInit, OnDestroy {
   streamId;
   searchIndexId;
   ngOnInit(): void {
+    this.initAppIds();
+    this.loadWeights();
+  }
+
+  initAppIds() {
     const idsSub = this.store
       .select(selectAppIds)
       .subscribe(
@@ -99,8 +104,7 @@ export class WeightsComponent implements OnInit, OnDestroy {
           this.queryPipelineId = queryPipelineId;
         }
       );
-    this.subscription.add(idsSub);
-    this.loadWeights();
+    this.subscription?.add(idsSub);
   }
 
   displayFields(isSelected = false, data = []) {
