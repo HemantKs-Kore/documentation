@@ -21,6 +21,11 @@ import { SideBarService } from '@kore.apps/services/header.service';
 import { ConfirmationDialogComponent } from '@kore.apps/helpers/components/confirmation-dialog/confirmation-dialog.component';
 import { UpgradePlanComponent } from '@kore.apps/helpers/components/upgrade-plan/upgrade-plan.component';
 import { DockStatusService } from '@kore.apps/services/dockstatusService/dock-status.service';
+import { Store } from '@ngrx/store';
+import {
+  setIndexPipelineId,
+  setQueryPipelineId,
+} from '@kore.apps/store/app.actions';
 // import { IndexPipelineService } from '@kore.apps/modules/summary/services/index-pipeline.service';
 declare const $: any;
 @Component({
@@ -97,9 +102,9 @@ export class MainMenuComponent implements OnInit, OnDestroy {
     private appSelectionService: AppSelectionService,
     public dockService: DockStatusService,
     public dialog: MatDialog,
-    public mixpanel: MixpanelServiceService
-  ) // private indexPipelineService: IndexPipelineService
-  {}
+    public mixpanel: MixpanelServiceService,
+    private store: Store
+  ) {}
   goHome() {
     this.workflowService.selectedApp(null);
     this.router.navigate(['/apps'], { skipLocationChange: true });
@@ -431,6 +436,10 @@ export class MainMenuComponent implements OnInit, OnDestroy {
     }
   }
   selectQueryPipelineId(queryConfigs, event?, type?) {
+    this.store.dispatch(
+      setQueryPipelineId({ queryPipelineId: queryConfigs._id })
+    );
+
     // console.log("queryConfigs", queryConfigs)
     if (event && !this.editName) {
       event.close();
@@ -488,6 +497,10 @@ export class MainMenuComponent implements OnInit, OnDestroy {
     );
   }
   selectIndexPipelineId(indexConfigs, event?, type?) {
+    this.store.dispatch(
+      setIndexPipelineId({ indexPipelineId: indexConfigs._id })
+    );
+
     if (event) {
       event.close();
     }
