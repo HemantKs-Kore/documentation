@@ -3,6 +3,8 @@ import { AppSelectionService } from '@kore.apps/services/app.selection.service';
 import { NotificationService } from '@kore.apps/services/notification.service';
 import { ServiceInvokerService } from '@kore.apps/services/service-invoker.service';
 import { WorkflowService } from '@kore.apps/services/workflow.service';
+import { selectAppIds } from '@kore.apps/store/app.selectors';
+import { Store } from '@ngrx/store';
 import { of, interval, Subject, Subscription } from 'rxjs';
 import { v4 } from 'uuid';
 @Component({
@@ -16,35 +18,51 @@ export class CustomConfigurationsComponent implements OnInit {
   selectedApp;
   indexPipelineId;
   streamId: any;
-  serachIndexId;
+  searchIndexId;
   queryPipelineId;
-  querySubscription: Subscription;
+  sub: Subscription;
   customConfig: any = [];
 
   constructor(
     public workflowService: WorkflowService,
     private appSelectionService: AppSelectionService,
     private notificationService: NotificationService,
-    private service: ServiceInvokerService
+    private service: ServiceInvokerService,
+    private store: Store
   ) {}
 
   ngOnInit(): void {
-    this.selectedApp = this.workflowService?.selectedApp();
-    this.serachIndexId = this.selectedApp?.searchIndexes[0]?._id;
-    this.indexPipelineId = this.workflowService?.selectedIndexPipeline();
-    this.queryPipelineId = this.workflowService?.selectedQueryPipeline()
-      ? this.workflowService?.selectedQueryPipeline()?._id
-      : '';
-    if (this.indexPipelineId && this.queryPipelineId)
-      this.getcustomConfigList();
-    this.querySubscription =
-      this.appSelectionService.queryConfigSelected.subscribe((res) => {
-        this.indexPipelineId = this.workflowService?.selectedIndexPipeline();
-        this.queryPipelineId = this.workflowService?.selectedQueryPipeline()
-          ? this.workflowService.selectedQueryPipeline()?._id
-          : '';
-        this.getcustomConfigList();
-      });
+    // this.selectedApp = this.workflowService?.selectedApp();
+    // this.serachIndexId = this.selectedApp?.searchIndexes[0]?._id;
+    // this.indexPipelineId = this.workflowService?.selectedIndexPipeline();
+    // this.queryPipelineId = this.workflowService?.selectedQueryPipeline()
+    //   ? this.workflowService?.selectedQueryPipeline()?._id
+    //   : '';
+    // if (this.indexPipelineId && this.queryPipelineId)
+    //   this.getcustomConfigList();
+    // this.querySubscription =
+    //   this.appSelectionService.queryConfigSelected.subscribe((res) => {
+    //     this.indexPipelineId = this.workflowService?.selectedIndexPipeline();
+    //     this.queryPipelineId = this.workflowService?.selectedQueryPipeline()
+    //       ? this.workflowService.selectedQueryPipeline()?._id
+    //       : '';
+    //     this.getcustomConfigList();
+    //   });
+    this.initAppIds();
+  }
+  initAppIds() {
+    const idsSub = this.store
+      .select(selectAppIds)
+      .subscribe(
+        ({ streamId, searchIndexId, indexPipelineId, queryPipelineId }) => {
+          this.streamId = streamId;
+          this.searchIndexId = searchIndexId;
+          this.indexPipelineId = indexPipelineId;
+          this.queryPipelineId = queryPipelineId;
+          this.getcustomConfigList();
+        }
+      );
+    this.sub?.add(idsSub);
   }
   getcustomConfigList() {
     this.getQuerypipeline();
@@ -52,7 +70,7 @@ export class CustomConfigurationsComponent implements OnInit {
   //** get querypipeline */
   getQuerypipeline() {
     const quaryparms: any = {
-      searchIndexID: this.serachIndexId,
+      searchIndexID: this.searchIndexId,
       queryPipelineId: this.queryPipelineId,
       indexPipelineId: this.indexPipelineId,
     };
@@ -87,13 +105,11 @@ export class CustomConfigurationsComponent implements OnInit {
   //**update query pipeline */
   sendData(configObj) {
     const quaryparms: any = {
-      indexPipelineId: this.workflowService.selectedIndexPipeline(),
-      queryPipelineId: this.workflowService.selectedQueryPipeline()
-        ? this.workflowService.selectedQueryPipeline()._id
-        : '',
-      searchIndexId: this.serachIndexId,
+      indexPipelineId: this.indexPipelineId,
+      queryPipelineId: this.queryPipelineId,
+      searchIndexId: this.searchIndexId,
     };
-    var payload: any = {
+    const payload: any = {
       settings: {
         customConfiguration: {
           values: configObj,
@@ -166,5 +182,8 @@ export class CustomConfigurationsComponent implements OnInit {
 
   openCustomConfig() {
     this.formData = {};
+  }
+  ngOnDestroy() {
+    this.sub?.unsubscribe();
   }
 }
