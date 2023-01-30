@@ -8,6 +8,8 @@ import { ServiceInvokerService } from '@kore.apps/services/service-invoker.servi
 import { AppSelectionService } from '@kore.apps/services/app.selection.service';
 import { InlineManualService } from '@kore.apps/services/inline-manual.service';
 import { ConfirmationDialogComponent } from '@kore.apps/helpers/components/confirmation-dialog/confirmation-dialog.component';
+import { Store } from '@ngrx/store';
+import { selectAppIds } from '@kore.apps/store/app.selectors';
 declare const $: any;
 @Component({
   selector: 'app-stop-words',
@@ -15,7 +17,7 @@ declare const $: any;
   styleUrls: ['./stop-words.component.scss'],
 })
 export class StopWordsComponent implements OnInit, OnDestroy {
-  loadingForStopWords: boolean = true;
+  loadingForStopWords = true;
   loadingContent: any = true;
   stopwords: any = [];
   stopwordsList: any = [];
@@ -23,12 +25,13 @@ export class StopWordsComponent implements OnInit, OnDestroy {
   searchStopwords: any = '';
   newStopWord: any = '';
   stopwordData: any;
-  showSearch: boolean = false;
+  showSearch = false;
   searchImgSrc: any = 'assets/icons/search_gray.svg';
   searchFocusIn = false;
   activeClose = false;
-  checkStopwords: boolean = false;
-  haveDefaultStopwords: boolean = false;
+  checkStopwords = false;
+  haveDefaultStopwords = false;
+  streamId;
   enabled = false;
   validation: any = {
     duplicate: false,
@@ -36,36 +39,54 @@ export class StopWordsComponent implements OnInit, OnDestroy {
   };
   loadingWords = false;
   selectedApp: any = {};
-  serachIndexId;
+  searchIndexId;
   queryPipelineId;
   indexPipelineId;
   pipeline;
   stopWordsIntiType: any = 'default';
-  createFromScratch: boolean = false;
-  subscription: Subscription;
-  componentType: string = 'configure';
-  submitted: boolean = false;
+  createFromScratch = false;
+  sub: Subscription;
+  componentType = 'configure';
+  submitted = false;
+  loadImageText = false;
+  loadingContent1: boolean;
   constructor(
     public workflowService: WorkflowService,
     private service: ServiceInvokerService,
     private notificationService: NotificationService,
     public dialog: MatDialog,
     public inlineManual: InlineManualService,
-    private appSelectionService: AppSelectionService
+    private appSelectionService: AppSelectionService,
+    private store: Store
   ) {}
   ngOnInit(): void {
-    this.selectedApp = this.workflowService?.selectedApp();
-    this.serachIndexId = this.selectedApp?.searchIndexes[0]?._id;
-    this.loadStopwords();
-    this.subscription = this.appSelectionService.queryConfigs.subscribe(
-      (res) => {
-        this.loadStopwords();
-      }
-    );
+    // this.selectedApp = this.workflowService?.selectedApp();
+    // this.serachIndexId = this.selectedApp?.searchIndexes[0]?._id;
+    // this.loadStopwords();
+    // this.subscription = this.appSelectionService.queryConfigs.subscribe(
+    //   (res) => {
+    //     this.loadStopwords();
+    //   }
+    // );
+
+    this.initAppIds();
+  }
+  initAppIds() {
+    const idsSub = this.store
+      .select(selectAppIds)
+      .subscribe(
+        ({ streamId, searchIndexId, indexPipelineId, queryPipelineId }) => {
+          this.streamId = streamId;
+          this.searchIndexId = searchIndexId;
+          this.indexPipelineId = indexPipelineId;
+          this.queryPipelineId = queryPipelineId;
+          this.loadStopwords();
+        }
+      );
+    this.sub?.add(idsSub);
     this.getDefaultStopWords();
   }
-  loadImageText: boolean = false;
-  loadingContent1: boolean;
+
   imageLoad() {
     this.loadingContent = false;
     this.loadingContent1 = true;
@@ -76,15 +97,9 @@ export class StopWordsComponent implements OnInit, OnDestroy {
     }
   }
   loadStopwords() {
-    this.indexPipelineId = this.workflowService?.selectedIndexPipeline();
-    if (this.indexPipelineId) {
-      this.queryPipelineId = this.workflowService?.selectedQueryPipeline()
-        ? this.workflowService.selectedQueryPipeline()?._id
-        : this.selectedApp.searchIndexes[0]?.queryPipelineId;
-      if (this.queryPipelineId) {
-        this.getStopWordsList();
-        this.getQuerypipeline();
-      }
+    if (this.indexPipelineId && this.queryPipelineId) {
+      this.getStopWordsList();
+      this.getQuerypipeline();
     }
   }
   errorToaster(errRes, message) {
@@ -111,7 +126,7 @@ export class StopWordsComponent implements OnInit, OnDestroy {
   }
   //GET DEFALUT STOPWORDS
   getDefaultStopWords() {
-    let url = 'get.defaultStopWords';
+    const url = 'get.defaultStopWords';
     this.service.invoke(url).subscribe(
       (res) => {
         this.defaultStopwordsList = res.stopwords.en;
@@ -146,9 +161,9 @@ export class StopWordsComponent implements OnInit, OnDestroy {
   getStopWordsList() {
     this.loadingContent = true;
     const quaryparms: any = {
-      streamId: this.selectedApp._id,
+      streamId: this.streamId,
       queryPipelineId: this.queryPipelineId,
-      indexPipelineId: this.workflowService.selectedIndexPipeline() || '',
+      indexPipelineId: this.indexPipelineId,
       code: 'en',
     };
     this.service.invoke('get.stopWordsList', quaryparms).subscribe(
@@ -226,9 +241,9 @@ export class StopWordsComponent implements OnInit, OnDestroy {
   createStopWords(type, stopwordsArr?, reset?, removeDefault?) {
     // type here is a boolean for to check for adding Default(true) or adding manually(false)
     const quaryparms: any = {
-      streamId: this.selectedApp._id,
+      streamId: this.streamId,
       queryPipelineId: this.queryPipelineId,
-      indexPipelineId: this.workflowService.selectedIndexPipeline() || '',
+      indexPipelineId: this.indexPipelineId,
     };
     const payload: any = {
       languageCode: 'en',
@@ -247,7 +262,7 @@ export class StopWordsComponent implements OnInit, OnDestroy {
     this.service.invoke('put.createStopWords', quaryparms, payload).subscribe(
       (res) => {
         this.stopwordsList = res.stopwords; // updating Display Array
-        let message = reset
+        const message = reset
           ? 'Resetting Stop Words Successfully'
           : removeDefault
           ? 'Default Stop Words Removed Succesfully'
@@ -270,9 +285,9 @@ export class StopWordsComponent implements OnInit, OnDestroy {
       ? (deleteStopWordsArr = [...this.stopwordsList])
       : (deleteStopWordsArr = [word]);
     const quaryparms: any = {
-      streamId: this.selectedApp._id,
+      streamId: this.streamId,
       queryPipelineId: this.queryPipelineId,
-      indexPipelineId: this.workflowService.selectedIndexPipeline() || '',
+      indexPipelineId: this.indexPipelineId,
     };
     const payload: any = {
       language: 'en',
@@ -406,7 +421,7 @@ export class StopWordsComponent implements OnInit, OnDestroy {
   }
   getQuerypipeline() {
     const quaryparms: any = {
-      searchIndexID: this.serachIndexId,
+      searchIndexID: this.searchIndexId,
       queryPipelineId: this.queryPipelineId,
       indexPipelineId: this.indexPipelineId,
     };
@@ -424,11 +439,9 @@ export class StopWordsComponent implements OnInit, OnDestroy {
   }
   sildervaluechanged(event) {
     const quaryparms: any = {
-      indexPipelineId: this.workflowService.selectedIndexPipeline(),
-      queryPipelineId: this.workflowService.selectedQueryPipeline()
-        ? this.workflowService.selectedQueryPipeline()._id
-        : '',
-      searchIndexId: this.serachIndexId,
+      indexPipelineId: this.indexPipelineId,
+      queryPipelineId: this.queryPipelineId,
+      searchIndexId: this.searchIndexId,
     };
     const payload: any = {
       settings: {
@@ -451,7 +464,7 @@ export class StopWordsComponent implements OnInit, OnDestroy {
   }
   // -----------------------------(AUTHOR:BHARADWAJ)
   ngOnDestroy() {
-    this.subscription ? this.subscription.unsubscribe() : false;
+    this.sub?.unsubscribe();
   }
   focusoutSearch() {
     if (this.activeClose) {
