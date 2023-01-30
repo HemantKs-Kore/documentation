@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, ViewChild } from '@angular/core';
+import { Component, OnInit, Input, ViewChild, OnDestroy } from '@angular/core';
 import { KRModalComponent } from '../../../../shared/kr-modal/kr-modal.component';
 import { Subscription } from 'rxjs';
 import {
@@ -10,37 +10,39 @@ import { WorkflowService } from '@kore.apps/services/workflow.service';
 import { AppSelectionService } from '@kore.apps/services/app.selection.service';
 import { NotificationService } from '@kore.apps/services/notification.service';
 import { ServiceInvokerService } from '@kore.apps/services/service-invoker.service';
+import { Store } from '@ngrx/store';
+import { selectAppIds } from '@kore.apps/store/app.selectors';
 
 @Component({
   selector: 'app-highlighting',
   templateUrl: './highlighting.component.html',
   styleUrls: ['./highlighting.component.scss'],
 })
-export class HighlightingComponent implements OnInit {
+export class HighlightingComponent implements OnInit, OnDestroy {
   selectedApp;
   indexPipelineId;
   streamId: any;
   serachIndexId;
   queryPipelineId: any;
-  querySubscription: Subscription;
+  sub: Subscription;
   synonymsHighlight;
   highlightenable;
   highlightdata: any = {};
   @Input() selectedcomponent;
-  more_options: boolean = false;
+  more_options = false;
   home_pre_tag;
   home_post_tag;
   pre_tag = '';
   post_tag = '';
   pre_tag_flag = false;
   post_tag_flag = false;
-  selectedSort: string = 'asc';
-  checksort: string = 'fieldName';
-  selectionflag: boolean = true;
+  selectedSort = 'asc';
+  checksort = 'fieldName';
+  selectionflag = true;
   isSpinner = false;
   //  isSearchable:boolean=true;
-  page: number = 0;
-  limit: number = 10;
+  page = 0;
+  limit = 10;
   max_pageno: any;
   searchValue = '';
   allhighlightFields: any = [];
@@ -49,12 +51,14 @@ export class HighlightingComponent implements OnInit {
   method_type = '';
   isLoading = false;
   isaddLoading = false;
+  searchIndexId;
   constructor(
     public workflowService: WorkflowService,
     private appSelectionService: AppSelectionService,
     private notificationService: NotificationService,
     private service: ServiceInvokerService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private store: Store
   ) {}
 
   highlightAppearanceModalPopRef: any;
@@ -67,23 +71,23 @@ export class HighlightingComponent implements OnInit {
 
   ngOnInit(): void {
     this.more_options = false;
-    this.selectedApp = this.workflowService.selectedApp();
-    this.serachIndexId = this.selectedApp.searchIndexes[0]._id;
-    this.indexPipelineId = this.workflowService.selectedIndexPipeline();
-    this.queryPipelineId = this.workflowService.selectedQueryPipeline()
-      ? this.workflowService.selectedQueryPipeline()._id
-      : '';
+    this.initAppIds();
     this.getAllHighlightFields();
     this.getQuerypipeline();
+  }
 
-    this.querySubscription =
-      this.appSelectionService.queryConfigSelected.subscribe((res) => {
-        this.indexPipelineId = this.workflowService.selectedIndexPipeline();
-        this.queryPipelineId = this.workflowService.selectedQueryPipeline()
-          ? this.workflowService.selectedQueryPipeline()._id
-          : '';
-        // this.getAllHighlightFields()
-      });
+  initAppIds() {
+    const idsSub = this.store
+      .select(selectAppIds)
+      .subscribe(
+        ({ streamId, searchIndexId, indexPipelineId, queryPipelineId }) => {
+          this.streamId = streamId;
+          this.searchIndexId = searchIndexId;
+          this.indexPipelineId = indexPipelineId;
+          this.queryPipelineId = queryPipelineId;
+        }
+      );
+    this.sub?.add(idsSub);
   }
 
   //** get Query pipeline API call */
@@ -99,7 +103,7 @@ export class HighlightingComponent implements OnInit {
       this.highlightdata.settings.highlight.highlightAppearance.postTag;
 
     // const quaryparms: any = {
-    //   searchIndexID: this.serachIndexId,
+    //   searchIndexID: this.searchIndexId,
     //   queryPipelineId: this.queryPipelineId,
     //   indexPipelineId: this.indexPipelineId,
     // };
@@ -193,7 +197,7 @@ export class HighlightingComponent implements OnInit {
         sortobj?.fieldname?.length > 0 ? sortobj.fieldname : 'fieldName',
       orderType: sortobj?.type?.length > 0 ? sortobj.type : 'asc', //desc,
       indexPipelineId: this.indexPipelineId,
-      streamId: this.selectedApp._id,
+      streamId: this.streamId,
       queryPipelineId: this.queryPipelineId,
       // isSearchable:this.isSearchable,
       // page:this.page?this.page:0,
@@ -285,11 +289,9 @@ export class HighlightingComponent implements OnInit {
       this.pre_tag_flag = false;
     }
     const quaryparms: any = {
-      indexPipelineId: this.workflowService.selectedIndexPipeline(),
-      queryPipelineId: this.workflowService.selectedQueryPipeline()
-        ? this.workflowService.selectedQueryPipeline()._id
-        : '',
-      searchIndexId: this.serachIndexId,
+      indexPipelineId: this.indexPipelineId,
+      queryPipelineId: this.queryPipelineId,
+      searchIndexId: this.searchIndexId,
     };
     const payload: any = {
       settings: {
@@ -328,7 +330,7 @@ export class HighlightingComponent implements OnInit {
       let deleteData = {
         url: 'delete.highlightFields',
         quaryparms: {
-          streamId: this.selectedApp._id,
+          streamId: this.streamId,
           indexPipelineId: this.indexPipelineId,
           queryPipelineId: this.queryPipelineId,
           fieldId: record[0],
@@ -337,7 +339,7 @@ export class HighlightingComponent implements OnInit {
       let addData = {
         url: 'add.highlightFields',
         quaryparms: {
-          streamId: this.selectedApp._id,
+          streamId: this.streamId,
           indexPipelineId: this.indexPipelineId,
           queryPipelineId: this.queryPipelineId,
         },
@@ -392,11 +394,9 @@ export class HighlightingComponent implements OnInit {
   //** Change of highlight slider value to call put querypipeline*/
   sildervalueChanged(event, type) {
     const quaryparms: any = {
-      indexPipelineId: this.workflowService.selectedIndexPipeline(),
-      queryPipelineId: this.workflowService.selectedQueryPipeline()
-        ? this.workflowService.selectedQueryPipeline()._id
-        : '',
-      searchIndexId: this.serachIndexId,
+      indexPipelineId: this.indexPipelineId,
+      queryPipelineId: this.queryPipelineId,
+      searchIndexId: this.searchIndexId,
     };
     if (type == 'synonyms') {
       const payload: any = {
@@ -450,6 +450,6 @@ export class HighlightingComponent implements OnInit {
 
   //** unsubscribing the query subscription */
   ngOnDestroy() {
-    this.querySubscription ? this.querySubscription.unsubscribe() : false;
+    this.sub?.unsubscribe();
   }
 }
