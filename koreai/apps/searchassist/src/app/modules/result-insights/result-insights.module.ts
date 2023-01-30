@@ -12,6 +12,7 @@ import { NgxDaterangepickerMd } from 'ngx-daterangepicker-material';
 import { SharedPipesModule } from '@kore.apps/helpers/filters/shared-pipes.module';
 import { UseronboardingJourneyModule } from '@kore.apps/helpers/components/useronboarding-journey/useronboarding-journey.module';
 import { NgxEchartsModule } from 'ngx-echarts';
+import { AnalyticsDropdownComponent } from '@kore.apps/helpers/components/analytics-dropdown/analytics-dropdown.component';
 
 @NgModule({
   declarations: [ResultInsightsComponent],
@@ -27,6 +28,7 @@ import { NgxEchartsModule } from 'ngx-echarts';
     UseronboardingJourneyModule,
     NgxDaterangepickerMd.forRoot(),
     NgxEchartsModule.forChild(),
+    AnalyticsDropdownComponent,
   ],
 })
 export class ResultInsightsModule {}

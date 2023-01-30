@@ -10,6 +10,7 @@ import { NgxDaterangepickerMd } from 'ngx-daterangepicker-material';
 import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 import { UseronboardingJourneyModule } from '@kore.apps/helpers/components/useronboarding-journey/useronboarding-journey.module';
 import { NgxEchartsModule } from 'ngx-echarts';
+import { AnalyticsDropdownComponent } from '@kore.apps/helpers/components/analytics-dropdown/analytics-dropdown.component';
 
 @NgModule({
   declarations: [UserEngagementComponent],
@@ -23,6 +24,7 @@ import { NgxEchartsModule } from 'ngx-echarts';
     NgbTooltipModule,
     UseronboardingJourneyModule,
     NgxEchartsModule.forChild(),
+    AnalyticsDropdownComponent,
   ],
 })
 export class UserEngagementModule {}
