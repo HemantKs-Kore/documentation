@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, OnDestroy } from '@angular/core';
 import { WorkflowService } from '@kore.services/workflow.service';
 import { AppSelectionService } from '@kore.services/app.selection.service';
 import { Subscription } from 'rxjs';
@@ -6,90 +6,76 @@ import { Subscription } from 'rxjs';
 import { NotificationService } from '@kore.services/notification.service';
 import { ServiceInvokerService } from '@kore.services/service-invoker.service';
 import { ActivatedRoute } from '@angular/router';
+import { Store } from '@ngrx/store';
+import { selectAppIds } from '@kore.apps/store/app.selectors';
 
 @Component({
   selector: 'app-spell-correction',
   templateUrl: './spell-correction.component.html',
   styleUrls: ['./spell-correction.component.scss'],
 })
-export class SpellCorrectionComponent implements OnInit {
+export class SpellCorrectionComponent implements OnInit, OnDestroy {
   selectedApp;
   indexPipelineId;
   streamId: any;
   queryPipelineId: any;
-  querySubscription: Subscription;
-  more_options: boolean = false;
-  checksort: string = 'fieldName';
+  sub: Subscription;
+  more_options = false;
+  checksort = 'fieldName';
   isSpinner = false;
-  selectedSort: string = 'asc';
-  isSearchable: boolean = true;
-  limit: number = 10;
-  page: number = 0;
+  selectedSort = 'asc';
+  isSearchable = true;
+  limit = 10;
+  page = 0;
   allspellCorrect: any = [];
   spellcorrect: any = [];
   max_pageno: any;
   nonspellcorrect: any = [];
-  max_threshold: number = 0;
-  min_threshold: number = 0;
+  max_threshold = 0;
+  min_threshold = 0;
   searchValue = '';
   serachIndexId;
   method_type = '';
   spellcorrectdata: any = {};
   isLoading = false;
   isaddLoading = false;
+  searchIndexId;
   @Input() selectedcomponent;
   constructor(
     public workflowService: WorkflowService,
     private appSelectionService: AppSelectionService,
     private notificationService: NotificationService,
     private service: ServiceInvokerService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private store: Store
   ) {}
 
   //** get Query pipeline API call */
   getQuerypipeline() {
     this.spellcorrectdata = this.route.snapshot.data.queryPipeline;
-    // const quaryparms: any = {
-    //   searchIndexID: this.serachIndexId,
-    //   queryPipelineId: this.queryPipelineId,
-    //   indexPipelineId: this.indexPipelineId,
-    // };
-    // this.isSpinner=true
-    // this.service.invoke('get.queryPipeline', quaryparms).subscribe(
-    //   (res) => {
-    //     this.isSpinner=false
-    //     this.spellcorrectdata = res;
-    //   },
-    //   (errRes) => {
-    //     this.notificationService.notify(
-    //       'failed to get querypipeline details',
-    //       'error'
-    //     );
-    //   }
-    // );
   }
 
   ngOnInit(): void {
     this.more_options = false;
     this.max_threshold = 0;
     this.min_threshold = 0;
-    this.selectedApp = this.workflowService.selectedApp();
-    this.serachIndexId = this.selectedApp.searchIndexes[0]._id;
-    this.indexPipelineId = this.workflowService.selectedIndexPipeline();
-    this.queryPipelineId = this.workflowService.selectedQueryPipeline()
-      ? this.workflowService.selectedQueryPipeline()._id
-      : '';
+    this.initAppIds();
     this.getAllspellcorrectFields();
     this.getQuerypipeline();
+  }
 
-    // this.querySubscription =
-    //   this.appSelectionService.queryConfigSelected.subscribe((res) => {
-    //     this.indexPipelineId = this.workflowService.selectedIndexPipeline();
-    //     this.queryPipelineId = this.workflowService.selectedQueryPipeline()
-    //       ? this.workflowService.selectedQueryPipeline()._id
-    //       : '';
-    //     this.getAllspellcorrectFields();
-    //   });
+  initAppIds() {
+    const idsSub = this.store
+      .select(selectAppIds)
+      .subscribe(
+        ({ streamId, searchIndexId, indexPipelineId, queryPipelineId }) => {
+          this.streamId = streamId;
+          this.searchIndexId = searchIndexId;
+          this.indexPipelineId = indexPipelineId;
+          this.queryPipelineId = queryPipelineId;
+        }
+      );
+    this.sub?.add(idsSub);
   }
 
   displayFields(isSelected, res) {
@@ -177,7 +163,7 @@ export class SpellCorrectionComponent implements OnInit {
         sortobj?.fieldname?.length > 0 ? sortobj.fieldname : 'fieldName',
       orderType: sortobj?.type?.length > 0 ? sortobj.type : 'asc', //desc,
       indexPipelineId: this.indexPipelineId,
-      streamId: this.selectedApp._id,
+      streamId: this.streamId,
       queryPipelineId: this.queryPipelineId,
       // isSearchable: this.isSearchable,
       // page: this.page ? this.page : 0,
@@ -204,7 +190,7 @@ export class SpellCorrectionComponent implements OnInit {
       let deleteData = {
         url: 'delete.spellcorrectFields',
         quaryparms: {
-          streamId: this.selectedApp._id,
+          streamId: this.streamId,
           indexPipelineId: this.indexPipelineId,
           queryPipelineId: this.queryPipelineId,
           fieldId: record[0],
@@ -213,7 +199,7 @@ export class SpellCorrectionComponent implements OnInit {
       let addData = {
         url: 'add.spellcorrectFields',
         quaryparms: {
-          streamId: this.selectedApp._id,
+          streamId: this.streamId,
           indexPipelineId: this.indexPipelineId,
           queryPipelineId: this.queryPipelineId,
         },
@@ -269,11 +255,9 @@ export class SpellCorrectionComponent implements OnInit {
   //**Spell Correct Slider change update query pipeline */
   silderValuechanged(event) {
     const quaryparms: any = {
-      indexPipelineId: this.workflowService.selectedIndexPipeline(),
-      queryPipelineId: this.workflowService.selectedQueryPipeline()
-        ? this.workflowService.selectedQueryPipeline()._id
-        : '',
-      searchIndexId: this.serachIndexId,
+      indexPipelineId: this.indexPipelineId,
+      queryPipelineId: this.queryPipelineId,
+      searchIndexId: this.searchIndexId,
     };
     const payload: any = {
       settings: {
@@ -315,11 +299,9 @@ export class SpellCorrectionComponent implements OnInit {
     this.max_threshold = max_val - 1;
     if (this.max_threshold >= 1) {
       const quaryparms: any = {
-        indexPipelineId: this.workflowService.selectedIndexPipeline(),
-        queryPipelineId: this.workflowService.selectedQueryPipeline()
-          ? this.workflowService.selectedQueryPipeline()._id
-          : '',
-        searchIndexId: this.serachIndexId,
+        indexPipelineId: this.indexPipelineId,
+        queryPipelineId: this.queryPipelineId,
+        searchIndexId: this.searchIndexId,
       };
       const payload: any = {
         settings: {
@@ -350,11 +332,9 @@ export class SpellCorrectionComponent implements OnInit {
     this.max_threshold = max_val + 1;
     if (this.max_threshold >= 2) {
       const quaryparms: any = {
-        indexPipelineId: this.workflowService.selectedIndexPipeline(),
-        queryPipelineId: this.workflowService.selectedQueryPipeline()
-          ? this.workflowService.selectedQueryPipeline()._id
-          : '',
-        searchIndexId: this.serachIndexId,
+        indexPipelineId: this.indexPipelineId,
+        queryPipelineId: this.queryPipelineId,
+        searchIndexId: this.searchIndexId,
       };
       const payload: any = {
         settings: {
@@ -383,11 +363,9 @@ export class SpellCorrectionComponent implements OnInit {
     this.min_threshold = min_val - 1;
     if (this.min_threshold >= 1) {
       const quaryparms: any = {
-        indexPipelineId: this.workflowService.selectedIndexPipeline(),
-        queryPipelineId: this.workflowService.selectedQueryPipeline()
-          ? this.workflowService.selectedQueryPipeline()._id
-          : '',
-        searchIndexId: this.serachIndexId,
+        indexPipelineId: this.indexPipelineId,
+        queryPipelineId: this.queryPipelineId,
+        searchIndexId: this.searchIndexId,
       };
       const payload: any = {
         settings: {
@@ -418,11 +396,9 @@ export class SpellCorrectionComponent implements OnInit {
     this.min_threshold = min_val + 1;
     if (this.min_threshold <= 6) {
       const quaryparms: any = {
-        indexPipelineId: this.workflowService.selectedIndexPipeline(),
-        queryPipelineId: this.workflowService.selectedQueryPipeline()
-          ? this.workflowService.selectedQueryPipeline()._id
-          : '',
-        searchIndexId: this.serachIndexId,
+        indexPipelineId: this.indexPipelineId,
+        queryPipelineId: this.queryPipelineId,
+        searchIndexId: this.searchIndexId,
       };
       const payload: any = {
         settings: {
@@ -448,6 +424,6 @@ export class SpellCorrectionComponent implements OnInit {
   }
   //** to unsubcribe the query subscription*/
   ngOnDestroy() {
-    this.querySubscription ? this.querySubscription.unsubscribe() : false;
+    this.sub?.unsubscribe();
   }
 }

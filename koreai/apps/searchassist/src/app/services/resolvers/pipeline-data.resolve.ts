@@ -1,37 +1,51 @@
-import { catchError } from 'rxjs/operators';
+import { catchError, switchMap } from 'rxjs/operators';
 import { ServiceInvokerService } from '../service-invoker.service';
 import { WorkflowService } from '../workflow.service';
 import { Injectable } from '@angular/core';
 import { Resolve, ActivatedRouteSnapshot } from '@angular/router';
-import { of } from 'rxjs';
-import { delay } from 'rxjs/operators';
+import { combineLatest, of } from 'rxjs';
+import {
+  selectAppId,
+  selectIndexPipelineId,
+  selectQueryPipelineId,
+  selectSearchIndexId,
+} from '@kore.apps/store/app.selectors';
+import { Store } from '@ngrx/store';
 
 @Injectable()
 export class PipelineDataResolver implements Resolve<any> {
   constructor(
     public workflowService: WorkflowService,
-    private service: ServiceInvokerService
+    private service: ServiceInvokerService,
+    private store: Store
   ) {}
 
   resolve(route: ActivatedRouteSnapshot) {
-    let value = route.data['value'];
-    const quaryparms: any = {
-      isSelected: true,
-      sortField: 'fieldName',
-      orderType: 'asc',
-      indexPipelineId: this.workflowService.selectedIndexPipeline(),
-      streamId: this.workflowService.selectedApp()?._id,
-      queryPipelineId: this.workflowService.selectedQueryPipeline()
-        ? this.workflowService.selectedQueryPipeline()._id
-        : '',
-      searchKey: '',
-    };
+    const value = route.data['value'];
 
-    return this.service.invoke(value, quaryparms).pipe(
-      catchError((error) => {
-        const message = `Retrieval error: ${error}`;
-        console.error(message);
-        return of({ error });
+    return combineLatest([
+      this.store.select(selectIndexPipelineId),
+      this.store.select(selectQueryPipelineId),
+      this.store.select(selectAppId),
+    ]).pipe(
+      switchMap(([indexPipelineId, queryPipelineId, appId]) => {
+        const quaryparms: any = {
+          isSelected: true,
+          sortField: 'fieldName',
+          orderType: 'asc',
+          indexPipelineId,
+          streamId: appId,
+          queryPipelineId,
+          searchKey: '',
+        };
+
+        return this.service.invoke(value, quaryparms).pipe(
+          catchError((error) => {
+            const message = `Retrieval error: ${error}`;
+            console.error(message);
+            return of({ error });
+          })
+        );
       })
     );
   }
@@ -41,24 +55,30 @@ export class PipelineDataResolver implements Resolve<any> {
 export class PipelineResolver implements Resolve<any> {
   constructor(
     public workflowService: WorkflowService,
-    private service: ServiceInvokerService
+    private service: ServiceInvokerService,
+    private store: Store
   ) {}
 
   resolve(route: ActivatedRouteSnapshot) {
-    let value = route.data['pipeline'];
-    const quaryparms: any = {
-      indexPipelineId: this.workflowService.selectedIndexPipeline(),
-      queryPipelineId: this.workflowService.selectedQueryPipeline()
-        ? this.workflowService.selectedQueryPipeline()._id
-        : '',
-      searchIndexID: this.workflowService.selectedApp()?.searchIndexes[0]?._id,
-    };
+    const value = route.data['pipeline'];
 
-    if (quaryparms.queryPipelineId) {
-      return this.service.invoke(value, quaryparms).pipe(delay(10));
-    } else {
-      return of(null);
-    }
+    return combineLatest([
+      this.store.select(selectIndexPipelineId),
+      this.store.select(selectQueryPipelineId),
+      this.store.select(selectSearchIndexId),
+    ]).pipe(
+      switchMap(([indexPipelineId, queryPipelineId, searchIndexID]) => {
+        return this.service
+          .invoke(value, { indexPipelineId, queryPipelineId, searchIndexID })
+          .pipe(
+            catchError((error) => {
+              const message = `Retrieval error: ${error}`;
+              console.error(message);
+              return of({ error });
+            })
+          );
+      })
+    );
   }
 }
 

@@ -21,8 +21,7 @@ import { SliderComponentComponent } from '../../../shared/slider-component/slide
 import { DockStatusService } from '../../../services/dockstatusService/dock-status.service';
 import { interval, Subscription } from 'rxjs';
 // import * as moment from 'moment';
-import $ from 'jquery';
-// declare const $: any;
+declare const $: any;
 import * as _ from 'underscore';
 import { AuthService } from '@kore.apps/services/auth.service';
 import { WorkflowService } from '@kore.apps/services/workflow.service';
@@ -35,6 +34,8 @@ import { AppUrlsService } from '@kore.apps/services/app.urls.service';
 import { environment } from '@kore.environment/environment';
 import { SearchSdkService } from '@kore.apps/modules/search-sdk/services/search-sdk.service';
 import { OnboardingComponent } from '@kore.apps/modules/onboarding/onboarding.component';
+import { Store } from '@ngrx/store';
+import { setAppId } from '@kore.apps/store/app.actions';
 
 @Component({
   selector: 'app-header',
@@ -356,7 +357,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
     public dockService: DockStatusService,
     private appSelectionService: AppSelectionService,
     private searchSdkService: SearchSdkService,
-    private viewContainerRef: ViewContainerRef
+    private viewContainerRef: ViewContainerRef,
+    private store: Store
   ) {
     this.userId = this.authService.getUserId();
     if (environment && environment.USE_SESSION_STORE) {
@@ -1623,6 +1625,9 @@ export class HeaderComponent implements OnInit, OnDestroy {
   // }
   //open app
   openApp(app) {
+    this.store.dispatch(
+      setAppId({ appId: app._id, searchIndexId: app.searchIndexes[0]._id })
+    );
     $('#test-btn-launch-sdk').attr('disabled', 'disabled').button('refresh');
     this.training = false;
     this.appSelectionService.openApp(app);

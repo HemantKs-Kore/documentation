@@ -1,28 +1,37 @@
-import { Component, OnInit, Output, Input, EventEmitter } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  Output,
+  Input,
+  EventEmitter,
+  OnDestroy,
+} from '@angular/core';
 import { of, interval, Subject, Subscription } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
 import { WorkflowService } from '@kore.apps/services/workflow.service';
 import { AppSelectionService } from '@kore.apps/services/app.selection.service';
 import { NotificationService } from '@kore.apps/services/notification.service';
 import { ServiceInvokerService } from '@kore.apps/services/service-invoker.service';
+import { Store } from '@ngrx/store';
+import { selectAppIds } from '@kore.apps/store/app.selectors';
 @Component({
   selector: 'app-presentable',
   templateUrl: './presentable.component.html',
   styleUrls: ['./presentable.component.scss'],
 })
-export class PresentableComponent implements OnInit {
+export class PresentableComponent implements OnInit, OnDestroy {
   selectedApp;
   indexPipelineId;
   streamId: any;
   queryPipelineId: any;
-  querySubscription: Subscription;
-  selectedSort: string = 'asc';
-  checksort: string = 'fieldName';
-  selectionflag: boolean = true;
-  isSearchable: boolean = true;
-  page: number = 0;
+  sub: Subscription;
+  selectedSort = 'asc';
+  checksort = 'fieldName';
+  selectionflag = true;
+  isSearchable = true;
+  page = 0;
   max_pageno: any;
-  limit: number = 10;
+  limit = 10;
   searchKey: any;
   searchValue = '';
   allpresentableFields: any = [];
@@ -31,6 +40,7 @@ export class PresentableComponent implements OnInit {
   isLoading = false;
   loader: any = false;
   method_type = '';
+  searchIndexId;
   @Input() presentabledata;
   @Input() selectedcomponent;
   isaddLoading = false;
@@ -39,24 +49,27 @@ export class PresentableComponent implements OnInit {
     private appSelectionService: AppSelectionService,
     private notificationService: NotificationService,
     private service: ServiceInvokerService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private store: Store
   ) {}
 
   ngOnInit(): void {
-    this.selectedApp = this.workflowService.selectedApp();
-    this.indexPipelineId = this.workflowService.selectedIndexPipeline();
-    this.queryPipelineId = this.workflowService.selectedQueryPipeline()
-      ? this.workflowService.selectedQueryPipeline()._id
-      : '';
+    this.initAppIds();
     this.getAllpresentableFields();
-    this.querySubscription =
-      this.appSelectionService.queryConfigSelected.subscribe((res) => {
-        this.indexPipelineId = this.workflowService.selectedIndexPipeline();
-        this.queryPipelineId = this.workflowService.selectedQueryPipeline()
-          ? this.workflowService.selectedQueryPipeline()._id
-          : '';
-        // this.getAllpresentableFields()
-      });
+  }
+
+  initAppIds() {
+    const idsSub = this.store
+      .select(selectAppIds)
+      .subscribe(
+        ({ streamId, searchIndexId, indexPipelineId, queryPipelineId }) => {
+          this.streamId = streamId;
+          this.searchIndexId = searchIndexId;
+          this.indexPipelineId = indexPipelineId;
+          this.queryPipelineId = queryPipelineId;
+        }
+      );
+    this.sub?.add(idsSub);
   }
 
   displayFields(isSelected, data) {
@@ -102,7 +115,7 @@ export class PresentableComponent implements OnInit {
       let deleteData = {
         url: 'delete.presentableFields',
         quaryparms: {
-          streamId: this.selectedApp._id,
+          streamId: this.streamId,
           indexPipelineId: this.indexPipelineId,
           queryPipelineId: this.queryPipelineId,
           fieldId: record[0],
@@ -111,7 +124,7 @@ export class PresentableComponent implements OnInit {
       let addData = {
         url: 'add.presentableFields',
         quaryparms: {
-          streamId: this.selectedApp._id,
+          streamId: this.streamId,
           indexPipelineId: this.indexPipelineId,
           queryPipelineId: this.queryPipelineId,
         },
@@ -201,7 +214,7 @@ export class PresentableComponent implements OnInit {
         sortobj?.fieldname?.length > 0 ? sortobj.fieldname : 'fieldName',
       orderType: sortobj?.type?.length > 0 ? sortobj.type : 'asc', //desc,
       indexPipelineId: this.indexPipelineId,
-      streamId: this.selectedApp._id,
+      streamId: this.streamId,
       queryPipelineId: this.queryPipelineId,
       // isSearchable:this.isSearchable,
       // page:this.page?this.page:0,
@@ -222,6 +235,6 @@ export class PresentableComponent implements OnInit {
   }
   //**unsubcribing the query subsciption */
   ngOnDestroy() {
-    this.querySubscription ? this.querySubscription.unsubscribe() : false;
+    this.sub?.unsubscribe();
   }
 }
