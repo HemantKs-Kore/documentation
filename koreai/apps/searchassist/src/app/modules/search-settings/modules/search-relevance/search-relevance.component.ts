@@ -5,6 +5,8 @@ import { AppSelectionService } from '@kore.apps/services/app.selection.service';
 import { NotificationService } from '@kore.apps/services/notification.service';
 import { ServiceInvokerService } from '@kore.apps/services/service-invoker.service';
 import { RangeSlider } from '@kore.apps/helpers/models/range-slider.model';
+import { Store } from '@ngrx/store';
+import { selectAppIds } from '@kore.apps/store/app.selectors';
 
 declare const $: any;
 @Component({
@@ -17,10 +19,10 @@ export class SearchRelevanceComponent implements OnInit {
   selectedApp;
   indexPipelineId;
   streamId: any;
-  serachIndexId;
+  searchIndexId;
   queryPipelineId;
   isLoading = false;
-  querySubscription: Subscription;
+  sub: Subscription;
   weightModal = {
     fieldName: '',
     fieldDataType: '',
@@ -44,27 +46,44 @@ export class SearchRelevanceComponent implements OnInit {
     public workflowService: WorkflowService,
     private appSelectionService: AppSelectionService,
     private notificationService: NotificationService,
-    private service: ServiceInvokerService
+    private service: ServiceInvokerService,
+    private store: Store
   ) {}
   sliderOpen;
   disableCancle: any = true;
   ngOnInit(): void {
-    this.selectedApp = this.workflowService?.selectedApp();
-    this.serachIndexId = this.selectedApp?.searchIndexes[0]?._id;
-    this.indexPipelineId = this.workflowService?.selectedIndexPipeline();
-    this.queryPipelineId = this.workflowService?.selectedQueryPipeline()
-      ? this.workflowService.selectedQueryPipeline()?._id
-      : '';
-    if (this.indexPipelineId && this.queryPipelineId)
-      this.prepareThreshold('menu');
-    this.querySubscription =
-      this.appSelectionService.queryConfigSelected.subscribe((res) => {
-        this.indexPipelineId = this.workflowService?.selectedIndexPipeline();
-        this.queryPipelineId = this.workflowService?.selectedQueryPipeline()
-          ? this.workflowService.selectedQueryPipeline()?._id
-          : '';
-        this.prepareThreshold('menu');
-      });
+    // this.selectedApp = this.workflowService?.selectedApp();
+    // this.serachIndexId = this.selectedApp?.searchIndexes[0]?._id;
+    // this.indexPipelineId = this.workflowService?.selectedIndexPipeline();
+    // this.queryPipelineId = this.workflowService?.selectedQueryPipeline()
+    //   ? this.workflowService.selectedQueryPipeline()?._id
+    //   : '';
+    // if (this.indexPipelineId && this.queryPipelineId)
+    //   this.prepareThreshold('menu');
+    // this.querySubscription =
+    //   this.appSelectionService.queryConfigSelected.subscribe((res) => {
+    //     this.indexPipelineId = this.workflowService?.selectedIndexPipeline();
+    //     this.queryPipelineId = this.workflowService?.selectedQueryPipeline()
+    //       ? this.workflowService.selectedQueryPipeline()?._id
+    //       : '';
+    //     this.prepareThreshold('menu');
+    //   });
+
+    this.initAppIds();
+  }
+  initAppIds() {
+    const idsSub = this.store
+      .select(selectAppIds)
+      .subscribe(
+        ({ streamId, searchIndexId, indexPipelineId, queryPipelineId }) => {
+          this.streamId = streamId;
+          this.searchIndexId = searchIndexId;
+          this.indexPipelineId = indexPipelineId;
+          this.queryPipelineId = queryPipelineId;
+          this.prepareThreshold('menu');
+        }
+      );
+    this.sub?.add(idsSub);
   }
   //open topic guide
   openUserMetaTagsSlider() {
@@ -73,7 +92,7 @@ export class SearchRelevanceComponent implements OnInit {
   //** to fetch the threshold range slider value */
   prepareThreshold(comingFrom) {
     const quaryparms: any = {
-      searchIndexID: this.serachIndexId,
+      searchIndexID: this.searchIndexId,
       queryPipelineId: this.queryPipelineId,
       indexPipelineId: this.indexPipelineId,
     };
@@ -129,11 +148,9 @@ export class SearchRelevanceComponent implements OnInit {
   //** update query pipeline on toggle button */
   silderValuechanged(event, type) {
     const quaryparms: any = {
-      indexPipelineId: this.workflowService.selectedIndexPipeline(),
-      queryPipelineId: this.workflowService.selectedQueryPipeline()
-        ? this.workflowService.selectedQueryPipeline()._id
-        : '',
-      searchIndexId: this.serachIndexId,
+      indexPipelineId: this.indexPipelineId,
+      queryPipelineId: this.queryPipelineId,
+      searchIndexId: this.searchIndexId,
     };
     this.slider_value_payload = $('#sa_slider_enable_disable:checkbox:checked')
       .length
@@ -179,11 +196,9 @@ export class SearchRelevanceComponent implements OnInit {
   // to update the  threshold Range slider
   valueEvent(val, outcomeObj) {
     const quaryparms: any = {
-      indexPipelineId: this.workflowService.selectedIndexPipeline(),
-      queryPipelineId: this.workflowService.selectedQueryPipeline()
-        ? this.workflowService.selectedQueryPipeline()._id
-        : '',
-      searchIndexId: this.serachIndexId,
+      indexPipelineId: this.indexPipelineId,
+      queryPipelineId: this.queryPipelineId,
+      searchIndexId: this.searchIndexId,
     };
     const payload: any = {
       settings: {
@@ -202,6 +217,6 @@ export class SearchRelevanceComponent implements OnInit {
     );
   }
   ngOnDestroy() {
-    this.querySubscription ? this.querySubscription.unsubscribe() : false;
+    this.sub?.unsubscribe();
   }
 }
