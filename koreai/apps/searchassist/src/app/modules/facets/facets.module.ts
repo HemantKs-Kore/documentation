@@ -8,6 +8,8 @@ import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
 import { KrModalModule } from '../../shared/kr-modal/kr-modal.module';
 import { MatDialogModule } from '@angular/material/dialog';
 import { SharedPipesModule } from '@kore.apps/helpers/filters/shared-pipes.module';
+import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
+import { EmptyScreenModule } from '../empty-screen/empty-screen.module';
 
 @NgModule({
   declarations: [FacetsComponent],
@@ -19,6 +21,8 @@ import { SharedPipesModule } from '@kore.apps/helpers/filters/shared-pipes.modul
     KrModalModule,
     MatDialogModule,
     SharedPipesModule,
+    NgbDropdownModule,
+    EmptyScreenModule,
   ],
 })
 export class FacetsModule {}
