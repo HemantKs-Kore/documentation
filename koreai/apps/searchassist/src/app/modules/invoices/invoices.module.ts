@@ -6,6 +6,7 @@ import { InvoicesComponent } from './invoices.component';
 import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core';
 import { UseronboardingJourneyModule } from '@kore.apps/helpers/components/useronboarding-journey/useronboarding-journey.module';
+import { FieldsFilterPipe } from '@kore.apps/shared/pipes/fields-filter.pipe';
 
 @NgModule({
   declarations: [InvoicesComponent],
@@ -15,6 +16,7 @@ import { UseronboardingJourneyModule } from '@kore.apps/helpers/components/usero
     NgbTooltipModule,
     TranslateModule,
     UseronboardingJourneyModule,
+    FieldsFilterPipe,
   ],
 })
 export class InvoicesModule {}
