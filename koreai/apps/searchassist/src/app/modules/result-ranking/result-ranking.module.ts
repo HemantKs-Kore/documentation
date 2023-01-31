@@ -5,6 +5,7 @@ import { ResultRankingRoutingModule } from './result-ranking-routing.module';
 import { ResultRankingComponent } from './result-ranking.component';
 import { TranslateModule } from '@ngx-translate/core';
 import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
+import { EmptyScreenModule } from '../empty-screen/empty-screen.module';
 
 @NgModule({
   declarations: [ResultRankingComponent],
@@ -13,6 +14,7 @@ import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
     ResultRankingRoutingModule,
     TranslateModule,
     NgbTooltipModule,
+    EmptyScreenModule,
   ],
 })
 export class ResultRankingModule {}

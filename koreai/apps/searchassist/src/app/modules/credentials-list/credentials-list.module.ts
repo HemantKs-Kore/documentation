@@ -8,6 +8,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import { KrModalModule } from '../../shared/kr-modal/kr-modal.module';
 import { MatDialogModule } from '@angular/material/dialog';
 import { SharedPipesModule } from '@kore.apps/helpers/filters/shared-pipes.module';
+import { EmptyScreenModule } from '../empty-screen/empty-screen.module';
 
 @NgModule({
   declarations: [CredentialsListComponent],
@@ -19,6 +20,7 @@ import { SharedPipesModule } from '@kore.apps/helpers/filters/shared-pipes.modul
     TranslateModule,
     KrModalModule,
     MatDialogModule,
+    EmptyScreenModule,
   ],
 })
 export class CredentialsListModule {}

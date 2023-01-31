@@ -10,6 +10,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgbTypeaheadModule } from '@ng-bootstrap/ng-bootstrap';
 import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
 import { MatChipsModule } from '@angular/material/chips';
+import { SharedPipesModule } from '@kore.apps/helpers/filters/shared-pipes.module';
 
 @NgModule({
   declarations: [TeamManagementComponent],
@@ -26,6 +27,7 @@ import { MatChipsModule } from '@angular/material/chips';
     PerfectScrollbarModule,
     MatChipsModule,
     ReactiveFormsModule,
+    SharedPipesModule,
   ],
 })
 export class TeamManagementModule {}
