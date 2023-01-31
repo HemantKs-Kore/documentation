@@ -16,6 +16,8 @@ import { AuthService } from '@kore.apps/services/auth.service';
 import { ServiceInvokerService } from '@kore.apps/services/service-invoker.service';
 import { WorkflowService } from '@kore.apps/services/workflow.service';
 import { AppSelectionService } from '@kore.apps/services/app.selection.service';
+import { Observable } from 'rxjs';
+import { LazyLoadService } from '@kore.shared/*';
 declare const $: any;
 
 @Component({
@@ -73,7 +75,8 @@ export class AddStructuredDataComponent implements OnInit {
     public workflowService: WorkflowService,
     private appSelectionService: AppSelectionService,
     private router: Router,
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    private lazyLoadService: LazyLoadService
   ) {}
 
   ngOnInit(): void {
@@ -84,6 +87,12 @@ export class AddStructuredDataComponent implements OnInit {
       $('.CodeMirror-foldgutter-folded').click();
       $('.CodeMirror-foldgutter-open').click();
     }, 500);
+
+    this.lazyLoadCodeMirror();
+  }
+
+  lazyLoadCodeMirror(): Observable<any[]> {
+    return this.lazyLoadService.loadStyle('codemirror.min.css');
   }
 
   ngAfterViewInit() {}

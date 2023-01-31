@@ -713,7 +713,7 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.lazyLoadAssets();
+    // this.lazyLoadAssets();
   }
 
   // loadSearchSdk() {
@@ -766,16 +766,16 @@ export class AppComponent implements OnInit {
     this.settingMainMenu = event;
   }
 
-  lazyLoadCodeMirror(): Observable<any[]> {
-    // return forkJoin([
-    //   // this.loadScript('assets/quill/quill.min.js'),
-    //   this.lazyLoadService.loadStyle('codemirror.min.css'),
-    // ]);
+  // lazyLoadCodeMirror(): Observable<any[]> {
+  //   // return forkJoin([
+  //   //   // this.loadScript('assets/quill/quill.min.js'),
+  //   //   this.lazyLoadService.loadStyle('codemirror.min.css'),
+  //   // ]);
 
-    return this.lazyLoadService.loadStyle('codemirror.min.css');
-  }
+  //   return this.lazyLoadService.loadStyle('codemirror.min.css');
+  // }
 
   lazyLoadAssets() {
-    this.lazyLoadCodeMirror().subscribe();
+    // this.lazyLoadCodeMirror().subscribe();
   }
 }
