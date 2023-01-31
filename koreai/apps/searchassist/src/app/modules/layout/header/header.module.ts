@@ -7,6 +7,7 @@ import {
   NgbDropdownModule,
   NgbProgressbarModule,
   NgbTooltipModule,
+  NgbTypeaheadModule,
 } from '@ng-bootstrap/ng-bootstrap';
 import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
 import { SliderComponentComponent } from '../../../shared/slider-component/slider-component.component';
@@ -29,6 +30,7 @@ import { OnboardingModule } from '@kore.apps/modules/onboarding/onboarding.modul
     NgbDropdownModule,
     SharedPipesModule,
     OnboardingModule,
+    NgbTypeaheadModule,
   ],
   providers: [AppSelectionService, NgbActiveModal],
   exports: [HeaderComponent],
