@@ -8,6 +8,7 @@ import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
 import { KrModalModule } from '../../shared/kr-modal/kr-modal.module';
 import {
   NgbDropdownModule,
+  NgbModalModule,
   NgbTooltipModule,
 } from '@ng-bootstrap/ng-bootstrap';
 import { FormsModule } from '@angular/forms';
@@ -22,9 +23,10 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { RangeSliderModule } from '@kore.apps/helpers/components/range-slider/range-slider.module';
 import { EmptyScreenModule } from '../empty-screen/empty-screen.module';
+import { SelectTextDirective } from '@kore.apps/helpers/directives/select-text.directive';
 
 @NgModule({
-  declarations: [BusinessRulesComponent],
+  declarations: [BusinessRulesComponent, SelectTextDirective],
   imports: [
     CommonModule,
     BusinessRulesRoutingModule,
@@ -46,6 +48,7 @@ import { EmptyScreenModule } from '../empty-screen/empty-screen.module';
     SharedPipesModule,
     NgxDaterangepickerMd.forRoot(),
     EmptyScreenModule,
+    NgbModalModule,
   ],
 })
 export class BusinessRulesModule {}
