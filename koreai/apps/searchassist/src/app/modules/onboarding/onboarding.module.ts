@@ -6,6 +6,7 @@ import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
 import { RouterModule } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 import { SafePipe } from '@kore.apps/shared/pipes/safe.pipe';
+import { SharedPipesModule } from '@kore.apps/helpers/filters/shared-pipes.module';
 
 @NgModule({
   declarations: [OnboardingComponent],
@@ -16,6 +17,7 @@ import { SafePipe } from '@kore.apps/shared/pipes/safe.pipe';
     RouterModule,
     TranslateModule.forChild(),
     SafePipe,
+    SharedPipesModule,
   ],
   providers: [SafePipe],
   exports: [OnboardingComponent],
