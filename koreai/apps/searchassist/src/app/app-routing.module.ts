@@ -73,11 +73,6 @@ const routes: Routes = [
           import('./modules/facets/facets.module').then((m) => m.FacetsModule),
       },
       {
-        path: 'index',
-        loadChildren: () =>
-          import('./modules/index/index.module').then((m) => m.IndexModule),
-      },
-      {
         path: 'experiments',
         loadChildren: () =>
           import('./modules/app-experiments/app-experiments.module').then(
@@ -255,7 +250,13 @@ const routes: Routes = [
             (m) => m.StructuredDataModule
           ),
       },
-
+      {
+        path: 'workbench',
+        loadChildren: () =>
+          import('./modules/workbench/workbench.module').then(
+            (m) => m.WorkbenchModule
+          ),
+      },
       {
         path: '',
         loadChildren: () =>
