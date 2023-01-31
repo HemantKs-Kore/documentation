@@ -11,6 +11,7 @@ import { NgbTypeaheadModule } from '@ng-bootstrap/ng-bootstrap';
 import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
 import { MatChipsModule } from '@angular/material/chips';
 import { SharedPipesModule } from '@kore.apps/helpers/filters/shared-pipes.module';
+import { EmptyScreenModule } from '../empty-screen/empty-screen.module';
 
 @NgModule({
   declarations: [TeamManagementComponent],
@@ -28,6 +29,7 @@ import { SharedPipesModule } from '@kore.apps/helpers/filters/shared-pipes.modul
     MatChipsModule,
     ReactiveFormsModule,
     SharedPipesModule,
+    EmptyScreenModule,
   ],
 })
 export class TeamManagementModule {}

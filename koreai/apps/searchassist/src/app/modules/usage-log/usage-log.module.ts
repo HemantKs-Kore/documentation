@@ -6,6 +6,7 @@ import { UsageLogComponent } from './usage-log.component';
 import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core';
 import { UseronboardingJourneyModule } from '@kore.apps/helpers/components/useronboarding-journey/useronboarding-journey.module';
+import { EmptyScreenModule } from '../empty-screen/empty-screen.module';
 
 @NgModule({
   declarations: [UsageLogComponent],
@@ -15,6 +16,7 @@ import { UseronboardingJourneyModule } from '@kore.apps/helpers/components/usero
     NgbTooltipModule,
     TranslateModule,
     UseronboardingJourneyModule,
+    EmptyScreenModule,
   ],
 })
 export class UsageLogModule {}
