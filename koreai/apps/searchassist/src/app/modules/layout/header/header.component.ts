@@ -777,10 +777,10 @@ export class HeaderComponent implements OnInit, OnDestroy {
       prDetails = JSON.parse(localStorage.getItem('krPreviousState'));
     }
     if (prDetails) {
-      prDetails.route = '/home';
+      prDetails.route = '/';
       localStorage.setItem('krPreviousState', JSON.stringify(prDetails));
     }
-    this.router.navigate(['/home'], { skipLocationChange: true });
+    this.router.navigate(['/'], { skipLocationChange: true });
   }
   loadHeader() {
     this.indexPipelineId = this.workflowService.selectedIndexPipeline();

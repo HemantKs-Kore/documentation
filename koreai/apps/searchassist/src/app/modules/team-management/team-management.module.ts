@@ -13,6 +13,7 @@ import { MatChipsModule } from '@angular/material/chips';
 import { SharedPipesModule } from '@kore.apps/helpers/filters/shared-pipes.module';
 import { HttpClient } from '@angular/common/http';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+import { EmptyScreenModule } from '../empty-screen/empty-screen.module';
 
 // AoT requires an exported function for factories
 export function createTranslateLoader(http: HttpClient) {
@@ -46,6 +47,7 @@ export function createTranslateLoader(http: HttpClient) {
     MatChipsModule,
     ReactiveFormsModule,
     SharedPipesModule,
+    EmptyScreenModule,
   ],
 })
 export class TeamManagementModule {}

@@ -6,6 +6,8 @@ import { FieldManagementComponent } from './field-management.component';
 import { TranslateModule } from '@ngx-translate/core';
 import { KrModalModule } from '../../shared/kr-modal/kr-modal.module';
 import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
+import { SharedPipesModule } from '@kore.apps/helpers/filters/shared-pipes.module';
+import { EmptyScreenModule } from '../empty-screen/empty-screen.module';
 
 @NgModule({
   declarations: [FieldManagementComponent],
@@ -15,6 +17,8 @@ import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
     TranslateModule,
     KrModalModule,
     NgbDropdownModule,
+    SharedPipesModule,
+    EmptyScreenModule,
   ],
 })
 export class FieldManagementModule {}

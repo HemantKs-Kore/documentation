@@ -10,6 +10,7 @@ import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
 import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 import { MatDialogModule } from '@angular/material/dialog';
 import { SharedPipesModule } from '@kore.apps/helpers/filters/shared-pipes.module';
+import { EmptyScreenModule } from '../empty-screen/empty-screen.module';
 
 @NgModule({
   declarations: [SettingsComponent],
@@ -23,6 +24,7 @@ import { SharedPipesModule } from '@kore.apps/helpers/filters/shared-pipes.modul
     SharedPipesModule,
     NgbDropdownModule,
     MatDialogModule,
+    EmptyScreenModule,
   ],
 })
 export class SettingsModule {}

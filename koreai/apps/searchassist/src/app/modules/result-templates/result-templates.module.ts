@@ -11,6 +11,7 @@ import {
   NgbDropdownModule,
   NgbTooltipModule,
 } from '@ng-bootstrap/ng-bootstrap';
+import { SharedPipesModule } from '@kore.apps/helpers/filters/shared-pipes.module';
 
 @NgModule({
   declarations: [ResultTemplatesComponent],
@@ -23,6 +24,7 @@ import {
     FormsModule,
     NgbTooltipModule,
     NgbDropdownModule,
+    SharedPipesModule,
   ],
 })
 export class ResultTemplatesModule {}

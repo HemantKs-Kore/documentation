@@ -58,8 +58,8 @@ export class SourcesComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild('perfectScroll9') perfectScroll9: PerfectScrollbarComponent;
   @ViewChild('schedular') schedular: SchedulerComponent;
 
-  sampleJsonPath: any = '/home/assets/sample-data/sample.json';
-  sampleCsvPath: any = '/home/assets/sample-data/sample.csv';
+  sampleJsonPath: any = '/assets/sample-data/sample.json';
+  sampleCsvPath: any = '/assets/sample-data/sample.csv';
   filePath;
   extension;
   receivedQuaryparms: any;

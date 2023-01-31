@@ -11,7 +11,6 @@ import {
   MatAutocomplete,
   MatAutocompleteSelectedEvent,
 } from '@angular/material/autocomplete';
-import { SortPipe } from '../../helpers/sortPipe/sort-pipe';
 import { Subscription } from 'rxjs';
 import * as moment from 'moment';
 import { UpgradePlanComponent } from '../../helpers/components/upgrade-plan/upgrade-plan.component';
@@ -211,7 +210,6 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
     private service: ServiceInvokerService,
     private notificationService: NotificationService,
     public dialog: MatDialog,
-    private sortPipe: SortPipe,
     public inlineManual: InlineManualService,
     public mixpanel: MixpanelServiceService,
     private appSelectionService: AppSelectionService,
