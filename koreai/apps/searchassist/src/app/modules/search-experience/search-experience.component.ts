@@ -26,7 +26,7 @@ declare const $: any;
   styleUrls: ['./search-experience.component.scss'],
 })
 export class SearchExperienceComponent implements OnInit, OnDestroy {
-  selectedTab: string = 'experience';
+  selectedTab = 'experience';
   selectSearch: string;
   selectedApp: any = {};
   serachIndexId: any;
@@ -64,51 +64,51 @@ export class SearchExperienceComponent implements OnInit, OnDestroy {
       defaultStatus: 'searchBar',
     },
   };
-  inputBox1: boolean = false;
-  inputBox2: boolean = false;
-  placeholBox: boolean = false;
-  buttonFill: boolean = false;
-  buttonBorder: boolean = false;
-  buttonTextColor: boolean = false;
-  msgColor: boolean = false;
-  bgColor: boolean = false;
-  toggle: boolean = false;
-  toggle1: boolean = false;
-  toggle2: boolean = false;
-  toggle3: boolean = false;
-  toggle4: boolean = false;
-  toggle5: boolean = false;
-  toggle6: boolean = false;
-  toggle7: boolean = false;
+  inputBox1 = false;
+  inputBox2 = false;
+  placeholBox = false;
+  buttonFill = false;
+  buttonBorder = false;
+  buttonTextColor = false;
+  msgColor = false;
+  bgColor = false;
+  toggle = false;
+  toggle1 = false;
+  toggle2 = false;
+  toggle3 = false;
+  toggle4 = false;
+  toggle5 = false;
+  toggle6 = false;
+  toggle7 = false;
   searchIcon: any = 'assets/images/search_gray.png';
   emojiIcon: any = 'assets/icons/search-experience/emojis/hand.png';
   //search button disabled
-  buttonDisabled: boolean = true;
-  public color: string = '';
-  public color1: string = '';
-  public color2: string = '';
-  public color3: string = '';
-  public color4: string = '';
-  public color5: string = '';
-  public color6: string = '';
-  public color7: string = '';
+  buttonDisabled = true;
+  public color = '';
+  public color1 = '';
+  public color2 = '';
+  public color3 = '';
+  public color4 = '';
+  public color5 = '';
+  public color6 = '';
+  public color7 = '';
   statusModalPopRef: any = [];
   guideModalPopRef: any;
   userInfo: any = {};
   tourGuide: string;
-  show_tab_color: boolean = false;
-  show_tab_color1: boolean = false;
-  show_tab_color2: boolean = false;
-  show_tab_color3: boolean = false;
-  minWidth: number = 200;
+  show_tab_color = false;
+  show_tab_color1 = false;
+  show_tab_color2 = false;
+  show_tab_color3 = false;
+  minWidth = 200;
   width: number = this.minWidth;
-  componentType: string = 'designing';
+  componentType = 'designing';
   subscription: Subscription;
   appSubscription: Subscription;
   queryConfigsSubscription: Subscription;
   tourData: any = [];
   userName: any = '';
-  selectedColor: string = '';
+  selectedColor = '';
   greeting_msg_index: number;
   configEmoji = {
     categories: {
@@ -124,7 +124,7 @@ export class SearchExperienceComponent implements OnInit, OnDestroy {
     },
   };
 
-  submitted: boolean = false;
+  submitted = false;
   searchSDKSubscription: Subscription;
   @ViewChild('hiddenText') textEl: ElementRef;
   @ViewChild('statusModalPop') statusModalPop: KRModalComponent;
@@ -276,7 +276,7 @@ export class SearchExperienceComponent implements OnInit, OnDestroy {
   searchIconUpload() {
     let blob = null;
     let file;
-    var xhr = new XMLHttpRequest();
+    const xhr = new XMLHttpRequest();
     xhr.open('GET', this.searchIcon);
     xhr.responseType = 'blob'; //force the HTTP response, response-type header to be blob
     xhr.onload = () => {
@@ -294,7 +294,7 @@ export class SearchExperienceComponent implements OnInit, OnDestroy {
   emojiIconUpload(update?) {
     let blob = null;
     let file;
-    var xhr = new XMLHttpRequest();
+    const xhr = new XMLHttpRequest();
     xhr.open('GET', this.emojiIcon);
     xhr.responseType = 'blob'; //force the HTTP response, response-type header to be blob
     xhr.onload = () => {
@@ -401,13 +401,13 @@ export class SearchExperienceComponent implements OnInit, OnDestroy {
   //based on show searches show slider
   changeSlider(type, data?) {
     this.suggestions = [];
-    let queryValue =
+    const queryValue =
       data === undefined
         ? type == 'bottom'
           ? 3
           : 5
         : this.searchObject.searchInteractionsConfig.querySuggestionsLimit;
-    let recentValue =
+    const recentValue =
       data === undefined
         ? type == 'bottom'
           ? 0
@@ -490,7 +490,7 @@ export class SearchExperienceComponent implements OnInit, OnDestroy {
   }
   //slider number method
   sliderNumber(number) {
-    let dat = [0];
+    const dat = [0];
     let start = 0;
     for (let i = 1; i < number; i++) {
       start = start + 100 / number;
@@ -755,7 +755,7 @@ export class SearchExperienceComponent implements OnInit, OnDestroy {
         // if (this.searchObject.searchInteractionsConfig.welcomeMsgEmoji !== '') {
         //   this.emojiIcon = this.searchObject.searchInteractionsConfig.welcomeMsgEmoji;
         // }
-        let fetchInputWidth = document.createElement('span');
+        const fetchInputWidth = document.createElement('span');
         document.body.appendChild(fetchInputWidth);
         fetchInputWidth.innerText =
           this.searchObject.searchWidgetConfig.searchBarPlaceholderText;
@@ -788,7 +788,7 @@ export class SearchExperienceComponent implements OnInit, OnDestroy {
   }
   //save color method
   saveColor(color) {
-    let exist = this.searchObject.searchWidgetConfig.userSelectedColors.some(
+    const exist = this.searchObject.searchWidgetConfig.userSelectedColors.some(
       (data) => data == color
     );
     if (!exist) {
@@ -841,7 +841,7 @@ export class SearchExperienceComponent implements OnInit, OnDestroy {
     ) {
       delete this.searchObject.searchInteractionsConfig.welcomeMsgEmoji;
     }
-    let obj = {
+    const obj = {
       experienceConfig: this.searchObject.searchExperienceConfig,
       widgetConfig: this.searchObject.searchWidgetConfig,
       interactionsConfig: this.searchObject.searchInteractionsConfig,

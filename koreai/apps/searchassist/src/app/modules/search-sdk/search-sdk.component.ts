@@ -40,7 +40,7 @@ declare const FindlySDK: any;
 
 @Component({
   standalone: true,
-  selector: '.appContent',
+  selector: 'app-search-sdk',
   templateUrl: './search-sdk.component.html',
   styleUrls: ['./search-sdk.component.scss'],
   imports: [MatButtonModule],
@@ -146,7 +146,6 @@ export class SearchSdkComponent implements OnInit, OnDestroy {
   // added setTimeout function and verifying for indexpipeline before we make api call, for  resolving the search interface failure issue
   getSearchExperience() {
     // let selectedApp: any;
-    var _self = this;
     const selectedApp = this.workflowService.selectedApp();
     const searchIndex = selectedApp.searchIndexes[0]._id;
     const quaryparms: any = {
@@ -159,23 +158,23 @@ export class SearchSdkComponent implements OnInit, OnDestroy {
     setTimeout(function () {
       if (!quaryparms.indexPipelineId) {
         quaryparms.indexPipelineId =
-          _self.workflowService.selectedIndexPipelineId;
+          this.workflowService.selectedIndexPipelineId;
       }
       if (!quaryparms.queryPipelineId) {
         quaryparms.queryPipelineId =
-          _self.workflowService.selectedQueryPipeline()
-            ? _self.workflowService.selectedQueryPipeline()._id
-            : _self.selectedApp.searchIndexes[0].queryPipelineId;
+          this.workflowService.selectedQueryPipeline()
+            ? this.workflowService.selectedQueryPipeline()._id
+            : this.selectedApp.searchIndexes[0].queryPipelineId;
       }
       if (quaryparms.indexPipelineId && quaryparms.queryPipelineId) {
-        _self.service.invoke('get.searchexperience.list', quaryparms).subscribe(
+        this.service.invoke('get.searchexperience.list', quaryparms).subscribe(
           (res) => {
-            _self.searchExperienceConfig = res;
-            _self.searchExperinceLoading = true;
-            _self.headerService.updateSearchConfigurationValue(res);
+            this.searchExperienceConfig = res;
+            this.searchExperinceLoading = true;
+            this.headerService.updateSearchConfigurationValue(res);
             $('#test-btn-launch-sdk').removeAttr('disabled').button('refresh');
-            _self.headerService.searchConfiguration = res;
-            //if (_self.isDemoApp) _self.searchSDKHeader();
+            this.headerService.searchConfiguration = res;
+            //if (this.isDemoApp) this.searchSDKHeader();
           },
           (errRes) => {
             // console.log("getSearchExperience failed happen");
@@ -183,7 +182,7 @@ export class SearchSdkComponent implements OnInit, OnDestroy {
           }
         );
       } else {
-        _self.getSearchExperience();
+        this.getSearchExperience();
       }
     }, 100);
   }
@@ -247,14 +246,13 @@ export class SearchSdkComponent implements OnInit, OnDestroy {
   }
 
   initSearchSDK() {
-    const _self = this;
     $('body').append('<div class="start-search-icon-div"></div>');
     setTimeout(() => {
       $('.start-search-icon-div').click(() => {
         if (!$('.search-background-div:visible').length) {
-          _self.showHideSearch(true);
+          this.showHideSearch(true);
         } else {
-          _self.showHideSearch(false);
+          this.showHideSearch(false);
         }
       });
     }, 200);
@@ -268,7 +266,6 @@ export class SearchSdkComponent implements OnInit, OnDestroy {
   }
 
   showHideSearch(show, disabelInstanceDistroy?) {
-    const _self = this;
     if (show) {
       $('.appContent').append(
         '<div class="search-background-div"><div class="bgDullOpacity"></div></div>'
@@ -296,9 +293,9 @@ export class SearchSdkComponent implements OnInit, OnDestroy {
       $('.search-background-div').remove();
       $('.advancemode-checkbox').remove();
       $('.start-search-icon-div').removeClass('active');
-      _self.bridgeDataInsights = true;
-      _self.addNewResult = true;
-      _self.showInsightFull = false;
+      this.bridgeDataInsights = true;
+      this.addNewResult = true;
+      this.showInsightFull = false;
       this.distroySearch();
       $('#test-btn-launch-sdk').removeClass('active');
       $('#open-chat-window-no-clicks').css({ display: 'none' });

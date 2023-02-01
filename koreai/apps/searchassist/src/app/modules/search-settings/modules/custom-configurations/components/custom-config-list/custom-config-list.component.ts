@@ -18,7 +18,9 @@ import { MatDialog } from '@angular/material/dialog';
 export class CustomConfigListComponent implements OnInit {
   @Input() customConfigList;
   @Input() isLoading = false;
+  // eslint-disable-next-line @angular-eslint/no-output-on-prefix
   @Output() onDelete = new EventEmitter();
+  // eslint-disable-next-line @angular-eslint/no-output-on-prefix
   @Output() onUpdate = new EventEmitter();
   constructor(public dialog: MatDialog) {}
   ngOnInit(): void {}

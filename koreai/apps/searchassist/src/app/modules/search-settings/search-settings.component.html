@@ -21,7 +21,7 @@
             </div>
             <div
               class="vr-beta"
-              *ngIf="component.value == 'custom_configurations'"
+              *ngIf="component.value === 'custom_configurations'"
               [ngClass]="{
                 'beta-active':
                   router.url === '/search-settings/custom_configurations'

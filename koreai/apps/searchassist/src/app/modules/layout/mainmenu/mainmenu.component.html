@@ -129,7 +129,7 @@
               class="dropdown-toggle dropdown-input"
               title="{{
                 indexConfigObj[selectedIndexConfig]
-                  ? indexConfigObj[selectedIndexConfig].name == 'Default'
+                  ? indexConfigObj[selectedIndexConfig].name === 'Default'
                     ? 'Default Index'
                     : indexConfigObj[selectedIndexConfig].name
                   : 'Loading..'
@@ -138,7 +138,7 @@
             >
               <span class="text-truncate">{{
                 indexConfigObj[selectedIndexConfig]
-                  ? indexConfigObj[selectedIndexConfig].name == 'Default'
+                  ? indexConfigObj[selectedIndexConfig].name === 'Default'
                     ? 'Default
 								Index'
                     : indexConfigObj[selectedIndexConfig].name
@@ -177,7 +177,7 @@
                   />
                   <span
                     *ngIf="
-                      selectedIndexConfig == config._id && editIndexName;
+                      selectedIndexConfig === config._id && editIndexName;
                       else indexName
                     "
                   >
@@ -197,10 +197,12 @@
                       placement="top-center"
                       [container]="'body'"
                       ngbTooltip="{{
-                        config.name == 'Default' ? 'Default Index' : config.name
+                        config.name === 'Default'
+                          ? 'Default Index'
+                          : config.name
                       }}"
                       >{{
-                        config.name == 'Default'
+                        config.name === 'Default'
                           ? 'Default
 											Index'
                           : config.name
@@ -372,7 +374,7 @@
             class="title text-truncate"
             title="{{
               configObj[selectedConfig]
-                ? configObj[selectedConfig].name == 'Default'
+                ? configObj[selectedConfig].name === 'Default'
                   ? 'Default Search'
                   : configObj[selectedConfig].name
                 : 'Loading..'
@@ -380,7 +382,7 @@
           >
             {{
               configObj[selectedConfig]
-                ? configObj[selectedConfig].name == 'Default'
+                ? configObj[selectedConfig].name === 'Default'
                   ? 'Default
 						Search'
                   : configObj[selectedConfig].name
@@ -447,7 +449,7 @@
                     />
                     <span
                       *ngIf="
-                        selectedConfig == config._id && editName;
+                        selectedConfig === config._id && editName;
                         else name
                       "
                     >
@@ -467,12 +469,12 @@
                         placement="top-center"
                         [container]="'body'"
                         ngbTooltip="{{
-                          config.name == 'Default'
+                          config.name === 'Default'
                             ? 'Default Search'
                             : config.name
                         }}"
                         >{{
-                          config.name == 'Default'
+                          config.name === 'Default'
                             ? 'Default
 												Search'
                             : config.name

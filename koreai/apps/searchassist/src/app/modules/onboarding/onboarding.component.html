@@ -31,7 +31,7 @@
       class="nav-item"
       [ngClass]="{
         'd-none':
-          router.url == '/apps' || router.url == '/' || router.url == '/**'
+          router.url === '/apps' || router.url === '/' || router.url === '/**'
       }"
     >
       <a

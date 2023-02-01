@@ -81,19 +81,19 @@ export class ResultInsightsComponent implements OnInit {
   selectedIndexConfig: any;
   dateType = 'hour';
   group = 'week';
-  totalRecord: number = 0;
-  limitPage: number = 10;
-  skipPage: number = 0;
+  totalRecord = 0;
+  limitPage = 10;
+  skipPage = 0;
   searchImgSrc: any = 'assets/icons/search_gray.svg';
   searchFocusIn = false;
-  Q_totalRecord: number = 0;
-  Q_limitPage: number = 10;
-  Q_skipPage: number = 0;
+  Q_totalRecord = 0;
+  Q_limitPage = 10;
+  Q_skipPage = 0;
   startDate: any = moment().subtract({ days: 7 });
   endDate: any = moment();
   defaultSelectedDay = 7;
-  showDateRange: boolean = false;
-  componentType: string = 'addData';
+  showDateRange = false;
+  componentType = 'addData';
   selected: { startDate: Moment; endDate: Moment } = {
     startDate: this.startDate,
     endDate: this.endDate,
@@ -215,7 +215,7 @@ export class ResultInsightsComponent implements OnInit {
   }
   dateLimt(type) {
     this.dateType = type;
-    let selectedindexpipeline = this.selecteddropId;
+    const selectedindexpipeline = this.selecteddropId;
     if (selectedindexpipeline) {
       this.getQueries('Results', selectedindexpipeline);
     }
@@ -244,10 +244,10 @@ export class ResultInsightsComponent implements OnInit {
     request?,
     searchSource?
   ) {
-    var today = new Date();
-    var yesterday = new Date(Date.now() - 864e5);
-    var week = new Date(Date.now() - 6 * 864e5);
-    var custom = new Date(Date.now() - 29 * 864e5);
+    const today = new Date();
+    const yesterday = new Date(Date.now() - 864e5);
+    const week = new Date(Date.now() - 6 * 864e5);
+    const custom = new Date(Date.now() - 29 * 864e5);
     let from = new Date();
     if (this.dateType == 'hour') {
       from = yesterday;
@@ -257,11 +257,11 @@ export class ResultInsightsComponent implements OnInit {
       this.group = 'date';
     } else if (this.dateType == 'custom') {
       from = custom;
-      var duration = moment.duration(
+      const duration = moment.duration(
         Date.parse(this.endDate.toJSON()) - Date.parse(this.startDate.toJSON()),
         'milliseconds'
       );
-      var days = duration.asDays();
+      const days = duration.asDays();
       // console.log(days);
       if (days > 28) {
         this.group = 'week';
@@ -280,7 +280,7 @@ export class ResultInsightsComponent implements OnInit {
       offset: this.skipPage,
       limit: 10,
     };
-    let payload: any = {
+    const payload: any = {
       type: type,
       group: this.group,
       filters: {
@@ -417,8 +417,8 @@ export class ResultInsightsComponent implements OnInit {
     } else {
       this.isAsc = !this.isAsc;
     }
-    var naviagtionArrow = '';
-    var checkSortValue = '';
+    let naviagtionArrow = '';
+    let checkSortValue = '';
     if (this.isAsc) {
       naviagtionArrow = 'up';
       checkSortValue = 'asc';

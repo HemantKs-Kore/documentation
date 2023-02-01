@@ -34,16 +34,16 @@ export class SearchInsightsComponent implements OnInit {
   dateType = 'hour';
   group = 'week';
   QWR_totalRecord: number;
-  QWR_limitPage: number = 10;
-  QWR_skipPage: number = 0;
+  QWR_limitPage = 10;
+  QWR_skipPage = 0;
 
   QWNR_totalRecord: number;
-  QWNR_limitPage: number = 10;
-  QWNR_skipPage: number = 0;
+  QWNR_limitPage = 10;
+  QWNR_skipPage = 0;
 
   SQR_totalRecord: number;
-  SQR_limitPage: number = 10;
-  SQR_skipPage: number = 0;
+  SQR_limitPage = 10;
+  SQR_skipPage = 0;
   selectedSort = '';
   isAsc = true;
   sortedObject = {
@@ -54,9 +54,9 @@ export class SearchInsightsComponent implements OnInit {
   startDate: any = moment().subtract({ days: 7 });
   endDate: any = moment();
   defaultSelectedDay = 7;
-  showDateRange: boolean = false;
-  querieswithresults: boolean = true;
-  componentType: string = 'addData';
+  showDateRange = false;
+  querieswithresults = true;
+  componentType = 'addData';
   searchExperienceConfig: any;
   feedbackDisableDate: string;
   selected: { startDate: Moment; endDate: Moment } = {
@@ -184,7 +184,7 @@ export class SearchInsightsComponent implements OnInit {
   }
   dateLimt(type) {
     this.dateType = type;
-    let selectedindexpipeline = this.selecteddropId;
+    const selectedindexpipeline = this.selecteddropId;
     if (selectedindexpipeline) {
       this.getQueries('QueriesWithNoResults', selectedindexpipeline);
       this.getQueries('QueriesWithResults', selectedindexpipeline);
@@ -230,10 +230,10 @@ export class SearchInsightsComponent implements OnInit {
     request?,
     searchSource?
   ) {
-    var today = new Date();
-    var yesterday = new Date(Date.now() - 864e5);
-    var week = new Date(Date.now() - 6 * 864e5);
-    var custom = new Date(Date.now() - 29 * 864e5);
+    const today = new Date();
+    const yesterday = new Date(Date.now() - 864e5);
+    const week = new Date(Date.now() - 6 * 864e5);
+    const custom = new Date(Date.now() - 29 * 864e5);
     let from = new Date();
     if (this.dateType == 'hour') {
       from = yesterday;
@@ -243,11 +243,11 @@ export class SearchInsightsComponent implements OnInit {
       this.group = 'date';
     } else if (this.dateType == 'custom') {
       from = custom;
-      var duration = moment.duration(
+      const duration = moment.duration(
         Date.parse(this.endDate.toJSON()) - Date.parse(this.startDate.toJSON()),
         'milliseconds'
       );
-      var days = duration.asDays();
+      const days = duration.asDays();
       // console.log(days);
       if (days > 28) {
         this.group = 'week';
@@ -284,7 +284,7 @@ export class SearchInsightsComponent implements OnInit {
       };
     }
 
-    let payload: any = {
+    const payload: any = {
       type: type,
       group: this.group,
       filters: {
@@ -424,8 +424,8 @@ export class SearchInsightsComponent implements OnInit {
     } else {
       this.isAsc = !this.isAsc;
     }
-    var naviagtionArrow = '';
-    var checkSortValue = '';
+    let naviagtionArrow = '';
+    let checkSortValue = '';
     if (this.isAsc) {
       naviagtionArrow = 'up';
       checkSortValue = 'asc';
