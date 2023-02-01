@@ -493,200 +493,200 @@ export class SliderComponentComponent implements OnInit {
                 <p class="comment">
                     <code>./slider-component.component.scss</code>
                 </p>
-                <pre class="line-numbers"><code class="language-scss">@import &#x27;./../../../app/scss/variables/variables.scss&#x27;;
+                <pre class="line-numbers"><code class="language-scss">@import &#x27;variables/variables.scss&#x27;;
 
-app-slider-component{
-    display: table;
-    width: 100%;
-    height: 100%;
-    .sliderComponent{
-        display: none;
-        position: fixed;
-        right: 0;
-        top: 0;
-        bottom: 0;
-        z-index: 1111;
-        background: rgba(38,52,74,.4);
-        &amp;.open{
-            position: fixed;
-            right: 0;
-            top: 0;
-            bottom: 0;
-            left:0;
-            .sliderDialogComponent{
-                position: absolute;
-                box-shadow: 0 2px 20px 0 rgba(138, 149, 159, 0.45);
-            }
-        }
-        .sliderDialogComponent{
-            background: $whiteColor;
-            float: right;
-            display: table;
-            height: 100%;
-            position: absolute;
-            &amp;.width500{
-                width: 500px;
-                max-width: 500px;
-            }
-            &amp;.width90 {
-                width: 90%;
-            }
-            &amp;.right500{
-                right: -500px;
-            }
-            &amp;.right550{
-                right: -550px;
-            }
-            &amp;.right610{
-                right: -610px;
-            }
-            &amp;.right700{
-                right: -700px;
-            }
-            &amp;.right900{
-                right: -900px;
-            }
-            &amp;.general {
-                width: 500px;
-            }     
-            .sliderContent{
-                .sliderContainer{
-                    .sliderHeader{
-                        padding: 20px 20px 15px;
-                        .slider-title{
-                            font-size: 20px;
-                            font-weight: normal;
-                            line-height: 1.0;
-                            color:$primaryColor;
-                            display: inline-block;
-                            img {
-                                &amp;.closeCross{
-                                    transform: rotate(180deg);
-                                    height: 26px;
-                                    width: 26px;
-                                    cursor:pointer;
-                                    background: $whiteColor;
-                                    padding: 5px;
-                                    border-radius: 50%;
-                                    left: -8px;
-                                    position: relative;
-                                    top: -2px;
-                                    &amp;:hover{
-                                        background: $backgroundColor;
-                                    }
-                                }
-                            }
-                        }
-                    }
-                    .sliderBody{
-                        padding: 0 20px;
-                        position : relative;
-                        clear:both;
-                        .inputsDiv{
-                            @extend %dropdown;
-                            margin-bottom: 15px;
-                            label{
-                                font-family: Inter;
-                                font-size: 14px;
-                                font-weight: bold;
-                                color: $primaryColor;
-                                display: block;
-                                margin-bottom: 5px;
-                            }
-                            .dateRangeDiv{
-                                position: relative;
-                            }
-                            input{
-                                width: 100%;
-                            } 
-                            .calendar{
-                                position: absolute;
-                                right: 10px;
-                                top: 10px;
-                                cursor: pointer;
-                                opacity: .5;
-                            }
-                            .dropdown-toggle{
-                                width: 100%;
-                                text-align: left;
-                                margin-bottom: 0;
-                                height: 34px;
-                                &amp;::after{
-                                    float: right;
-                                    margin-top: 10px;
-                                    color: $secondaryColor;
-                                    display: none;
-                                }
-                                .arrow-dropdown{
-                                    float: right;
-                                    margin-top: 6px;
-                                }
-                            }
-                            .dropdown-menu{
-                                max-height: 300px;
-                                overflow: auto;
-                                width: 100%;
-                                max-width: none !important;
-                            }
-                        }
-                    }
-                    .sliderFooter{
-                        position: absolute;
-                        bottom: 0;
-                        box-shadow: 5px 2px 10px 0 rgba(138, 149, 159, 0.45);
-                        width: 100%;
-                        left:0;
-                        padding: 5px;
-                        height: 40px;
-                        background: $whiteColor;
-                        button{
-                            @extend %buttonSolid;
-                        }
-                    }
-                    &amp;.width500{
-                        width: 500px;
-                    }
-                    &amp;.width550 {
-                        width: 550px;
-                    }
-                    &amp;.width700{
-                        width: 700px;
-                    }
-                    &amp;.width750{
-                        width:750px;
-                    }
-                    &amp;.width610 {
-                        width: 610px;
-                    }
-
-                    &amp;.width900{
-                        width: 900px;
-                    }
-
-                    &amp;.width1140 {
-                        width: 1140px;
-                    }
-                    &amp;.callHistory{
-                        .closeCross{
-                            transform: rotate(180deg);
-                            height: 26px;
-                            width: 26px;
-                            cursor:pointer;
-                            background: $whiteColor;
-                            padding: 5px;
-                            border-radius: 50%;
-                            left: -8px;
-                            position: relative;
-                            top: -2px;
-                            &amp;:hover{
-                                background: $backgroundColor;
-                            }
-                        }
-                    }
-                }
-            }
-        }
+app-slider-component {
+  display: table;
+  width: 100%;
+  height: 100%;
+  .sliderComponent {
+    display: none;
+    position: fixed;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    z-index: 1111;
+    background: rgba(38, 52, 74, 0.4);
+    &amp;.open {
+      position: fixed;
+      right: 0;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      .sliderDialogComponent {
+        position: absolute;
+        box-shadow: 0 2px 20px 0 rgba(138, 149, 159, 0.45);
+      }
     }
+    .sliderDialogComponent {
+      background: $whiteColor;
+      float: right;
+      display: table;
+      height: 100%;
+      position: absolute;
+      &amp;.width500 {
+        width: 500px;
+        max-width: 500px;
+      }
+      &amp;.width90 {
+        width: 90%;
+      }
+      &amp;.right500 {
+        right: -500px;
+      }
+      &amp;.right550 {
+        right: -550px;
+      }
+      &amp;.right610 {
+        right: -610px;
+      }
+      &amp;.right700 {
+        right: -700px;
+      }
+      &amp;.right900 {
+        right: -900px;
+      }
+      &amp;.general {
+        width: 500px;
+      }
+      .sliderContent {
+        .sliderContainer {
+          .sliderHeader {
+            padding: 20px 20px 15px;
+            .slider-title {
+              font-size: 20px;
+              font-weight: normal;
+              line-height: 1;
+              color: $primaryColor;
+              display: inline-block;
+              img {
+                &amp;.closeCross {
+                  transform: rotate(180deg);
+                  height: 26px;
+                  width: 26px;
+                  cursor: pointer;
+                  background: $whiteColor;
+                  padding: 5px;
+                  border-radius: 50%;
+                  left: -8px;
+                  position: relative;
+                  top: -2px;
+                  &amp;:hover {
+                    background: $backgroundColor;
+                  }
+                }
+              }
+            }
+          }
+          .sliderBody {
+            padding: 0 20px;
+            position: relative;
+            clear: both;
+            .inputsDiv {
+              @extend %dropdown;
+              margin-bottom: 15px;
+              label {
+                font-family: Inter;
+                font-size: 14px;
+                font-weight: bold;
+                color: $primaryColor;
+                display: block;
+                margin-bottom: 5px;
+              }
+              .dateRangeDiv {
+                position: relative;
+              }
+              input {
+                width: 100%;
+              }
+              .calendar {
+                position: absolute;
+                right: 10px;
+                top: 10px;
+                cursor: pointer;
+                opacity: 0.5;
+              }
+              .dropdown-toggle {
+                width: 100%;
+                text-align: left;
+                margin-bottom: 0;
+                height: 34px;
+                &amp;::after {
+                  float: right;
+                  margin-top: 10px;
+                  color: $secondaryColor;
+                  display: none;
+                }
+                .arrow-dropdown {
+                  float: right;
+                  margin-top: 6px;
+                }
+              }
+              .dropdown-menu {
+                max-height: 300px;
+                overflow: auto;
+                width: 100%;
+                max-width: none !important;
+              }
+            }
+          }
+          .sliderFooter {
+            position: absolute;
+            bottom: 0;
+            box-shadow: 5px 2px 10px 0 rgba(138, 149, 159, 0.45);
+            width: 100%;
+            left: 0;
+            padding: 5px;
+            height: 40px;
+            background: $whiteColor;
+            button {
+              @extend %buttonSolid;
+            }
+          }
+          &amp;.width500 {
+            width: 500px;
+          }
+          &amp;.width550 {
+            width: 550px;
+          }
+          &amp;.width700 {
+            width: 700px;
+          }
+          &amp;.width750 {
+            width: 750px;
+          }
+          &amp;.width610 {
+            width: 610px;
+          }
+
+          &amp;.width900 {
+            width: 900px;
+          }
+
+          &amp;.width1140 {
+            width: 1140px;
+          }
+          &amp;.callHistory {
+            .closeCross {
+              transform: rotate(180deg);
+              height: 26px;
+              width: 26px;
+              cursor: pointer;
+              background: $whiteColor;
+              padding: 5px;
+              border-radius: 50%;
+              left: -8px;
+              position: relative;
+              top: -2px;
+              &amp;:hover {
+                background: $backgroundColor;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
 }
 </code></pre>
     </div>
@@ -717,7 +717,7 @@ app-slider-component{
 <script src="../js/libs/deep-iterator.js"></script>
 <script>
         var COMPONENT_TEMPLATE = '<div><div id="sliderComponent" class="sliderComponent right">  <div class="sliderDialogComponent {{rightClass}}">    <div class="sliderContent">      <ng-content></ng-content>    </div>  </div></div></div>'
-    var COMPONENTS = [{'name': 'ActionsComponent', 'selector': 'app-actions'},{'name': 'AddAlternateQuestionComponent', 'selector': 'app-add-alternate-question'},{'name': 'AddAltFaqComponent', 'selector': 'app-add-alt-faq'},{'name': 'AddFaqComponent', 'selector': 'app-add-faq'},{'name': 'AddResultComponent', 'selector': 'app-add-result'},{'name': 'AddResultComponent', 'selector': 'app-add-result'},{'name': 'AddStructuredDataComponent', 'selector': 'app-add-structured-data'},{'name': 'AnalyticsDropdownComponent', 'selector': 'app-analytics-dropdown'},{'name': 'AnnotoolComponent', 'selector': 'kr-annotool'},{'name': 'AppComponent', 'selector': 'app-root'},{'name': 'AppExperimentsComponent', 'selector': 'app-app-experiments'},{'name': 'AppsComponent', 'selector': 'app-apps'},{'name': 'AutocompleteMultiChipComponent', 'selector': 'app-autocomplete-multi-chip'},{'name': 'BodyComponent', 'selector': 'app-body'},{'name': 'BotActionsComponent', 'selector': 'app-bot-actions'},{'name': 'BotActionsComponent', 'selector': 'app-bot-actions'},{'name': 'BusinessRulesComponent', 'selector': 'app-business-rules'},{'name': 'ConfirmationComponent', 'selector': 'kr-confirmation'},{'name': 'ConfirmationDialogComponent', 'selector': 'app-confirmation-dialog'},{'name': 'ConnectorsComponent', 'selector': 'app-connectors'},{'name': 'ContentComponent', 'selector': 'app-content'},{'name': 'CredentialsListComponent', 'selector': 'app-credentials-list'},{'name': 'CustomConfigFormComponent', 'selector': 'app-custom-config-form'},{'name': 'CustomConfigListComponent', 'selector': 'app-custom-config-list'},{'name': 'CustomConfigurationsComponent', 'selector': 'app-custom-configurations'},{'name': 'CustomMarkdownEditorComponent', 'selector': 'md-editor'},{'name': 'DashboardComponent', 'selector': 'app-dashboard'},{'name': 'DateRangePickerComponent', 'selector': 'app-date-range-picker'},{'name': 'DemoComponent', 'selector': 'app-demo'},{'name': 'EditorUrlDialogComponent', 'selector': 'app-editor-url-dialog'},{'name': 'EmptyScreenComponent', 'selector': 'app-empty-screen'},{'name': 'FacetsComponent', 'selector': 'app-facets'},{'name': 'FaqsComponent', 'selector': 'faqs-source'},{'name': 'FieldManagementComponent', 'selector': 'app-field-management'},{'name': 'GeneralSettingsComponent', 'selector': 'app-general-settings'},{'name': 'GroupInputComponent', 'selector': 'app-group-input'},{'name': 'HeaderComponent', 'selector': 'app-header'},{'name': 'HighlightingComponent', 'selector': 'app-highlighting'},{'name': 'ImportFaqsModalComponent', 'selector': 'app-import-faqs-modal'},{'name': 'IndexComponent', 'selector': 'app-index'},{'name': 'IndexComponent', 'selector': 'app-index'},{'name': 'IndexConfigurationSettingsComponent', 'selector': 'app-index-configuration-settings'},{'name': 'IndexFieldsComfirmationDialogComponent', 'selector': 'app-index-fields-comfirmation-dialog'},{'name': 'InsightsComponent', 'selector': 'app-insights'},{'name': 'InvoicesComponent', 'selector': 'app-invoices'},{'name': 'KRModalComponent', 'selector': 'kr-modal'},{'name': 'ListFieldsComponent', 'selector': 'app-list-fields'},{'name': 'LoaderComponent', 'selector': 'app-loader'},{'name': 'MainMenuComponent', 'selector': 'app-mainmenu'},{'name': 'ManageIntentComponent', 'selector': 'app-manage-intent'},{'name': 'MarkdownEditorResizeSensorComponent', 'selector': 'md-editor-resize-sensor'},{'name': 'MetricsComponent', 'selector': 'app-metrics'},{'name': 'OnboardingComponent', 'selector': 'app-onboarding'},{'name': 'PaginationComponent', 'selector': 'app-pagination'},{'name': 'PdfAnnotationComponent', 'selector': 'kr-pdf-annotation'},{'name': 'PresentableComponent', 'selector': 'app-presentable'},{'name': 'PricingComponent', 'selector': 'app-pricing'},{'name': 'RangeSliderComponent', 'selector': 'app-range-slider'},{'name': 'RangeSliderSearchExperienceComponent', 'selector': 'app-range-slider-search-experience'},{'name': 'RecordPaginationComponent', 'selector': 'app-record-pagination'},{'name': 'ResultInsightsComponent', 'selector': 'app-result-insights'},{'name': 'ResultRankingComponent', 'selector': 'app-result-ranking'},{'name': 'ResultRankingComponent', 'selector': 'app-result-ranking'},{'name': 'ResultsRulesComponent', 'selector': 'app-results-rules'},{'name': 'ResultTemplatesComponent', 'selector': 'app-result-templates'},{'name': 'RulesTableComponent', 'selector': 'app-rules-table'},{'name': 'SchedulerComponent', 'selector': 'app-scheduler'},{'name': 'SearchExperienceComponent', 'selector': 'app-search-experience'},{'name': 'SearchFieldPropertiesComponent', 'selector': 'app-search-field-properties'},{'name': 'SearchFilterComponent', 'selector': 'app-search-filter'},{'name': 'SearchInsightsComponent', 'selector': 'app-search-insights'},{'name': 'SearchInterfaceComponent', 'selector': 'app-search-interface'},{'name': 'SearchRelevanceComponent', 'selector': 'app-search-relevance'},{'name': 'SearchSdkComponent', 'selector': '.appContent'},{'name': 'SearchSettingsComponent', 'selector': 'app-search-settings'},{'name': 'SettingsComponent', 'selector': 'app-settings'},{'name': 'SettingsComponent', 'selector': 'app-settings'},{'name': 'SliderComponentComponent', 'selector': 'app-slider-component'},{'name': 'SmallTalkComponent', 'selector': 'app-small-talk'},{'name': 'SnippetsComponent', 'selector': 'app-snippets'},{'name': 'SourcesComponent', 'selector': 'app-sources'},{'name': 'SpellCorrectionComponent', 'selector': 'app-spell-correction'},{'name': 'StatusDockerComponent', 'selector': 'app-status-docker'},{'name': 'StopWordsComponent', 'selector': 'app-stop-words'},{'name': 'StructuredDataComponent', 'selector': 'app-structured-data'},{'name': 'StructuredDataComponent', 'selector': 'app-structured-data'},{'name': 'StructuredDataStatusModalComponent', 'selector': 'app-structured-data-status-modal'},{'name': 'SummaryComponent', 'selector': 'app-summary'},{'name': 'SummaryModalComponent', 'selector': 'kr-summary-modal'},{'name': 'SynonymsComponent', 'selector': 'app-synonyms'},{'name': 'TagsInpComponent', 'selector': 'app-tags-inp'},{'name': 'TeamManagementComponent', 'selector': 'app-team-management'},{'name': 'TraitsComponent', 'selector': 'app-traits'},{'name': 'UpgradePlanComponent', 'selector': 'app-upgrade-plan'},{'name': 'UsageLogComponent', 'selector': 'app-usage-log'},{'name': 'UserEngagementComponent', 'selector': 'app-user-engagement'},{'name': 'UserGuideComponent', 'selector': 'kr-user-guide'},{'name': 'UseronboardingJourneyComponent', 'selector': 'app-useronboarding-journey'},{'name': 'WeightsComponent', 'selector': 'app-weights'}];
+    var COMPONENTS = [{'name': 'ActionsComponent', 'selector': 'app-actions'},{'name': 'AddAlternateQuestionComponent', 'selector': 'app-add-alternate-question'},{'name': 'AddAltFaqComponent', 'selector': 'app-add-alt-faq'},{'name': 'AddFaqComponent', 'selector': 'app-add-faq'},{'name': 'AddResultComponent', 'selector': 'app-add-result'},{'name': 'AddResultComponent', 'selector': 'app-add-result'},{'name': 'AddStructuredDataComponent', 'selector': 'app-add-structured-data'},{'name': 'AnalyticsDropdownComponent', 'selector': 'app-analytics-dropdown'},{'name': 'AnnotoolComponent', 'selector': 'kr-annotool'},{'name': 'AppComponent', 'selector': 'app-root'},{'name': 'AppExperimentsComponent', 'selector': 'app-app-experiments'},{'name': 'AppsComponent', 'selector': 'app-apps'},{'name': 'AutocompleteMultiChipComponent', 'selector': 'app-autocomplete-multi-chip'},{'name': 'BotActionsComponent', 'selector': 'app-bot-actions'},{'name': 'BotActionsComponent', 'selector': 'app-bot-actions'},{'name': 'BusinessRulesComponent', 'selector': 'app-business-rules'},{'name': 'ConfirmationComponent', 'selector': 'kr-confirmation'},{'name': 'ConfirmationDialogComponent', 'selector': 'app-confirmation-dialog'},{'name': 'ConnectorsComponent', 'selector': 'app-connectors'},{'name': 'ContentComponent', 'selector': 'app-content'},{'name': 'CredentialsListComponent', 'selector': 'app-credentials-list'},{'name': 'CustomConfigFormComponent', 'selector': 'app-custom-config-form'},{'name': 'CustomConfigListComponent', 'selector': 'app-custom-config-list'},{'name': 'CustomConfigurationsComponent', 'selector': 'app-custom-configurations'},{'name': 'CustomMarkdownEditorComponent', 'selector': 'md-editor'},{'name': 'DashboardComponent', 'selector': 'app-dashboard'},{'name': 'DateRangePickerComponent', 'selector': 'app-date-range-picker'},{'name': 'DemoComponent', 'selector': 'app-demo'},{'name': 'EditorUrlDialogComponent', 'selector': 'app-editor-url-dialog'},{'name': 'EmptyScreenComponent', 'selector': 'app-empty-screen'},{'name': 'FacetsComponent', 'selector': 'app-facets'},{'name': 'FaqsComponent', 'selector': 'faqs-source'},{'name': 'FieldManagementComponent', 'selector': 'app-field-management'},{'name': 'GeneralSettingsComponent', 'selector': 'app-general-settings'},{'name': 'GroupInputComponent', 'selector': 'app-group-input'},{'name': 'HeaderComponent', 'selector': 'app-header'},{'name': 'HighlightingComponent', 'selector': 'app-highlighting'},{'name': 'ImportFaqsModalComponent', 'selector': 'app-import-faqs-modal'},{'name': 'IndexConfigurationSettingsComponent', 'selector': 'app-index-configuration-settings'},{'name': 'IndexFieldsComfirmationDialogComponent', 'selector': 'app-index-fields-comfirmation-dialog'},{'name': 'InsightsComponent', 'selector': 'app-insights'},{'name': 'InvoicesComponent', 'selector': 'app-invoices'},{'name': 'KRModalComponent', 'selector': 'kr-modal'},{'name': 'ListFieldsComponent', 'selector': 'app-list-fields'},{'name': 'LoaderComponent', 'selector': 'app-loader'},{'name': 'MainMenuComponent', 'selector': 'app-mainmenu'},{'name': 'ManageIntentComponent', 'selector': 'app-manage-intent'},{'name': 'MarkdownEditorResizeSensorComponent', 'selector': 'md-editor-resize-sensor'},{'name': 'MetricsComponent', 'selector': 'app-metrics'},{'name': 'OnboardingComponent', 'selector': 'app-onboarding'},{'name': 'PaginationComponent', 'selector': 'app-pagination'},{'name': 'PdfAnnotationComponent', 'selector': 'kr-pdf-annotation'},{'name': 'PresentableComponent', 'selector': 'app-presentable'},{'name': 'PricingComponent', 'selector': 'app-pricing'},{'name': 'RangeSliderComponent', 'selector': 'app-range-slider'},{'name': 'RangeSliderSearchExperienceComponent', 'selector': 'app-range-slider-search-experience'},{'name': 'RecordPaginationComponent', 'selector': 'app-record-pagination'},{'name': 'ResultInsightsComponent', 'selector': 'app-result-insights'},{'name': 'ResultRankingComponent', 'selector': 'app-result-ranking'},{'name': 'ResultRankingComponent', 'selector': 'app-result-ranking'},{'name': 'ResultsRulesComponent', 'selector': 'app-results-rules'},{'name': 'ResultTemplatesComponent', 'selector': 'app-result-templates'},{'name': 'RulesTableComponent', 'selector': 'app-rules-table'},{'name': 'SchedulerComponent', 'selector': 'app-scheduler'},{'name': 'SearchExperienceComponent', 'selector': 'app-search-experience'},{'name': 'SearchFieldPropertiesComponent', 'selector': 'app-search-field-properties'},{'name': 'SearchFilterComponent', 'selector': 'app-search-filter'},{'name': 'SearchInsightsComponent', 'selector': 'app-search-insights'},{'name': 'SearchInterfaceComponent', 'selector': 'app-search-interface'},{'name': 'SearchRelevanceComponent', 'selector': 'app-search-relevance'},{'name': 'SearchSdkComponent', 'selector': 'app-search-sdk'},{'name': 'SearchSettingsComponent', 'selector': 'app-search-settings'},{'name': 'SettingsComponent', 'selector': 'app-settings'},{'name': 'SettingsComponent', 'selector': 'app-settings'},{'name': 'SliderComponentComponent', 'selector': 'app-slider-component'},{'name': 'SmallTalkComponent', 'selector': 'app-small-talk'},{'name': 'SnippetsComponent', 'selector': 'app-snippets'},{'name': 'SourcesComponent', 'selector': 'app-sources'},{'name': 'SpellCorrectionComponent', 'selector': 'app-spell-correction'},{'name': 'StatusDockerComponent', 'selector': 'app-status-docker'},{'name': 'StopWordsComponent', 'selector': 'app-stop-words'},{'name': 'StructuredDataComponent', 'selector': 'app-structured-data'},{'name': 'StructuredDataComponent', 'selector': 'app-structured-data'},{'name': 'StructuredDataStatusModalComponent', 'selector': 'app-structured-data-status-modal'},{'name': 'SummaryComponent', 'selector': 'app-summary'},{'name': 'SummaryModalComponent', 'selector': 'kr-summary-modal'},{'name': 'SynonymsComponent', 'selector': 'app-synonyms'},{'name': 'TagsInpComponent', 'selector': 'app-tags-inp'},{'name': 'TeamManagementComponent', 'selector': 'app-team-management'},{'name': 'TraitsComponent', 'selector': 'app-traits'},{'name': 'UpgradePlanComponent', 'selector': 'app-upgrade-plan'},{'name': 'UsageLogComponent', 'selector': 'app-usage-log'},{'name': 'UserEngagementComponent', 'selector': 'app-user-engagement'},{'name': 'UserGuideComponent', 'selector': 'kr-user-guide'},{'name': 'UseronboardingJourneyComponent', 'selector': 'app-useronboarding-journey'},{'name': 'WeightsComponent', 'selector': 'app-weights'},{'name': 'WorkbenchComponent', 'selector': 'app-workbench'}];
     var DIRECTIVES = [{'name': 'ClickOutSideDirective', 'selector': '[clickOutside]'},{'name': 'EllipsisActiveDirective', 'selector': '[appEllipsisActive]'},{'name': 'ScrollSpyDirective', 'selector': '[scrollSpy]'},{'name': 'SelectTextDirective', 'selector': '[appSelectText]'}];
     var ACTUAL_COMPONENT = {'name': 'SliderComponentComponent'};
 </script>

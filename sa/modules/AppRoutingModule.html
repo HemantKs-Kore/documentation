@@ -147,11 +147,6 @@ const routes: Routes &#x3D; [
           &quot;import(&#x27;./modules/facets/facets.module&#x27;).then((m) &#x3D;&gt; m.FacetsModule)&quot;,
       },
       {
-        path: &#x27;index&#x27;,
-        loadChildren: () &#x3D;&gt;
-          &quot;import(&#x27;./modules/index/index.module&#x27;).then((m) &#x3D;&gt; m.IndexModule)&quot;,
-      },
-      {
         path: &#x27;experiments&#x27;,
         loadChildren: () &#x3D;&gt;
           &quot;import(&#x27;./modules/app-experiments/app-experiments.module&#x27;).then(\
@@ -329,7 +324,13 @@ const routes: Routes &#x3D; [
             (m) &#x3D;&gt; m.StructuredDataModule\
           )&quot;,
       },
-
+      {
+        path: &#x27;workbench&#x27;,
+        loadChildren: () &#x3D;&gt;
+          &quot;import(&#x27;./modules/workbench/workbench.module&#x27;).then(\
+            (m) &#x3D;&gt; m.WorkbenchModule\
+          )&quot;,
+      },
       {
         path: &#x27;&#x27;,
         loadChildren: () &#x3D;&gt;

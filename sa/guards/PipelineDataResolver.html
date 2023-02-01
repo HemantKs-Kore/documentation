@@ -117,12 +117,12 @@
             <tbody>
                 <tr>
                     <td class="col-md-4">
-<code>constructor(workflowService: <a href="../injectables/WorkflowService.html" target="_self">WorkflowService</a>, service: <a href="../injectables/ServiceInvokerService.html" target="_self">ServiceInvokerService</a>)</code>
+<code>constructor(workflowService: <a href="../injectables/WorkflowService.html" target="_self">WorkflowService</a>, service: <a href="../injectables/ServiceInvokerService.html" target="_self">ServiceInvokerService</a>, store: Store)</code>
                     </td>
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="10" class="link-to-prism">apps/searchassist/src/app/services/resolvers/pipeline-data.resolve.ts:10</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="16" class="link-to-prism">apps/searchassist/src/app/services/resolvers/pipeline-data.resolve.ts:16</a></div>
                             </td>
                         </tr>
 
@@ -156,6 +156,18 @@
                                                   
                                                         <td>
                                                                         <code><a href="../injectables/ServiceInvokerService.html" target="_self" >ServiceInvokerService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>store</td>
+                                                  
+                                                        <td>
+                                                                    <code>Store</code>
                                                         </td>
                                                   
                                                     <td>
@@ -197,8 +209,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="16"
-                            class="link-to-prism">apps/searchassist/src/app/services/resolvers/pipeline-data.resolve.ts:16</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="23"
+                            class="link-to-prism">apps/searchassist/src/app/services/resolvers/pipeline-data.resolve.ts:23</a></div>
                 </td>
             </tr>
 
@@ -251,40 +263,54 @@
 
 
         <div class="tab-pane fade  tab-source-code" id="c-source">
-            <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { catchError } from &#x27;rxjs/operators&#x27;;
+            <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { catchError, switchMap } from &#x27;rxjs/operators&#x27;;
 import { ServiceInvokerService } from &#x27;../service-invoker.service&#x27;;
 import { WorkflowService } from &#x27;../workflow.service&#x27;;
 import { Injectable } from &#x27;@angular/core&#x27;;
 import { Resolve, ActivatedRouteSnapshot } from &#x27;@angular/router&#x27;;
-import { of } from &#x27;rxjs&#x27;;
-import { delay } from &#x27;rxjs/operators&#x27;;
+import { combineLatest, of } from &#x27;rxjs&#x27;;
+import {
+  selectAppId,
+  selectIndexPipelineId,
+  selectQueryPipelineId,
+  selectSearchIndexId,
+} from &#x27;@kore.apps/store/app.selectors&#x27;;
+import { Store } from &#x27;@ngrx/store&#x27;;
 
 @Injectable()
 export class PipelineDataResolver implements Resolve&lt;any&gt; {
   constructor(
     public workflowService: WorkflowService,
-    private service: ServiceInvokerService
+    private service: ServiceInvokerService,
+    private store: Store
   ) {}
 
   resolve(route: ActivatedRouteSnapshot) {
-    let value &#x3D; route.data[&#x27;value&#x27;];
-    const quaryparms: any &#x3D; {
-      isSelected: true,
-      sortField: &#x27;fieldName&#x27;,
-      orderType: &#x27;asc&#x27;,
-      indexPipelineId: this.workflowService.selectedIndexPipeline(),
-      streamId: this.workflowService.selectedApp()?._id,
-      queryPipelineId: this.workflowService.selectedQueryPipeline()
-        ? this.workflowService.selectedQueryPipeline()._id
-        : &#x27;&#x27;,
-      searchKey: &#x27;&#x27;,
-    };
+    const value &#x3D; route.data[&#x27;value&#x27;];
 
-    return this.service.invoke(value, quaryparms).pipe(
-      catchError((error) &#x3D;&gt; {
-        const message &#x3D; &#x60;Retrieval error: ${error}&#x60;;
-        console.error(message);
-        return of({ error });
+    return combineLatest([
+      this.store.select(selectIndexPipelineId),
+      this.store.select(selectQueryPipelineId),
+      this.store.select(selectAppId),
+    ]).pipe(
+      switchMap(([indexPipelineId, queryPipelineId, appId]) &#x3D;&gt; {
+        const quaryparms: any &#x3D; {
+          isSelected: true,
+          sortField: &#x27;fieldName&#x27;,
+          orderType: &#x27;asc&#x27;,
+          indexPipelineId,
+          streamId: appId,
+          queryPipelineId,
+          searchKey: &#x27;&#x27;,
+        };
+
+        return this.service.invoke(value, quaryparms).pipe(
+          catchError((error) &#x3D;&gt; {
+            const message &#x3D; &#x60;Retrieval error: ${error}&#x60;;
+            console.error(message);
+            return of({ error });
+          })
+        );
       })
     );
   }
@@ -294,24 +320,30 @@ export class PipelineDataResolver implements Resolve&lt;any&gt; {
 export class PipelineResolver implements Resolve&lt;any&gt; {
   constructor(
     public workflowService: WorkflowService,
-    private service: ServiceInvokerService
+    private service: ServiceInvokerService,
+    private store: Store
   ) {}
 
   resolve(route: ActivatedRouteSnapshot) {
-    let value &#x3D; route.data[&#x27;pipeline&#x27;];
-    const quaryparms: any &#x3D; {
-      indexPipelineId: this.workflowService.selectedIndexPipeline(),
-      queryPipelineId: this.workflowService.selectedQueryPipeline()
-        ? this.workflowService.selectedQueryPipeline()._id
-        : &#x27;&#x27;,
-      searchIndexID: this.workflowService.selectedApp()?.searchIndexes[0]?._id,
-    };
+    const value &#x3D; route.data[&#x27;pipeline&#x27;];
 
-    if (quaryparms.queryPipelineId) {
-      return this.service.invoke(value, quaryparms).pipe(delay(10));
-    } else {
-      return of(null);
-    }
+    return combineLatest([
+      this.store.select(selectIndexPipelineId),
+      this.store.select(selectQueryPipelineId),
+      this.store.select(selectSearchIndexId),
+    ]).pipe(
+      switchMap(([indexPipelineId, queryPipelineId, searchIndexID]) &#x3D;&gt; {
+        return this.service
+          .invoke(value, { indexPipelineId, queryPipelineId, searchIndexID })
+          .pipe(
+            catchError((error) &#x3D;&gt; {
+              const message &#x3D; &#x60;Retrieval error: ${error}&#x60;;
+              console.error(message);
+              return of({ error });
+            })
+          );
+      })
+    );
   }
 }
 

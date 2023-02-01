@@ -400,8 +400,8 @@ import { InlineManualService } from &#x27;@kore.services/inline-manual.service&#
 import { MixpanelServiceService } from &#x27;@kore.services/mixpanel-service.service&#x27;;
 
 // import * as PureJSCarousel from &#x27;src/assets/web-kore-sdk/libs/purejscarousel.js&#x27;;
-declare var PureJSCarousel: any;
-declare var $: any;
+declare let PureJSCarousel: any;
+declare let $: any;
 
 @Component({
   selector: &#x27;app-search-interface&#x27;,
@@ -456,7 +456,7 @@ export class SearchInterfaceComponent implements OnInit {
   liveSearchResultObj: any &#x3D; {};
   conversationalSearchResultObj: any &#x3D; {};
   fullSearchResultObj: any &#x3D; {}
-  searchTemplatesDisabled: boolean &#x3D; false;
+  searchTemplatesDisabled &#x3D; false;
   settingList: any &#x3D; [
     //   {
     //   id:&quot;searchUi&quot;,
@@ -502,15 +502,15 @@ export class SearchInterfaceComponent implements OnInit {
     image : true,
     url : true
   }
-  showDescription: boolean &#x3D; true;
-  showImage: boolean &#x3D; false;
-  clickableDisabled: boolean &#x3D; false;
-  switchActive: boolean &#x3D; true;
+  showDescription &#x3D; true;
+  showImage &#x3D; false;
+  clickableDisabled &#x3D; false;
+  switchActive &#x3D; true;
   customizeTemplateObj: customizeTemplate &#x3D; new customizeTemplate();
   customizeTemplate: templateResponse &#x3D; new templateResponse();
   carousel: any &#x3D; [];
-  componentType: string &#x3D; &#x27;designing&#x27;;
-  submitted: boolean &#x3D; false;
+  componentType &#x3D; &#x27;designing&#x27;;
+  submitted &#x3D; false;
   carouselTemplateCount &#x3D; 0;
   @ViewChild(&#x27;customModal&#x27;) customModal: KRModalComponent;
   @ViewChild(&#x27;previewModal&#x27;) previewModal: KRModalComponent;
@@ -692,7 +692,7 @@ export class SearchInterfaceComponent implements OnInit {
   selectByDefaultValBindToTemplatae(mapping) {
     if (mapping.heading) {
       this.heading_fieldData.forEach(element &#x3D;&gt; {
-        var obj &#x3D; {
+        const obj &#x3D; {
           fieldDataType: element.fieldDataType,
           fieldName: element.fieldName,
           _id: element._id
@@ -705,7 +705,7 @@ export class SearchInterfaceComponent implements OnInit {
     }
     if (mapping.description) {
       this.desc_fieldData.forEach(element &#x3D;&gt; {
-        var obj &#x3D; {
+        const obj &#x3D; {
           fieldDataType: element.fieldDataType,
           fieldName: element.fieldName,
           _id: element._id
@@ -818,35 +818,35 @@ export class SearchInterfaceComponent implements OnInit {
   sourcelist(settingObj) {
     settingObj.appearance.forEach(element &#x3D;&gt; {
       if (element.type &#x3D;&#x3D; &#x27;action&#x27; || element.type &#x3D;&#x3D; &#x27;Action&#x27;) {
-        let obj &#x3D; {
+        const obj &#x3D; {
           type: &quot;Action&quot;,
           id: element.templateId ? element.templateId : &quot;&quot;
         }
         this.list.push(obj)
         this.customList.push(obj)
       } else if (element.type &#x3D;&#x3D; &#x27;faq&#x27; || element.type &#x3D;&#x3D; &#x27;FAQs&#x27;) {
-        let obj &#x3D; {
+        const obj &#x3D; {
           type: &quot;FAQs&quot;,
           id: element.templateId ? element.templateId : &quot;&quot;
         }
         this.list.push(obj)
         this.customList.push(obj)
       } else if (element.type &#x3D;&#x3D; &#x27;page&#x27; || element.type &#x3D;&#x3D; &#x27;Web&#x27;) {
-        let obj &#x3D; {
+        const obj &#x3D; {
           type: &quot;Web&quot;,
           id: element.templateId ? element.templateId : &quot;&quot;
         }
         this.list.push(obj)
         this.customList.push(obj)
       } else if (element.type &#x3D;&#x3D; &#x27;structuredData&#x27; || element.type &#x3D;&#x3D; &#x27;Structured Data&#x27;) {
-        let obj &#x3D; {
+        const obj &#x3D; {
           type: &quot;Structured Data&quot;,
           id: element.templateId ? element.templateId : &quot;&quot;
         }
         this.list.push(obj)
         this.customList.push(obj)
       } else if (element.type &#x3D;&#x3D; &#x27;document&#x27; || element.type &#x3D;&#x3D; &#x27;File&#x27;) {
-        let obj &#x3D; {
+        const obj &#x3D; {
           type: &quot;File&quot;,
           id: element.templateId ? element.templateId : &quot;&quot;
         }
@@ -889,9 +889,9 @@ export class SearchInterfaceComponent implements OnInit {
   buildCarousel() {
     setTimeout(() &#x3D;&gt; {
       $(&#x27;.carousel:last&#x27;).addClass(&quot;carousel&quot; + this.carouselTemplateCount);
-      var count &#x3D; $(&quot;.carousel&quot; + this.carouselTemplateCount).children().length;
+      const count &#x3D; $(&quot;.carousel&quot; + this.carouselTemplateCount).children().length;
       if (count &gt; 1) {
-        var carousel &#x3D; new PureJSCarousel({
+        const carousel &#x3D; new PureJSCarousel({
           carousel: &#x27;.carousel&#x27; + this.carouselTemplateCount,
           slide: &#x27;.slide&#x27;,
           oneByOne: true,
@@ -1036,10 +1036,10 @@ export class SearchInterfaceComponent implements OnInit {
     //     }
     //   }
     // }
-    let data &#x3D; []
+    const data &#x3D; []
     filedData.filter(element &#x3D;&gt; {
-      var filedNamelower &#x3D; element.fieldName.toLocaleLowerCase();
-      var valToSearchlower &#x3D; valToSearch.toLocaleLowerCase();
+      const filedNamelower &#x3D; element.fieldName.toLocaleLowerCase();
+      const valToSearchlower &#x3D; valToSearch.toLocaleLowerCase();
       if (filedNamelower.includes(valToSearchlower)) {
         data.push(element)
       }
@@ -1089,11 +1089,11 @@ export class SearchInterfaceComponent implements OnInit {
     }
   }
   copyResultSettings(interfaceType) {
-    let queryparams &#x3D; {
+    const queryparams &#x3D; {
       searchIndexId: this.serachIndexId,
       indexPipelineId: this.indexPipelineId
     };
-    let payload &#x3D; {
+    const payload &#x3D; {
       &quot;interface&quot;: this.selectedSetting,
       &quot;referInterface&quot;: interfaceType
     }
@@ -1112,8 +1112,8 @@ export class SearchInterfaceComponent implements OnInit {
   }
   saveResultSettings(interfaceType?) {
     let payload &#x3D; {};
-    let _self &#x3D; this;
-    let setPayload &#x3D; function (copedInterfaceResultsObj) {
+    const _self &#x3D; this;
+    const setPayload &#x3D; function (copedInterfaceResultsObj) {
       copedInterfaceResultsObj.appearance.forEach(element &#x3D;&gt; {
         if (element.type &#x3D;&#x3D; &#x27;Action&#x27;) {
           element.type &#x3D; &#x27;action&#x27;;
@@ -1127,7 +1127,7 @@ export class SearchInterfaceComponent implements OnInit {
           element.type &#x3D; &#x27;document&#x27;;
         }
       });
-      let payloadBody &#x3D; {
+      const payloadBody &#x3D; {
         &quot;_id&quot;: _self.selectedSettingResultsObj._id, // Binding the Selected Setting Id
         &quot;resultClassification&quot;: {
           &quot;isEnabled&quot;: copedInterfaceResultsObj.resultClassification.isEnabled,
@@ -1146,7 +1146,7 @@ export class SearchInterfaceComponent implements OnInit {
 
       return payloadBody;
     }
-    let queryparams &#x3D; {
+    const queryparams &#x3D; {
       searchIndexId: this.serachIndexId,
       indexPipelineId: this.indexPipelineId
     };
@@ -1363,7 +1363,7 @@ export class SearchInterfaceComponent implements OnInit {
   }
   saveTemplate() {
     this.submitted &#x3D; true;
-    let validateText &#x3D; this.validateFeildTextCompare();
+    const validateText &#x3D; this.validateFeildTextCompare();
 
     if (this.validateTemplate() &amp;&amp; !validateText) {
       let url: any;
@@ -1443,7 +1443,7 @@ export class SearchInterfaceComponent implements OnInit {
     }
   }
   getFieldAutoComplete() {
-    let query: any &#x3D; &#x27;&#x27;;
+    const query: any &#x3D; &#x27;&#x27;;
     // const quaryparms: any &#x3D; {
     //   searchIndexID: this.serachIndexId,
     //   indexPipelineId: this.indexPipelineId,
@@ -1569,28 +1569,28 @@ class customizeTemplate {
   template: template &#x3D; new template();
 }
 class template {
-  type: string &#x3D; &#x27;&#x27;;
-  typeId: string &#x3D; &#x27;&#x27;;                    // list1  list 2 or card or carousel
+  type &#x3D; &#x27;&#x27;;
+  typeId &#x3D; &#x27;&#x27;;                    // list1  list 2 or card or carousel
   searchResultlayout: searchResultlayout &#x3D; new searchResultlayout();
   resultMapping: resultMapping &#x3D; new resultMapping();
-  preview: string &#x3D; &#x27;&#x27;;                 // collapsable / clickable
+  preview &#x3D; &#x27;&#x27;;                 // collapsable / clickable
 }
 class searchResultlayout {
-  layout: string &#x3D; &#x27;&#x27;;                // title with text / image / Centered Content
-  clickable: boolean &#x3D; true;
-  behaviour: string &#x3D; &#x27;webpage&#x27;;          // &#x27;webpage&#x27; or &#x27;postback&#x27;
-  url: string &#x3D; &#x27;&#x27;;
-  textAlignment: string &#x3D; &#x27;left&#x27;;
+  layout &#x3D; &#x27;&#x27;;                // title with text / image / Centered Content
+  clickable &#x3D; true;
+  behaviour &#x3D; &#x27;webpage&#x27;;          // &#x27;webpage&#x27; or &#x27;postback&#x27;
+  url &#x3D; &#x27;&#x27;;
+  textAlignment &#x3D; &#x27;left&#x27;;
 }
 class resultMapping {
-  heading: string &#x3D; &#x27;&#x27;;
-  headingId: string &#x3D; &#x27;&#x27;;
-  description: string &#x3D; &#x27;&#x27;;
-  descriptionId: string &#x3D; &#x27;&#x27;;
-  image: string &#x3D; &#x27;&#x27;;
-  imageId: string &#x3D; &#x27;&#x27;;
-  url: string &#x3D; &#x27;&#x27;;
-  urlId: string &#x3D; &#x27;&#x27;;
+  heading &#x3D; &#x27;&#x27;;
+  headingId &#x3D; &#x27;&#x27;;
+  description &#x3D; &#x27;&#x27;;
+  descriptionId &#x3D; &#x27;&#x27;;
+  image &#x3D; &#x27;&#x27;;
+  imageId &#x3D; &#x27;&#x27;;
+  url &#x3D; &#x27;&#x27;;
+  urlId &#x3D; &#x27;&#x27;;
 }
 
 /** Template API Response Class */

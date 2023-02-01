@@ -14,55 +14,55 @@
 <title>cluster_StopWordsModule</title>
 <polygon fill="none" stroke="black" stroke-dasharray="1,5" points="8,-32.8 8,-157.8 528,-157.8 528,-32.8 8,-32.8"/>
 </g>
-<g id="clust2" class="cluster">
-<title>cluster_StopWordsModule_declarations</title>
-<polygon fill="none" stroke="black" points="360,-40.8 360,-92.8 520,-92.8 520,-40.8 360,-40.8"/>
-</g>
 <g id="clust4" class="cluster">
 <title>cluster_StopWordsModule_imports</title>
-<polygon fill="none" stroke="black" points="16,-40.8 16,-92.8 352,-92.8 352,-40.8 16,-40.8"/>
+<polygon fill="none" stroke="black" points="184,-40.8 184,-92.8 520,-92.8 520,-40.8 184,-40.8"/>
+</g>
+<g id="clust2" class="cluster">
+<title>cluster_StopWordsModule_declarations</title>
+<polygon fill="none" stroke="black" points="16,-40.8 16,-92.8 176,-92.8 176,-40.8 16,-40.8"/>
 </g>
 <!-- StopWordsComponent -->
 <g id="node1" class="node">
 <title>StopWordsComponent</title>
-<polygon fill="#ffffb3" stroke="black" points="512.33,-84.8 367.67,-84.8 367.67,-48.8 512.33,-48.8 512.33,-84.8"/>
-<text text-anchor="middle" x="440" y="-62.6" font-family="Times,serif" font-size="14.00">StopWordsComponent</text>
+<polygon fill="#ffffb3" stroke="black" points="168.33,-84.8 23.67,-84.8 23.67,-48.8 168.33,-48.8 168.33,-84.8"/>
+<text text-anchor="middle" x="96" y="-62.6" font-family="Times,serif" font-size="14.00">StopWordsComponent</text>
 </g>
 <!-- StopWordsModule -->
 <g id="node2" class="node">
 <title>StopWordsModule</title>
-<polygon fill="#8dd3c7" stroke="black" points="338.05,-149.8 335.05,-153.8 314.05,-153.8 311.05,-149.8 215.95,-149.8 215.95,-113.8 338.05,-113.8 338.05,-149.8"/>
-<text text-anchor="middle" x="277" y="-127.6" font-family="Times,serif" font-size="14.00">StopWordsModule</text>
+<polygon fill="#8dd3c7" stroke="black" points="337.05,-149.8 334.05,-153.8 313.05,-153.8 310.05,-149.8 214.95,-149.8 214.95,-113.8 337.05,-113.8 337.05,-149.8"/>
+<text text-anchor="middle" x="276" y="-127.6" font-family="Times,serif" font-size="14.00">StopWordsModule</text>
 </g>
 <!-- StopWordsComponent&#45;&gt;StopWordsModule -->
 <g id="edge1" class="edge">
 <title>StopWordsComponent&#45;&gt;StopWordsModule</title>
-<path fill="none" stroke="black" d="M440,-84.91C440,-104.14 440,-131.8 440,-131.8 440,-131.8 348.16,-131.8 348.16,-131.8"/>
-<polygon fill="black" stroke="black" points="348.16,-128.3 338.16,-131.8 348.16,-135.3 348.16,-128.3"/>
+<path fill="none" stroke="black" d="M96,-84.91C96,-104.14 96,-131.8 96,-131.8 96,-131.8 204.81,-131.8 204.81,-131.8"/>
+<polygon fill="black" stroke="black" points="204.81,-135.3 214.81,-131.8 204.81,-128.3 204.81,-135.3"/>
 </g>
 <!-- FindlySharedModule -->
 <g id="node3" class="node">
 <title>FindlySharedModule</title>
-<polygon fill="#8dd3c7" stroke="black" points="344.49,-84.8 341.49,-88.8 320.49,-88.8 317.49,-84.8 209.51,-84.8 209.51,-48.8 344.49,-48.8 344.49,-84.8"/>
-<text text-anchor="middle" x="277" y="-62.6" font-family="Times,serif" font-size="14.00">FindlySharedModule</text>
+<polygon fill="#8dd3c7" stroke="black" points="512.49,-84.8 509.49,-88.8 488.49,-88.8 485.49,-84.8 377.51,-84.8 377.51,-48.8 512.49,-48.8 512.49,-84.8"/>
+<text text-anchor="middle" x="445" y="-62.6" font-family="Times,serif" font-size="14.00">FindlySharedModule</text>
 </g>
 <!-- FindlySharedModule&#45;&gt;StopWordsModule -->
 <g id="edge2" class="edge">
 <title>FindlySharedModule&#45;&gt;StopWordsModule</title>
-<path fill="none" stroke="black" d="M277,-84.91C277,-84.91 277,-103.79 277,-103.79"/>
-<polygon fill="black" stroke="black" points="273.5,-103.79 277,-113.79 280.5,-103.79 273.5,-103.79"/>
+<path fill="none" stroke="black" d="M445,-84.91C445,-104.14 445,-131.8 445,-131.8 445,-131.8 347.49,-131.8 347.49,-131.8"/>
+<polygon fill="black" stroke="black" points="347.49,-128.3 337.49,-131.8 347.49,-135.3 347.49,-128.3"/>
 </g>
 <!-- StopWordsRoutingModule -->
 <g id="node4" class="node">
 <title>StopWordsRoutingModule</title>
-<polygon fill="#8dd3c7" stroke="black" points="191.67,-84.8 188.67,-88.8 167.67,-88.8 164.67,-84.8 24.33,-84.8 24.33,-48.8 191.67,-48.8 191.67,-84.8"/>
-<text text-anchor="middle" x="108" y="-62.6" font-family="Times,serif" font-size="14.00">StopWordsRoutingModule</text>
+<polygon fill="#8dd3c7" stroke="black" points="359.67,-84.8 356.67,-88.8 335.67,-88.8 332.67,-84.8 192.33,-84.8 192.33,-48.8 359.67,-48.8 359.67,-84.8"/>
+<text text-anchor="middle" x="276" y="-62.6" font-family="Times,serif" font-size="14.00">StopWordsRoutingModule</text>
 </g>
 <!-- StopWordsRoutingModule&#45;&gt;StopWordsModule -->
 <g id="edge3" class="edge">
 <title>StopWordsRoutingModule&#45;&gt;StopWordsModule</title>
-<path fill="none" stroke="black" d="M108,-84.91C108,-104.14 108,-131.8 108,-131.8 108,-131.8 205.51,-131.8 205.51,-131.8"/>
-<polygon fill="black" stroke="black" points="205.51,-135.3 215.51,-131.8 205.51,-128.3 205.51,-135.3"/>
+<path fill="none" stroke="black" d="M276,-84.91C276,-84.91 276,-103.79 276,-103.79"/>
+<polygon fill="black" stroke="black" points="272.5,-103.79 276,-113.79 279.5,-103.79 272.5,-103.79"/>
 </g>
 </g>
 </svg>

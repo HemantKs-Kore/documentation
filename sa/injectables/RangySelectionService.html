@@ -1296,7 +1296,7 @@
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable, OnInit, OnDestroy } from &#x27;@angular/core&#x27;;
 import { Subject } from &#x27;rxjs&#x27;;
 
-declare var rangy;
+declare let rangy;
 
 @Injectable({
   providedIn: &#x27;root&#x27;
@@ -1312,21 +1312,21 @@ export class RangySelectionService implements OnInit, OnDestroy {
     if (rangy.features.implementsControlRange) {
       // console.log(&quot;supprts feature rangecontrol&quot;,rangy.features);
     }
-    var serializerModule &#x3D; rangy.modules.Serializer;
+    const serializerModule &#x3D; rangy.modules.Serializer;
     if (rangy.supported &amp;&amp; serializerModule &amp;&amp; serializerModule.supported) {
       // console.log(&quot;supprts feature rangecontrol2&quot;, serializerModule);
     }
   }
   // Range Selection viewportRectangle
   viewportRectangle() {
-    var selection &#x3D; document.getSelection();
-    var range &#x3D; selection.getRangeAt(0);
-    var viewportRectangle &#x3D; range.getBoundingClientRect();
+    const selection &#x3D; document.getSelection();
+    const range &#x3D; selection.getRangeAt(0);
+    const viewportRectangle &#x3D; range.getBoundingClientRect();
     return viewportRectangle || null;
   }
   // Range Selection Text
   rangeSelectionText() {
-    var text &#x3D; (rangy.getSelection().trim()).toString();
+    let text &#x3D; (rangy.getSelection().trim()).toString();
     text &#x3D; text.trim();
     return text;
   }
@@ -1336,11 +1336,11 @@ export class RangySelectionService implements OnInit, OnDestroy {
   }
   // Text highlightion
   getTextHighlighter(className) {
-    var highlighter &#x3D; null;
+    let highlighter &#x3D; null;
     if (!className) {
       className &#x3D; &#x27;&#x27;; //no-highlight
     }
-    var classApplierModule &#x3D; rangy.modules.ClassApplier;
+    const classApplierModule &#x3D; rangy.modules.ClassApplier;
     if (rangy.supported &amp;&amp; classApplierModule &amp;&amp; classApplierModule.supported) {
       if (className) {
         highlighter &#x3D; rangy.createHighlighter();
@@ -1351,7 +1351,7 @@ export class RangySelectionService implements OnInit, OnDestroy {
           elementProperties: {
             href: &quot;#&quot;,
             onclick: function () {
-              var highlight &#x3D; highlighter.getHighlightForElement(this);
+              const highlight &#x3D; highlighter.getHighlightForElement(this);
               // console.log(&quot;Hightlight&quot; + highlight);
               if (window.confirm(&quot;Delete this note (ID &quot; + highlight.id + &quot;)?&quot;)) {
                 highlighter.removeHighlights([highlight]);
@@ -1380,15 +1380,15 @@ export class RangySelectionService implements OnInit, OnDestroy {
   // remove classes 
   removeClasses(className) {
     // console.log(this)
-    let query &#x3D; document.querySelectorAll(className);
+    const query &#x3D; document.querySelectorAll(className);
     query.forEach((item, index) &#x3D;&gt; {
       item.remove(className);
     });
   }
   // Seriliation 
   getSerilization() {
-    var selObj &#x3D; rangy.getSelection();
-    var coordVal &#x3D; rangy.serializeSelection(selObj, true);
+    const selObj &#x3D; rangy.getSelection();
+    const coordVal &#x3D; rangy.serializeSelection(selObj, true);
     return coordVal;
   }
   // Deserilization
@@ -1406,14 +1406,14 @@ export class RangySelectionService implements OnInit, OnDestroy {
                 // console.log(&#x27;ERROR: failed deserialization&#x27;);
               }
               if (loop) {
-                let applier &#x3D; rangy.createClassApplier(highlighterval.className || &#x27;no-title&#x27;);
+                const applier &#x3D; rangy.createClassApplier(highlighterval.className || &#x27;no-title&#x27;);
                 applier.toggleSelection();
                 rangy.getSelection().removeAllRanges();
               }
 
             } else if (rangy.canDeserializeRange(highlighterval.coords)) {
               rangy.deserializeRange(highlighterval.coords);
-              let applier &#x3D; rangy.createClassApplier(highlighterval.className || &#x27;no-title&#x27;);
+              const applier &#x3D; rangy.createClassApplier(highlighterval.className || &#x27;no-title&#x27;);
               applier.toggleSelection();
               rangy.getSelection().removeAllRanges();
             } else {
@@ -1441,7 +1441,7 @@ export class RangySelectionService implements OnInit, OnDestroy {
           if (highlighterval &amp;&amp; Object.keys(highlighterval).length) {
             if (rangy.canDeserializeSelection(highlighterval.coords)) {
               rangy.deserializeSelection(highlighterval.coords, null, window);
-              let applier &#x3D; rangy.createClassApplier(highlighterval.className || &#x27;no-title&#x27;);
+              const applier &#x3D; rangy.createClassApplier(highlighterval.className || &#x27;no-title&#x27;);
               applier.toggleSelection();
               rangy.getSelection().removeAllRanges();
             } else {
@@ -1472,7 +1472,7 @@ export class RangySelectionService implements OnInit, OnDestroy {
   // Single Deserialization
   singleDeserialization(serializeRange) {
     if (rangy.canDeserializeSelection(serializeRange.coords)) {
-      var applier &#x3D; rangy.createClassApplier(serializeRange.className || &#x27;no-title&#x27;);
+      const applier &#x3D; rangy.createClassApplier(serializeRange.className || &#x27;no-title&#x27;);
       rangy.deserializeSelection(serializeRange.coords);
       applier.toggleSelection();
       rangy.getSelection().removeAllRanges();
@@ -1482,7 +1482,7 @@ export class RangySelectionService implements OnInit, OnDestroy {
   }
   // Save selection
   saveSelection() {
-    var savedSel &#x3D; rangy.saveSelection();
+    const savedSel &#x3D; rangy.saveSelection();
     return savedSel;
   }
   // Restore selection
@@ -1491,21 +1491,21 @@ export class RangySelectionService implements OnInit, OnDestroy {
   }
   // FirstRange
   getFirstRange() {
-    var sel &#x3D; rangy.getSelection();
+    const sel &#x3D; rangy.getSelection();
     return sel.rangeCount ? sel.getRangeAt(0) : null;
   }
   // Delete Node range
   deleteRange() {
-    var range &#x3D; this.getFirstRange();
+    const range &#x3D; this.getFirstRange();
     if (range) {
       range.deleteContents();
     }
   }
   // Surround element
   surroundRange() {
-    var range &#x3D; this.getFirstRange();
+    const range &#x3D; this.getFirstRange();
     if (range) {
-      var el &#x3D; document.createElement(&quot;span&quot;);
+      const el &#x3D; document.createElement(&quot;span&quot;);
       el.id &#x3D; &quot;id1&quot;;
       // el.style.backgroundColor &#x3D; &quot;pink&quot;;
       if (range.canSurroundContents(el)) {

@@ -298,24 +298,24 @@ export class ParentBridgeService {
           self.parentEvent.next(data);
           console.log(&#x27;TOpic Guide ---&#x27;, data);
           if (data?.payload?.url &amp;&amp; data?.action &#x3D;&#x3D; &#x27;videoModal&#x27;) {
-            this.mixpanel.postEvent(&#x27;Topic - Play Topic Video&#x27;, {
+            this.mixpanel?.postEvent(&#x27;Topic - Play Topic Video&#x27;, {
               &#x27;Video File URL&#x27;: data?.payload?.url,
               &#x27;Topic Name&#x27;: data?.payload?.topicName,
             });
           } else if (data?.payload?.faqName &amp;&amp; data?.action &#x3D;&#x3D; &#x27;faq&#x27;) {
-            this.mixpanel.postEvent(&#x27;Topic - FAQ Accessed&#x27;, {
+            this.mixpanel?.postEvent(&#x27;Topic - FAQ Accessed&#x27;, {
               &#x27;FAQ String&#x27;: data?.payload?.faqName,
               &#x27;Topic Name&#x27;: data?.payload?.topicName,
             });
           } else if (data?.payload?.docUrl &amp;&amp; data?.action &#x3D;&#x3D; &#x27;Documentation&#x27;) {
-            this.mixpanel.postEvent(&#x27;Topic - Documentation visited&#x27;, {
+            this.mixpanel?.postEvent(&#x27;Topic - Documentation visited&#x27;, {
               &#x27;Topic Name&#x27;: data?.payload?.topicName,
             });
           } else if (
             data?.frameStatus &#x3D;&#x3D; &#x27;loaded&#x27; &amp;&amp;
             data?.action &#x3D;&#x3D; &#x27;guidedTour&#x27;
           ) {
-            this.mixpanel.postEvent(&#x27;Topic - Enter Topic Guide&#x27;, {});
+            this.mixpanel?.postEvent(&#x27;Topic - Enter Topic Guide&#x27;, {});
           }
         }
       },

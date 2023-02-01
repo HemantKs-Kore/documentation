@@ -659,96 +659,97 @@ export class ConfirmationDialogComponent implements OnInit {
                 <p class="comment">
                     <code>./confirmation-dialog.component.scss</code>
                 </p>
-                <pre class="line-numbers"><code class="language-scss">@import &#x27;./../../../../app/scss/variables/variables.scss&#x27;;
+                <pre class="line-numbers"><code class="language-scss">@import &#x27;variables/variables.scss&#x27;;
 
-.manage-findlyion-popup{
-    position: relative;
-    height: 100%;
-    .m-header{
-        font-size: 24px;
-        font-weight: 300;
-        color: $primaryColor;
-        border-radius: 4px;
-        background-color: $backgroundColor;        
-        padding: 20px 15px;
-    }
-    .m-body{
-        padding: 0 43px;
-        text-align: center;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        height: 60%;
-        .info-text{
-            color: $secondaryColor;
-            font-size: 14px;
-        }
-        .clickable-text {
-            color: #009dab;
-            cursor: pointer;
-            font-weight: 500;
-        }
-    }
-    .m-footer{
-        border-radius: 4px;
-        background-color: $backgroundColor;
-        padding: 15px;
-        position: absolute;
-        bottom: 0;
-        width: 100%;
-        text-align: center;
-        button{
-            margin-right: 10px;
-        }
-    }
-}
-.new-delete-popup{
-    background: #FFFFFF;
-    box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.1);
+.manage-findlyion-popup {
+  position: relative;
+  height: 100%;
+  .m-header {
+    font-size: 24px;
+    font-weight: 300;
+    color: $primaryColor;
     border-radius: 4px;
-    padding: 25px;
-    .header-sec{
-        // align-items: center;
-        .title {
-            color: #202124;
-            font-weight: 600;
-            font-size: 16px;
-            line-height: 34px;
-        }
-        .close-popup{
-            text-align: right;
-            img{
-                cursor: pointer;
-                position: relative;
-                top: 6px;
-            }
-        }
-        .newTitle {
-            color: #202124;
-            // font:inter;
-            font-weight:400;
-            font-size: 22px;
-            line-height: 34px;
-        }
+    background-color: $backgroundColor;
+    padding: 20px 15px;
+  }
+  .m-body {
+    padding: 0 43px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 60%;
+    .info-text {
+      color: $secondaryColor;
+      font-size: 14px;
     }
-    .body-info{
-        color: #605E5C;
-        font-weight: normal;
-        font-size: 14px;
-        line-height: 24px;
-        margin: 20px 0 30px 0;
+    .clickable-text {
+      color: #009dab;
+      cursor: pointer;
+      font-weight: 500;
     }
-    .btns-data{
-        text-align: right;
-        display: flex;
-        align-items: flex-end;
-        flex-direction: row-reverse;
-        button{
-             margin-left: 10px;
-        }
+  }
+  .m-footer {
+    border-radius: 4px;
+    background-color: $backgroundColor;
+    padding: 15px;
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    text-align: center;
+    button {
+      margin-right: 10px;
     }
-}</code></pre>
+  }
+}
+.new-delete-popup {
+  background: #ffffff;
+  box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.1);
+  border-radius: 4px;
+  padding: 25px;
+  .header-sec {
+    // align-items: center;
+    .title {
+      color: #202124;
+      font-weight: 600;
+      font-size: 16px;
+      line-height: 34px;
+    }
+    .close-popup {
+      text-align: right;
+      img {
+        cursor: pointer;
+        position: relative;
+        top: 6px;
+      }
+    }
+    .newTitle {
+      color: #202124;
+      // font:inter;
+      font-weight: 400;
+      font-size: 22px;
+      line-height: 34px;
+    }
+  }
+  .body-info {
+    color: #605e5c;
+    font-weight: normal;
+    font-size: 14px;
+    line-height: 24px;
+    margin: 20px 0 30px 0;
+  }
+  .btns-data {
+    text-align: right;
+    display: flex;
+    align-items: flex-end;
+    flex-direction: row-reverse;
+    button {
+      margin-left: 10px;
+    }
+  }
+}
+</code></pre>
     </div>
 
     <div class="tab-pane fade " id="c-tree">
@@ -777,7 +778,7 @@ export class ConfirmationDialogComponent implements OnInit {
 <script src="../js/libs/deep-iterator.js"></script>
 <script>
         var COMPONENT_TEMPLATE = '<div><div class="manage-findlyion-popup" *ngIf="!data.confirmationPopUp">  <div class="m-header text-center">{{data.title}}</div>  <div class="m-body">    <div class="info-text">{{data.text}}</div>    <div class="info-text">{{data.text1}} <span class="clickable-text" (click)="onClickLearnMore()" *ngIf="showLearnMore">Learn More</span></div>    <div class="info-text" *ngIf="data.text2">{{data.text2}}</div>  </div>  <div class="m-footer">    <button *ngFor="let item of data.buttons" [disabled]="isSelected" (click)="onClickOption(item)" class="kr-sg-button-primary btn_md" [ngClass]="{\'kr-sg-button-secondary\': (item.label===\'Cancel\') || (item.secondaryBtn),\'dangerBtn\':item.type===\'danger\'}">      {{item.label}}      <div class="loader-in-button ml-2"*ngIf="item.key === \'save\' && isSelected" style="display: inline-block"><img src="assets/images/icons/fa-spinner.svg"></div>    </button>  </div></div><div class="new-delete-popup" *ngIf="data.confirmationPopUp">  <div class="header-sec row m-0">    <div class="title col-10 pl-0 pr-3">{{data.newTitle || data.title}}</div>    <div class="col-2 p-0 close-popup" (click)="onClickOption(crossIconItem)"><img src="assets/icons/close.svg"></div>  </div>  <!-- <div class="body-info" >{{data.body}}</div> -->  <div class="body-info" [innerHTML]="data.body"></div>  <div class="btns-data">    <!-- <button class="kr-sg-button-primary btn_lg mr-10">Confirm</button>    <button class="kr-sg-button-secondary btn_lg mr-10">Cancel</button> -->    <button *ngFor="let item of data.buttons" [disabled]="isSelected || item.disabled" (click)="onClickOption(item)" class="kr-sg-button-primary btn_md" [ngClass]="{\'kr-sg-button-secondary\': (item.label===\'Cancel\') || (item.primaryBtn),\'dangerBtn\':item.label===\'Delete\'}">            <ng-template #cancel>        {{item.label}}      </ng-template>     <span *ngIf="item.label==\'Delete\'|| item.label==\'OK\'; else cancel">{{item.label}}</span>            <div class="loader-in-button ml-2"*ngIf="item.key === \'save\' && isSelected" style="display: inline-block"><img src="assets/images/icons/fa-spinner.svg"></div>    </button>  </div></div></div>'
-    var COMPONENTS = [{'name': 'ActionsComponent', 'selector': 'app-actions'},{'name': 'AddAlternateQuestionComponent', 'selector': 'app-add-alternate-question'},{'name': 'AddAltFaqComponent', 'selector': 'app-add-alt-faq'},{'name': 'AddFaqComponent', 'selector': 'app-add-faq'},{'name': 'AddResultComponent', 'selector': 'app-add-result'},{'name': 'AddResultComponent', 'selector': 'app-add-result'},{'name': 'AddStructuredDataComponent', 'selector': 'app-add-structured-data'},{'name': 'AnalyticsDropdownComponent', 'selector': 'app-analytics-dropdown'},{'name': 'AnnotoolComponent', 'selector': 'kr-annotool'},{'name': 'AppComponent', 'selector': 'app-root'},{'name': 'AppExperimentsComponent', 'selector': 'app-app-experiments'},{'name': 'AppsComponent', 'selector': 'app-apps'},{'name': 'AutocompleteMultiChipComponent', 'selector': 'app-autocomplete-multi-chip'},{'name': 'BodyComponent', 'selector': 'app-body'},{'name': 'BotActionsComponent', 'selector': 'app-bot-actions'},{'name': 'BotActionsComponent', 'selector': 'app-bot-actions'},{'name': 'BusinessRulesComponent', 'selector': 'app-business-rules'},{'name': 'ConfirmationComponent', 'selector': 'kr-confirmation'},{'name': 'ConfirmationDialogComponent', 'selector': 'app-confirmation-dialog'},{'name': 'ConnectorsComponent', 'selector': 'app-connectors'},{'name': 'ContentComponent', 'selector': 'app-content'},{'name': 'CredentialsListComponent', 'selector': 'app-credentials-list'},{'name': 'CustomConfigFormComponent', 'selector': 'app-custom-config-form'},{'name': 'CustomConfigListComponent', 'selector': 'app-custom-config-list'},{'name': 'CustomConfigurationsComponent', 'selector': 'app-custom-configurations'},{'name': 'CustomMarkdownEditorComponent', 'selector': 'md-editor'},{'name': 'DashboardComponent', 'selector': 'app-dashboard'},{'name': 'DateRangePickerComponent', 'selector': 'app-date-range-picker'},{'name': 'DemoComponent', 'selector': 'app-demo'},{'name': 'EditorUrlDialogComponent', 'selector': 'app-editor-url-dialog'},{'name': 'EmptyScreenComponent', 'selector': 'app-empty-screen'},{'name': 'FacetsComponent', 'selector': 'app-facets'},{'name': 'FaqsComponent', 'selector': 'faqs-source'},{'name': 'FieldManagementComponent', 'selector': 'app-field-management'},{'name': 'GeneralSettingsComponent', 'selector': 'app-general-settings'},{'name': 'GroupInputComponent', 'selector': 'app-group-input'},{'name': 'HeaderComponent', 'selector': 'app-header'},{'name': 'HighlightingComponent', 'selector': 'app-highlighting'},{'name': 'ImportFaqsModalComponent', 'selector': 'app-import-faqs-modal'},{'name': 'IndexComponent', 'selector': 'app-index'},{'name': 'IndexComponent', 'selector': 'app-index'},{'name': 'IndexConfigurationSettingsComponent', 'selector': 'app-index-configuration-settings'},{'name': 'IndexFieldsComfirmationDialogComponent', 'selector': 'app-index-fields-comfirmation-dialog'},{'name': 'InsightsComponent', 'selector': 'app-insights'},{'name': 'InvoicesComponent', 'selector': 'app-invoices'},{'name': 'KRModalComponent', 'selector': 'kr-modal'},{'name': 'ListFieldsComponent', 'selector': 'app-list-fields'},{'name': 'LoaderComponent', 'selector': 'app-loader'},{'name': 'MainMenuComponent', 'selector': 'app-mainmenu'},{'name': 'ManageIntentComponent', 'selector': 'app-manage-intent'},{'name': 'MarkdownEditorResizeSensorComponent', 'selector': 'md-editor-resize-sensor'},{'name': 'MetricsComponent', 'selector': 'app-metrics'},{'name': 'OnboardingComponent', 'selector': 'app-onboarding'},{'name': 'PaginationComponent', 'selector': 'app-pagination'},{'name': 'PdfAnnotationComponent', 'selector': 'kr-pdf-annotation'},{'name': 'PresentableComponent', 'selector': 'app-presentable'},{'name': 'PricingComponent', 'selector': 'app-pricing'},{'name': 'RangeSliderComponent', 'selector': 'app-range-slider'},{'name': 'RangeSliderSearchExperienceComponent', 'selector': 'app-range-slider-search-experience'},{'name': 'RecordPaginationComponent', 'selector': 'app-record-pagination'},{'name': 'ResultInsightsComponent', 'selector': 'app-result-insights'},{'name': 'ResultRankingComponent', 'selector': 'app-result-ranking'},{'name': 'ResultRankingComponent', 'selector': 'app-result-ranking'},{'name': 'ResultsRulesComponent', 'selector': 'app-results-rules'},{'name': 'ResultTemplatesComponent', 'selector': 'app-result-templates'},{'name': 'RulesTableComponent', 'selector': 'app-rules-table'},{'name': 'SchedulerComponent', 'selector': 'app-scheduler'},{'name': 'SearchExperienceComponent', 'selector': 'app-search-experience'},{'name': 'SearchFieldPropertiesComponent', 'selector': 'app-search-field-properties'},{'name': 'SearchFilterComponent', 'selector': 'app-search-filter'},{'name': 'SearchInsightsComponent', 'selector': 'app-search-insights'},{'name': 'SearchInterfaceComponent', 'selector': 'app-search-interface'},{'name': 'SearchRelevanceComponent', 'selector': 'app-search-relevance'},{'name': 'SearchSdkComponent', 'selector': '.appContent'},{'name': 'SearchSettingsComponent', 'selector': 'app-search-settings'},{'name': 'SettingsComponent', 'selector': 'app-settings'},{'name': 'SettingsComponent', 'selector': 'app-settings'},{'name': 'SliderComponentComponent', 'selector': 'app-slider-component'},{'name': 'SmallTalkComponent', 'selector': 'app-small-talk'},{'name': 'SnippetsComponent', 'selector': 'app-snippets'},{'name': 'SourcesComponent', 'selector': 'app-sources'},{'name': 'SpellCorrectionComponent', 'selector': 'app-spell-correction'},{'name': 'StatusDockerComponent', 'selector': 'app-status-docker'},{'name': 'StopWordsComponent', 'selector': 'app-stop-words'},{'name': 'StructuredDataComponent', 'selector': 'app-structured-data'},{'name': 'StructuredDataComponent', 'selector': 'app-structured-data'},{'name': 'StructuredDataStatusModalComponent', 'selector': 'app-structured-data-status-modal'},{'name': 'SummaryComponent', 'selector': 'app-summary'},{'name': 'SummaryModalComponent', 'selector': 'kr-summary-modal'},{'name': 'SynonymsComponent', 'selector': 'app-synonyms'},{'name': 'TagsInpComponent', 'selector': 'app-tags-inp'},{'name': 'TeamManagementComponent', 'selector': 'app-team-management'},{'name': 'TraitsComponent', 'selector': 'app-traits'},{'name': 'UpgradePlanComponent', 'selector': 'app-upgrade-plan'},{'name': 'UsageLogComponent', 'selector': 'app-usage-log'},{'name': 'UserEngagementComponent', 'selector': 'app-user-engagement'},{'name': 'UserGuideComponent', 'selector': 'kr-user-guide'},{'name': 'UseronboardingJourneyComponent', 'selector': 'app-useronboarding-journey'},{'name': 'WeightsComponent', 'selector': 'app-weights'}];
+    var COMPONENTS = [{'name': 'ActionsComponent', 'selector': 'app-actions'},{'name': 'AddAlternateQuestionComponent', 'selector': 'app-add-alternate-question'},{'name': 'AddAltFaqComponent', 'selector': 'app-add-alt-faq'},{'name': 'AddFaqComponent', 'selector': 'app-add-faq'},{'name': 'AddResultComponent', 'selector': 'app-add-result'},{'name': 'AddResultComponent', 'selector': 'app-add-result'},{'name': 'AddStructuredDataComponent', 'selector': 'app-add-structured-data'},{'name': 'AnalyticsDropdownComponent', 'selector': 'app-analytics-dropdown'},{'name': 'AnnotoolComponent', 'selector': 'kr-annotool'},{'name': 'AppComponent', 'selector': 'app-root'},{'name': 'AppExperimentsComponent', 'selector': 'app-app-experiments'},{'name': 'AppsComponent', 'selector': 'app-apps'},{'name': 'AutocompleteMultiChipComponent', 'selector': 'app-autocomplete-multi-chip'},{'name': 'BotActionsComponent', 'selector': 'app-bot-actions'},{'name': 'BotActionsComponent', 'selector': 'app-bot-actions'},{'name': 'BusinessRulesComponent', 'selector': 'app-business-rules'},{'name': 'ConfirmationComponent', 'selector': 'kr-confirmation'},{'name': 'ConfirmationDialogComponent', 'selector': 'app-confirmation-dialog'},{'name': 'ConnectorsComponent', 'selector': 'app-connectors'},{'name': 'ContentComponent', 'selector': 'app-content'},{'name': 'CredentialsListComponent', 'selector': 'app-credentials-list'},{'name': 'CustomConfigFormComponent', 'selector': 'app-custom-config-form'},{'name': 'CustomConfigListComponent', 'selector': 'app-custom-config-list'},{'name': 'CustomConfigurationsComponent', 'selector': 'app-custom-configurations'},{'name': 'CustomMarkdownEditorComponent', 'selector': 'md-editor'},{'name': 'DashboardComponent', 'selector': 'app-dashboard'},{'name': 'DateRangePickerComponent', 'selector': 'app-date-range-picker'},{'name': 'DemoComponent', 'selector': 'app-demo'},{'name': 'EditorUrlDialogComponent', 'selector': 'app-editor-url-dialog'},{'name': 'EmptyScreenComponent', 'selector': 'app-empty-screen'},{'name': 'FacetsComponent', 'selector': 'app-facets'},{'name': 'FaqsComponent', 'selector': 'faqs-source'},{'name': 'FieldManagementComponent', 'selector': 'app-field-management'},{'name': 'GeneralSettingsComponent', 'selector': 'app-general-settings'},{'name': 'GroupInputComponent', 'selector': 'app-group-input'},{'name': 'HeaderComponent', 'selector': 'app-header'},{'name': 'HighlightingComponent', 'selector': 'app-highlighting'},{'name': 'ImportFaqsModalComponent', 'selector': 'app-import-faqs-modal'},{'name': 'IndexConfigurationSettingsComponent', 'selector': 'app-index-configuration-settings'},{'name': 'IndexFieldsComfirmationDialogComponent', 'selector': 'app-index-fields-comfirmation-dialog'},{'name': 'InsightsComponent', 'selector': 'app-insights'},{'name': 'InvoicesComponent', 'selector': 'app-invoices'},{'name': 'KRModalComponent', 'selector': 'kr-modal'},{'name': 'ListFieldsComponent', 'selector': 'app-list-fields'},{'name': 'LoaderComponent', 'selector': 'app-loader'},{'name': 'MainMenuComponent', 'selector': 'app-mainmenu'},{'name': 'ManageIntentComponent', 'selector': 'app-manage-intent'},{'name': 'MarkdownEditorResizeSensorComponent', 'selector': 'md-editor-resize-sensor'},{'name': 'MetricsComponent', 'selector': 'app-metrics'},{'name': 'OnboardingComponent', 'selector': 'app-onboarding'},{'name': 'PaginationComponent', 'selector': 'app-pagination'},{'name': 'PdfAnnotationComponent', 'selector': 'kr-pdf-annotation'},{'name': 'PresentableComponent', 'selector': 'app-presentable'},{'name': 'PricingComponent', 'selector': 'app-pricing'},{'name': 'RangeSliderComponent', 'selector': 'app-range-slider'},{'name': 'RangeSliderSearchExperienceComponent', 'selector': 'app-range-slider-search-experience'},{'name': 'RecordPaginationComponent', 'selector': 'app-record-pagination'},{'name': 'ResultInsightsComponent', 'selector': 'app-result-insights'},{'name': 'ResultRankingComponent', 'selector': 'app-result-ranking'},{'name': 'ResultRankingComponent', 'selector': 'app-result-ranking'},{'name': 'ResultsRulesComponent', 'selector': 'app-results-rules'},{'name': 'ResultTemplatesComponent', 'selector': 'app-result-templates'},{'name': 'RulesTableComponent', 'selector': 'app-rules-table'},{'name': 'SchedulerComponent', 'selector': 'app-scheduler'},{'name': 'SearchExperienceComponent', 'selector': 'app-search-experience'},{'name': 'SearchFieldPropertiesComponent', 'selector': 'app-search-field-properties'},{'name': 'SearchFilterComponent', 'selector': 'app-search-filter'},{'name': 'SearchInsightsComponent', 'selector': 'app-search-insights'},{'name': 'SearchInterfaceComponent', 'selector': 'app-search-interface'},{'name': 'SearchRelevanceComponent', 'selector': 'app-search-relevance'},{'name': 'SearchSdkComponent', 'selector': 'app-search-sdk'},{'name': 'SearchSettingsComponent', 'selector': 'app-search-settings'},{'name': 'SettingsComponent', 'selector': 'app-settings'},{'name': 'SettingsComponent', 'selector': 'app-settings'},{'name': 'SliderComponentComponent', 'selector': 'app-slider-component'},{'name': 'SmallTalkComponent', 'selector': 'app-small-talk'},{'name': 'SnippetsComponent', 'selector': 'app-snippets'},{'name': 'SourcesComponent', 'selector': 'app-sources'},{'name': 'SpellCorrectionComponent', 'selector': 'app-spell-correction'},{'name': 'StatusDockerComponent', 'selector': 'app-status-docker'},{'name': 'StopWordsComponent', 'selector': 'app-stop-words'},{'name': 'StructuredDataComponent', 'selector': 'app-structured-data'},{'name': 'StructuredDataComponent', 'selector': 'app-structured-data'},{'name': 'StructuredDataStatusModalComponent', 'selector': 'app-structured-data-status-modal'},{'name': 'SummaryComponent', 'selector': 'app-summary'},{'name': 'SummaryModalComponent', 'selector': 'kr-summary-modal'},{'name': 'SynonymsComponent', 'selector': 'app-synonyms'},{'name': 'TagsInpComponent', 'selector': 'app-tags-inp'},{'name': 'TeamManagementComponent', 'selector': 'app-team-management'},{'name': 'TraitsComponent', 'selector': 'app-traits'},{'name': 'UpgradePlanComponent', 'selector': 'app-upgrade-plan'},{'name': 'UsageLogComponent', 'selector': 'app-usage-log'},{'name': 'UserEngagementComponent', 'selector': 'app-user-engagement'},{'name': 'UserGuideComponent', 'selector': 'kr-user-guide'},{'name': 'UseronboardingJourneyComponent', 'selector': 'app-useronboarding-journey'},{'name': 'WeightsComponent', 'selector': 'app-weights'},{'name': 'WorkbenchComponent', 'selector': 'app-workbench'}];
     var DIRECTIVES = [{'name': 'ClickOutSideDirective', 'selector': '[clickOutside]'},{'name': 'EllipsisActiveDirective', 'selector': '[appEllipsisActive]'},{'name': 'ScrollSpyDirective', 'selector': '[scrollSpy]'},{'name': 'SelectTextDirective', 'selector': '[appSelectText]'}];
     var ACTUAL_COMPONENT = {'name': 'ConfirmationDialogComponent'};
 </script>

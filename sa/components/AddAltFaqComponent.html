@@ -2089,116 +2089,114 @@ export class AddAltFaqComponent implements OnInit, OnChanges {
                 <p class="comment">
                     <code>./add-alt-faq.component.scss</code>
                 </p>
-                <pre class="line-numbers"><code class="language-scss">
-@import &#x27;./../../../app/scss/variables/variables.scss&#x27;;
-.add-questions-form{
-    padding: 0 18px;
-    padding-bottom: 20px;
-    &amp;.followup{
-        background-color: $backgroundColor;
-        margin-left: 45px;
+                <pre class="line-numbers"><code class="language-scss">@import &#x27;variables/variables.scss&#x27;;
+.add-questions-form {
+  padding: 0 18px;
+  padding-bottom: 20px;
+  &amp;.followup {
+    background-color: $backgroundColor;
+    margin-left: 45px;
+  }
+  .drp_custon_input {
+    .dropdown-input {
+      &amp;::before {
+        display: none !important;
+      }
     }
-    .drp_custon_input{
-        .dropdown-input{
-            &amp;::before{
-                display: none !important;
-            }
-        }
-        .search-icon{
-            top: 10px;
-        }
+    .search-icon {
+      top: 10px;
     }
-         
+  }
 }
 
-
-.mb-15{
-    margin-bottom: 15px;
+.mb-15 {
+  margin-bottom: 15px;
 }
 
 :host ::ng-deep .example-chip-list {
-    width: 100%;
-    .mat-form-field-wrapper{
-        padding: 0;
-        .mat-form-field-flex{
-            .mat-form-field-infix{
-                margin: 0;
-                padding: 0;
-                border: 0;
-                .mat-chip-list{
-                    .mat-chip-list-wrapper{
-                        border-radius: 3px;
-                        border: solid 1px #BDC1C6;       
-                        margin: 0;
-                        font-family: Inter !important;
-                        .mat-input-element{
-                            margin: 0;
-                            border: 0;
-                            height: 32px;
-                            padding-left: 10px;
-                            &amp;:focus{   
-                                border: 0 !important;                             
-                                outline: 0 !important;
-                            }
-                        }
-                        .mat-chip{
-                            border-radius: 4px;
-                            background-color: #EFF0F1;
-                            padding: 0px 9px;
-                            margin: 3px 0px 3px 3px;
-                            min-height: 26px;
-                            &amp;:hover{
-                                &amp;::after{
-                                    opacity: 0.09;
-                                }
-                            }
-                            .mat-val{
-                                color: #202124;
-                                font-size: 12px;
-                                font-weight: normal;
-                            }
-                            .mat-icon{
-                                width: auto;
-                                height: auto;
-                                opacity: 0.8;
-                                img{
-                                    width: 11px;
-                                    height: 11px;
-                                    vertical-align: middle;
-                                    position: relative;
-                                    top: -1px;
-                                    left: 2px;
-                                }
-                            }
-                        }                        
-                    }                        
-                }
-            }
-        }                        
-    }
-    .mat-form-field-label-wrapper{
-        padding: 0;
-        height: 32px;                            
-        top: 2px;
-        .mat-form-field-label{
-            margin: 0;
-            top: 6px;
-            left: 10px;
-            height: 18px;
-            span{
-                font-weight: 400 !important;
-                color: #9B9B9B !important;
-            }
-        }
-    }
-    .mat-form-field-subscript-wrapper{
+  width: 100%;
+  .mat-form-field-wrapper {
+    padding: 0;
+    .mat-form-field-flex {
+      .mat-form-field-infix {
         margin: 0;
-        top: 0;
+        padding: 0;
+        border: 0;
+        .mat-chip-list {
+          .mat-chip-list-wrapper {
+            border-radius: 3px;
+            border: solid 1px #bdc1c6;
+            margin: 0;
+            font-family: Inter !important;
+            .mat-input-element {
+              margin: 0;
+              border: 0;
+              height: 32px;
+              padding-left: 10px;
+              &amp;:focus {
+                border: 0 !important;
+                outline: 0 !important;
+              }
+            }
+            .mat-chip {
+              border-radius: 4px;
+              background-color: #eff0f1;
+              padding: 0px 9px;
+              margin: 3px 0px 3px 3px;
+              min-height: 26px;
+              &amp;:hover {
+                &amp;::after {
+                  opacity: 0.09;
+                }
+              }
+              .mat-val {
+                color: #202124;
+                font-size: 12px;
+                font-weight: normal;
+              }
+              .mat-icon {
+                width: auto;
+                height: auto;
+                opacity: 0.8;
+                img {
+                  width: 11px;
+                  height: 11px;
+                  vertical-align: middle;
+                  position: relative;
+                  top: -1px;
+                  left: 2px;
+                }
+              }
+            }
+          }
+        }
+      }
     }
-    .mat-form-field-underline{
-        display: none;
+  }
+  .mat-form-field-label-wrapper {
+    padding: 0;
+    height: 32px;
+    top: 2px;
+    .mat-form-field-label {
+      margin: 0;
+      top: 6px;
+      left: 10px;
+      height: 18px;
+      span {
+        font-weight: 400 !important;
+        color: #9b9b9b !important;
+      }
     }
-} </code></pre>
+  }
+  .mat-form-field-subscript-wrapper {
+    margin: 0;
+    top: 0;
+  }
+  .mat-form-field-underline {
+    display: none;
+  }
+}
+</code></pre>
     </div>
 
     <div class="tab-pane fade " id="c-tree">
@@ -2227,7 +2225,7 @@ export class AddAltFaqComponent implements OnInit, OnChanges {
 <script src="../js/libs/deep-iterator.js"></script>
 <script>
         var COMPONENT_TEMPLATE = '<div><div class="add-questions-form pb-0" *ngIf="selectedFaq">  <!-- <div class="kr-sg-dropdowns mb-15">    <div class="label-text">{{selectedFaq.questionPayload.question}}</div>    <div class="dropdown dropdown-open drp_custon_input">        <div class="kr-sg-input-search dropdown-toggle dropdown-input p-0 border-0" data-toggle="dropdown">          <input type="text" placeholder="Add alternate questions or select from suggestions" class="input-search">          <img src="assets/images/search-gray.svg" class="search-icon">        </div>        <ul class="dropdown-menu content-menu">          <li><a>What are the process of creating insta account in citibank ?</a></li>          <li><a>Please provide the process of insta account ?</a></li>          <li><a>Insta account in citibank - process ?</a></li>          <li><a>What are the process of creating insta account in citibank ?</a></li>          <li><a>Insta account in citibank - process ?</a></li>        </ul>    </div>  </div> -->  <div class="kr-sg-input-text mb-15">    <div class="label-text font-weight-bold" *ngIf="altQuestionIndex === null">      {{ selectedFaq.questionPayload.question }}    </div>    <input      type="text"      placeholder="Add alternate questions"      class="input-text"      name="altQuestion"      [(ngModel)]="altQuestion"    />  </div>  <mat-form-field    class="example-chip-list mb-15"    [floatLabel]="\'never\'"    appearance="outline"  >    <mat-chip-grid #chipList aria-label="tag selection">      <mat-chip-row        *ngFor="let tag of altTags; let index = index"        (removed)="removeAltTag(tag)"      >        <div class="mat-value">{{ tag.tag }}</div>        <mat-icon matChipRemove><img src="assets/images/close.svg" /></mat-icon>      </mat-chip-row>      <input        placeholder="Type & enter"        [value]="typedQuery"        [matChipInputFor]="chipList"        [matChipInputSeparatorKeyCodes]="separatorKeysCodes"        name="tagInput"        (matChipInputTokenEnd)="addAltTag($event)"        id="tagInput"        #suggestedInput        (click)="$event.stopPropagation()"      />    </mat-chip-grid>  </mat-form-field>  <div class="btn-sec">    <button      class="kr-sg-button-primary mr-2"      (click)="save()"      *ngIf="altQuestionIndex === null"      [disabled]="!altQuestion || loading"    >      {{ loading ? \'Saving..\' : \'Save\' }}    </button>    <button      class="kr-sg-button-primary mr-2"      (click)="update()"      *ngIf="altQuestionIndex !== null"      [disabled]="!altQuestion || loading"    >      {{ loading ? \'Updating..\' : \'Update\' }}    </button>    <button class="kr-sg-button-secondary" (click)="reset()">Cancel</button>  </div></div></div>'
-    var COMPONENTS = [{'name': 'ActionsComponent', 'selector': 'app-actions'},{'name': 'AddAlternateQuestionComponent', 'selector': 'app-add-alternate-question'},{'name': 'AddAltFaqComponent', 'selector': 'app-add-alt-faq'},{'name': 'AddFaqComponent', 'selector': 'app-add-faq'},{'name': 'AddResultComponent', 'selector': 'app-add-result'},{'name': 'AddResultComponent', 'selector': 'app-add-result'},{'name': 'AddStructuredDataComponent', 'selector': 'app-add-structured-data'},{'name': 'AnalyticsDropdownComponent', 'selector': 'app-analytics-dropdown'},{'name': 'AnnotoolComponent', 'selector': 'kr-annotool'},{'name': 'AppComponent', 'selector': 'app-root'},{'name': 'AppExperimentsComponent', 'selector': 'app-app-experiments'},{'name': 'AppsComponent', 'selector': 'app-apps'},{'name': 'AutocompleteMultiChipComponent', 'selector': 'app-autocomplete-multi-chip'},{'name': 'BodyComponent', 'selector': 'app-body'},{'name': 'BotActionsComponent', 'selector': 'app-bot-actions'},{'name': 'BotActionsComponent', 'selector': 'app-bot-actions'},{'name': 'BusinessRulesComponent', 'selector': 'app-business-rules'},{'name': 'ConfirmationComponent', 'selector': 'kr-confirmation'},{'name': 'ConfirmationDialogComponent', 'selector': 'app-confirmation-dialog'},{'name': 'ConnectorsComponent', 'selector': 'app-connectors'},{'name': 'ContentComponent', 'selector': 'app-content'},{'name': 'CredentialsListComponent', 'selector': 'app-credentials-list'},{'name': 'CustomConfigFormComponent', 'selector': 'app-custom-config-form'},{'name': 'CustomConfigListComponent', 'selector': 'app-custom-config-list'},{'name': 'CustomConfigurationsComponent', 'selector': 'app-custom-configurations'},{'name': 'CustomMarkdownEditorComponent', 'selector': 'md-editor'},{'name': 'DashboardComponent', 'selector': 'app-dashboard'},{'name': 'DateRangePickerComponent', 'selector': 'app-date-range-picker'},{'name': 'DemoComponent', 'selector': 'app-demo'},{'name': 'EditorUrlDialogComponent', 'selector': 'app-editor-url-dialog'},{'name': 'EmptyScreenComponent', 'selector': 'app-empty-screen'},{'name': 'FacetsComponent', 'selector': 'app-facets'},{'name': 'FaqsComponent', 'selector': 'faqs-source'},{'name': 'FieldManagementComponent', 'selector': 'app-field-management'},{'name': 'GeneralSettingsComponent', 'selector': 'app-general-settings'},{'name': 'GroupInputComponent', 'selector': 'app-group-input'},{'name': 'HeaderComponent', 'selector': 'app-header'},{'name': 'HighlightingComponent', 'selector': 'app-highlighting'},{'name': 'ImportFaqsModalComponent', 'selector': 'app-import-faqs-modal'},{'name': 'IndexComponent', 'selector': 'app-index'},{'name': 'IndexComponent', 'selector': 'app-index'},{'name': 'IndexConfigurationSettingsComponent', 'selector': 'app-index-configuration-settings'},{'name': 'IndexFieldsComfirmationDialogComponent', 'selector': 'app-index-fields-comfirmation-dialog'},{'name': 'InsightsComponent', 'selector': 'app-insights'},{'name': 'InvoicesComponent', 'selector': 'app-invoices'},{'name': 'KRModalComponent', 'selector': 'kr-modal'},{'name': 'ListFieldsComponent', 'selector': 'app-list-fields'},{'name': 'LoaderComponent', 'selector': 'app-loader'},{'name': 'MainMenuComponent', 'selector': 'app-mainmenu'},{'name': 'ManageIntentComponent', 'selector': 'app-manage-intent'},{'name': 'MarkdownEditorResizeSensorComponent', 'selector': 'md-editor-resize-sensor'},{'name': 'MetricsComponent', 'selector': 'app-metrics'},{'name': 'OnboardingComponent', 'selector': 'app-onboarding'},{'name': 'PaginationComponent', 'selector': 'app-pagination'},{'name': 'PdfAnnotationComponent', 'selector': 'kr-pdf-annotation'},{'name': 'PresentableComponent', 'selector': 'app-presentable'},{'name': 'PricingComponent', 'selector': 'app-pricing'},{'name': 'RangeSliderComponent', 'selector': 'app-range-slider'},{'name': 'RangeSliderSearchExperienceComponent', 'selector': 'app-range-slider-search-experience'},{'name': 'RecordPaginationComponent', 'selector': 'app-record-pagination'},{'name': 'ResultInsightsComponent', 'selector': 'app-result-insights'},{'name': 'ResultRankingComponent', 'selector': 'app-result-ranking'},{'name': 'ResultRankingComponent', 'selector': 'app-result-ranking'},{'name': 'ResultsRulesComponent', 'selector': 'app-results-rules'},{'name': 'ResultTemplatesComponent', 'selector': 'app-result-templates'},{'name': 'RulesTableComponent', 'selector': 'app-rules-table'},{'name': 'SchedulerComponent', 'selector': 'app-scheduler'},{'name': 'SearchExperienceComponent', 'selector': 'app-search-experience'},{'name': 'SearchFieldPropertiesComponent', 'selector': 'app-search-field-properties'},{'name': 'SearchFilterComponent', 'selector': 'app-search-filter'},{'name': 'SearchInsightsComponent', 'selector': 'app-search-insights'},{'name': 'SearchInterfaceComponent', 'selector': 'app-search-interface'},{'name': 'SearchRelevanceComponent', 'selector': 'app-search-relevance'},{'name': 'SearchSdkComponent', 'selector': '.appContent'},{'name': 'SearchSettingsComponent', 'selector': 'app-search-settings'},{'name': 'SettingsComponent', 'selector': 'app-settings'},{'name': 'SettingsComponent', 'selector': 'app-settings'},{'name': 'SliderComponentComponent', 'selector': 'app-slider-component'},{'name': 'SmallTalkComponent', 'selector': 'app-small-talk'},{'name': 'SnippetsComponent', 'selector': 'app-snippets'},{'name': 'SourcesComponent', 'selector': 'app-sources'},{'name': 'SpellCorrectionComponent', 'selector': 'app-spell-correction'},{'name': 'StatusDockerComponent', 'selector': 'app-status-docker'},{'name': 'StopWordsComponent', 'selector': 'app-stop-words'},{'name': 'StructuredDataComponent', 'selector': 'app-structured-data'},{'name': 'StructuredDataComponent', 'selector': 'app-structured-data'},{'name': 'StructuredDataStatusModalComponent', 'selector': 'app-structured-data-status-modal'},{'name': 'SummaryComponent', 'selector': 'app-summary'},{'name': 'SummaryModalComponent', 'selector': 'kr-summary-modal'},{'name': 'SynonymsComponent', 'selector': 'app-synonyms'},{'name': 'TagsInpComponent', 'selector': 'app-tags-inp'},{'name': 'TeamManagementComponent', 'selector': 'app-team-management'},{'name': 'TraitsComponent', 'selector': 'app-traits'},{'name': 'UpgradePlanComponent', 'selector': 'app-upgrade-plan'},{'name': 'UsageLogComponent', 'selector': 'app-usage-log'},{'name': 'UserEngagementComponent', 'selector': 'app-user-engagement'},{'name': 'UserGuideComponent', 'selector': 'kr-user-guide'},{'name': 'UseronboardingJourneyComponent', 'selector': 'app-useronboarding-journey'},{'name': 'WeightsComponent', 'selector': 'app-weights'}];
+    var COMPONENTS = [{'name': 'ActionsComponent', 'selector': 'app-actions'},{'name': 'AddAlternateQuestionComponent', 'selector': 'app-add-alternate-question'},{'name': 'AddAltFaqComponent', 'selector': 'app-add-alt-faq'},{'name': 'AddFaqComponent', 'selector': 'app-add-faq'},{'name': 'AddResultComponent', 'selector': 'app-add-result'},{'name': 'AddResultComponent', 'selector': 'app-add-result'},{'name': 'AddStructuredDataComponent', 'selector': 'app-add-structured-data'},{'name': 'AnalyticsDropdownComponent', 'selector': 'app-analytics-dropdown'},{'name': 'AnnotoolComponent', 'selector': 'kr-annotool'},{'name': 'AppComponent', 'selector': 'app-root'},{'name': 'AppExperimentsComponent', 'selector': 'app-app-experiments'},{'name': 'AppsComponent', 'selector': 'app-apps'},{'name': 'AutocompleteMultiChipComponent', 'selector': 'app-autocomplete-multi-chip'},{'name': 'BotActionsComponent', 'selector': 'app-bot-actions'},{'name': 'BotActionsComponent', 'selector': 'app-bot-actions'},{'name': 'BusinessRulesComponent', 'selector': 'app-business-rules'},{'name': 'ConfirmationComponent', 'selector': 'kr-confirmation'},{'name': 'ConfirmationDialogComponent', 'selector': 'app-confirmation-dialog'},{'name': 'ConnectorsComponent', 'selector': 'app-connectors'},{'name': 'ContentComponent', 'selector': 'app-content'},{'name': 'CredentialsListComponent', 'selector': 'app-credentials-list'},{'name': 'CustomConfigFormComponent', 'selector': 'app-custom-config-form'},{'name': 'CustomConfigListComponent', 'selector': 'app-custom-config-list'},{'name': 'CustomConfigurationsComponent', 'selector': 'app-custom-configurations'},{'name': 'CustomMarkdownEditorComponent', 'selector': 'md-editor'},{'name': 'DashboardComponent', 'selector': 'app-dashboard'},{'name': 'DateRangePickerComponent', 'selector': 'app-date-range-picker'},{'name': 'DemoComponent', 'selector': 'app-demo'},{'name': 'EditorUrlDialogComponent', 'selector': 'app-editor-url-dialog'},{'name': 'EmptyScreenComponent', 'selector': 'app-empty-screen'},{'name': 'FacetsComponent', 'selector': 'app-facets'},{'name': 'FaqsComponent', 'selector': 'faqs-source'},{'name': 'FieldManagementComponent', 'selector': 'app-field-management'},{'name': 'GeneralSettingsComponent', 'selector': 'app-general-settings'},{'name': 'GroupInputComponent', 'selector': 'app-group-input'},{'name': 'HeaderComponent', 'selector': 'app-header'},{'name': 'HighlightingComponent', 'selector': 'app-highlighting'},{'name': 'ImportFaqsModalComponent', 'selector': 'app-import-faqs-modal'},{'name': 'IndexConfigurationSettingsComponent', 'selector': 'app-index-configuration-settings'},{'name': 'IndexFieldsComfirmationDialogComponent', 'selector': 'app-index-fields-comfirmation-dialog'},{'name': 'InsightsComponent', 'selector': 'app-insights'},{'name': 'InvoicesComponent', 'selector': 'app-invoices'},{'name': 'KRModalComponent', 'selector': 'kr-modal'},{'name': 'ListFieldsComponent', 'selector': 'app-list-fields'},{'name': 'LoaderComponent', 'selector': 'app-loader'},{'name': 'MainMenuComponent', 'selector': 'app-mainmenu'},{'name': 'ManageIntentComponent', 'selector': 'app-manage-intent'},{'name': 'MarkdownEditorResizeSensorComponent', 'selector': 'md-editor-resize-sensor'},{'name': 'MetricsComponent', 'selector': 'app-metrics'},{'name': 'OnboardingComponent', 'selector': 'app-onboarding'},{'name': 'PaginationComponent', 'selector': 'app-pagination'},{'name': 'PdfAnnotationComponent', 'selector': 'kr-pdf-annotation'},{'name': 'PresentableComponent', 'selector': 'app-presentable'},{'name': 'PricingComponent', 'selector': 'app-pricing'},{'name': 'RangeSliderComponent', 'selector': 'app-range-slider'},{'name': 'RangeSliderSearchExperienceComponent', 'selector': 'app-range-slider-search-experience'},{'name': 'RecordPaginationComponent', 'selector': 'app-record-pagination'},{'name': 'ResultInsightsComponent', 'selector': 'app-result-insights'},{'name': 'ResultRankingComponent', 'selector': 'app-result-ranking'},{'name': 'ResultRankingComponent', 'selector': 'app-result-ranking'},{'name': 'ResultsRulesComponent', 'selector': 'app-results-rules'},{'name': 'ResultTemplatesComponent', 'selector': 'app-result-templates'},{'name': 'RulesTableComponent', 'selector': 'app-rules-table'},{'name': 'SchedulerComponent', 'selector': 'app-scheduler'},{'name': 'SearchExperienceComponent', 'selector': 'app-search-experience'},{'name': 'SearchFieldPropertiesComponent', 'selector': 'app-search-field-properties'},{'name': 'SearchFilterComponent', 'selector': 'app-search-filter'},{'name': 'SearchInsightsComponent', 'selector': 'app-search-insights'},{'name': 'SearchInterfaceComponent', 'selector': 'app-search-interface'},{'name': 'SearchRelevanceComponent', 'selector': 'app-search-relevance'},{'name': 'SearchSdkComponent', 'selector': 'app-search-sdk'},{'name': 'SearchSettingsComponent', 'selector': 'app-search-settings'},{'name': 'SettingsComponent', 'selector': 'app-settings'},{'name': 'SettingsComponent', 'selector': 'app-settings'},{'name': 'SliderComponentComponent', 'selector': 'app-slider-component'},{'name': 'SmallTalkComponent', 'selector': 'app-small-talk'},{'name': 'SnippetsComponent', 'selector': 'app-snippets'},{'name': 'SourcesComponent', 'selector': 'app-sources'},{'name': 'SpellCorrectionComponent', 'selector': 'app-spell-correction'},{'name': 'StatusDockerComponent', 'selector': 'app-status-docker'},{'name': 'StopWordsComponent', 'selector': 'app-stop-words'},{'name': 'StructuredDataComponent', 'selector': 'app-structured-data'},{'name': 'StructuredDataComponent', 'selector': 'app-structured-data'},{'name': 'StructuredDataStatusModalComponent', 'selector': 'app-structured-data-status-modal'},{'name': 'SummaryComponent', 'selector': 'app-summary'},{'name': 'SummaryModalComponent', 'selector': 'kr-summary-modal'},{'name': 'SynonymsComponent', 'selector': 'app-synonyms'},{'name': 'TagsInpComponent', 'selector': 'app-tags-inp'},{'name': 'TeamManagementComponent', 'selector': 'app-team-management'},{'name': 'TraitsComponent', 'selector': 'app-traits'},{'name': 'UpgradePlanComponent', 'selector': 'app-upgrade-plan'},{'name': 'UsageLogComponent', 'selector': 'app-usage-log'},{'name': 'UserEngagementComponent', 'selector': 'app-user-engagement'},{'name': 'UserGuideComponent', 'selector': 'kr-user-guide'},{'name': 'UseronboardingJourneyComponent', 'selector': 'app-useronboarding-journey'},{'name': 'WeightsComponent', 'selector': 'app-weights'},{'name': 'WorkbenchComponent', 'selector': 'app-workbench'}];
     var DIRECTIVES = [{'name': 'ClickOutSideDirective', 'selector': '[clickOutside]'},{'name': 'EllipsisActiveDirective', 'selector': '[appEllipsisActive]'},{'name': 'ScrollSpyDirective', 'selector': '[scrollSpy]'},{'name': 'SelectTextDirective', 'selector': '[appSelectText]'}];
     var ACTUAL_COMPONENT = {'name': 'AddAltFaqComponent'};
 </script>

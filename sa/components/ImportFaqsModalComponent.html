@@ -1650,120 +1650,120 @@ export class ImportFaqsModalComponent implements OnInit, OnDestroy {
                 <p class="comment">
                     <code>./import-faqs-modal.component.scss</code>
                 </p>
-                <pre class="line-numbers"><code class="language-scss">@import &#x27;./../../../app/scss/variables/variables.scss&#x27;;
+                <pre class="line-numbers"><code class="language-scss">@import &#x27;variables/variables.scss&#x27;;
 
-.import-faq-modal-content{
-    text-align: center;
-    position: relative;
-    height: 100%;
-    .header-sec{
-        border-radius: 4px;
-        background-color: $backgroundColor;
-        font-size: 24px;
-        font-weight: 300;
+.import-faq-modal-content {
+  text-align: center;
+  position: relative;
+  height: 100%;
+  .header-sec {
+    border-radius: 4px;
+    background-color: $backgroundColor;
+    font-size: 24px;
+    font-weight: 300;
+    color: $primaryColor;
+    padding: 15px 0;
+  }
+  .body-sec {
+    padding: 20px 42px;
+    .kr-sg-file-drag-drop {
+      .drag-drop-sec {
+        .divider-text {
+          padding: 5px 0;
+          font-size: 14px;
+        }
+        .custom-file {
+          label {
+            span {
+            }
+          }
+        }
+      }
+      .uploaded-file-name {
+        margin: 28px 0;
+      }
+      .info-content {
         color: $primaryColor;
-        padding: 15px 0;
-    }
-    .body-sec{
-        padding: 20px 42px;
-        .kr-sg-file-drag-drop{            
-            .drag-drop-sec {
-                .divider-text{
-                    padding: 5px 0;
-                    font-size: 14px;
-                }
-                .custom-file {
-                    label{
-                        span{
-
-                        }
-                    }
-                }
-            }
-            .uploaded-file-name{
-                margin: 28px 0;
-            }
-            .info-content{
-                color: $primaryColor;
-                font-size: 12px;
-                &gt; a {
-                    color: #009dab;
-                }
-                span{
-                    color: $hoverColor;
-                    cursor: pointer;
-                }
-            }
-            .success-message{
-                font-size: 14px;
-                font-weight: bold;
-                margin: 28px 0;
-            }
-            .back-up {
-                .backup-heading {
-                    color: #ff001f;
-                    font-size: 14px;
-                    margin-bottom: 10px;
-                    font-weight: 500;
-                }
-                .backup-message {
-                    color: #202124;
-                    font-size: 14px;
-                    line-height: 1.43;
-                    margin-bottom: 30px;
-                }
-                .backup-options {
-                   .or_divider{
-                    color: #8a959f;
-                    font-size: 14px;
-                    margin: 0 15px;
-                   }
-                    .backup-text {
-                        color: #009dab;
-                        font-weight: bold;
-                        cursor: pointer;
-                        &gt; img{
-                            margin-right: 4px;
-                            position: relative;
-                            top: -2px;
-                        }
-                    }
-                }
-            }
+        font-size: 12px;
+        &gt; a {
+          color: #009dab;
         }
-    }
-    .footer-sec{    
-        border-radius: 4px;
-        background-color: $backgroundColor;
-        text-align: center;
-        padding: 15px 0;
-        position: absolute;
-        width: 100%;
-        bottom: 0;
-        button{
-            width: 100px;
+        span {
+          color: $hoverColor;
+          cursor: pointer;
         }
+      }
+      .success-message {
+        font-size: 14px;
+        font-weight: bold;
+        margin: 28px 0;
+      }
+      .back-up {
+        .backup-heading {
+          color: #ff001f;
+          font-size: 14px;
+          margin-bottom: 10px;
+          font-weight: 500;
+        }
+        .backup-message {
+          color: #202124;
+          font-size: 14px;
+          line-height: 1.43;
+          margin-bottom: 30px;
+        }
+        .backup-options {
+          .or_divider {
+            color: #8a959f;
+            font-size: 14px;
+            margin: 0 15px;
+          }
+          .backup-text {
+            color: #009dab;
+            font-weight: bold;
+            cursor: pointer;
+            &gt; img {
+              margin-right: 4px;
+              position: relative;
+              top: -2px;
+            }
+          }
+        }
+      }
     }
-    .error-image{
-        width: 80px;
+  }
+  .footer-sec {
+    border-radius: 4px;
+    background-color: $backgroundColor;
+    text-align: center;
+    padding: 15px 0;
+    position: absolute;
+    width: 100%;
+    bottom: 0;
+    button {
+      width: 100px;
     }
+  }
+  .error-image {
+    width: 80px;
+  }
 }
-::ng-deep .mat-custom-progress{
-    margin: 12px 0 0 0;
-    height: 5px;
-    border-radius: 100px;    
-    width: 150px !important;
-    margin: 5px auto;                
-    .mat-progress-bar-buffer{
-        background-color:#e5e8ec;
-        border-radius: 100px;
+::ng-deep .mat-custom-progress {
+  margin: 12px 0 0 0;
+  height: 5px;
+  border-radius: 100px;
+  width: 150px !important;
+  margin: 5px auto;
+  .mat-progress-bar-buffer {
+    background-color: #e5e8ec;
+    border-radius: 100px;
+  }
+  .mat-progress-bar-fill {
+    &amp;::after {
+      background-color: $hoverColor;
     }
-    .mat-progress-bar-fill{
-        &amp;::after{
-            background-color:$hoverColor;
-        }
-    }
-}</code></pre>
+  }
+}
+</code></pre>
     </div>
 
     <div class="tab-pane fade " id="c-tree">
@@ -1792,7 +1792,7 @@ export class ImportFaqsModalComponent implements OnInit, OnDestroy {
 <script src="../js/libs/deep-iterator.js"></script>
 <script>
         var COMPONENT_TEMPLATE = '<div><div class="import-faq-modal-content">  <div class="header-sec">Import</div>  <div class="body-sec">            <div class="kr-sg-file-drag-drop p-0">              <div *ngIf="step == 1 || step == 2">        <img src="assets/images/icons/Upload.svg">      </div>      <div class="drag-drop-sec border-0 p-0" ng2FileDrop      (fileOver)="fileOverBase($event)"      [uploader]="uploader" *ngIf="step == 0">          <div class="drag-text">            <div class="pb-2"            class="well my-drop-zone">              <img src="assets/images/icons/Upload.svg">                          </div>            <div>Drag and Drop</div>          </div>           <div class="divider-text">Or</div>                                      <div class="custom-file">              <input type="file" accept=\'attachment/*\' class="custom-file-input" id="inputGroupFile01" aria-describedby="inputGroupFileAddon01" (change)="fileSelect($event)" #fileUpload>              <label for="inputGroupFile01"><span class="border-0">Browse</span></label>          </div>          <div class="info-content">You can upload your Q&As in the CSV or JSON format. You may download the <a download target="_blank" href="assets/files/SampleFAQsNew.csv">Sample CSV</a> and <a download target="_blank" href="assets/files/SampleFAQs.json">Sample JSON</a> files. </div>      </div>      <div class="uploaded-file-name" *ngIf="step == 1">          <div class="file-close-text">              <img src="assets/images/close.svg" class="close-file" (click)="removeFile()">              <div class="file-name">{{fileName}}</div>          </div>                                        </div>       <div class=\'importing\' *ngIf="step == 2">        <div class="success-message mb-1">Importing...</div>        <mat-progress-bar mode="indeterminate" class="mat-custom-progress"></mat-progress-bar>      </div>        <div class="back-up" *ngIf="step == -1">        <div class="backup-heading">Important Note</div>        <div class="backup-message">All the existing terms and their questions will be replaced by the import. Please backup before proceeding.</div>              <div class="backup-options">          <span class="backup-text" (click)=\'exportFile("csv")\'><img src="assets/icons/download.svg">Backup CSV</span>          <span class="or_divider">or</span>          <span class="backup-text" (click)=\'exportFile("json")\'><img src="assets/icons/download.svg">Backup JSON</span>        </div>      </div>      <div *ngIf="step == 3">        <img src="assets/images/icons/successfull.svg">        <div class="success-message">File has been imported successfully</div>         </div>      <div *ngIf="step == 4">        <img src="assets/images/import-error.png" class="error-image">        <div class="success-message">{{errorMessage}}</div>           </div>                                                       </div>  </div>  <div class="footer-sec">    <button class="kr-sg-button-primary btn_md mr-2" *ngIf="showSteps.proceed.indexOf(step) > -1" (click)="step=0">Proceed</button>    <button class="kr-sg-button-secondary btn_md mr-2" *ngIf="showSteps.cancel.indexOf(step) > -1" (click)=\'close()\'>Cancel</button>    <button class="kr-sg-button-secondary btn_md mr-2" *ngIf="step == 4" (click)=\'step = 0\'>Go Back</button>    <button class="kr-sg-button-primary btn_md mr-2" [disabled]="step == 0" *ngIf="showSteps.next.indexOf(step) > -1" (click)="step==1?startImport():false">Next</button>    <button class="kr-sg-button-primary btn_md mr-2" *ngIf="showSteps.ok.indexOf(step) > -1" (click)=\'close()\'>Ok</button>  </div></div></div>'
-    var COMPONENTS = [{'name': 'ActionsComponent', 'selector': 'app-actions'},{'name': 'AddAlternateQuestionComponent', 'selector': 'app-add-alternate-question'},{'name': 'AddAltFaqComponent', 'selector': 'app-add-alt-faq'},{'name': 'AddFaqComponent', 'selector': 'app-add-faq'},{'name': 'AddResultComponent', 'selector': 'app-add-result'},{'name': 'AddResultComponent', 'selector': 'app-add-result'},{'name': 'AddStructuredDataComponent', 'selector': 'app-add-structured-data'},{'name': 'AnalyticsDropdownComponent', 'selector': 'app-analytics-dropdown'},{'name': 'AnnotoolComponent', 'selector': 'kr-annotool'},{'name': 'AppComponent', 'selector': 'app-root'},{'name': 'AppExperimentsComponent', 'selector': 'app-app-experiments'},{'name': 'AppsComponent', 'selector': 'app-apps'},{'name': 'AutocompleteMultiChipComponent', 'selector': 'app-autocomplete-multi-chip'},{'name': 'BodyComponent', 'selector': 'app-body'},{'name': 'BotActionsComponent', 'selector': 'app-bot-actions'},{'name': 'BotActionsComponent', 'selector': 'app-bot-actions'},{'name': 'BusinessRulesComponent', 'selector': 'app-business-rules'},{'name': 'ConfirmationComponent', 'selector': 'kr-confirmation'},{'name': 'ConfirmationDialogComponent', 'selector': 'app-confirmation-dialog'},{'name': 'ConnectorsComponent', 'selector': 'app-connectors'},{'name': 'ContentComponent', 'selector': 'app-content'},{'name': 'CredentialsListComponent', 'selector': 'app-credentials-list'},{'name': 'CustomConfigFormComponent', 'selector': 'app-custom-config-form'},{'name': 'CustomConfigListComponent', 'selector': 'app-custom-config-list'},{'name': 'CustomConfigurationsComponent', 'selector': 'app-custom-configurations'},{'name': 'CustomMarkdownEditorComponent', 'selector': 'md-editor'},{'name': 'DashboardComponent', 'selector': 'app-dashboard'},{'name': 'DateRangePickerComponent', 'selector': 'app-date-range-picker'},{'name': 'DemoComponent', 'selector': 'app-demo'},{'name': 'EditorUrlDialogComponent', 'selector': 'app-editor-url-dialog'},{'name': 'EmptyScreenComponent', 'selector': 'app-empty-screen'},{'name': 'FacetsComponent', 'selector': 'app-facets'},{'name': 'FaqsComponent', 'selector': 'faqs-source'},{'name': 'FieldManagementComponent', 'selector': 'app-field-management'},{'name': 'GeneralSettingsComponent', 'selector': 'app-general-settings'},{'name': 'GroupInputComponent', 'selector': 'app-group-input'},{'name': 'HeaderComponent', 'selector': 'app-header'},{'name': 'HighlightingComponent', 'selector': 'app-highlighting'},{'name': 'ImportFaqsModalComponent', 'selector': 'app-import-faqs-modal'},{'name': 'IndexComponent', 'selector': 'app-index'},{'name': 'IndexComponent', 'selector': 'app-index'},{'name': 'IndexConfigurationSettingsComponent', 'selector': 'app-index-configuration-settings'},{'name': 'IndexFieldsComfirmationDialogComponent', 'selector': 'app-index-fields-comfirmation-dialog'},{'name': 'InsightsComponent', 'selector': 'app-insights'},{'name': 'InvoicesComponent', 'selector': 'app-invoices'},{'name': 'KRModalComponent', 'selector': 'kr-modal'},{'name': 'ListFieldsComponent', 'selector': 'app-list-fields'},{'name': 'LoaderComponent', 'selector': 'app-loader'},{'name': 'MainMenuComponent', 'selector': 'app-mainmenu'},{'name': 'ManageIntentComponent', 'selector': 'app-manage-intent'},{'name': 'MarkdownEditorResizeSensorComponent', 'selector': 'md-editor-resize-sensor'},{'name': 'MetricsComponent', 'selector': 'app-metrics'},{'name': 'OnboardingComponent', 'selector': 'app-onboarding'},{'name': 'PaginationComponent', 'selector': 'app-pagination'},{'name': 'PdfAnnotationComponent', 'selector': 'kr-pdf-annotation'},{'name': 'PresentableComponent', 'selector': 'app-presentable'},{'name': 'PricingComponent', 'selector': 'app-pricing'},{'name': 'RangeSliderComponent', 'selector': 'app-range-slider'},{'name': 'RangeSliderSearchExperienceComponent', 'selector': 'app-range-slider-search-experience'},{'name': 'RecordPaginationComponent', 'selector': 'app-record-pagination'},{'name': 'ResultInsightsComponent', 'selector': 'app-result-insights'},{'name': 'ResultRankingComponent', 'selector': 'app-result-ranking'},{'name': 'ResultRankingComponent', 'selector': 'app-result-ranking'},{'name': 'ResultsRulesComponent', 'selector': 'app-results-rules'},{'name': 'ResultTemplatesComponent', 'selector': 'app-result-templates'},{'name': 'RulesTableComponent', 'selector': 'app-rules-table'},{'name': 'SchedulerComponent', 'selector': 'app-scheduler'},{'name': 'SearchExperienceComponent', 'selector': 'app-search-experience'},{'name': 'SearchFieldPropertiesComponent', 'selector': 'app-search-field-properties'},{'name': 'SearchFilterComponent', 'selector': 'app-search-filter'},{'name': 'SearchInsightsComponent', 'selector': 'app-search-insights'},{'name': 'SearchInterfaceComponent', 'selector': 'app-search-interface'},{'name': 'SearchRelevanceComponent', 'selector': 'app-search-relevance'},{'name': 'SearchSdkComponent', 'selector': '.appContent'},{'name': 'SearchSettingsComponent', 'selector': 'app-search-settings'},{'name': 'SettingsComponent', 'selector': 'app-settings'},{'name': 'SettingsComponent', 'selector': 'app-settings'},{'name': 'SliderComponentComponent', 'selector': 'app-slider-component'},{'name': 'SmallTalkComponent', 'selector': 'app-small-talk'},{'name': 'SnippetsComponent', 'selector': 'app-snippets'},{'name': 'SourcesComponent', 'selector': 'app-sources'},{'name': 'SpellCorrectionComponent', 'selector': 'app-spell-correction'},{'name': 'StatusDockerComponent', 'selector': 'app-status-docker'},{'name': 'StopWordsComponent', 'selector': 'app-stop-words'},{'name': 'StructuredDataComponent', 'selector': 'app-structured-data'},{'name': 'StructuredDataComponent', 'selector': 'app-structured-data'},{'name': 'StructuredDataStatusModalComponent', 'selector': 'app-structured-data-status-modal'},{'name': 'SummaryComponent', 'selector': 'app-summary'},{'name': 'SummaryModalComponent', 'selector': 'kr-summary-modal'},{'name': 'SynonymsComponent', 'selector': 'app-synonyms'},{'name': 'TagsInpComponent', 'selector': 'app-tags-inp'},{'name': 'TeamManagementComponent', 'selector': 'app-team-management'},{'name': 'TraitsComponent', 'selector': 'app-traits'},{'name': 'UpgradePlanComponent', 'selector': 'app-upgrade-plan'},{'name': 'UsageLogComponent', 'selector': 'app-usage-log'},{'name': 'UserEngagementComponent', 'selector': 'app-user-engagement'},{'name': 'UserGuideComponent', 'selector': 'kr-user-guide'},{'name': 'UseronboardingJourneyComponent', 'selector': 'app-useronboarding-journey'},{'name': 'WeightsComponent', 'selector': 'app-weights'}];
+    var COMPONENTS = [{'name': 'ActionsComponent', 'selector': 'app-actions'},{'name': 'AddAlternateQuestionComponent', 'selector': 'app-add-alternate-question'},{'name': 'AddAltFaqComponent', 'selector': 'app-add-alt-faq'},{'name': 'AddFaqComponent', 'selector': 'app-add-faq'},{'name': 'AddResultComponent', 'selector': 'app-add-result'},{'name': 'AddResultComponent', 'selector': 'app-add-result'},{'name': 'AddStructuredDataComponent', 'selector': 'app-add-structured-data'},{'name': 'AnalyticsDropdownComponent', 'selector': 'app-analytics-dropdown'},{'name': 'AnnotoolComponent', 'selector': 'kr-annotool'},{'name': 'AppComponent', 'selector': 'app-root'},{'name': 'AppExperimentsComponent', 'selector': 'app-app-experiments'},{'name': 'AppsComponent', 'selector': 'app-apps'},{'name': 'AutocompleteMultiChipComponent', 'selector': 'app-autocomplete-multi-chip'},{'name': 'BotActionsComponent', 'selector': 'app-bot-actions'},{'name': 'BotActionsComponent', 'selector': 'app-bot-actions'},{'name': 'BusinessRulesComponent', 'selector': 'app-business-rules'},{'name': 'ConfirmationComponent', 'selector': 'kr-confirmation'},{'name': 'ConfirmationDialogComponent', 'selector': 'app-confirmation-dialog'},{'name': 'ConnectorsComponent', 'selector': 'app-connectors'},{'name': 'ContentComponent', 'selector': 'app-content'},{'name': 'CredentialsListComponent', 'selector': 'app-credentials-list'},{'name': 'CustomConfigFormComponent', 'selector': 'app-custom-config-form'},{'name': 'CustomConfigListComponent', 'selector': 'app-custom-config-list'},{'name': 'CustomConfigurationsComponent', 'selector': 'app-custom-configurations'},{'name': 'CustomMarkdownEditorComponent', 'selector': 'md-editor'},{'name': 'DashboardComponent', 'selector': 'app-dashboard'},{'name': 'DateRangePickerComponent', 'selector': 'app-date-range-picker'},{'name': 'DemoComponent', 'selector': 'app-demo'},{'name': 'EditorUrlDialogComponent', 'selector': 'app-editor-url-dialog'},{'name': 'EmptyScreenComponent', 'selector': 'app-empty-screen'},{'name': 'FacetsComponent', 'selector': 'app-facets'},{'name': 'FaqsComponent', 'selector': 'faqs-source'},{'name': 'FieldManagementComponent', 'selector': 'app-field-management'},{'name': 'GeneralSettingsComponent', 'selector': 'app-general-settings'},{'name': 'GroupInputComponent', 'selector': 'app-group-input'},{'name': 'HeaderComponent', 'selector': 'app-header'},{'name': 'HighlightingComponent', 'selector': 'app-highlighting'},{'name': 'ImportFaqsModalComponent', 'selector': 'app-import-faqs-modal'},{'name': 'IndexConfigurationSettingsComponent', 'selector': 'app-index-configuration-settings'},{'name': 'IndexFieldsComfirmationDialogComponent', 'selector': 'app-index-fields-comfirmation-dialog'},{'name': 'InsightsComponent', 'selector': 'app-insights'},{'name': 'InvoicesComponent', 'selector': 'app-invoices'},{'name': 'KRModalComponent', 'selector': 'kr-modal'},{'name': 'ListFieldsComponent', 'selector': 'app-list-fields'},{'name': 'LoaderComponent', 'selector': 'app-loader'},{'name': 'MainMenuComponent', 'selector': 'app-mainmenu'},{'name': 'ManageIntentComponent', 'selector': 'app-manage-intent'},{'name': 'MarkdownEditorResizeSensorComponent', 'selector': 'md-editor-resize-sensor'},{'name': 'MetricsComponent', 'selector': 'app-metrics'},{'name': 'OnboardingComponent', 'selector': 'app-onboarding'},{'name': 'PaginationComponent', 'selector': 'app-pagination'},{'name': 'PdfAnnotationComponent', 'selector': 'kr-pdf-annotation'},{'name': 'PresentableComponent', 'selector': 'app-presentable'},{'name': 'PricingComponent', 'selector': 'app-pricing'},{'name': 'RangeSliderComponent', 'selector': 'app-range-slider'},{'name': 'RangeSliderSearchExperienceComponent', 'selector': 'app-range-slider-search-experience'},{'name': 'RecordPaginationComponent', 'selector': 'app-record-pagination'},{'name': 'ResultInsightsComponent', 'selector': 'app-result-insights'},{'name': 'ResultRankingComponent', 'selector': 'app-result-ranking'},{'name': 'ResultRankingComponent', 'selector': 'app-result-ranking'},{'name': 'ResultsRulesComponent', 'selector': 'app-results-rules'},{'name': 'ResultTemplatesComponent', 'selector': 'app-result-templates'},{'name': 'RulesTableComponent', 'selector': 'app-rules-table'},{'name': 'SchedulerComponent', 'selector': 'app-scheduler'},{'name': 'SearchExperienceComponent', 'selector': 'app-search-experience'},{'name': 'SearchFieldPropertiesComponent', 'selector': 'app-search-field-properties'},{'name': 'SearchFilterComponent', 'selector': 'app-search-filter'},{'name': 'SearchInsightsComponent', 'selector': 'app-search-insights'},{'name': 'SearchInterfaceComponent', 'selector': 'app-search-interface'},{'name': 'SearchRelevanceComponent', 'selector': 'app-search-relevance'},{'name': 'SearchSdkComponent', 'selector': 'app-search-sdk'},{'name': 'SearchSettingsComponent', 'selector': 'app-search-settings'},{'name': 'SettingsComponent', 'selector': 'app-settings'},{'name': 'SettingsComponent', 'selector': 'app-settings'},{'name': 'SliderComponentComponent', 'selector': 'app-slider-component'},{'name': 'SmallTalkComponent', 'selector': 'app-small-talk'},{'name': 'SnippetsComponent', 'selector': 'app-snippets'},{'name': 'SourcesComponent', 'selector': 'app-sources'},{'name': 'SpellCorrectionComponent', 'selector': 'app-spell-correction'},{'name': 'StatusDockerComponent', 'selector': 'app-status-docker'},{'name': 'StopWordsComponent', 'selector': 'app-stop-words'},{'name': 'StructuredDataComponent', 'selector': 'app-structured-data'},{'name': 'StructuredDataComponent', 'selector': 'app-structured-data'},{'name': 'StructuredDataStatusModalComponent', 'selector': 'app-structured-data-status-modal'},{'name': 'SummaryComponent', 'selector': 'app-summary'},{'name': 'SummaryModalComponent', 'selector': 'kr-summary-modal'},{'name': 'SynonymsComponent', 'selector': 'app-synonyms'},{'name': 'TagsInpComponent', 'selector': 'app-tags-inp'},{'name': 'TeamManagementComponent', 'selector': 'app-team-management'},{'name': 'TraitsComponent', 'selector': 'app-traits'},{'name': 'UpgradePlanComponent', 'selector': 'app-upgrade-plan'},{'name': 'UsageLogComponent', 'selector': 'app-usage-log'},{'name': 'UserEngagementComponent', 'selector': 'app-user-engagement'},{'name': 'UserGuideComponent', 'selector': 'kr-user-guide'},{'name': 'UseronboardingJourneyComponent', 'selector': 'app-useronboarding-journey'},{'name': 'WeightsComponent', 'selector': 'app-weights'},{'name': 'WorkbenchComponent', 'selector': 'app-workbench'}];
     var DIRECTIVES = [{'name': 'ClickOutSideDirective', 'selector': '[clickOutside]'},{'name': 'EllipsisActiveDirective', 'selector': '[appEllipsisActive]'},{'name': 'ScrollSpyDirective', 'selector': '[scrollSpy]'},{'name': 'SelectTextDirective', 'selector': '[appSelectText]'}];
     var ACTUAL_COMPONENT = {'name': 'ImportFaqsModalComponent'};
 </script>

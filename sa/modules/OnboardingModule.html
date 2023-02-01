@@ -56,13 +56,13 @@
 <title>cluster_OnboardingModule</title>
 <polygon fill="none" stroke="black" stroke-dasharray="1,5" points="8,-32.8 8,-230.8 278,-230.8 278,-32.8 8,-32.8"/>
 </g>
-<g id="clust2" class="cluster">
-<title>cluster_OnboardingModule_declarations</title>
-<polygon fill="none" stroke="black" points="106,-40.8 106,-92.8 270,-92.8 270,-40.8 106,-40.8"/>
-</g>
 <g id="clust5" class="cluster">
 <title>cluster_OnboardingModule_exports</title>
 <polygon fill="none" stroke="black" points="59,-170.8 59,-222.8 227,-222.8 227,-170.8 59,-170.8"/>
+</g>
+<g id="clust2" class="cluster">
+<title>cluster_OnboardingModule_declarations</title>
+<polygon fill="none" stroke="black" points="106,-40.8 106,-92.8 270,-92.8 270,-40.8 106,-40.8"/>
 </g>
 <g id="clust4" class="cluster">
 <title>cluster_OnboardingModule_imports</title>
@@ -192,6 +192,7 @@ import { PerfectScrollbarModule } from &#x27;ngx-perfect-scrollbar&#x27;;
 import { RouterModule } from &#x27;@angular/router&#x27;;
 import { TranslateModule } from &#x27;@ngx-translate/core&#x27;;
 import { SafePipe } from &#x27;@kore.apps/shared/pipes/safe.pipe&#x27;;
+import { SharedPipesModule } from &#x27;@kore.apps/helpers/filters/shared-pipes.module&#x27;;
 
 @NgModule({
   declarations: [OnboardingComponent],
@@ -202,6 +203,7 @@ import { SafePipe } from &#x27;@kore.apps/shared/pipes/safe.pipe&#x27;;
     RouterModule,
     TranslateModule.forChild(),
     SafePipe,
+    SharedPipesModule,
   ],
   providers: [SafePipe],
   exports: [OnboardingComponent],

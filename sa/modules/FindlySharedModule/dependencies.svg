@@ -18,13 +18,13 @@
 <title>cluster_FindlySharedModule_declarations</title>
 <polygon fill="none" stroke="black" points="705,-40.8 705,-92.8 1438,-92.8 1438,-40.8 705,-40.8"/>
 </g>
-<g id="clust8" class="cluster">
-<title>cluster_FindlySharedModule_exports</title>
-<polygon fill="none" stroke="black" points="16,-170.8 16,-222.8 1444,-222.8 1444,-170.8 16,-170.8"/>
-</g>
 <g id="clust7" class="cluster">
 <title>cluster_FindlySharedModule_imports</title>
 <polygon fill="none" stroke="black" points="34,-40.8 34,-92.8 697,-92.8 697,-40.8 34,-40.8"/>
+</g>
+<g id="clust8" class="cluster">
+<title>cluster_FindlySharedModule_exports</title>
+<polygon fill="none" stroke="black" points="16,-170.8 16,-222.8 1444,-222.8 1444,-170.8 16,-170.8"/>
 </g>
 <!-- ListFieldsComponent -->
 <g id="node1" class="node">

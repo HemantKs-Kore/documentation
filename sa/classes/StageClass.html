@@ -62,7 +62,7 @@
             <h3>File</h3>
         </p>
         <p class="comment">
-            <code>apps/searchassist/src/app/components/index/index.component.ts</code>
+            <code>apps/searchassist/src/app/modules/workbench/workbench.component.ts</code>
         </p>
 
 
@@ -138,7 +138,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="3093" class="link-to-prism">apps/searchassist/src/app/components/index/index.component.ts:3093</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="3093" class="link-to-prism">apps/searchassist/src/app/modules/workbench/workbench.component.ts:3093</a></div>
                         </td>
                     </tr>
 
@@ -164,7 +164,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="3096" class="link-to-prism">apps/searchassist/src/app/components/index/index.component.ts:3096</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="3096" class="link-to-prism">apps/searchassist/src/app/modules/workbench/workbench.component.ts:3096</a></div>
                         </td>
                     </tr>
 
@@ -195,7 +195,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="3097" class="link-to-prism">apps/searchassist/src/app/components/index/index.component.ts:3097</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="3097" class="link-to-prism">apps/searchassist/src/app/modules/workbench/workbench.component.ts:3097</a></div>
                         </td>
                     </tr>
 
@@ -221,7 +221,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="3095" class="link-to-prism">apps/searchassist/src/app/components/index/index.component.ts:3095</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="3095" class="link-to-prism">apps/searchassist/src/app/modules/workbench/workbench.component.ts:3095</a></div>
                         </td>
                     </tr>
 
@@ -247,7 +247,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="3092" class="link-to-prism">apps/searchassist/src/app/components/index/index.component.ts:3092</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="3092" class="link-to-prism">apps/searchassist/src/app/modules/workbench/workbench.component.ts:3092</a></div>
                         </td>
                     </tr>
 
@@ -273,7 +273,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="3094" class="link-to-prism">apps/searchassist/src/app/components/index/index.component.ts:3094</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="3094" class="link-to-prism">apps/searchassist/src/app/modules/workbench/workbench.component.ts:3094</a></div>
                         </td>
                     </tr>
 
@@ -323,11 +323,11 @@ import { InlineManualService } from &#x27;@kore.apps/services/inline-manual.serv
 import { MixpanelServiceService } from &#x27;@kore.apps/services/mixpanel-service.service&#x27;;
 declare const $: any;
 @Component({
-  selector: &#x27;app-index&#x27;,
-  templateUrl: &#x27;./index.component.html&#x27;,
-  styleUrls: [&#x27;./index.component.scss&#x27;],
+  selector: &#x27;app-workbench&#x27;,
+  templateUrl: &#x27;./workbench.component.html&#x27;,
+  styleUrls: [&#x27;./workbench.component.scss&#x27;],
 })
-export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
+export class WorkbenchComponent implements OnInit, OnDestroy, AfterViewInit {
   emptyScreen &#x3D; EMPTY_SCREEN.INDICES_WORKBENCH;
   selectedApp: any &#x3D; {};
   searchImgSrc: any &#x3D; &#x27;assets/icons/search_gray.svg&#x27;;
@@ -368,9 +368,9 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
   any &#x3D; {};
   selectedStageIndex: any &#x3D; -1;
   pollingSubscriber: any &#x3D; null;
-  submitted: boolean &#x3D; false;
-  showNewStageType: boolean &#x3D; false;
-  loadingSimulate: boolean &#x3D; true;
+  submitted &#x3D; false;
+  showNewStageType &#x3D; false;
+  loadingSimulate &#x3D; true;
   subscription: Subscription;
   @ViewChild(&#x27;tleft&#x27;) public tooltip: NgbTooltip;
   @ViewChild(&#x27;addFieldModalPop&#x27;) addFieldModalPop: KRModalComponent;
@@ -543,7 +543,7 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
   };
   simulateJson;
   filteredSimulatorRes: any;
-  componentType: string &#x3D; &#x27;addData&#x27;;
+  componentType &#x3D; &#x27;addData&#x27;;
   // containCondition: any[] &#x3D; [];
   selectable &#x3D; true;
   removable &#x3D; true;
@@ -1250,7 +1250,7 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
     });
   }
   validateConditionForRD() {
-    let indexArray &#x3D; [];
+    const indexArray &#x3D; [];
     if (this.pipeline.length) {
       for (let k &#x3D; 0; k &lt; this.pipeline.length; k++) {
         if (this.pipeline[k].type &#x3D;&#x3D;&#x3D; &#x27;exclude_document&#x27;) {
@@ -1288,9 +1288,9 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
     dialogRef.componentInstance.onSelect.subscribe((result) &#x3D;&gt; {
       if (result &#x3D;&#x3D;&#x3D; &#x27;yes&#x27;) {
         for (let i &#x3D; 0; i &lt; indexArrayLength; i++) {
-          let index &#x3D; this.pipeline.findIndex((p) &#x3D;&gt; !p.condition);
+          const index &#x3D; this.pipeline.findIndex((p) &#x3D;&gt; !p.condition);
           if (index &gt; -1) {
-            let index2 &#x3D; this.modifiedStages.createdStages.findIndex(
+            const index2 &#x3D; this.modifiedStages.createdStages.findIndex(
               (d) &#x3D;&gt; d.type &#x3D;&#x3D; this.pipeline[index].type
             );
             if (index2 &gt; -1) {
@@ -1375,7 +1375,7 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
   }
   //For Title appearence in UI (Entities)
   prepEntityObj(entityMappingArr) {
-    let entityTypeLocalArr &#x3D; [];
+    const entityTypeLocalArr &#x3D; [];
     entityMappingArr.forEach((element) &#x3D;&gt; {
       element.entity_types.forEach((entityElement) &#x3D;&gt; {
         this.entityNlp.forEach((nlpElement) &#x3D;&gt; {
@@ -1398,7 +1398,7 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
     ) {
       plainScriptTxt &#x3D; this.newMappingObj.custom_script.defaultValue.script;
     }
-    let indexArrayLength: any &#x3D; this.validateConditionForRD();
+    const indexArrayLength: any &#x3D; this.validateConditionForRD();
     if (indexArrayLength) {
       this.removeExcludeDocumentStage(indexArrayLength, true);
     } else {
@@ -1796,7 +1796,7 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
               this.newMappingObj.field_mapping.defaultValue.target_field &amp;&amp;
               this.newMappingObj.field_mapping.defaultValue.value
             ) {
-              let warningmessage &#x3D;
+              const warningmessage &#x3D;
                 &#x27;Chosen stage will be applied on all documents since there are no conditions provided&#x27;;
               // this.notificationService.notify(&#x27;Chosen stage will be applied on all documents since there are no conditions provided&#x27;,&#x27;warning&#x27;)
               if (save &#x3D;&#x3D;&#x3D; true) {
@@ -1878,7 +1878,7 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
               this.newMappingObj.field_mapping.defaultValue.source_field &amp;&amp;
               this.newMappingObj.field_mapping.defaultValue.target_field
             ) {
-              let warningmessage &#x3D;
+              const warningmessage &#x3D;
                 &#x27;Chosen stage will be applied on all documents since there are no conditions provided&#x27;;
               // this.notificationService.notify(&#x27;Chosen stage will be applied on all documents since there are no conditions provided&#x27;,&#x27;warning&#x27;)
               if (save &#x3D;&#x3D;&#x3D; true) {
@@ -1965,7 +1965,7 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
                 this.basic_fieldName &#x3D;&#x3D;&#x3D; &#x27;&#x27;) &amp;&amp;
               this.newMappingObj.field_mapping.defaultValue.target_field
             ) {
-              let warningmessage &#x3D;
+              const warningmessage &#x3D;
                 &#x27;Chosen stage will be applied on all documents since there are no conditions provided&#x27;;
               // this.notificationService.notify(&#x27;Chosen stage will be applied on all documents since there are no conditions provided&#x27;,&#x27;warning&#x27;)
               if (save &#x3D;&#x3D;&#x3D; true) {
@@ -2013,7 +2013,7 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
             this.newMappingObj[this.selectedStage.type].defaultValue
               .target_field
           ) {
-            let warningmessage &#x3D;
+            const warningmessage &#x3D;
               &#x27;Chosen stage will be applied on all documents since there are no conditions provided&#x27;;
             // this.notificationService.notify(&#x27;Chosen stage will be applied on all documents since there are no conditions provided&#x27;,&#x27;warning&#x27;)
             if (save &#x3D;&#x3D;&#x3D; true) {
@@ -2170,7 +2170,7 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
             this.newMappingObj[this.selectedStage.type].defaultValue
               .target_field
           ) {
-            let warningmessage &#x3D;
+            const warningmessage &#x3D;
               &#x27;Chosen stage will be applied on all documents since there are no conditions provided&#x27;;
             // this.notificationService.notify(&#x27;Chosen stage will be applied on all documents since there are no conditions provided&#x27;,&#x27;warning&#x27;)
             if (save &#x3D;&#x3D;&#x3D; true) {
@@ -2311,7 +2311,7 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
             this.newMappingObj[this.selectedStage.type].defaultValue
               .target_field
           ) {
-            let warningmessage &#x3D;
+            const warningmessage &#x3D;
               &#x27;Chosen stage will be applied on all documents since there are no conditions provided&#x27;;
             // this.notificationService.notify(&#x27;Chosen stage will be applied on all documents since there are no conditions provided&#x27;,&#x27;warning&#x27;)
             if (save &#x3D;&#x3D;&#x3D; true) {
@@ -2379,7 +2379,7 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
             this.newMappingObj[this.selectedStage.type].defaultValue
               .target_field
           ) {
-            let warningmessage &#x3D;
+            const warningmessage &#x3D;
               &#x27;Chosen stage will be applied on all documents since there are no conditions provided&#x27;;
             // this.notificationService.notify(&#x27;Chosen stage will be applied on all documents since there are no conditions provided&#x27;,&#x27;warning&#x27;)
             if (save &#x3D;&#x3D;&#x3D; true) {
@@ -2478,7 +2478,7 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
     ) {
       plainScriptTxt &#x3D; this.newMappingObj.custom_script.defaultValue.script;
     }
-    let indexArrayLength: any &#x3D; this.validateConditionForRD();
+    const indexArrayLength: any &#x3D; this.validateConditionForRD();
     if (indexArrayLength) {
       this.removeExcludeDocumentStage(indexArrayLength, false);
     } else {
@@ -2611,7 +2611,7 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
           this.modifiedStages.deletedStages.push(this.pipeline[i]);
         } else {
           if (this.modifiedStages.createdStages.length) {
-            let index &#x3D; this.modifiedStages.createdStages.findIndex(
+            const index &#x3D; this.modifiedStages.createdStages.findIndex(
               (d) &#x3D;&gt; d.type &#x3D;&#x3D; this.pipeline[i].type
             );
             if (index &gt; -1) {
@@ -2692,7 +2692,7 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
           fieldName: 1,
         },
       };
-    let serviceId &#x3D; &#x27;post.allField&#x27;;
+    const serviceId &#x3D; &#x27;post.allField&#x27;;
     // let serviceId &#x3D;&#x27;get.allField&#x27;;
     this.service.invoke(serviceId, quaryparms, payload).subscribe(
       (res) &#x3D;&gt; {
@@ -2777,7 +2777,7 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
         this.mixpanel.postEvent(&#x27;Enter Workbench&#x27;, {});
         res.stages.map((data) &#x3D;&gt; {
           return data?.condition?.mappings?.map((data1) &#x3D;&gt; {
-            let obj &#x3D; this.fields.find((da) &#x3D;&gt; da._id &#x3D;&#x3D;&#x3D; data1?.fieldId);
+            const obj &#x3D; this.fields.find((da) &#x3D;&gt; da._id &#x3D;&#x3D;&#x3D; data1?.fieldId);
             data1.fieldName &#x3D; obj?.fieldName;
           });
         });
@@ -2889,7 +2889,7 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
     this.pipeline &#x3D; JSON.parse(JSON.stringify(this.pipelineCopy));
     this.pipeline.map((data) &#x3D;&gt; {
       return data?.condition?.mappings?.map((data1) &#x3D;&gt; {
-        let obj &#x3D; this.fields.find((da) &#x3D;&gt; da._id &#x3D;&#x3D;&#x3D; data1.fieldId);
+        const obj &#x3D; this.fields.find((da) &#x3D;&gt; da._id &#x3D;&#x3D;&#x3D; data1.fieldId);
         if (obj &amp;&amp; obj.fieldName) {
           data1.fieldName &#x3D; obj.fieldName;
         }
@@ -3262,7 +3262,7 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
   }
   getKeyByValue(object, searchSimulator) {
     searchSimulator &#x3D; searchSimulator.toLowerCase();
-    let filteredObject: any &#x3D; {};
+    const filteredObject: any &#x3D; {};
     Object.keys(object).forEach((key) &#x3D;&gt; {
       if (key.toLowerCase().search(searchSimulator) &gt; -1) {
         filteredObject[key] &#x3D; object[key];
@@ -3310,7 +3310,7 @@ export class IndexComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   painlessScriptChanged(event) {
-    let count &#x3D; this.codemirror.codeMirror.lineCount();
+    const count &#x3D; this.codemirror.codeMirror.lineCount();
   }
   //matchip method
   add(event: MatChipInputEvent, index): void {

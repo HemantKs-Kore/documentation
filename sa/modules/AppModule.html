@@ -235,7 +235,7 @@ import { extModules } from &#x27;../build-specifics&#x27;;
 import { appReducers } from &#x27;./store/reducers&#x27;;
 import { StoreRouterConnectingModule } from &#x27;@ngrx/router-store&#x27;;
 import { HttpClient, HttpClientModule } from &#x27;@angular/common/http&#x27;;
-import { NgModule } from &#x27;@angular/core&#x27;;
+import { NgModule, isDevMode } from &#x27;@angular/core&#x27;;
 import { BrowserModule } from &#x27;@angular/platform-browser&#x27;;
 import { globalProviders } from &#x27;@kore.services/inteceptors&#x27;;
 import { TranslateLoader, TranslateModule } from &#x27;@ngx-translate/core&#x27;;
@@ -262,6 +262,8 @@ import { MAT_FORM_FIELD_DEFAULT_OPTIONS } from &#x27;@angular/material/form-fiel
 import { CommonModule } from &#x27;@angular/common&#x27;;
 import { MainMenuModule } from &#x27;./modules/layout/mainmenu/mainmenu.module&#x27;;
 import { NgxEchartsModule } from &#x27;ngx-echarts&#x27;;
+import { ServiceWorkerModule } from &#x27;@angular/service-worker&#x27;;
+import { AppEffects } from &#x27;./store/app.effects&#x27;;
 // import { AddResultModule } from &#x27;./modules/add-result/add-result.module&#x27;;
 // import { InsightsModule } from &#x27;./modules/insights/insights.module&#x27;;
 
@@ -305,9 +307,15 @@ export function createTranslateLoader(http: HttpClient) {
     StoreModule.forRoot(appReducers),
     StoreRouterConnectingModule.forRoot(),
     extModules,
-    EffectsModule.forRoot([]),
+    EffectsModule.forRoot([AppEffects]),
     // InsightsModule,
     // EntityDataModule.forRoot(entityConfig),
+    ServiceWorkerModule.register(&#x27;ngsw-worker.js&#x27;, {
+      enabled: !isDevMode(),
+      // Register the ServiceWorker as soon as the application is stable
+      // or after 30 seconds (whichever comes first).
+      registrationStrategy: &#x27;registerWhenStable:30000&#x27;,
+    }),
   ],
   // tslint:disable-next-line:max-line-length
   entryComponents: [

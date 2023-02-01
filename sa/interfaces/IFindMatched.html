@@ -343,7 +343,7 @@ export class PdfAnnotationComponent implements OnInit, OnChanges {
     fitToPage: false,
     pdfUrl: &#x27;&#x27;,
   };
-  loaderFlag: boolean &#x3D; false;
+  loaderFlag &#x3D; false;
   public hostRectangle: SelectionRectangle | null;
   public overRectange: SelectionRectangle | null;
   private selectedText: string;
@@ -370,25 +370,25 @@ export class PdfAnnotationComponent implements OnInit, OnChanges {
     streamId: null,
     pdfUrl: &#x27;&#x27;,
   };
-  extractionLoader: boolean &#x3D; false;
+  extractionLoader &#x3D; false;
   streamId: string &#x3D; null;
-  pdfSize: string &#x3D; &#x27;0 KB&#x27;;
+  pdfSize &#x3D; &#x27;0 KB&#x27;;
   fileId: string &#x3D; null;
   sourceId: string &#x3D; null;
   fileName: string &#x3D; null;
-  togglePage: boolean &#x3D; false;
-  removeAnnotationFlag: boolean &#x3D; false;
+  togglePage &#x3D; false;
+  removeAnnotationFlag &#x3D; false;
   saveSelection: any;
   restoreSelection: any;
-  removalText: string &#x3D; &#x27;&#x27;;
+  removalText &#x3D; &#x27;&#x27;;
   overStateEvent: any &#x3D; null;
-  removeClassName: string &#x3D; &#x27;&#x27;;
-  pdfProgressPerc: number &#x3D; 0;
+  removeClassName &#x3D; &#x27;&#x27;;
+  pdfProgressPerc &#x3D; 0;
   form: FormGroup;
   private themeWrapper &#x3D; document.querySelector(&#x27;body&#x27;);
-  removeProgressBar: boolean &#x3D; false;
+  removeProgressBar &#x3D; false;
   selectedApp: any &#x3D; {};
-  searchIndexId: string &#x3D; &#x27;&#x27;;
+  searchIndexId &#x3D; &#x27;&#x27;;
 
   constructor(
     private _formBuilder: FormBuilder,
@@ -463,7 +463,7 @@ export class PdfAnnotationComponent implements OnInit, OnChanges {
   // User Guilde - How to annotate
   userGuide() {
     setTimeout(() &#x3D;&gt; {
-      let payload &#x3D; {
+      const payload &#x3D; {
         header: &#x27;How to Annotate&#x27;,
         body: {},
         footer: &#x27;Learn more&#x27;,
@@ -487,7 +487,7 @@ export class PdfAnnotationComponent implements OnInit, OnChanges {
   }
 
   confirmText() {
-    let getRmvTxt &#x3D; getAllElements(
+    const getRmvTxt &#x3D; getAllElements(
       this.overStateEvent,
       this.removeClassName,
       this.pdfPayload
@@ -530,7 +530,7 @@ export class PdfAnnotationComponent implements OnInit, OnChanges {
     if ($event.target.className &#x3D;&#x3D;&#x3D; ClassTypes.heading) {
       // Heading
       this.removeAnnotationFlag &#x3D; false;
-      let boundry &#x3D; $event.target.getBoundingClientRect();
+      const boundry &#x3D; $event.target.getBoundingClientRect();
       this.overRectange &#x3D; {
         left: boundry.left,
         top: boundry.top,
@@ -547,7 +547,7 @@ export class PdfAnnotationComponent implements OnInit, OnChanges {
     } else if ($event.target.className &#x3D;&#x3D;&#x3D; ClassTypes.header) {
       // Header
       this.removeAnnotationFlag &#x3D; false;
-      let boundry &#x3D; $event.target.getBoundingClientRect();
+      const boundry &#x3D; $event.target.getBoundingClientRect();
       this.overRectange &#x3D; {
         left: boundry.left,
         top: boundry.top,
@@ -564,7 +564,7 @@ export class PdfAnnotationComponent implements OnInit, OnChanges {
     } else if ($event.target.className &#x3D;&#x3D;&#x3D; ClassTypes.exclude) {
       // Ignore text
       this.removeAnnotationFlag &#x3D; false;
-      let boundry &#x3D; $event.target.getBoundingClientRect();
+      const boundry &#x3D; $event.target.getBoundingClientRect();
       this.overRectange &#x3D; {
         left: boundry.left,
         top: boundry.top,
@@ -581,7 +581,7 @@ export class PdfAnnotationComponent implements OnInit, OnChanges {
     } else if ($event.target.className &#x3D;&#x3D;&#x3D; ClassTypes.footer) {
       // Footer
       this.removeAnnotationFlag &#x3D; false;
-      let boundry &#x3D; $event.target.getBoundingClientRect();
+      const boundry &#x3D; $event.target.getBoundingClientRect();
       this.overRectange &#x3D; {
         left: boundry.left,
         top: boundry.top,
@@ -604,8 +604,8 @@ export class PdfAnnotationComponent implements OnInit, OnChanges {
     this.removeAnnotationFlag &#x3D; false;
   }
   scrollHandler(event) {
-    let x: any &#x3D; this.perfectScroll.directiveRef.position(true).x || 0;
-    let y: any &#x3D; this.perfectScroll.directiveRef.position(true).y || 0;
+    const x: any &#x3D; this.perfectScroll.directiveRef.position(true).x || 0;
+    const y: any &#x3D; this.perfectScroll.directiveRef.position(true).y || 0;
     this.perfectScroll.directiveRef.update(); //for update scroll
     this.perfectScroll.directiveRef.scrollTo(0, 0, 100);
   }
@@ -729,9 +729,9 @@ export class PdfAnnotationComponent implements OnInit, OnChanges {
   // text layer render - rewriting span&#x27;s with div elements
   textLayerRendered(e: CustomEvent) {
     // console.log(e);
-    var divs &#x3D; document.querySelectorAll(&#x27;.textLayer &gt; span&#x27;);
-    for (var i &#x3D; 0; i &lt; divs.length; i++) {
-      var s: any &#x3D; document.createElement(&#x27;div&#x27;);
+    const divs &#x3D; document.querySelectorAll(&#x27;.textLayer &gt; span&#x27;);
+    for (let i &#x3D; 0; i &lt; divs.length; i++) {
+      const s: any &#x3D; document.createElement(&#x27;div&#x27;);
       s.style &#x3D; divs[i].getAttribute(&#x27;style&#x27;);
       s.innerHTML &#x3D; divs[i].innerHTML;
       divs[i].outerHTML &#x3D; s.outerHTML;
@@ -747,13 +747,13 @@ export class PdfAnnotationComponent implements OnInit, OnChanges {
       pdfData.loadingTask._transport._lastProgress
     ) {
       let _size &#x3D; pdfData.loadingTask._transport._lastProgress.total;
-      let fSExt &#x3D; new Array(&#x27;Bytes&#x27;, &#x27;KB&#x27;, &#x27;MB&#x27;, &#x27;GB&#x27;),
+      let fSExt &#x3D; [&#x27;Bytes&#x27;, &#x27;KB&#x27;, &#x27;MB&#x27;, &#x27;GB&#x27;],
         i &#x3D; 0;
       while (_size &gt; 900) {
         _size /&#x3D; 1024;
         i++;
       }
-      let exactSize: string &#x3D;
+      const exactSize: string &#x3D;
         (Math.round(_size * 100) / 100).toFixed() + &#x27;&#x27; + fSExt[i];
       this.pdfSize &#x3D; exactSize;
     }
@@ -812,22 +812,22 @@ export class PdfAnnotationComponent implements OnInit, OnChanges {
   cancelData(selectedText) {
     if (selectedText) {
       if (this.pdfPayload.title.includes(selectedText)) {
-        let index &#x3D; this.pdfPayload.title.indexOf(selectedText);
+        const index &#x3D; this.pdfPayload.title.indexOf(selectedText);
         this.pdfPayload.title.splice(index, 1);
         this.pdfPayload.title_pageno.splice(index, 1);
         this.cancelSerializationData(selectedText);
       } else if (this.pdfPayload.header.includes(selectedText)) {
-        let index &#x3D; this.pdfPayload.header.indexOf(selectedText);
+        const index &#x3D; this.pdfPayload.header.indexOf(selectedText);
         this.pdfPayload.header.splice(index, 1);
         this.pdfPayload.header_pageno.splice(index, 1);
         this.cancelSerializationData(selectedText);
       } else if (this.pdfPayload.footer.includes(selectedText)) {
-        let index &#x3D; this.pdfPayload.footer.indexOf(selectedText);
+        const index &#x3D; this.pdfPayload.footer.indexOf(selectedText);
         this.pdfPayload.footer.splice(index, 1);
         this.pdfPayload.footer_pageno.splice(index, 1);
         this.cancelSerializationData(selectedText);
       } else if (this.pdfPayload.ignoreText.includes(selectedText)) {
-        let index &#x3D; this.pdfPayload.ignoreText.indexOf(selectedText);
+        const index &#x3D; this.pdfPayload.ignoreText.indexOf(selectedText);
         this.pdfPayload.ignoreText.splice(index, 1);
         this.pdfPayload.ignoreTextPageno.splice(index, 1);
         this.cancelSerializationData(selectedText);
@@ -878,7 +878,7 @@ export class PdfAnnotationComponent implements OnInit, OnChanges {
       this.pdfPayload.serialization &amp;&amp;
       this.pdfPayload.serialization.length
     ) {
-      let index &#x3D; this.pdfPayload.serialization.findIndex(
+      const index &#x3D; this.pdfPayload.serialization.findIndex(
         (res) &#x3D;&gt; res.selectedText &#x3D;&#x3D;&#x3D; text
       );
       this.pdfPayload.serialization.splice(index, 1);
@@ -911,7 +911,7 @@ export class PdfAnnotationComponent implements OnInit, OnChanges {
                     this.notificationService.notify(res.Response, &#x27;success&#x27;);
                   }
                 } else if (res.serialization) {
-                  let sPayload &#x3D; {
+                  const sPayload &#x3D; {
                     title: res.title,
                     header: res.header,
                     footer: res.footer,
@@ -988,7 +988,7 @@ export class PdfAnnotationComponent implements OnInit, OnChanges {
   }
   // extract pdf
   extractPDF() {
-    let payloadResponse &#x3D; {
+    const payloadResponse &#x3D; {
       // &quot;streamId&quot;: this.pdfPayload.streamId,
       // &quot;fileId&quot;: this.fileId,
       title: this.pdfPayload.title,
@@ -1060,7 +1060,7 @@ export class PdfAnnotationComponent implements OnInit, OnChanges {
     if (!this.fileName) {
       console.log(this.fileName, &#x27;File name not found&#x27;);
     }
-    let payloadResponse &#x3D; {
+    const payloadResponse &#x3D; {
       // &quot;streamId&quot;: this.pdfPayload.streamId,
       // &quot;fileId&quot;: this.fileId,
       title: this.pdfPayload.title,
@@ -1112,7 +1112,7 @@ export class PdfAnnotationComponent implements OnInit, OnChanges {
       this.pdfPayload.footer.length ||
       this.pdfPayload.ignoreText.length
     ) {
-      let obj &#x3D; {
+      const obj &#x3D; {
         title: &#x27;Confirmation&#x27;,
         confirmationMsg:
           &#x27;Data miss matching with orginal data, please click try again to delete manually.&#x27;,
@@ -1167,7 +1167,7 @@ export class PdfAnnotationComponent implements OnInit, OnChanges {
       this.pdfConfig.renderTextMode &#x3D; 0;
       this.ignorePageAnnotation();
     } else {
-      let index &#x3D; this.pdfPayload.ignorePages.indexOf(
+      const index &#x3D; this.pdfPayload.ignorePages.indexOf(
         this.pdfConfig.currentPage
       );
       this.pdfPayload.ignorePages.splice(index, 1);
@@ -1177,7 +1177,7 @@ export class PdfAnnotationComponent implements OnInit, OnChanges {
   }
   // update ignore pages
   updateIgnorePages() {
-    let index &#x3D; this.pdfPayload.ignorePages.indexOf(this.pdfConfig.currentPage);
+    const index &#x3D; this.pdfPayload.ignorePages.indexOf(this.pdfConfig.currentPage);
     if (this.pdfPayload.ignorePages[index]) {
       this.pdfForm.get(&#x27;ignorePages&#x27;).setValue(true);
     } else {
@@ -1190,11 +1190,11 @@ export class PdfAnnotationComponent implements OnInit, OnChanges {
       this.pdfPayload.serialization.length &amp;&amp;
       this.pdfPayload.ignorePages.length
     ) {
-      let findPageNumber &#x3D; this.pdfPayload.ignorePages.indexOf(
+      const findPageNumber &#x3D; this.pdfPayload.ignorePages.indexOf(
         this.pdfConfig.currentPage
       );
       if (findPageNumber !&#x3D;&#x3D; -1) {
-        let findObj &#x3D; this.pdfPayload.serialization.filter((obj) &#x3D;&gt; {
+        const findObj &#x3D; this.pdfPayload.serialization.filter((obj) &#x3D;&gt; {
           return obj.currentPage &#x3D;&#x3D;&#x3D; this.pdfConfig.currentPage;
         });
         if (findObj &amp;&amp; findObj.length) {
@@ -1218,7 +1218,7 @@ export class PdfAnnotationComponent implements OnInit, OnChanges {
   // Search page number
   searchPage(event) {
     this.togglePage &#x3D; false;
-    let number &#x3D; Number(event.target.value) || this.pdfConfig.currentPage || 1;
+    const number &#x3D; Number(event.target.value) || this.pdfConfig.currentPage || 1;
     if (number &lt;&#x3D; this.pdfConfig.totalPages) {
       this.pdfConfig.currentPage &#x3D; number;
       this.pdfConfig.totalPages &#x3D; this.pdfConfig.totalPages;
@@ -1257,7 +1257,7 @@ export class PdfAnnotationComponent implements OnInit, OnChanges {
         // Firfox special chars
         this.selectedText &#x3D; this.selectedText.replace(/(\r\n|\n|\r)/gm, &#x27;&#x27;);
       }
-      let contentHtml &#x3D; this.rangeService.rangeSelectionHtml();
+      const contentHtml &#x3D; this.rangeService.rangeSelectionHtml();
       if (contentHtml &amp;&amp; checkDuplicateClasses(contentHtml)) {
         // check duplicate selection
         // console.log(&quot;It&#x27;s already annotated!&quot;);
@@ -1271,7 +1271,7 @@ export class PdfAnnotationComponent implements OnInit, OnChanges {
           this.hostRectangle &#x3D; null;
           this.hostRectangle &#x3D; this.rangeService.viewportRectangle();
           if (this.hostRectangle &amp;&amp; Math.sign(this.hostRectangle.top) &#x3D;&#x3D;&#x3D; -1) {
-            let rectange: any &#x3D; {};
+            const rectange: any &#x3D; {};
             rectange.top &#x3D; 100;
             rectange.left &#x3D; this.hostRectangle.left;
             this.hostRectangle &#x3D; null;
@@ -1290,7 +1290,7 @@ export class PdfAnnotationComponent implements OnInit, OnChanges {
     if (this.pdfPayload.serialization) {
       this.removeProgressBar &#x3D; false;
       setTimeout(() &#x3D;&gt; {
-        var filteredRes &#x3D; this.pdfPayload.serialization.filter((val, index) &#x3D;&gt; {
+        const filteredRes &#x3D; this.pdfPayload.serialization.filter((val, index) &#x3D;&gt; {
           return val.currentPage &#x3D;&#x3D; this.pdfConfig.currentPage;
         });
         if (filteredRes &amp;&amp; filteredRes.length) {
@@ -1306,10 +1306,10 @@ export class PdfAnnotationComponent implements OnInit, OnChanges {
   // Unique values filtering from array
   uniqueListFromArray(arr) {
     if (arr.length) {
-      let finalArr: any[] &#x3D; arr.filter((item, i, ar) &#x3D;&gt; ar.indexOf(item) &#x3D;&#x3D;&#x3D; i);
+      const finalArr: any[] &#x3D; arr.filter((item, i, ar) &#x3D;&gt; ar.indexOf(item) &#x3D;&#x3D;&#x3D; i);
       if (this.pdfPayload.ignorePages.length) {
         this.pdfPayload.ignorePages.forEach((item) &#x3D;&gt; {
-          let index &#x3D; finalArr.indexOf(item);
+          const index &#x3D; finalArr.indexOf(item);
           if (index !&#x3D;&#x3D; -1) finalArr.splice(index, 1);
         });
         if (Array.isArray(finalArr)) {
@@ -1325,9 +1325,9 @@ export class PdfAnnotationComponent implements OnInit, OnChanges {
             return a - b;
           });
         }
-        let firstArr &#x3D; finalArr.slice(0, 20);
-        let moreTxt &#x3D; &#x27;...&#x27;;
-        let result &#x3D; firstArr.concat(moreTxt);
+        const firstArr &#x3D; finalArr.slice(0, 20);
+        const moreTxt &#x3D; &#x27;...&#x27;;
+        const result &#x3D; firstArr.concat(moreTxt);
         return join(result);
       } else {
         if (Array.isArray(finalArr)) {
@@ -1342,10 +1342,10 @@ export class PdfAnnotationComponent implements OnInit, OnChanges {
   }
   tooltipText(arr) {
     if (arr) {
-      let finalArr: any[] &#x3D; arr.filter((item, i, ar) &#x3D;&gt; ar.indexOf(item) &#x3D;&#x3D;&#x3D; i);
+      const finalArr: any[] &#x3D; arr.filter((item, i, ar) &#x3D;&gt; ar.indexOf(item) &#x3D;&#x3D;&#x3D; i);
       if (this.pdfPayload.ignorePages.length) {
         this.pdfPayload.ignorePages.forEach((item) &#x3D;&gt; {
-          let index &#x3D; finalArr.indexOf(item);
+          const index &#x3D; finalArr.indexOf(item);
           if (index !&#x3D;&#x3D; -1) finalArr.splice(index, 1);
         });
         if (Array.isArray(finalArr)) {
@@ -1412,10 +1412,10 @@ enum ClassTypes {
   exclude &#x3D; &#x27;exclude-highlight&#x27;,
 }
 function getSelectionText() {
-  var document: any &#x3D; window.document;
+  const document: any &#x3D; window.document;
   if (window.getSelection) {
     try {
-      var activeElement &#x3D; document.activeElement;
+      const activeElement &#x3D; document.activeElement;
       if (activeElement &amp;&amp; activeElement.value) {
         return activeElement.value.substring(
           activeElement.selectionStart,
@@ -1433,9 +1433,9 @@ function getSelectionText() {
 // Get next, prev &amp; curr Siblings text from current element
 function getAllElements(element, className, payload) {
   // Current
-  let resultText: string &#x3D; element.textContent;
+  const resultText: string &#x3D; element.textContent;
   if (findMatchedData(payload, &#x27;&#x27;, resultText, &#x27;&#x27;, className).isMatched) {
-    let findMatchedObj: IFindMatched &#x3D; findMatchedData(
+    const findMatchedObj: IFindMatched &#x3D; findMatchedData(
       payload,
       &#x27;&#x27;,
       resultText,
@@ -1452,14 +1452,14 @@ function getAllElements(element, className, payload) {
     return resultText;
   }
   // PREV
-  let prevResultText &#x3D; [];
-  var lp &#x3D; $(&#x27;.&#x27; + className).length;
+  const prevResultText &#x3D; [];
+  const lp &#x3D; $(&#x27;.&#x27; + className).length;
   let prevEle: any &#x3D; $(element).parent().prev().children();
   if ($(prevEle).hasClass(className)) {
     for (let i &#x3D; 0; i &lt; lp; i++) {
       for (let j &#x3D; prevEle.length; j &gt; 0; j--) {
         if (prevEle.length &amp;&amp; $(prevEle).hasClass(className)) {
-          let text &#x3D; $(prevEle).text();
+          const text &#x3D; $(prevEle).text();
           prevResultText.push(text);
           if (
             findMatchedData(
@@ -1471,7 +1471,7 @@ function getAllElements(element, className, payload) {
             ).isMatched
           ) {
             prevEle &#x3D; {};
-            let findMatchedObj: IFindMatched &#x3D; findMatchedData(
+            const findMatchedObj: IFindMatched &#x3D; findMatchedData(
               payload,
               prevResultText,
               resultText,
@@ -1499,7 +1499,7 @@ function getAllElements(element, className, payload) {
     for (let i &#x3D; 0; i &lt; lp; i++) {
       for (let j &#x3D; 0; j &lt; nextEle.length; j++) {
         if (nextEle.length &amp;&amp; $(nextEle).hasClass(className)) {
-          let text &#x3D; $(nextEle).text();
+          const text &#x3D; $(nextEle).text();
           nextResultText.push(text);
           if (
             findMatchedData(
@@ -1511,7 +1511,7 @@ function getAllElements(element, className, payload) {
             ).isMatched
           ) {
             nextEle &#x3D; {};
-            let findMatchedObj: IFindMatched &#x3D; findMatchedData(
+            const findMatchedObj: IFindMatched &#x3D; findMatchedData(
               payload,
               prevResultText,
               resultText,
@@ -1533,9 +1533,9 @@ function getAllElements(element, className, payload) {
     }
   }
 
-  let prvTxt &#x3D; prevResultText.reverse().join(&#x27;&#x27;) || &#x27;&#x27;;
-  let nxtText &#x3D; nextResultText.join(&#x27;&#x27;) || &#x27;&#x27;;
-  let finalText &#x3D; prvTxt + resultText + nxtText;
+  const prvTxt &#x3D; prevResultText.reverse().join(&#x27;&#x27;) || &#x27;&#x27;;
+  const nxtText &#x3D; nextResultText.join(&#x27;&#x27;) || &#x27;&#x27;;
+  const finalText &#x3D; prvTxt + resultText + nxtText;
   return finalText || &#x27;&#x27;;
 }
 // Remove/Detach classes for Prev+ current + next elements span&#x27;s
@@ -1556,7 +1556,7 @@ function removeTextClass(className, element) {
   $(element).removeClass(className);
   $(element).toggleClass(&#x27;rangy&#x27;);
   // PREV
-  let lp &#x3D; $(&#x27;.&#x27; + className).length;
+  const lp &#x3D; $(&#x27;.&#x27; + className).length;
   let prevEle: any &#x3D; $(element).parent().prev().children();
   let nextEle: any &#x3D; $(element).parent().next().children();
   if ($(prevEle).hasClass(className)) {
@@ -1652,9 +1652,9 @@ function findMatchedData(
   nextText,
   className
 ): IFindMatched {
-  let prvTxt &#x3D; prevText &amp;&amp; prevText.length ? prevText.reverse().join(&#x27;&#x27;) : &#x27;&#x27;;
-  let nxtText &#x3D; nextText &amp;&amp; nextText.length ? nextText.join(&#x27;&#x27;) : &#x27;&#x27;;
-  let finalText &#x3D; prvTxt + currText + nxtText;
+  const prvTxt &#x3D; prevText &amp;&amp; prevText.length ? prevText.reverse().join(&#x27;&#x27;) : &#x27;&#x27;;
+  const nxtText &#x3D; nextText &amp;&amp; nextText.length ? nextText.join(&#x27;&#x27;) : &#x27;&#x27;;
+  const finalText &#x3D; prvTxt + currText + nxtText;
   let resultObj: IFindMatched &#x3D; {
     isMatched: true,
     option: null,
@@ -1676,7 +1676,7 @@ function findMatchedData(
     if (!resultObj.isMatched) {
       if (payload.title.length) {
         payload.title.forEach((item, index) &#x3D;&gt; {
-          let subStr &#x3D; item.substr(finalText, finalText.length);
+          const subStr &#x3D; item.substr(finalText, finalText.length);
           if (subStr &amp;&amp; payload.title.includes(subStr)) {
             resultObj &#x3D; {
               isMatched: true,
@@ -1688,7 +1688,7 @@ function findMatchedData(
         });
       } else if (payload.header.length) {
         payload.header.forEach((item, index) &#x3D;&gt; {
-          let subStr &#x3D; item.substr(finalText, finalText.length);
+          const subStr &#x3D; item.substr(finalText, finalText.length);
           if (subStr &amp;&amp; payload.header.includes(subStr)) {
             resultObj &#x3D; {
               isMatched: true,
@@ -1700,7 +1700,7 @@ function findMatchedData(
         });
       } else if (payload.footer.length) {
         payload.footer.forEach((item, index) &#x3D;&gt; {
-          let subStr &#x3D; item.substr(finalText, finalText.length);
+          const subStr &#x3D; item.substr(finalText, finalText.length);
           if (subStr &amp;&amp; payload.footer.includes(subStr)) {
             resultObj &#x3D; {
               isMatched: true,
@@ -1712,7 +1712,7 @@ function findMatchedData(
         });
       } else if (payload.ignoreText.length) {
         payload.ignoreText.forEach((item, index) &#x3D;&gt; {
-          let subStr &#x3D; item.substr(finalText, finalText.length);
+          const subStr &#x3D; item.substr(finalText, finalText.length);
           if (subStr &amp;&amp; payload.ignoreText.includes(subStr)) {
             resultObj &#x3D; {
               isMatched: true,

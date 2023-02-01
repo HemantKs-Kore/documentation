@@ -14,67 +14,67 @@
 <title>cluster_SynonymsModule</title>
 <polygon fill="none" stroke="black" stroke-dasharray="1,5" points="8,-32.8 8,-157.8 673,-157.8 673,-32.8 8,-32.8"/>
 </g>
-<g id="clust2" class="cluster">
-<title>cluster_SynonymsModule_declarations</title>
-<polygon fill="none" stroke="black" points="509,-40.8 509,-92.8 665,-92.8 665,-40.8 509,-40.8"/>
-</g>
 <g id="clust4" class="cluster">
 <title>cluster_SynonymsModule_imports</title>
-<polygon fill="none" stroke="black" points="16,-40.8 16,-92.8 501,-92.8 501,-40.8 16,-40.8"/>
+<polygon fill="none" stroke="black" points="180,-40.8 180,-92.8 665,-92.8 665,-40.8 180,-40.8"/>
+</g>
+<g id="clust2" class="cluster">
+<title>cluster_SynonymsModule_declarations</title>
+<polygon fill="none" stroke="black" points="16,-40.8 16,-92.8 172,-92.8 172,-40.8 16,-40.8"/>
 </g>
 <!-- SynonymsComponent -->
 <g id="node1" class="node">
 <title>SynonymsComponent</title>
-<polygon fill="#ffffb3" stroke="black" points="657.46,-84.8 516.54,-84.8 516.54,-48.8 657.46,-48.8 657.46,-84.8"/>
-<text text-anchor="middle" x="587" y="-62.6" font-family="Times,serif" font-size="14.00">SynonymsComponent</text>
+<polygon fill="#ffffb3" stroke="black" points="164.46,-84.8 23.54,-84.8 23.54,-48.8 164.46,-48.8 164.46,-84.8"/>
+<text text-anchor="middle" x="94" y="-62.6" font-family="Times,serif" font-size="14.00">SynonymsComponent</text>
 </g>
 <!-- SynonymsModule -->
 <g id="node2" class="node">
 <title>SynonymsModule</title>
-<polygon fill="#8dd3c7" stroke="black" points="408.18,-149.8 405.18,-153.8 384.18,-153.8 381.18,-149.8 289.82,-149.8 289.82,-113.8 408.18,-113.8 408.18,-149.8"/>
-<text text-anchor="middle" x="349" y="-127.6" font-family="Times,serif" font-size="14.00">SynonymsModule</text>
+<polygon fill="#8dd3c7" stroke="black" points="412.18,-149.8 409.18,-153.8 388.18,-153.8 385.18,-149.8 293.82,-149.8 293.82,-113.8 412.18,-113.8 412.18,-149.8"/>
+<text text-anchor="middle" x="353" y="-127.6" font-family="Times,serif" font-size="14.00">SynonymsModule</text>
 </g>
 <!-- SynonymsComponent&#45;&gt;SynonymsModule -->
 <g id="edge1" class="edge">
 <title>SynonymsComponent&#45;&gt;SynonymsModule</title>
-<path fill="none" stroke="black" d="M587,-84.91C587,-104.14 587,-131.8 587,-131.8 587,-131.8 418.44,-131.8 418.44,-131.8"/>
-<polygon fill="black" stroke="black" points="418.44,-128.3 408.44,-131.8 418.44,-135.3 418.44,-128.3"/>
+<path fill="none" stroke="black" d="M94,-84.91C94,-104.14 94,-131.8 94,-131.8 94,-131.8 283.58,-131.8 283.58,-131.8"/>
+<polygon fill="black" stroke="black" points="283.58,-135.3 293.58,-131.8 283.58,-128.3 283.58,-135.3"/>
 </g>
 <!-- EmptyScreenModule -->
 <g id="node3" class="node">
 <title>EmptyScreenModule</title>
-<polygon fill="#8dd3c7" stroke="black" points="493.47,-84.8 490.47,-88.8 469.47,-88.8 466.47,-84.8 358.53,-84.8 358.53,-48.8 493.47,-48.8 493.47,-84.8"/>
-<text text-anchor="middle" x="426" y="-62.6" font-family="Times,serif" font-size="14.00">EmptyScreenModule</text>
+<polygon fill="#8dd3c7" stroke="black" points="657.47,-84.8 654.47,-88.8 633.47,-88.8 630.47,-84.8 522.53,-84.8 522.53,-48.8 657.47,-48.8 657.47,-84.8"/>
+<text text-anchor="middle" x="590" y="-62.6" font-family="Times,serif" font-size="14.00">EmptyScreenModule</text>
 </g>
 <!-- EmptyScreenModule&#45;&gt;SynonymsModule -->
 <g id="edge2" class="edge">
 <title>EmptyScreenModule&#45;&gt;SynonymsModule</title>
-<path fill="none" stroke="black" d="M383.43,-84.91C383.43,-84.91 383.43,-103.79 383.43,-103.79"/>
-<polygon fill="black" stroke="black" points="379.93,-103.79 383.43,-113.79 386.93,-103.79 379.93,-103.79"/>
+<path fill="none" stroke="black" d="M590,-84.91C590,-104.14 590,-131.8 590,-131.8 590,-131.8 422.19,-131.8 422.19,-131.8"/>
+<polygon fill="black" stroke="black" points="422.19,-128.3 412.19,-131.8 422.19,-135.3 422.19,-128.3"/>
 </g>
 <!-- FindlySharedModule -->
 <g id="node4" class="node">
 <title>FindlySharedModule</title>
-<polygon fill="#8dd3c7" stroke="black" points="340.49,-84.8 337.49,-88.8 316.49,-88.8 313.49,-84.8 205.51,-84.8 205.51,-48.8 340.49,-48.8 340.49,-84.8"/>
-<text text-anchor="middle" x="273" y="-62.6" font-family="Times,serif" font-size="14.00">FindlySharedModule</text>
+<polygon fill="#8dd3c7" stroke="black" points="504.49,-84.8 501.49,-88.8 480.49,-88.8 477.49,-84.8 369.51,-84.8 369.51,-48.8 504.49,-48.8 504.49,-84.8"/>
+<text text-anchor="middle" x="437" y="-62.6" font-family="Times,serif" font-size="14.00">FindlySharedModule</text>
 </g>
 <!-- FindlySharedModule&#45;&gt;SynonymsModule -->
 <g id="edge3" class="edge">
 <title>FindlySharedModule&#45;&gt;SynonymsModule</title>
-<path fill="none" stroke="black" d="M315.08,-84.91C315.08,-84.91 315.08,-103.79 315.08,-103.79"/>
-<polygon fill="black" stroke="black" points="311.58,-103.79 315.08,-113.79 318.58,-103.79 311.58,-103.79"/>
+<path fill="none" stroke="black" d="M390.92,-84.91C390.92,-84.91 390.92,-103.79 390.92,-103.79"/>
+<polygon fill="black" stroke="black" points="387.42,-103.79 390.92,-113.79 394.42,-103.79 387.42,-103.79"/>
 </g>
 <!-- SynonymsRoutingModule -->
 <g id="node5" class="node">
 <title>SynonymsRoutingModule</title>
-<polygon fill="#8dd3c7" stroke="black" points="187.79,-84.8 184.79,-88.8 163.79,-88.8 160.79,-84.8 24.21,-84.8 24.21,-48.8 187.79,-48.8 187.79,-84.8"/>
-<text text-anchor="middle" x="106" y="-62.6" font-family="Times,serif" font-size="14.00">SynonymsRoutingModule</text>
+<polygon fill="#8dd3c7" stroke="black" points="351.79,-84.8 348.79,-88.8 327.79,-88.8 324.79,-84.8 188.21,-84.8 188.21,-48.8 351.79,-48.8 351.79,-84.8"/>
+<text text-anchor="middle" x="270" y="-62.6" font-family="Times,serif" font-size="14.00">SynonymsRoutingModule</text>
 </g>
 <!-- SynonymsRoutingModule&#45;&gt;SynonymsModule -->
 <g id="edge4" class="edge">
 <title>SynonymsRoutingModule&#45;&gt;SynonymsModule</title>
-<path fill="none" stroke="black" d="M106,-84.91C106,-104.14 106,-131.8 106,-131.8 106,-131.8 279.56,-131.8 279.56,-131.8"/>
-<polygon fill="black" stroke="black" points="279.56,-135.3 289.56,-131.8 279.56,-128.3 279.56,-135.3"/>
+<path fill="none" stroke="black" d="M322.78,-84.91C322.78,-84.91 322.78,-103.79 322.78,-103.79"/>
+<polygon fill="black" stroke="black" points="319.28,-103.79 322.78,-113.79 326.28,-103.79 319.28,-103.79"/>
 </g>
 </g>
 </svg>

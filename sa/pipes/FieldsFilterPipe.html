@@ -62,7 +62,7 @@
             <h3>File</h3>
         </p>
         <p class="comment">
-            <code>apps/searchassist/src/app/components/index/fileds-filter.pipe.ts</code>
+            <code>apps/searchassist/src/app/shared/pipes/fields-filter.pipe.ts</code>
         </p>
 
 
@@ -105,8 +105,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="6"
-                            class="link-to-prism">apps/searchassist/src/app/components/index/fileds-filter.pipe.ts:6</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="7"
+                            class="link-to-prism">apps/searchassist/src/app/shared/pipes/fields-filter.pipe.ts:7</a></div>
                 </td>
             </tr>
 
@@ -174,30 +174,31 @@
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Pipe, PipeTransform } from &#x27;@angular/core&#x27;;
 @Pipe({
-  name: &#x27;fieldsFilter&#x27;
+  name: &#x27;fieldsFilter&#x27;,
+  standalone: true,
 })
 export class FieldsFilterPipe implements PipeTransform {
   transform(items: any[], searchArray: any[]): any[] {
-    if(!items) return [];
-    if(!searchArray[0]) return items;
-    searchArray[0] &#x3D; searchArray[0];
-    return items.filter( it &#x3D;&gt; {
-      if(searchArray &amp;&amp; searchArray.length &amp;&amp; searchArray[1]){
-          if(it.fieldDataType &#x3D;&#x3D;&#x3D; &#x27;number&#x27;){
-            return it[searchArray[1]].toString().includes(searchArray[0]);
-          } else {
-            return it[searchArray[1]].toString().includes(searchArray[0]);
-          }
+    if (!items) return [];
+    if (!searchArray[0]) return items;
+    return items.filter((it) &#x3D;&gt; {
+      if (searchArray &amp;&amp; searchArray.length &amp;&amp; searchArray[1]) {
+        if (it.fieldDataType &#x3D;&#x3D;&#x3D; &#x27;number&#x27;) {
+          return it[searchArray[1]].toString().includes(searchArray[0]);
+        } else {
+          return it[searchArray[1]].toString().includes(searchArray[0]);
+        }
       } else {
-        if(it.fieldDataType &#x3D;&#x3D;&#x3D; &#x27;number&#x27;){
-            return it.includes(searchArray[0]);
-          } else {
-            return it.toLowerCase().includes(searchArray[0]);
-          }
+        if (it.fieldDataType &#x3D;&#x3D;&#x3D; &#x27;number&#x27;) {
+          return it.includes(searchArray[0]);
+        } else {
+          return it.toLowerCase().includes(searchArray[0]);
+        }
       }
     });
-   }
-}</code></pre>
+  }
+}
+</code></pre>
     </div>
 
 </div>

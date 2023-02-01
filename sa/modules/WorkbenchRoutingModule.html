@@ -35,7 +35,7 @@
 
 <ol class="breadcrumb">
     <li>Modules</li>
-    <li >IndexRoutingModule</li>
+    <li >WorkbenchRoutingModule</li>
 </ol>
 
 
@@ -55,7 +55,7 @@
             <h3>File</h3>
         </p>
         <p class="comment">
-            <code>apps/searchassist/src/app/modules/index/index-routing.module.ts</code>
+            <code>apps/searchassist/src/app/modules/workbench/workbench-routing.module.ts</code>
         </p>
 
 
@@ -74,15 +74,15 @@
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { NgModule } from &#x27;@angular/core&#x27;;
 import { RouterModule, Routes } from &#x27;@angular/router&#x27;;
-import { IndexComponent } from &#x27;./index.component&#x27;;
+import { WorkbenchComponent } from &#x27;./workbench.component&#x27;;
 
-const routes: Routes &#x3D; [{ path: &#x27;&#x27;, component: IndexComponent }];
+const routes: Routes &#x3D; [{ path: &#x27;&#x27;, component: WorkbenchComponent }];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule],
+  exports: [RouterModule]
 })
-export class IndexRoutingModule {}
+export class WorkbenchRoutingModule { }
 </code></pre>
     </div>
 </div>
@@ -129,7 +129,7 @@ export class IndexRoutingModule {}
        <script>
             var COMPODOC_CURRENT_PAGE_DEPTH = 1;
             var COMPODOC_CURRENT_PAGE_CONTEXT = 'module';
-            var COMPODOC_CURRENT_PAGE_URL = 'IndexRoutingModule.html';
+            var COMPODOC_CURRENT_PAGE_URL = 'WorkbenchRoutingModule.html';
             var MAX_SEARCH_RESULTS = 15;
        </script>
 

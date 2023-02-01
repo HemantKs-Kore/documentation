@@ -671,12 +671,6 @@
             </tr>
                 <tr>
                     <td class="col-md-4">
-                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
-
-                    </td>
-                </tr>
-                <tr>
-                    <td class="col-md-4">
                         <i>Default value : </i><code>false</code>
                     </td>
                 </tr>
@@ -700,12 +694,6 @@
                     </span>
                 </td>
             </tr>
-                <tr>
-                    <td class="col-md-4">
-                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
-
-                    </td>
-                </tr>
                 <tr>
                     <td class="col-md-4">
                         <i>Default value : </i><code>false</code>
@@ -768,8 +756,8 @@ import { ServiceInvokerService } from &#x27;@kore.apps/services/service-invoker.
   styleUrls: [&#x27;./summary-modal.component.scss&#x27;],
 })
 export class SummaryModalComponent implements OnInit {
-  loaderFlag: boolean &#x3D; false;
-  noDataFound: boolean &#x3D; false;
+  loaderFlag &#x3D; false;
+  noDataFound &#x3D; false;
   searchText &#x3D; new FormControl(null);
   constructor(
     // private _formBuilder: FormBuilder,
@@ -797,7 +785,7 @@ export class SummaryModalComponent implements OnInit {
   }
   // delete data
   deleteRow(index, option, selectedText) {
-    let obj &#x3D; {
+    const obj &#x3D; {
       title: &#x27;Confirmation&#x27;,
       confirmationMsg: &#x27;Are you sure?&#x27;,
       yes: &#x27;Confirm&#x27;,
@@ -840,7 +828,7 @@ export class SummaryModalComponent implements OnInit {
       this.dialogData.pdfResponse.serialization &amp;&amp;
       this.dialogData.pdfResponse.serialization.length
     ) {
-      let index &#x3D; this.dialogData.pdfResponse.serialization.findIndex(
+      const index &#x3D; this.dialogData.pdfResponse.serialization.findIndex(
         (res) &#x3D;&gt; res.selectedText &#x3D;&#x3D;&#x3D; text
       );
       this.dialogData.pdfResponse.serialization.splice(index, 1);
@@ -967,120 +955,121 @@ export class SummaryModalComponent implements OnInit {
                 <p class="comment">
                     <code>./summary-modal.component.scss</code>
                 </p>
-                <pre class="line-numbers"><code class="language-scss">@import &quot;../../../../scss/variables/variables.scss&quot;;
+                <pre class="line-numbers"><code class="language-scss">@import &#x27;variables/variables.scss&#x27;;
 .app-dialog {
-    .modal-header {
-        height: auto;
-        padding: 11px 0 12px 0;
-        background-color: #f2f3f5;
-        border: 0;
-        border-radius: 4px;
-        display: block;
-        text-align: center;
-        .modal-title {
-            font-size: 24px;
-            font-weight: 300;
-            color: #26344a;
-        }
+  .modal-header {
+    height: auto;
+    padding: 11px 0 12px 0;
+    background-color: #f2f3f5;
+    border: 0;
+    border-radius: 4px;
+    display: block;
+    text-align: center;
+    .modal-title {
+      font-size: 24px;
+      font-weight: 300;
+      color: #26344a;
     }
-    perfect-scrollbar.summary-perfect-scroll {
-        height: 300px;
+  }
+  perfect-scrollbar.summary-perfect-scroll {
+    height: 300px;
+  }
+  .modal-body {
+    padding: 30px 20px;
+    min-height: 148px;
+    background: $whiteColor;
+    .title {
+      font-size: 14px;
+      font-weight: bold;
+      color: $primaryColor;
     }
-    .modal-body {
-        padding: 30px 20px;
-        min-height: 148px;
-        background: $whiteColor;
-        .title {
-            font-size: 14px;
-            font-weight: bold;
-            color: $primaryColor;
-        }
-        .onselect {
-            cursor: pointer;
-            &amp;:hover {
-                //   background-color: $backgroundColor;
-                .toggle-icon {
-                    display: inline-block !important;
-                }
-            }
-        }
+    .onselect {
+      cursor: pointer;
+      &amp;:hover {
+        //   background-color: $backgroundColor;
         .toggle-icon {
-            display: none;
-            position: absolute;
-            right: 10px;
+          display: inline-block !important;
         }
-        .badge-primary {
-            color: #fff;
-            background-color: #6e7e92;
-            display: flex;
-            align-items: center;
-        }
+      }
     }
-    .modal-footer {
-        height: auto;
-        padding: 14px 0 15px 0;
-        background-color: #f2f3f5;
-        border: 0;
-        border-radius: 4px;
-        display: block;
-        text-align: center;
+    .toggle-icon {
+      display: none;
+      position: absolute;
+      right: 10px;
     }
+    .badge-primary {
+      color: #fff;
+      background-color: #6e7e92;
+      display: flex;
+      align-items: center;
+    }
+  }
+  .modal-footer {
+    height: auto;
+    padding: 14px 0 15px 0;
+    background-color: #f2f3f5;
+    border: 0;
+    border-radius: 4px;
+    display: block;
+    text-align: center;
+  }
 }
 
 ::ng-deep .cdk-global-scrollblock {
-    overflow-y: hidden;
+  overflow-y: hidden;
 }
 ::ng-deep .kr-create-app-panel {
-    width: 50%;
-    margin-top: -25px;
+  width: 50%;
+  margin-top: -25px;
 }
 
 mat-expansion-panel {
-    .mat-expansion-panel-header-title {
-        color: $primaryColor;
-        font-size: 14px;
-        width: 100%;
+  .mat-expansion-panel-header-title {
+    color: $primaryColor;
+    font-size: 14px;
+    width: 100%;
+  }
+  .mat-expansion-panel-header-description {
+    color: $secondaryColor;
+    font-size: 14px;
+    font-weight: normal;
+    .pageno {
+      text-align: center;
     }
-    .mat-expansion-panel-header-description {
-        color: $secondaryColor;
-        font-size: 14px;
-        font-weight: normal;
-        .pageno {
-            text-align: center;
-        }
-    }
+  }
 }
 mat-expansion-panel {
-    margin: 5px 0px;
-    position: relative;
+  margin: 5px 0px;
+  position: relative;
 }
 mat-expansion-panel:hover {
-    box-shadow: 0px 0px 3px 1px #a6b2c2;
+  box-shadow: 0px 0px 3px 1px #a6b2c2;
 }
 expansion-panel-header:hover {
-    background: #fff !important;
+  background: #fff !important;
 }
-.mat-expansion-panel:not(.mat-expanded) .mat-expansion-panel-header:not([aria-disabled&#x3D;&quot;true&quot;]):hover {
-    background: #fff;
+.mat-expansion-panel:not(.mat-expanded)
+  .mat-expansion-panel-header:not([aria-disabled&#x3D;&#x27;true&#x27;]):hover {
+  background: #fff;
 }
 .mat-expansion-panel-header-custom {
-    padding: 20px 24px 5px 24px;
-    height: auto !important;
+  padding: 20px 24px 5px 24px;
+  height: auto !important;
 }
 ::ng-deep .mat-expansion-panel-header {
-    transition: none !important;
+  transition: none !important;
 }
 .no-data-found {
-    text-align: center;
-    .no-title {
-        padding: 20px 0;
-        font-size: 24px;
-        font-weight: 300;
-        color: $primaryColor;
-    }
+  text-align: center;
+  .no-title {
+    padding: 20px 0;
+    font-size: 24px;
+    font-weight: 300;
+    color: $primaryColor;
+  }
 }
 .mb-10 {
-    margin-bottom: 10px;
+  margin-bottom: 10px;
 }
 </code></pre>
     </div>
@@ -1111,7 +1100,7 @@ expansion-panel-header:hover {
 <script src="../js/libs/deep-iterator.js"></script>
 <script>
         var COMPONENT_TEMPLATE = '<div><div class="app-dialog">  <div class="modal-header">    <div class="modal-title">{{\'Annotations\'}}</div>  </div>  <perfect-scrollbar *ngIf="!noDataFound" class="summary-perfect-scroll">    <div class="modal-body">      <div class="kr-sg-input-search mb-10">                                       <input type="text" placeholder="Search" class="input-search" [formControl]="searchText">        <img src="assets/icons/search-gray.svg" class="search-icon" (click)="searchText.reset();">      </div>      <div class="col-12 p-0 mb-20" *ngIf="dialogData.pdfResponse.title.length">        <div class="title">          Headings        </div>        <mat-accordion class="kr-accordian">          <mat-expansion-panel *ngFor="let list of dialogData.pdfResponse.title | search:searchText.value;let index=index; " hideToggle>            <mat-expansion-panel-header class="onselect">              <mat-panel-title>                {{list | truncate: 35}}              </mat-panel-title>              <mat-panel-description>                <div class="badge badge-primary badge-pill">{{\'Page-\' + dialogData.pdfResponse.title_pageno[index]}}                </div>                <span class="toggle-icon"><img src="assets/images/trashIcon.svg" alt="delete"                    (click)="deleteRow(index, \'title\',list);$event.stopPropagation();"></span>              </mat-panel-description>            </mat-expansion-panel-header>            <p> {{list }}</p>          </mat-expansion-panel>        </mat-accordion>      </div>      <div class="col-12 p-0 mb-20" *ngIf="dialogData.pdfResponse.header.length">        <div class="title">          Headers        </div>        <mat-accordion class="kr-accordian">          <mat-expansion-panel *ngFor="let list of dialogData.pdfResponse.header | search:searchText.value;let index=index; " hideToggle>            <mat-expansion-panel-header class="onselect">              <mat-panel-title>                {{list | truncate: 35}}              </mat-panel-title>              <mat-panel-description>                <div class="badge badge-primary badge-pill">{{\'Page-\' + dialogData.pdfResponse.header_pageno[index]}}                </div>                <span class="toggle-icon"><img src="assets/images/trashIcon.svg" alt="delete"                    (click)="deleteRow(index, \'header\', list);$event.stopPropagation();"></span>              </mat-panel-description>            </mat-expansion-panel-header>            <p> {{list }}</p>          </mat-expansion-panel>        </mat-accordion>      </div>      <div class="col-12 p-0 mb-20" *ngIf="dialogData.pdfResponse.footer.length">        <div class="title">          Footers        </div>        <mat-accordion class="kr-accordian">          <mat-expansion-panel *ngFor="let list of dialogData.pdfResponse.footer | search:searchText.value;let index=index; " hideToggle>            <mat-expansion-panel-header class="onselect">              <mat-panel-title>                {{list | truncate: 35}}              </mat-panel-title>              <mat-panel-description>                <div class="badge badge-primary badge-pill">{{\'Page-\' + dialogData.pdfResponse.footer_pageno[index]}}                </div>                <span class="toggle-icon"><img src="assets/images/trashIcon.svg" alt="delete"                    (click)="deleteRow(index, \'footer\', list);$event.stopPropagation();"></span>              </mat-panel-description>            </mat-expansion-panel-header>            <p> {{list }}</p>          </mat-expansion-panel>        </mat-accordion>      </div>      <div class="col-12 p-0 mb-20" *ngIf="dialogData.pdfResponse.ignoreText.length">        <div class="title">          Exclusions        </div>        <mat-accordion class="kr-accordian">          <mat-expansion-panel *ngFor="let list of dialogData.pdfResponse.ignoreText | search:searchText.value;let index=index; " hideToggle>            <mat-expansion-panel-header class="onselect">              <mat-panel-title>                {{list | truncate: 35}}              </mat-panel-title>              <mat-panel-description>                <div class="badge badge-primary badge-pill">{{\'Page-\' + dialogData.pdfResponse.ignoreTextPageno[index]}}                </div>                <span class="toggle-icon"><img src="assets/images/trashIcon.svg" alt="delete"                    (click)="deleteRow(index, \'ignore\', list);$event.stopPropagation();"></span>              </mat-panel-description>            </mat-expansion-panel-header>            <p> {{list }}</p>          </mat-expansion-panel>        </mat-accordion>    </div>    </div>  </perfect-scrollbar>  <!-- NO DATA FOUND -->  <div class="no-data-found" *ngIf="noDataFound">    <img alt="no widgets" src="assets/images/empty-illustration.png" />    <div class="no-title">No Annotations!</div>  </div>  <div class="modal-footer">    <button (click)="close()" type="button" class="kr-sg-button-secondary btn_md">Close</button>  </div></div></div>'
-    var COMPONENTS = [{'name': 'ActionsComponent', 'selector': 'app-actions'},{'name': 'AddAlternateQuestionComponent', 'selector': 'app-add-alternate-question'},{'name': 'AddAltFaqComponent', 'selector': 'app-add-alt-faq'},{'name': 'AddFaqComponent', 'selector': 'app-add-faq'},{'name': 'AddResultComponent', 'selector': 'app-add-result'},{'name': 'AddResultComponent', 'selector': 'app-add-result'},{'name': 'AddStructuredDataComponent', 'selector': 'app-add-structured-data'},{'name': 'AnalyticsDropdownComponent', 'selector': 'app-analytics-dropdown'},{'name': 'AnnotoolComponent', 'selector': 'kr-annotool'},{'name': 'AppComponent', 'selector': 'app-root'},{'name': 'AppExperimentsComponent', 'selector': 'app-app-experiments'},{'name': 'AppsComponent', 'selector': 'app-apps'},{'name': 'AutocompleteMultiChipComponent', 'selector': 'app-autocomplete-multi-chip'},{'name': 'BodyComponent', 'selector': 'app-body'},{'name': 'BotActionsComponent', 'selector': 'app-bot-actions'},{'name': 'BotActionsComponent', 'selector': 'app-bot-actions'},{'name': 'BusinessRulesComponent', 'selector': 'app-business-rules'},{'name': 'ConfirmationComponent', 'selector': 'kr-confirmation'},{'name': 'ConfirmationDialogComponent', 'selector': 'app-confirmation-dialog'},{'name': 'ConnectorsComponent', 'selector': 'app-connectors'},{'name': 'ContentComponent', 'selector': 'app-content'},{'name': 'CredentialsListComponent', 'selector': 'app-credentials-list'},{'name': 'CustomConfigFormComponent', 'selector': 'app-custom-config-form'},{'name': 'CustomConfigListComponent', 'selector': 'app-custom-config-list'},{'name': 'CustomConfigurationsComponent', 'selector': 'app-custom-configurations'},{'name': 'CustomMarkdownEditorComponent', 'selector': 'md-editor'},{'name': 'DashboardComponent', 'selector': 'app-dashboard'},{'name': 'DateRangePickerComponent', 'selector': 'app-date-range-picker'},{'name': 'DemoComponent', 'selector': 'app-demo'},{'name': 'EditorUrlDialogComponent', 'selector': 'app-editor-url-dialog'},{'name': 'EmptyScreenComponent', 'selector': 'app-empty-screen'},{'name': 'FacetsComponent', 'selector': 'app-facets'},{'name': 'FaqsComponent', 'selector': 'faqs-source'},{'name': 'FieldManagementComponent', 'selector': 'app-field-management'},{'name': 'GeneralSettingsComponent', 'selector': 'app-general-settings'},{'name': 'GroupInputComponent', 'selector': 'app-group-input'},{'name': 'HeaderComponent', 'selector': 'app-header'},{'name': 'HighlightingComponent', 'selector': 'app-highlighting'},{'name': 'ImportFaqsModalComponent', 'selector': 'app-import-faqs-modal'},{'name': 'IndexComponent', 'selector': 'app-index'},{'name': 'IndexComponent', 'selector': 'app-index'},{'name': 'IndexConfigurationSettingsComponent', 'selector': 'app-index-configuration-settings'},{'name': 'IndexFieldsComfirmationDialogComponent', 'selector': 'app-index-fields-comfirmation-dialog'},{'name': 'InsightsComponent', 'selector': 'app-insights'},{'name': 'InvoicesComponent', 'selector': 'app-invoices'},{'name': 'KRModalComponent', 'selector': 'kr-modal'},{'name': 'ListFieldsComponent', 'selector': 'app-list-fields'},{'name': 'LoaderComponent', 'selector': 'app-loader'},{'name': 'MainMenuComponent', 'selector': 'app-mainmenu'},{'name': 'ManageIntentComponent', 'selector': 'app-manage-intent'},{'name': 'MarkdownEditorResizeSensorComponent', 'selector': 'md-editor-resize-sensor'},{'name': 'MetricsComponent', 'selector': 'app-metrics'},{'name': 'OnboardingComponent', 'selector': 'app-onboarding'},{'name': 'PaginationComponent', 'selector': 'app-pagination'},{'name': 'PdfAnnotationComponent', 'selector': 'kr-pdf-annotation'},{'name': 'PresentableComponent', 'selector': 'app-presentable'},{'name': 'PricingComponent', 'selector': 'app-pricing'},{'name': 'RangeSliderComponent', 'selector': 'app-range-slider'},{'name': 'RangeSliderSearchExperienceComponent', 'selector': 'app-range-slider-search-experience'},{'name': 'RecordPaginationComponent', 'selector': 'app-record-pagination'},{'name': 'ResultInsightsComponent', 'selector': 'app-result-insights'},{'name': 'ResultRankingComponent', 'selector': 'app-result-ranking'},{'name': 'ResultRankingComponent', 'selector': 'app-result-ranking'},{'name': 'ResultsRulesComponent', 'selector': 'app-results-rules'},{'name': 'ResultTemplatesComponent', 'selector': 'app-result-templates'},{'name': 'RulesTableComponent', 'selector': 'app-rules-table'},{'name': 'SchedulerComponent', 'selector': 'app-scheduler'},{'name': 'SearchExperienceComponent', 'selector': 'app-search-experience'},{'name': 'SearchFieldPropertiesComponent', 'selector': 'app-search-field-properties'},{'name': 'SearchFilterComponent', 'selector': 'app-search-filter'},{'name': 'SearchInsightsComponent', 'selector': 'app-search-insights'},{'name': 'SearchInterfaceComponent', 'selector': 'app-search-interface'},{'name': 'SearchRelevanceComponent', 'selector': 'app-search-relevance'},{'name': 'SearchSdkComponent', 'selector': '.appContent'},{'name': 'SearchSettingsComponent', 'selector': 'app-search-settings'},{'name': 'SettingsComponent', 'selector': 'app-settings'},{'name': 'SettingsComponent', 'selector': 'app-settings'},{'name': 'SliderComponentComponent', 'selector': 'app-slider-component'},{'name': 'SmallTalkComponent', 'selector': 'app-small-talk'},{'name': 'SnippetsComponent', 'selector': 'app-snippets'},{'name': 'SourcesComponent', 'selector': 'app-sources'},{'name': 'SpellCorrectionComponent', 'selector': 'app-spell-correction'},{'name': 'StatusDockerComponent', 'selector': 'app-status-docker'},{'name': 'StopWordsComponent', 'selector': 'app-stop-words'},{'name': 'StructuredDataComponent', 'selector': 'app-structured-data'},{'name': 'StructuredDataComponent', 'selector': 'app-structured-data'},{'name': 'StructuredDataStatusModalComponent', 'selector': 'app-structured-data-status-modal'},{'name': 'SummaryComponent', 'selector': 'app-summary'},{'name': 'SummaryModalComponent', 'selector': 'kr-summary-modal'},{'name': 'SynonymsComponent', 'selector': 'app-synonyms'},{'name': 'TagsInpComponent', 'selector': 'app-tags-inp'},{'name': 'TeamManagementComponent', 'selector': 'app-team-management'},{'name': 'TraitsComponent', 'selector': 'app-traits'},{'name': 'UpgradePlanComponent', 'selector': 'app-upgrade-plan'},{'name': 'UsageLogComponent', 'selector': 'app-usage-log'},{'name': 'UserEngagementComponent', 'selector': 'app-user-engagement'},{'name': 'UserGuideComponent', 'selector': 'kr-user-guide'},{'name': 'UseronboardingJourneyComponent', 'selector': 'app-useronboarding-journey'},{'name': 'WeightsComponent', 'selector': 'app-weights'}];
+    var COMPONENTS = [{'name': 'ActionsComponent', 'selector': 'app-actions'},{'name': 'AddAlternateQuestionComponent', 'selector': 'app-add-alternate-question'},{'name': 'AddAltFaqComponent', 'selector': 'app-add-alt-faq'},{'name': 'AddFaqComponent', 'selector': 'app-add-faq'},{'name': 'AddResultComponent', 'selector': 'app-add-result'},{'name': 'AddResultComponent', 'selector': 'app-add-result'},{'name': 'AddStructuredDataComponent', 'selector': 'app-add-structured-data'},{'name': 'AnalyticsDropdownComponent', 'selector': 'app-analytics-dropdown'},{'name': 'AnnotoolComponent', 'selector': 'kr-annotool'},{'name': 'AppComponent', 'selector': 'app-root'},{'name': 'AppExperimentsComponent', 'selector': 'app-app-experiments'},{'name': 'AppsComponent', 'selector': 'app-apps'},{'name': 'AutocompleteMultiChipComponent', 'selector': 'app-autocomplete-multi-chip'},{'name': 'BotActionsComponent', 'selector': 'app-bot-actions'},{'name': 'BotActionsComponent', 'selector': 'app-bot-actions'},{'name': 'BusinessRulesComponent', 'selector': 'app-business-rules'},{'name': 'ConfirmationComponent', 'selector': 'kr-confirmation'},{'name': 'ConfirmationDialogComponent', 'selector': 'app-confirmation-dialog'},{'name': 'ConnectorsComponent', 'selector': 'app-connectors'},{'name': 'ContentComponent', 'selector': 'app-content'},{'name': 'CredentialsListComponent', 'selector': 'app-credentials-list'},{'name': 'CustomConfigFormComponent', 'selector': 'app-custom-config-form'},{'name': 'CustomConfigListComponent', 'selector': 'app-custom-config-list'},{'name': 'CustomConfigurationsComponent', 'selector': 'app-custom-configurations'},{'name': 'CustomMarkdownEditorComponent', 'selector': 'md-editor'},{'name': 'DashboardComponent', 'selector': 'app-dashboard'},{'name': 'DateRangePickerComponent', 'selector': 'app-date-range-picker'},{'name': 'DemoComponent', 'selector': 'app-demo'},{'name': 'EditorUrlDialogComponent', 'selector': 'app-editor-url-dialog'},{'name': 'EmptyScreenComponent', 'selector': 'app-empty-screen'},{'name': 'FacetsComponent', 'selector': 'app-facets'},{'name': 'FaqsComponent', 'selector': 'faqs-source'},{'name': 'FieldManagementComponent', 'selector': 'app-field-management'},{'name': 'GeneralSettingsComponent', 'selector': 'app-general-settings'},{'name': 'GroupInputComponent', 'selector': 'app-group-input'},{'name': 'HeaderComponent', 'selector': 'app-header'},{'name': 'HighlightingComponent', 'selector': 'app-highlighting'},{'name': 'ImportFaqsModalComponent', 'selector': 'app-import-faqs-modal'},{'name': 'IndexConfigurationSettingsComponent', 'selector': 'app-index-configuration-settings'},{'name': 'IndexFieldsComfirmationDialogComponent', 'selector': 'app-index-fields-comfirmation-dialog'},{'name': 'InsightsComponent', 'selector': 'app-insights'},{'name': 'InvoicesComponent', 'selector': 'app-invoices'},{'name': 'KRModalComponent', 'selector': 'kr-modal'},{'name': 'ListFieldsComponent', 'selector': 'app-list-fields'},{'name': 'LoaderComponent', 'selector': 'app-loader'},{'name': 'MainMenuComponent', 'selector': 'app-mainmenu'},{'name': 'ManageIntentComponent', 'selector': 'app-manage-intent'},{'name': 'MarkdownEditorResizeSensorComponent', 'selector': 'md-editor-resize-sensor'},{'name': 'MetricsComponent', 'selector': 'app-metrics'},{'name': 'OnboardingComponent', 'selector': 'app-onboarding'},{'name': 'PaginationComponent', 'selector': 'app-pagination'},{'name': 'PdfAnnotationComponent', 'selector': 'kr-pdf-annotation'},{'name': 'PresentableComponent', 'selector': 'app-presentable'},{'name': 'PricingComponent', 'selector': 'app-pricing'},{'name': 'RangeSliderComponent', 'selector': 'app-range-slider'},{'name': 'RangeSliderSearchExperienceComponent', 'selector': 'app-range-slider-search-experience'},{'name': 'RecordPaginationComponent', 'selector': 'app-record-pagination'},{'name': 'ResultInsightsComponent', 'selector': 'app-result-insights'},{'name': 'ResultRankingComponent', 'selector': 'app-result-ranking'},{'name': 'ResultRankingComponent', 'selector': 'app-result-ranking'},{'name': 'ResultsRulesComponent', 'selector': 'app-results-rules'},{'name': 'ResultTemplatesComponent', 'selector': 'app-result-templates'},{'name': 'RulesTableComponent', 'selector': 'app-rules-table'},{'name': 'SchedulerComponent', 'selector': 'app-scheduler'},{'name': 'SearchExperienceComponent', 'selector': 'app-search-experience'},{'name': 'SearchFieldPropertiesComponent', 'selector': 'app-search-field-properties'},{'name': 'SearchFilterComponent', 'selector': 'app-search-filter'},{'name': 'SearchInsightsComponent', 'selector': 'app-search-insights'},{'name': 'SearchInterfaceComponent', 'selector': 'app-search-interface'},{'name': 'SearchRelevanceComponent', 'selector': 'app-search-relevance'},{'name': 'SearchSdkComponent', 'selector': 'app-search-sdk'},{'name': 'SearchSettingsComponent', 'selector': 'app-search-settings'},{'name': 'SettingsComponent', 'selector': 'app-settings'},{'name': 'SettingsComponent', 'selector': 'app-settings'},{'name': 'SliderComponentComponent', 'selector': 'app-slider-component'},{'name': 'SmallTalkComponent', 'selector': 'app-small-talk'},{'name': 'SnippetsComponent', 'selector': 'app-snippets'},{'name': 'SourcesComponent', 'selector': 'app-sources'},{'name': 'SpellCorrectionComponent', 'selector': 'app-spell-correction'},{'name': 'StatusDockerComponent', 'selector': 'app-status-docker'},{'name': 'StopWordsComponent', 'selector': 'app-stop-words'},{'name': 'StructuredDataComponent', 'selector': 'app-structured-data'},{'name': 'StructuredDataComponent', 'selector': 'app-structured-data'},{'name': 'StructuredDataStatusModalComponent', 'selector': 'app-structured-data-status-modal'},{'name': 'SummaryComponent', 'selector': 'app-summary'},{'name': 'SummaryModalComponent', 'selector': 'kr-summary-modal'},{'name': 'SynonymsComponent', 'selector': 'app-synonyms'},{'name': 'TagsInpComponent', 'selector': 'app-tags-inp'},{'name': 'TeamManagementComponent', 'selector': 'app-team-management'},{'name': 'TraitsComponent', 'selector': 'app-traits'},{'name': 'UpgradePlanComponent', 'selector': 'app-upgrade-plan'},{'name': 'UsageLogComponent', 'selector': 'app-usage-log'},{'name': 'UserEngagementComponent', 'selector': 'app-user-engagement'},{'name': 'UserGuideComponent', 'selector': 'kr-user-guide'},{'name': 'UseronboardingJourneyComponent', 'selector': 'app-useronboarding-journey'},{'name': 'WeightsComponent', 'selector': 'app-weights'},{'name': 'WorkbenchComponent', 'selector': 'app-workbench'}];
     var DIRECTIVES = [{'name': 'ClickOutSideDirective', 'selector': '[clickOutside]'},{'name': 'EllipsisActiveDirective', 'selector': '[appEllipsisActive]'},{'name': 'ScrollSpyDirective', 'selector': '[scrollSpy]'},{'name': 'SelectTextDirective', 'selector': '[appSelectText]'}];
     var ACTUAL_COMPONENT = {'name': 'SummaryModalComponent'};
 </script>

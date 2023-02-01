@@ -4141,10 +4141,10 @@ export class ResultsRulesComponent implements OnInit, OnDestroy {
         this.groupIds &#x3D; _.map(res.groups, function (o) {
           return _.pick(o, &#x27;name&#x27;, &#x27;_id&#x27;);
         });
-        let temp &#x3D; _.pluck(res.groups, &#x27;attributes&#x27;).filter((o) &#x3D;&gt; {
+        const temp &#x3D; _.pluck(res.groups, &#x27;attributes&#x27;).filter((o) &#x3D;&gt; {
           return o.length !&#x3D; 0;
         });
-        let tempVals &#x3D; [];
+        const tempVals &#x3D; [];
         temp.forEach((o) &#x3D;&gt; {
           tempVals.push(...o);
         });
@@ -4162,20 +4162,20 @@ export class ResultsRulesComponent implements OnInit, OnDestroy {
       rule.values &#x3D; [];
       for (var i &#x3D; 0; i &lt; event.length; i++) {
         if (event[i].indexOf(&#x27;:&#x27;) &#x3D;&#x3D; -1) {
-          let temp3 &#x3D; {
+          const temp3 &#x3D; {
             type: &#x27;string&#x27;,
             value: event[i],
           };
           rule.values.push(temp3);
         } else {
-          let temp1 &#x3D; {
+          const temp1 &#x3D; {
             type: &#x27;group&#x27;,
             groupId: _.findWhere(this.groupIds, {
               name: event[i].split(&#x27;:&#x27;)[0],
             })._id,
             value: event[i].split(&#x27;:&#x27;)[0],
           };
-          let temp2 &#x3D; {
+          const temp2 &#x3D; {
             type: &#x27;groupValue&#x27;,
             groupId: _.findWhere(this.groupIds, {
               name: event[i].split(&#x27;:&#x27;)[0],
@@ -4193,20 +4193,20 @@ export class ResultsRulesComponent implements OnInit, OnDestroy {
       this.rulesObjOO.then.values &#x3D; [];
       for (var i &#x3D; 0; i &lt; event.length; i++) {
         if (event[i].indexOf(&#x27;:&#x27;) &#x3D;&#x3D; -1) {
-          let temp3 &#x3D; {
+          const temp3 &#x3D; {
             type: &#x27;string&#x27;,
             value: event[i],
           };
           this.rulesObjOO.then.values.push(temp3);
         } else {
-          let temp1 &#x3D; {
+          const temp1 &#x3D; {
             type: &#x27;group&#x27;,
             groupId: _.findWhere(this.groupIds, {
               name: event[i].split(&#x27;:&#x27;)[0],
             })._id,
             value: event[i].split(&#x27;:&#x27;)[0],
           };
-          let temp2 &#x3D; {
+          const temp2 &#x3D; {
             type: &#x27;groupValue&#x27;,
             groupId: _.findWhere(this.groupIds, {
               name: event[i].split(&#x27;:&#x27;)[0],
@@ -4244,11 +4244,11 @@ export class ResultsRulesComponent implements OnInit, OnDestroy {
       return _.pick(o, &#x27;contextCategory&#x27;, &#x27;contextType&#x27;, &#x27;operator&#x27;, &#x27;values&#x27;);
     });
     this.validationRules.rules[0].rules &#x3D; rulesCheck;
-    let params &#x3D; {
+    const params &#x3D; {
       searchIndexId: this.serachIndexId,
       ruleId: this.ruleEditId,
     };
-    let payload &#x3D; {
+    const payload &#x3D; {
       name: this.name.na,
       type: &#x27;web&#x27;,
       definition: { if: {}, then: {} },
@@ -4326,7 +4326,7 @@ export class ResultsRulesComponent implements OnInit, OnDestroy {
 
   allSubscribe() {
     this.selectAllSub &#x3D; this.rulesService.selectAll.subscribe((res) &#x3D;&gt; {
-      let tabActive &#x3D; _.findWhere(this.tabsList, { isSelected: true }).name;
+      const tabActive &#x3D; _.findWhere(this.tabsList, { isSelected: true }).name;
       if (tabActive &#x3D;&#x3D; &#x27;Drafts&#x27;) {
         this.draftRules &#x3D; _.map(this.draftRules, (o) &#x3D;&gt; {
           o.isChecked &#x3D; !this.rulesService.isCheckAll;
@@ -4391,7 +4391,7 @@ export class ResultsRulesComponent implements OnInit, OnDestroy {
       });
     });
     this.bulkSendSub &#x3D; this.rulesService.bulkSend.subscribe((res) &#x3D;&gt; {
-      let tabActive &#x3D; _.findWhere(this.tabsList, { isSelected: true }).name;
+      const tabActive &#x3D; _.findWhere(this.tabsList, { isSelected: true }).name;
       let selectedIds &#x3D; [];
       if (tabActive &#x3D;&#x3D; &#x27;Drafts&#x27;) {
         selectedIds &#x3D; _.map(
@@ -4409,10 +4409,10 @@ export class ResultsRulesComponent implements OnInit, OnDestroy {
           (o) &#x3D;&gt; _.pick(o, &#x27;_id&#x27;)
         );
       }
-      let params &#x3D; {
+      const params &#x3D; {
         searchIndexId: this.serachIndexId,
       };
-      let payload &#x3D; {
+      const payload &#x3D; {
         rules: selectedIds,
         state: res,
         action: &#x27;edit&#x27;,
@@ -4428,7 +4428,7 @@ export class ResultsRulesComponent implements OnInit, OnDestroy {
       );
     });
     this.bulkDeleteSub &#x3D; this.rulesService.bulkDelete.subscribe((res) &#x3D;&gt; {
-      let tabActive &#x3D; _.findWhere(this.tabsList, { isSelected: true }).name;
+      const tabActive &#x3D; _.findWhere(this.tabsList, { isSelected: true }).name;
       let selectedIds &#x3D; [];
       if (tabActive &#x3D;&#x3D; &#x27;Drafts&#x27;) {
         selectedIds &#x3D; _.map(
@@ -4446,10 +4446,10 @@ export class ResultsRulesComponent implements OnInit, OnDestroy {
           (o) &#x3D;&gt; _.pick(o, &#x27;_id&#x27;)
         );
       }
-      let params &#x3D; {
+      const params &#x3D; {
         searchIndexId: this.serachIndexId,
       };
-      let payload &#x3D; {
+      const payload &#x3D; {
         rules: selectedIds,
         action: &#x27;delete&#x27;,
       };
@@ -4581,7 +4581,7 @@ export class ResultsRulesComponent implements OnInit, OnDestroy {
     const params &#x3D; {
       searchIndexId: this.serachIndexId,
     };
-    let payload &#x3D; {
+    const payload &#x3D; {
       name: this.name.na,
       type: &#x27;web&#x27;,
       definition: { if: {}, then: {} },
@@ -5329,7 +5329,7 @@ export class ResultsRulesComponent implements OnInit, OnDestroy {
 <script src="../js/libs/deep-iterator.js"></script>
 <script>
         var COMPONENT_TEMPLATE = '<div><ng-template #ruleContainer let-rulesObj=\'rulesObj\' let-rulesSet="rulesSet" let-rule=\'rule\' let-ruleIndex=\'ruleIndex\'  let-validationMode=\'validationMode\'>  <div class="drop-down-sec w-100 col-12 row m-0 pr-0">    <span class="info-rule if" *ngIf="!ruleIndex">If</span>    <div *ngIf="validationMode===\'simple\'" class="close-minus-btn" (click)="removeSimpleRule(rulesSet,ruleIndex)"><span></span></div>    <div *ngIf="validationMode===\'advanced\'" class="close-minus-btn" (click)="removeAdvancedRule(ruleIndex,rulesSet,rule)"><span></span></div>    <div class="col-3 add-ruleinputs">         <div class="kr-sg-dropdowns">                                                <div class="dropdown dropdown-open">            <button class="dropdown-toggle dropdown-input" data-toggle="dropdown">{{rule.contextType?rule.contextType:\'Choose Type\'}}</button>                                                        <ul class="dropdown-menu content-menu">              <li (click)=\'updatedContextType(rule, conType)\' *ngFor="let conType of rule.listContextTypes"><a>{{conType}}</a></li>            </ul>          </div>      </div>    </div>    <div class="col-3 add-ruleinputs">         <div class="kr-sg-dropdowns">                                                <div class="dropdown dropdown-open">            <button class="dropdown-toggle dropdown-input" data-toggle="dropdown">{{rule.contextCategory?rule.contextCategory:\'Choose Category\'}}</button>                                                        <ul class="dropdown-menu content-menu">              <li *ngFor="let contCate of rule.dispContextCategories" (click)=\'updateContextCategory(rule, contCate)\'>                <a>{{contCate}}</a>              </li>            </ul>          </div>      </div>    </div>    <div class="col-3 add-ruleinputs">            <div class="kr-sg-dropdowns">                                                <div class="dropdown dropdown-open">            <button class="dropdown-toggle dropdown-input" data-toggle="dropdown">{{rule.operator?rule.operator:\'Choose Operator\'}}</button>                                                        <ul class="dropdown-menu content-menu">              <li (click)="rule.operator=\'Starts With\'"><a>Starts With</a></li>              <li (click)="rule.operator=\'Contains\'"><a>Contains</a></li>              <li (click)="rule.operator=\'Equals to\'"><a>Equals to</a></li>            </ul>          </div>      </div>    </div>    <div class="col-3 add-ruleinputs pr-0">                              <app-group-input [valuesAdded]=\'rule.values\' [customEmitter]=\'true\' (emitValues)="addedGroupToRule($event,rule,\'if\')"></app-group-input>    </div></div>      <ng-container *ngIf="validationMode===\'simple\'">    <div class="rule-info" *ngIf="ruleIndex !== (rulesSet.rules.length-1)">AND</div>    <div class="row justify-content-between align-items-center col-12 pr-0 add-rule-plus-icon" *ngIf="ruleIndex === (rulesSet.rules.length-1)">        <div class="close-minus-btn add-plus" (click)="addSimpleRule(rulesSet,\'simple\')"><span><img src="assets/icons/plus-white.svg"></span></div>    </div>    <div class="error-message-text-box w-100 row m-0" *ngIf="ruleIndex === (rulesSet.rules.length-1)">        <span class="info-rule">then</span>        <div class="kr-sg-dropdowns add-ruleinputs col-3">                                                  <div class="dropdown dropdown-open">              <button class="dropdown-toggle dropdown-input" data-toggle="dropdown">{{rulesObjOO.then.resultCategory?rulesObjOO.then.resultCategory:\'Choose\'}}</button>                                                          <ul class="dropdown-menu content-menu">                <li (click)=\'updateResCat(rulesObjOO, resCat)\' *ngFor="let resCat of listResultsCategories"><a>{{resCat}}</a></li>              </ul>            </div>        </div>        <div class="kr-sg-input-text col-7 add-ruleinputs">            <app-group-input [valuesAdded]="rulesObjOO.then.values" [customEmitter]=\'true\' (emitValues)="addedGroupToRule($event,rule,\'then\')"></app-group-input>                   </div>         </div>    </ng-container></ng-template><div class="rules-table-container">    <div class="tab-sec-top">        <div class="d-flex">          <!-- <div (click)=\'selectTab("attributes")\' class="tab-name" [ngClass]="{\'active\': selectedTab===\'attributes\'}">Attributes</div> -->          <div (click)=\'selectTab("rules")\' class="tab-name" [ngClass]="{\'active\': selectedTab===\'rules\'}">Rules</div>          <div  (click)=\'selectTab("signals")\' class="tab-name" [ngClass]="{\'active\': selectedTab===\'signals\'}">Signals</div>        </div>        <div class="header-sec" *ngIf="rules && rules.length && !loadingRules">            <div class="kr-sg-input-search">                                               <input type="text" placeholder="Search" class="input-search" id="searchFaqs" name=\'faqsSearch\' [(ngModel)]="searchBlock">                <img src="assets/icons/search-gray.svg" class="search-icon">            </div>            <button class="kr-sg-button-secondary btn_lg" (click)="addEditRules()" *ngIf="selectedTab===\'rules\'">Add</button>        </div>    </div>   <ng-container *ngIf="selectedTab===\'rules\'">    <div class="faq-header-sec row m-0">        <div class="col-12 left-sec p-0">            <div class="tab-sec d-flex">                <div class="tab_title" (click)="tabActive(tab)" [ngClass]="{\'active\': tab.isSelected}" *ngFor="let tab of tabsList">                  {{tab.name}}                  <span>({{tab.count || 0}})</span>                </div>            </div>        </div>           </div>    <div class="table-list-content" *ngIf="tabsList[0].isSelected && draftRules && draftRules.length && !loadingRules">      <app-rules-table [rulesData]=\'draftRules\' [searchBlock]=\'searchBlock\'></app-rules-table>    </div>    <div class="table-list-content" *ngIf="tabsList[1].isSelected &&inReviewRules && inReviewRules.length && !loadingRules">      <app-rules-table [rulesData]=\'inReviewRules\' [searchBlock]=\'searchBlock\'></app-rules-table>    </div>    <div class="table-list-content" *ngIf="tabsList[2].isSelected &&approvedRules && approvedRules.length && !loadingRules">      <app-rules-table [rulesData]=\'approvedRules\' [searchBlock]=\'searchBlock\'></app-rules-table>    </div>        <div *ngIf="loadingRules" class="p-5 text-center">      Loading....    </div>    <div class="empty-questions-selected" *ngIf="!(rules && rules.length) && !loadingRules">        <img src="assets/images/icons/empty_ill.svg">        <div class="heading">No rules added yet</div>        <!-- <div class="desc">Please add rules</div> -->        <button class="kr-sg-button-secondary btn_lg" (click)="addEditRules()">Add</button>    </div>    <div *ngIf="tabsList[0].isSelected && !(draftRules && draftRules.length) && !loadingRules" class="p-5 text-center">      No Draft Rules    </div>    <div *ngIf="tabsList[1].isSelected && !(inReviewRules && inReviewRules.length) && !loadingRules" class="p-5 text-center">      No In-review Rules    </div>    <div *ngIf="tabsList[2].isSelected && !(approvedRules && approvedRules.length) && !loadingRules" class="p-5 text-center">      No Approved Rules    </div>   </ng-container>   <ng-container *ngIf="selectedTab===\'signals\'">    <div class="empty-questions-selected-signals">      <img src="assets/images/icons/empty_ill.svg">      <div class="heading">No Signals added yet</div>         </div>   </ng-container> </div><kr-modal modalType="center" #addRulesModalPop modalClass="modal_popups_">  <div class="modal-header">       <div class="title" *ngIf="isAdd">Add Rules</div>    <div class="title" *ngIf="isEdit">Edit Rules</div>    <div class="close_icon" (click)=\'closeAddRulesModal()\'><img src="assets/icons/modal-close.svg"></div>  </div>  <perfect-scrollbar class="perfect-scroll-modal-body">    <div class="modal-body">        <div class="col-12 p-0" *ngIf="validationRules && validationRules.rules && validationRules.rules.length">          <ng-container *ngFor="let simpleRule of validationRules.rules; index as parentIndex">              <div class="kr-sg-input-text rule-name-input">                <div class="label-text">Rule Name</div>                  <input autocomplete="off" type="text" placeholder="Enter Rule Name" class="input-text" [(ngModel)]=\'name.na\'>              </div>              <div class="validation-setting-rules" >                  <ng-container *ngFor="let rule of simpleRule.rules; index as i">                      <ng-container                           *ngTemplateOutlet="ruleContainer; context{$implicit: validationRules,rulesSet:simpleRule,rule:rule,ruleIndex:i,validationMode:\'simple\', rulesObj: validationRules.then}">                      </ng-container>                  </ng-container>              </div>            </ng-container>        </div>    </div>  </perfect-scrollbar>   <div class="modal-footer">      <button class="kr-sg-button-primary btn_lg" *ngIf="isAdd" (click)="saveRules()">Add</button>      <button class="kr-sg-button-primary btn_lg" *ngIf="isEdit" (click)="editRules()">Edit</button>      <button class="kr-sg-button-secondary btn_lg" (click)=\'closeAddRulesModal()\'>Cancel</button>  </div></kr-modal></div>'
-    var COMPONENTS = [{'name': 'ActionsComponent', 'selector': 'app-actions'},{'name': 'AddAlternateQuestionComponent', 'selector': 'app-add-alternate-question'},{'name': 'AddAltFaqComponent', 'selector': 'app-add-alt-faq'},{'name': 'AddFaqComponent', 'selector': 'app-add-faq'},{'name': 'AddResultComponent', 'selector': 'app-add-result'},{'name': 'AddResultComponent', 'selector': 'app-add-result'},{'name': 'AddStructuredDataComponent', 'selector': 'app-add-structured-data'},{'name': 'AnalyticsDropdownComponent', 'selector': 'app-analytics-dropdown'},{'name': 'AnnotoolComponent', 'selector': 'kr-annotool'},{'name': 'AppComponent', 'selector': 'app-root'},{'name': 'AppExperimentsComponent', 'selector': 'app-app-experiments'},{'name': 'AppsComponent', 'selector': 'app-apps'},{'name': 'AutocompleteMultiChipComponent', 'selector': 'app-autocomplete-multi-chip'},{'name': 'BodyComponent', 'selector': 'app-body'},{'name': 'BotActionsComponent', 'selector': 'app-bot-actions'},{'name': 'BotActionsComponent', 'selector': 'app-bot-actions'},{'name': 'BusinessRulesComponent', 'selector': 'app-business-rules'},{'name': 'ConfirmationComponent', 'selector': 'kr-confirmation'},{'name': 'ConfirmationDialogComponent', 'selector': 'app-confirmation-dialog'},{'name': 'ConnectorsComponent', 'selector': 'app-connectors'},{'name': 'ContentComponent', 'selector': 'app-content'},{'name': 'CredentialsListComponent', 'selector': 'app-credentials-list'},{'name': 'CustomConfigFormComponent', 'selector': 'app-custom-config-form'},{'name': 'CustomConfigListComponent', 'selector': 'app-custom-config-list'},{'name': 'CustomConfigurationsComponent', 'selector': 'app-custom-configurations'},{'name': 'CustomMarkdownEditorComponent', 'selector': 'md-editor'},{'name': 'DashboardComponent', 'selector': 'app-dashboard'},{'name': 'DateRangePickerComponent', 'selector': 'app-date-range-picker'},{'name': 'DemoComponent', 'selector': 'app-demo'},{'name': 'EditorUrlDialogComponent', 'selector': 'app-editor-url-dialog'},{'name': 'EmptyScreenComponent', 'selector': 'app-empty-screen'},{'name': 'FacetsComponent', 'selector': 'app-facets'},{'name': 'FaqsComponent', 'selector': 'faqs-source'},{'name': 'FieldManagementComponent', 'selector': 'app-field-management'},{'name': 'GeneralSettingsComponent', 'selector': 'app-general-settings'},{'name': 'GroupInputComponent', 'selector': 'app-group-input'},{'name': 'HeaderComponent', 'selector': 'app-header'},{'name': 'HighlightingComponent', 'selector': 'app-highlighting'},{'name': 'ImportFaqsModalComponent', 'selector': 'app-import-faqs-modal'},{'name': 'IndexComponent', 'selector': 'app-index'},{'name': 'IndexComponent', 'selector': 'app-index'},{'name': 'IndexConfigurationSettingsComponent', 'selector': 'app-index-configuration-settings'},{'name': 'IndexFieldsComfirmationDialogComponent', 'selector': 'app-index-fields-comfirmation-dialog'},{'name': 'InsightsComponent', 'selector': 'app-insights'},{'name': 'InvoicesComponent', 'selector': 'app-invoices'},{'name': 'KRModalComponent', 'selector': 'kr-modal'},{'name': 'ListFieldsComponent', 'selector': 'app-list-fields'},{'name': 'LoaderComponent', 'selector': 'app-loader'},{'name': 'MainMenuComponent', 'selector': 'app-mainmenu'},{'name': 'ManageIntentComponent', 'selector': 'app-manage-intent'},{'name': 'MarkdownEditorResizeSensorComponent', 'selector': 'md-editor-resize-sensor'},{'name': 'MetricsComponent', 'selector': 'app-metrics'},{'name': 'OnboardingComponent', 'selector': 'app-onboarding'},{'name': 'PaginationComponent', 'selector': 'app-pagination'},{'name': 'PdfAnnotationComponent', 'selector': 'kr-pdf-annotation'},{'name': 'PresentableComponent', 'selector': 'app-presentable'},{'name': 'PricingComponent', 'selector': 'app-pricing'},{'name': 'RangeSliderComponent', 'selector': 'app-range-slider'},{'name': 'RangeSliderSearchExperienceComponent', 'selector': 'app-range-slider-search-experience'},{'name': 'RecordPaginationComponent', 'selector': 'app-record-pagination'},{'name': 'ResultInsightsComponent', 'selector': 'app-result-insights'},{'name': 'ResultRankingComponent', 'selector': 'app-result-ranking'},{'name': 'ResultRankingComponent', 'selector': 'app-result-ranking'},{'name': 'ResultsRulesComponent', 'selector': 'app-results-rules'},{'name': 'ResultTemplatesComponent', 'selector': 'app-result-templates'},{'name': 'RulesTableComponent', 'selector': 'app-rules-table'},{'name': 'SchedulerComponent', 'selector': 'app-scheduler'},{'name': 'SearchExperienceComponent', 'selector': 'app-search-experience'},{'name': 'SearchFieldPropertiesComponent', 'selector': 'app-search-field-properties'},{'name': 'SearchFilterComponent', 'selector': 'app-search-filter'},{'name': 'SearchInsightsComponent', 'selector': 'app-search-insights'},{'name': 'SearchInterfaceComponent', 'selector': 'app-search-interface'},{'name': 'SearchRelevanceComponent', 'selector': 'app-search-relevance'},{'name': 'SearchSdkComponent', 'selector': '.appContent'},{'name': 'SearchSettingsComponent', 'selector': 'app-search-settings'},{'name': 'SettingsComponent', 'selector': 'app-settings'},{'name': 'SettingsComponent', 'selector': 'app-settings'},{'name': 'SliderComponentComponent', 'selector': 'app-slider-component'},{'name': 'SmallTalkComponent', 'selector': 'app-small-talk'},{'name': 'SnippetsComponent', 'selector': 'app-snippets'},{'name': 'SourcesComponent', 'selector': 'app-sources'},{'name': 'SpellCorrectionComponent', 'selector': 'app-spell-correction'},{'name': 'StatusDockerComponent', 'selector': 'app-status-docker'},{'name': 'StopWordsComponent', 'selector': 'app-stop-words'},{'name': 'StructuredDataComponent', 'selector': 'app-structured-data'},{'name': 'StructuredDataComponent', 'selector': 'app-structured-data'},{'name': 'StructuredDataStatusModalComponent', 'selector': 'app-structured-data-status-modal'},{'name': 'SummaryComponent', 'selector': 'app-summary'},{'name': 'SummaryModalComponent', 'selector': 'kr-summary-modal'},{'name': 'SynonymsComponent', 'selector': 'app-synonyms'},{'name': 'TagsInpComponent', 'selector': 'app-tags-inp'},{'name': 'TeamManagementComponent', 'selector': 'app-team-management'},{'name': 'TraitsComponent', 'selector': 'app-traits'},{'name': 'UpgradePlanComponent', 'selector': 'app-upgrade-plan'},{'name': 'UsageLogComponent', 'selector': 'app-usage-log'},{'name': 'UserEngagementComponent', 'selector': 'app-user-engagement'},{'name': 'UserGuideComponent', 'selector': 'kr-user-guide'},{'name': 'UseronboardingJourneyComponent', 'selector': 'app-useronboarding-journey'},{'name': 'WeightsComponent', 'selector': 'app-weights'}];
+    var COMPONENTS = [{'name': 'ActionsComponent', 'selector': 'app-actions'},{'name': 'AddAlternateQuestionComponent', 'selector': 'app-add-alternate-question'},{'name': 'AddAltFaqComponent', 'selector': 'app-add-alt-faq'},{'name': 'AddFaqComponent', 'selector': 'app-add-faq'},{'name': 'AddResultComponent', 'selector': 'app-add-result'},{'name': 'AddResultComponent', 'selector': 'app-add-result'},{'name': 'AddStructuredDataComponent', 'selector': 'app-add-structured-data'},{'name': 'AnalyticsDropdownComponent', 'selector': 'app-analytics-dropdown'},{'name': 'AnnotoolComponent', 'selector': 'kr-annotool'},{'name': 'AppComponent', 'selector': 'app-root'},{'name': 'AppExperimentsComponent', 'selector': 'app-app-experiments'},{'name': 'AppsComponent', 'selector': 'app-apps'},{'name': 'AutocompleteMultiChipComponent', 'selector': 'app-autocomplete-multi-chip'},{'name': 'BotActionsComponent', 'selector': 'app-bot-actions'},{'name': 'BotActionsComponent', 'selector': 'app-bot-actions'},{'name': 'BusinessRulesComponent', 'selector': 'app-business-rules'},{'name': 'ConfirmationComponent', 'selector': 'kr-confirmation'},{'name': 'ConfirmationDialogComponent', 'selector': 'app-confirmation-dialog'},{'name': 'ConnectorsComponent', 'selector': 'app-connectors'},{'name': 'ContentComponent', 'selector': 'app-content'},{'name': 'CredentialsListComponent', 'selector': 'app-credentials-list'},{'name': 'CustomConfigFormComponent', 'selector': 'app-custom-config-form'},{'name': 'CustomConfigListComponent', 'selector': 'app-custom-config-list'},{'name': 'CustomConfigurationsComponent', 'selector': 'app-custom-configurations'},{'name': 'CustomMarkdownEditorComponent', 'selector': 'md-editor'},{'name': 'DashboardComponent', 'selector': 'app-dashboard'},{'name': 'DateRangePickerComponent', 'selector': 'app-date-range-picker'},{'name': 'DemoComponent', 'selector': 'app-demo'},{'name': 'EditorUrlDialogComponent', 'selector': 'app-editor-url-dialog'},{'name': 'EmptyScreenComponent', 'selector': 'app-empty-screen'},{'name': 'FacetsComponent', 'selector': 'app-facets'},{'name': 'FaqsComponent', 'selector': 'faqs-source'},{'name': 'FieldManagementComponent', 'selector': 'app-field-management'},{'name': 'GeneralSettingsComponent', 'selector': 'app-general-settings'},{'name': 'GroupInputComponent', 'selector': 'app-group-input'},{'name': 'HeaderComponent', 'selector': 'app-header'},{'name': 'HighlightingComponent', 'selector': 'app-highlighting'},{'name': 'ImportFaqsModalComponent', 'selector': 'app-import-faqs-modal'},{'name': 'IndexConfigurationSettingsComponent', 'selector': 'app-index-configuration-settings'},{'name': 'IndexFieldsComfirmationDialogComponent', 'selector': 'app-index-fields-comfirmation-dialog'},{'name': 'InsightsComponent', 'selector': 'app-insights'},{'name': 'InvoicesComponent', 'selector': 'app-invoices'},{'name': 'KRModalComponent', 'selector': 'kr-modal'},{'name': 'ListFieldsComponent', 'selector': 'app-list-fields'},{'name': 'LoaderComponent', 'selector': 'app-loader'},{'name': 'MainMenuComponent', 'selector': 'app-mainmenu'},{'name': 'ManageIntentComponent', 'selector': 'app-manage-intent'},{'name': 'MarkdownEditorResizeSensorComponent', 'selector': 'md-editor-resize-sensor'},{'name': 'MetricsComponent', 'selector': 'app-metrics'},{'name': 'OnboardingComponent', 'selector': 'app-onboarding'},{'name': 'PaginationComponent', 'selector': 'app-pagination'},{'name': 'PdfAnnotationComponent', 'selector': 'kr-pdf-annotation'},{'name': 'PresentableComponent', 'selector': 'app-presentable'},{'name': 'PricingComponent', 'selector': 'app-pricing'},{'name': 'RangeSliderComponent', 'selector': 'app-range-slider'},{'name': 'RangeSliderSearchExperienceComponent', 'selector': 'app-range-slider-search-experience'},{'name': 'RecordPaginationComponent', 'selector': 'app-record-pagination'},{'name': 'ResultInsightsComponent', 'selector': 'app-result-insights'},{'name': 'ResultRankingComponent', 'selector': 'app-result-ranking'},{'name': 'ResultRankingComponent', 'selector': 'app-result-ranking'},{'name': 'ResultsRulesComponent', 'selector': 'app-results-rules'},{'name': 'ResultTemplatesComponent', 'selector': 'app-result-templates'},{'name': 'RulesTableComponent', 'selector': 'app-rules-table'},{'name': 'SchedulerComponent', 'selector': 'app-scheduler'},{'name': 'SearchExperienceComponent', 'selector': 'app-search-experience'},{'name': 'SearchFieldPropertiesComponent', 'selector': 'app-search-field-properties'},{'name': 'SearchFilterComponent', 'selector': 'app-search-filter'},{'name': 'SearchInsightsComponent', 'selector': 'app-search-insights'},{'name': 'SearchInterfaceComponent', 'selector': 'app-search-interface'},{'name': 'SearchRelevanceComponent', 'selector': 'app-search-relevance'},{'name': 'SearchSdkComponent', 'selector': 'app-search-sdk'},{'name': 'SearchSettingsComponent', 'selector': 'app-search-settings'},{'name': 'SettingsComponent', 'selector': 'app-settings'},{'name': 'SettingsComponent', 'selector': 'app-settings'},{'name': 'SliderComponentComponent', 'selector': 'app-slider-component'},{'name': 'SmallTalkComponent', 'selector': 'app-small-talk'},{'name': 'SnippetsComponent', 'selector': 'app-snippets'},{'name': 'SourcesComponent', 'selector': 'app-sources'},{'name': 'SpellCorrectionComponent', 'selector': 'app-spell-correction'},{'name': 'StatusDockerComponent', 'selector': 'app-status-docker'},{'name': 'StopWordsComponent', 'selector': 'app-stop-words'},{'name': 'StructuredDataComponent', 'selector': 'app-structured-data'},{'name': 'StructuredDataComponent', 'selector': 'app-structured-data'},{'name': 'StructuredDataStatusModalComponent', 'selector': 'app-structured-data-status-modal'},{'name': 'SummaryComponent', 'selector': 'app-summary'},{'name': 'SummaryModalComponent', 'selector': 'kr-summary-modal'},{'name': 'SynonymsComponent', 'selector': 'app-synonyms'},{'name': 'TagsInpComponent', 'selector': 'app-tags-inp'},{'name': 'TeamManagementComponent', 'selector': 'app-team-management'},{'name': 'TraitsComponent', 'selector': 'app-traits'},{'name': 'UpgradePlanComponent', 'selector': 'app-upgrade-plan'},{'name': 'UsageLogComponent', 'selector': 'app-usage-log'},{'name': 'UserEngagementComponent', 'selector': 'app-user-engagement'},{'name': 'UserGuideComponent', 'selector': 'kr-user-guide'},{'name': 'UseronboardingJourneyComponent', 'selector': 'app-useronboarding-journey'},{'name': 'WeightsComponent', 'selector': 'app-weights'},{'name': 'WorkbenchComponent', 'selector': 'app-workbench'}];
     var DIRECTIVES = [{'name': 'ClickOutSideDirective', 'selector': '[clickOutside]'},{'name': 'EllipsisActiveDirective', 'selector': '[appEllipsisActive]'},{'name': 'ScrollSpyDirective', 'selector': '[scrollSpy]'},{'name': 'SelectTextDirective', 'selector': '[appSelectText]'}];
     var ACTUAL_COMPONENT = {'name': 'ResultsRulesComponent'};
 </script>
