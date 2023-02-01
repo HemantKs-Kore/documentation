@@ -139,7 +139,7 @@
                     class="d-inline-block text-truncate"
                     title="{{ totalSearchesStats?.searchesWithResults }}"
                     >{{
-                      totalSearchesStats?.searchesWithResults == null
+                      totalSearchesStats?.searchesWithResults === null
                         ? 0
                         : totalSearchesStats.searchesWithResults
                     }}</span
@@ -148,7 +148,7 @@
                     >| {{ 'overview_Result_rate' | translate }}:
                     <b
                       >{{
-                        totalSearchesStats?.resultRate != null
+                        totalSearchesStats?.resultRate !== null
                           ? totalSearchesStats?.resultRate
                           : 0
                       }}%</b
@@ -226,7 +226,7 @@
                 </div>
                 <div
                   class="cont-up-down"
-                  *ngIf="totalSearchesStats?.clicks != 0"
+                  *ngIf="totalSearchesStats?.clicks !== 0"
                 >
                   <span
                     class="bg-type"
@@ -340,8 +340,8 @@
                 <div
                   class="col-7 data-count"
                   *ngIf="
-                    indices?.botActions?.linked_bot_name != null &&
-                    indices?.botActions?.tasks != 0
+                    indices?.botActions?.linked_bot_name !== null &&
+                    indices?.botActions?.tasks !== 0
                   "
                 >
                   {{ indices?.botActions?.linked_bot_name }} |
@@ -351,8 +351,8 @@
                 <div
                   class="col-7 data-count link"
                   *ngIf="
-                    indices?.botActions?.linked_bot_name == null &&
-                    indices?.botActions?.tasks == 0
+                    indices?.botActions?.linked_bot_name === null &&
+                    indices?.botActions?.tasks === 0
                   "
                   (click)="redirectToActions()"
                 >
@@ -494,7 +494,7 @@
               {{ 'overview_go_to_experiments' | translate }}
             </div>
           </ng-container>
-          <ng-container *ngIf="!loading_skelton && experiments.length == 0">
+          <ng-container *ngIf="!loading_skelton && experiments.length === 0">
             <div class="empty-data">
               <img src="assets/icons/overview/expermintes-empty.svg" />
               <div class="empty-title">

@@ -1,4 +1,10 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  OnDestroy,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ConfirmationDialogComponent } from '../../helpers/components/confirmation-dialog/confirmation-dialog.component';
 import { KRModalComponent } from '../../shared/kr-modal/kr-modal.component';
@@ -24,8 +30,14 @@ declare const $: any;
   templateUrl: './team-management.component.html',
   styleUrls: ['./team-management.component.scss'],
 })
-export class TeamManagementComponent implements OnInit {
+export class TeamManagementComponent implements OnInit, OnDestroy {
   emptyScreen = EMPTY_SCREEN.MANAGE_TEAM;
+  rolesList: any = [];
+  member_roleId;
+  member_ownerId;
+  membersList: any = [];
+  orgId: string;
+  accountId: string;
   selectedApp;
   serachIndexId;
   indexPipelineId;
@@ -274,8 +286,7 @@ export class TeamManagementComponent implements OnInit {
     }
   }
   // userinfo method
-  orgId: string;
-  accountId: string;
+
   getUserInfo() {
     const quaryparms: any = {
       id: this.authService.getUserId(),
@@ -292,7 +303,7 @@ export class TeamManagementComponent implements OnInit {
   }
 
   //get members method
-  membersList: any = [];
+
   getRoleMembers() {
     const quaryparms: any = {
       id: this.authService.getUserId(),
@@ -311,9 +322,7 @@ export class TeamManagementComponent implements OnInit {
     );
   }
   //get list of roles
-  rolesList: any = [];
-  member_roleId;
-  member_ownerId;
+
   getRoles() {
     const Headers = { accountid: this.accountId };
     const quaryparms: any = {

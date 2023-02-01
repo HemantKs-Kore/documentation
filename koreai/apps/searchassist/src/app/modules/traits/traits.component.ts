@@ -7,7 +7,7 @@ import {
 } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import * as _ from 'underscore';
-import { of, interval, Subject, Subscription } from 'rxjs';
+import { Subscription } from 'rxjs';
 import { PerfectScrollbarComponent } from 'ngx-perfect-scrollbar';
 import { nanoid } from 'nanoid';
 import { Router, ActivatedRoute } from '@angular/router';
@@ -28,7 +28,7 @@ declare const $: any;
   styleUrls: ['./traits.component.scss'],
   encapsulation: ViewEncapsulation.None,
 })
-export class TraitsComponent implements OnInit {
+export class TraitsComponent implements OnInit, OnDestroy {
   emptyScreen = EMPTY_SCREEN.INDICES_TRAITS;
   @ViewChild('statusModalPop') statusModalPop: KRModalComponent;
   @ViewChild('addUtteranceModalPop') addUtteranceModalPop: KRModalComponent;
@@ -73,6 +73,8 @@ export class TraitsComponent implements OnInit {
   serachIndexId;
   queryPipelineId;
   traitDeleted;
+  loadingTraits1: boolean;
+  loadImageText = false;
   defaultGroupConfigs: any = {
     matchStrategy: 'probability',
     scoreThreshold: 0.5,
@@ -128,8 +130,7 @@ export class TraitsComponent implements OnInit {
       }
     );
   }
-  loadingTraits1: boolean;
-  loadImageText = false;
+
   isEmptyScreenLoading() {
     this.loadingTraits = false;
     this.loadingTraits1 = true;
@@ -277,7 +278,6 @@ export class TraitsComponent implements OnInit {
       return;
     }
     const traits: any = {};
-    const self = this;
     let payload: any = {};
     const confirm = () => {
       if (!this.traits.addEditTraits.traits) {
@@ -758,7 +758,7 @@ export class TraitsComponent implements OnInit {
     );
   }
   getTraitGroupById(groupId, traitKey) {
-    const self = this;
+    // const self = this;
     const quaryparms: any = {
       // userId: this.authService.getUserId(),
       // streamId: this.selectedApp._id,
@@ -774,7 +774,7 @@ export class TraitsComponent implements OnInit {
           this.traits.addEditTraits.traitsArray = [];
           $.each(this.traits.addEditTraits.traits, (key, value) => {
             value.key = key;
-            self.traits.addEditTraits.traitsArray.push(value);
+            this.traits.addEditTraits.traitsArray.push(value);
           });
           this.groupConfigs.matchStrategy = res.matchStrategy || 'probability';
           this.groupConfigs.algo = res.algo || 'n_gram';
@@ -1089,8 +1089,7 @@ export class TraitsComponent implements OnInit {
   checkForSecialChar(str, allowNegation, stringTitle) {
     // as of now only used for traits needs to update based on future requirment on reusability
     stringTitle = stringTitle || '';
-    let characters =
-      /[\=\`\~\!@#\$\%\^&\*\(\)\-\+\{\}\:"\[\];\',\.\/<>\?\|\\]+/;
+    let characters = /[=`~!@#$%^&*()\-+{}:"[\];',./<>?|\\]+/;
     if (allowNegation && /[!]/.test(str)) {
       if (str && str[0] !== '!') {
         this.notificationService.notify(

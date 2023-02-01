@@ -29,6 +29,8 @@ export class StructuredDataComponent implements OnInit {
   emptyScreen = EMPTY_SCREEN.STRUCTURED_DATA;
   addStructuredDataModalPopRef: any;
   selectedSourceType: any;
+  isLoading1: boolean;
+  loadImageText = false;
   availableSources = [
     {
       name: 'Import Structured Data',
@@ -186,8 +188,6 @@ export class StructuredDataComponent implements OnInit {
       this.getAllSettings();
     }
   }
-  isLoading1: boolean;
-  loadImageText = false;
 
   getStructuredDataList(skip?) {
     this.isLoading = true;

@@ -116,9 +116,9 @@ export class SettingsComponent implements OnInit {
             (tempChannel.hide = channel.hide),
             (tempChannel.class = channel.class),
             (tempChannel.icon = channel.icon);
-          if ((channel.enable = true)) {
-            channel = tempChannel;
-          }
+          // if ((channel.enable = true)) {
+          channel = tempChannel;
+          // }
         }
       });
     });

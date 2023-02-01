@@ -5,6 +5,7 @@ import {
   EventEmitter,
   ElementRef,
   ViewChild,
+  AfterViewInit,
 } from '@angular/core';
 // import { EChartOption } from 'echarts';
 import { Options } from 'ng5-slider';
@@ -23,7 +24,7 @@ declare const $: any;
   templateUrl: './user-engagement.component.html',
   styleUrls: ['./user-engagement.component.scss'],
 })
-export class UserEngagementComponent implements OnInit {
+export class UserEngagementComponent implements OnInit, AfterViewInit {
   math = Math;
   selectedApp;
   serachIndexId;
@@ -562,7 +563,6 @@ export class UserEngagementComponent implements OnInit {
         } else if (type == 'SearchHistogram') {
           this.searchHistogram = res.result;
           this.summaryChart();
-        } else if (type == 'MostUsedDevices') {
         }
       },
       (errRes) => {

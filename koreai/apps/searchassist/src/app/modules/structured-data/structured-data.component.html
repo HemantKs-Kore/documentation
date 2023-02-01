@@ -658,7 +658,7 @@
           <div class="kr-sg-radiobutton">
             <input
               id="radio-and"
-              [disabled]="index != 0"
+              [disabled]="index !== 0"
               [(ngModel)]="advancedSearch.operand"
               name="radio{{ index }}"
               value="and"
@@ -672,7 +672,7 @@
           <div class="kr-sg-radiobutton">
             <input
               id="radio-or"
-              [disabled]="index != 0"
+              [disabled]="index !== 0"
               [(ngModel)]="advancedSearch.operand"
               name="radio{{ index }}"
               value="or"
@@ -682,7 +682,7 @@
             <label
               for="radio-or"
               class="radio-custom-label"
-              [class.disabled]="index != 0"
+              [class.disabled]="index !== 0"
               >{{ 'structuredData__or' | translate }}</label
             >
           </div>

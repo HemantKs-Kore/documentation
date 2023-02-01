@@ -22,6 +22,8 @@ declare const $: any;
 })
 export class SynonymsComponent implements OnInit, OnDestroy {
   emptyScreen = EMPTY_SCREEN.INDICES_SYNONYMS;
+  loadImageText = false;
+  loadingContent1: boolean;
   selectedApp: any = {};
   synonymSearch: any = '';
   showSearch = false;
@@ -40,7 +42,7 @@ export class SynonymsComponent implements OnInit, OnDestroy {
   showFlag;
   totalRecord = 0;
   synonymData: any[] = [];
-  synonymDuplicateData: Array<Object> = [];
+  synonymDuplicateData = [];
   synonymArr: any = [];
   synonymTypeArr$: Observable<any[]>;
   synonymGet: any = [];
@@ -117,8 +119,7 @@ export class SynonymsComponent implements OnInit, OnDestroy {
       }
     );
   }
-  loadImageText = false;
-  loadingContent1: boolean;
+
   imageLoad() {
     this.loadingContent = false;
     this.loadingContent1 = true;

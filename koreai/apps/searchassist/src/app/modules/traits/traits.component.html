@@ -115,7 +115,7 @@
             <div
               class="kr-sg-checkbox d-none partial-select-checkbox mb-0"
               *ngIf="
-                selcectionObj?.selectedItems?.length !=
+                selcectionObj?.selectedItems?.length !==
                 traits?.traitGroups?.length
               "
             >
@@ -471,7 +471,7 @@
           </div>
           <div
             class="kr-sg-input-text add-traits-input mb-0"
-            *ngIf="showEditTraitInput == index"
+            *ngIf="showEditTraitInput === index"
             (click)="$event.stopImmediatePropagation()"
           >
             <input
@@ -557,11 +557,11 @@
         <div
           class="content-body-traits row col-12"
           *ngFor="let utterance of utteranceList; let i = index"
-          [ngClass]="{ 'py-0': showEditUtteranceInput == i }"
+          [ngClass]="{ 'py-0': showEditUtteranceInput === i }"
         >
           <div
             class="kr-sg-input-text add-traits-input"
-            *ngIf="showEditUtteranceInput == i"
+            *ngIf="showEditUtteranceInput === i"
           >
             <input
               autocomplete="off"
