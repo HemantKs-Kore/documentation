@@ -1,0 +1,1194 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>koreai documentation</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	   <link rel="stylesheet" href="../styles/style.css">
+        <link rel="stylesheet" href="../styles/dark.css">
+    </head>
+    <body>
+
+        <div class="navbar navbar-default navbar-fixed-top visible-xs">
+            <a href="../" class="navbar-brand">koreai documentation</a>
+            <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="hidden-xs menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content component">
+                   <div class="content-data">
+
+
+
+
+<ol class="breadcrumb">
+  <li>Components</li>
+  <li
+  >
+  SummaryModalComponent</li>
+</ol>
+
+<ul class="nav nav-tabs" role="tablist">
+        <li class="active">
+            <a href="#info" role="tab" id="info-tab" data-toggle="tab" data-link="info">Info</a>
+        </li>
+        <li >
+            <a href="#source" role="tab" id="source-tab" data-toggle="tab" data-link="source">Source</a>
+        </li>
+        <li >
+            <a href="#templateData" role="tab" id="templateData-tab" data-toggle="tab" data-link="template">Template</a>
+        </li>
+        <li >
+            <a href="#styleData" role="tab" id="styleData-tab" data-toggle="tab" data-link="style">Styles</a>
+        </li>
+        <li >
+            <a href="#tree" role="tab" id="tree-tab" data-toggle="tab" data-link="dom-tree">DOM Tree</a>
+        </li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane fade active in" id="c-info"><p class="comment">
+    <h3>File</h3>
+</p>
+<p class="comment">
+    <code>apps/searchassist/src/app/components/annotool/components/summary-modal/summary-modal.component.ts</code>
+</p>
+
+
+
+
+    <p class="comment">
+        <h3>Implements</h3>
+    </p>
+    <p class="comment">
+                    <code><a href="https://angular.io/api/core/OnInit" target="_blank" >OnInit</a></code>
+    </p>
+
+
+<section>
+    <h3>Metadata</h3>
+    <table class="table table-sm table-hover metadata">
+        <tbody>
+
+
+
+
+
+
+
+
+
+
+
+            <tr>
+                <td class="col-md-3">selector</td>
+                <td class="col-md-9"><code>kr-summary-modal</code></td>
+            </tr>
+
+            <tr>
+                <td class="col-md-3">styleUrls</td>
+                <td class="col-md-9"><code>./summary-modal.component.scss</code></td>
+            </tr>
+
+
+
+            <tr>
+                <td class="col-md-3">templateUrl</td>
+                <td class="col-md-9"><code>./summary-modal.component.html</code></td>
+            </tr>
+
+
+
+
+
+
+
+
+        </tbody>
+    </table>
+</section>
+
+    <section>
+    <h3 id="index">Index</h3>
+    <table class="table table-sm table-bordered index-table">
+        <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Properties</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#dialog" >dialog</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#dialogData" >dialogData</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#dialogRef" >dialogRef</a>
+                            </li>
+                            <li>
+                                <a href="#loaderFlag" >loaderFlag</a>
+                            </li>
+                            <li>
+                                <a href="#noDataFound" >noDataFound</a>
+                            </li>
+                            <li>
+                                <a href="#searchText" >searchText</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Methods</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#cancelSerializationData" >cancelSerializationData</a>
+                            </li>
+                            <li>
+                                <a href="#checkNoDataFound" >checkNoDataFound</a>
+                            </li>
+                            <li>
+                                <a href="#close" >close</a>
+                            </li>
+                            <li>
+                                <a href="#deleteRow" >deleteRow</a>
+                            </li>
+                            <li>
+                                <a href="#ngOnInit" >ngOnInit</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+
+
+
+
+        </tbody>
+    </table>
+</section>
+
+    <section>
+    <h3 id="constructor">Constructor</h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+<code>constructor(service: <a href="../injectables/ServiceInvokerService.html" target="_self">ServiceInvokerService</a>, messageNotify: <a href="../injectables/NotificationService.html" target="_self">NotificationService</a>, dialog: MatDialog, dialogRef: <a href="../components/SummaryModalComponent.html" target="_self">MatDialogRef&lt;SummaryModalComponent&gt;</a>, dialogData: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>)</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="20" class="link-to-prism">apps/searchassist/src/app/components/annotool/components/summary-modal/summary-modal.component.ts:20</a></div>
+                            </td>
+                        </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                            <div>
+                                    <b>Parameters :</b>
+                                    <table class="params">
+                                        <thead>
+                                            <tr>
+                                                <td>Name</td>
+                                                    <td>Type</td>
+                                                <td>Optional</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                                <tr>
+                                                        <td>service</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/ServiceInvokerService.html" target="_self" >ServiceInvokerService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>messageNotify</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/NotificationService.html" target="_self" >NotificationService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>dialog</td>
+                                                  
+                                                        <td>
+                                                                    <code>MatDialog</code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>dialogRef</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../components/SummaryModalComponent.html" target="_self" >MatDialogRef&lt;SummaryModalComponent&gt;</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>dialogData</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                        </tbody>
+                                    </table>
+                            </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+</section>
+
+
+
+
+
+    <section>
+    
+    <h3 id="methods">
+        Methods
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="cancelSerializationData"></a>
+                    <span class="name">
+                        <span ><b>cancelSerializationData</b></span>
+                        <a href="#cancelSerializationData"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>cancelSerializationData(text: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="84"
+                            class="link-to-prism">apps/searchassist/src/app/components/annotool/components/summary-modal/summary-modal.component.ts:84</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>text</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="checkNoDataFound"></a>
+                    <span class="name">
+                        <span ><b>checkNoDataFound</b></span>
+                        <a href="#checkNoDataFound"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>checkNoDataFound()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="35"
+                            class="link-to-prism">apps/searchassist/src/app/components/annotool/components/summary-modal/summary-modal.component.ts:35</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="close"></a>
+                    <span class="name">
+                        <span ><b>close</b></span>
+                        <a href="#close"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>close()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="97"
+                            class="link-to-prism">apps/searchassist/src/app/components/annotool/components/summary-modal/summary-modal.component.ts:97</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="deleteRow"></a>
+                    <span class="name">
+                        <span ><b>deleteRow</b></span>
+                        <a href="#deleteRow"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>deleteRow(index, option, selectedText)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="46"
+                            class="link-to-prism">apps/searchassist/src/app/components/annotool/components/summary-modal/summary-modal.component.ts:46</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>index</td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                                <tr>
+                                    <td>option</td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                                <tr>
+                                    <td>selectedText</td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="ngOnInit"></a>
+                    <span class="name">
+                        <span ><b>ngOnInit</b></span>
+                        <a href="#ngOnInit"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>ngOnInit()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="30"
+                            class="link-to-prism">apps/searchassist/src/app/components/annotool/components/summary-modal/summary-modal.component.ts:30</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+    <section>
+    
+    <h3 id="inputs">
+        Properties
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="dialog"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>dialog</b></span>
+                        <a href="#dialog"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>MatDialog</code>
+
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="25" class="link-to-prism">apps/searchassist/src/app/components/annotool/components/summary-modal/summary-modal.component.ts:25</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="dialogData"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>dialogData</b></span>
+                        <a href="#dialogData"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <b>Decorators : </b>
+                        <br />
+                        <code>
+                            @Inject(MAT_DIALOG_DATA)<br />
+                        </code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="27" class="link-to-prism">apps/searchassist/src/app/components/annotool/components/summary-modal/summary-modal.component.ts:27</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="dialogRef"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>dialogRef</b></span>
+                        <a href="#dialogRef"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../components/SummaryModalComponent.html" target="_self" >MatDialogRef&lt;SummaryModalComponent&gt;</a></code>
+
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="26" class="link-to-prism">apps/searchassist/src/app/components/annotool/components/summary-modal/summary-modal.component.ts:26</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="loaderFlag"></a>
+                    <span class="name">
+                        <span ><b>loaderFlag</b></span>
+                        <a href="#loaderFlag"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>false</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="18" class="link-to-prism">apps/searchassist/src/app/components/annotool/components/summary-modal/summary-modal.component.ts:18</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="noDataFound"></a>
+                    <span class="name">
+                        <span ><b>noDataFound</b></span>
+                        <a href="#noDataFound"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>false</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="19" class="link-to-prism">apps/searchassist/src/app/components/annotool/components/summary-modal/summary-modal.component.ts:19</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="searchText"></a>
+                    <span class="name">
+                        <span ><b>searchText</b></span>
+                        <a href="#searchText"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>new FormControl(null)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="20" class="link-to-prism">apps/searchassist/src/app/components/annotool/components/summary-modal/summary-modal.component.ts:20</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+</section>
+
+</div>
+
+
+    <div class="tab-pane fade  tab-source-code" id="c-source">
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Component, OnInit, Inject } from &#x27;@angular/core&#x27;;
+import {
+  MatDialog,
+  MatDialogRef,
+  MAT_DIALOG_DATA,
+} from &#x27;@angular/material/dialog&#x27;;
+import { NotificationService } from &#x27;../../../../services/notification.service&#x27;;
+import { FormControl } from &#x27;@angular/forms&#x27;;
+import { ConfirmationComponent } from &#x27;../confirmation/confirmation.component&#x27;;
+import { ServiceInvokerService } from &#x27;@kore.apps/services/service-invoker.service&#x27;;
+
+@Component({
+  selector: &#x27;kr-summary-modal&#x27;,
+  templateUrl: &#x27;./summary-modal.component.html&#x27;,
+  styleUrls: [&#x27;./summary-modal.component.scss&#x27;],
+})
+export class SummaryModalComponent implements OnInit {
+  loaderFlag: boolean &#x3D; false;
+  noDataFound: boolean &#x3D; false;
+  searchText &#x3D; new FormControl(null);
+  constructor(
+    // private _formBuilder: FormBuilder,
+    private service: ServiceInvokerService,
+    private messageNotify: NotificationService,
+    public dialog: MatDialog,
+    public dialogRef: MatDialogRef&lt;SummaryModalComponent&gt;,
+    @Inject(MAT_DIALOG_DATA) public dialogData: any
+  ) {}
+
+  ngOnInit() {
+    // console.log(this.dialogData);
+    this.checkNoDataFound();
+  }
+  // No data found
+  checkNoDataFound() {
+    if (
+      !this.dialogData.pdfResponse.title.length &amp;&amp;
+      !this.dialogData.pdfResponse.header.length &amp;&amp;
+      !this.dialogData.pdfResponse.ignoreText.length &amp;&amp;
+      !this.dialogData.pdfResponse.footer.length
+    ) {
+      this.noDataFound &#x3D; true;
+    }
+  }
+  // delete data
+  deleteRow(index, option, selectedText) {
+    let obj &#x3D; {
+      title: &#x27;Confirmation&#x27;,
+      confirmationMsg: &#x27;Are you sure?&#x27;,
+      yes: &#x27;Confirm&#x27;,
+      no: &#x27;Close&#x27;,
+      type: &#x27;removeAnnotation&#x27;,
+    };
+    const dialogRef &#x3D; this.dialog.open(ConfirmationComponent, {
+      data: { info: obj },
+      panelClass: &#x27;kr-confirmation-panel&#x27;,
+      disableClose: true,
+      autoFocus: true,
+    });
+    dialogRef.afterClosed().subscribe((res) &#x3D;&gt; {
+      if (res) {
+        if (option &#x3D;&#x3D;&#x3D; &#x27;title&#x27;) {
+          this.dialogData.pdfResponse.title.splice(index, 1);
+          this.dialogData.pdfResponse.title_pageno.splice(index, 1);
+          this.cancelSerializationData(selectedText);
+        } else if (option &#x3D;&#x3D;&#x3D; &#x27;header&#x27;) {
+          this.dialogData.pdfResponse.header.splice(index, 1);
+          this.dialogData.pdfResponse.header_pageno.splice(index, 1);
+          this.cancelSerializationData(selectedText);
+        } else if (option &#x3D;&#x3D;&#x3D; &#x27;ignore&#x27;) {
+          this.dialogData.pdfResponse.ignoreText.splice(index, 1);
+          this.dialogData.pdfResponse.ignoreTextPageno.splice(index, 1);
+          this.cancelSerializationData(selectedText);
+        } else if (option &#x3D;&#x3D;&#x3D; &#x27;footer&#x27;) {
+          this.dialogData.pdfResponse.footer.splice(index, 1);
+          this.dialogData.pdfResponse.footer_pageno.splice(index, 1);
+          this.cancelSerializationData(selectedText);
+        }
+        this.checkNoDataFound();
+      }
+    });
+  }
+  // canel serilization data
+  cancelSerializationData(text: string) {
+    if (
+      text &amp;&amp;
+      this.dialogData.pdfResponse.serialization &amp;&amp;
+      this.dialogData.pdfResponse.serialization.length
+    ) {
+      let index &#x3D; this.dialogData.pdfResponse.serialization.findIndex(
+        (res) &#x3D;&gt; res.selectedText &#x3D;&#x3D;&#x3D; text
+      );
+      this.dialogData.pdfResponse.serialization.splice(index, 1);
+    }
+  }
+  // close modal
+  close() {
+    this.dialogRef.close();
+  }
+}
+</code></pre>
+    </div>
+
+    <div class="tab-pane fade " id="c-templateData">
+        <pre class="line-numbers"><code class="language-html">&lt;div class&#x3D;&quot;app-dialog&quot;&gt;
+  &lt;div class&#x3D;&quot;modal-header&quot;&gt;
+    &lt;div class&#x3D;&quot;modal-title&quot;&gt;{{&#x27;Annotations&#x27;}}&lt;/div&gt;
+  &lt;/div&gt;
+  &lt;perfect-scrollbar *ngIf&#x3D;&quot;!noDataFound&quot; class&#x3D;&quot;summary-perfect-scroll&quot;&gt;
+    &lt;div class&#x3D;&quot;modal-body&quot;&gt;
+      &lt;div class&#x3D;&quot;kr-sg-input-search mb-10&quot;&gt;                               
+        &lt;input type&#x3D;&quot;text&quot; placeholder&#x3D;&quot;Search&quot; class&#x3D;&quot;input-search&quot; [formControl]&#x3D;&quot;searchText&quot;&gt;
+        &lt;img src&#x3D;&quot;assets/icons/search-gray.svg&quot; class&#x3D;&quot;search-icon&quot; (click)&#x3D;&quot;searchText.reset();&quot;&gt;
+      &lt;/div&gt;
+      &lt;div class&#x3D;&quot;col-12 p-0 mb-20&quot; *ngIf&#x3D;&quot;dialogData.pdfResponse.title.length&quot;&gt;
+        &lt;div class&#x3D;&quot;title&quot;&gt;
+          Headings
+        &lt;/div&gt;
+        &lt;mat-accordion class&#x3D;&quot;kr-accordian&quot;&gt;
+          &lt;mat-expansion-panel *ngFor&#x3D;&quot;let list of dialogData.pdfResponse.title | search:searchText.value;let index&#x3D;index; &quot; hideToggle&gt;
+            &lt;mat-expansion-panel-header class&#x3D;&quot;onselect&quot;&gt;
+              &lt;mat-panel-title&gt;
+                {{list | truncate: 35}}
+              &lt;/mat-panel-title&gt;
+              &lt;mat-panel-description&gt;
+                &lt;div class&#x3D;&quot;badge badge-primary badge-pill&quot;&gt;{{&#x27;Page-&#x27; + dialogData.pdfResponse.title_pageno[index]}}
+                &lt;/div&gt;
+                &lt;span class&#x3D;&quot;toggle-icon&quot;&gt;&lt;img src&#x3D;&quot;assets/images/trashIcon.svg&quot; alt&#x3D;&quot;delete&quot;
+                    (click)&#x3D;&quot;deleteRow(index, &#x27;title&#x27;,list);$event.stopPropagation();&quot;&gt;&lt;/span&gt;
+              &lt;/mat-panel-description&gt;
+            &lt;/mat-expansion-panel-header&gt;
+            &lt;p&gt; {{list }}&lt;/p&gt;
+          &lt;/mat-expansion-panel&gt;
+        &lt;/mat-accordion&gt;
+      &lt;/div&gt;
+      &lt;div class&#x3D;&quot;col-12 p-0 mb-20&quot; *ngIf&#x3D;&quot;dialogData.pdfResponse.header.length&quot;&gt;
+        &lt;div class&#x3D;&quot;title&quot;&gt;
+          Headers
+        &lt;/div&gt;
+        &lt;mat-accordion class&#x3D;&quot;kr-accordian&quot;&gt;
+          &lt;mat-expansion-panel *ngFor&#x3D;&quot;let list of dialogData.pdfResponse.header | search:searchText.value;let index&#x3D;index; &quot; hideToggle&gt;
+            &lt;mat-expansion-panel-header class&#x3D;&quot;onselect&quot;&gt;
+              &lt;mat-panel-title&gt;
+                {{list | truncate: 35}}
+              &lt;/mat-panel-title&gt;
+              &lt;mat-panel-description&gt;
+                &lt;div class&#x3D;&quot;badge badge-primary badge-pill&quot;&gt;{{&#x27;Page-&#x27; + dialogData.pdfResponse.header_pageno[index]}}
+                &lt;/div&gt;
+                &lt;span class&#x3D;&quot;toggle-icon&quot;&gt;&lt;img src&#x3D;&quot;assets/images/trashIcon.svg&quot; alt&#x3D;&quot;delete&quot;
+                    (click)&#x3D;&quot;deleteRow(index, &#x27;header&#x27;, list);$event.stopPropagation();&quot;&gt;&lt;/span&gt;
+              &lt;/mat-panel-description&gt;
+            &lt;/mat-expansion-panel-header&gt;
+            &lt;p&gt; {{list }}&lt;/p&gt;
+          &lt;/mat-expansion-panel&gt;
+        &lt;/mat-accordion&gt;
+      &lt;/div&gt;
+      &lt;div class&#x3D;&quot;col-12 p-0 mb-20&quot; *ngIf&#x3D;&quot;dialogData.pdfResponse.footer.length&quot;&gt;
+        &lt;div class&#x3D;&quot;title&quot;&gt;
+          Footers
+        &lt;/div&gt;
+        &lt;mat-accordion class&#x3D;&quot;kr-accordian&quot;&gt;
+          &lt;mat-expansion-panel *ngFor&#x3D;&quot;let list of dialogData.pdfResponse.footer | search:searchText.value;let index&#x3D;index; &quot; hideToggle&gt;
+            &lt;mat-expansion-panel-header class&#x3D;&quot;onselect&quot;&gt;
+              &lt;mat-panel-title&gt;
+                {{list | truncate: 35}}
+              &lt;/mat-panel-title&gt;
+              &lt;mat-panel-description&gt;
+                &lt;div class&#x3D;&quot;badge badge-primary badge-pill&quot;&gt;{{&#x27;Page-&#x27; + dialogData.pdfResponse.footer_pageno[index]}}
+                &lt;/div&gt;
+                &lt;span class&#x3D;&quot;toggle-icon&quot;&gt;&lt;img src&#x3D;&quot;assets/images/trashIcon.svg&quot; alt&#x3D;&quot;delete&quot;
+                    (click)&#x3D;&quot;deleteRow(index, &#x27;footer&#x27;, list);$event.stopPropagation();&quot;&gt;&lt;/span&gt;
+              &lt;/mat-panel-description&gt;
+            &lt;/mat-expansion-panel-header&gt;
+            &lt;p&gt; {{list }}&lt;/p&gt;
+          &lt;/mat-expansion-panel&gt;
+        &lt;/mat-accordion&gt;
+      &lt;/div&gt;
+      &lt;div class&#x3D;&quot;col-12 p-0 mb-20&quot; *ngIf&#x3D;&quot;dialogData.pdfResponse.ignoreText.length&quot;&gt;
+        &lt;div class&#x3D;&quot;title&quot;&gt;
+          Exclusions
+        &lt;/div&gt;
+        &lt;mat-accordion class&#x3D;&quot;kr-accordian&quot;&gt;
+          &lt;mat-expansion-panel *ngFor&#x3D;&quot;let list of dialogData.pdfResponse.ignoreText | search:searchText.value;let index&#x3D;index; &quot; hideToggle&gt;
+            &lt;mat-expansion-panel-header class&#x3D;&quot;onselect&quot;&gt;
+              &lt;mat-panel-title&gt;
+                {{list | truncate: 35}}
+              &lt;/mat-panel-title&gt;
+              &lt;mat-panel-description&gt;
+                &lt;div class&#x3D;&quot;badge badge-primary badge-pill&quot;&gt;{{&#x27;Page-&#x27; + dialogData.pdfResponse.ignoreTextPageno[index]}}
+                &lt;/div&gt;
+                &lt;span class&#x3D;&quot;toggle-icon&quot;&gt;&lt;img src&#x3D;&quot;assets/images/trashIcon.svg&quot; alt&#x3D;&quot;delete&quot;
+                    (click)&#x3D;&quot;deleteRow(index, &#x27;ignore&#x27;, list);$event.stopPropagation();&quot;&gt;&lt;/span&gt;
+              &lt;/mat-panel-description&gt;
+            &lt;/mat-expansion-panel-header&gt;
+            &lt;p&gt; {{list }}&lt;/p&gt;
+          &lt;/mat-expansion-panel&gt;
+        &lt;/mat-accordion&gt;
+    &lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/perfect-scrollbar&gt;
+  &lt;!-- NO DATA FOUND --&gt;
+  &lt;div class&#x3D;&quot;no-data-found&quot; *ngIf&#x3D;&quot;noDataFound&quot;&gt;
+    &lt;img alt&#x3D;&quot;no widgets&quot; src&#x3D;&quot;assets/images/empty-illustration.png&quot; /&gt;
+    &lt;div class&#x3D;&quot;no-title&quot;&gt;No Annotations!&lt;/div&gt;
+  &lt;/div&gt;
+  &lt;div class&#x3D;&quot;modal-footer&quot;&gt;
+    &lt;button (click)&#x3D;&quot;close()&quot; type&#x3D;&quot;button&quot; class&#x3D;&quot;kr-sg-button-secondary btn_md&quot;&gt;Close&lt;/button&gt;
+  &lt;/div&gt;
+
+&lt;/div&gt;</code></pre>
+    </div>
+
+    <div class="tab-pane fade " id="c-styleData">
+                <p class="comment">
+                    <code>./summary-modal.component.scss</code>
+                </p>
+                <pre class="line-numbers"><code class="language-scss">@import &quot;../../../../scss/variables/variables.scss&quot;;
+.app-dialog {
+    .modal-header {
+        height: auto;
+        padding: 11px 0 12px 0;
+        background-color: #f2f3f5;
+        border: 0;
+        border-radius: 4px;
+        display: block;
+        text-align: center;
+        .modal-title {
+            font-size: 24px;
+            font-weight: 300;
+            color: #26344a;
+        }
+    }
+    perfect-scrollbar.summary-perfect-scroll {
+        height: 300px;
+    }
+    .modal-body {
+        padding: 30px 20px;
+        min-height: 148px;
+        background: $whiteColor;
+        .title {
+            font-size: 14px;
+            font-weight: bold;
+            color: $primaryColor;
+        }
+        .onselect {
+            cursor: pointer;
+            &amp;:hover {
+                //   background-color: $backgroundColor;
+                .toggle-icon {
+                    display: inline-block !important;
+                }
+            }
+        }
+        .toggle-icon {
+            display: none;
+            position: absolute;
+            right: 10px;
+        }
+        .badge-primary {
+            color: #fff;
+            background-color: #6e7e92;
+            display: flex;
+            align-items: center;
+        }
+    }
+    .modal-footer {
+        height: auto;
+        padding: 14px 0 15px 0;
+        background-color: #f2f3f5;
+        border: 0;
+        border-radius: 4px;
+        display: block;
+        text-align: center;
+    }
+}
+
+::ng-deep .cdk-global-scrollblock {
+    overflow-y: hidden;
+}
+::ng-deep .kr-create-app-panel {
+    width: 50%;
+    margin-top: -25px;
+}
+
+mat-expansion-panel {
+    .mat-expansion-panel-header-title {
+        color: $primaryColor;
+        font-size: 14px;
+        width: 100%;
+    }
+    .mat-expansion-panel-header-description {
+        color: $secondaryColor;
+        font-size: 14px;
+        font-weight: normal;
+        .pageno {
+            text-align: center;
+        }
+    }
+}
+mat-expansion-panel {
+    margin: 5px 0px;
+    position: relative;
+}
+mat-expansion-panel:hover {
+    box-shadow: 0px 0px 3px 1px #a6b2c2;
+}
+expansion-panel-header:hover {
+    background: #fff !important;
+}
+.mat-expansion-panel:not(.mat-expanded) .mat-expansion-panel-header:not([aria-disabled&#x3D;&quot;true&quot;]):hover {
+    background: #fff;
+}
+.mat-expansion-panel-header-custom {
+    padding: 20px 24px 5px 24px;
+    height: auto !important;
+}
+::ng-deep .mat-expansion-panel-header {
+    transition: none !important;
+}
+.no-data-found {
+    text-align: center;
+    .no-title {
+        padding: 20px 0;
+        font-size: 24px;
+        font-weight: 300;
+        color: $primaryColor;
+    }
+}
+.mb-10 {
+    margin-bottom: 10px;
+}
+</code></pre>
+    </div>
+
+    <div class="tab-pane fade " id="c-tree">
+        <div id="tree-container"></div>
+        <div class="tree-legend">
+            <div class="title">
+                <b>Legend</b>
+            </div>
+            <div>
+                <div class="color htmlelement"></div><span>Html element</span>
+            </div>
+            <div>
+                <div class="color component"></div><span>Component</span>
+            </div>
+            <div>
+                <div class="color directive"></div><span>Html element with directive</span>
+            </div>
+        </div>
+    </div>
+
+    
+</div>
+
+<script src="../js/libs/vis.min.js"></script>
+<script src="../js/libs/htmlparser.js"></script>
+<script src="../js/libs/deep-iterator.js"></script>
+<script>
+        var COMPONENT_TEMPLATE = '<div><div class="app-dialog">  <div class="modal-header">    <div class="modal-title">{{\'Annotations\'}}</div>  </div>  <perfect-scrollbar *ngIf="!noDataFound" class="summary-perfect-scroll">    <div class="modal-body">      <div class="kr-sg-input-search mb-10">                                       <input type="text" placeholder="Search" class="input-search" [formControl]="searchText">        <img src="assets/icons/search-gray.svg" class="search-icon" (click)="searchText.reset();">      </div>      <div class="col-12 p-0 mb-20" *ngIf="dialogData.pdfResponse.title.length">        <div class="title">          Headings        </div>        <mat-accordion class="kr-accordian">          <mat-expansion-panel *ngFor="let list of dialogData.pdfResponse.title | search:searchText.value;let index=index; " hideToggle>            <mat-expansion-panel-header class="onselect">              <mat-panel-title>                {{list | truncate: 35}}              </mat-panel-title>              <mat-panel-description>                <div class="badge badge-primary badge-pill">{{\'Page-\' + dialogData.pdfResponse.title_pageno[index]}}                </div>                <span class="toggle-icon"><img src="assets/images/trashIcon.svg" alt="delete"                    (click)="deleteRow(index, \'title\',list);$event.stopPropagation();"></span>              </mat-panel-description>            </mat-expansion-panel-header>            <p> {{list }}</p>          </mat-expansion-panel>        </mat-accordion>      </div>      <div class="col-12 p-0 mb-20" *ngIf="dialogData.pdfResponse.header.length">        <div class="title">          Headers        </div>        <mat-accordion class="kr-accordian">          <mat-expansion-panel *ngFor="let list of dialogData.pdfResponse.header | search:searchText.value;let index=index; " hideToggle>            <mat-expansion-panel-header class="onselect">              <mat-panel-title>                {{list | truncate: 35}}              </mat-panel-title>              <mat-panel-description>                <div class="badge badge-primary badge-pill">{{\'Page-\' + dialogData.pdfResponse.header_pageno[index]}}                </div>                <span class="toggle-icon"><img src="assets/images/trashIcon.svg" alt="delete"                    (click)="deleteRow(index, \'header\', list);$event.stopPropagation();"></span>              </mat-panel-description>            </mat-expansion-panel-header>            <p> {{list }}</p>          </mat-expansion-panel>        </mat-accordion>      </div>      <div class="col-12 p-0 mb-20" *ngIf="dialogData.pdfResponse.footer.length">        <div class="title">          Footers        </div>        <mat-accordion class="kr-accordian">          <mat-expansion-panel *ngFor="let list of dialogData.pdfResponse.footer | search:searchText.value;let index=index; " hideToggle>            <mat-expansion-panel-header class="onselect">              <mat-panel-title>                {{list | truncate: 35}}              </mat-panel-title>              <mat-panel-description>                <div class="badge badge-primary badge-pill">{{\'Page-\' + dialogData.pdfResponse.footer_pageno[index]}}                </div>                <span class="toggle-icon"><img src="assets/images/trashIcon.svg" alt="delete"                    (click)="deleteRow(index, \'footer\', list);$event.stopPropagation();"></span>              </mat-panel-description>            </mat-expansion-panel-header>            <p> {{list }}</p>          </mat-expansion-panel>        </mat-accordion>      </div>      <div class="col-12 p-0 mb-20" *ngIf="dialogData.pdfResponse.ignoreText.length">        <div class="title">          Exclusions        </div>        <mat-accordion class="kr-accordian">          <mat-expansion-panel *ngFor="let list of dialogData.pdfResponse.ignoreText | search:searchText.value;let index=index; " hideToggle>            <mat-expansion-panel-header class="onselect">              <mat-panel-title>                {{list | truncate: 35}}              </mat-panel-title>              <mat-panel-description>                <div class="badge badge-primary badge-pill">{{\'Page-\' + dialogData.pdfResponse.ignoreTextPageno[index]}}                </div>                <span class="toggle-icon"><img src="assets/images/trashIcon.svg" alt="delete"                    (click)="deleteRow(index, \'ignore\', list);$event.stopPropagation();"></span>              </mat-panel-description>            </mat-expansion-panel-header>            <p> {{list }}</p>          </mat-expansion-panel>        </mat-accordion>    </div>    </div>  </perfect-scrollbar>  <!-- NO DATA FOUND -->  <div class="no-data-found" *ngIf="noDataFound">    <img alt="no widgets" src="assets/images/empty-illustration.png" />    <div class="no-title">No Annotations!</div>  </div>  <div class="modal-footer">    <button (click)="close()" type="button" class="kr-sg-button-secondary btn_md">Close</button>  </div></div></div>'
+    var COMPONENTS = [{'name': 'ActionsComponent', 'selector': 'app-actions'},{'name': 'AddAlternateQuestionComponent', 'selector': 'app-add-alternate-question'},{'name': 'AddAltFaqComponent', 'selector': 'app-add-alt-faq'},{'name': 'AddFaqComponent', 'selector': 'app-add-faq'},{'name': 'AddResultComponent', 'selector': 'app-add-result'},{'name': 'AddResultComponent', 'selector': 'app-add-result'},{'name': 'AddStructuredDataComponent', 'selector': 'app-add-structured-data'},{'name': 'AnalyticsDropdownComponent', 'selector': 'app-analytics-dropdown'},{'name': 'AnnotoolComponent', 'selector': 'kr-annotool'},{'name': 'AppComponent', 'selector': 'app-root'},{'name': 'AppExperimentsComponent', 'selector': 'app-app-experiments'},{'name': 'AppsComponent', 'selector': 'app-apps'},{'name': 'AutocompleteMultiChipComponent', 'selector': 'app-autocomplete-multi-chip'},{'name': 'BodyComponent', 'selector': 'app-body'},{'name': 'BotActionsComponent', 'selector': 'app-bot-actions'},{'name': 'BotActionsComponent', 'selector': 'app-bot-actions'},{'name': 'BusinessRulesComponent', 'selector': 'app-business-rules'},{'name': 'ConfirmationComponent', 'selector': 'kr-confirmation'},{'name': 'ConfirmationDialogComponent', 'selector': 'app-confirmation-dialog'},{'name': 'ConnectorsComponent', 'selector': 'app-connectors'},{'name': 'ContentComponent', 'selector': 'app-content'},{'name': 'CredentialsListComponent', 'selector': 'app-credentials-list'},{'name': 'CustomConfigFormComponent', 'selector': 'app-custom-config-form'},{'name': 'CustomConfigListComponent', 'selector': 'app-custom-config-list'},{'name': 'CustomConfigurationsComponent', 'selector': 'app-custom-configurations'},{'name': 'CustomMarkdownEditorComponent', 'selector': 'md-editor'},{'name': 'DashboardComponent', 'selector': 'app-dashboard'},{'name': 'DateRangePickerComponent', 'selector': 'app-date-range-picker'},{'name': 'DemoComponent', 'selector': 'app-demo'},{'name': 'EditorUrlDialogComponent', 'selector': 'app-editor-url-dialog'},{'name': 'EmptyScreenComponent', 'selector': 'app-empty-screen'},{'name': 'FacetsComponent', 'selector': 'app-facets'},{'name': 'FaqsComponent', 'selector': 'faqs-source'},{'name': 'FieldManagementComponent', 'selector': 'app-field-management'},{'name': 'GeneralSettingsComponent', 'selector': 'app-general-settings'},{'name': 'GroupInputComponent', 'selector': 'app-group-input'},{'name': 'HeaderComponent', 'selector': 'app-header'},{'name': 'HighlightingComponent', 'selector': 'app-highlighting'},{'name': 'ImportFaqsModalComponent', 'selector': 'app-import-faqs-modal'},{'name': 'IndexComponent', 'selector': 'app-index'},{'name': 'IndexComponent', 'selector': 'app-index'},{'name': 'IndexConfigurationSettingsComponent', 'selector': 'app-index-configuration-settings'},{'name': 'IndexFieldsComfirmationDialogComponent', 'selector': 'app-index-fields-comfirmation-dialog'},{'name': 'InsightsComponent', 'selector': 'app-insights'},{'name': 'InvoicesComponent', 'selector': 'app-invoices'},{'name': 'KRModalComponent', 'selector': 'kr-modal'},{'name': 'ListFieldsComponent', 'selector': 'app-list-fields'},{'name': 'LoaderComponent', 'selector': 'app-loader'},{'name': 'MainMenuComponent', 'selector': 'app-mainmenu'},{'name': 'ManageIntentComponent', 'selector': 'app-manage-intent'},{'name': 'MarkdownEditorResizeSensorComponent', 'selector': 'md-editor-resize-sensor'},{'name': 'MetricsComponent', 'selector': 'app-metrics'},{'name': 'OnboardingComponent', 'selector': 'app-onboarding'},{'name': 'PaginationComponent', 'selector': 'app-pagination'},{'name': 'PdfAnnotationComponent', 'selector': 'kr-pdf-annotation'},{'name': 'PresentableComponent', 'selector': 'app-presentable'},{'name': 'PricingComponent', 'selector': 'app-pricing'},{'name': 'RangeSliderComponent', 'selector': 'app-range-slider'},{'name': 'RangeSliderSearchExperienceComponent', 'selector': 'app-range-slider-search-experience'},{'name': 'RecordPaginationComponent', 'selector': 'app-record-pagination'},{'name': 'ResultInsightsComponent', 'selector': 'app-result-insights'},{'name': 'ResultRankingComponent', 'selector': 'app-result-ranking'},{'name': 'ResultRankingComponent', 'selector': 'app-result-ranking'},{'name': 'ResultsRulesComponent', 'selector': 'app-results-rules'},{'name': 'ResultTemplatesComponent', 'selector': 'app-result-templates'},{'name': 'RulesTableComponent', 'selector': 'app-rules-table'},{'name': 'SchedulerComponent', 'selector': 'app-scheduler'},{'name': 'SearchExperienceComponent', 'selector': 'app-search-experience'},{'name': 'SearchFieldPropertiesComponent', 'selector': 'app-search-field-properties'},{'name': 'SearchFilterComponent', 'selector': 'app-search-filter'},{'name': 'SearchInsightsComponent', 'selector': 'app-search-insights'},{'name': 'SearchInterfaceComponent', 'selector': 'app-search-interface'},{'name': 'SearchRelevanceComponent', 'selector': 'app-search-relevance'},{'name': 'SearchSdkComponent', 'selector': '.appContent'},{'name': 'SearchSettingsComponent', 'selector': 'app-search-settings'},{'name': 'SettingsComponent', 'selector': 'app-settings'},{'name': 'SettingsComponent', 'selector': 'app-settings'},{'name': 'SliderComponentComponent', 'selector': 'app-slider-component'},{'name': 'SmallTalkComponent', 'selector': 'app-small-talk'},{'name': 'SnippetsComponent', 'selector': 'app-snippets'},{'name': 'SourcesComponent', 'selector': 'app-sources'},{'name': 'SpellCorrectionComponent', 'selector': 'app-spell-correction'},{'name': 'StatusDockerComponent', 'selector': 'app-status-docker'},{'name': 'StopWordsComponent', 'selector': 'app-stop-words'},{'name': 'StructuredDataComponent', 'selector': 'app-structured-data'},{'name': 'StructuredDataComponent', 'selector': 'app-structured-data'},{'name': 'StructuredDataStatusModalComponent', 'selector': 'app-structured-data-status-modal'},{'name': 'SummaryComponent', 'selector': 'app-summary'},{'name': 'SummaryModalComponent', 'selector': 'kr-summary-modal'},{'name': 'SynonymsComponent', 'selector': 'app-synonyms'},{'name': 'TagsInpComponent', 'selector': 'app-tags-inp'},{'name': 'TeamManagementComponent', 'selector': 'app-team-management'},{'name': 'TraitsComponent', 'selector': 'app-traits'},{'name': 'UpgradePlanComponent', 'selector': 'app-upgrade-plan'},{'name': 'UsageLogComponent', 'selector': 'app-usage-log'},{'name': 'UserEngagementComponent', 'selector': 'app-user-engagement'},{'name': 'UserGuideComponent', 'selector': 'kr-user-guide'},{'name': 'UseronboardingJourneyComponent', 'selector': 'app-useronboarding-journey'},{'name': 'WeightsComponent', 'selector': 'app-weights'}];
+    var DIRECTIVES = [{'name': 'ClickOutSideDirective', 'selector': '[clickOutside]'},{'name': 'EllipsisActiveDirective', 'selector': '[appEllipsisActive]'},{'name': 'ScrollSpyDirective', 'selector': '[scrollSpy]'},{'name': 'SelectTextDirective', 'selector': '[appSelectText]'}];
+    var ACTUAL_COMPONENT = {'name': 'SummaryModalComponent'};
+</script>
+<script src="../js/tree.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+          <label class="dark-mode-switch">
+               <input type="checkbox">
+               <span class="slider">
+                    <svg class="slider-icon" viewBox="0 0 24 24" fill="none" height="20" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" width="20" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path>
+                    </svg>
+               </span>
+          </label>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 1;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'component';
+            var COMPODOC_CURRENT_PAGE_URL = 'SummaryModalComponent.html';
+            var MAX_SEARCH_RESULTS = 15;
+       </script>
+
+       <script src="../js/libs/custom-elements.min.js"></script>
+       <script src="../js/libs/lit-html.js"></script>
+
+       <script src="../js/menu-wc.js" defer></script>
+       <script nomodule src="../js/menu-wc_es5.js" defer></script>
+
+       <script src="../js/libs/bootstrap-native.js"></script>
+
+       <script src="../js/libs/es6-shim.min.js"></script>
+       <script src="../js/libs/EventDispatcher.js"></script>
+       <script src="../js/libs/promise.min.js"></script>
+       <script src="../js/libs/zepto.min.js"></script>
+
+       <script src="../js/compodoc.js"></script>
+
+       <script src="../js/tabs.js"></script>
+       <script src="../js/menu.js"></script>
+       <script src="../js/libs/clipboard.min.js"></script>
+       <script src="../js/libs/prism.js"></script>
+       <script src="../js/sourceCode.js"></script>
+          <script src="../js/search/search.js"></script>
+          <script src="../js/search/lunr.min.js"></script>
+          <script src="../js/search/search-lunr.js"></script>
+          <script src="../js/search/search_index.js"></script>
+       <script src="../js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>

@@ -1,0 +1,1297 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>koreai documentation</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	   <link rel="stylesheet" href="../styles/style.css">
+        <link rel="stylesheet" href="../styles/dark.css">
+    </head>
+    <body>
+
+        <div class="navbar navbar-default navbar-fixed-top visible-xs">
+            <a href="../" class="navbar-brand">koreai documentation</a>
+            <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="hidden-xs menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content injectable">
+                   <div class="content-data">
+
+
+
+
+
+
+
+
+<ol class="breadcrumb">
+  <li>Injectables</li>
+  <li >ConvertMDtoHTML</li>
+</ol>
+
+<ul class="nav nav-tabs" role="tablist">
+        <li class="active">
+            <a href="#info" role="tab" id="info-tab" data-toggle="tab" data-link="info">Info</a>
+        </li>
+        <li >
+            <a href="#source" role="tab" id="source-tab" data-toggle="tab" data-link="source">Source</a>
+        </li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane fade active in" id="c-info">
+        <p class="comment">
+            <h3>File</h3>
+        </p>
+        <p class="comment">
+            <code>apps/searchassist/src/app/helpers/lib/convertHTML.ts</code>
+        </p>
+
+
+
+
+
+            <section>
+    <h3 id="index">Index</h3>
+    <table class="table table-sm table-bordered index-table">
+        <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Properties</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#_window" >_window</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#detectScriptTag" >detectScriptTag</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#helpers" >helpers</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+
+
+
+
+
+        </tbody>
+    </table>
+</section>
+
+
+
+            <section>
+    
+    <h3 id="inputs">
+        Properties
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="_window"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>_window</b></span>
+                        <a href="#_window"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>window</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="10" class="link-to-prism">apps/searchassist/src/app/helpers/lib/convertHTML.ts:10</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="detectScriptTag"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>detectScriptTag</b></span>
+                        <a href="#detectScriptTag"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>/&lt;script\b[^&gt;]*&gt;([\s\S]*?)/gm</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="11" class="link-to-prism">apps/searchassist/src/app/helpers/lib/convertHTML.ts:11</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="helpers"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>helpers</b></span>
+                        <a href="#helpers"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/object" target="_blank" >object</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>{
+     xssAttack(txtStr: string) {
+        //   if (compObj &amp;&amp; compObj[0] &amp;&amp; compObj[0].componentType &#x3D;&#x3D;&#x3D; &quot;text&quot;) {
+         const escapeHTML &#x3D;  (str)&#x3D;&gt; {
+             // &#x27;&amp;&#x27;: &#x27;&amp;amp;&#x27;,
+             const escapeTokens &#x3D; {
+                 &#x27;&lt;&#x27;: &#x27;&amp;lt;&#x27;,
+                 &#x27;&gt;&#x27;: &#x27;&amp;gt;&#x27;,
+                 &#x27;&quot;&#x27;: &#x27;&amp;quot;&#x27;,
+                 &#x27;\&#x27;&#x27;: &#x27;&amp;#x27;&#x27;
+             };
+             const htmlTags &#x3D; /[&lt;&gt;&quot;&#x27;]/g;
+             return (&#x27;&#x27; + str).replace(htmlTags, (match)&#x3D;&gt; {
+                 return escapeTokens[match];
+             });
+         };
+        let textHasXSS: { isValid: any; };
+        if (txtStr) {
+            textHasXSS &#x3D; this.isNotAllowedHTMLTags(txtStr);
+        }
+        if (textHasXSS &amp;&amp; !textHasXSS.isValid) {
+            txtStr &#x3D; escapeHTML(txtStr);
+        }
+        return txtStr;
+    },
+    isEven (n: number) {
+        n &#x3D; Number(n);
+        return n &#x3D;&#x3D;&#x3D; 0 || !!(n &amp;&amp; !(n % 2));
+    },
+     replaceAll (search: string | RegExp, replacement: any, str) {
+        const target &#x3D; str;
+        return target.replace(new RegExp(search, &#x27;g&#x27;), replacement);
+    },
+    nl2br (str: string, runEmojiCheck: boolean) {
+        // if (runEmojiCheck &amp;&amp; this._window.emojione) {
+        //     str &#x3D; this._window.emojione.shortnameToImage(str);
+        // }
+        str &#x3D; str.replace(/(?:\r\n|\r|\n)/g, &#x27;&lt;br /&gt;&#x27;);
+        return str;
+    },
+    br2nl (str: string) {
+        str &#x3D; str.replace(/&lt;br \/&gt;/g, &#x27;\n&#x27;);
+        return str;
+    },
+    formatAMPM (date: Date) {
+        let hours:any &#x3D; date.getHours();
+        let minutes:any &#x3D; date.getMinutes();
+        const seconds &#x3D; date.getSeconds();
+        const ampm &#x3D; hours &gt;&#x3D; 12 ? &#x27;pm&#x27; : &#x27;am&#x27;;
+        hours &#x3D; hours % 12;
+        hours &#x3D; hours ? hours : 12; // the hour &#x27;0&#x27; should be &#x27;12&#x27;
+        minutes &#x3D; minutes &lt; 10 ? &#x27;0&#x27; + minutes : minutes;
+        const strTime &#x3D; hours + &#x27;:&#x27; + minutes + &#x27;:&#x27;+ seconds + &#x27; &#x27; + ampm;
+        return strTime;
+    },
+    formatDate (date: string | number | Date) {
+        let d &#x3D; new Date(date);
+        if ( isNaN( d.getTime() ) ) {
+            const _tmpDate &#x3D; new Date().getTime();
+            d &#x3D; new Date(_tmpDate);
+        }
+        return d.toDateString() + &#x27; at &#x27; + this.formatAMPM(d);
+    },
+    isNotAllowedHTMLTags (str) {
+        const wrapper &#x3D; document.createElement(&#x27;div&#x27;);
+        str &#x3D; str.replace(/onerror&#x3D;/gi, &#x27;abc-error&#x3D;&#x27;);
+        wrapper.innerHTML &#x3D; str;
+        const setFlags &#x3D; {
+            isValid: true,
+            key: &#x27;&#x27;
+        };
+        try {
+            if ($(wrapper).find(&#x27;script&#x27;).length || $(wrapper).find(&#x27;video&#x27;).length || $(wrapper).find(&#x27;audio&#x27;).length) {
+                setFlags.isValid &#x3D; false;
+            }
+            if ($(wrapper).find(&#x27;link&#x27;).length &amp;&amp; $(wrapper).find(&#x27;link&#x27;).attr(&#x27;href&#x27;).indexOf(&#x27;script&#x27;) !&#x3D;&#x3D; -1) {
+                if (this.detectScriptTag.test($(wrapper).find(&#x27;link&#x27;).attr(&#x27;href&#x27;))) {
+                    setFlags.isValid &#x3D; false;
+                } else {
+                    setFlags.isValid &#x3D; true;
+                }
+            }
+            if ($(wrapper).find(&#x27;a&#x27;).length &amp;&amp; $(wrapper).find(&#x27;a&#x27;).attr(&#x27;href&#x27;).indexOf(&#x27;script&#x27;) !&#x3D;&#x3D; -1) {
+                if (this.detectScriptTag.test($(wrapper).find(&#x27;a&#x27;).attr(&#x27;href&#x27;))) {
+                    setFlags.isValid &#x3D; false;
+                } else {
+                    setFlags.isValid &#x3D; true;
+                }
+            }
+            if ($(wrapper).find(&#x27;img&#x27;).length &amp;&amp; $(wrapper).find(&#x27;img&#x27;).attr(&#x27;src&#x27;).indexOf(&#x27;script&#x27;) !&#x3D;&#x3D; -1) {
+                if (this.detectScriptTag.test($(wrapper).find(&#x27;img&#x27;).attr(&#x27;href&#x27;))) {
+                    setFlags.isValid &#x3D; false;
+                } else {
+                    setFlags.isValid &#x3D; true;
+                }
+            }
+            if ($(wrapper).find(&#x27;object&#x27;).length) {
+                setFlags.isValid &#x3D; false;
+            }
+            return setFlags;
+        }
+        catch(e){
+            return setFlags;
+        }
+    },
+    convertMDtoHTML (val: string, responseType: string) {
+        const hyperLinksMap :any&#x3D;{};
+        const mdre :any&#x3D; {};
+        // mdre.date &#x3D; new RegExp(/\\d\(\s*(.{10})\s*\)/g);
+        mdre.date &#x3D; new RegExp(/\\d\(\s*(.{10})\s*(?:,\s*[&quot;&#x27;](.+?)[&quot;&#x27;]\s*)?\)/g);
+        mdre.time &#x3D; new RegExp(/\\t\(\s*(.{8}\.\d{0,3})\s*\)/g);
+        // mdre.datetime &#x3D; new RegExp(/\\dt\(\s*(.{10})[T](.{12})([z]|[Z]|[+-]\d{4})\s*\)/g);
+        mdre.datetime &#x3D; new RegExp(/\\(d|dt|t)\(\s*([-0-9]{10}[T][0-9:.]{12})([z]|[Z]|[+-]\d{4})[\s]*,[\s]*[&quot;&#x27;]([a-zA-Z\W]+)[&quot;&#x27;]\s*\)/g);
+        mdre.num &#x3D; new RegExp(/\\#\(\s*(\d*.\d*)\s*\)/g);
+        mdre.curr &#x3D; new RegExp(/\\\$\((\d*.\d*)[,](\s*[\&quot;\&#x27;]\s*\w{3}\s*[\&quot;\&#x27;]\s*)\)|\\\$\((\d*.\d*)[,](\s*\w{3}\s*)\)/g);
+
+        const regEx:any &#x3D; {};
+        regEx.SPECIAL_CHARS &#x3D; /[\&#x3D;\&#x60;\~\!@#\$\%\^&amp;\*\(\)_\-\+\{\}\:&quot;\[\];\&#x27;,\.\/&lt;&gt;\?\|\\]+/;
+        regEx.EMAIL &#x3D; /^[-a-z0-9~!$%^&amp;*_&#x3D;+}{\&#x27;]+(\.[-a-z0-9~!$%^&amp;*_&#x3D;+}{\&#x27;]+)*@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,255})+$/i;
+        regEx.MENTION &#x3D; /(^|\s|\\n|&quot;)@([^\s]*)(?:[\s]\[([^\]]*)\])?[&quot;]?/gi;
+        regEx.HASHTAG &#x3D; /(^|\s|\\n)#(\S+)/g;
+        regEx.NEWLINE &#x3D; /\n/g;
+        const _regExForLink &#x3D; /((?:http\:\/\/|https\:\/\/|www\.)+\S*\.(?:(?:\.\S)*[^\,\s\.])*\/?)/gi;
+       // var _regExForMarkdownLink &#x3D; /\[([^\]]+)\](|\s)+\(([^\)])+\)/g;
+       const _regExForMarkdownLink &#x3D; /\[([^\]]+)\](|\s)\((?:[^)(]+|\((?:[^)(]+|\([^)(]*\))*\))*\)?/g;
+        let str:any &#x3D; val || &#x27;&#x27;;
+        const mmntns:any &#x3D; {};
+        mmntns.sd &#x3D; new RegExp(/^(d{1})[^d]|[^d](d{1})[^d]/g);
+        mmntns.dd &#x3D; new RegExp(/^(d{2})[^d]|[^d](d{2})[^d]/g);
+        mmntns.fy &#x3D; new RegExp(/(y{4})|y{2}/g);
+        const regexkeys &#x3D; Object.keys(mdre);
+        function matchmap(regexval: { exec: (arg0: any) &#x3D;&gt; any; }, stringval: any) {
+            let da:any &#x3D; [];
+            const matches:any &#x3D; [];
+            // tslint:disable-next-line:no-conditional-assignment
+            while ((da &#x3D; regexval.exec(stringval)) !&#x3D;&#x3D; null) {
+                const keypair:any &#x3D; {};
+                keypair.index &#x3D; da.index;
+                keypair.matchexp &#x3D; da[0];
+                if (da.length &gt; 1) {
+                    for (let n &#x3D; 1; n &lt; da.length; n++) {
+                        const mstr &#x3D; &#x27;matchval&#x27; + n.toString();
+                        keypair[mstr] &#x3D; da[n];
+                    }
+                }
+                matches.push(keypair);
+            }
+            return matches;
+        }
+        function ucreplacer(match: string) {
+            return match.toUpperCase();
+        }
+        // tslint:disable-next-line:prefer-for-of
+        for (let j &#x3D; 0; j &lt; regexkeys.length; j++) {
+            let k: number;
+            switch (regexkeys[j]) {
+                case &#x27;date&#x27;:
+                    const strvald &#x3D; str;
+                    const datematcharray &#x3D; matchmap(mdre.date, strvald);
+                    if (datematcharray.length) {
+                        for (k &#x3D; 0; k &lt; datematcharray.length; k++) {
+                            // var fdate &#x3D; moment(datematcharray[k].matchval).format(&#x27;DD,dd,MM,YYY&#x27;);
+                            let fdate &#x3D; new Date(datematcharray[k].matchval1).toLocaleDateString();
+                            fdate &#x3D; &#x27; &#x27; + fdate.toString() + &#x27; &#x27;;
+                            str &#x3D; str.replace(datematcharray[k].matchexp.toString(), fdate);
+                        }
+                    }
+                    break;
+                case &#x27;time&#x27;:
+                    const strvalt &#x3D; str;
+                    const timematcharray &#x3D; matchmap(mdre.time, strvalt);
+                    if (timematcharray.length) {
+                        for (k &#x3D; 0; k &lt; timematcharray.length; k++) {
+                            let ftime &#x3D; new Date(timematcharray[k].matchval1).toLocaleTimeString();
+                            ftime &#x3D; &#x27; &#x27; + ftime.toString() + &#x27; &#x27;;
+                            str &#x3D; str.replace(timematcharray[k].matchexp.toString(), ftime);
+                        }
+                    }
+                    break;
+                case &#x27;datetime&#x27;:
+                    const strvaldt &#x3D; str;
+                    const dtimematcharray &#x3D; matchmap(mdre.datetime, strvaldt);
+                    if (dtimematcharray.length) {
+                        for (k &#x3D; 0; k &lt; dtimematcharray.length; k++) {
+                            let ms &#x3D; &#x27;&#x27;;
+                            const mergekeylength &#x3D; Object.keys(dtimematcharray[k]).length - 2;
+                            for (let l &#x3D; 2; l &lt; mergekeylength; l++) {
+                                const keystr &#x3D; &#x27;matchval&#x27; + l.toString();
+                                ms +&#x3D; dtimematcharray[k][keystr];
+                            }
+                            const foptionstring &#x3D; &#x27;matchval&#x27; + mergekeylength.toString();
+                            let fmtstr &#x3D; dtimematcharray[k][foptionstring];
+                            fmtstr &#x3D; fmtstr.replace(mmntns.fy, ucreplacer);
+                            fmtstr &#x3D; fmtstr.replace(mmntns.dd, ucreplacer);
+                            fmtstr &#x3D; fmtstr.replace(mmntns.sd, ucreplacer);
+                            // var fdtime &#x3D; new Date(dtimematcharray[k].matchval).toLocaleString();
+                            let fdtime &#x3D; moment(ms).format(fmtstr);
+                            fdtime &#x3D; &#x27; &#x27; + fdtime.toString() + &#x27; &#x27;;
+                            str &#x3D; str.replace(dtimematcharray[k].matchexp.toString(), fdtime);
+                        }
+                    }
+                    break;
+                case &#x27;num&#x27;:
+                    const strnumval &#x3D; str;
+                    const nummatcharray &#x3D; matchmap(mdre.num, strnumval);
+                    if (nummatcharray.length) {
+                        for (k &#x3D; 0; k &lt; nummatcharray.length; k++) {
+                            let fnum &#x3D; Number(nummatcharray[k].matchval1).toLocaleString();
+                            fnum &#x3D; &#x27; &#x27; + fnum.toString() + &#x27; &#x27;;
+                            str &#x3D; str.replace(nummatcharray[k].matchexp.toString(), fnum);
+                        }
+                    }
+                    break;
+                case &#x27;curr&#x27;:
+                    const strcurval &#x3D; str;
+                    const currmatcharray &#x3D; matchmap(mdre.curr, strcurval);
+                     let browserLang &#x3D; &#x27;en&#x27;;
+                    if(window.navigator){
+                     browserLang &#x3D; window.navigator.language;
+                    }
+                    const curcode &#x3D; new RegExp(/\w{3}/);
+                    if (currmatcharray.length) {
+                        for (k &#x3D; 0; k &lt; currmatcharray.length; k++) {
+                            // tslint:disable-next-line:one-variable-per-declaration
+                            const currops:any &#x3D; {};
+                            let fcode: { toString: () &#x3D;&gt; any; }[];
+                            currops.style &#x3D; &#x27;currency&#x27;;
+                            if (currmatcharray[k].matchval2) {
+                                fcode &#x3D; curcode.exec(currmatcharray[k].matchval2);
+                            }
+                            currops.currency &#x3D; fcode[0].toString();
+                            let fcurr &#x3D; Number(currmatcharray[k].matchval1).toLocaleString(browserLang, currops);
+                            // check for browser support if browser doesnot suppor we get the same value back and we append the currency Code
+                            if (currmatcharray[k].matchval1.toString() &#x3D;&#x3D;&#x3D; fcurr.toString()) {
+                                fcurr &#x3D; &#x27; &#x27; + fcurr.toString() + &#x27; &#x27; + currops.currency;
+                            } else {
+                                fcurr &#x3D; &#x27; &#x27; + fcurr.toString() + &#x27; &#x27;;
+                            }
+                            str &#x3D; str.replace(currmatcharray[k].matchexp.toString(), fcurr);
+                        }
+                    }
+                    break;
+            }
+        }
+        function nextLnReplacer(match: any, p1: any, offset: any) {
+            return &#x27;&lt;br/&gt;&#x27;;
+        }
+        function ignoreWords(stri: string){
+            const _words&#x3D;[&#x27;onclick&#x27;,&#x27;onmouse&#x27;,&#x27;onblur&#x27;,&#x27;onscroll&#x27;,&#x27;onStart&#x27;];
+            _words.forEach((word)&#x3D;&gt;{
+                const regEx1 &#x3D; new RegExp(word, &#x27;ig&#x27;);
+                stri &#x3D; stri.replace(regEx1, &#x27;&#x27;);
+            });
+            return stri;
+        }
+        const nextln &#x3D; regEx.NEWLINE;
+        // tslint:disable-next-line:variable-name
+        function linkreplacer(match: string, p1: string | string[], offset: any, string: string) {
+            let dummyString &#x3D; string.replace(_regExForMarkdownLink, &#x27;[]&#x27;);
+            dummyString&#x3D;ignoreWords(dummyString);
+            if (dummyString.indexOf(match) !&#x3D;&#x3D; -1) {
+                // tslint:disable-next-line:one-variable-per-declaration
+                let _link &#x3D; p1.indexOf(&#x27;http&#x27;) &lt; 0 ? &#x27;http://&#x27; + match : match, _target: string;
+                // _link &#x3D; encodeURIComponent(_link);
+                _target &#x3D; &#x27;target&#x3D;\&#x27;underscoreblank\&#x27;&#x27;;
+                if (hyperLinksMap) {
+                    const _randomKey &#x3D; &#x27;korerandom://&#x27; + Object.keys(hyperLinksMap).length;
+                    hyperLinksMap[_randomKey] &#x3D; _link;
+                    _link &#x3D; _randomKey;
+                }
+                return &#x27;&lt;span class&#x3D;\&#x27;isLink\&#x27;&gt;&lt;a &#x27; + _target + &#x27; href&#x3D;&quot;&#x27; + _link + &#x27;&quot;&gt;&#x27; + match + &#x27;&lt;/a&gt;&lt;/span&gt;&#x27;;
+            } else {
+                return match;
+            }
+        }
+        // check for whether to linkify or not
+        try {
+            str &#x3D; decodeURIComponent(str);
+        } catch (e) {
+            str &#x3D; str || &#x27;&#x27;;
+        }
+        // tslint:disable-next-line:one-variable-per-declaration
+        let newStr &#x3D; &#x27;&#x27;, wrapper1: HTMLDivElement;
+        if (responseType &#x3D;&#x3D;&#x3D; &#x27;user&#x27;) {
+            str &#x3D; str.replace(/onerror&#x3D;/gi, &#x27;abc-error&#x3D;&#x27;);
+            wrapper1 &#x3D; document.createElement(&#x27;div&#x27;);
+            newStr &#x3D; str.replace(/“/g, &#x27;\&quot;&#x27;).replace(/”/g, &#x27;\&quot;&#x27;);
+            newStr &#x3D; newStr.replace(/&lt;/g, &#x27;&amp;lt;&#x27;).replace(/&gt;/g, &#x27;&amp;gt;&#x27;);
+            wrapper1.innerHTML &#x3D; this.xssAttack(newStr);
+            if ($(wrapper1).find(&#x27;a&#x27;).attr(&#x27;href&#x27;)) {
+                str &#x3D; newStr;
+            } else {
+                str &#x3D; newStr.replace(/&lt;/g, &#x27;&amp;lt;&#x27;).replace(/&gt;/g, &#x27;&amp;gt;&#x27;).replace(_regExForLink, linkreplacer);
+            }
+        } else {
+            wrapper1 &#x3D; document.createElement(&#x27;div&#x27;);
+            // str &#x3D; str.replace(/&amp;lt;/g, &#x27;&lt;&#x27;).replace(/&amp;gt;/g, &#x27;&gt;&#x27;);
+            str &#x3D; str.replace(/onerror&#x3D;/gi, &#x27;abc-error&#x3D;&#x27;);
+            wrapper1.innerHTML &#x3D; this.xssAttack(str);
+            if ($(wrapper1).find(&#x27;a&#x27;).attr(&#x27;href&#x27;)) {
+                const linkArray &#x3D; str.match(/&lt;a[^&gt;]*&gt;([^&lt;]+)&lt;\/a&gt;/g);
+                // tslint:disable-next-line:prefer-for-of
+                for (let x &#x3D; 0; x &lt; linkArray.length; x++) {
+                    const _newLA &#x3D; document.createElement(&#x27;div&#x27;);
+                    let _detectedLink&#x3D;linkArray[x];
+
+                    // for mailto: links, new line character need to be repaced with %0A
+                    if(_detectedLink.indexOf(&#x27;href&#x3D;\&#x27;mailto:&#x27;)&gt;-1||_detectedLink.indexOf(&#x27;href&#x3D;&quot;mailto:&#x27;)&gt;-1){
+                        _detectedLink&#x3D;_detectedLink.split(&#x27;\n&#x27;).join(&#x27;%0A&#x27;)
+
+                    }
+                    const _randomKey&#x3D;&#x27;korerandom://&#x27;+Object.keys(hyperLinksMap).length;
+                    _newLA.innerHTML &#x3D; _detectedLink;
+
+                    const _aEle&#x3D;_newLA.getElementsByTagName(&#x27;a&#x27;);
+                    if(_aEle &amp;&amp; _aEle[0] &amp;&amp; _aEle[0].href){
+                        hyperLinksMap[_randomKey]&#x3D;_aEle[0].href;
+                        _aEle[0].href&#x3D;_randomKey;
+                    }
+                    $(_newLA).find(&#x27;a&#x27;).attr(&#x27;target&#x27;, &#x27;underscoreblank&#x27;);
+                    str &#x3D; str.replace(linkArray[x], _newLA.innerHTML);
+                }
+            } else {
+                str &#x3D; wrapper1.innerHTML.replace(_regExForLink, linkreplacer);
+            }
+        }
+        str &#x3D; this.checkMarkdowns(str,hyperLinksMap);
+        const hrefRefs&#x3D;Object.keys(hyperLinksMap);
+        if(hrefRefs &amp;&amp; hrefRefs.length){
+            hrefRefs.forEach((hrefRef) &#x3D;&gt;{
+                function customStrReplacer() { // custom replacer is used as by default replace() replaces with &#x27;$&#x27; in place of &#x27;$$&#x27;
+                    return hyperLinksMap[hrefRef];
+                }
+                str &#x3D; str.replace(hrefRef, customStrReplacer);
+            });
+        }
+        str&#x3D;this.replaceAll(&#x27;target&#x3D;&quot;underscoreblank&quot;&#x27;,&#x27;target&#x3D;&quot;_blank&quot;&#x27;,str);
+        str&#x3D;this.replaceAll(&#x27;target&#x3D;\&#x27;underscoreblank\&#x27;&#x27;,&#x27;target&#x3D;&quot;_blank&quot;&#x27;,str);
+        if (responseType &#x3D;&#x3D;&#x3D; &#x27;user&#x27;) {
+            str &#x3D; str.replace(/abc-error&#x3D;/gi, &#x27;onerror&#x3D;&#x27;);
+        }
+        return this.nl2br(str, true);
+    },
+    checkMarkdowns (val: any,hyperLinksMap: { [x: string]: any; }) {
+        const txtArr &#x3D; val.split(/\r?\n/);
+        for (let i &#x3D; 0; i &lt; txtArr.length; i++) {
+            let _lineBreakAdded &#x3D; false;
+            if (txtArr[i].indexOf(&#x27;#h6&#x27;) &#x3D;&#x3D;&#x3D; 0 || txtArr[i].indexOf(&#x27;#H6&#x27;) &#x3D;&#x3D;&#x3D; 0) {
+                txtArr[i] &#x3D; &#x27;&lt;h6&gt;&#x27; + txtArr[i].substring(3) + &#x27;&lt;/h6&gt;&#x27;;
+                _lineBreakAdded &#x3D; true;
+            } else if (txtArr[i].indexOf(&#x27;#h5&#x27;) &#x3D;&#x3D;&#x3D; 0 || txtArr[i].indexOf(&#x27;#H5&#x27;) &#x3D;&#x3D;&#x3D; 0) {
+                txtArr[i] &#x3D; &#x27;&lt;h5&gt;&#x27; + txtArr[i].substring(3) + &#x27;&lt;/h5&gt;&#x27;;
+                _lineBreakAdded &#x3D; true;
+            } else if (txtArr[i].indexOf(&#x27;#h4&#x27;) &#x3D;&#x3D;&#x3D; 0 || txtArr[i].indexOf(&#x27;#H4&#x27;) &#x3D;&#x3D;&#x3D; 0) {
+                txtArr[i] &#x3D; &#x27;&lt;h4&gt;&#x27; + txtArr[i].substring(3) + &#x27;&lt;/h4&gt;&#x27;;
+                _lineBreakAdded &#x3D; true;
+            } else if (txtArr[i].indexOf(&#x27;#h3&#x27;) &#x3D;&#x3D;&#x3D; 0 || txtArr[i].indexOf(&#x27;#H3&#x27;) &#x3D;&#x3D;&#x3D; 0) {
+                txtArr[i] &#x3D; &#x27;&lt;h3&gt;&#x27; + txtArr[i].substring(3) + &#x27;&lt;/h3&gt;&#x27;;
+                _lineBreakAdded &#x3D; true;
+            } else if (txtArr[i].indexOf(&#x27;#h2&#x27;) &#x3D;&#x3D;&#x3D; 0 || txtArr[i].indexOf(&#x27;#H2&#x27;) &#x3D;&#x3D;&#x3D; 0) {
+                txtArr[i] &#x3D; &#x27;&lt;h2&gt;&#x27; + txtArr[i].substring(3) + &#x27;&lt;/h2&gt;&#x27;;
+                _lineBreakAdded &#x3D; true;
+            } else if (txtArr[i].indexOf(&#x27;#h1&#x27;) &#x3D;&#x3D;&#x3D; 0 || txtArr[i].indexOf(&#x27;#H1&#x27;) &#x3D;&#x3D;&#x3D; 0) {
+                txtArr[i] &#x3D; &#x27;&lt;h1&gt;&#x27; + txtArr[i].substring(3) + &#x27;&lt;/h1&gt;&#x27;;
+                _lineBreakAdded &#x3D; true;
+            } else if (txtArr[i].length &#x3D;&#x3D;&#x3D; 0) {
+                txtArr[i] &#x3D; &#x27;\r\n&#x27;;
+                _lineBreakAdded &#x3D; true;
+            } else if (txtArr[i].indexOf(&#x27;*&#x27;) &#x3D;&#x3D;&#x3D; 0) {
+                if (!this.isEven(txtArr[i].split(&#x27;*&#x27;).length - 1)) {
+                    txtArr[i] &#x3D; &#x27;\r\n&amp;#9679; &#x27; + txtArr[i].substring(1);
+                    _lineBreakAdded &#x3D; true;
+                }
+            } else if (txtArr[i].indexOf(&#x27;&gt;&gt;&#x27;) &#x3D;&#x3D;&#x3D; 0) {
+                txtArr[i] &#x3D; &#x27;&lt;p class&#x3D;&quot;indent&quot;&gt;&#x27; + txtArr[i].substring(2) + &#x27;&lt;/p&gt;&#x27;;
+                _lineBreakAdded &#x3D; true;
+            } else if (txtArr[i].indexOf(&#x27;&amp;gt;&amp;gt;&#x27;) &#x3D;&#x3D;&#x3D; 0) {
+                txtArr[i] &#x3D; &#x27;&lt;p class&#x3D;&quot;indent&quot;&gt;&#x27; + txtArr[i].substring(8) + &#x27;&lt;/p&gt;&#x27;;
+                _lineBreakAdded &#x3D; true;
+            } else if (txtArr[i].indexOf(&#x27;---&#x27;) &#x3D;&#x3D;&#x3D; 0 || txtArr[i].indexOf(&#x27;___&#x27;) &#x3D;&#x3D;&#x3D; 0) {
+                txtArr[i] &#x3D; &#x27;&lt;hr/&gt;&#x27; + txtArr[i].substring(3);
+                _lineBreakAdded &#x3D; true;
+            }
+            let j: number;
+            // Matches Image markup ![test](http://google.com/image.png)
+            if(txtArr[i].indexOf(&#x27; ![&#x27;) &#x3D;&#x3D;&#x3D; -1) {// replace method trimming last&#x27;$&#x27; character, to handle this adding &#x27; ![&#x27; extra space
+                txtArr[i] &#x3D; txtArr[i].replace(&#x27;![&#x27;,&#x27; ![&#x27;);
+            }
+            const _matchImage &#x3D; txtArr[i].match(/\!\[([^\]]+)\](|\s)+\(([^\)])+\)/g);
+            if (_matchImage &amp;&amp; _matchImage.length &gt; 0) {
+                for (j &#x3D; 0; j &lt; _matchImage.length; j++) {
+                    const _imgTxt &#x3D; _matchImage[j].substring(2, _matchImage[j].indexOf(&#x27;]&#x27;));
+                    const remainingString &#x3D; _matchImage[j].substring(_matchImage[j].indexOf(&#x27;]&#x27;) + 1).trim();
+                    let _imgLink &#x3D; remainingString.substring(1, remainingString.indexOf(&#x27;)&#x27;));
+                    if (hyperLinksMap) {
+                        const _randomKey &#x3D; &#x27;korerandom://&#x27; + Object.keys(hyperLinksMap).length;
+                        hyperLinksMap[_randomKey] &#x3D; _imgLink;
+                        _imgLink &#x3D; _randomKey;
+                    }
+                    _imgLink &#x3D; &#x27;&lt;img src&#x3D;&quot;&#x27; + _imgLink + &#x27;&quot; alt&#x3D;&quot;&#x27; + _imgTxt + &#x27;&quot;&gt;&#x27;;
+                    const _tempImg &#x3D; txtArr[i].split(&#x27; &#x27;);
+                    for (let k &#x3D; 0; k &lt; _tempImg.length; k++) {
+                        if (_tempImg[k] &#x3D;&#x3D;&#x3D; _matchImage[j]) {
+                            _tempImg[k] &#x3D; _imgLink;
+                        }
+                    }
+                    txtArr[i] &#x3D; _tempImg.join(&#x27; &#x27;);
+                    txtArr[i] &#x3D; txtArr[i].replace(_matchImage[j], _imgLink);
+                }
+            }
+            // Matches link markup [test](http://google.com/)
+            /// var _matchLink &#x3D; txtArr[i].match(/\[([^\]]+)\](|\s)+\(([^\)])+\)/g);
+            const _matchLink &#x3D; txtArr[i].match(/\[([^\]]+)\](|\s)\((?:[^)(]+|\((?:[^)(]+|\([^)(]*\))*\))*\)?/g);
+            if (_matchLink &amp;&amp; _matchLink.length &gt; 0) {
+                for (j &#x3D; 0; j &lt; _matchLink.length; j++) {
+                    const _linkTxt &#x3D; _matchLink[j].substring(1, _matchLink[j].indexOf(&#x27;]&#x27;));
+                    const remainingString &#x3D; _matchLink[j].substring(_matchLink[j].indexOf(&#x27;]&#x27;) + 1).trim();
+                    let _linkLink &#x3D; remainingString.substring(1, remainingString.indexOf(&#x27;)&#x27;));
+                    _linkLink&#x3D;_linkLink.replace(/\\n/g,&#x27;%0A&#x27;);
+                    if (hyperLinksMap) {
+                        const _randomKey &#x3D; &#x27;korerandom://&#x27; + Object.keys(hyperLinksMap).length;
+                        hyperLinksMap[_randomKey] &#x3D; _linkLink;
+                        _linkLink &#x3D; _randomKey;
+                    }
+                    _linkLink &#x3D; &#x27;&lt;span class&#x3D;&quot;isLink&quot;&gt;&lt;a href&#x3D;&quot;&#x27; + _linkLink + &#x27;&quot; target&#x3D;&quot;underscoreblank&quot;&gt;&#x27; + this.checkMarkdowns(_linkTxt ,null) + &#x27;&lt;/a&gt;&lt;/span&gt;&#x27;;
+                    txtArr[i] &#x3D; txtArr[i].replace(_matchLink[j], _linkLink);
+                }
+            }
+            // Matches bold markup *test* doesnot match * test *, * test*. If all these are required then replace \S with \s
+            const _matchAstrik &#x3D; txtArr[i].match(/\*\S([^*]*?)\*/g);
+            if (_matchAstrik &amp;&amp; _matchAstrik.length &gt; 0) {
+                for (j &#x3D; 0; j &lt; _matchAstrik.length; j++) {
+                    let _boldTxt &#x3D; _matchAstrik[j];
+                    _boldTxt &#x3D; _boldTxt.substring(1, _boldTxt.length - 1);
+                    _boldTxt &#x3D; &#x27;&lt;b&gt;&#x27; + _boldTxt.trim() + &#x27;&lt;/b&gt;&#x27;;
+                    txtArr[i] &#x3D; txtArr[i].replace(_matchAstrik[j], _boldTxt);
+                }
+            }
+            // For backward compatability who used ~ for Italics
+            // Matches italic markup ~test~ doesnot match ~ test ~, ~test ~, ~ test~. If all these are required then replace \S with \s
+            const _matchItalic &#x3D; txtArr[i].match(/\~\S([^*]*?)\S\~/g);
+            if (_matchItalic &amp;&amp; _matchItalic.length &gt; 0) {
+                for (j &#x3D; 0; j &lt; _matchItalic.length; j++) {
+                    let _italicTxt &#x3D; _matchItalic[j];
+                    if (txtArr[i].indexOf(_italicTxt) &#x3D;&#x3D;&#x3D; 0 || txtArr[i][txtArr[i].indexOf(_italicTxt) - 1] &#x3D;&#x3D;&#x3D; &#x27; &#x27; || txtArr[i].indexOf(_italicTxt) !&#x3D;&#x3D; -1) {
+                        _italicTxt &#x3D; _italicTxt.substring(1, _italicTxt.length - 1);
+                        _italicTxt &#x3D; &#x27;&lt;i class&#x3D;&quot;markdownItalic&quot;&gt;&#x27; + _italicTxt + &#x27;&lt;/i&gt;&#x27;;
+                        txtArr[i] &#x3D; txtArr[i].replace(_matchItalic[j], _italicTxt);
+                    }
+                }
+            }
+            // Matches italic markup _test_ doesnot match _ test _, _test _, _ test_. If all these are required then replace \S with \s
+            const _matchItalic1 &#x3D; txtArr[i].match(/\_\S([^*]*?)\S\_/g);
+            if (_matchItalic1 &amp;&amp; _matchItalic1.length &gt; 0) {
+                for (j &#x3D; 0; j &lt; _matchItalic1.length; j++) {
+                    let _italicTxt &#x3D; _matchItalic1[j];
+                    if (txtArr[i].indexOf(_italicTxt) &#x3D;&#x3D;&#x3D; 0 || txtArr[i][txtArr[i].indexOf(_italicTxt) - 1] &#x3D;&#x3D;&#x3D; &#x27; &#x27; || txtArr[i].indexOf(_italicTxt) !&#x3D;&#x3D; -1) {
+                        _italicTxt &#x3D; _italicTxt.substring(1, _italicTxt.length - 1);
+                        _italicTxt &#x3D; &#x27;&lt;i class&#x3D;&quot;markdownItalic&quot;&gt;&#x27; + _italicTxt + &#x27;&lt;/i&gt;&#x27;;
+                        txtArr[i] &#x3D; txtArr[i].replace(_matchItalic1[j], _italicTxt);
+                    }
+                }
+            }
+            // Matches bold markup ~test~ doesnot match ~ test ~, ~test ~, ~ test~. If all these are required then replace \S with \s
+            const _matchItalic13 &#x3D; txtArr[i].match(/\~\S([^*]*?)\S\~/g);
+            if (_matchItalic13 &amp;&amp; _matchItalic13.length &gt; 0) {
+                for (j &#x3D; 0; j &lt; _matchItalic13.length; j++) {
+                    let _italicTxt &#x3D; _matchItalic13[j];
+                    if (txtArr[i].indexOf(_italicTxt) &#x3D;&#x3D;&#x3D; 0 || txtArr[i][txtArr[i].indexOf(_italicTxt) - 1] &#x3D;&#x3D;&#x3D; &#x27; &#x27; || txtArr[i].indexOf(_italicTxt) !&#x3D;&#x3D; -1) {
+                        _italicTxt &#x3D; _italicTxt.substring(1, _italicTxt.length - 1);
+                        _italicTxt &#x3D; &#x27;&lt;i class&#x3D;&quot;markdownItalic&quot;&gt;&#x27; + _italicTxt + &#x27;&lt;/i&gt;&#x27;;
+                        txtArr[i] &#x3D; txtArr[i].replace(_matchItalic13[j], _italicTxt);
+                    }
+                }
+            }
+            // Matches bold markup ~test~ doesnot match ~ test ~, ~test ~, ~ test~. If all these are required then replace \S with \s
+            const _matchPre &#x3D; txtArr[i].match(/\&#x60;\&#x60;\&#x60;\S([^*]*?)\S\&#x60;\&#x60;\&#x60;/g);
+            const _matchPre1 &#x3D; txtArr[i].match(/\&#x27;\&#x27;\&#x27;\S([^*]*?)\S\&#x27;\&#x27;\&#x27;/g);
+            if (_matchPre &amp;&amp; _matchPre.length &gt; 0) {
+                for (j &#x3D; 0; j &lt; _matchPre.length; j++) {
+                    let _preTxt &#x3D; _matchPre[j];
+                    _preTxt &#x3D; _preTxt.substring(3, _preTxt.length - 3);
+                    _preTxt &#x3D; &#x27;&lt;pre&gt;&#x27; + _preTxt + &#x27;&lt;/pre&gt;&#x27;;
+                    txtArr[i] &#x3D; txtArr[i].replace(_matchPre[j], _preTxt);
+                }
+                _lineBreakAdded &#x3D; true;
+            }
+            if (_matchPre1 &amp;&amp; _matchPre1.length &gt; 0) {
+                for (j &#x3D; 0; j &lt; _matchPre1.length; j++) {
+                    let _preTxt &#x3D; _matchPre1[j];
+                    _preTxt &#x3D; _preTxt.substring(3, _preTxt.length - 3);
+                    _preTxt &#x3D; &#x27;&lt;pre&gt;&#x27; + _preTxt + &#x27;&lt;/pre&gt;&#x27;;
+                    txtArr[i] &#x3D; txtArr[i].replace(_matchPre1[j], _preTxt);
+                }
+                _lineBreakAdded &#x3D; true;
+            }
+            if (!_lineBreakAdded &amp;&amp; i &gt; 0) {
+                txtArr[i] &#x3D; &#x27;\r\n&#x27; + txtArr[i];
+            }
+        }
+        val &#x3D; txtArr.join(&#x27;&#x27;);
+        return val;
+    }
+}</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="12" class="link-to-prism">apps/searchassist/src/app/helpers/lib/convertHTML.ts:12</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+</section>
+
+    </div>
+
+
+    <div class="tab-pane fade  tab-source-code" id="c-source">
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable } from &#x27;@angular/core&#x27;;
+import { Observable, BehaviorSubject } from &#x27;rxjs&#x27;;
+import * as moment from &#x27;moment&#x27;;
+declare const $: any;
+
+@Injectable({
+  providedIn: &#x27;root&#x27;
+})
+export class ConvertMDtoHTML {
+  public _window &#x3D; window;
+  public  detectScriptTag &#x3D; /&lt;script\b[^&gt;]*&gt;([\s\S]*?)/gm;
+  public  helpers &#x3D; {
+     xssAttack(txtStr: string) {
+        //   if (compObj &amp;&amp; compObj[0] &amp;&amp; compObj[0].componentType &#x3D;&#x3D;&#x3D; &quot;text&quot;) {
+         const escapeHTML &#x3D;  (str)&#x3D;&gt; {
+             // &#x27;&amp;&#x27;: &#x27;&amp;amp;&#x27;,
+             const escapeTokens &#x3D; {
+                 &#x27;&lt;&#x27;: &#x27;&amp;lt;&#x27;,
+                 &#x27;&gt;&#x27;: &#x27;&amp;gt;&#x27;,
+                 &#x27;&quot;&#x27;: &#x27;&amp;quot;&#x27;,
+                 &#x27;\&#x27;&#x27;: &#x27;&amp;#x27;&#x27;
+             };
+             const htmlTags &#x3D; /[&lt;&gt;&quot;&#x27;]/g;
+             return (&#x27;&#x27; + str).replace(htmlTags, (match)&#x3D;&gt; {
+                 return escapeTokens[match];
+             });
+         };
+        let textHasXSS: { isValid: any; };
+        if (txtStr) {
+            textHasXSS &#x3D; this.isNotAllowedHTMLTags(txtStr);
+        }
+        if (textHasXSS &amp;&amp; !textHasXSS.isValid) {
+            txtStr &#x3D; escapeHTML(txtStr);
+        }
+        return txtStr;
+    },
+    isEven (n: number) {
+        n &#x3D; Number(n);
+        return n &#x3D;&#x3D;&#x3D; 0 || !!(n &amp;&amp; !(n % 2));
+    },
+     replaceAll (search: string | RegExp, replacement: any, str) {
+        const target &#x3D; str;
+        return target.replace(new RegExp(search, &#x27;g&#x27;), replacement);
+    },
+    nl2br (str: string, runEmojiCheck: boolean) {
+        // if (runEmojiCheck &amp;&amp; this._window.emojione) {
+        //     str &#x3D; this._window.emojione.shortnameToImage(str);
+        // }
+        str &#x3D; str.replace(/(?:\r\n|\r|\n)/g, &#x27;&lt;br /&gt;&#x27;);
+        return str;
+    },
+    br2nl (str: string) {
+        str &#x3D; str.replace(/&lt;br \/&gt;/g, &#x27;\n&#x27;);
+        return str;
+    },
+    formatAMPM (date: Date) {
+        let hours:any &#x3D; date.getHours();
+        let minutes:any &#x3D; date.getMinutes();
+        const seconds &#x3D; date.getSeconds();
+        const ampm &#x3D; hours &gt;&#x3D; 12 ? &#x27;pm&#x27; : &#x27;am&#x27;;
+        hours &#x3D; hours % 12;
+        hours &#x3D; hours ? hours : 12; // the hour &#x27;0&#x27; should be &#x27;12&#x27;
+        minutes &#x3D; minutes &lt; 10 ? &#x27;0&#x27; + minutes : minutes;
+        const strTime &#x3D; hours + &#x27;:&#x27; + minutes + &#x27;:&#x27;+ seconds + &#x27; &#x27; + ampm;
+        return strTime;
+    },
+    formatDate (date: string | number | Date) {
+        let d &#x3D; new Date(date);
+        if ( isNaN( d.getTime() ) ) {
+            const _tmpDate &#x3D; new Date().getTime();
+            d &#x3D; new Date(_tmpDate);
+        }
+        return d.toDateString() + &#x27; at &#x27; + this.formatAMPM(d);
+    },
+    isNotAllowedHTMLTags (str) {
+        const wrapper &#x3D; document.createElement(&#x27;div&#x27;);
+        str &#x3D; str.replace(/onerror&#x3D;/gi, &#x27;abc-error&#x3D;&#x27;);
+        wrapper.innerHTML &#x3D; str;
+        const setFlags &#x3D; {
+            isValid: true,
+            key: &#x27;&#x27;
+        };
+        try {
+            if ($(wrapper).find(&#x27;script&#x27;).length || $(wrapper).find(&#x27;video&#x27;).length || $(wrapper).find(&#x27;audio&#x27;).length) {
+                setFlags.isValid &#x3D; false;
+            }
+            if ($(wrapper).find(&#x27;link&#x27;).length &amp;&amp; $(wrapper).find(&#x27;link&#x27;).attr(&#x27;href&#x27;).indexOf(&#x27;script&#x27;) !&#x3D;&#x3D; -1) {
+                if (this.detectScriptTag.test($(wrapper).find(&#x27;link&#x27;).attr(&#x27;href&#x27;))) {
+                    setFlags.isValid &#x3D; false;
+                } else {
+                    setFlags.isValid &#x3D; true;
+                }
+            }
+            if ($(wrapper).find(&#x27;a&#x27;).length &amp;&amp; $(wrapper).find(&#x27;a&#x27;).attr(&#x27;href&#x27;).indexOf(&#x27;script&#x27;) !&#x3D;&#x3D; -1) {
+                if (this.detectScriptTag.test($(wrapper).find(&#x27;a&#x27;).attr(&#x27;href&#x27;))) {
+                    setFlags.isValid &#x3D; false;
+                } else {
+                    setFlags.isValid &#x3D; true;
+                }
+            }
+            if ($(wrapper).find(&#x27;img&#x27;).length &amp;&amp; $(wrapper).find(&#x27;img&#x27;).attr(&#x27;src&#x27;).indexOf(&#x27;script&#x27;) !&#x3D;&#x3D; -1) {
+                if (this.detectScriptTag.test($(wrapper).find(&#x27;img&#x27;).attr(&#x27;href&#x27;))) {
+                    setFlags.isValid &#x3D; false;
+                } else {
+                    setFlags.isValid &#x3D; true;
+                }
+            }
+            if ($(wrapper).find(&#x27;object&#x27;).length) {
+                setFlags.isValid &#x3D; false;
+            }
+            return setFlags;
+        }
+        catch(e){
+            return setFlags;
+        }
+    },
+    convertMDtoHTML (val: string, responseType: string) {
+        const hyperLinksMap :any&#x3D;{};
+        const mdre :any&#x3D; {};
+        // mdre.date &#x3D; new RegExp(/\\d\(\s*(.{10})\s*\)/g);
+        mdre.date &#x3D; new RegExp(/\\d\(\s*(.{10})\s*(?:,\s*[&quot;&#x27;](.+?)[&quot;&#x27;]\s*)?\)/g);
+        mdre.time &#x3D; new RegExp(/\\t\(\s*(.{8}\.\d{0,3})\s*\)/g);
+        // mdre.datetime &#x3D; new RegExp(/\\dt\(\s*(.{10})[T](.{12})([z]|[Z]|[+-]\d{4})\s*\)/g);
+        mdre.datetime &#x3D; new RegExp(/\\(d|dt|t)\(\s*([-0-9]{10}[T][0-9:.]{12})([z]|[Z]|[+-]\d{4})[\s]*,[\s]*[&quot;&#x27;]([a-zA-Z\W]+)[&quot;&#x27;]\s*\)/g);
+        mdre.num &#x3D; new RegExp(/\\#\(\s*(\d*.\d*)\s*\)/g);
+        mdre.curr &#x3D; new RegExp(/\\\$\((\d*.\d*)[,](\s*[\&quot;\&#x27;]\s*\w{3}\s*[\&quot;\&#x27;]\s*)\)|\\\$\((\d*.\d*)[,](\s*\w{3}\s*)\)/g);
+
+        const regEx:any &#x3D; {};
+        regEx.SPECIAL_CHARS &#x3D; /[\&#x3D;\&#x60;\~\!@#\$\%\^&amp;\*\(\)_\-\+\{\}\:&quot;\[\];\&#x27;,\.\/&lt;&gt;\?\|\\]+/;
+        regEx.EMAIL &#x3D; /^[-a-z0-9~!$%^&amp;*_&#x3D;+}{\&#x27;]+(\.[-a-z0-9~!$%^&amp;*_&#x3D;+}{\&#x27;]+)*@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,255})+$/i;
+        regEx.MENTION &#x3D; /(^|\s|\\n|&quot;)@([^\s]*)(?:[\s]\[([^\]]*)\])?[&quot;]?/gi;
+        regEx.HASHTAG &#x3D; /(^|\s|\\n)#(\S+)/g;
+        regEx.NEWLINE &#x3D; /\n/g;
+        const _regExForLink &#x3D; /((?:http\:\/\/|https\:\/\/|www\.)+\S*\.(?:(?:\.\S)*[^\,\s\.])*\/?)/gi;
+       // var _regExForMarkdownLink &#x3D; /\[([^\]]+)\](|\s)+\(([^\)])+\)/g;
+       const _regExForMarkdownLink &#x3D; /\[([^\]]+)\](|\s)\((?:[^)(]+|\((?:[^)(]+|\([^)(]*\))*\))*\)?/g;
+        let str:any &#x3D; val || &#x27;&#x27;;
+        const mmntns:any &#x3D; {};
+        mmntns.sd &#x3D; new RegExp(/^(d{1})[^d]|[^d](d{1})[^d]/g);
+        mmntns.dd &#x3D; new RegExp(/^(d{2})[^d]|[^d](d{2})[^d]/g);
+        mmntns.fy &#x3D; new RegExp(/(y{4})|y{2}/g);
+        const regexkeys &#x3D; Object.keys(mdre);
+        function matchmap(regexval: { exec: (arg0: any) &#x3D;&gt; any; }, stringval: any) {
+            let da:any &#x3D; [];
+            const matches:any &#x3D; [];
+            // tslint:disable-next-line:no-conditional-assignment
+            while ((da &#x3D; regexval.exec(stringval)) !&#x3D;&#x3D; null) {
+                const keypair:any &#x3D; {};
+                keypair.index &#x3D; da.index;
+                keypair.matchexp &#x3D; da[0];
+                if (da.length &gt; 1) {
+                    for (let n &#x3D; 1; n &lt; da.length; n++) {
+                        const mstr &#x3D; &#x27;matchval&#x27; + n.toString();
+                        keypair[mstr] &#x3D; da[n];
+                    }
+                }
+                matches.push(keypair);
+            }
+            return matches;
+        }
+        function ucreplacer(match: string) {
+            return match.toUpperCase();
+        }
+        // tslint:disable-next-line:prefer-for-of
+        for (let j &#x3D; 0; j &lt; regexkeys.length; j++) {
+            let k: number;
+            switch (regexkeys[j]) {
+                case &#x27;date&#x27;:
+                    const strvald &#x3D; str;
+                    const datematcharray &#x3D; matchmap(mdre.date, strvald);
+                    if (datematcharray.length) {
+                        for (k &#x3D; 0; k &lt; datematcharray.length; k++) {
+                            // var fdate &#x3D; moment(datematcharray[k].matchval).format(&#x27;DD,dd,MM,YYY&#x27;);
+                            let fdate &#x3D; new Date(datematcharray[k].matchval1).toLocaleDateString();
+                            fdate &#x3D; &#x27; &#x27; + fdate.toString() + &#x27; &#x27;;
+                            str &#x3D; str.replace(datematcharray[k].matchexp.toString(), fdate);
+                        }
+                    }
+                    break;
+                case &#x27;time&#x27;:
+                    const strvalt &#x3D; str;
+                    const timematcharray &#x3D; matchmap(mdre.time, strvalt);
+                    if (timematcharray.length) {
+                        for (k &#x3D; 0; k &lt; timematcharray.length; k++) {
+                            let ftime &#x3D; new Date(timematcharray[k].matchval1).toLocaleTimeString();
+                            ftime &#x3D; &#x27; &#x27; + ftime.toString() + &#x27; &#x27;;
+                            str &#x3D; str.replace(timematcharray[k].matchexp.toString(), ftime);
+                        }
+                    }
+                    break;
+                case &#x27;datetime&#x27;:
+                    const strvaldt &#x3D; str;
+                    const dtimematcharray &#x3D; matchmap(mdre.datetime, strvaldt);
+                    if (dtimematcharray.length) {
+                        for (k &#x3D; 0; k &lt; dtimematcharray.length; k++) {
+                            let ms &#x3D; &#x27;&#x27;;
+                            const mergekeylength &#x3D; Object.keys(dtimematcharray[k]).length - 2;
+                            for (let l &#x3D; 2; l &lt; mergekeylength; l++) {
+                                const keystr &#x3D; &#x27;matchval&#x27; + l.toString();
+                                ms +&#x3D; dtimematcharray[k][keystr];
+                            }
+                            const foptionstring &#x3D; &#x27;matchval&#x27; + mergekeylength.toString();
+                            let fmtstr &#x3D; dtimematcharray[k][foptionstring];
+                            fmtstr &#x3D; fmtstr.replace(mmntns.fy, ucreplacer);
+                            fmtstr &#x3D; fmtstr.replace(mmntns.dd, ucreplacer);
+                            fmtstr &#x3D; fmtstr.replace(mmntns.sd, ucreplacer);
+                            // var fdtime &#x3D; new Date(dtimematcharray[k].matchval).toLocaleString();
+                            let fdtime &#x3D; moment(ms).format(fmtstr);
+                            fdtime &#x3D; &#x27; &#x27; + fdtime.toString() + &#x27; &#x27;;
+                            str &#x3D; str.replace(dtimematcharray[k].matchexp.toString(), fdtime);
+                        }
+                    }
+                    break;
+                case &#x27;num&#x27;:
+                    const strnumval &#x3D; str;
+                    const nummatcharray &#x3D; matchmap(mdre.num, strnumval);
+                    if (nummatcharray.length) {
+                        for (k &#x3D; 0; k &lt; nummatcharray.length; k++) {
+                            let fnum &#x3D; Number(nummatcharray[k].matchval1).toLocaleString();
+                            fnum &#x3D; &#x27; &#x27; + fnum.toString() + &#x27; &#x27;;
+                            str &#x3D; str.replace(nummatcharray[k].matchexp.toString(), fnum);
+                        }
+                    }
+                    break;
+                case &#x27;curr&#x27;:
+                    const strcurval &#x3D; str;
+                    const currmatcharray &#x3D; matchmap(mdre.curr, strcurval);
+                     let browserLang &#x3D; &#x27;en&#x27;;
+                    if(window.navigator){
+                     browserLang &#x3D; window.navigator.language;
+                    }
+                    const curcode &#x3D; new RegExp(/\w{3}/);
+                    if (currmatcharray.length) {
+                        for (k &#x3D; 0; k &lt; currmatcharray.length; k++) {
+                            // tslint:disable-next-line:one-variable-per-declaration
+                            const currops:any &#x3D; {};
+                            let fcode: { toString: () &#x3D;&gt; any; }[];
+                            currops.style &#x3D; &#x27;currency&#x27;;
+                            if (currmatcharray[k].matchval2) {
+                                fcode &#x3D; curcode.exec(currmatcharray[k].matchval2);
+                            }
+                            currops.currency &#x3D; fcode[0].toString();
+                            let fcurr &#x3D; Number(currmatcharray[k].matchval1).toLocaleString(browserLang, currops);
+                            // check for browser support if browser doesnot suppor we get the same value back and we append the currency Code
+                            if (currmatcharray[k].matchval1.toString() &#x3D;&#x3D;&#x3D; fcurr.toString()) {
+                                fcurr &#x3D; &#x27; &#x27; + fcurr.toString() + &#x27; &#x27; + currops.currency;
+                            } else {
+                                fcurr &#x3D; &#x27; &#x27; + fcurr.toString() + &#x27; &#x27;;
+                            }
+                            str &#x3D; str.replace(currmatcharray[k].matchexp.toString(), fcurr);
+                        }
+                    }
+                    break;
+            }
+        }
+        function nextLnReplacer(match: any, p1: any, offset: any) {
+            return &#x27;&lt;br/&gt;&#x27;;
+        }
+        function ignoreWords(stri: string){
+            const _words&#x3D;[&#x27;onclick&#x27;,&#x27;onmouse&#x27;,&#x27;onblur&#x27;,&#x27;onscroll&#x27;,&#x27;onStart&#x27;];
+            _words.forEach((word)&#x3D;&gt;{
+                const regEx1 &#x3D; new RegExp(word, &#x27;ig&#x27;);
+                stri &#x3D; stri.replace(regEx1, &#x27;&#x27;);
+            });
+            return stri;
+        }
+        const nextln &#x3D; regEx.NEWLINE;
+        // tslint:disable-next-line:variable-name
+        function linkreplacer(match: string, p1: string | string[], offset: any, string: string) {
+            let dummyString &#x3D; string.replace(_regExForMarkdownLink, &#x27;[]&#x27;);
+            dummyString&#x3D;ignoreWords(dummyString);
+            if (dummyString.indexOf(match) !&#x3D;&#x3D; -1) {
+                // tslint:disable-next-line:one-variable-per-declaration
+                let _link &#x3D; p1.indexOf(&#x27;http&#x27;) &lt; 0 ? &#x27;http://&#x27; + match : match, _target: string;
+                // _link &#x3D; encodeURIComponent(_link);
+                _target &#x3D; &#x27;target&#x3D;\&#x27;underscoreblank\&#x27;&#x27;;
+                if (hyperLinksMap) {
+                    const _randomKey &#x3D; &#x27;korerandom://&#x27; + Object.keys(hyperLinksMap).length;
+                    hyperLinksMap[_randomKey] &#x3D; _link;
+                    _link &#x3D; _randomKey;
+                }
+                return &#x27;&lt;span class&#x3D;\&#x27;isLink\&#x27;&gt;&lt;a &#x27; + _target + &#x27; href&#x3D;&quot;&#x27; + _link + &#x27;&quot;&gt;&#x27; + match + &#x27;&lt;/a&gt;&lt;/span&gt;&#x27;;
+            } else {
+                return match;
+            }
+        }
+        // check for whether to linkify or not
+        try {
+            str &#x3D; decodeURIComponent(str);
+        } catch (e) {
+            str &#x3D; str || &#x27;&#x27;;
+        }
+        // tslint:disable-next-line:one-variable-per-declaration
+        let newStr &#x3D; &#x27;&#x27;, wrapper1: HTMLDivElement;
+        if (responseType &#x3D;&#x3D;&#x3D; &#x27;user&#x27;) {
+            str &#x3D; str.replace(/onerror&#x3D;/gi, &#x27;abc-error&#x3D;&#x27;);
+            wrapper1 &#x3D; document.createElement(&#x27;div&#x27;);
+            newStr &#x3D; str.replace(/“/g, &#x27;\&quot;&#x27;).replace(/”/g, &#x27;\&quot;&#x27;);
+            newStr &#x3D; newStr.replace(/&lt;/g, &#x27;&amp;lt;&#x27;).replace(/&gt;/g, &#x27;&amp;gt;&#x27;);
+            wrapper1.innerHTML &#x3D; this.xssAttack(newStr);
+            if ($(wrapper1).find(&#x27;a&#x27;).attr(&#x27;href&#x27;)) {
+                str &#x3D; newStr;
+            } else {
+                str &#x3D; newStr.replace(/&lt;/g, &#x27;&amp;lt;&#x27;).replace(/&gt;/g, &#x27;&amp;gt;&#x27;).replace(_regExForLink, linkreplacer);
+            }
+        } else {
+            wrapper1 &#x3D; document.createElement(&#x27;div&#x27;);
+            // str &#x3D; str.replace(/&amp;lt;/g, &#x27;&lt;&#x27;).replace(/&amp;gt;/g, &#x27;&gt;&#x27;);
+            str &#x3D; str.replace(/onerror&#x3D;/gi, &#x27;abc-error&#x3D;&#x27;);
+            wrapper1.innerHTML &#x3D; this.xssAttack(str);
+            if ($(wrapper1).find(&#x27;a&#x27;).attr(&#x27;href&#x27;)) {
+                const linkArray &#x3D; str.match(/&lt;a[^&gt;]*&gt;([^&lt;]+)&lt;\/a&gt;/g);
+                // tslint:disable-next-line:prefer-for-of
+                for (let x &#x3D; 0; x &lt; linkArray.length; x++) {
+                    const _newLA &#x3D; document.createElement(&#x27;div&#x27;);
+                    let _detectedLink&#x3D;linkArray[x];
+
+                    // for mailto: links, new line character need to be repaced with %0A
+                    if(_detectedLink.indexOf(&#x27;href&#x3D;\&#x27;mailto:&#x27;)&gt;-1||_detectedLink.indexOf(&#x27;href&#x3D;&quot;mailto:&#x27;)&gt;-1){
+                        _detectedLink&#x3D;_detectedLink.split(&#x27;\n&#x27;).join(&#x27;%0A&#x27;)
+
+                    }
+                    const _randomKey&#x3D;&#x27;korerandom://&#x27;+Object.keys(hyperLinksMap).length;
+                    _newLA.innerHTML &#x3D; _detectedLink;
+
+                    const _aEle&#x3D;_newLA.getElementsByTagName(&#x27;a&#x27;);
+                    if(_aEle &amp;&amp; _aEle[0] &amp;&amp; _aEle[0].href){
+                        hyperLinksMap[_randomKey]&#x3D;_aEle[0].href;
+                        _aEle[0].href&#x3D;_randomKey;
+                    }
+                    $(_newLA).find(&#x27;a&#x27;).attr(&#x27;target&#x27;, &#x27;underscoreblank&#x27;);
+                    str &#x3D; str.replace(linkArray[x], _newLA.innerHTML);
+                }
+            } else {
+                str &#x3D; wrapper1.innerHTML.replace(_regExForLink, linkreplacer);
+            }
+        }
+        str &#x3D; this.checkMarkdowns(str,hyperLinksMap);
+        const hrefRefs&#x3D;Object.keys(hyperLinksMap);
+        if(hrefRefs &amp;&amp; hrefRefs.length){
+            hrefRefs.forEach((hrefRef) &#x3D;&gt;{
+                function customStrReplacer() { // custom replacer is used as by default replace() replaces with &#x27;$&#x27; in place of &#x27;$$&#x27;
+                    return hyperLinksMap[hrefRef];
+                }
+                str &#x3D; str.replace(hrefRef, customStrReplacer);
+            });
+        }
+        str&#x3D;this.replaceAll(&#x27;target&#x3D;&quot;underscoreblank&quot;&#x27;,&#x27;target&#x3D;&quot;_blank&quot;&#x27;,str);
+        str&#x3D;this.replaceAll(&#x27;target&#x3D;\&#x27;underscoreblank\&#x27;&#x27;,&#x27;target&#x3D;&quot;_blank&quot;&#x27;,str);
+        if (responseType &#x3D;&#x3D;&#x3D; &#x27;user&#x27;) {
+            str &#x3D; str.replace(/abc-error&#x3D;/gi, &#x27;onerror&#x3D;&#x27;);
+        }
+        return this.nl2br(str, true);
+    },
+    checkMarkdowns (val: any,hyperLinksMap: { [x: string]: any; }) {
+        const txtArr &#x3D; val.split(/\r?\n/);
+        for (let i &#x3D; 0; i &lt; txtArr.length; i++) {
+            let _lineBreakAdded &#x3D; false;
+            if (txtArr[i].indexOf(&#x27;#h6&#x27;) &#x3D;&#x3D;&#x3D; 0 || txtArr[i].indexOf(&#x27;#H6&#x27;) &#x3D;&#x3D;&#x3D; 0) {
+                txtArr[i] &#x3D; &#x27;&lt;h6&gt;&#x27; + txtArr[i].substring(3) + &#x27;&lt;/h6&gt;&#x27;;
+                _lineBreakAdded &#x3D; true;
+            } else if (txtArr[i].indexOf(&#x27;#h5&#x27;) &#x3D;&#x3D;&#x3D; 0 || txtArr[i].indexOf(&#x27;#H5&#x27;) &#x3D;&#x3D;&#x3D; 0) {
+                txtArr[i] &#x3D; &#x27;&lt;h5&gt;&#x27; + txtArr[i].substring(3) + &#x27;&lt;/h5&gt;&#x27;;
+                _lineBreakAdded &#x3D; true;
+            } else if (txtArr[i].indexOf(&#x27;#h4&#x27;) &#x3D;&#x3D;&#x3D; 0 || txtArr[i].indexOf(&#x27;#H4&#x27;) &#x3D;&#x3D;&#x3D; 0) {
+                txtArr[i] &#x3D; &#x27;&lt;h4&gt;&#x27; + txtArr[i].substring(3) + &#x27;&lt;/h4&gt;&#x27;;
+                _lineBreakAdded &#x3D; true;
+            } else if (txtArr[i].indexOf(&#x27;#h3&#x27;) &#x3D;&#x3D;&#x3D; 0 || txtArr[i].indexOf(&#x27;#H3&#x27;) &#x3D;&#x3D;&#x3D; 0) {
+                txtArr[i] &#x3D; &#x27;&lt;h3&gt;&#x27; + txtArr[i].substring(3) + &#x27;&lt;/h3&gt;&#x27;;
+                _lineBreakAdded &#x3D; true;
+            } else if (txtArr[i].indexOf(&#x27;#h2&#x27;) &#x3D;&#x3D;&#x3D; 0 || txtArr[i].indexOf(&#x27;#H2&#x27;) &#x3D;&#x3D;&#x3D; 0) {
+                txtArr[i] &#x3D; &#x27;&lt;h2&gt;&#x27; + txtArr[i].substring(3) + &#x27;&lt;/h2&gt;&#x27;;
+                _lineBreakAdded &#x3D; true;
+            } else if (txtArr[i].indexOf(&#x27;#h1&#x27;) &#x3D;&#x3D;&#x3D; 0 || txtArr[i].indexOf(&#x27;#H1&#x27;) &#x3D;&#x3D;&#x3D; 0) {
+                txtArr[i] &#x3D; &#x27;&lt;h1&gt;&#x27; + txtArr[i].substring(3) + &#x27;&lt;/h1&gt;&#x27;;
+                _lineBreakAdded &#x3D; true;
+            } else if (txtArr[i].length &#x3D;&#x3D;&#x3D; 0) {
+                txtArr[i] &#x3D; &#x27;\r\n&#x27;;
+                _lineBreakAdded &#x3D; true;
+            } else if (txtArr[i].indexOf(&#x27;*&#x27;) &#x3D;&#x3D;&#x3D; 0) {
+                if (!this.isEven(txtArr[i].split(&#x27;*&#x27;).length - 1)) {
+                    txtArr[i] &#x3D; &#x27;\r\n&amp;#9679; &#x27; + txtArr[i].substring(1);
+                    _lineBreakAdded &#x3D; true;
+                }
+            } else if (txtArr[i].indexOf(&#x27;&gt;&gt;&#x27;) &#x3D;&#x3D;&#x3D; 0) {
+                txtArr[i] &#x3D; &#x27;&lt;p class&#x3D;&quot;indent&quot;&gt;&#x27; + txtArr[i].substring(2) + &#x27;&lt;/p&gt;&#x27;;
+                _lineBreakAdded &#x3D; true;
+            } else if (txtArr[i].indexOf(&#x27;&amp;gt;&amp;gt;&#x27;) &#x3D;&#x3D;&#x3D; 0) {
+                txtArr[i] &#x3D; &#x27;&lt;p class&#x3D;&quot;indent&quot;&gt;&#x27; + txtArr[i].substring(8) + &#x27;&lt;/p&gt;&#x27;;
+                _lineBreakAdded &#x3D; true;
+            } else if (txtArr[i].indexOf(&#x27;---&#x27;) &#x3D;&#x3D;&#x3D; 0 || txtArr[i].indexOf(&#x27;___&#x27;) &#x3D;&#x3D;&#x3D; 0) {
+                txtArr[i] &#x3D; &#x27;&lt;hr/&gt;&#x27; + txtArr[i].substring(3);
+                _lineBreakAdded &#x3D; true;
+            }
+            let j: number;
+            // Matches Image markup ![test](http://google.com/image.png)
+            if(txtArr[i].indexOf(&#x27; ![&#x27;) &#x3D;&#x3D;&#x3D; -1) {// replace method trimming last&#x27;$&#x27; character, to handle this adding &#x27; ![&#x27; extra space
+                txtArr[i] &#x3D; txtArr[i].replace(&#x27;![&#x27;,&#x27; ![&#x27;);
+            }
+            const _matchImage &#x3D; txtArr[i].match(/\!\[([^\]]+)\](|\s)+\(([^\)])+\)/g);
+            if (_matchImage &amp;&amp; _matchImage.length &gt; 0) {
+                for (j &#x3D; 0; j &lt; _matchImage.length; j++) {
+                    const _imgTxt &#x3D; _matchImage[j].substring(2, _matchImage[j].indexOf(&#x27;]&#x27;));
+                    const remainingString &#x3D; _matchImage[j].substring(_matchImage[j].indexOf(&#x27;]&#x27;) + 1).trim();
+                    let _imgLink &#x3D; remainingString.substring(1, remainingString.indexOf(&#x27;)&#x27;));
+                    if (hyperLinksMap) {
+                        const _randomKey &#x3D; &#x27;korerandom://&#x27; + Object.keys(hyperLinksMap).length;
+                        hyperLinksMap[_randomKey] &#x3D; _imgLink;
+                        _imgLink &#x3D; _randomKey;
+                    }
+                    _imgLink &#x3D; &#x27;&lt;img src&#x3D;&quot;&#x27; + _imgLink + &#x27;&quot; alt&#x3D;&quot;&#x27; + _imgTxt + &#x27;&quot;&gt;&#x27;;
+                    const _tempImg &#x3D; txtArr[i].split(&#x27; &#x27;);
+                    for (let k &#x3D; 0; k &lt; _tempImg.length; k++) {
+                        if (_tempImg[k] &#x3D;&#x3D;&#x3D; _matchImage[j]) {
+                            _tempImg[k] &#x3D; _imgLink;
+                        }
+                    }
+                    txtArr[i] &#x3D; _tempImg.join(&#x27; &#x27;);
+                    txtArr[i] &#x3D; txtArr[i].replace(_matchImage[j], _imgLink);
+                }
+            }
+            // Matches link markup [test](http://google.com/)
+            /// var _matchLink &#x3D; txtArr[i].match(/\[([^\]]+)\](|\s)+\(([^\)])+\)/g);
+            const _matchLink &#x3D; txtArr[i].match(/\[([^\]]+)\](|\s)\((?:[^)(]+|\((?:[^)(]+|\([^)(]*\))*\))*\)?/g);
+            if (_matchLink &amp;&amp; _matchLink.length &gt; 0) {
+                for (j &#x3D; 0; j &lt; _matchLink.length; j++) {
+                    const _linkTxt &#x3D; _matchLink[j].substring(1, _matchLink[j].indexOf(&#x27;]&#x27;));
+                    const remainingString &#x3D; _matchLink[j].substring(_matchLink[j].indexOf(&#x27;]&#x27;) + 1).trim();
+                    let _linkLink &#x3D; remainingString.substring(1, remainingString.indexOf(&#x27;)&#x27;));
+                    _linkLink&#x3D;_linkLink.replace(/\\n/g,&#x27;%0A&#x27;);
+                    if (hyperLinksMap) {
+                        const _randomKey &#x3D; &#x27;korerandom://&#x27; + Object.keys(hyperLinksMap).length;
+                        hyperLinksMap[_randomKey] &#x3D; _linkLink;
+                        _linkLink &#x3D; _randomKey;
+                    }
+                    _linkLink &#x3D; &#x27;&lt;span class&#x3D;&quot;isLink&quot;&gt;&lt;a href&#x3D;&quot;&#x27; + _linkLink + &#x27;&quot; target&#x3D;&quot;underscoreblank&quot;&gt;&#x27; + this.checkMarkdowns(_linkTxt ,null) + &#x27;&lt;/a&gt;&lt;/span&gt;&#x27;;
+                    txtArr[i] &#x3D; txtArr[i].replace(_matchLink[j], _linkLink);
+                }
+            }
+            // Matches bold markup *test* doesnot match * test *, * test*. If all these are required then replace \S with \s
+            const _matchAstrik &#x3D; txtArr[i].match(/\*\S([^*]*?)\*/g);
+            if (_matchAstrik &amp;&amp; _matchAstrik.length &gt; 0) {
+                for (j &#x3D; 0; j &lt; _matchAstrik.length; j++) {
+                    let _boldTxt &#x3D; _matchAstrik[j];
+                    _boldTxt &#x3D; _boldTxt.substring(1, _boldTxt.length - 1);
+                    _boldTxt &#x3D; &#x27;&lt;b&gt;&#x27; + _boldTxt.trim() + &#x27;&lt;/b&gt;&#x27;;
+                    txtArr[i] &#x3D; txtArr[i].replace(_matchAstrik[j], _boldTxt);
+                }
+            }
+            // For backward compatability who used ~ for Italics
+            // Matches italic markup ~test~ doesnot match ~ test ~, ~test ~, ~ test~. If all these are required then replace \S with \s
+            const _matchItalic &#x3D; txtArr[i].match(/\~\S([^*]*?)\S\~/g);
+            if (_matchItalic &amp;&amp; _matchItalic.length &gt; 0) {
+                for (j &#x3D; 0; j &lt; _matchItalic.length; j++) {
+                    let _italicTxt &#x3D; _matchItalic[j];
+                    if (txtArr[i].indexOf(_italicTxt) &#x3D;&#x3D;&#x3D; 0 || txtArr[i][txtArr[i].indexOf(_italicTxt) - 1] &#x3D;&#x3D;&#x3D; &#x27; &#x27; || txtArr[i].indexOf(_italicTxt) !&#x3D;&#x3D; -1) {
+                        _italicTxt &#x3D; _italicTxt.substring(1, _italicTxt.length - 1);
+                        _italicTxt &#x3D; &#x27;&lt;i class&#x3D;&quot;markdownItalic&quot;&gt;&#x27; + _italicTxt + &#x27;&lt;/i&gt;&#x27;;
+                        txtArr[i] &#x3D; txtArr[i].replace(_matchItalic[j], _italicTxt);
+                    }
+                }
+            }
+            // Matches italic markup _test_ doesnot match _ test _, _test _, _ test_. If all these are required then replace \S with \s
+            const _matchItalic1 &#x3D; txtArr[i].match(/\_\S([^*]*?)\S\_/g);
+            if (_matchItalic1 &amp;&amp; _matchItalic1.length &gt; 0) {
+                for (j &#x3D; 0; j &lt; _matchItalic1.length; j++) {
+                    let _italicTxt &#x3D; _matchItalic1[j];
+                    if (txtArr[i].indexOf(_italicTxt) &#x3D;&#x3D;&#x3D; 0 || txtArr[i][txtArr[i].indexOf(_italicTxt) - 1] &#x3D;&#x3D;&#x3D; &#x27; &#x27; || txtArr[i].indexOf(_italicTxt) !&#x3D;&#x3D; -1) {
+                        _italicTxt &#x3D; _italicTxt.substring(1, _italicTxt.length - 1);
+                        _italicTxt &#x3D; &#x27;&lt;i class&#x3D;&quot;markdownItalic&quot;&gt;&#x27; + _italicTxt + &#x27;&lt;/i&gt;&#x27;;
+                        txtArr[i] &#x3D; txtArr[i].replace(_matchItalic1[j], _italicTxt);
+                    }
+                }
+            }
+            // Matches bold markup ~test~ doesnot match ~ test ~, ~test ~, ~ test~. If all these are required then replace \S with \s
+            const _matchItalic13 &#x3D; txtArr[i].match(/\~\S([^*]*?)\S\~/g);
+            if (_matchItalic13 &amp;&amp; _matchItalic13.length &gt; 0) {
+                for (j &#x3D; 0; j &lt; _matchItalic13.length; j++) {
+                    let _italicTxt &#x3D; _matchItalic13[j];
+                    if (txtArr[i].indexOf(_italicTxt) &#x3D;&#x3D;&#x3D; 0 || txtArr[i][txtArr[i].indexOf(_italicTxt) - 1] &#x3D;&#x3D;&#x3D; &#x27; &#x27; || txtArr[i].indexOf(_italicTxt) !&#x3D;&#x3D; -1) {
+                        _italicTxt &#x3D; _italicTxt.substring(1, _italicTxt.length - 1);
+                        _italicTxt &#x3D; &#x27;&lt;i class&#x3D;&quot;markdownItalic&quot;&gt;&#x27; + _italicTxt + &#x27;&lt;/i&gt;&#x27;;
+                        txtArr[i] &#x3D; txtArr[i].replace(_matchItalic13[j], _italicTxt);
+                    }
+                }
+            }
+            // Matches bold markup ~test~ doesnot match ~ test ~, ~test ~, ~ test~. If all these are required then replace \S with \s
+            const _matchPre &#x3D; txtArr[i].match(/\&#x60;\&#x60;\&#x60;\S([^*]*?)\S\&#x60;\&#x60;\&#x60;/g);
+            const _matchPre1 &#x3D; txtArr[i].match(/\&#x27;\&#x27;\&#x27;\S([^*]*?)\S\&#x27;\&#x27;\&#x27;/g);
+            if (_matchPre &amp;&amp; _matchPre.length &gt; 0) {
+                for (j &#x3D; 0; j &lt; _matchPre.length; j++) {
+                    let _preTxt &#x3D; _matchPre[j];
+                    _preTxt &#x3D; _preTxt.substring(3, _preTxt.length - 3);
+                    _preTxt &#x3D; &#x27;&lt;pre&gt;&#x27; + _preTxt + &#x27;&lt;/pre&gt;&#x27;;
+                    txtArr[i] &#x3D; txtArr[i].replace(_matchPre[j], _preTxt);
+                }
+                _lineBreakAdded &#x3D; true;
+            }
+            if (_matchPre1 &amp;&amp; _matchPre1.length &gt; 0) {
+                for (j &#x3D; 0; j &lt; _matchPre1.length; j++) {
+                    let _preTxt &#x3D; _matchPre1[j];
+                    _preTxt &#x3D; _preTxt.substring(3, _preTxt.length - 3);
+                    _preTxt &#x3D; &#x27;&lt;pre&gt;&#x27; + _preTxt + &#x27;&lt;/pre&gt;&#x27;;
+                    txtArr[i] &#x3D; txtArr[i].replace(_matchPre1[j], _preTxt);
+                }
+                _lineBreakAdded &#x3D; true;
+            }
+            if (!_lineBreakAdded &amp;&amp; i &gt; 0) {
+                txtArr[i] &#x3D; &#x27;\r\n&#x27; + txtArr[i];
+            }
+        }
+        val &#x3D; txtArr.join(&#x27;&#x27;);
+        return val;
+    }
+};
+}
+
+</code></pre>
+    </div>
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+          <label class="dark-mode-switch">
+               <input type="checkbox">
+               <span class="slider">
+                    <svg class="slider-icon" viewBox="0 0 24 24" fill="none" height="20" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" width="20" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path>
+                    </svg>
+               </span>
+          </label>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 1;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'injectable';
+            var COMPODOC_CURRENT_PAGE_URL = 'ConvertMDtoHTML.html';
+            var MAX_SEARCH_RESULTS = 15;
+       </script>
+
+       <script src="../js/libs/custom-elements.min.js"></script>
+       <script src="../js/libs/lit-html.js"></script>
+
+       <script src="../js/menu-wc.js" defer></script>
+       <script nomodule src="../js/menu-wc_es5.js" defer></script>
+
+       <script src="../js/libs/bootstrap-native.js"></script>
+
+       <script src="../js/libs/es6-shim.min.js"></script>
+       <script src="../js/libs/EventDispatcher.js"></script>
+       <script src="../js/libs/promise.min.js"></script>
+       <script src="../js/libs/zepto.min.js"></script>
+
+       <script src="../js/compodoc.js"></script>
+
+       <script src="../js/tabs.js"></script>
+       <script src="../js/menu.js"></script>
+       <script src="../js/libs/clipboard.min.js"></script>
+       <script src="../js/libs/prism.js"></script>
+       <script src="../js/sourceCode.js"></script>
+          <script src="../js/search/search.js"></script>
+          <script src="../js/search/lunr.min.js"></script>
+          <script src="../js/search/search-lunr.js"></script>
+          <script src="../js/search/search_index.js"></script>
+       <script src="../js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>

@@ -1,0 +1,3580 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>koreai documentation</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	   <link rel="stylesheet" href="../styles/style.css">
+        <link rel="stylesheet" href="../styles/dark.css">
+    </head>
+    <body>
+
+        <div class="navbar navbar-default navbar-fixed-top visible-xs">
+            <a href="../" class="navbar-brand">koreai documentation</a>
+            <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="hidden-xs menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content component">
+                   <div class="content-data">
+
+
+
+
+<ol class="breadcrumb">
+  <li>Components</li>
+  <li
+  >
+  ListFieldsComponent</li>
+</ol>
+
+<ul class="nav nav-tabs" role="tablist">
+        <li class="active">
+            <a href="#info" role="tab" id="info-tab" data-toggle="tab" data-link="info">Info</a>
+        </li>
+        <li >
+            <a href="#source" role="tab" id="source-tab" data-toggle="tab" data-link="source">Source</a>
+        </li>
+        <li >
+            <a href="#templateData" role="tab" id="templateData-tab" data-toggle="tab" data-link="template">Template</a>
+        </li>
+        <li >
+            <a href="#styleData" role="tab" id="styleData-tab" data-toggle="tab" data-link="style">Styles</a>
+        </li>
+        <li >
+            <a href="#tree" role="tab" id="tree-tab" data-toggle="tab" data-link="dom-tree">DOM Tree</a>
+        </li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane fade active in" id="c-info"><p class="comment">
+    <h3>File</h3>
+</p>
+<p class="comment">
+    <code>apps/searchassist/src/app/components/search-settings/list-fields/list-fields.component.ts</code>
+</p>
+
+
+
+
+    <p class="comment">
+        <h3>Implements</h3>
+    </p>
+    <p class="comment">
+                    <code><a href="https://angular.io/api/core/OnInit" target="_blank" >OnInit</a></code>
+    </p>
+
+
+<section>
+    <h3>Metadata</h3>
+    <table class="table table-sm table-hover metadata">
+        <tbody>
+
+
+
+
+
+
+
+
+
+
+
+            <tr>
+                <td class="col-md-3">selector</td>
+                <td class="col-md-9"><code>app-list-fields</code></td>
+            </tr>
+
+            <tr>
+                <td class="col-md-3">styleUrls</td>
+                <td class="col-md-9"><code>./list-fields.component.scss</code></td>
+            </tr>
+
+
+
+            <tr>
+                <td class="col-md-3">templateUrl</td>
+                <td class="col-md-9"><code>./list-fields.component.html</code></td>
+            </tr>
+
+
+
+
+
+
+
+
+        </tbody>
+    </table>
+</section>
+
+    <section>
+    <h3 id="index">Index</h3>
+    <table class="table table-sm table-bordered index-table">
+        <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Properties</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#addFieldModalPop" >addFieldModalPop</a>
+                            </li>
+                            <li>
+                                <a href="#addFieldModalPopRef" >addFieldModalPopRef</a>
+                            </li>
+                            <li>
+                                <a href="#checksort" >checksort</a>
+                            </li>
+                            <li>
+                                <a href="#componenttype" >componenttype</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#dialog" >dialog</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Optional</span>
+                                <a href="#directiveRef" >directiveRef</a>
+                            </li>
+                            <li>
+                                <a href="#fieldsAr" >fieldsAr</a>
+                            </li>
+                            <li>
+                                <a href="#fieldsArr_backup" >fieldsArr_backup</a>
+                            </li>
+                            <li>
+                                <a href="#filteredFieldsArr" >filteredFieldsArr</a>
+                            </li>
+                            <li>
+                                <a href="#highlightMsg" >highlightMsg</a>
+                            </li>
+                            <li>
+                                <a href="#indexPipelineId" >indexPipelineId</a>
+                            </li>
+                            <li>
+                                <a href="#isAsc" >isAsc</a>
+                            </li>
+                            <li>
+                                <a href="#loadingContent" >loadingContent</a>
+                            </li>
+                            <li>
+                                <a href="#modal_open" >modal_open</a>
+                            </li>
+                            <li>
+                                <a href="#page_number" >page_number</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Optional</span>
+                                <a href="#perfectScroll" >perfectScroll</a>
+                            </li>
+                            <li>
+                                <a href="#queryPipelineId" >queryPipelineId</a>
+                            </li>
+                            <li>
+                                <a href="#querySubscription" >querySubscription</a>
+                            </li>
+                            <li>
+                                <a href="#recordArray" >recordArray</a>
+                            </li>
+                            <li>
+                                <a href="#search_value" >search_value</a>
+                            </li>
+                            <li>
+                                <a href="#selectedApp" >selectedApp</a>
+                            </li>
+                            <li>
+                                <a href="#selectedFields" >selectedFields</a>
+                            </li>
+                            <li>
+                                <a href="#selectedList" >selectedList</a>
+                            </li>
+                            <li>
+                                <a href="#selectedSort" >selectedSort</a>
+                            </li>
+                            <li>
+                                <a href="#shouldClear" >shouldClear</a>
+                            </li>
+                            <li>
+                                <a href="#showWarning" >showWarning</a>
+                            </li>
+                            <li>
+                                <a href="#streamId" >streamId</a>
+                            </li>
+                            <li>
+                                <a href="#usageArr" >usageArr</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#workflowService" >workflowService</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Methods</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#add" >add</a>
+                            </li>
+                            <li>
+                                <a href="#addRecord" >addRecord</a>
+                            </li>
+                            <li>
+                                <a href="#checkPopupfieldvalues" >checkPopupfieldvalues</a>
+                            </li>
+                            <li>
+                                <a href="#clearReocrd" >clearReocrd</a>
+                            </li>
+                            <li>
+                                <a href="#closeModalPopup" >closeModalPopup</a>
+                            </li>
+                            <li>
+                                <a href="#deletefieldsDataPopup" >deletefieldsDataPopup</a>
+                            </li>
+                            <li>
+                                <a href="#getFieldUsage" >getFieldUsage</a>
+                            </li>
+                            <li>
+                                <a href="#getsearchvalue" >getsearchvalue</a>
+                            </li>
+                            <li>
+                                <a href="#getSortIconVisibility" >getSortIconVisibility</a>
+                            </li>
+                            <li>
+                                <a href="#nextpage" >nextpage</a>
+                            </li>
+                            <li>
+                                <a href="#ngOnDestroy" >ngOnDestroy</a>
+                            </li>
+                            <li>
+                                <a href="#ngOnInit" >ngOnInit</a>
+                            </li>
+                            <li>
+                                <a href="#onYReachEnd" >onYReachEnd</a>
+                            </li>
+                            <li>
+                                <a href="#onYReachStart" >onYReachStart</a>
+                            </li>
+                            <li>
+                                <a href="#openModalPopup" >openModalPopup</a>
+                            </li>
+                            <li>
+                                <a href="#prepareWarningMsg" >prepareWarningMsg</a>
+                            </li>
+                            <li>
+                                <a href="#previouspage" >previouspage</a>
+                            </li>
+                            <li>
+                                <a href="#sortByApi" >sortByApi</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Inputs</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#isaddLoading" >isaddLoading</a>
+                            </li>
+                            <li>
+                                <a href="#isLoading" >isLoading</a>
+                            </li>
+                            <li>
+                                <a href="#maxpageno" >maxpageno</a>
+                            </li>
+                            <li>
+                                <a href="#popupfieldvalues" >popupfieldvalues</a>
+                            </li>
+                            <li>
+                                <a href="#tablefieldvalues" >tablefieldvalues</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Outputs</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#calladdApi" >calladdApi</a>
+                            </li>
+                            <li>
+                                <a href="#emitRecord" >emitRecord</a>
+                            </li>
+                            <li>
+                                <a href="#pageno" >pageno</a>
+                            </li>
+                            <li>
+                                <a href="#searchModel" >searchModel</a>
+                            </li>
+                            <li>
+                                <a href="#sort" >sort</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+
+
+        </tbody>
+    </table>
+</section>
+
+    <section>
+    <h3 id="constructor">Constructor</h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+<code>constructor(workflowService: <a href="../injectables/WorkflowService.html" target="_self">WorkflowService</a>, appSelectionService: <a href="../injectables/AppSelectionService.html" target="_self">AppSelectionService</a>, dialog: MatDialog, route: <a href="https://angular.io/api/router/ActivatedRoute" target="_blank">ActivatedRoute</a>, router: <a href="https://angular.io/api/router/Router" target="_blank">Router</a>, service: <a href="../injectables/ServiceInvokerService.html" target="_self">ServiceInvokerService</a>, notificationService: <a href="../injectables/NotificationService.html" target="_self">NotificationService</a>)</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="47" class="link-to-prism">apps/searchassist/src/app/components/search-settings/list-fields/list-fields.component.ts:47</a></div>
+                            </td>
+                        </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                            <div>
+                                    <b>Parameters :</b>
+                                    <table class="params">
+                                        <thead>
+                                            <tr>
+                                                <td>Name</td>
+                                                    <td>Type</td>
+                                                <td>Optional</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                                <tr>
+                                                        <td>workflowService</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/WorkflowService.html" target="_self" >WorkflowService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>appSelectionService</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/AppSelectionService.html" target="_self" >AppSelectionService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>dialog</td>
+                                                  
+                                                        <td>
+                                                                    <code>MatDialog</code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>route</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="https://angular.io/api/router/ActivatedRoute" target="_blank" >ActivatedRoute</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>router</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="https://angular.io/api/router/Router" target="_blank" >Router</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>service</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/ServiceInvokerService.html" target="_self" >ServiceInvokerService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>notificationService</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/NotificationService.html" target="_self" >NotificationService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                        </tbody>
+                                    </table>
+                            </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+</section>
+
+    <section>
+    <h3 id="inputs">Inputs</h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="isaddLoading"></a>
+                        <b>isaddLoading</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>false</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="45" class="link-to-prism">apps/searchassist/src/app/components/search-settings/list-fields/list-fields.component.ts:45</a></div>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="isLoading"></a>
+                        <b>isLoading</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>false</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="44" class="link-to-prism">apps/searchassist/src/app/components/search-settings/list-fields/list-fields.component.ts:44</a></div>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="maxpageno"></a>
+                        <b>maxpageno</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="38" class="link-to-prism">apps/searchassist/src/app/components/search-settings/list-fields/list-fields.component.ts:38</a></div>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="popupfieldvalues"></a>
+                        <b>popupfieldvalues</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="37" class="link-to-prism">apps/searchassist/src/app/components/search-settings/list-fields/list-fields.component.ts:37</a></div>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="tablefieldvalues"></a>
+                        <b>tablefieldvalues</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="36" class="link-to-prism">apps/searchassist/src/app/components/search-settings/list-fields/list-fields.component.ts:36</a></div>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+</section>
+    <section>
+    <h3 id="outputs">Outputs</h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="calladdApi"></a>
+                        <b>calladdApi</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://angular.io/api/core/EventEmitter" target="_blank" >EventEmitter</a></code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="43" class="link-to-prism">apps/searchassist/src/app/components/search-settings/list-fields/list-fields.component.ts:43</a></div>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="emitRecord"></a>
+                        <b>emitRecord</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://angular.io/api/core/EventEmitter" target="_blank" >EventEmitter</a></code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="39" class="link-to-prism">apps/searchassist/src/app/components/search-settings/list-fields/list-fields.component.ts:39</a></div>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="pageno"></a>
+                        <b>pageno</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://angular.io/api/core/EventEmitter" target="_blank" >EventEmitter</a></code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="42" class="link-to-prism">apps/searchassist/src/app/components/search-settings/list-fields/list-fields.component.ts:42</a></div>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="searchModel"></a>
+                        <b>searchModel</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://angular.io/api/core/EventEmitter" target="_blank" >EventEmitter</a></code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="41" class="link-to-prism">apps/searchassist/src/app/components/search-settings/list-fields/list-fields.component.ts:41</a></div>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="sort"></a>
+                        <b>sort</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://angular.io/api/core/EventEmitter" target="_blank" >EventEmitter</a></code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="40" class="link-to-prism">apps/searchassist/src/app/components/search-settings/list-fields/list-fields.component.ts:40</a></div>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+</section>
+
+
+    <section>
+    
+    <h3 id="methods">
+        Methods
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="add"></a>
+                    <span class="name">
+                        <span ><b>add</b></span>
+                        <a href="#add"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>add()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="275"
+                            class="link-to-prism">apps/searchassist/src/app/components/search-settings/list-fields/list-fields.component.ts:275</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="addRecord"></a>
+                    <span class="name">
+                        <span ><b>addRecord</b></span>
+                        <a href="#addRecord"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>addRecord(fields, event)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="299"
+                            class="link-to-prism">apps/searchassist/src/app/components/search-settings/list-fields/list-fields.component.ts:299</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>fields</td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                                <tr>
+                                    <td>event</td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="checkPopupfieldvalues"></a>
+                    <span class="name">
+                        <span ><b>checkPopupfieldvalues</b></span>
+                        <a href="#checkPopupfieldvalues"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>checkPopupfieldvalues()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="103"
+                            class="link-to-prism">apps/searchassist/src/app/components/search-settings/list-fields/list-fields.component.ts:103</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>To cehck for the Selected fileds - &gt; use &#39;checkPopupfieldvalues()&#39; to loop the slected fields on retun</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="clearReocrd"></a>
+                    <span class="name">
+                        <span ><b>clearReocrd</b></span>
+                        <a href="#clearReocrd"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>clearReocrd()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="250"
+                            class="link-to-prism">apps/searchassist/src/app/components/search-settings/list-fields/list-fields.component.ts:250</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="closeModalPopup"></a>
+                    <span class="name">
+                        <span ><b>closeModalPopup</b></span>
+                        <a href="#closeModalPopup"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>closeModalPopup()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="242"
+                            class="link-to-prism">apps/searchassist/src/app/components/search-settings/list-fields/list-fields.component.ts:242</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="deletefieldsDataPopup"></a>
+                    <span class="name">
+                        <span ><b>deletefieldsDataPopup</b></span>
+                        <a href="#deletefieldsDataPopup"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>deletefieldsDataPopup(record)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="363"
+                            class="link-to-prism">apps/searchassist/src/app/components/search-settings/list-fields/list-fields.component.ts:363</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>record</td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getFieldUsage"></a>
+                    <span class="name">
+                        <span ><b>getFieldUsage</b></span>
+                        <a href="#getFieldUsage"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>getFieldUsage(record)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="352"
+                            class="link-to-prism">apps/searchassist/src/app/components/search-settings/list-fields/list-fields.component.ts:352</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>record</td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getsearchvalue"></a>
+                    <span class="name">
+                        <span ><b>getsearchvalue</b></span>
+                        <a href="#getsearchvalue"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>getsearchvalue(value, component)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="264"
+                            class="link-to-prism">apps/searchassist/src/app/components/search-settings/list-fields/list-fields.component.ts:264</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>value</td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                                <tr>
+                                    <td>component</td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getSortIconVisibility"></a>
+                    <span class="name">
+                        <span ><b>getSortIconVisibility</b></span>
+                        <a href="#getSortIconVisibility"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>getSortIconVisibility(sortingField: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, type: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, component: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="116"
+                            class="link-to-prism">apps/searchassist/src/app/components/search-settings/list-fields/list-fields.component.ts:116</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>sortingField</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                                <tr>
+                                    <td>type</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                                <tr>
+                                    <td>component</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>    <code>&quot;display-block&quot; | &quot;display-none&quot;</code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="nextpage"></a>
+                    <span class="name">
+                        <span ><b>nextpage</b></span>
+                        <a href="#nextpage"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>nextpage()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="203"
+                            class="link-to-prism">apps/searchassist/src/app/components/search-settings/list-fields/list-fields.component.ts:203</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>increase page number and emit value</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="ngOnDestroy"></a>
+                    <span class="name">
+                        <span ><b>ngOnDestroy</b></span>
+                        <a href="#ngOnDestroy"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>ngOnDestroy()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="451"
+                            class="link-to-prism">apps/searchassist/src/app/components/search-settings/list-fields/list-fields.component.ts:451</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="ngOnInit"></a>
+                    <span class="name">
+                        <span ><b>ngOnInit</b></span>
+                        <a href="#ngOnInit"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>ngOnInit()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="83"
+                            class="link-to-prism">apps/searchassist/src/app/components/search-settings/list-fields/list-fields.component.ts:83</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="onYReachEnd"></a>
+                    <span class="name">
+                        <span ><b>onYReachEnd</b></span>
+                        <a href="#onYReachEnd"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>onYReachEnd(event)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="198"
+                            class="link-to-prism">apps/searchassist/src/app/components/search-settings/list-fields/list-fields.component.ts:198</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>On Perfect Scroll Event Y end</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>event</td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="onYReachStart"></a>
+                    <span class="name">
+                        <span ><b>onYReachStart</b></span>
+                        <a href="#onYReachStart"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>onYReachStart(event)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="214"
+                            class="link-to-prism">apps/searchassist/src/app/components/search-settings/list-fields/list-fields.component.ts:214</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>On Perfect Scroll Event Y end</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>event</td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="openModalPopup"></a>
+                    <span class="name">
+                        <span ><b>openModalPopup</b></span>
+                        <a href="#openModalPopup"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>openModalPopup()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="227"
+                            class="link-to-prism">apps/searchassist/src/app/components/search-settings/list-fields/list-fields.component.ts:227</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="prepareWarningMsg"></a>
+                    <span class="name">
+                        <span ><b>prepareWarningMsg</b></span>
+                        <a href="#prepareWarningMsg"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>prepareWarningMsg()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="335"
+                            class="link-to-prism">apps/searchassist/src/app/components/search-settings/list-fields/list-fields.component.ts:335</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="previouspage"></a>
+                    <span class="name">
+                        <span ><b>previouspage</b></span>
+                        <a href="#previouspage"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>previouspage()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="219"
+                            class="link-to-prism">apps/searchassist/src/app/components/search-settings/list-fields/list-fields.component.ts:219</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>reduce the page number and emit value</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="sortByApi"></a>
+                    <span class="name">
+                        <span ><b>sortByApi</b></span>
+                        <a href="#sortByApi"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>sortByApi(sort, component)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="173"
+                            class="link-to-prism">apps/searchassist/src/app/components/search-settings/list-fields/list-fields.component.ts:173</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>sort</td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                                <tr>
+                                    <td>component</td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+    <section>
+    
+    <h3 id="inputs">
+        Properties
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="addFieldModalPop"></a>
+                    <span class="name">
+                        <span ><b>addFieldModalPop</b></span>
+                        <a href="#addFieldModalPop"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../components/KRModalComponent.html" target="_self" >KRModalComponent</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <b>Decorators : </b>
+                        <br />
+                        <code>
+                            @ViewChild(&#x27;addFieldModalPop&#x27;)<br />
+                        </code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="31" class="link-to-prism">apps/searchassist/src/app/components/search-settings/list-fields/list-fields.component.ts:31</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="addFieldModalPopRef"></a>
+                    <span class="name">
+                        <span ><b>addFieldModalPopRef</b></span>
+                        <a href="#addFieldModalPopRef"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="58" class="link-to-prism">apps/searchassist/src/app/components/search-settings/list-fields/list-fields.component.ts:58</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="checksort"></a>
+                    <span class="name">
+                        <span ><b>checksort</b></span>
+                        <a href="#checksort"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>&#x27;asc&#x27;</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="68" class="link-to-prism">apps/searchassist/src/app/components/search-settings/list-fields/list-fields.component.ts:68</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="componenttype"></a>
+                    <span class="name">
+                        <span ><b>componenttype</b></span>
+                        <a href="#componenttype"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="67" class="link-to-prism">apps/searchassist/src/app/components/search-settings/list-fields/list-fields.component.ts:67</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="dialog"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>dialog</b></span>
+                        <a href="#dialog"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>MatDialog</code>
+
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="51" class="link-to-prism">apps/searchassist/src/app/components/search-settings/list-fields/list-fields.component.ts:51</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="directiveRef"></a>
+                    <span class="name">
+                            <span class="modifier">Optional</span>
+                        <span ><b>directiveRef</b></span>
+                        <a href="#directiveRef"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>PerfectScrollbarDirective</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <b>Decorators : </b>
+                        <br />
+                        <code>
+                            @ViewChild(PerfectScrollbarDirective)<br />
+                        </code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="35" class="link-to-prism">apps/searchassist/src/app/components/search-settings/list-fields/list-fields.component.ts:35</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="fieldsAr"></a>
+                    <span class="name">
+                        <span ><b>fieldsAr</b></span>
+                        <a href="#fieldsAr"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>[]</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="63" class="link-to-prism">apps/searchassist/src/app/components/search-settings/list-fields/list-fields.component.ts:63</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="fieldsArr_backup"></a>
+                    <span class="name">
+                        <span ><b>fieldsArr_backup</b></span>
+                        <a href="#fieldsArr_backup"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="61" class="link-to-prism">apps/searchassist/src/app/components/search-settings/list-fields/list-fields.component.ts:61</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="filteredFieldsArr"></a>
+                    <span class="name">
+                        <span ><b>filteredFieldsArr</b></span>
+                        <a href="#filteredFieldsArr"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>[]</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>[]</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="64" class="link-to-prism">apps/searchassist/src/app/components/search-settings/list-fields/list-fields.component.ts:64</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="highlightMsg"></a>
+                    <span class="name">
+                        <span ><b>highlightMsg</b></span>
+                        <a href="#highlightMsg"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>&#x27;&#x27;</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="47" class="link-to-prism">apps/searchassist/src/app/components/search-settings/list-fields/list-fields.component.ts:47</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="indexPipelineId"></a>
+                    <span class="name">
+                        <span ><b>indexPipelineId</b></span>
+                        <a href="#indexPipelineId"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="72" class="link-to-prism">apps/searchassist/src/app/components/search-settings/list-fields/list-fields.component.ts:72</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="isAsc"></a>
+                    <span class="name">
+                        <span ><b>isAsc</b></span>
+                        <a href="#isAsc"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>true</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="70" class="link-to-prism">apps/searchassist/src/app/components/search-settings/list-fields/list-fields.component.ts:70</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="loadingContent"></a>
+                    <span class="name">
+                        <span ><b>loadingContent</b></span>
+                        <a href="#loadingContent"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>true</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="75" class="link-to-prism">apps/searchassist/src/app/components/search-settings/list-fields/list-fields.component.ts:75</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="modal_open"></a>
+                    <span class="name">
+                        <span ><b>modal_open</b></span>
+                        <a href="#modal_open"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>false</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="65" class="link-to-prism">apps/searchassist/src/app/components/search-settings/list-fields/list-fields.component.ts:65</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="page_number"></a>
+                    <span class="name">
+                        <span ><b>page_number</b></span>
+                        <a href="#page_number"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>0</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="46" class="link-to-prism">apps/searchassist/src/app/components/search-settings/list-fields/list-fields.component.ts:46</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="perfectScroll"></a>
+                    <span class="name">
+                            <span class="modifier">Optional</span>
+                        <span ><b>perfectScroll</b></span>
+                        <a href="#perfectScroll"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>PerfectScrollbarComponent</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <b>Decorators : </b>
+                        <br />
+                        <code>
+                            @ViewChild(PerfectScrollbarComponent)<br />
+                        </code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="33" class="link-to-prism">apps/searchassist/src/app/components/search-settings/list-fields/list-fields.component.ts:33</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="queryPipelineId"></a>
+                    <span class="name">
+                        <span ><b>queryPipelineId</b></span>
+                        <a href="#queryPipelineId"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="73" class="link-to-prism">apps/searchassist/src/app/components/search-settings/list-fields/list-fields.component.ts:73</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="querySubscription"></a>
+                    <span class="name">
+                        <span ><b>querySubscription</b></span>
+                        <a href="#querySubscription"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>Subscription</code>
+
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="69" class="link-to-prism">apps/searchassist/src/app/components/search-settings/list-fields/list-fields.component.ts:69</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="recordArray"></a>
+                    <span class="name">
+                        <span ><b>recordArray</b></span>
+                        <a href="#recordArray"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>[]</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>[]</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="62" class="link-to-prism">apps/searchassist/src/app/components/search-settings/list-fields/list-fields.component.ts:62</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="search_value"></a>
+                    <span class="name">
+                        <span ><b>search_value</b></span>
+                        <a href="#search_value"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="59" class="link-to-prism">apps/searchassist/src/app/components/search-settings/list-fields/list-fields.component.ts:59</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="selectedApp"></a>
+                    <span class="name">
+                        <span ><b>selectedApp</b></span>
+                        <a href="#selectedApp"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="74" class="link-to-prism">apps/searchassist/src/app/components/search-settings/list-fields/list-fields.component.ts:74</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="selectedFields"></a>
+                    <span class="name">
+                        <span ><b>selectedFields</b></span>
+                        <a href="#selectedFields"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>[]</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>[]</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="77" class="link-to-prism">apps/searchassist/src/app/components/search-settings/list-fields/list-fields.component.ts:77</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="selectedList"></a>
+                    <span class="name">
+                        <span ><b>selectedList</b></span>
+                        <a href="#selectedList"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>[]</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>[]</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="82" class="link-to-prism">apps/searchassist/src/app/components/search-settings/list-fields/list-fields.component.ts:82</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="selectedSort"></a>
+                    <span class="name">
+                        <span ><b>selectedSort</b></span>
+                        <a href="#selectedSort"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>&#x27;fieldName&#x27;</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="66" class="link-to-prism">apps/searchassist/src/app/components/search-settings/list-fields/list-fields.component.ts:66</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="shouldClear"></a>
+                    <span class="name">
+                        <span ><b>shouldClear</b></span>
+                        <a href="#shouldClear"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>false</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="60" class="link-to-prism">apps/searchassist/src/app/components/search-settings/list-fields/list-fields.component.ts:60</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="showWarning"></a>
+                    <span class="name">
+                        <span ><b>showWarning</b></span>
+                        <a href="#showWarning"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>false</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="78" class="link-to-prism">apps/searchassist/src/app/components/search-settings/list-fields/list-fields.component.ts:78</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="streamId"></a>
+                    <span class="name">
+                        <span ><b>streamId</b></span>
+                        <a href="#streamId"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="71" class="link-to-prism">apps/searchassist/src/app/components/search-settings/list-fields/list-fields.component.ts:71</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="usageArr"></a>
+                    <span class="name">
+                        <span ><b>usageArr</b></span>
+                        <a href="#usageArr"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>[]</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>[]</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="76" class="link-to-prism">apps/searchassist/src/app/components/search-settings/list-fields/list-fields.component.ts:76</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="workflowService"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>workflowService</b></span>
+                        <a href="#workflowService"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../injectables/WorkflowService.html" target="_self" >WorkflowService</a></code>
+
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="49" class="link-to-prism">apps/searchassist/src/app/components/search-settings/list-fields/list-fields.component.ts:49</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+</section>
+
+</div>
+
+
+    <div class="tab-pane fade  tab-source-code" id="c-source">
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {
+  Component,
+  OnInit,
+  ViewChild,
+  Output,
+  Input,
+  EventEmitter,
+} from &#x27;@angular/core&#x27;;
+import {
+  PerfectScrollbarComponent,
+  PerfectScrollbarDirective,
+} from &#x27;ngx-perfect-scrollbar&#x27;;
+import { MatDialog } from &#x27;@angular/material/dialog&#x27;;
+import { ActivatedRoute, Router } from &#x27;@angular/router&#x27;;
+import { Subscription } from &#x27;rxjs&#x27;;
+import { KRModalComponent } from &#x27;../../../shared/kr-modal/kr-modal.component&#x27;;
+import { WorkflowService } from &#x27;@kore.apps/services/workflow.service&#x27;;
+import { AppSelectionService } from &#x27;@kore.apps/services/app.selection.service&#x27;;
+import { ServiceInvokerService } from &#x27;@kore.apps/services/service-invoker.service&#x27;;
+import { NotificationService } from &#x27;@kore.apps/services/notification.service&#x27;;
+import { ConfirmationDialogComponent } from &#x27;@kore.apps/helpers/components/confirmation-dialog/confirmation-dialog.component&#x27;;
+
+declare const $: any;
+
+@Component({
+  selector: &#x27;app-list-fields&#x27;,
+  templateUrl: &#x27;./list-fields.component.html&#x27;,
+  styleUrls: [&#x27;./list-fields.component.scss&#x27;],
+})
+export class ListFieldsComponent implements OnInit {
+  @ViewChild(&#x27;addFieldModalPop&#x27;) addFieldModalPop: KRModalComponent;
+  @ViewChild(PerfectScrollbarComponent)
+  perfectScroll?: PerfectScrollbarComponent;
+  @ViewChild(PerfectScrollbarDirective)
+  directiveRef?: PerfectScrollbarDirective;
+  @Input() tablefieldvalues;
+  @Input() popupfieldvalues;
+  @Input() maxpageno;
+  @Output() emitRecord &#x3D; new EventEmitter();
+  @Output() sort &#x3D; new EventEmitter();
+  @Output() searchModel &#x3D; new EventEmitter();
+  @Output() pageno &#x3D; new EventEmitter();
+  @Output() calladdApi &#x3D; new EventEmitter();
+  @Input() isLoading &#x3D; false;
+  @Input() isaddLoading &#x3D; false;
+  page_number &#x3D; 0;
+  highlightMsg: string &#x3D; &#x27;&#x27;;
+  constructor(
+    public workflowService: WorkflowService,
+    private appSelectionService: AppSelectionService,
+    public dialog: MatDialog,
+    private route: ActivatedRoute,
+    private router: Router,
+    private service: ServiceInvokerService,
+    private notificationService: NotificationService
+  ) {}
+
+  addFieldModalPopRef: any;
+  search_value: any;
+  shouldClear &#x3D; false;
+  fieldsArr_backup: any;
+  recordArray &#x3D; [];
+  fieldsAr: any &#x3D; [];
+  filteredFieldsArr &#x3D; [];
+  modal_open: boolean &#x3D; false;
+  selectedSort &#x3D; &#x27;fieldName&#x27;;
+  componenttype;
+  checksort &#x3D; &#x27;asc&#x27;;
+  querySubscription: Subscription;
+  isAsc &#x3D; true;
+  streamId: any;
+  indexPipelineId: any;
+  queryPipelineId: any;
+  selectedApp;
+  loadingContent &#x3D; true;
+  usageArr &#x3D; [];
+  selectedFields &#x3D; [];
+  showWarning &#x3D; false;
+  // dataType:any;
+  // fieldCheckArray&#x3D;[]
+
+  selectedList &#x3D; [];
+  ngOnInit(): void {
+    this.modal_open &#x3D; false;
+    // if(this.tablefieldvalues &amp;&amp; this.tablefieldvalues.length){
+    //   this.loadingContent &#x3D; false
+    // }
+    this.selectedApp &#x3D; this.workflowService?.selectedApp();
+    //console.log(this.presentabledata);
+    this.indexPipelineId &#x3D; this.workflowService.selectedIndexPipeline();
+    this.queryPipelineId &#x3D; this.workflowService.selectedQueryPipeline()
+      ? this.workflowService.selectedQueryPipeline()._id
+      : &#x27;&#x27;;
+    this.querySubscription &#x3D;
+      this.appSelectionService.queryConfigSelected.subscribe((res) &#x3D;&gt; {
+        this.indexPipelineId &#x3D; this.workflowService.selectedIndexPipeline();
+        this.queryPipelineId &#x3D; this.workflowService.selectedQueryPipeline()
+          ? this.workflowService.selectedQueryPipeline()._id
+          : &#x27;&#x27;;
+      });
+  }
+  /** To cehck for the Selected fileds - &gt; use &#x27;checkPopupfieldvalues()&#x27; to loop the slected fields on retun */
+  checkPopupfieldvalues() {
+    if (this.selectedList.length) {
+      this.selectedList.forEach((selectedElement) &#x3D;&gt; {
+        this.popupfieldvalues.forEach((popupElement) &#x3D;&gt; {
+          if (selectedElement._id &#x3D;&#x3D; popupElement._id) {
+            popupElement.isChecked &#x3D; true;
+          }
+        });
+      });
+    }
+    return this.popupfieldvalues;
+  }
+  //**Sort icon visibility */
+  getSortIconVisibility(sortingField: string, type: string, component: string) {
+    if (component &#x3D;&#x3D; &#x27;datatable&#x27;) {
+      switch (this.selectedSort) {
+        case &#x27;fieldName&#x27;: {
+          if (this.selectedSort &#x3D;&#x3D; sortingField) {
+            if (this.isAsc &#x3D;&#x3D; false &amp;&amp; type &#x3D;&#x3D; &#x27;down&#x27;) {
+              return &#x27;display-block&#x27;;
+            }
+            if (this.isAsc &#x3D;&#x3D; true &amp;&amp; type &#x3D;&#x3D; &#x27;up&#x27;) {
+              return &#x27;display-block&#x27;;
+            }
+            return &#x27;display-none&#x27;;
+          }
+          break;
+        }
+        case &#x27;fieldDataType&#x27;: {
+          if (this.selectedSort &#x3D;&#x3D; sortingField) {
+            if (this.isAsc &#x3D;&#x3D; false &amp;&amp; type &#x3D;&#x3D; &#x27;down&#x27;) {
+              return &#x27;display-block&#x27;;
+            }
+            if (this.isAsc &#x3D;&#x3D; true &amp;&amp; type &#x3D;&#x3D; &#x27;up&#x27;) {
+              return &#x27;display-block&#x27;;
+            }
+            return &#x27;display-none&#x27;;
+          }
+          break;
+        }
+      }
+    } else {
+      switch (this.selectedSort) {
+        case &#x27;fieldName&#x27;: {
+          if (this.selectedSort &#x3D;&#x3D; sortingField) {
+            if (this.isAsc &#x3D;&#x3D; false &amp;&amp; type &#x3D;&#x3D; &#x27;down&#x27;) {
+              return &#x27;display-block&#x27;;
+            }
+            if (this.isAsc &#x3D;&#x3D; true &amp;&amp; type &#x3D;&#x3D; &#x27;up&#x27;) {
+              return &#x27;display-block&#x27;;
+            }
+            return &#x27;display-none&#x27;;
+          }
+          break;
+        }
+        case &#x27;fieldDataType&#x27;: {
+          if (this.selectedSort &#x3D;&#x3D; sortingField) {
+            if (this.isAsc &#x3D;&#x3D; false &amp;&amp; type &#x3D;&#x3D; &#x27;down&#x27;) {
+              return &#x27;display-block&#x27;;
+            }
+            if (this.isAsc &#x3D;&#x3D; true &amp;&amp; type &#x3D;&#x3D; &#x27;up&#x27;) {
+              return &#x27;display-block&#x27;;
+            }
+            return &#x27;display-none&#x27;;
+          }
+          break;
+        }
+      }
+    }
+  }
+  sortByApi(sort, component) {
+    this.selectedSort &#x3D; sort;
+    this.componenttype &#x3D; component;
+    if (this.selectedSort !&#x3D;&#x3D; sort) {
+      this.isAsc &#x3D; true;
+    } else {
+      this.isAsc &#x3D; !this.isAsc;
+    }
+    let naviagtionArrow &#x3D; &#x27;&#x27;;
+    //var checkSortValue&#x3D; 1;
+    if (this.isAsc) {
+      naviagtionArrow &#x3D; &#x27;up&#x27;;
+      this.checksort &#x3D; &#x27;asc&#x27;;
+    } else {
+      naviagtionArrow &#x3D; &#x27;down&#x27;;
+      //checkSortValue &#x3D; -1;
+      this.checksort &#x3D; &#x27;desc&#x27;;
+    }
+    this.sort.emit({
+      componenttype: this.componenttype,
+      fieldname: this.selectedSort,
+      type: this.checksort,
+    });
+  }
+  /** On Perfect Scroll Event Y end */
+  onYReachEnd(event) {
+    this.perfectScroll.directiveRef.scrollTo(25, 50, 500);
+    this.nextpage();
+  }
+  /**increase page number and emit value */
+  nextpage() {
+    if (this.page_number &lt; 0) {
+      this.page_number &#x3D; 0;
+    }
+    this.page_number &#x3D; this.page_number + 1;
+    if (this.page_number &gt;&#x3D; this.maxpageno) {
+      this.page_number &#x3D; this.maxpageno;
+    }
+    this.pageno.emit(this.page_number);
+  }
+  /** On Perfect Scroll Event Y end */
+  onYReachStart(event) {
+    this.perfectScroll.directiveRef.scrollTo(5, 50, 500);
+    this.previouspage();
+  }
+  /**reduce the page number and emit value*/
+  previouspage() {
+    this.page_number &#x3D; this.page_number - 1;
+    if (this.page_number &lt; 0) {
+      this.page_number &#x3D; 0;
+    }
+    this.pageno.emit(this.page_number);
+  }
+  //** open add field modal pop up */
+  openModalPopup() {
+    let flag &#x3D; false;
+    this.shouldClear &#x3D; false;
+    this.calladdApi.emit(flag);
+    this.addFieldModalPopRef &#x3D; this.addFieldModalPop.open();
+    this.modal_open &#x3D; true;
+    this.highlightMsg &#x3D; &#x27;&#x27;;
+    this.showWarning &#x3D; false;
+    this.selectedFields &#x3D; [];
+    setTimeout(() &#x3D;&gt; {
+      this.perfectScroll.directiveRef.update();
+      this.perfectScroll.directiveRef.scrollToTop();
+    }, 500);
+  }
+  //** to close the modal pop-up */
+  closeModalPopup() {
+    this.shouldClear &#x3D; true;
+    this.search_value &#x3D; &#x27;&#x27;;
+    this.addFieldModalPopRef.close();
+    this.clearReocrd();
+  }
+
+  //** to clear the search text and the checkbox selections */
+  clearReocrd() {
+    //this.searchType &#x3D; &#x27;&#x27;;
+    this.search_value &#x3D; &#x27;&#x27;;
+    this.selectedList &#x3D; [];
+    this.popupfieldvalues &#x3D; this.popupfieldvalues.map((item) &#x3D;&gt; {
+      item.isChecked &#x3D; false;
+      return item;
+    });
+    // this.fieldCheckArray&#x3D;[];
+    // this.showWarning&#x3D;false
+  }
+
+  //** fetch the search value and emit it to the other components */
+
+  getsearchvalue(value, component) {
+    let component_type;
+    this.search_value &#x3D; value;
+    component_type &#x3D; component;
+    this.searchModel.emit({
+      componenttype: component_type,
+      searchvalue: this.search_value,
+    });
+  }
+
+  //** Add Fields pass the selected values to the other components */
+  add() {
+    let record &#x3D; {};
+    let arrayId &#x3D; [];
+    const filteredValues &#x3D; this.popupfieldvalues.filter(
+      (item) &#x3D;&gt; item.isChecked
+    );
+    filteredValues.forEach((element) &#x3D;&gt; {
+      arrayId.push(element._id);
+    });
+    record &#x3D; {
+      fieldIds: arrayId,
+    };
+
+    this.emitRecord.emit({
+      record: record,
+      type: &#x27;add&#x27;,
+    });
+    if (arrayId.length) {
+      setTimeout(() &#x3D;&gt; {
+        this.closeModalPopup();
+      }, 300);
+    }
+  }
+  //** for selecting and de selecting the checkboxes*/
+  addRecord(fields, event) {
+    if (event.target.checked) {
+      fields.isChecked &#x3D; true;
+      this.selectedList.push(fields); // this will hold the slected data for the Instance
+      if (this.router.url &#x3D;&#x3D;&#x3D; &#x27;/search-settings/highlighting&#x27;) {
+        this.getFieldUsage(fields).subscribe((res) &#x3D;&gt; {
+          if (!res[&#x27;presentable&#x27;]) this.selectedFields.push(fields.fieldName);
+          if (this.selectedFields?.length) {
+            this.prepareWarningMsg();
+          } else {
+            this.showWarning &#x3D; false;
+          }
+        });
+      }
+    } else {
+      fields.isChecked &#x3D; false;
+      const objWithIdIndex &#x3D; this.selectedList.findIndex(
+        (obj) &#x3D;&gt; obj._id &#x3D;&#x3D;&#x3D; fields._id
+      );
+      if (objWithIdIndex &gt; -1) this.selectedList.splice(objWithIdIndex, 1);
+      if (this.selectedFields?.length) {
+        const fieldIndex &#x3D; this.selectedFields.findIndex(
+          (item) &#x3D;&gt; item &#x3D;&#x3D; fields.fieldName
+        );
+        if (fieldIndex &gt; -1) this.selectedFields.splice(fieldIndex, 1);
+        if (this.selectedFields.length) {
+          this.prepareWarningMsg();
+        } else {
+          this.showWarning &#x3D; false;
+        }
+      } else {
+        this.showWarning &#x3D; false;
+      }
+    }
+  }
+
+  prepareWarningMsg() {
+    let resultStr &#x3D; &#x60;Selected field &#x60;;
+    if (this.selectedFields.length &#x3D;&#x3D;&#x3D; 1) {
+      resultStr +&#x3D; this.selectedFields[0];
+    } else if (this.selectedFields.length &#x3D;&#x3D;&#x3D; 2) {
+      resultStr +&#x3D; &#x60;${this.selectedFields.join(&#x27; and &#x27;)}&#x60;;
+    } else {
+      const lastVal &#x3D; this.selectedFields.slice(-1)[0];
+      resultStr +&#x3D; &#x60;${this.selectedFields
+        .slice(0, this.selectedFields.length - 1)
+        .join(&#x27;, &#x27;)} and ${lastVal}&#x60;;
+    }
+    resultStr +&#x3D; &#x60; is not marked as presentable, adding this fields for highlighting will make it presentable&#x60;;
+    this.highlightMsg &#x3D; resultStr;
+    this.showWarning &#x3D; this.selectedFields.length ? true : false;
+  }
+  //** To get the Field usage and impacted areas */
+  getFieldUsage(record): any {
+    const quaryparms: any &#x3D; {
+      indexPipelineId: this.indexPipelineId,
+      streamId: this.selectedApp._id,
+      queryPipelineId: this.queryPipelineId,
+      fieldId: record._id,
+    };
+    return this.service.invoke(&#x27;get.searchSettingsUsage&#x27;, quaryparms);
+  }
+
+  //** to delete the Field modal pop-up */
+  deletefieldsDataPopup(record) {
+    let dialogRef;
+    if (this.router.url !&#x3D;&#x3D; &#x27;/search-settings/spell_correction&#x27;) {
+      this.getFieldUsage(record).subscribe((res) &#x3D;&gt; {
+        const usageArr &#x3D; Object.keys(res).filter((item) &#x3D;&gt; {
+          if (res[item]) {
+            return true;
+          }
+        });
+        let resultStr &#x3D; &#x60;The field is used in &#x60;;
+        let endstr &#x3D; &#x27;&#x27;;
+        if (usageArr.length &#x3D;&#x3D;&#x3D; 1) {
+          resultStr +&#x3D; usageArr[0];
+          endstr +&#x3D; usageArr[0];
+        } else if (usageArr.length &#x3D;&#x3D;&#x3D; 2) {
+          resultStr +&#x3D; &#x60;${usageArr.join(&#x27; and &#x27;)}&#x60;;
+          endstr +&#x3D; &#x60;${usageArr.join(&#x27; and &#x27;)}&#x60;;
+        } else {
+          const lastVal &#x3D; usageArr.slice(-1)[0];
+          resultStr +&#x3D; &#x60;${usageArr
+            .slice(0, usageArr.length - 1)
+            .join(&#x27;, &#x27;)} and ${lastVal}&#x60;;
+          endstr +&#x3D; &#x60;${usageArr
+            .slice(0, usageArr.length - 1)
+            .join(&#x27;, &#x27;)} and ${lastVal}&#x60;;
+        }
+        resultStr +&#x3D; &#x27; The action will remove it from &#x27; + endstr;
+        dialogRef &#x3D; this.dialog.open(ConfirmationDialogComponent, {
+          width: &#x27;530px&#x27;,
+          height: &#x27;auto&#x27;,
+          panelClass: &#x27;delete-popup&#x27;,
+          data: {
+            newTitle: &#x27;Are you sure you want to remove the field?&#x27;,
+            body: resultStr,
+            buttons: [
+              {
+                key: &#x27;yes&#x27;,
+                label: &#x27;Delete&#x27;,
+                type: &#x27;danger&#x27;,
+                class: &#x27;deleteBtn&#x27;,
+              },
+              { key: &#x27;no&#x27;, label: &#x27;Cancel&#x27; },
+            ],
+            confirmationPopUp: true,
+          },
+        });
+        dialogRef.componentInstance.onSelect.subscribe((res) &#x3D;&gt; {
+          if (res &#x3D;&#x3D;&#x3D; &#x27;yes&#x27;) {
+            this.emitRecord.emit({
+              record: [record._id],
+              type: &#x27;delete&#x27;,
+            });
+          }
+          dialogRef.close();
+        });
+      });
+    } else {
+      dialogRef &#x3D; this.dialog.open(ConfirmationDialogComponent, {
+        width: &#x27;530px&#x27;,
+        height: &#x27;auto&#x27;,
+        panelClass: &#x27;delete-popup&#x27;,
+        data: {
+          newTitle: &#x27;Are you sure you want to remove the field?&#x27;,
+          body:
+            &#x60;&lt;b&gt;&#x60; +
+            record.fieldName +
+            &#x60;&lt;/b&gt;&#x60; +
+            &#x27; will not be used for spell correction&#x27;,
+          buttons: [
+            { key: &#x27;yes&#x27;, label: &#x27;Delete&#x27;, type: &#x27;danger&#x27;, class: &#x27;deleteBtn&#x27; },
+            { key: &#x27;no&#x27;, label: &#x27;Cancel&#x27; },
+          ],
+          confirmationPopUp: true,
+        },
+      });
+      dialogRef.componentInstance.onSelect.subscribe((res) &#x3D;&gt; {
+        if (res &#x3D;&#x3D;&#x3D; &#x27;yes&#x27;) {
+          this.emitRecord.emit({
+            record: [record._id],
+            type: &#x27;delete&#x27;,
+          });
+        }
+        dialogRef.close();
+      });
+    }
+  }
+
+  //**unsubcribing the query subsciption */
+  ngOnDestroy() {
+    this.querySubscription ? this.querySubscription.unsubscribe() : false;
+  }
+}
+</code></pre>
+    </div>
+
+    <div class="tab-pane fade " id="c-templateData">
+        <pre class="line-numbers"><code class="language-html">&lt;div class&#x3D;&quot;presentable-table-block&quot; id&#x3D;&quot;sa_presentable-table&quot;&gt;
+    &lt;div class&#x3D;&quot;p-table-filter-block&quot; id&#x3D;&quot;sa_filter-block&quot;&gt;
+        &lt;div class&#x3D;&quot;pt-add&quot; id&#x3D;&quot;sa_pt-add&quot;&gt;
+            &lt;div class&#x3D;&quot;add-field-link-btn&quot; id&#x3D;&quot;add-field&quot; (click)&#x3D;&quot;openModalPopup()&quot;&gt;&lt;span class&#x3D;&quot;icon-add-span&quot;&gt;&lt;i class&#x3D;&quot;si-add-plus icon-add&quot;&gt;&lt;/i&gt;&lt;/span&gt;
+               {{&quot;fields_add_field&quot; |translate}}&lt;/div&gt;
+        &lt;/div&gt;
+        &lt;!-- Search --&gt;
+        &lt;app-search-filter [shouldClear]&#x3D;&quot;shouldClear&quot; (searchkey)&#x3D;&quot;getsearchvalue($event,&#x27;datatable&#x27;)&quot;&gt;&lt;/app-search-filter&gt;
+        &lt;!-- Search ends--&gt;
+    &lt;/div&gt;
+
+    &lt;div class&#x3D;&quot;mainLoadingSpinner&quot; *ngIf&#x3D;&quot;isLoading&quot;&gt;
+        &lt;mat-spinner diameter&#x3D;&quot;18&quot; strokeWidth&#x3D;&quot;2&quot;&gt;&lt;/mat-spinner&gt;
+        &lt;span class&#x3D;&quot;please-wait-message&quot;&gt;{{&#x27;sa_please_wait&#x27;| translate}}&lt;/span&gt;
+    &lt;/div&gt;
+
+    &lt;ng-container *ngIf&#x3D;&quot;!isLoading&quot;&gt;
+        &lt;!-- table header start from here --&gt;
+        &lt;div class&#x3D;&quot;index-config-lang-table row m-0&quot; id&#x3D;&quot;sa_lang-table&quot;&gt;
+            &lt;div class&#x3D;&quot;table_data_content col-12&quot; id&#x3D;&quot;sa_table_data_content&quot;&gt;
+                &lt;!-- table header start from here --&gt;
+                    &lt;div class&#x3D;&quot;table_header row m-0&quot; id&#x3D;&quot;sa_table_header&quot;&gt;
+                        &lt;div class&#x3D;&quot;col_ col-5 title d-flex align-items-center justify-content-start&quot; (click)&#x3D;&quot;sortByApi(&#x27;fieldName&#x27;,&#x27;datatable&#x27;)&quot;&gt;
+                            &lt;span class&#x3D;&quot;d-flex align-items-center flex-column mr-2 filter-sort&quot; id&#x3D;&quot;filter-sort&quot;&gt;
+                                &lt;i class&#x3D;&quot;si-chev-up icon-up&quot; [ngClass]&#x3D;&quot;getSortIconVisibility(&#x27;fieldName&#x27;, &#x27;up&#x27;,&#x27;datatable&#x27;)&quot; id&#x3D;&quot;sa_icon-up&quot;&gt;&lt;/i&gt;
+                                &lt;i class&#x3D;&quot;si-chev-down icon-down&quot; [ngClass]&#x3D;&quot;getSortIconVisibility(&#x27;fieldName&#x27;, &#x27;down&#x27;,&#x27;datatable&#x27;)&quot; id&#x3D;&quot;sa_icon-down&quot;&gt;&lt;/i&gt;
+                            &lt;/span&gt;
+                            {{&quot;search_settings_field_name_caps&quot; |translate}}
+                        &lt;/div&gt;
+                        &lt;div class&#x3D;&quot;col_ col-5 title d-flex align-items-center justify-content-start&quot; id&#x3D;&quot;title&quot;&gt; 
+                            &lt;span class&#x3D;&quot;d-flex align-items-center flex-column mr-2 filter-sort&quot; id&#x3D;&quot;sa_filter-sort&quot; (click)&#x3D;&quot;sortByApi(&#x27;fieldDataType&#x27;,&#x27;datatable&#x27;)&quot;&gt;
+                                &lt;i class&#x3D;&quot;si-chev-up icon-up&quot; [ngClass]&#x3D;&quot;getSortIconVisibility(&#x27;fieldDataType&#x27;, &#x27;up&#x27;,&#x27;datatable&#x27;)&quot; id&#x3D;&quot;sa_icon-up1&quot;&gt;&lt;/i&gt;
+                                &lt;i class&#x3D;&quot;si-chev-down icon-down&quot; [ngClass]&#x3D;&quot;getSortIconVisibility(&#x27;fieldDataType&#x27;, &#x27;down&#x27;,&#x27;datatable&#x27;)&quot; id&#x3D;&quot;sa_icon-icon-down1&quot;&gt;&lt;/i&gt;
+                            &lt;/span&gt;
+                            {{&quot;search_settings_type&quot; |translate}}
+                        &lt;/div&gt;
+                        &lt;div class&#x3D;&quot;col_ col-2 title d-flex align-items-center justify-content-start&quot;&gt; 
+                        &lt;/div&gt;
+                    &lt;/div&gt;
+                &lt;!-- table header end from here --&gt;
+                
+                &lt;!-- Table Records/Body --&gt;
+                &lt;!-- &lt;perfect-scrollbar class&#x3D;&quot;table_body_content&quot; id&#x3D;&quot;sa_table_body_ps&quot; (psYReachStart)&#x3D;&quot;onYReachStart($event)&quot; (psYReachEnd)&#x3D;&quot;onYReachEnd($event)&quot;&gt; --&gt;
+                    &lt;perfect-scrollbar class&#x3D;&quot;table_body_content&quot;  id&#x3D;&quot;sa_table_body_ps&quot;&gt;
+                        &lt;div class&#x3D;&quot;empty-table&quot; *ngIf&#x3D;&quot;!tablefieldvalues.length&quot;&gt;
+                            &lt;!-- &lt;img src&#x3D;&quot;assets/images/icons/empty_ill.svg&quot;&gt; --&gt;
+                            &lt;div class&#x3D;&quot;heading&quot;&gt;{{&#x27;search_settings_empty_table_data&#x27;| translate}}&lt;/div&gt;
+                            &lt;div class&#x3D;&quot;desc&quot;&gt;{{&#x27;search_settings_empty_table_data_please_add_Fields&#x27;| translate}}&lt;/div&gt;
+                        &lt;/div&gt;
+                            &lt;div class&#x3D;&quot;table_body row m-0&quot; *ngFor&#x3D;&quot;let fields of tablefieldvalues;let i &#x3D; index&quot; &gt;
+                        
+                                &lt;div class&#x3D;&quot;col-5 title text-left text-truncate&quot; title&#x3D;&quot;&quot;&gt;
+                                    {{fields.fieldName}}
+                                &lt;/div&gt;
+                                &lt;div class&#x3D;&quot;col-5 title text-left p-0&quot;&gt;
+                                    {{&#x27;sa_&#x27;+fields.fieldDataType | translate}}
+                                &lt;/div&gt;
+                                &lt;div class&#x3D;&quot;col-2 p-0 text-left&quot;&gt;
+                                    &lt;div class&#x3D;&quot;action_links&quot;&gt;
+                                        &lt;!-- &lt;span class&#x3D;&quot;action_link-icon&quot;&gt;
+                                            &lt;i class&#x3D;&quot;si-pencil-edit&quot;&gt;&lt;/i&gt; Edit
+                                        &lt;/span&gt; --&gt;
+                                        &lt;span class&#x3D;&quot;action_link-icon link-delete&quot; (click)&#x3D;&quot;deletefieldsDataPopup(fields)&quot;&gt;
+                                            &lt;i class&#x3D;&quot;si-delete1 mr-1&quot; container&#x3D;&quot;body&quot; ngbTooltip&#x3D;&quot;{{&#x27;sa_remove&#x27;| translate}}&quot; placement&#x3D;&quot;auto&quot;  &gt;&lt;/i&gt; 
+                                        &lt;/span&gt;
+                                    &lt;/div&gt;
+                                &lt;/div&gt;
+                            &lt;/div&gt;
+                &lt;/perfect-scrollbar&gt;
+            &lt;/div&gt;
+        &lt;/div&gt;
+   &lt;/ng-container&gt;
+
+&lt;/div&gt;
+
+
+
+&lt;kr-modal modalType&#x3D;&quot;center&quot; modalClass&#x3D;&quot;modal_popups_ addFieldModalPop addFieldModalPopup addLanguageModal&quot;
+    #addFieldModalPop&gt;
+    &lt;div class&#x3D;&quot;modal-header&quot; id&#x3D;&quot;sa_modal-header&quot;&gt;
+        &lt;div class&#x3D;&quot;title&quot; id&#x3D;&quot;sa_title&quot;&gt;{{&quot;fields_add_field&quot; |translate}}&lt;/div&gt;
+        &lt;div class&#x3D;&quot;close_icon&quot; id&#x3D;&quot;sa_close_icon&quot; (click)&#x3D;&quot;closeModalPopup()&quot;&gt;&lt;img src&#x3D;&quot;assets/icons/modal-close.svg&quot;&gt;&lt;/div&gt;
+    &lt;/div&gt;
+    &lt;ng-container&gt;        
+            &lt;div class&#x3D;&quot;modal-body&quot;&gt;
+                &lt;app-search-filter [shouldClear]&#x3D;&quot;shouldClear&quot; (searchkey)&#x3D;&quot;getsearchvalue($event,&#x27;addFieldModalPop&#x27;)&quot;&gt;&lt;/app-search-filter&gt;
+                &lt;div class&#x3D;&quot;index-config-lang-table&quot; id&#x3D;&quot;sa_index_config_lang_table&quot;&gt;
+                    &lt;div class&#x3D;&quot;table_data_content&quot;&gt;
+                        &lt;div class&#x3D;&quot;table_header row m-0&quot; id&#x3D;&quot;sa_table_data_content&quot;&gt;
+                            &lt;div class&#x3D;&quot;col_ col-2 title d-flex align-items-center justify-content-start&quot;&gt;
+                                &lt;div class&#x3D;&quot;d-none&quot;&gt;checkbox&lt;/div&gt;
+                            &lt;/div&gt;
+                            &lt;div class&#x3D;&quot;col_ col-7 title d-flex align-items-center justify-content-start p-0&quot;&gt;
+                                &lt;span class&#x3D;&quot;d-flex align-items-center flex-column mr-2 filter-sort&quot; id&#x3D;&quot;sa_filter_sort&quot; (click)&#x3D;&quot;sortByApi(&#x27;fieldName&#x27;,&#x27;addpopup&#x27;)&quot;&gt;
+                                    &lt;i class&#x3D;&quot;si-chev-up icon-up&quot; [ngClass]&#x3D;&quot;getSortIconVisibility(&#x27;fieldName&#x27;, &#x27;up&#x27;,&#x27;addpopup&#x27;)&quot; id&#x3D;&quot;sa_icon_up_2&quot;&gt;&lt;/i&gt;
+                                    &lt;i class&#x3D;&quot;si-chev-down icon-down&quot; [ngClass]&#x3D;&quot;getSortIconVisibility(&#x27;fieldName&#x27;, &#x27;down&#x27;,&#x27;addpopup&#x27;)&quot; id&#x3D;&quot;sa_icon_up_3&quot;&gt;&lt;/i&gt;
+                                &lt;/span&gt;
+                                {{&quot;search_settings_field_name_caps&quot; |translate}}
+                            &lt;/div&gt;
+                            &lt;div class&#x3D;&quot;col_ col-3 title d-flex align-items-center justify-content-start p-0&quot; id&#x3D;&quot;sa_title&quot; &gt;
+                                &lt;span class&#x3D;&quot;d-flex align-items-center flex-column mr-2 filter-sort&quot; (click)&#x3D;&quot;sortByApi(&#x27;fieldDataType&#x27;,&#x27;addpopup&#x27;)&quot; id&#x3D;&quot;filter-sort-1&quot;&gt;
+                                    &lt;i class&#x3D;&quot;si-chev-up icon-up&quot; [ngClass]&#x3D;&quot;getSortIconVisibility(&#x27;fieldDataType&#x27;, &#x27;up&#x27;,&#x27;addpopup&#x27;)&quot; id&#x3D;&quot;sa_icon_up_4&quot;&gt;&lt;/i&gt;
+                                    &lt;i class&#x3D;&quot;si-chev-down icon-down&quot; [ngClass]&#x3D;&quot;getSortIconVisibility(&#x27;fieldDataType&#x27;, &#x27;down&#x27;,&#x27;addpopup&#x27;)&quot; id&#x3D;&quot;sa_icon_up_5&quot;&gt;&lt;/i&gt;
+                                &lt;/span&gt;
+                                {{&quot;search_settings_type&quot; |translate}}
+                            &lt;/div&gt;
+                        &lt;/div&gt;
+                        &lt;perfect-scrollbar class&#x3D;&quot;table_body_content&quot; id&#x3D;&quot;sa_table_body&quot; [ngClass]&#x3D;&quot;!showWarning?&#x27;no-warning-msg&#x27;:&#x27;&#x27;&quot;&gt;
+                                    &lt;div class&#x3D;&quot;table_body row m-0&quot; *ngFor&#x3D;&quot;let fields of checkPopupfieldvalues();let i &#x3D; index&quot; &gt;
+                                        &lt;div class&#x3D;&quot;col-2&quot;&gt;
+                                            &lt;div class&#x3D;&quot;kr-sg-checkbox&quot; id&#x3D;&quot;sa_checkbox&quot; &gt;
+                                                &lt;input id&#x3D;&quot;{{ fields._id }}&quot;  class&#x3D;&quot;checkbox-custom&quot; [checked]&#x3D;&quot;fields.isChecked&quot; type&#x3D;&quot;checkbox&quot; (click)&#x3D;&quot;addRecord(fields,$event)&quot;&gt;
+                                                &lt;label for&#x3D;&quot;{{ fields._id }}&quot; class&#x3D;&quot;checkbox-custom-label&quot;&gt;&lt;/label&gt;
+                                            &lt;/div&gt;
+                                        &lt;/div&gt;
+                                        &lt;div class&#x3D;&quot;col-7 title text-left p-0 text-truncate&quot; title&#x3D;&quot;&quot; &gt;
+                                            {{fields.fieldName}} 
+                                        &lt;/div&gt;
+                                        &lt;div class&#x3D;&quot;col-3 title text-left p-0&quot; &gt;
+                                            {{&#x27;sa_&#x27;+fields.fieldDataType | translate}}
+                                        &lt;/div&gt;
+                                    &lt;/div&gt;
+                        &lt;/perfect-scrollbar&gt;
+                    &lt;/div&gt;
+                &lt;/div&gt;
+            &lt;/div&gt;
+            &lt;div class&#x3D;&quot;kr-sg-inline-notification kr-protip-basic align-items-start&quot; *ngIf&#x3D;&quot;showWarning&quot;&gt;
+                &lt;div class&#x3D;&quot;bulb-icon&quot;&gt;
+                    &lt;i class&#x3D;&quot;si-info&quot;&gt;&lt;/i&gt;
+                &lt;/div&gt;
+                &lt;div class&#x3D;&quot;tost-text&quot;&gt;
+                    {{this.highlightMsg}}
+                &lt;/div&gt;
+               &lt;/div&gt;
+
+        &lt;div class&#x3D;&quot;modal-footer&quot;&gt;
+            &lt;div class&#x3D;&quot;modal-footer-with-selected-count&quot; id&#x3D;&quot;sa_selected-count&quot;&gt;
+                &lt;!-- &lt;span class&#x3D;&quot;loader-spin-inside-btn&quot; *ngIf&#x3D;true&gt;&lt;/span&gt; --&gt;
+                &lt;div&gt;
+                    &lt;button type&#x3D;&quot;button&quot; class&#x3D;&quot;kr-sg-button-primary btn_lg float-right&quot; id&#x3D;&quot;sa_primary_button&quot; (click)&#x3D;&quot;add()&quot; &gt;&lt;span class&#x3D;&quot;loader-spin-inside-btn&quot; *ngIf&#x3D;&quot;isaddLoading&quot;&gt;&lt;/span&gt;{{&quot;search_settings_add&quot; |translate}}&lt;/button&gt;
+                    &lt;button type&#x3D;&quot;button&quot; class&#x3D;&quot;kr-sg-button-secondary btn_lg float-right&quot; id&#x3D;&quot;sa_secondary_button&quot; (click)&#x3D;&quot;closeModalPopup()&quot;&gt;{{&quot;search_settings__cancel&quot; |translate}}&lt;/button&gt;
+                &lt;/div&gt;
+            &lt;/div&gt;
+           
+        &lt;/div&gt;
+    &lt;/ng-container&gt;
+&lt;/kr-modal&gt;
+</code></pre>
+    </div>
+
+    <div class="tab-pane fade " id="c-styleData">
+                <p class="comment">
+                    <code>./list-fields.component.scss</code>
+                </p>
+                <pre class="line-numbers"><code class="language-scss">.presentable-table-block{
+    .p-table-filter-block{
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 15px 20px 6px 0px;
+        .pt-add{
+            .add-field-link-btn{
+                color: #2B75E4;
+                font-weight: 500;
+                font-size: 14px;
+                line-height: 17px;
+                cursor: pointer;
+                .icon-add-span{
+                    font-size: 11px;
+                    .icon-add{
+                        padding: 0 5px 0 0;
+                        &amp;::before{
+                            color: #0d6efd;
+                            font-weight: 600;
+                        }
+                    }
+                }
+            }
+        }
+        .pt-search{
+            .kr-sg-input-inline-search{
+                .input-search{
+                    padding-left: 30px;
+                    height: 34px;
+                    border-radius: 4px;
+                    border: solid 1px #BDC1C6;
+                    background-color: #ffffff;
+                    color: #202124;
+                    font-size: 14px;
+                }
+                .search-icon{
+                    font-size: 14px;
+                    color: #BDC1C6;
+                    &amp;.close-icon{
+                        font-size: 10px;
+                        color: #BDC1C6;
+                    }
+                }
+            }
+        }
+    }
+
+    // table css start from here
+    .index-config-lang-table{
+        padding: 15px 20px 25px 0px;
+        .table_data_content{
+            padding: 0 0px;
+            text-align: left;
+            .table_header{
+                padding: 15px 0px;
+                border-bottom: 1px solid #E4E5E7;
+                .title{
+                    padding: 0 0px;
+                    font-style: normal;
+                    font-weight: 500;
+                    font-size: 12px;
+                    line-height: 14px;
+                    text-transform: uppercase;
+                    color: #777A80;
+                    .filter-sort{
+                        .icon-up, .icon-down{
+                            font-size: 8px;
+                            color: #202124;
+                            font-weight: 600;
+                        }
+                    }                
+                }
+                .col_{
+                    font-weight: 500;                       
+                    color: #9AA0A6;
+                    font-size: 12px;   
+                    cursor: pointer; 
+                    justify-content: center;          
+                }
+            }
+            .table_body_content{
+                 height: calc(100vh - 350px);
+                // height: calc(100vh - 420px);
+                text-align: left;
+                padding-bottom: 30px;
+                .table_body{
+                    padding: 15px 0px;
+                    box-shadow: inset 0px -1px 0px #E4E5E7;                        
+                    transition: 0.3s all ease-in;
+                    align-items: center;
+                    &amp;:hover{
+                        background: #F8F9FA;
+                        .action_links{
+                            visibility: visible;
+                            .action_link-icon{
+                                cursor: pointer;
+                            }
+                        }
+                    }
+                    .title{
+                        padding: 0px 5px 0px 22px;
+                        font-weight: 500;
+                        font-size: 12px;
+                        line-height: normal;
+                        color: #202124;   
+                        cursor: default;
+                        word-break: break-word;
+                        white-space: nowrap;
+                        overflow: hidden;
+                        text-overflow: ellipsis;
+                        text-align: center;
+                        img{
+                            cursor: pointer;
+                        }
+                    }
+                    .action_links{
+                        padding: 0 0px;
+                        visibility: hidden;
+                        .action_link-icon{
+                            margin-right: 5px;
+                            &amp;.link-delete{
+                                color: #DD3646;
+                                font-size: 12px;
+                                font-weight: 500;
+                                line-height: inherit;
+                            }
+                        }
+                        .field-edit-mode{
+                            font-size: 10px;
+                            .action_link-icon{
+                                margin-right: 5px;
+                                .si-check{
+                                    &amp;::before{
+                                        color: #0D6EFD;
+                                    }
+                                }
+                                .si-close{
+                                    color: #DD3646;
+                                }
+                                &amp;.link-delete{
+                                    color: #DD3646;
+                                }
+                                &amp;:last-child{
+                                    margin-right: 0px;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            .footer-simulate{
+                text-align: right;
+                margin: 30px 0;                    
+            }
+        }
+    }
+}
+
+
+::ng-deep ngb-modal-window{
+    &amp;.addFieldModalPopup {
+        .modal-dialog{
+            .modal-content{
+                border-radius: 4px !important;
+                // margin-left: 70px;
+                .modal-header{
+                    background: #F7F9FA !important;
+                    padding: 10px 15px;
+                    height: auto;
+                    .close_icon{
+                        background: #F7F9FA;
+                    }
+                }
+                .modal-body{
+                    padding: 10px 20px 0px 20px !important;
+                    .search-field-bar{
+                        .kr-sg-input-inline-search{
+                            .input-search{
+                                padding-left: 30px;
+                                height: 34px;
+                                border-radius: 4px;
+                                border: solid 1px #BDC1C6;
+                                background-color: #ffffff;
+                                color: #202124;
+                                font-size: 14px;
+                            }
+                            .search-icon{
+                                font-size: 14px;
+                                color: #BDC1C6;
+                                &amp;.close-icon{
+                                    font-size: 10px;
+                                    color: #BDC1C6;
+                                }
+                            }
+                        }
+                    }
+                    .index-config-lang-table{
+                        padding: 10px 0 0px 0 !important;
+                        .table_data_content{
+                            .table_header{
+                                padding: 10px 0px;
+                                border-bottom: 1px solid #E4E5E7;
+                                .title{
+                                    .filter-sort{
+                                        .icon-up, .icon-down{
+                                            font-size: 8px;
+                                            color: #202124;
+                                            font-weight: 600;
+                                        }
+                                    } 
+                                }
+                                .col_{
+                                    color: #9DA1A6;
+                                    font-size: 12px;
+                                    font-weight: 500;
+                                }
+                            }
+                            .table_body_content{
+                            // height: calc(100vh - 350px);
+                             height: calc(100vh - 430px);
+                                .table_body{
+                                    height: auto;
+                                    padding: 10px 0px;
+                                    box-shadow: inset 0px -1px 0px #e4e5e7;
+                                    .title{
+                                        font-size: 12px;
+                                        font-weight: 500;
+                                        padding-right: 10px !important;
+                                    }
+                                    .kr-sg-checkbox{
+                                        margin-bottom: 0px;
+                                        padding-right: 0px;
+                                        width: 100%;
+                                        .checkbox-custom-label{
+                                            font-size: 12px;
+                                            font-weight: 500;
+                                        }
+                                    }
+                                }
+                                &amp;.no-warning-msg{
+                                    height: calc(100vh - 336px) !important;
+                                }
+                            }
+                        }
+                    }
+                }
+                .modal-footer{
+                    padding: 10px 20px !important;
+                    .modal-footer-with-selected-count{
+                        display: flex;
+                        align-items: center;
+                        justify-content: flex-end;
+                        .slected-count{
+                            display: none;
+                            color: #000000;
+                            font-weight: 500;
+                            font-size: 12px;
+                            line-height: 15px;
+                            .slected-count-num{
+                                font-weight: 700;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+.empty-table {
+    width: 320px;
+    margin: 0 auto;
+    text-align: center;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -ms-flex-direction: column;
+    flex-direction: column;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+    height: calc(100vh - 450px);
+    &amp;.divBlockEmptylastChild {
+        display: none;
+        padding: 0;
+    }
+    img {
+        width: 75%;
+        margin: 0 auto;
+    }
+    .heading {
+        margin: 18px 0 8px 0;
+        color: #202124;
+    }
+    .desc {
+        color: #9B9B9B;
+        font-size: 14px;
+    }
+}
+
+.mainLoadingSpinner{
+    position: absolute;
+    top: 55%;
+    left: 55%;
+    // box-shadow: 0 5px 10px 0 #e9eff5;
+    background:  transparent;
+    width: 223px;
+    height: 40px;
+    padding-top: 50px;
+    border-radius: 4px;
+    opacity: 0.95;
+    padding-left: 5px;
+    .please-wait-message {
+        position: relative;
+        color: #29293b;
+        top: -16px;
+        left: 25px;
+        font-size: 12px;
+    }  
+}
+// .impact-text-notification{
+//     font-size: 14px;
+//     color: #1372ff;
+// }
+
+// .bulb-icon{
+//     margin-right: 5px;
+//     position: relative;
+//     top: -1px;
+// }
+// .inline-notify{
+//     padding-top:5px;
+// }
+
+.kr-sg-inline-notification {
+    padding-bottom: 10px;
+    margin: 0px 20px 10px 20px !important;
+    &amp;.kr-protip-basic{
+        background: #FEF8E6;
+        padding: 10px 10px;
+        margin: 10px 20px 10px 20px !important;
+        .tost-text{
+            color: #614902;
+            font-size: 12px;
+            .based-on-selection{
+                border-bottom: 1px dotted #614902;
+            }
+        }
+        .bulb-icon{
+            margin-right: 10px;
+            position: relative;
+            top: 1px;
+            color: #614902;
+        }
+    }
+}</code></pre>
+    </div>
+
+    <div class="tab-pane fade " id="c-tree">
+        <div id="tree-container"></div>
+        <div class="tree-legend">
+            <div class="title">
+                <b>Legend</b>
+            </div>
+            <div>
+                <div class="color htmlelement"></div><span>Html element</span>
+            </div>
+            <div>
+                <div class="color component"></div><span>Component</span>
+            </div>
+            <div>
+                <div class="color directive"></div><span>Html element with directive</span>
+            </div>
+        </div>
+    </div>
+
+    
+</div>
+
+<script src="../js/libs/vis.min.js"></script>
+<script src="../js/libs/htmlparser.js"></script>
+<script src="../js/libs/deep-iterator.js"></script>
+<script>
+        var COMPONENT_TEMPLATE = '<div><div class="presentable-table-block" id="sa_presentable-table">    <div class="p-table-filter-block" id="sa_filter-block">        <div class="pt-add" id="sa_pt-add">            <div class="add-field-link-btn" id="add-field" (click)="openModalPopup()"><span class="icon-add-span"><i class="si-add-plus icon-add"></i></span>               {{"fields_add_field" |translate}}</div>        </div>        <!-- Search -->        <app-search-filter [shouldClear]="shouldClear" (searchkey)="getsearchvalue($event,\'datatable\')"></app-search-filter>        <!-- Search ends-->    </div>    <div class="mainLoadingSpinner" *ngIf="isLoading">        <mat-spinner diameter="18" strokeWidth="2"></mat-spinner>        <span class="please-wait-message">{{\'sa_please_wait\'| translate}}</span>    </div>    <ng-container *ngIf="!isLoading">        <!-- table header start from here -->        <div class="index-config-lang-table row m-0" id="sa_lang-table">            <div class="table_data_content col-12" id="sa_table_data_content">                <!-- table header start from here -->                    <div class="table_header row m-0" id="sa_table_header">                        <div class="col_ col-5 title d-flex align-items-center justify-content-start" (click)="sortByApi(\'fieldName\',\'datatable\')">                            <span class="d-flex align-items-center flex-column mr-2 filter-sort" id="filter-sort">                                <i class="si-chev-up icon-up" [ngClass]="getSortIconVisibility(\'fieldName\', \'up\',\'datatable\')" id="sa_icon-up"></i>                                <i class="si-chev-down icon-down" [ngClass]="getSortIconVisibility(\'fieldName\', \'down\',\'datatable\')" id="sa_icon-down"></i>                            </span>                            {{"search_settings_field_name_caps" |translate}}                        </div>                        <div class="col_ col-5 title d-flex align-items-center justify-content-start" id="title">                             <span class="d-flex align-items-center flex-column mr-2 filter-sort" id="sa_filter-sort" (click)="sortByApi(\'fieldDataType\',\'datatable\')">                                <i class="si-chev-up icon-up" [ngClass]="getSortIconVisibility(\'fieldDataType\', \'up\',\'datatable\')" id="sa_icon-up1"></i>                                <i class="si-chev-down icon-down" [ngClass]="getSortIconVisibility(\'fieldDataType\', \'down\',\'datatable\')" id="sa_icon-icon-down1"></i>                            </span>                            {{"search_settings_type" |translate}}                        </div>                        <div class="col_ col-2 title d-flex align-items-center justify-content-start">                         </div>                    </div>                <!-- table header end from here -->                                <!-- Table Records/Body -->                <!-- <perfect-scrollbar class="table_body_content" id="sa_table_body_ps" (psYReachStart)="onYReachStart($event)" (psYReachEnd)="onYReachEnd($event)"> -->                    <perfect-scrollbar class="table_body_content"  id="sa_table_body_ps">                        <div class="empty-table" *ngIf="!tablefieldvalues.length">                            <!-- <img src="assets/images/icons/empty_ill.svg"> -->                            <div class="heading">{{\'search_settings_empty_table_data\'| translate}}</div>                            <div class="desc">{{\'search_settings_empty_table_data_please_add_Fields\'| translate}}</div>                        </div>                            <div class="table_body row m-0" *ngFor="let fields of tablefieldvalues;let i = index" >                                                        <div class="col-5 title text-left text-truncate" title="">                                    {{fields.fieldName}}                                </div>                                <div class="col-5 title text-left p-0">                                    {{\'sa_\'+fields.fieldDataType | translate}}                                </div>                                <div class="col-2 p-0 text-left">                                    <div class="action_links">                                        <!-- <span class="action_link-icon">                                            <i class="si-pencil-edit"></i> Edit                                        </span> -->                                        <span class="action_link-icon link-delete" (click)="deletefieldsDataPopup(fields)">                                            <i class="si-delete1 mr-1" container="body" ngbTooltip="{{\'sa_remove\'| translate}}" placement="auto"  ></i>                                         </span>                                    </div>                                </div>                            </div>                </perfect-scrollbar>            </div>        </div>   </ng-container></div><kr-modal modalType="center" modalClass="modal_popups_ addFieldModalPop addFieldModalPopup addLanguageModal"    #addFieldModalPop>    <div class="modal-header" id="sa_modal-header">        <div class="title" id="sa_title">{{"fields_add_field" |translate}}</div>        <div class="close_icon" id="sa_close_icon" (click)="closeModalPopup()"><img src="assets/icons/modal-close.svg"></div>    </div>    <ng-container>                    <div class="modal-body">                <app-search-filter [shouldClear]="shouldClear" (searchkey)="getsearchvalue($event,\'addFieldModalPop\')"></app-search-filter>                <div class="index-config-lang-table" id="sa_index_config_lang_table">                    <div class="table_data_content">                        <div class="table_header row m-0" id="sa_table_data_content">                            <div class="col_ col-2 title d-flex align-items-center justify-content-start">                                <div class="d-none">checkbox</div>                            </div>                            <div class="col_ col-7 title d-flex align-items-center justify-content-start p-0">                                <span class="d-flex align-items-center flex-column mr-2 filter-sort" id="sa_filter_sort" (click)="sortByApi(\'fieldName\',\'addpopup\')">                                    <i class="si-chev-up icon-up" [ngClass]="getSortIconVisibility(\'fieldName\', \'up\',\'addpopup\')" id="sa_icon_up_2"></i>                                    <i class="si-chev-down icon-down" [ngClass]="getSortIconVisibility(\'fieldName\', \'down\',\'addpopup\')" id="sa_icon_up_3"></i>                                </span>                                {{"search_settings_field_name_caps" |translate}}                            </div>                            <div class="col_ col-3 title d-flex align-items-center justify-content-start p-0" id="sa_title" >                                <span class="d-flex align-items-center flex-column mr-2 filter-sort" (click)="sortByApi(\'fieldDataType\',\'addpopup\')" id="filter-sort-1">                                    <i class="si-chev-up icon-up" [ngClass]="getSortIconVisibility(\'fieldDataType\', \'up\',\'addpopup\')" id="sa_icon_up_4"></i>                                    <i class="si-chev-down icon-down" [ngClass]="getSortIconVisibility(\'fieldDataType\', \'down\',\'addpopup\')" id="sa_icon_up_5"></i>                                </span>                                {{"search_settings_type" |translate}}                            </div>                        </div>                        <perfect-scrollbar class="table_body_content" id="sa_table_body" [ngClass]="!showWarning?\'no-warning-msg\':\'\'">                                    <div class="table_body row m-0" *ngFor="let fields of checkPopupfieldvalues();let i = index" >                                        <div class="col-2">                                            <div class="kr-sg-checkbox" id="sa_checkbox" >                                                <input id="{{ fields._id }}"  class="checkbox-custom" [checked]="fields.isChecked" type="checkbox" (click)="addRecord(fields,$event)">                                                <label for="{{ fields._id }}" class="checkbox-custom-label"></label>                                            </div>                                        </div>                                        <div class="col-7 title text-left p-0 text-truncate" title="" >                                            {{fields.fieldName}}                                         </div>                                        <div class="col-3 title text-left p-0" >                                            {{\'sa_\'+fields.fieldDataType | translate}}                                        </div>                                    </div>                        </perfect-scrollbar>                    </div>                </div>            </div>            <div class="kr-sg-inline-notification kr-protip-basic align-items-start" *ngIf="showWarning">                <div class="bulb-icon">                    <i class="si-info"></i>                </div>                <div class="tost-text">                    {{this.highlightMsg}}                </div>               </div>        <div class="modal-footer">            <div class="modal-footer-with-selected-count" id="sa_selected-count">                <!-- <span class="loader-spin-inside-btn" *ngIf=true></span> -->                <div>                    <button type="button" class="kr-sg-button-primary btn_lg float-right" id="sa_primary_button" (click)="add()" ><span class="loader-spin-inside-btn" *ngIf="isaddLoading"></span>{{"search_settings_add" |translate}}</button>                    <button type="button" class="kr-sg-button-secondary btn_lg float-right" id="sa_secondary_button" (click)="closeModalPopup()">{{"search_settings__cancel" |translate}}</button>                </div>            </div>                   </div>    </ng-container></kr-modal></div>'
+    var COMPONENTS = [{'name': 'ActionsComponent', 'selector': 'app-actions'},{'name': 'AddAlternateQuestionComponent', 'selector': 'app-add-alternate-question'},{'name': 'AddAltFaqComponent', 'selector': 'app-add-alt-faq'},{'name': 'AddFaqComponent', 'selector': 'app-add-faq'},{'name': 'AddResultComponent', 'selector': 'app-add-result'},{'name': 'AddResultComponent', 'selector': 'app-add-result'},{'name': 'AddStructuredDataComponent', 'selector': 'app-add-structured-data'},{'name': 'AnalyticsDropdownComponent', 'selector': 'app-analytics-dropdown'},{'name': 'AnnotoolComponent', 'selector': 'kr-annotool'},{'name': 'AppComponent', 'selector': 'app-root'},{'name': 'AppExperimentsComponent', 'selector': 'app-app-experiments'},{'name': 'AppsComponent', 'selector': 'app-apps'},{'name': 'AutocompleteMultiChipComponent', 'selector': 'app-autocomplete-multi-chip'},{'name': 'BodyComponent', 'selector': 'app-body'},{'name': 'BotActionsComponent', 'selector': 'app-bot-actions'},{'name': 'BotActionsComponent', 'selector': 'app-bot-actions'},{'name': 'BusinessRulesComponent', 'selector': 'app-business-rules'},{'name': 'ConfirmationComponent', 'selector': 'kr-confirmation'},{'name': 'ConfirmationDialogComponent', 'selector': 'app-confirmation-dialog'},{'name': 'ConnectorsComponent', 'selector': 'app-connectors'},{'name': 'ContentComponent', 'selector': 'app-content'},{'name': 'CredentialsListComponent', 'selector': 'app-credentials-list'},{'name': 'CustomConfigFormComponent', 'selector': 'app-custom-config-form'},{'name': 'CustomConfigListComponent', 'selector': 'app-custom-config-list'},{'name': 'CustomConfigurationsComponent', 'selector': 'app-custom-configurations'},{'name': 'CustomMarkdownEditorComponent', 'selector': 'md-editor'},{'name': 'DashboardComponent', 'selector': 'app-dashboard'},{'name': 'DateRangePickerComponent', 'selector': 'app-date-range-picker'},{'name': 'DemoComponent', 'selector': 'app-demo'},{'name': 'EditorUrlDialogComponent', 'selector': 'app-editor-url-dialog'},{'name': 'EmptyScreenComponent', 'selector': 'app-empty-screen'},{'name': 'FacetsComponent', 'selector': 'app-facets'},{'name': 'FaqsComponent', 'selector': 'faqs-source'},{'name': 'FieldManagementComponent', 'selector': 'app-field-management'},{'name': 'GeneralSettingsComponent', 'selector': 'app-general-settings'},{'name': 'GroupInputComponent', 'selector': 'app-group-input'},{'name': 'HeaderComponent', 'selector': 'app-header'},{'name': 'HighlightingComponent', 'selector': 'app-highlighting'},{'name': 'ImportFaqsModalComponent', 'selector': 'app-import-faqs-modal'},{'name': 'IndexComponent', 'selector': 'app-index'},{'name': 'IndexComponent', 'selector': 'app-index'},{'name': 'IndexConfigurationSettingsComponent', 'selector': 'app-index-configuration-settings'},{'name': 'IndexFieldsComfirmationDialogComponent', 'selector': 'app-index-fields-comfirmation-dialog'},{'name': 'InsightsComponent', 'selector': 'app-insights'},{'name': 'InvoicesComponent', 'selector': 'app-invoices'},{'name': 'KRModalComponent', 'selector': 'kr-modal'},{'name': 'ListFieldsComponent', 'selector': 'app-list-fields'},{'name': 'LoaderComponent', 'selector': 'app-loader'},{'name': 'MainMenuComponent', 'selector': 'app-mainmenu'},{'name': 'ManageIntentComponent', 'selector': 'app-manage-intent'},{'name': 'MarkdownEditorResizeSensorComponent', 'selector': 'md-editor-resize-sensor'},{'name': 'MetricsComponent', 'selector': 'app-metrics'},{'name': 'OnboardingComponent', 'selector': 'app-onboarding'},{'name': 'PaginationComponent', 'selector': 'app-pagination'},{'name': 'PdfAnnotationComponent', 'selector': 'kr-pdf-annotation'},{'name': 'PresentableComponent', 'selector': 'app-presentable'},{'name': 'PricingComponent', 'selector': 'app-pricing'},{'name': 'RangeSliderComponent', 'selector': 'app-range-slider'},{'name': 'RangeSliderSearchExperienceComponent', 'selector': 'app-range-slider-search-experience'},{'name': 'RecordPaginationComponent', 'selector': 'app-record-pagination'},{'name': 'ResultInsightsComponent', 'selector': 'app-result-insights'},{'name': 'ResultRankingComponent', 'selector': 'app-result-ranking'},{'name': 'ResultRankingComponent', 'selector': 'app-result-ranking'},{'name': 'ResultsRulesComponent', 'selector': 'app-results-rules'},{'name': 'ResultTemplatesComponent', 'selector': 'app-result-templates'},{'name': 'RulesTableComponent', 'selector': 'app-rules-table'},{'name': 'SchedulerComponent', 'selector': 'app-scheduler'},{'name': 'SearchExperienceComponent', 'selector': 'app-search-experience'},{'name': 'SearchFieldPropertiesComponent', 'selector': 'app-search-field-properties'},{'name': 'SearchFilterComponent', 'selector': 'app-search-filter'},{'name': 'SearchInsightsComponent', 'selector': 'app-search-insights'},{'name': 'SearchInterfaceComponent', 'selector': 'app-search-interface'},{'name': 'SearchRelevanceComponent', 'selector': 'app-search-relevance'},{'name': 'SearchSdkComponent', 'selector': '.appContent'},{'name': 'SearchSettingsComponent', 'selector': 'app-search-settings'},{'name': 'SettingsComponent', 'selector': 'app-settings'},{'name': 'SettingsComponent', 'selector': 'app-settings'},{'name': 'SliderComponentComponent', 'selector': 'app-slider-component'},{'name': 'SmallTalkComponent', 'selector': 'app-small-talk'},{'name': 'SnippetsComponent', 'selector': 'app-snippets'},{'name': 'SourcesComponent', 'selector': 'app-sources'},{'name': 'SpellCorrectionComponent', 'selector': 'app-spell-correction'},{'name': 'StatusDockerComponent', 'selector': 'app-status-docker'},{'name': 'StopWordsComponent', 'selector': 'app-stop-words'},{'name': 'StructuredDataComponent', 'selector': 'app-structured-data'},{'name': 'StructuredDataComponent', 'selector': 'app-structured-data'},{'name': 'StructuredDataStatusModalComponent', 'selector': 'app-structured-data-status-modal'},{'name': 'SummaryComponent', 'selector': 'app-summary'},{'name': 'SummaryModalComponent', 'selector': 'kr-summary-modal'},{'name': 'SynonymsComponent', 'selector': 'app-synonyms'},{'name': 'TagsInpComponent', 'selector': 'app-tags-inp'},{'name': 'TeamManagementComponent', 'selector': 'app-team-management'},{'name': 'TraitsComponent', 'selector': 'app-traits'},{'name': 'UpgradePlanComponent', 'selector': 'app-upgrade-plan'},{'name': 'UsageLogComponent', 'selector': 'app-usage-log'},{'name': 'UserEngagementComponent', 'selector': 'app-user-engagement'},{'name': 'UserGuideComponent', 'selector': 'kr-user-guide'},{'name': 'UseronboardingJourneyComponent', 'selector': 'app-useronboarding-journey'},{'name': 'WeightsComponent', 'selector': 'app-weights'}];
+    var DIRECTIVES = [{'name': 'ClickOutSideDirective', 'selector': '[clickOutside]'},{'name': 'EllipsisActiveDirective', 'selector': '[appEllipsisActive]'},{'name': 'ScrollSpyDirective', 'selector': '[scrollSpy]'},{'name': 'SelectTextDirective', 'selector': '[appSelectText]'}];
+    var ACTUAL_COMPONENT = {'name': 'ListFieldsComponent'};
+</script>
+<script src="../js/tree.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+          <label class="dark-mode-switch">
+               <input type="checkbox">
+               <span class="slider">
+                    <svg class="slider-icon" viewBox="0 0 24 24" fill="none" height="20" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" width="20" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path>
+                    </svg>
+               </span>
+          </label>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 1;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'component';
+            var COMPODOC_CURRENT_PAGE_URL = 'ListFieldsComponent.html';
+            var MAX_SEARCH_RESULTS = 15;
+       </script>
+
+       <script src="../js/libs/custom-elements.min.js"></script>
+       <script src="../js/libs/lit-html.js"></script>
+
+       <script src="../js/menu-wc.js" defer></script>
+       <script nomodule src="../js/menu-wc_es5.js" defer></script>
+
+       <script src="../js/libs/bootstrap-native.js"></script>
+
+       <script src="../js/libs/es6-shim.min.js"></script>
+       <script src="../js/libs/EventDispatcher.js"></script>
+       <script src="../js/libs/promise.min.js"></script>
+       <script src="../js/libs/zepto.min.js"></script>
+
+       <script src="../js/compodoc.js"></script>
+
+       <script src="../js/tabs.js"></script>
+       <script src="../js/menu.js"></script>
+       <script src="../js/libs/clipboard.min.js"></script>
+       <script src="../js/libs/prism.js"></script>
+       <script src="../js/sourceCode.js"></script>
+          <script src="../js/search/search.js"></script>
+          <script src="../js/search/lunr.min.js"></script>
+          <script src="../js/search/search-lunr.js"></script>
+          <script src="../js/search/search_index.js"></script>
+       <script src="../js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>

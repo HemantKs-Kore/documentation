@@ -1,0 +1,3433 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>koreai documentation</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	   <link rel="stylesheet" href="../styles/style.css">
+        <link rel="stylesheet" href="../styles/dark.css">
+    </head>
+    <body>
+
+        <div class="navbar navbar-default navbar-fixed-top visible-xs">
+            <a href="../" class="navbar-brand">koreai documentation</a>
+            <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="hidden-xs menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content component">
+                   <div class="content-data">
+
+
+
+
+<ol class="breadcrumb">
+  <li>Components</li>
+  <li
+  >
+  SearchSdkComponent</li>
+</ol>
+
+<ul class="nav nav-tabs" role="tablist">
+        <li class="active">
+            <a href="#info" role="tab" id="info-tab" data-toggle="tab" data-link="info">Info</a>
+        </li>
+        <li >
+            <a href="#source" role="tab" id="source-tab" data-toggle="tab" data-link="source">Source</a>
+        </li>
+        <li >
+            <a href="#templateData" role="tab" id="templateData-tab" data-toggle="tab" data-link="template">Template</a>
+        </li>
+        <li >
+            <a href="#styleData" role="tab" id="styleData-tab" data-toggle="tab" data-link="style">Styles</a>
+        </li>
+        <li >
+            <a href="#tree" role="tab" id="tree-tab" data-toggle="tab" data-link="dom-tree">DOM Tree</a>
+        </li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane fade active in" id="c-info"><p class="comment">
+    <h3>File</h3>
+</p>
+<p class="comment">
+    <code>apps/searchassist/src/app/modules/search-sdk/search-sdk.component.ts</code>
+</p>
+
+
+
+
+    <p class="comment">
+        <h3>Implements</h3>
+    </p>
+    <p class="comment">
+                    <code><a href="https://angular.io/api/core/OnInit" target="_blank" >OnInit</a></code>
+                    <code><a href="https://angular.io/api/core/OnDestroy" target="_blank" >OnDestroy</a></code>
+    </p>
+
+
+<section>
+    <h3>Metadata</h3>
+    <table class="table table-sm table-hover metadata">
+        <tbody>
+
+
+
+
+
+
+
+
+
+
+
+            <tr>
+                <td class="col-md-3">selector</td>
+                <td class="col-md-9"><code>.appContent</code></td>
+            </tr>
+
+            <tr>
+                <td class="col-md-3">styleUrls</td>
+                <td class="col-md-9"><code>./search-sdk.component.scss</code></td>
+            </tr>
+
+
+
+            <tr>
+                <td class="col-md-3">templateUrl</td>
+                <td class="col-md-9"><code>./search-sdk.component.html</code></td>
+            </tr>
+
+
+
+
+
+
+
+
+        </tbody>
+    </table>
+</section>
+
+    <section>
+    <h3 id="index">Index</h3>
+    <table class="table table-sm table-bordered index-table">
+        <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Properties</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#addNewResult" >addNewResult</a>
+                            </li>
+                            <li>
+                                <a href="#appsData" >appsData</a>
+                            </li>
+                            <li>
+                                <a href="#bridgeDataInsights" >bridgeDataInsights</a>
+                            </li>
+                            <li>
+                                <a href="#closeSDKSubscription" >closeSDKSubscription</a>
+                            </li>
+                            <li>
+                                <a href="#findlyBusinessConfig" >findlyBusinessConfig</a>
+                            </li>
+                            <li>
+                                <a href="#indexPipelineId" >indexPipelineId</a>
+                            </li>
+                            <li>
+                                <a href="#loading" >loading</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#localstore" >localstore</a>
+                            </li>
+                            <li>
+                                <a href="#pathsObj" >pathsObj</a>
+                            </li>
+                            <li>
+                                <a href="#previousState" >previousState</a>
+                            </li>
+                            <li>
+                                <a href="#queryConfigsSubscription" >queryConfigsSubscription</a>
+                            </li>
+                            <li>
+                                <a href="#queryPipelineId" >queryPipelineId</a>
+                            </li>
+                            <li>
+                                <a href="#queryText" >queryText</a>
+                            </li>
+                            <li>
+                                <a href="#resultRankDataSubscription" >resultRankDataSubscription</a>
+                            </li>
+                            <li>
+                                <a href="#SearchConfigurationSubscription" >SearchConfigurationSubscription</a>
+                            </li>
+                            <li>
+                                <a href="#searchExperienceConfig" >searchExperienceConfig</a>
+                            </li>
+                            <li>
+                                <a href="#searchExperienceSubscription" >searchExperienceSubscription</a>
+                            </li>
+                            <li>
+                                <a href="#searchExperinceLoading" >searchExperinceLoading</a>
+                            </li>
+                            <li>
+                                <a href="#searchInstance" >searchInstance</a>
+                            </li>
+                            <li>
+                                <a href="#searchRequestId" >searchRequestId</a>
+                            </li>
+                            <li>
+                                <a href="#searchSDKSubscription" >searchSDKSubscription</a>
+                            </li>
+                            <li>
+                                <a href="#selectedApp" >selectedApp</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#service" >service</a>
+                            </li>
+                            <li>
+                                <a href="#settingMainMenu" >settingMainMenu</a>
+                            </li>
+                            <li>
+                                <a href="#showHideMainMenuSubscription" >showHideMainMenuSubscription</a>
+                            </li>
+                            <li>
+                                <a href="#showHideSettingsMenuSubscription" >showHideSettingsMenuSubscription</a>
+                            </li>
+                            <li>
+                                <a href="#showHideSourceMenuSubscription" >showHideSourceMenuSubscription</a>
+                            </li>
+                            <li>
+                                <a href="#showInsightFull" >showInsightFull</a>
+                            </li>
+                            <li>
+                                <a href="#showMainMenu" >showMainMenu</a>
+                            </li>
+                            <li>
+                                <a href="#showSDKApp" >showSDKApp</a>
+                            </li>
+                            <li>
+                                <a href="#sourceMenu" >sourceMenu</a>
+                            </li>
+                            <li>
+                                <a href="#structure" >structure</a>
+                            </li>
+                            <li>
+                                <a href="#styleSub" >styleSub</a>
+                            </li>
+                            <li>
+                                <a href="#sub" >sub</a>
+                            </li>
+                            <li>
+                                <a href="#subscription" >subscription</a>
+                            </li>
+                            <li>
+                                <a href="#topDownSearchInstance" >topDownSearchInstance</a>
+                            </li>
+                            <li>
+                                <a href="#userInfo" >userInfo</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#workflowService" >workflowService</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Methods</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#assertion" >assertion</a>
+                            </li>
+                            <li>
+                                <a href="#cacheBottomUpSDK" >cacheBottomUpSDK</a>
+                            </li>
+                            <li>
+                                <a href="#clearBodyClasses" >clearBodyClasses</a>
+                            </li>
+                            <li>
+                                <a href="#closeSdk" >closeSdk</a>
+                            </li>
+                            <li>
+                                <a href="#distroySearch" >distroySearch</a>
+                            </li>
+                            <li>
+                                <a href="#distroyTopDownSearch" >distroyTopDownSearch</a>
+                            </li>
+                            <li>
+                                <a href="#getSearchExperience" >getSearchExperience</a>
+                            </li>
+                            <li>
+                                <a href="#initSearch" >initSearch</a>
+                            </li>
+                            <li>
+                                <a href="#initSearchSDK" >initSearchSDK</a>
+                            </li>
+                            <li>
+                                <a href="#initTopDownSearch" >initTopDownSearch</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Async</span>
+                                <a href="#loadScripts" >loadScripts</a>
+                            </li>
+                            <li>
+                                <a href="#loadSearchExperience" >loadSearchExperience</a>
+                            </li>
+                            <li>
+                                <a href="#loadStyles" >loadStyles</a>
+                            </li>
+                            <li>
+                                <a href="#ngOnDestroy" >ngOnDestroy</a>
+                            </li>
+                            <li>
+                                <a href="#ngOnInit" >ngOnInit</a>
+                            </li>
+                            <li>
+                                <a href="#openSdk" >openSdk</a>
+                            </li>
+                            <li>
+                                <a href="#resetFindlySearchSDK" >resetFindlySearchSDK</a>
+                            </li>
+                            <li>
+                                <a href="#resetFindlyTopDownSearchSDK" >resetFindlyTopDownSearchSDK</a>
+                            </li>
+                            <li>
+                                <a href="#searchSDKHeader" >searchSDKHeader</a>
+                            </li>
+                            <li>
+                                <a href="#showHideSearch" >showHideSearch</a>
+                            </li>
+                            <li>
+                                <a href="#showHideTopDownSearch" >showHideTopDownSearch</a>
+                            </li>
+                            <li>
+                                <a href="#toggleSdkPopup" >toggleSdkPopup</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+
+
+
+
+        </tbody>
+    </table>
+</section>
+
+    <section>
+    <h3 id="constructor">Constructor</h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+<code>constructor(workflowService: <a href="../injectables/WorkflowService.html" target="_self">WorkflowService</a>, headerService: <a href="../injectables/SideBarService.html" target="_self">SideBarService</a>, service: <a href="../injectables/ServiceInvokerService.html" target="_self">ServiceInvokerService</a>, endpointservice: <a href="../injectables/EndPointsService.html" target="_self">EndPointsService</a>, appSelectionService: <a href="../injectables/AppSelectionService.html" target="_self">AppSelectionService</a>, searchSdkService: <a href="../injectables/SearchSdkService.html" target="_self">SearchSdkService</a>, localstore: <a href="../injectables/LocalStoreService.html" target="_self">LocalStoreService</a>, lazyLoadService: LazyLoadService)</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="90" class="link-to-prism">apps/searchassist/src/app/modules/search-sdk/search-sdk.component.ts:90</a></div>
+                            </td>
+                        </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                            <div>
+                                    <b>Parameters :</b>
+                                    <table class="params">
+                                        <thead>
+                                            <tr>
+                                                <td>Name</td>
+                                                    <td>Type</td>
+                                                <td>Optional</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                                <tr>
+                                                        <td>workflowService</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/WorkflowService.html" target="_self" >WorkflowService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>headerService</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/SideBarService.html" target="_self" >SideBarService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>service</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/ServiceInvokerService.html" target="_self" >ServiceInvokerService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>endpointservice</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/EndPointsService.html" target="_self" >EndPointsService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>appSelectionService</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/AppSelectionService.html" target="_self" >AppSelectionService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>searchSdkService</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/SearchSdkService.html" target="_self" >SearchSdkService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>localstore</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/LocalStoreService.html" target="_self" >LocalStoreService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>lazyLoadService</td>
+                                                  
+                                                        <td>
+                                                                    <code>LazyLoadService</code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                        </tbody>
+                                    </table>
+                            </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+</section>
+
+
+
+
+
+    <section>
+    
+    <h3 id="methods">
+        Methods
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="assertion"></a>
+                    <span class="name">
+                        <span ><b>assertion</b></span>
+                        <a href="#assertion"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>assertion(options, callback)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="469"
+                            class="link-to-prism">apps/searchassist/src/app/modules/search-sdk/search-sdk.component.ts:469</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>options</td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                                <tr>
+                                    <td>callback</td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="cacheBottomUpSDK"></a>
+                    <span class="name">
+                        <span ><b>cacheBottomUpSDK</b></span>
+                        <a href="#cacheBottomUpSDK"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>cacheBottomUpSDK(key)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="310"
+                            class="link-to-prism">apps/searchassist/src/app/modules/search-sdk/search-sdk.component.ts:310</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>key</td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="clearBodyClasses"></a>
+                    <span class="name">
+                        <span ><b>clearBodyClasses</b></span>
+                        <a href="#clearBodyClasses"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>clearBodyClasses()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="498"
+                            class="link-to-prism">apps/searchassist/src/app/modules/search-sdk/search-sdk.component.ts:498</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="closeSdk"></a>
+                    <span class="name">
+                        <span ><b>closeSdk</b></span>
+                        <a href="#closeSdk"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>closeSdk()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="195"
+                            class="link-to-prism">apps/searchassist/src/app/modules/search-sdk/search-sdk.component.ts:195</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="distroySearch"></a>
+                    <span class="name">
+                        <span ><b>distroySearch</b></span>
+                        <a href="#distroySearch"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>distroySearch()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="388"
+                            class="link-to-prism">apps/searchassist/src/app/modules/search-sdk/search-sdk.component.ts:388</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="distroyTopDownSearch"></a>
+                    <span class="name">
+                        <span ><b>distroyTopDownSearch</b></span>
+                        <a href="#distroyTopDownSearch"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>distroyTopDownSearch()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="509"
+                            class="link-to-prism">apps/searchassist/src/app/modules/search-sdk/search-sdk.component.ts:509</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Search SDK</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getSearchExperience"></a>
+                    <span class="name">
+                        <span ><b>getSearchExperience</b></span>
+                        <a href="#getSearchExperience"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>getSearchExperience()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="147"
+                            class="link-to-prism">apps/searchassist/src/app/modules/search-sdk/search-sdk.component.ts:147</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="initSearch"></a>
+                    <span class="name">
+                        <span ><b>initSearch</b></span>
+                        <a href="#initSearch"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>initSearch()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="398"
+                            class="link-to-prism">apps/searchassist/src/app/modules/search-sdk/search-sdk.component.ts:398</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="initSearchSDK"></a>
+                    <span class="name">
+                        <span ><b>initSearchSDK</b></span>
+                        <a href="#initSearchSDK"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>initSearchSDK()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="249"
+                            class="link-to-prism">apps/searchassist/src/app/modules/search-sdk/search-sdk.component.ts:249</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="initTopDownSearch"></a>
+                    <span class="name">
+                        <span ><b>initTopDownSearch</b></span>
+                        <a href="#initTopDownSearch"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>initTopDownSearch()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="516"
+                            class="link-to-prism">apps/searchassist/src/app/modules/search-sdk/search-sdk.component.ts:516</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="loadScripts"></a>
+                    <span class="name">
+                        <span class="modifier">Async</span>
+                        <span ><b>loadScripts</b></span>
+                        <a href="#loadScripts"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>loadScripts()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="218"
+                            class="link-to-prism">apps/searchassist/src/app/modules/search-sdk/search-sdk.component.ts:218</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="loadSearchExperience"></a>
+                    <span class="name">
+                        <span ><b>loadSearchExperience</b></span>
+                        <a href="#loadSearchExperience"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>loadSearchExperience()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="126"
+                            class="link-to-prism">apps/searchassist/src/app/modules/search-sdk/search-sdk.component.ts:126</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="loadStyles"></a>
+                    <span class="name">
+                        <span ><b>loadStyles</b></span>
+                        <a href="#loadStyles"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>loadStyles()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="212"
+                            class="link-to-prism">apps/searchassist/src/app/modules/search-sdk/search-sdk.component.ts:212</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="ngOnDestroy"></a>
+                    <span class="name">
+                        <span ><b>ngOnDestroy</b></span>
+                        <a href="#ngOnDestroy"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>ngOnDestroy()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="393"
+                            class="link-to-prism">apps/searchassist/src/app/modules/search-sdk/search-sdk.component.ts:393</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="ngOnInit"></a>
+                    <span class="name">
+                        <span ><b>ngOnInit</b></span>
+                        <a href="#ngOnInit"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>ngOnInit()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="112"
+                            class="link-to-prism">apps/searchassist/src/app/modules/search-sdk/search-sdk.component.ts:112</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="openSdk"></a>
+                    <span class="name">
+                        <span ><b>openSdk</b></span>
+                        <a href="#openSdk"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>openSdk()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="191"
+                            class="link-to-prism">apps/searchassist/src/app/modules/search-sdk/search-sdk.component.ts:191</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="resetFindlySearchSDK"></a>
+                    <span class="name">
+                        <span ><b>resetFindlySearchSDK</b></span>
+                        <a href="#resetFindlySearchSDK"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>resetFindlySearchSDK(appData)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="477"
+                            class="link-to-prism">apps/searchassist/src/app/modules/search-sdk/search-sdk.component.ts:477</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>appData</td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="resetFindlyTopDownSearchSDK"></a>
+                    <span class="name">
+                        <span ><b>resetFindlyTopDownSearchSDK</b></span>
+                        <a href="#resetFindlyTopDownSearchSDK"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>resetFindlyTopDownSearchSDK(appData)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="638"
+                            class="link-to-prism">apps/searchassist/src/app/modules/search-sdk/search-sdk.component.ts:638</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>appData</td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="searchSDKHeader"></a>
+                    <span class="name">
+                        <span ><b>searchSDKHeader</b></span>
+                        <a href="#searchSDKHeader"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>searchSDKHeader()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="348"
+                            class="link-to-prism">apps/searchassist/src/app/modules/search-sdk/search-sdk.component.ts:348</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="showHideSearch"></a>
+                    <span class="name">
+                        <span ><b>showHideSearch</b></span>
+                        <a href="#showHideSearch"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>showHideSearch(show, disabelInstanceDistroy?)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="270"
+                            class="link-to-prism">apps/searchassist/src/app/modules/search-sdk/search-sdk.component.ts:270</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>show</td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                                <tr>
+                                    <td>disabelInstanceDistroy</td>
+
+                                    <td>
+                                        Yes
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="showHideTopDownSearch"></a>
+                    <span class="name">
+                        <span ><b>showHideTopDownSearch</b></span>
+                        <a href="#showHideTopDownSearch"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>showHideTopDownSearch(show)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="591"
+                            class="link-to-prism">apps/searchassist/src/app/modules/search-sdk/search-sdk.component.ts:591</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>show</td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="toggleSdkPopup"></a>
+                    <span class="name">
+                        <span ><b>toggleSdkPopup</b></span>
+                        <a href="#toggleSdkPopup"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>toggleSdkPopup()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="199"
+                            class="link-to-prism">apps/searchassist/src/app/modules/search-sdk/search-sdk.component.ts:199</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+    <section>
+    
+    <h3 id="inputs">
+        Properties
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="addNewResult"></a>
+                    <span class="name">
+                        <span ><b>addNewResult</b></span>
+                        <a href="#addNewResult"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>true</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="63" class="link-to-prism">apps/searchassist/src/app/modules/search-sdk/search-sdk.component.ts:63</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="appsData"></a>
+                    <span class="name">
+                        <span ><b>appsData</b></span>
+                        <a href="#appsData"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="59" class="link-to-prism">apps/searchassist/src/app/modules/search-sdk/search-sdk.component.ts:59</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="bridgeDataInsights"></a>
+                    <span class="name">
+                        <span ><b>bridgeDataInsights</b></span>
+                        <a href="#bridgeDataInsights"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>true</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="62" class="link-to-prism">apps/searchassist/src/app/modules/search-sdk/search-sdk.component.ts:62</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="closeSDKSubscription"></a>
+                    <span class="name">
+                        <span ><b>closeSDKSubscription</b></span>
+                        <a href="#closeSDKSubscription"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>Subscription</code>
+
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="75" class="link-to-prism">apps/searchassist/src/app/modules/search-sdk/search-sdk.component.ts:75</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="findlyBusinessConfig"></a>
+                    <span class="name">
+                        <span ><b>findlyBusinessConfig</b></span>
+                        <a href="#findlyBusinessConfig"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>{}</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="61" class="link-to-prism">apps/searchassist/src/app/modules/search-sdk/search-sdk.component.ts:61</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="indexPipelineId"></a>
+                    <span class="name">
+                        <span ><b>indexPipelineId</b></span>
+                        <a href="#indexPipelineId"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="87" class="link-to-prism">apps/searchassist/src/app/modules/search-sdk/search-sdk.component.ts:87</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="loading"></a>
+                    <span class="name">
+                        <span ><b>loading</b></span>
+                        <a href="#loading"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>true</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="53" class="link-to-prism">apps/searchassist/src/app/modules/search-sdk/search-sdk.component.ts:53</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="localstore"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>localstore</b></span>
+                        <a href="#localstore"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../injectables/LocalStoreService.html" target="_self" >LocalStoreService</a></code>
+
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="108" class="link-to-prism">apps/searchassist/src/app/modules/search-sdk/search-sdk.component.ts:108</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="pathsObj"></a>
+                    <span class="name">
+                        <span ><b>pathsObj</b></span>
+                        <a href="#pathsObj"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>{
+    &#x27;/faq&#x27;: &#x27;Faqs&#x27;,
+    &#x27;/content&#x27;: &#x27;Contnet&#x27;,
+    &#x27;/sources&#x27;: &#x27;Source&#x27;,
+    &#x27;/botActions&#x27;: &#x27;Bot Actions&#x27;,
+  }</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="79" class="link-to-prism">apps/searchassist/src/app/modules/search-sdk/search-sdk.component.ts:79</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="previousState"></a>
+                    <span class="name">
+                        <span ><b>previousState</b></span>
+                        <a href="#previousState"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="58" class="link-to-prism">apps/searchassist/src/app/modules/search-sdk/search-sdk.component.ts:58</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="queryConfigsSubscription"></a>
+                    <span class="name">
+                        <span ><b>queryConfigsSubscription</b></span>
+                        <a href="#queryConfigsSubscription"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>Subscription</code>
+
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="78" class="link-to-prism">apps/searchassist/src/app/modules/search-sdk/search-sdk.component.ts:78</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="queryPipelineId"></a>
+                    <span class="name">
+                        <span ><b>queryPipelineId</b></span>
+                        <a href="#queryPipelineId"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="88" class="link-to-prism">apps/searchassist/src/app/modules/search-sdk/search-sdk.component.ts:88</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="queryText"></a>
+                    <span class="name">
+                        <span ><b>queryText</b></span>
+                        <a href="#queryText"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="66" class="link-to-prism">apps/searchassist/src/app/modules/search-sdk/search-sdk.component.ts:66</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="resultRankDataSubscription"></a>
+                    <span class="name">
+                        <span ><b>resultRankDataSubscription</b></span>
+                        <a href="#resultRankDataSubscription"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>Subscription</code>
+
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="71" class="link-to-prism">apps/searchassist/src/app/modules/search-sdk/search-sdk.component.ts:71</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="SearchConfigurationSubscription"></a>
+                    <span class="name">
+                        <span ><b>SearchConfigurationSubscription</b></span>
+                        <a href="#SearchConfigurationSubscription"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>Subscription</code>
+
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="69" class="link-to-prism">apps/searchassist/src/app/modules/search-sdk/search-sdk.component.ts:69</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="searchExperienceConfig"></a>
+                    <span class="name">
+                        <span ><b>searchExperienceConfig</b></span>
+                        <a href="#searchExperienceConfig"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>{}</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="49" class="link-to-prism">apps/searchassist/src/app/modules/search-sdk/search-sdk.component.ts:49</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="searchExperienceSubscription"></a>
+                    <span class="name">
+                        <span ><b>searchExperienceSubscription</b></span>
+                        <a href="#searchExperienceSubscription"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>Subscription</code>
+
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="76" class="link-to-prism">apps/searchassist/src/app/modules/search-sdk/search-sdk.component.ts:76</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="searchExperinceLoading"></a>
+                    <span class="name">
+                        <span ><b>searchExperinceLoading</b></span>
+                        <a href="#searchExperinceLoading"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>false</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="86" class="link-to-prism">apps/searchassist/src/app/modules/search-sdk/search-sdk.component.ts:86</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="searchInstance"></a>
+                    <span class="name">
+                        <span ><b>searchInstance</b></span>
+                        <a href="#searchInstance"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="60" class="link-to-prism">apps/searchassist/src/app/modules/search-sdk/search-sdk.component.ts:60</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="searchRequestId"></a>
+                    <span class="name">
+                        <span ><b>searchRequestId</b></span>
+                        <a href="#searchRequestId"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="67" class="link-to-prism">apps/searchassist/src/app/modules/search-sdk/search-sdk.component.ts:67</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="searchSDKSubscription"></a>
+                    <span class="name">
+                        <span ><b>searchSDKSubscription</b></span>
+                        <a href="#searchSDKSubscription"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>Subscription</code>
+
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="70" class="link-to-prism">apps/searchassist/src/app/modules/search-sdk/search-sdk.component.ts:70</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="selectedApp"></a>
+                    <span class="name">
+                        <span ><b>selectedApp</b></span>
+                        <a href="#selectedApp"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="90" class="link-to-prism">apps/searchassist/src/app/modules/search-sdk/search-sdk.component.ts:90</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="service"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>service</b></span>
+                        <a href="#service"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../injectables/ServiceInvokerService.html" target="_self" >ServiceInvokerService</a></code>
+
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="99" class="link-to-prism">apps/searchassist/src/app/modules/search-sdk/search-sdk.component.ts:99</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="settingMainMenu"></a>
+                    <span class="name">
+                        <span ><b>settingMainMenu</b></span>
+                        <a href="#settingMainMenu"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>false</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="56" class="link-to-prism">apps/searchassist/src/app/modules/search-sdk/search-sdk.component.ts:56</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="showHideMainMenuSubscription"></a>
+                    <span class="name">
+                        <span ><b>showHideMainMenuSubscription</b></span>
+                        <a href="#showHideMainMenuSubscription"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>Subscription</code>
+
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="72" class="link-to-prism">apps/searchassist/src/app/modules/search-sdk/search-sdk.component.ts:72</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="showHideSettingsMenuSubscription"></a>
+                    <span class="name">
+                        <span ><b>showHideSettingsMenuSubscription</b></span>
+                        <a href="#showHideSettingsMenuSubscription"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>Subscription</code>
+
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="73" class="link-to-prism">apps/searchassist/src/app/modules/search-sdk/search-sdk.component.ts:73</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="showHideSourceMenuSubscription"></a>
+                    <span class="name">
+                        <span ><b>showHideSourceMenuSubscription</b></span>
+                        <a href="#showHideSourceMenuSubscription"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>Subscription</code>
+
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="74" class="link-to-prism">apps/searchassist/src/app/modules/search-sdk/search-sdk.component.ts:74</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="showInsightFull"></a>
+                    <span class="name">
+                        <span ><b>showInsightFull</b></span>
+                        <a href="#showInsightFull"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>false</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="65" class="link-to-prism">apps/searchassist/src/app/modules/search-sdk/search-sdk.component.ts:65</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="showMainMenu"></a>
+                    <span class="name">
+                        <span ><b>showMainMenu</b></span>
+                        <a href="#showMainMenu"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>true</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="55" class="link-to-prism">apps/searchassist/src/app/modules/search-sdk/search-sdk.component.ts:55</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="showSDKApp"></a>
+                    <span class="name">
+                        <span ><b>showSDKApp</b></span>
+                        <a href="#showSDKApp"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>Subscription</code>
+
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="77" class="link-to-prism">apps/searchassist/src/app/modules/search-sdk/search-sdk.component.ts:77</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="sourceMenu"></a>
+                    <span class="name">
+                        <span ><b>sourceMenu</b></span>
+                        <a href="#sourceMenu"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>false</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="57" class="link-to-prism">apps/searchassist/src/app/modules/search-sdk/search-sdk.component.ts:57</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="structure"></a>
+                    <span class="name">
+                        <span ><b>structure</b></span>
+                        <a href="#structure"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>&#x27;bottom&#x27;</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="64" class="link-to-prism">apps/searchassist/src/app/modules/search-sdk/search-sdk.component.ts:64</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="styleSub"></a>
+                    <span class="name">
+                        <span ><b>styleSub</b></span>
+                        <a href="#styleSub"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>Subscription</code>
+
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="51" class="link-to-prism">apps/searchassist/src/app/modules/search-sdk/search-sdk.component.ts:51</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="sub"></a>
+                    <span class="name">
+                        <span ><b>sub</b></span>
+                        <a href="#sub"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>Subscription</code>
+
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="50" class="link-to-prism">apps/searchassist/src/app/modules/search-sdk/search-sdk.component.ts:50</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="subscription"></a>
+                    <span class="name">
+                        <span ><b>subscription</b></span>
+                        <a href="#subscription"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>Subscription</code>
+
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="68" class="link-to-prism">apps/searchassist/src/app/modules/search-sdk/search-sdk.component.ts:68</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="topDownSearchInstance"></a>
+                    <span class="name">
+                        <span ><b>topDownSearchInstance</b></span>
+                        <a href="#topDownSearchInstance"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="85" class="link-to-prism">apps/searchassist/src/app/modules/search-sdk/search-sdk.component.ts:85</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="userInfo"></a>
+                    <span class="name">
+                        <span ><b>userInfo</b></span>
+                        <a href="#userInfo"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>{}</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="54" class="link-to-prism">apps/searchassist/src/app/modules/search-sdk/search-sdk.component.ts:54</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="workflowService"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>workflowService</b></span>
+                        <a href="#workflowService"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../injectables/WorkflowService.html" target="_self" >WorkflowService</a></code>
+
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="96" class="link-to-prism">apps/searchassist/src/app/modules/search-sdk/search-sdk.component.ts:96</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+</section>
+
+</div>
+
+
+    <div class="tab-pane fade  tab-source-code" id="c-source">
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Component, OnDestroy, OnInit } from &#x27;@angular/core&#x27;;
+import { MatButtonModule } from &#x27;@angular/material/button&#x27;;
+import { Subscription } from &#x27;rxjs&#x27;;
+import { SearchSdkService } from &#x27;./services/search-sdk.service&#x27;;
+import $ from &#x27;jquery&#x27;;
+import { SideBarService } from &#x27;@kore.apps/services/header.service&#x27;;
+import { WorkflowService } from &#x27;@kore.apps/services/workflow.service&#x27;;
+import { AppSelectionService } from &#x27;@kore.apps/services/app.selection.service&#x27;;
+import { EndPointsService } from &#x27;@kore.apps/services/end-points.service&#x27;;
+import { ServiceInvokerService } from &#x27;@kore.apps/services/service-invoker.service&#x27;;
+import { LazyLoadService } from &#x27;@kore.shared/*&#x27;;
+import { LocalStoreService } from &#x27;@kore.services/localstore.service&#x27;;
+
+// import(&#x27;../../../assets/web-kore-sdk/demo/libs/kore-no-conflict-start.js&#x27;);
+// import(&#x27;../../../assets/web-kore-sdk/libs/uuid.min.js&#x27;);
+// // import(&#x27;../../../assets/web-kore-sdk/demo/libs/jquery.js&#x27;);
+// import(&#x27;../../../assets/web-kore-sdk/libs/d3.v4.min.js&#x27;);
+// import(&#x27;../../../assets/web-kore-sdk/libs/KoreGraphAdapter.js&#x27;);
+// import(&#x27;../../../assets/web-kore-sdk/libs/pubsub.js&#x27;);
+// import(&#x27;../../../assets/web-kore-sdk/demo/libs/jquery.tmpl.min.js&#x27;);
+// import(&#x27;../../../assets/web-kore-sdk/demo/libs/jquery-ui.min.js&#x27;);
+
+// import(&#x27;../../../assets/web-kore-sdk/kore-bot-sdk-client.js&#x27;);
+// import(&#x27;../../../assets/web-kore-sdk/demo/custom/searchTemplate.js&#x27;);
+
+// import(&#x27;../../../assets/web-kore-sdk/demo/custom/customTemplate.js&#x27;);
+// import(&#x27;../../../assets/web-kore-sdk/demo/i18n/en.js&#x27;);
+// import(&#x27;../../../assets/web-kore-sdk/demo/i18n/ja.js&#x27;);
+// import(&#x27;../../../assets/web-kore-sdk/demo/i18n/ko.js&#x27;);
+// import(&#x27;../../../assets/web-kore-sdk/libs/emoji.js&#x27;);
+// import(&#x27;../../../assets/web-kore-sdk/libs/perfect-scrollbar.js&#x27;);
+// import(&#x27;../../../assets/web-kore-sdk/libs/kore-pickers.js&#x27;);
+// import(&#x27;../../../assets/web-kore-sdk/demo/findly/findly-sdk.js&#x27;);
+// import(&#x27;../../../assets/web-kore-sdk/libs/purejscarousel.js&#x27;);
+// import(&#x27;../../../assets/web-kore-sdk/demo/findly/findly-config.js&#x27;);
+// import(&#x27;../../../assets/web-kore-sdk/demo/libs/kore-no-conflict-end.js&#x27;);
+// import(&#x27;../../../assets/web-kore-sdk/libs/lodash.min.js&#x27;);
+// declare const $: any;
+declare const FindlySDK: any;
+
+@Component({
+  standalone: true,
+  selector: &#x27;.appContent&#x27;,
+  templateUrl: &#x27;./search-sdk.component.html&#x27;,
+  styleUrls: [&#x27;./search-sdk.component.scss&#x27;],
+  imports: [MatButtonModule],
+})
+export class SearchSdkComponent implements OnInit, OnDestroy {
+  searchExperienceConfig: any &#x3D; {};
+  sub: Subscription;
+  styleSub: Subscription;
+
+  loading &#x3D; true;
+  userInfo: any &#x3D; {};
+  showMainMenu &#x3D; true;
+  settingMainMenu &#x3D; false;
+  sourceMenu &#x3D; false;
+  previousState;
+  appsData: any;
+  searchInstance: any;
+  findlyBusinessConfig: any &#x3D; {};
+  bridgeDataInsights &#x3D; true;
+  addNewResult &#x3D; true;
+  structure &#x3D; &#x27;bottom&#x27;;
+  showInsightFull &#x3D; false;
+  queryText;
+  searchRequestId: string;
+  subscription: Subscription;
+  SearchConfigurationSubscription: Subscription;
+  searchSDKSubscription: Subscription;
+  resultRankDataSubscription: Subscription;
+  showHideMainMenuSubscription: Subscription;
+  showHideSettingsMenuSubscription: Subscription;
+  showHideSourceMenuSubscription: Subscription;
+  closeSDKSubscription: Subscription;
+  searchExperienceSubscription: Subscription;
+  showSDKApp: Subscription;
+  queryConfigsSubscription: Subscription;
+  pathsObj: any &#x3D; {
+    &#x27;/faq&#x27;: &#x27;Faqs&#x27;,
+    &#x27;/content&#x27;: &#x27;Contnet&#x27;,
+    &#x27;/sources&#x27;: &#x27;Source&#x27;,
+    &#x27;/botActions&#x27;: &#x27;Bot Actions&#x27;,
+  };
+  topDownSearchInstance: any;
+  searchExperinceLoading &#x3D; false;
+  indexPipelineId: any;
+  queryPipelineId: any;
+  // isDemoApp: boolean &#x3D; false;
+  selectedApp: any;
+  // @ViewChild(&#x27;headerComp&#x27;) headerComp: AppHeaderComponent;
+
+  constructor(
+    // private authService: AuthService,
+    // public localstore: LocalStoreService,
+    public workflowService: WorkflowService,
+    // private activatedRoute: ActivatedRoute,
+    private headerService: SideBarService,
+    public service: ServiceInvokerService,
+    // changed to public for resolving the search interface failure issue
+    private endpointservice: EndPointsService,
+    private appSelectionService: AppSelectionService,
+    // public dockService: DockStatusService,
+    // public inlineManual: InlineManualService,
+    // public mixpanel: MixpanelServiceService,
+    // private translate: TranslateService,
+    private searchSdkService: SearchSdkService,
+    public localstore: LocalStoreService,
+    private lazyLoadService: LazyLoadService
+  ) {}
+
+  ngOnInit(): void {
+    this.loadStyles();
+    this.SearchConfigurationSubscription &#x3D;
+      this.headerService.resetSearchConfiguration.subscribe((res) &#x3D;&gt; {
+        this.distroySearch();
+        this.loadSearchExperience();
+        this.getSearchExperience();
+      });
+    this.loadScripts().then(() &#x3D;&gt; {
+      this.initSearchSDK();
+      this.searchSDKHeader();
+    });
+    this.toggleSdkPopup();
+  }
+  loadSearchExperience() {
+    this.indexPipelineId &#x3D; this.workflowService.selectedIndexPipeline();
+    this.queryPipelineId &#x3D; this.workflowService.selectedQueryPipeline()
+      ? this.workflowService.selectedQueryPipeline()._id
+      : this.selectedApp.searchIndexes[0].queryPipelineId;
+    /** fetching the ID from Previous state for refresh app */
+    if (!this.queryPipelineId) {
+      const preStateData &#x3D; this.localstore.getPreviousState();
+      if (preStateData &amp;&amp; preStateData.selectedQueryPipeline) {
+        this.queryPipelineId &#x3D; preStateData.selectedQueryPipeline._id;
+      }
+    }
+    if (
+      this.indexPipelineId &amp;&amp;
+      this.queryPipelineId &amp;&amp;
+      this.searchExperinceLoading &#x3D;&#x3D;&#x3D; false
+    ) {
+      this.getSearchExperience();
+    }
+  }
+  // added setTimeout function and verifying for indexpipeline before we make api call, for  resolving the search interface failure issue
+  getSearchExperience() {
+    // let selectedApp: any;
+    var _self &#x3D; this;
+    const selectedApp &#x3D; this.workflowService.selectedApp();
+    const searchIndex &#x3D; selectedApp.searchIndexes[0]._id;
+    const quaryparms: any &#x3D; {
+      searchIndexId: searchIndex,
+      indexPipelineId: this.workflowService.selectedIndexPipeline(),
+      queryPipelineId: this.workflowService.selectedQueryPipeline()
+        ? this.workflowService.selectedQueryPipeline()._id
+        : this.queryPipelineId,
+    };
+    setTimeout(function () {
+      if (!quaryparms.indexPipelineId) {
+        quaryparms.indexPipelineId &#x3D;
+          _self.workflowService.selectedIndexPipelineId;
+      }
+      if (!quaryparms.queryPipelineId) {
+        quaryparms.queryPipelineId &#x3D;
+          _self.workflowService.selectedQueryPipeline()
+            ? _self.workflowService.selectedQueryPipeline()._id
+            : _self.selectedApp.searchIndexes[0].queryPipelineId;
+      }
+      if (quaryparms.indexPipelineId &amp;&amp; quaryparms.queryPipelineId) {
+        _self.service.invoke(&#x27;get.searchexperience.list&#x27;, quaryparms).subscribe(
+          (res) &#x3D;&gt; {
+            _self.searchExperienceConfig &#x3D; res;
+            _self.searchExperinceLoading &#x3D; true;
+            _self.headerService.updateSearchConfigurationValue(res);
+            $(&#x27;#test-btn-launch-sdk&#x27;).removeAttr(&#x27;disabled&#x27;).button(&#x27;refresh&#x27;);
+            _self.headerService.searchConfiguration &#x3D; res;
+            //if (_self.isDemoApp) _self.searchSDKHeader();
+          },
+          (errRes) &#x3D;&gt; {
+            // console.log(&quot;getSearchExperience failed happen&quot;);
+            // console.log(errRes);
+          }
+        );
+      } else {
+        _self.getSearchExperience();
+      }
+    }, 100);
+  }
+
+  openSdk() {
+    console.log(&#x27;OPEN&#x27;);
+  }
+
+  closeSdk() {
+    console.log(&#x27;CLOSE&#x27;);
+  }
+
+  toggleSdkPopup() {
+    this.sub &#x3D; this.searchSdkService.sdkSource$.subscribe((isOpen) &#x3D;&gt; {
+      this.searchSDKHeader();
+      if (isOpen) {
+        // open
+        this.openSdk();
+      } else {
+        // close
+        this.closeSdk();
+      }
+    });
+  }
+
+  loadStyles() {
+    this.styleSub &#x3D; this.lazyLoadService
+      .loadStyle(&#x27;searchsdk.min.css&#x27;)
+      .subscribe();
+  }
+
+  async loadScripts() {
+    await import(
+      &#x27;../../../assets/web-kore-sdk/demo/libs/kore-no-conflict-start.js&#x27;
+    );
+    await import(&#x27;../../../assets/web-kore-sdk/libs/uuid.min.js&#x27;);
+    // await import(&#x27;../../../assets/web-kore-sdk/demo/libs/jquery.js&#x27;);
+    await import(&#x27;../../../assets/web-kore-sdk/libs/d3.v4.min.js&#x27;);
+    await import(&#x27;../../../assets/web-kore-sdk/libs/KoreGraphAdapter.js&#x27;);
+    await import(&#x27;../../../assets/web-kore-sdk/libs/pubsub.js&#x27;);
+    await import(&#x27;../../../assets/web-kore-sdk/demo/libs/jquery.tmpl.min.js&#x27;);
+    await import(&#x27;../../../assets/web-kore-sdk/demo/libs/jquery-ui.min.js&#x27;);
+
+    await import(&#x27;../../../assets/web-kore-sdk/kore-bot-sdk-client.js&#x27;);
+    await import(&#x27;../../../assets/web-kore-sdk/demo/custom/searchTemplate.js&#x27;);
+
+    await import(&#x27;../../../assets/web-kore-sdk/demo/custom/customTemplate.js&#x27;);
+    await import(&#x27;../../../assets/web-kore-sdk/demo/i18n/en.js&#x27;);
+    await import(&#x27;../../../assets/web-kore-sdk/demo/i18n/ja.js&#x27;);
+    await import(&#x27;../../../assets/web-kore-sdk/demo/i18n/ko.js&#x27;);
+    await import(&#x27;../../../assets/web-kore-sdk/libs/emoji.js&#x27;);
+    await import(&#x27;../../../assets/web-kore-sdk/libs/perfect-scrollbar.js&#x27;);
+    await import(&#x27;../../../assets/web-kore-sdk/libs/kore-pickers.js&#x27;);
+    await import(&#x27;../../../assets/web-kore-sdk/demo/findly/findly-sdk.js&#x27;);
+    await import(&#x27;../../../assets/web-kore-sdk/libs/purejscarousel.js&#x27;);
+    await import(&#x27;../../../assets/web-kore-sdk/demo/findly/findly-config.js&#x27;);
+    await import(
+      &#x27;../../../assets/web-kore-sdk/demo/libs/kore-no-conflict-end.js&#x27;
+    );
+    await import(&#x27;../../../assets/web-kore-sdk/libs/lodash.min.js&#x27;);
+  }
+
+  initSearchSDK() {
+    const _self &#x3D; this;
+    $(&#x27;body&#x27;).append(&#x27;&lt;div class&#x3D;&quot;start-search-icon-div&quot;&gt;&lt;/div&gt;&#x27;);
+    setTimeout(() &#x3D;&gt; {
+      $(&#x27;.start-search-icon-div&#x27;).click(() &#x3D;&gt; {
+        if (!$(&#x27;.search-background-div:visible&#x27;).length) {
+          _self.showHideSearch(true);
+        } else {
+          _self.showHideSearch(false);
+        }
+      });
+    }, 200);
+    $(&#x27;#advanceModeSdk&#x27;).change(function () {
+      if ($(this).is(&#x27;:checked&#x27;)) {
+        $(&#x27;.search-container&#x27;).removeClass(&#x27;advanced-mode&#x27;);
+      } else {
+        $(&#x27;.search-container&#x27;).addClass(&#x27;advanced-mode&#x27;);
+      }
+    });
+  }
+
+  showHideSearch(show, disabelInstanceDistroy?) {
+    const _self &#x3D; this;
+    if (show) {
+      $(&#x27;.appContent&#x27;).append(
+        &#x27;&lt;div class&#x3D;&quot;search-background-div&quot;&gt;&lt;div class&#x3D;&quot;bgDullOpacity&quot;&gt;&lt;/div&gt;&lt;/div&gt;&#x27;
+      );
+      $(&#x27;.appContent&#x27;).append(
+        &#x27;&lt;label class&#x3D;&quot;kr-sg-toggle advancemode-checkbox&quot; style&#x3D;&quot;display:none;&quot;&gt;&lt;input type&#x3D;&quot;checkbox&quot; id&#x3D;&quot;advanceModeSdk&quot; checked&gt;&lt;div class&#x3D;&quot;slider&quot;&gt;&lt;/div&gt;&lt;/label&gt;&#x27;
+      );
+      $(&#x27;.search-background-div&#x27;).show();
+      // $(&#x27;.start-search-icon-div&#x27;).addClass(&#x27;active&#x27;);
+      $(&#x27;.search-background-div&#x27;)
+        .off(&#x27;click&#x27;)
+        .on(&#x27;click&#x27;, (event) &#x3D;&gt; {
+          if (event.target.classList.contains(&#x27;bgDullOpacity&#x27;)) {
+            this.cacheBottomUpSDK(false);
+          }
+        });
+      $(&#x27;.advancemode-checkbox&#x27;).css({ display: &#x27;block&#x27; });
+      $(&#x27;.search-container&#x27;).addClass(&#x27;search-container-adv&#x27;);
+      $(&#x27;.search-container&#x27;).addClass(&#x27;add-new-result&#x27;);
+      this.initSearch();
+      $(&#x27;#test-btn-launch-sdk&#x27;).addClass(&#x27;active&#x27;);
+      $(&#x27;#open-chat-window-no-clicks&#x27;).css({ display: &#x27;block&#x27; });
+      this.headerService.isSDKOpen &#x3D; true;
+    } else {
+      $(&#x27;.search-background-div&#x27;).remove();
+      $(&#x27;.advancemode-checkbox&#x27;).remove();
+      $(&#x27;.start-search-icon-div&#x27;).removeClass(&#x27;active&#x27;);
+      _self.bridgeDataInsights &#x3D; true;
+      _self.addNewResult &#x3D; true;
+      _self.showInsightFull &#x3D; false;
+      this.distroySearch();
+      $(&#x27;#test-btn-launch-sdk&#x27;).removeClass(&#x27;active&#x27;);
+      $(&#x27;#open-chat-window-no-clicks&#x27;).css({ display: &#x27;none&#x27; });
+      this.headerService.isSDKCached &#x3D; false;
+      this.headerService.isSDKOpen &#x3D; false;
+    }
+  }
+
+  cacheBottomUpSDK(key) {
+    if (key) {
+      $(&#x27;.search-background-div&#x27;).css(&#x27;display&#x27;, &#x27;block&#x27;);
+      if (
+        $(&#x27;#show-all-results-container&#x27;).length &amp;&amp;
+        $(&#x27;#show-all-results-container&#x27;).attr(&#x27;isCached&#x27;) &#x3D;&#x3D; &#x27;true&#x27;
+      ) {
+        $(&#x27;#show-all-results-container&#x27;).css(&#x27;display&#x27;, &#x27;block&#x27;);
+      }
+      $(&#x27;#test-btn-launch-sdk&#x27;).addClass(&#x27;active&#x27;);
+      $(&#x27;#open-chat-window-no-clicks&#x27;).css({ display: &#x27;block&#x27; });
+      this.headerService.isSDKOpen &#x3D; true;
+    } else {
+      $(&#x27;.search-background-div&#x27;).css(&#x27;display&#x27;, &#x27;none&#x27;);
+      $(&#x27;body&#x27;).removeClass(&#x27;sdk-body&#x27;);
+      if ($(&#x27;#show-all-results-container&#x27;).length) {
+        if (
+          !$(&#x27;#show-all-results-container&#x27;).attr(&#x27;isCached&#x27;) ||
+          $(&#x27;#show-all-results-container&#x27;).attr(&#x27;isCached&#x27;) &#x3D;&#x3D; &#x27;false&#x27;
+        ) {
+          if ($(&#x27;#show-all-results-container&#x27;).attr(&#x27;isCached&#x27;) &#x3D;&#x3D; &#x27;false&#x27;) {
+            $(&#x27;#show-all-results-container&#x27;).attr(&#x27;isCached&#x27;, &#x27;false&#x27;);
+          }
+          // else {
+          //   $(&#x27;#show-all-results-container&#x27;).attr(&#x27;isCached&#x27;, &#x27;true&#x27;);
+          // }
+          $(&#x27;#show-all-results-container&#x27;).css(&#x27;display&#x27;, &#x27;none&#x27;);
+        }
+      }
+      $(&#x27;#test-btn-launch-sdk&#x27;).removeClass(&#x27;active&#x27;);
+      $(&#x27;#open-chat-window-no-clicks&#x27;).css({ display: &#x27;none&#x27; });
+      this.headerService.isSDKCached &#x3D; true;
+      this.headerService.isSDKOpen &#x3D; false;
+    }
+    this.addNewResult &#x3D; true;
+  }
+
+  //open search SDK from header
+  searchSDKHeader() {
+    if (this.searchExperienceConfig) {
+      //this.isDemoApp &#x3D; false;
+      if (
+        this.searchExperienceConfig.experienceConfig &amp;&amp;
+        this.searchExperienceConfig.experienceConfig.searchBarPosition !&#x3D;&#x3D; &#x27;top&#x27;
+      ) {
+        if (
+          !this.headerService.isSDKCached ||
+          !$(&#x27;.search-background-div&#x27;).length
+        ) {
+          if (!$(&#x27;.search-background-div:visible&#x27;).length) {
+            this.showHideSearch(true);
+            this.resultRankDataSubscription &#x3D;
+              this.headerService.resultRankData.subscribe((res: any) &#x3D;&gt; {
+                this.searchInstance.customTourResultRank(res);
+              });
+          } else {
+            // this.showHideSearch(false);
+            this.cacheBottomUpSDK(false);
+          }
+        } else {
+          if ($(&#x27;.search-background-div&#x27;).css(&#x27;display&#x27;) &#x3D;&#x3D; &#x27;block&#x27;) {
+            this.cacheBottomUpSDK(false);
+          } else {
+            this.cacheBottomUpSDK(true);
+          }
+        }
+      } else {
+        if (!$(&#x27;.top-down-search-background-div:visible&#x27;).length) {
+          $(&#x27;.top-down-search-background-div&#x27;).addClass(&#x27;active&#x27;);
+          this.showHideTopDownSearch(true);
+        } else {
+          this.showHideTopDownSearch(false);
+          this.distroySearch();
+        }
+      }
+    }
+  }
+
+  distroySearch() {
+    if (this.searchInstance &amp;&amp; this.searchInstance.destroy) {
+      this.searchInstance.destroy();
+    }
+  }
+  ngOnDestroy(): void {
+    this.sub?.unsubscribe();
+    this.styleSub?.unsubscribe();
+  }
+
+  initSearch() {
+    const botOptionsFindly: any &#x3D; {};
+    botOptionsFindly.logLevel &#x3D; &#x27;debug&#x27;;
+    botOptionsFindly.userIdentity &#x3D; this.userInfo.emailId; // Provide users email id here
+    botOptionsFindly.client &#x3D; &#x27;botbuilder&#x27;;
+    if (
+      this.workflowService.selectedApp() &amp;&amp;
+      (this.workflowService.selectedApp().channels || []).length &amp;&amp;
+      this.workflowService.selectedApp().channels[0].app
+    ) {
+      botOptionsFindly.clientId &#x3D;
+        this.workflowService.selectedApp().channels[0].app.clientId;
+    }
+    if (
+      this.workflowService.selectedApp() &amp;&amp;
+      (this.workflowService.selectedApp().searchIndexes || []).length &amp;&amp;
+      this.workflowService.selectedApp().searchIndexes[0]._id
+    ) {
+      botOptionsFindly.searchIndexID &#x3D;
+        this.workflowService.selectedApp().searchIndexes[0]._id;
+    }
+    // botOptionsFindly.indexPipelineId &#x3D; this.workflowService.selectedIndexPipeline()||&#x27;&#x27;;
+    // botOptionsFindly.queryPipelineId &#x3D; this.queryPipelineId||&#x27;&#x27;;
+    botOptionsFindly.botInfo &#x3D; {
+      chatBot: this.workflowService.selectedApp().name,
+      taskBotId: this.workflowService.selectedApp()._id,
+    }; // bot name is case sensitive
+    botOptionsFindly.assertionFn &#x3D; this.assertion;
+    botOptionsFindly.koreAPIUrl &#x3D;
+      this.endpointservice.getServiceInfo(&#x27;jwt.grunt.generate&#x27;).endpoint;
+    // To modify the web socket url use the following option
+    botOptionsFindly.reWriteSocketURL &#x3D; {
+      protocol: &#x27;wss&#x27;,
+      hostname: window.appConfig.API_SERVER_URL.replace(&#x27;https://&#x27;, &#x27;&#x27;),
+    };
+    // useful for connecting to non-secure urls like localhost during development (not to be used in environments)
+    if (window.appConfig.API_SERVER_URL.indexOf(&#x27;http://&#x27;) !&#x3D;&#x3D; -1) {
+      botOptionsFindly.reWriteSocketURL &#x3D; {
+        protocol: &#x27;ws&#x27;,
+        hostname: window.appConfig.API_SERVER_URL.replace(&#x27;http://&#x27;, &#x27;&#x27;),
+      };
+    }
+    const findlyConfig: any &#x3D; {
+      botOptions: botOptionsFindly,
+      viaSocket: true,
+      pickersConfig: {
+        showDatePickerIcon: false, //set true to show datePicker icon
+        showDateRangePickerIcon: false, //set true to show dateRangePicker icon
+        showClockPickerIcon: false, //set true to show clockPicker icon
+        showTaskMenuPickerIcon: true, //set true to show TaskMenu Template icon
+        showradioOptionMenuPickerIcon: false, //set true to show Radio Option Template icon
+      },
+    };
+    this.findlyBusinessConfig &#x3D; this;
+    findlyConfig.findlyBusinessConfig &#x3D; this.findlyBusinessConfig;
+    this.distroySearch();
+    this.clearBodyClasses();
+    this.searchInstance &#x3D; new FindlySDK(findlyConfig);
+    const currentSubscriptionPlan &#x3D;
+      this.appSelectionService?.currentsubscriptionPlanDetails;
+    const isFreePlan &#x3D;
+      currentSubscriptionPlan?.subscription?.planName &#x3D;&#x3D;&#x3D; &#x27;Free&#x27; ? true : false;
+    const searchConfig &#x3D; {
+      ...this.searchExperienceConfig,
+      freePlan: isFreePlan,
+    };
+    this.searchInstance.showSearch(findlyConfig.botOptions, searchConfig, true);
+    this.resetFindlySearchSDK(this.workflowService.selectedApp());
+    $(&#x27;body&#x27;).addClass(&#x27;sdk-body&#x27;);
+  }
+
+  assertion(options, callback) {
+    this.service?.invoke(&#x27;bt.post.sts&#x27;, {}).subscribe((res) &#x3D;&gt; {
+      const data &#x3D; res;
+      options.assertion &#x3D; data.jwt;
+      callback(null, options);
+    });
+  }
+
+  resetFindlySearchSDK(appData) {
+    if (this.searchInstance &amp;&amp; this.searchInstance.setAPIDetails) {
+      if (
+        appData &amp;&amp;
+        appData.searchIndexes &amp;&amp;
+        appData.searchIndexes.length &amp;&amp;
+        appData.searchIndexes[0]._id
+      ) {
+        const searchData &#x3D; {
+          _id: appData.searchIndexes[0]._id,
+          pipelineId: this.workflowService.selectedQueryPipeline()
+            ? this.workflowService.selectedQueryPipeline()._id
+            : &#x27;&#x27;,
+          indexpipelineId: this.workflowService.selectedIndexPipeline() || &#x27;&#x27;,
+        };
+        window.selectedFindlyApp &#x3D; searchData;
+        this.searchInstance.setAPIDetails();
+      }
+    }
+  }
+
+  clearBodyClasses() {
+    // have to clear the classes set for Top-down
+    if ($(&#x27;body&#x27;).hasClass(&#x27;top-down&#x27;)) {
+      $(&#x27;body&#x27;).removeClass(&#x27;top-down&#x27;);
+      $(&#x27;body&#x27;).removeClass(&#x27;sdk-top-down-interface&#x27;);
+      $(&#x27;body&#x27;).removeClass(&#x27;sdk-body&#x27;);
+    }
+  }
+
+  /******************** Search SDK **********************/
+
+  distroyTopDownSearch() {
+    if (this.topDownSearchInstance &amp;&amp; this.topDownSearchInstance.destroy) {
+      this.topDownSearchInstance.destroy();
+      $(&#x27;body&#x27;).removeClass(&#x27;sdk-body&#x27;);
+    }
+  }
+
+  initTopDownSearch() {
+    const botOptionsFindly: any &#x3D; {};
+    botOptionsFindly.logLevel &#x3D; &#x27;debug&#x27;;
+    botOptionsFindly.userIdentity &#x3D; this.userInfo.emailId; // Provide users email id here
+    botOptionsFindly.client &#x3D; &#x27;botbuilder&#x27;;
+    botOptionsFindly.botInfo &#x3D; {
+      chatBot: this.workflowService.selectedApp().name,
+      taskBotId: this.workflowService.selectedApp()._id,
+    }; // bot name is case sensitive
+    if (
+      this.workflowService.selectedApp() &amp;&amp;
+      (this.workflowService.selectedApp().channels || []).length &amp;&amp;
+      this.workflowService.selectedApp().channels[0].app
+    ) {
+      botOptionsFindly.clientId &#x3D;
+        this.workflowService.selectedApp().channels[0].app.clientId;
+    }
+    if (
+      this.workflowService.selectedApp() &amp;&amp;
+      (this.workflowService.selectedApp().searchIndexes || []).length &amp;&amp;
+      this.workflowService.selectedApp().searchIndexes[0]._id
+    ) {
+      botOptionsFindly.searchIndexID &#x3D;
+        this.workflowService.selectedApp().searchIndexes[0]._id;
+    }
+    // botOptionsFindly.indexPipelineId &#x3D; this.workflowService.selectedIndexPipeline()||&#x27;&#x27;;
+    // botOptionsFindly.queryPipelineId &#x3D; this.queryPipelineId||&#x27;&#x27;;
+    botOptionsFindly.assertionFn &#x3D; this.assertion;
+    botOptionsFindly.koreAPIUrl &#x3D;
+      this.endpointservice.getServiceInfo(&#x27;jwt.grunt.generate&#x27;).endpoint;
+    // To modify the web socket url use the following option
+    botOptionsFindly.reWriteSocketURL &#x3D; {
+      protocol: &#x27;wss&#x27;,
+      hostname: window.appConfig.API_SERVER_URL.replace(&#x27;https://&#x27;, &#x27;&#x27;),
+    };
+    // useful for connecting to non-secure urls like localhost during development (not to be used in environments)
+    if (window.appConfig.API_SERVER_URL.indexOf(&#x27;http://&#x27;) !&#x3D;&#x3D; -1) {
+      botOptionsFindly.reWriteSocketURL &#x3D; {
+        protocol: &#x27;ws&#x27;,
+        hostname: window.appConfig.API_SERVER_URL.replace(&#x27;http://&#x27;, &#x27;&#x27;),
+      };
+    }
+    const findlyConfig: any &#x3D; {
+      botOptions: botOptionsFindly,
+      viaSocket: true,
+      pickersConfig: {
+        showDatePickerIcon: false, //set true to show datePicker icon
+        showDateRangePickerIcon: false, //set true to show dateRangePicker icon
+        showClockPickerIcon: false, //set true to show clockPicker icon
+        showTaskMenuPickerIcon: true, //set true to show TaskMenu Template icon
+        showradioOptionMenuPickerIcon: false, //set true to show Radio Option Template icon
+      },
+    };
+    this.findlyBusinessConfig &#x3D; this;
+    findlyConfig.findlyBusinessConfig &#x3D; this.findlyBusinessConfig;
+    this.distroyTopDownSearch();
+
+    this.topDownSearchInstance &#x3D; new FindlySDK(findlyConfig);
+    this.resetFindlyTopDownSearchSDK(this.workflowService.selectedApp());
+    const currentSubscriptionPlan &#x3D;
+      this.appSelectionService?.currentsubscriptionPlanDetails;
+    const isFreePlan &#x3D;
+      currentSubscriptionPlan?.subscription?.planName &#x3D;&#x3D;&#x3D; &#x27;Free&#x27; ? true : false;
+    const searchConfig &#x3D; {
+      ...this.searchExperienceConfig,
+      freePlan: isFreePlan,
+    };
+    this.topDownSearchInstance.initializeTopDown(
+      findlyConfig,
+      &#x27;top-down-search-background-div&#x27;,
+      searchConfig
+    );
+    $(&#x27;body&#x27;).addClass(&#x27;sdk-body&#x27;);
+  }
+
+  showHideTopDownSearch(show) {
+    if (show) {
+      $(&#x27;.appContent&#x27;).append(
+        &#x27;&lt;div class&#x3D;&quot;top-down-search-background-div&quot;&gt;&lt;div class&#x3D;&quot;bgDullOpacity&quot;&gt;&lt;/div&gt;&lt;/div&gt;&#x27;
+      );
+      $(&#x27;.top-down-search-background-div&#x27;).show();
+      $(&#x27;.top-down-search-background-div&#x27;)
+        .off(&#x27;click&#x27;)
+        .on(&#x27;click&#x27;, (event) &#x3D;&gt; {
+          if (
+            !event.target.closest(&#x27;.topdown-search-main-container&#x27;) &amp;&amp;
+            !event.target.closest(&#x27;.filters-sec&#x27;) &amp;&amp;
+            !event.target.closest(&#x27;.filters-reset&#x27;)
+          ) {
+            this.showHideTopDownSearch(false);
+          }
+        });
+      $(&#x27;.appContent&#x27;).append(
+        &#x27;&lt;div class&#x3D;&quot;close-top-down-search-outer&quot;&gt;&lt;img class&#x3D;&quot;close-top-down-search&quot; src&#x3D;&quot;data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTAiIGhlaWdodD0iMTAiIHZpZXdCb3g9IjAgMCAxMCAxMCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTUuNzA3MDMgNS4wMDAwOUw5Ljg1MzU1IDAuODUzNTUzQzEwLjA0ODggMC42NTgyOTEgMTAuMDQ4OCAwLjM0MTcwOSA5Ljg1MzU1IDAuMTQ2NDQ3QzkuNjU4MjkgLTAuMDQ4ODE1NyA5LjM0MTcxIC0wLjA0ODgxNTQgOS4xNDY0NSAwLjE0NjQ0N0w0Ljk5OTkxIDQuMjkzTDAuODUzNTU1IDAuMTQ2ODE0QzAuNjU4Mjg4IC0wLjA0ODQ0NDQgMC4zNDE3MDYgLTAuMDQ4NDM4IDAuMTQ2NDQ4IDAuMTQ2ODI4Qy0wLjA0ODgxMDQgMC4zNDIwOTQgLTAuMDQ4ODA0IDAuNjU4Njc3IDAuMTQ2NDYyIDAuODUzOTM1TDQuMjkyOCA1LjAwMDFMMC4xNDY0NDcgOS4xNDY0NkMtMC4wNDg4MTU3IDkuMzQxNzMgLTAuMDQ4ODE1NSA5LjY1ODMxIDAuMTQ2NDQ3IDkuODUzNTdDMC4zNDE3MDkgMTAuMDQ4OCAwLjY1ODI5MiAxMC4wNDg4IDAuODUzNTUzIDkuODUzNTdMNC45OTk5MiA1LjcwNzJMOS4xNDY0NiA5Ljg1MzU3QzkuMzQxNzMgMTAuMDQ4OCA5LjY1ODMxIDEwLjA0ODggOS44NTM1NyA5Ljg1MzU1QzEwLjA0ODggOS42NTgyOSAxMC4wNDg4IDkuMzQxNzEgOS44NTM1NSA5LjE0NjQ1TDUuNzA3MDMgNS4wMDAwOVoiIGZpbGw9IiMyMDIxMjQiLz4KPC9zdmc+Cg&#x3D;&#x3D;&quot;&gt;&lt;/div&gt;&#x27;
+      );
+      $(&#x27;.close-top-down-search-outer&#x27;)
+        .off(&#x27;click&#x27;)
+        .on(&#x27;click&#x27;, () &#x3D;&gt; {
+          this.showHideTopDownSearch(false);
+        });
+      $(&#x27;.start-search-icon-div&#x27;).addClass(&#x27;active&#x27;);
+      $(&#x27;.search-container&#x27;).addClass(&#x27;search-container-adv&#x27;);
+      $(&#x27;.search-container&#x27;).addClass(&#x27;add-new-result&#x27;);
+      this.initTopDownSearch();
+      $(&#x27;#test-btn-launch-sdk&#x27;).addClass(&#x27;active&#x27;);
+      $(&#x27;#open-chat-window-no-clicks&#x27;).css({ display: &#x27;block&#x27; });
+      this.headerService.isSDKOpen &#x3D; true;
+    } else {
+      $(&#x27;.top-down-search-background-div&#x27;).remove();
+      $(&#x27;.close-top-down-search-outer&#x27;).remove();
+      $(&#x27;body&#x27;).removeClass(&#x27;sdk-top-down-interface&#x27;);
+      $(&#x27;.start-search-icon-div&#x27;).removeClass(&#x27;active&#x27;);
+      this.bridgeDataInsights &#x3D; true;
+      this.addNewResult &#x3D; true;
+      this.showInsightFull &#x3D; false;
+      this.distroyTopDownSearch();
+      $(&#x27;#test-btn-launch-sdk&#x27;).removeClass(&#x27;active&#x27;);
+      $(&#x27;#open-chat-window-no-clicks&#x27;).css({ display: &#x27;none&#x27; });
+      this.headerService.isSDKOpen &#x3D; false;
+    }
+  }
+
+  resetFindlyTopDownSearchSDK(appData) {
+    if (
+      this.topDownSearchInstance &amp;&amp;
+      this.topDownSearchInstance.setAPIDetails
+    ) {
+      if (
+        appData &amp;&amp;
+        appData.searchIndexes &amp;&amp;
+        appData.searchIndexes.length &amp;&amp;
+        appData.searchIndexes[0]._id
+      ) {
+        const searchData &#x3D; {
+          _id: appData.searchIndexes[0]._id,
+          pipelineId: this.workflowService.selectedQueryPipeline()
+            ? this.workflowService.selectedQueryPipeline()._id
+            : &#x27;&#x27;,
+          indexpipelineId: this.workflowService.selectedIndexPipeline() || &#x27;&#x27;,
+        };
+        window.selectedFindlyApp &#x3D; searchData;
+        this.topDownSearchInstance.setAPIDetails();
+      }
+    }
+  }
+}
+</code></pre>
+    </div>
+
+    <div class="tab-pane fade " id="c-templateData">
+        <pre class="line-numbers"><code class="language-html"></code></pre>
+    </div>
+
+    <div class="tab-pane fade " id="c-styleData">
+                <p class="comment">
+                    <code>./search-sdk.component.scss</code>
+                </p>
+                <pre class="line-numbers"><code class="language-scss">@import &#x27;variables/variables.scss&#x27;;
+::ng-deep {
+  .toShowAppHeader {
+    display: none;
+  }
+  .appContent {
+    padding-right: 0;
+    padding-top: 0;
+    padding-left: 0px;
+    .botContainer {
+      .table-list-content {
+        .kr-sg-data-table {
+          .table-action-header {
+          }
+
+          .table-content {
+            .table-scroll-perfect {
+              .content-body {
+                cursor: default;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+  .autoSearchTools {
+    display: none;
+  }
+  .trainBlock {
+    display: none;
+  }
+  .headerTabsContainer {
+    display: none;
+  }
+  .myappname {
+    display: none;
+  }
+  .no-landing-screen {
+    display: none;
+    transition: 0.1s all ease;
+    &amp;:hover {
+      // filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
+      &amp;::before {
+        display: block !important;
+      }
+    }
+  }
+  .app-dropdown {
+    display: none;
+  }
+  .test-button {
+    display: none;
+  }
+  .new-train-btn {
+    visibility: hidden;
+  }
+  .notification-dropdown {
+    visibility: hidden;
+  }
+  .dropdown-toggle.dropdown-input.notification {
+    pointer-events: none;
+  }
+  .notification-block {
+    visibility: hidden;
+  }
+  .show-search1 {
+    visibility: hidden;
+  }
+  &amp;.appSelected {
+    .trainBlock {
+      display: block !important;
+    }
+    .headerTabsContainer {
+      display: block !important;
+    }
+    .myappname {
+      display: block !important;
+    }
+    .toShowAppHeader {
+      display: block !important;
+    }
+    .appContent {
+      padding-left: 245px;
+      display: block;
+      padding-right: 0;
+      padding-top: 61px;
+    }
+    .autoSearchTools {
+      display: list-item;
+    }
+    .landing-screen {
+      display: none;
+    }
+    .no-landing-screen {
+      display: block !important;
+    }
+    .app-dropdown {
+      display: block !important;
+    }
+    .test-button {
+      display: block !important;
+    }
+    .notification-dropdown {
+      visibility: visible !important;
+    }
+    .dropdown-toggle.dropdown-input.notification {
+      pointer-events: unset;
+    }
+    .new-train-btn {
+      visibility: visible !important;
+    }
+    .notification-block {
+      visibility: visible !important;
+    }
+    .show-search1 {
+      visibility: visible !important;
+    }
+    // .findlyHeader {
+    //     .navbar-nav {
+    //         .nav-item.workspace-data {
+    //             .workspace-dropdwon {
+    //                 .workspace-btn {
+    //                     padding: 0 !important;
+    //                     border: 0 !important;
+    //                     .workspace-active {
+    //                         .alphabet-name{
+    //                             margin: 0 !important;
+    //                         }
+    //                         .name-workspace{
+    //                             display: none;
+    //                         }
+    //                         i{
+    //                             display: none;
+    //                         }
+    //                     }
+    //                 }
+    //             }
+    //         }
+    //     }
+    // }
+  }
+}
+// app-content{
+// &amp;.container-fluid{
+// 	@extend %noPadding;
+// }
+// }
+</code></pre>
+    </div>
+
+    <div class="tab-pane fade " id="c-tree">
+        <div id="tree-container"></div>
+        <div class="tree-legend">
+            <div class="title">
+                <b>Legend</b>
+            </div>
+            <div>
+                <div class="color htmlelement"></div><span>Html element</span>
+            </div>
+            <div>
+                <div class="color component"></div><span>Component</span>
+            </div>
+            <div>
+                <div class="color directive"></div><span>Html element with directive</span>
+            </div>
+        </div>
+    </div>
+
+    
+</div>
+
+<script src="../js/libs/vis.min.js"></script>
+<script src="../js/libs/htmlparser.js"></script>
+<script src="../js/libs/deep-iterator.js"></script>
+<script>
+        var COMPONENT_TEMPLATE = '<div></div>'
+    var COMPONENTS = [{'name': 'ActionsComponent', 'selector': 'app-actions'},{'name': 'AddAlternateQuestionComponent', 'selector': 'app-add-alternate-question'},{'name': 'AddAltFaqComponent', 'selector': 'app-add-alt-faq'},{'name': 'AddFaqComponent', 'selector': 'app-add-faq'},{'name': 'AddResultComponent', 'selector': 'app-add-result'},{'name': 'AddResultComponent', 'selector': 'app-add-result'},{'name': 'AddStructuredDataComponent', 'selector': 'app-add-structured-data'},{'name': 'AnalyticsDropdownComponent', 'selector': 'app-analytics-dropdown'},{'name': 'AnnotoolComponent', 'selector': 'kr-annotool'},{'name': 'AppComponent', 'selector': 'app-root'},{'name': 'AppExperimentsComponent', 'selector': 'app-app-experiments'},{'name': 'AppsComponent', 'selector': 'app-apps'},{'name': 'AutocompleteMultiChipComponent', 'selector': 'app-autocomplete-multi-chip'},{'name': 'BodyComponent', 'selector': 'app-body'},{'name': 'BotActionsComponent', 'selector': 'app-bot-actions'},{'name': 'BotActionsComponent', 'selector': 'app-bot-actions'},{'name': 'BusinessRulesComponent', 'selector': 'app-business-rules'},{'name': 'ConfirmationComponent', 'selector': 'kr-confirmation'},{'name': 'ConfirmationDialogComponent', 'selector': 'app-confirmation-dialog'},{'name': 'ConnectorsComponent', 'selector': 'app-connectors'},{'name': 'ContentComponent', 'selector': 'app-content'},{'name': 'CredentialsListComponent', 'selector': 'app-credentials-list'},{'name': 'CustomConfigFormComponent', 'selector': 'app-custom-config-form'},{'name': 'CustomConfigListComponent', 'selector': 'app-custom-config-list'},{'name': 'CustomConfigurationsComponent', 'selector': 'app-custom-configurations'},{'name': 'CustomMarkdownEditorComponent', 'selector': 'md-editor'},{'name': 'DashboardComponent', 'selector': 'app-dashboard'},{'name': 'DateRangePickerComponent', 'selector': 'app-date-range-picker'},{'name': 'DemoComponent', 'selector': 'app-demo'},{'name': 'EditorUrlDialogComponent', 'selector': 'app-editor-url-dialog'},{'name': 'EmptyScreenComponent', 'selector': 'app-empty-screen'},{'name': 'FacetsComponent', 'selector': 'app-facets'},{'name': 'FaqsComponent', 'selector': 'faqs-source'},{'name': 'FieldManagementComponent', 'selector': 'app-field-management'},{'name': 'GeneralSettingsComponent', 'selector': 'app-general-settings'},{'name': 'GroupInputComponent', 'selector': 'app-group-input'},{'name': 'HeaderComponent', 'selector': 'app-header'},{'name': 'HighlightingComponent', 'selector': 'app-highlighting'},{'name': 'ImportFaqsModalComponent', 'selector': 'app-import-faqs-modal'},{'name': 'IndexComponent', 'selector': 'app-index'},{'name': 'IndexComponent', 'selector': 'app-index'},{'name': 'IndexConfigurationSettingsComponent', 'selector': 'app-index-configuration-settings'},{'name': 'IndexFieldsComfirmationDialogComponent', 'selector': 'app-index-fields-comfirmation-dialog'},{'name': 'InsightsComponent', 'selector': 'app-insights'},{'name': 'InvoicesComponent', 'selector': 'app-invoices'},{'name': 'KRModalComponent', 'selector': 'kr-modal'},{'name': 'ListFieldsComponent', 'selector': 'app-list-fields'},{'name': 'LoaderComponent', 'selector': 'app-loader'},{'name': 'MainMenuComponent', 'selector': 'app-mainmenu'},{'name': 'ManageIntentComponent', 'selector': 'app-manage-intent'},{'name': 'MarkdownEditorResizeSensorComponent', 'selector': 'md-editor-resize-sensor'},{'name': 'MetricsComponent', 'selector': 'app-metrics'},{'name': 'OnboardingComponent', 'selector': 'app-onboarding'},{'name': 'PaginationComponent', 'selector': 'app-pagination'},{'name': 'PdfAnnotationComponent', 'selector': 'kr-pdf-annotation'},{'name': 'PresentableComponent', 'selector': 'app-presentable'},{'name': 'PricingComponent', 'selector': 'app-pricing'},{'name': 'RangeSliderComponent', 'selector': 'app-range-slider'},{'name': 'RangeSliderSearchExperienceComponent', 'selector': 'app-range-slider-search-experience'},{'name': 'RecordPaginationComponent', 'selector': 'app-record-pagination'},{'name': 'ResultInsightsComponent', 'selector': 'app-result-insights'},{'name': 'ResultRankingComponent', 'selector': 'app-result-ranking'},{'name': 'ResultRankingComponent', 'selector': 'app-result-ranking'},{'name': 'ResultsRulesComponent', 'selector': 'app-results-rules'},{'name': 'ResultTemplatesComponent', 'selector': 'app-result-templates'},{'name': 'RulesTableComponent', 'selector': 'app-rules-table'},{'name': 'SchedulerComponent', 'selector': 'app-scheduler'},{'name': 'SearchExperienceComponent', 'selector': 'app-search-experience'},{'name': 'SearchFieldPropertiesComponent', 'selector': 'app-search-field-properties'},{'name': 'SearchFilterComponent', 'selector': 'app-search-filter'},{'name': 'SearchInsightsComponent', 'selector': 'app-search-insights'},{'name': 'SearchInterfaceComponent', 'selector': 'app-search-interface'},{'name': 'SearchRelevanceComponent', 'selector': 'app-search-relevance'},{'name': 'SearchSdkComponent', 'selector': '.appContent'},{'name': 'SearchSettingsComponent', 'selector': 'app-search-settings'},{'name': 'SettingsComponent', 'selector': 'app-settings'},{'name': 'SettingsComponent', 'selector': 'app-settings'},{'name': 'SliderComponentComponent', 'selector': 'app-slider-component'},{'name': 'SmallTalkComponent', 'selector': 'app-small-talk'},{'name': 'SnippetsComponent', 'selector': 'app-snippets'},{'name': 'SourcesComponent', 'selector': 'app-sources'},{'name': 'SpellCorrectionComponent', 'selector': 'app-spell-correction'},{'name': 'StatusDockerComponent', 'selector': 'app-status-docker'},{'name': 'StopWordsComponent', 'selector': 'app-stop-words'},{'name': 'StructuredDataComponent', 'selector': 'app-structured-data'},{'name': 'StructuredDataComponent', 'selector': 'app-structured-data'},{'name': 'StructuredDataStatusModalComponent', 'selector': 'app-structured-data-status-modal'},{'name': 'SummaryComponent', 'selector': 'app-summary'},{'name': 'SummaryModalComponent', 'selector': 'kr-summary-modal'},{'name': 'SynonymsComponent', 'selector': 'app-synonyms'},{'name': 'TagsInpComponent', 'selector': 'app-tags-inp'},{'name': 'TeamManagementComponent', 'selector': 'app-team-management'},{'name': 'TraitsComponent', 'selector': 'app-traits'},{'name': 'UpgradePlanComponent', 'selector': 'app-upgrade-plan'},{'name': 'UsageLogComponent', 'selector': 'app-usage-log'},{'name': 'UserEngagementComponent', 'selector': 'app-user-engagement'},{'name': 'UserGuideComponent', 'selector': 'kr-user-guide'},{'name': 'UseronboardingJourneyComponent', 'selector': 'app-useronboarding-journey'},{'name': 'WeightsComponent', 'selector': 'app-weights'}];
+    var DIRECTIVES = [{'name': 'ClickOutSideDirective', 'selector': '[clickOutside]'},{'name': 'EllipsisActiveDirective', 'selector': '[appEllipsisActive]'},{'name': 'ScrollSpyDirective', 'selector': '[scrollSpy]'},{'name': 'SelectTextDirective', 'selector': '[appSelectText]'}];
+    var ACTUAL_COMPONENT = {'name': 'SearchSdkComponent'};
+</script>
+<script src="../js/tree.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+          <label class="dark-mode-switch">
+               <input type="checkbox">
+               <span class="slider">
+                    <svg class="slider-icon" viewBox="0 0 24 24" fill="none" height="20" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" width="20" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path>
+                    </svg>
+               </span>
+          </label>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 1;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'component';
+            var COMPODOC_CURRENT_PAGE_URL = 'SearchSdkComponent.html';
+            var MAX_SEARCH_RESULTS = 15;
+       </script>
+
+       <script src="../js/libs/custom-elements.min.js"></script>
+       <script src="../js/libs/lit-html.js"></script>
+
+       <script src="../js/menu-wc.js" defer></script>
+       <script nomodule src="../js/menu-wc_es5.js" defer></script>
+
+       <script src="../js/libs/bootstrap-native.js"></script>
+
+       <script src="../js/libs/es6-shim.min.js"></script>
+       <script src="../js/libs/EventDispatcher.js"></script>
+       <script src="../js/libs/promise.min.js"></script>
+       <script src="../js/libs/zepto.min.js"></script>
+
+       <script src="../js/compodoc.js"></script>
+
+       <script src="../js/tabs.js"></script>
+       <script src="../js/menu.js"></script>
+       <script src="../js/libs/clipboard.min.js"></script>
+       <script src="../js/libs/prism.js"></script>
+       <script src="../js/sourceCode.js"></script>
+          <script src="../js/search/search.js"></script>
+          <script src="../js/search/lunr.min.js"></script>
+          <script src="../js/search/search-lunr.js"></script>
+          <script src="../js/search/search_index.js"></script>
+       <script src="../js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>

@@ -1,0 +1,1875 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>koreai documentation</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	   <link rel="stylesheet" href="../styles/style.css">
+        <link rel="stylesheet" href="../styles/dark.css">
+    </head>
+    <body>
+
+        <div class="navbar navbar-default navbar-fixed-top visible-xs">
+            <a href="../" class="navbar-brand">koreai documentation</a>
+            <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="hidden-xs menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content component">
+                   <div class="content-data">
+
+
+
+
+<ol class="breadcrumb">
+  <li>Components</li>
+  <li
+  >
+  ImportFaqsModalComponent</li>
+</ol>
+
+<ul class="nav nav-tabs" role="tablist">
+        <li class="active">
+            <a href="#info" role="tab" id="info-tab" data-toggle="tab" data-link="info">Info</a>
+        </li>
+        <li >
+            <a href="#source" role="tab" id="source-tab" data-toggle="tab" data-link="source">Source</a>
+        </li>
+        <li >
+            <a href="#templateData" role="tab" id="templateData-tab" data-toggle="tab" data-link="template">Template</a>
+        </li>
+        <li >
+            <a href="#styleData" role="tab" id="styleData-tab" data-toggle="tab" data-link="style">Styles</a>
+        </li>
+        <li >
+            <a href="#tree" role="tab" id="tree-tab" data-toggle="tab" data-link="dom-tree">DOM Tree</a>
+        </li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane fade active in" id="c-info"><p class="comment">
+    <h3>File</h3>
+</p>
+<p class="comment">
+    <code>apps/searchassist/src/app/components/import-faqs-modal/import-faqs-modal.component.ts</code>
+</p>
+
+
+
+
+    <p class="comment">
+        <h3>Implements</h3>
+    </p>
+    <p class="comment">
+                    <code><a href="https://angular.io/api/core/OnInit" target="_blank" >OnInit</a></code>
+                    <code><a href="https://angular.io/api/core/OnDestroy" target="_blank" >OnDestroy</a></code>
+    </p>
+
+
+<section>
+    <h3>Metadata</h3>
+    <table class="table table-sm table-hover metadata">
+        <tbody>
+
+
+
+
+
+
+
+
+
+
+
+            <tr>
+                <td class="col-md-3">selector</td>
+                <td class="col-md-9"><code>app-import-faqs-modal</code></td>
+            </tr>
+
+            <tr>
+                <td class="col-md-3">styleUrls</td>
+                <td class="col-md-9"><code>./import-faqs-modal.component.scss</code></td>
+            </tr>
+
+
+
+            <tr>
+                <td class="col-md-3">templateUrl</td>
+                <td class="col-md-9"><code>./import-faqs-modal.component.html</code></td>
+            </tr>
+
+
+
+
+
+
+
+
+        </tbody>
+    </table>
+</section>
+
+    <section>
+    <h3 id="index">Index</h3>
+    <table class="table table-sm table-bordered index-table">
+        <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Properties</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#data" >data</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#dialogRef" >dialogRef</a>
+                            </li>
+                            <li>
+                                <a href="#errorMessage" >errorMessage</a>
+                            </li>
+                            <li>
+                                <a href="#fileData" >fileData</a>
+                            </li>
+                            <li>
+                                <a href="#fileName" >fileName</a>
+                            </li>
+                            <li>
+                                <a href="#importPayload" >importPayload</a>
+                            </li>
+                            <li>
+                                <a href="#importProgress" >importProgress</a>
+                            </li>
+                            <li>
+                                <a href="#params" >params</a>
+                            </li>
+                            <li>
+                                <a href="#polling" >polling</a>
+                            </li>
+                            <li>
+                                <a href="#selectedApp" >selectedApp</a>
+                            </li>
+                            <li>
+                                <a href="#showSteps" >showSteps</a>
+                            </li>
+                            <li>
+                                <a href="#step" >step</a>
+                            </li>
+                            <li>
+                                <a href="#uploader" >uploader</a>
+                            </li>
+                            <li>
+                                <a href="#validExtensions" >validExtensions</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#workflowService" >workflowService</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Methods</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#close" >close</a>
+                            </li>
+                            <li>
+                                <a href="#exportFile" >exportFile</a>
+                            </li>
+                            <li>
+                                <a href="#fileOverBase" >fileOverBase</a>
+                            </li>
+                            <li>
+                                <a href="#fileSelect" >fileSelect</a>
+                            </li>
+                            <li>
+                                <a href="#getFaqStatus" >getFaqStatus</a>
+                            </li>
+                            <li>
+                                <a href="#ngOnDestroy" >ngOnDestroy</a>
+                            </li>
+                            <li>
+                                <a href="#ngOnInit" >ngOnInit</a>
+                            </li>
+                            <li>
+                                <a href="#removeFile" >removeFile</a>
+                            </li>
+                            <li>
+                                <a href="#startImport" >startImport</a>
+                            </li>
+                            <li>
+                                <a href="#updateError" >updateError</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+
+
+
+
+        </tbody>
+    </table>
+</section>
+
+    <section>
+    <h3 id="constructor">Constructor</h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+<code>constructor(fUpload: <a href="../injectables/FileUploadService.html" target="_self">FileUploadService</a>, service: <a href="../injectables/ServiceInvokerService.html" target="_self">ServiceInvokerService</a>, workflowService: <a href="../injectables/WorkflowService.html" target="_self">WorkflowService</a>, authService: <a href="../injectables/AuthService.html" target="_self">AuthService</a>, http: <a href="https://angular.io/api/common/http/HttpClient" target="_blank">HttpClient</a>, kgService: <a href="../injectables/KgDataService.html" target="_self">KgDataService</a>, dialogRef: <a href="../components/ImportFaqsModalComponent.html" target="_self">MatDialogRef&lt;ImportFaqsModalComponent&gt;</a>, dockService: <a href="../injectables/DockStatusService.html" target="_self">DockStatusService</a>, notificationService: <a href="../injectables/NotificationService.html" target="_self">NotificationService</a>, data: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>)</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="47" class="link-to-prism">apps/searchassist/src/app/components/import-faqs-modal/import-faqs-modal.component.ts:47</a></div>
+                            </td>
+                        </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                            <div>
+                                    <b>Parameters :</b>
+                                    <table class="params">
+                                        <thead>
+                                            <tr>
+                                                <td>Name</td>
+                                                    <td>Type</td>
+                                                <td>Optional</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                                <tr>
+                                                        <td>fUpload</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/FileUploadService.html" target="_self" >FileUploadService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>service</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/ServiceInvokerService.html" target="_self" >ServiceInvokerService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>workflowService</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/WorkflowService.html" target="_self" >WorkflowService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>authService</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/AuthService.html" target="_self" >AuthService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>http</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="https://angular.io/api/common/http/HttpClient" target="_blank" >HttpClient</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>kgService</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/KgDataService.html" target="_self" >KgDataService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>dialogRef</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../components/ImportFaqsModalComponent.html" target="_self" >MatDialogRef&lt;ImportFaqsModalComponent&gt;</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>dockService</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/DockStatusService.html" target="_self" >DockStatusService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>notificationService</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/NotificationService.html" target="_self" >NotificationService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>data</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                        </tbody>
+                                    </table>
+                            </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+</section>
+
+
+
+
+
+    <section>
+    
+    <h3 id="methods">
+        Methods
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="close"></a>
+                    <span class="name">
+                        <span ><b>close</b></span>
+                        <a href="#close"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>close()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="210"
+                            class="link-to-prism">apps/searchassist/src/app/components/import-faqs-modal/import-faqs-modal.component.ts:210</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="exportFile"></a>
+                    <span class="name">
+                        <span ><b>exportFile</b></span>
+                        <a href="#exportFile"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>exportFile(ext)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="79"
+                            class="link-to-prism">apps/searchassist/src/app/components/import-faqs-modal/import-faqs-modal.component.ts:79</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>ext</td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="fileOverBase"></a>
+                    <span class="name">
+                        <span ><b>fileOverBase</b></span>
+                        <a href="#fileOverBase"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>fileOverBase(e)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="148"
+                            class="link-to-prism">apps/searchassist/src/app/components/import-faqs-modal/import-faqs-modal.component.ts:148</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>e</td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="fileSelect"></a>
+                    <span class="name">
+                        <span ><b>fileSelect</b></span>
+                        <a href="#fileSelect"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>fileSelect(event)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="115"
+                            class="link-to-prism">apps/searchassist/src/app/components/import-faqs-modal/import-faqs-modal.component.ts:115</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>event</td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getFaqStatus"></a>
+                    <span class="name">
+                        <span ><b>getFaqStatus</b></span>
+                        <a href="#getFaqStatus"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>getFaqStatus(progressInt)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="152"
+                            class="link-to-prism">apps/searchassist/src/app/components/import-faqs-modal/import-faqs-modal.component.ts:152</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>progressInt</td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="ngOnDestroy"></a>
+                    <span class="name">
+                        <span ><b>ngOnDestroy</b></span>
+                        <a href="#ngOnDestroy"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>ngOnDestroy()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="214"
+                            class="link-to-prism">apps/searchassist/src/app/components/import-faqs-modal/import-faqs-modal.component.ts:214</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="ngOnInit"></a>
+                    <span class="name">
+                        <span ><b>ngOnInit</b></span>
+                        <a href="#ngOnInit"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>ngOnInit()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="62"
+                            class="link-to-prism">apps/searchassist/src/app/components/import-faqs-modal/import-faqs-modal.component.ts:62</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="removeFile"></a>
+                    <span class="name">
+                        <span ><b>removeFile</b></span>
+                        <a href="#removeFile"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>removeFile()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="68"
+                            class="link-to-prism">apps/searchassist/src/app/components/import-faqs-modal/import-faqs-modal.component.ts:68</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="startImport"></a>
+                    <span class="name">
+                        <span ><b>startImport</b></span>
+                        <a href="#startImport"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>startImport()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="188"
+                            class="link-to-prism">apps/searchassist/src/app/components/import-faqs-modal/import-faqs-modal.component.ts:188</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="updateError"></a>
+                    <span class="name">
+                        <span ><b>updateError</b></span>
+                        <a href="#updateError"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>updateError(text)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="74"
+                            class="link-to-prism">apps/searchassist/src/app/components/import-faqs-modal/import-faqs-modal.component.ts:74</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>text</td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+    <section>
+    
+    <h3 id="inputs">
+        Properties
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="data"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>data</b></span>
+                        <a href="#data"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <b>Decorators : </b>
+                        <br />
+                        <code>
+                            @Inject(MAT_DIALOG_DATA)<br />
+                        </code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="59" class="link-to-prism">apps/searchassist/src/app/components/import-faqs-modal/import-faqs-modal.component.ts:59</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="dialogRef"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>dialogRef</b></span>
+                        <a href="#dialogRef"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../components/ImportFaqsModalComponent.html" target="_self" >MatDialogRef&lt;ImportFaqsModalComponent&gt;</a></code>
+
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="56" class="link-to-prism">apps/searchassist/src/app/components/import-faqs-modal/import-faqs-modal.component.ts:56</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="errorMessage"></a>
+                    <span class="name">
+                        <span ><b>errorMessage</b></span>
+                        <a href="#errorMessage"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>&#x27;&#x27;</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="40" class="link-to-prism">apps/searchassist/src/app/components/import-faqs-modal/import-faqs-modal.component.ts:40</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="fileData"></a>
+                    <span class="name">
+                        <span ><b>fileData</b></span>
+                        <a href="#fileData"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>Subscription</code>
+
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="34" class="link-to-prism">apps/searchassist/src/app/components/import-faqs-modal/import-faqs-modal.component.ts:34</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="fileName"></a>
+                    <span class="name">
+                        <span ><b>fileName</b></span>
+                        <a href="#fileName"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="36" class="link-to-prism">apps/searchassist/src/app/components/import-faqs-modal/import-faqs-modal.component.ts:36</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="importPayload"></a>
+                    <span class="name">
+                        <span ><b>importPayload</b></span>
+                        <a href="#importPayload"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>literal type</code>
+
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="37" class="link-to-prism">apps/searchassist/src/app/components/import-faqs-modal/import-faqs-modal.component.ts:37</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="importProgress"></a>
+                    <span class="name">
+                        <span ><b>importProgress</b></span>
+                        <a href="#importProgress"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>0</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="38" class="link-to-prism">apps/searchassist/src/app/components/import-faqs-modal/import-faqs-modal.component.ts:38</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="params"></a>
+                    <span class="name">
+                        <span ><b>params</b></span>
+                        <a href="#params"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>literal type</code>
+
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="47" class="link-to-prism">apps/searchassist/src/app/components/import-faqs-modal/import-faqs-modal.component.ts:47</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="polling"></a>
+                    <span class="name">
+                        <span ><b>polling</b></span>
+                        <a href="#polling"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>Subscription</code>
+
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="39" class="link-to-prism">apps/searchassist/src/app/components/import-faqs-modal/import-faqs-modal.component.ts:39</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="selectedApp"></a>
+                    <span class="name">
+                        <span ><b>selectedApp</b></span>
+                        <a href="#selectedApp"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="32" class="link-to-prism">apps/searchassist/src/app/components/import-faqs-modal/import-faqs-modal.component.ts:32</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="showSteps"></a>
+                    <span class="name">
+                        <span ><b>showSteps</b></span>
+                        <a href="#showSteps"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/object" target="_blank" >object</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>{
+    proceed: [-1],
+    cancel: [-1, 0, 1, 2],
+    next: [0, 1, 2],
+    ok: [3, 4],
+  }</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="41" class="link-to-prism">apps/searchassist/src/app/components/import-faqs-modal/import-faqs-modal.component.ts:41</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="step"></a>
+                    <span class="name">
+                        <span ><b>step</b></span>
+                        <a href="#step"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="33" class="link-to-prism">apps/searchassist/src/app/components/import-faqs-modal/import-faqs-modal.component.ts:33</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="uploader"></a>
+                    <span class="name">
+                        <span ><b>uploader</b></span>
+                        <a href="#uploader"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>FileUploader</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>new FileUploader({ url: URL })</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="31" class="link-to-prism">apps/searchassist/src/app/components/import-faqs-modal/import-faqs-modal.component.ts:31</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="validExtensions"></a>
+                    <span class="name">
+                        <span ><b>validExtensions</b></span>
+                        <a href="#validExtensions"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>string[]</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>[&#x27;.csv&#x27;, &#x27;.json&#x27;]</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="35" class="link-to-prism">apps/searchassist/src/app/components/import-faqs-modal/import-faqs-modal.component.ts:35</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="workflowService"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>workflowService</b></span>
+                        <a href="#workflowService"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../injectables/WorkflowService.html" target="_self" >WorkflowService</a></code>
+
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="52" class="link-to-prism">apps/searchassist/src/app/components/import-faqs-modal/import-faqs-modal.component.ts:52</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+</section>
+
+</div>
+
+
+    <div class="tab-pane fade  tab-source-code" id="c-source">
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {
+  Component,
+  OnInit,
+  OnDestroy,
+  ElementRef,
+  ViewChild,
+  Inject,
+  ContentChild,
+} from &#x27;@angular/core&#x27;;
+import { FileUploadService } from &#x27;../../services/fileUploadService/file-upload.service&#x27;;
+import { HttpClient } from &#x27;@angular/common/http&#x27;;
+import { Subscription, interval } from &#x27;rxjs&#x27;;
+import { MatDialogRef, MAT_DIALOG_DATA } from &#x27;@angular/material/dialog&#x27;;
+import { FileUploader } from &#x27;ng2-file-upload&#x27;;
+import { DockStatusService } from &#x27;../../services/dockstatusService/dock-status.service&#x27;;
+
+import * as _ from &#x27;underscore&#x27;;
+import { ServiceInvokerService } from &#x27;@kore.apps/services/service-invoker.service&#x27;;
+import { AuthService } from &#x27;@kore.apps/services/auth.service&#x27;;
+import { WorkflowService } from &#x27;@kore.apps/services/workflow.service&#x27;;
+import { KgDataService } from &#x27;@kore.apps/services/componentsServices/kg-data.service&#x27;;
+import { NotificationService } from &#x27;@kore.apps/services/notification.service&#x27;;
+
+const URL &#x3D; &#x27;path_to_api&#x27;;
+@Component({
+  selector: &#x27;app-import-faqs-modal&#x27;,
+  templateUrl: &#x27;./import-faqs-modal.component.html&#x27;,
+  styleUrls: [&#x27;./import-faqs-modal.component.scss&#x27;],
+})
+export class ImportFaqsModalComponent implements OnInit, OnDestroy {
+  uploader: FileUploader &#x3D; new FileUploader({ url: URL });
+  selectedApp: any;
+  step: number;
+  fileData: Subscription;
+  validExtensions: string[] &#x3D; [&#x27;.csv&#x27;, &#x27;.json&#x27;];
+  fileName: string;
+  importPayload: {};
+  importProgress: any &#x3D; 0;
+  polling: Subscription;
+  errorMessage &#x3D; &#x27;&#x27;;
+  showSteps &#x3D; {
+    proceed: [-1],
+    cancel: [-1, 0, 1, 2],
+    next: [0, 1, 2],
+    ok: [3, 4],
+  };
+  params: {};
+
+  constructor(
+    private fUpload: FileUploadService,
+    private service: ServiceInvokerService,
+    public workflowService: WorkflowService,
+    private authService: AuthService,
+    private http: HttpClient,
+    private kgService: KgDataService,
+    public dialogRef: MatDialogRef&lt;ImportFaqsModalComponent&gt;,
+    private dockService: DockStatusService,
+    private notificationService: NotificationService,
+    @Inject(MAT_DIALOG_DATA) public data: any
+  ) {}
+
+  ngOnInit() {
+    this.selectedApp &#x3D; this.workflowService.findlyApps();
+    this.params &#x3D; { userId: this.authService.getUserId() };
+    this.step &#x3D; this.data.step;
+  }
+
+  removeFile() {
+    this.step &#x3D; 0;
+    this.fileName &#x3D; &#x27;&#x27;;
+    this.fileData.unsubscribe();
+  }
+
+  updateError(text) {
+    this.step &#x3D; 4;
+    this.errorMessage &#x3D; text;
+  }
+
+  exportFile(ext) {
+    const payload &#x3D; {
+      exportType: ext,
+      getFileId: true,
+      knowledgeTaskId: this.kgService.getKgTaskId(),
+      streamId: this.selectedApp._id || this.selectedApp[0]._id,
+    };
+    this.service
+      .invoke(&#x27;post.faqexport&#x27;, this.params, payload)
+      .subscribe((res) &#x3D;&gt; {
+        this.notificationService.notify(
+          &#x27;Manage Intent export is in progress&#x27;,
+          &#x27;success&#x27;
+        );
+        this.dockService.getDockStatus(&#x27;KG_EXPORT&#x27;).subscribe(
+          (res1) &#x3D;&gt; {
+            _.extend(res.store, { toastSeen: true });
+            const fileName &#x3D; res.store.urlParams;
+            this.dockService
+              .updateProgress(_.pick(res, &#x27;store&#x27;), res._id)
+              .pipe(pluck(&#x27;fileId&#x27;))
+              .subscribe((res) &#x3D;&gt; {
+                this.notificationService.notify(
+                  &#x27;Manage Intent export is completed, File download will start in a moment&#x27;,
+                  &#x27;success&#x27;
+                );
+                this.dockService.downloadDockFile(res, fileName);
+              });
+          },
+          (err) &#x3D;&gt; {
+            this.updateError(err);
+          }
+        );
+      });
+  }
+
+  fileSelect(event) {
+    const targ &#x3D; event.target ? event.target.files[0] : event.queue[0]._file;
+    const _ext &#x3D; targ.name.substring(targ.name.lastIndexOf(&#x27;.&#x27;));
+    this.fileName &#x3D; targ.name;
+    this.fileData &#x3D; this.fUpload
+      .onFileUpload(targ, this.validExtensions)
+      .subscribe(
+        (data) &#x3D;&gt; {
+          this.service
+            .invoke(&#x27;post.uploadfaqfile&#x27;, this.params, data)
+            .subscribe(
+              (res) &#x3D;&gt; {
+                this.step &#x3D; 1;
+                this.importPayload &#x3D; {
+                  delimiter: &#x27;,&#x27;,
+                  fileName: res.fileId,
+                  fileType: _ext.slice(1),
+                  importType: &#x27;override&#x27;,
+                  knowledgeTaskId: this.kgService.getKgTaskId(),
+                  streamId: this.selectedApp._id || this.selectedApp[0]._id,
+                };
+              },
+              (err) &#x3D;&gt; {
+                this.updateError(err);
+              }
+            );
+        },
+        (err) &#x3D;&gt; {
+          this.updateError(err);
+        }
+      );
+  }
+
+  fileOverBase(e) {
+    this.fileSelect(this.uploader);
+  }
+
+  getFaqStatus(progressInt) {
+    const streamId &#x3D; this.selectedApp._id || this.selectedApp[0]._id;
+    const callName &#x3D;
+      &#x27;streams/&#x27; +
+      streamId +
+      &#x27;/knowledgetask/&#x27; +
+      this.kgService.getKgTaskId() +
+      &#x27;/importfaq&#x27;;
+    const _params &#x3D; { userId: this.authService.getUserId(), callName };
+    this.polling &#x3D; interval(5000)
+      .pipe(startWith(0))
+      .subscribe(() &#x3D;&gt; {
+        this.service.invoke(&#x27;get.faqstatus&#x27;, _params).subscribe(
+          (res) &#x3D;&gt; {
+            if (res.status &#x3D;&#x3D;&#x3D; &#x27;success&#x27;) {
+              this.step &#x3D; 3;
+              this.importProgress &#x3D; 100;
+              progressInt.unsubscribe();
+              this.polling.unsubscribe();
+              this.kgService.importComplete();
+            } else if (res.status &#x3D;&#x3D;&#x3D; &#x27;failed&#x27;) {
+              this.step &#x3D; 4;
+              this.errorMessage &#x3D; res.message;
+              this.importProgress &#x3D; 100;
+              progressInt.unsubscribe();
+              this.polling.unsubscribe();
+            }
+          },
+          (err) &#x3D;&gt; {
+            progressInt.unsubscribe();
+            this.updateError(&#x27;File import has been failed&#x27;);
+          }
+        );
+      });
+  }
+
+  startImport() {
+    this.step &#x3D; 2;
+    this.importProgress &#x3D; 10;
+    const progressInt &#x3D; interval(500).subscribe(() &#x3D;&gt; {
+      this.importProgress &#x3D;
+        this.importProgress &lt; 90
+          ? this.importProgress + 1
+          : this.importProgress;
+    });
+    this.service
+      .invoke(&#x27;post.importfaqfile&#x27;, this.params, this.importPayload)
+      .subscribe(
+        (res) &#x3D;&gt; {
+          this.getFaqStatus(progressInt);
+        },
+        (err) &#x3D;&gt; {
+          progressInt.unsubscribe();
+          this.updateError(&#x27;File import has been failed&#x27;);
+        }
+      );
+  }
+
+  close() {
+    this.dialogRef.close();
+  }
+
+  ngOnDestroy() {
+    // tslint:disable-next-line:no-unused-expression
+    this.fileData ? this.fileData.unsubscribe() : false;
+    // tslint:disable-next-line:no-unused-expression
+    this.polling ? this.polling.unsubscribe() : false;
+  }
+}
+</code></pre>
+    </div>
+
+    <div class="tab-pane fade " id="c-templateData">
+        <pre class="line-numbers"><code class="language-html">&lt;div class&#x3D;&quot;import-faq-modal-content&quot;&gt;
+  &lt;div class&#x3D;&quot;header-sec&quot;&gt;Import&lt;/div&gt;
+  &lt;div class&#x3D;&quot;body-sec&quot;&gt;        
+    &lt;div class&#x3D;&quot;kr-sg-file-drag-drop p-0&quot;&gt;        
+      &lt;div *ngIf&#x3D;&quot;step &#x3D;&#x3D; 1 || step &#x3D;&#x3D; 2&quot;&gt;
+        &lt;img src&#x3D;&quot;assets/images/icons/Upload.svg&quot;&gt;
+      &lt;/div&gt;
+      &lt;div class&#x3D;&quot;drag-drop-sec border-0 p-0&quot; ng2FileDrop
+      (fileOver)&#x3D;&quot;fileOverBase($event)&quot;
+      [uploader]&#x3D;&quot;uploader&quot; *ngIf&#x3D;&quot;step &#x3D;&#x3D; 0&quot;&gt;
+          &lt;div class&#x3D;&quot;drag-text&quot;&gt;
+            &lt;div class&#x3D;&quot;pb-2&quot;
+            class&#x3D;&quot;well my-drop-zone&quot;&gt;
+              &lt;img src&#x3D;&quot;assets/images/icons/Upload.svg&quot;&gt;              
+            &lt;/div&gt;
+            &lt;div&gt;Drag and Drop&lt;/div&gt;
+          &lt;/div&gt; 
+          &lt;div class&#x3D;&quot;divider-text&quot;&gt;Or&lt;/div&gt;                            
+          &lt;div class&#x3D;&quot;custom-file&quot;&gt;
+              &lt;input type&#x3D;&quot;file&quot; accept&#x3D;&#x27;attachment/*&#x27; class&#x3D;&quot;custom-file-input&quot; id&#x3D;&quot;inputGroupFile01&quot; aria-describedby&#x3D;&quot;inputGroupFileAddon01&quot; (change)&#x3D;&quot;fileSelect($event)&quot; #fileUpload&gt;
+              &lt;label for&#x3D;&quot;inputGroupFile01&quot;&gt;&lt;span class&#x3D;&quot;border-0&quot;&gt;Browse&lt;/span&gt;&lt;/label&gt;
+          &lt;/div&gt;
+          &lt;div class&#x3D;&quot;info-content&quot;&gt;You can upload your Q&amp;As in the CSV or JSON format. You may download the &lt;a download target&#x3D;&quot;_blank&quot; href&#x3D;&quot;assets/files/SampleFAQsNew.csv&quot;&gt;Sample CSV&lt;/a&gt; and &lt;a download target&#x3D;&quot;_blank&quot; href&#x3D;&quot;assets/files/SampleFAQs.json&quot;&gt;Sample JSON&lt;/a&gt; files. &lt;/div&gt;
+      &lt;/div&gt;
+      &lt;div class&#x3D;&quot;uploaded-file-name&quot; *ngIf&#x3D;&quot;step &#x3D;&#x3D; 1&quot;&gt;
+          &lt;div class&#x3D;&quot;file-close-text&quot;&gt;
+              &lt;img src&#x3D;&quot;assets/images/close.svg&quot; class&#x3D;&quot;close-file&quot; (click)&#x3D;&quot;removeFile()&quot;&gt;
+              &lt;div class&#x3D;&quot;file-name&quot;&gt;{{fileName}}&lt;/div&gt;
+          &lt;/div&gt;                                  
+      &lt;/div&gt; 
+      &lt;div class&#x3D;&#x27;importing&#x27; *ngIf&#x3D;&quot;step &#x3D;&#x3D; 2&quot;&gt;
+        &lt;div class&#x3D;&quot;success-message mb-1&quot;&gt;Importing...&lt;/div&gt;
+        &lt;mat-progress-bar mode&#x3D;&quot;indeterminate&quot; class&#x3D;&quot;mat-custom-progress&quot;&gt;&lt;/mat-progress-bar&gt;
+      &lt;/div&gt;
+  
+      &lt;div class&#x3D;&quot;back-up&quot; *ngIf&#x3D;&quot;step &#x3D;&#x3D; -1&quot;&gt;
+        &lt;div class&#x3D;&quot;backup-heading&quot;&gt;Important Note&lt;/div&gt;
+        &lt;div class&#x3D;&quot;backup-message&quot;&gt;All the existing terms and their questions will be replaced by the import. Please backup before proceeding.&lt;/div&gt;      
+        &lt;div class&#x3D;&quot;backup-options&quot;&gt;
+          &lt;span class&#x3D;&quot;backup-text&quot; (click)&#x3D;&#x27;exportFile(&quot;csv&quot;)&#x27;&gt;&lt;img src&#x3D;&quot;assets/icons/download.svg&quot;&gt;Backup CSV&lt;/span&gt;
+          &lt;span class&#x3D;&quot;or_divider&quot;&gt;or&lt;/span&gt;
+          &lt;span class&#x3D;&quot;backup-text&quot; (click)&#x3D;&#x27;exportFile(&quot;json&quot;)&#x27;&gt;&lt;img src&#x3D;&quot;assets/icons/download.svg&quot;&gt;Backup JSON&lt;/span&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+      &lt;div *ngIf&#x3D;&quot;step &#x3D;&#x3D; 3&quot;&gt;
+        &lt;img src&#x3D;&quot;assets/images/icons/successfull.svg&quot;&gt;
+        &lt;div class&#x3D;&quot;success-message&quot;&gt;File has been imported successfully&lt;/div&gt;   
+      &lt;/div&gt;
+      &lt;div *ngIf&#x3D;&quot;step &#x3D;&#x3D; 4&quot;&gt;
+        &lt;img src&#x3D;&quot;assets/images/import-error.png&quot; class&#x3D;&quot;error-image&quot;&gt;
+        &lt;div class&#x3D;&quot;success-message&quot;&gt;{{errorMessage}}&lt;/div&gt;     
+      &lt;/div&gt;                   
+                                  
+  &lt;/div&gt;
+  &lt;/div&gt;
+  &lt;div class&#x3D;&quot;footer-sec&quot;&gt;
+    &lt;button class&#x3D;&quot;kr-sg-button-primary btn_md mr-2&quot; *ngIf&#x3D;&quot;showSteps.proceed.indexOf(step) &gt; -1&quot; (click)&#x3D;&quot;step&#x3D;0&quot;&gt;Proceed&lt;/button&gt;
+    &lt;button class&#x3D;&quot;kr-sg-button-secondary btn_md mr-2&quot; *ngIf&#x3D;&quot;showSteps.cancel.indexOf(step) &gt; -1&quot; (click)&#x3D;&#x27;close()&#x27;&gt;Cancel&lt;/button&gt;
+    &lt;button class&#x3D;&quot;kr-sg-button-secondary btn_md mr-2&quot; *ngIf&#x3D;&quot;step &#x3D;&#x3D; 4&quot; (click)&#x3D;&#x27;step &#x3D; 0&#x27;&gt;Go Back&lt;/button&gt;
+    &lt;button class&#x3D;&quot;kr-sg-button-primary btn_md mr-2&quot; [disabled]&#x3D;&quot;step &#x3D;&#x3D; 0&quot; *ngIf&#x3D;&quot;showSteps.next.indexOf(step) &gt; -1&quot; (click)&#x3D;&quot;step&#x3D;&#x3D;1?startImport():false&quot;&gt;Next&lt;/button&gt;
+    &lt;button class&#x3D;&quot;kr-sg-button-primary btn_md mr-2&quot; *ngIf&#x3D;&quot;showSteps.ok.indexOf(step) &gt; -1&quot; (click)&#x3D;&#x27;close()&#x27;&gt;Ok&lt;/button&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+</code></pre>
+    </div>
+
+    <div class="tab-pane fade " id="c-styleData">
+                <p class="comment">
+                    <code>./import-faqs-modal.component.scss</code>
+                </p>
+                <pre class="line-numbers"><code class="language-scss">@import &#x27;./../../../app/scss/variables/variables.scss&#x27;;
+
+.import-faq-modal-content{
+    text-align: center;
+    position: relative;
+    height: 100%;
+    .header-sec{
+        border-radius: 4px;
+        background-color: $backgroundColor;
+        font-size: 24px;
+        font-weight: 300;
+        color: $primaryColor;
+        padding: 15px 0;
+    }
+    .body-sec{
+        padding: 20px 42px;
+        .kr-sg-file-drag-drop{            
+            .drag-drop-sec {
+                .divider-text{
+                    padding: 5px 0;
+                    font-size: 14px;
+                }
+                .custom-file {
+                    label{
+                        span{
+
+                        }
+                    }
+                }
+            }
+            .uploaded-file-name{
+                margin: 28px 0;
+            }
+            .info-content{
+                color: $primaryColor;
+                font-size: 12px;
+                &gt; a {
+                    color: #009dab;
+                }
+                span{
+                    color: $hoverColor;
+                    cursor: pointer;
+                }
+            }
+            .success-message{
+                font-size: 14px;
+                font-weight: bold;
+                margin: 28px 0;
+            }
+            .back-up {
+                .backup-heading {
+                    color: #ff001f;
+                    font-size: 14px;
+                    margin-bottom: 10px;
+                    font-weight: 500;
+                }
+                .backup-message {
+                    color: #202124;
+                    font-size: 14px;
+                    line-height: 1.43;
+                    margin-bottom: 30px;
+                }
+                .backup-options {
+                   .or_divider{
+                    color: #8a959f;
+                    font-size: 14px;
+                    margin: 0 15px;
+                   }
+                    .backup-text {
+                        color: #009dab;
+                        font-weight: bold;
+                        cursor: pointer;
+                        &gt; img{
+                            margin-right: 4px;
+                            position: relative;
+                            top: -2px;
+                        }
+                    }
+                }
+            }
+        }
+    }
+    .footer-sec{    
+        border-radius: 4px;
+        background-color: $backgroundColor;
+        text-align: center;
+        padding: 15px 0;
+        position: absolute;
+        width: 100%;
+        bottom: 0;
+        button{
+            width: 100px;
+        }
+    }
+    .error-image{
+        width: 80px;
+    }
+}
+::ng-deep .mat-custom-progress{
+    margin: 12px 0 0 0;
+    height: 5px;
+    border-radius: 100px;    
+    width: 150px !important;
+    margin: 5px auto;                
+    .mat-progress-bar-buffer{
+        background-color:#e5e8ec;
+        border-radius: 100px;
+    }
+    .mat-progress-bar-fill{
+        &amp;::after{
+            background-color:$hoverColor;
+        }
+    }
+}</code></pre>
+    </div>
+
+    <div class="tab-pane fade " id="c-tree">
+        <div id="tree-container"></div>
+        <div class="tree-legend">
+            <div class="title">
+                <b>Legend</b>
+            </div>
+            <div>
+                <div class="color htmlelement"></div><span>Html element</span>
+            </div>
+            <div>
+                <div class="color component"></div><span>Component</span>
+            </div>
+            <div>
+                <div class="color directive"></div><span>Html element with directive</span>
+            </div>
+        </div>
+    </div>
+
+    
+</div>
+
+<script src="../js/libs/vis.min.js"></script>
+<script src="../js/libs/htmlparser.js"></script>
+<script src="../js/libs/deep-iterator.js"></script>
+<script>
+        var COMPONENT_TEMPLATE = '<div><div class="import-faq-modal-content">  <div class="header-sec">Import</div>  <div class="body-sec">            <div class="kr-sg-file-drag-drop p-0">              <div *ngIf="step == 1 || step == 2">        <img src="assets/images/icons/Upload.svg">      </div>      <div class="drag-drop-sec border-0 p-0" ng2FileDrop      (fileOver)="fileOverBase($event)"      [uploader]="uploader" *ngIf="step == 0">          <div class="drag-text">            <div class="pb-2"            class="well my-drop-zone">              <img src="assets/images/icons/Upload.svg">                          </div>            <div>Drag and Drop</div>          </div>           <div class="divider-text">Or</div>                                      <div class="custom-file">              <input type="file" accept=\'attachment/*\' class="custom-file-input" id="inputGroupFile01" aria-describedby="inputGroupFileAddon01" (change)="fileSelect($event)" #fileUpload>              <label for="inputGroupFile01"><span class="border-0">Browse</span></label>          </div>          <div class="info-content">You can upload your Q&As in the CSV or JSON format. You may download the <a download target="_blank" href="assets/files/SampleFAQsNew.csv">Sample CSV</a> and <a download target="_blank" href="assets/files/SampleFAQs.json">Sample JSON</a> files. </div>      </div>      <div class="uploaded-file-name" *ngIf="step == 1">          <div class="file-close-text">              <img src="assets/images/close.svg" class="close-file" (click)="removeFile()">              <div class="file-name">{{fileName}}</div>          </div>                                        </div>       <div class=\'importing\' *ngIf="step == 2">        <div class="success-message mb-1">Importing...</div>        <mat-progress-bar mode="indeterminate" class="mat-custom-progress"></mat-progress-bar>      </div>        <div class="back-up" *ngIf="step == -1">        <div class="backup-heading">Important Note</div>        <div class="backup-message">All the existing terms and their questions will be replaced by the import. Please backup before proceeding.</div>              <div class="backup-options">          <span class="backup-text" (click)=\'exportFile("csv")\'><img src="assets/icons/download.svg">Backup CSV</span>          <span class="or_divider">or</span>          <span class="backup-text" (click)=\'exportFile("json")\'><img src="assets/icons/download.svg">Backup JSON</span>        </div>      </div>      <div *ngIf="step == 3">        <img src="assets/images/icons/successfull.svg">        <div class="success-message">File has been imported successfully</div>         </div>      <div *ngIf="step == 4">        <img src="assets/images/import-error.png" class="error-image">        <div class="success-message">{{errorMessage}}</div>           </div>                                                       </div>  </div>  <div class="footer-sec">    <button class="kr-sg-button-primary btn_md mr-2" *ngIf="showSteps.proceed.indexOf(step) > -1" (click)="step=0">Proceed</button>    <button class="kr-sg-button-secondary btn_md mr-2" *ngIf="showSteps.cancel.indexOf(step) > -1" (click)=\'close()\'>Cancel</button>    <button class="kr-sg-button-secondary btn_md mr-2" *ngIf="step == 4" (click)=\'step = 0\'>Go Back</button>    <button class="kr-sg-button-primary btn_md mr-2" [disabled]="step == 0" *ngIf="showSteps.next.indexOf(step) > -1" (click)="step==1?startImport():false">Next</button>    <button class="kr-sg-button-primary btn_md mr-2" *ngIf="showSteps.ok.indexOf(step) > -1" (click)=\'close()\'>Ok</button>  </div></div></div>'
+    var COMPONENTS = [{'name': 'ActionsComponent', 'selector': 'app-actions'},{'name': 'AddAlternateQuestionComponent', 'selector': 'app-add-alternate-question'},{'name': 'AddAltFaqComponent', 'selector': 'app-add-alt-faq'},{'name': 'AddFaqComponent', 'selector': 'app-add-faq'},{'name': 'AddResultComponent', 'selector': 'app-add-result'},{'name': 'AddResultComponent', 'selector': 'app-add-result'},{'name': 'AddStructuredDataComponent', 'selector': 'app-add-structured-data'},{'name': 'AnalyticsDropdownComponent', 'selector': 'app-analytics-dropdown'},{'name': 'AnnotoolComponent', 'selector': 'kr-annotool'},{'name': 'AppComponent', 'selector': 'app-root'},{'name': 'AppExperimentsComponent', 'selector': 'app-app-experiments'},{'name': 'AppsComponent', 'selector': 'app-apps'},{'name': 'AutocompleteMultiChipComponent', 'selector': 'app-autocomplete-multi-chip'},{'name': 'BodyComponent', 'selector': 'app-body'},{'name': 'BotActionsComponent', 'selector': 'app-bot-actions'},{'name': 'BotActionsComponent', 'selector': 'app-bot-actions'},{'name': 'BusinessRulesComponent', 'selector': 'app-business-rules'},{'name': 'ConfirmationComponent', 'selector': 'kr-confirmation'},{'name': 'ConfirmationDialogComponent', 'selector': 'app-confirmation-dialog'},{'name': 'ConnectorsComponent', 'selector': 'app-connectors'},{'name': 'ContentComponent', 'selector': 'app-content'},{'name': 'CredentialsListComponent', 'selector': 'app-credentials-list'},{'name': 'CustomConfigFormComponent', 'selector': 'app-custom-config-form'},{'name': 'CustomConfigListComponent', 'selector': 'app-custom-config-list'},{'name': 'CustomConfigurationsComponent', 'selector': 'app-custom-configurations'},{'name': 'CustomMarkdownEditorComponent', 'selector': 'md-editor'},{'name': 'DashboardComponent', 'selector': 'app-dashboard'},{'name': 'DateRangePickerComponent', 'selector': 'app-date-range-picker'},{'name': 'DemoComponent', 'selector': 'app-demo'},{'name': 'EditorUrlDialogComponent', 'selector': 'app-editor-url-dialog'},{'name': 'EmptyScreenComponent', 'selector': 'app-empty-screen'},{'name': 'FacetsComponent', 'selector': 'app-facets'},{'name': 'FaqsComponent', 'selector': 'faqs-source'},{'name': 'FieldManagementComponent', 'selector': 'app-field-management'},{'name': 'GeneralSettingsComponent', 'selector': 'app-general-settings'},{'name': 'GroupInputComponent', 'selector': 'app-group-input'},{'name': 'HeaderComponent', 'selector': 'app-header'},{'name': 'HighlightingComponent', 'selector': 'app-highlighting'},{'name': 'ImportFaqsModalComponent', 'selector': 'app-import-faqs-modal'},{'name': 'IndexComponent', 'selector': 'app-index'},{'name': 'IndexComponent', 'selector': 'app-index'},{'name': 'IndexConfigurationSettingsComponent', 'selector': 'app-index-configuration-settings'},{'name': 'IndexFieldsComfirmationDialogComponent', 'selector': 'app-index-fields-comfirmation-dialog'},{'name': 'InsightsComponent', 'selector': 'app-insights'},{'name': 'InvoicesComponent', 'selector': 'app-invoices'},{'name': 'KRModalComponent', 'selector': 'kr-modal'},{'name': 'ListFieldsComponent', 'selector': 'app-list-fields'},{'name': 'LoaderComponent', 'selector': 'app-loader'},{'name': 'MainMenuComponent', 'selector': 'app-mainmenu'},{'name': 'ManageIntentComponent', 'selector': 'app-manage-intent'},{'name': 'MarkdownEditorResizeSensorComponent', 'selector': 'md-editor-resize-sensor'},{'name': 'MetricsComponent', 'selector': 'app-metrics'},{'name': 'OnboardingComponent', 'selector': 'app-onboarding'},{'name': 'PaginationComponent', 'selector': 'app-pagination'},{'name': 'PdfAnnotationComponent', 'selector': 'kr-pdf-annotation'},{'name': 'PresentableComponent', 'selector': 'app-presentable'},{'name': 'PricingComponent', 'selector': 'app-pricing'},{'name': 'RangeSliderComponent', 'selector': 'app-range-slider'},{'name': 'RangeSliderSearchExperienceComponent', 'selector': 'app-range-slider-search-experience'},{'name': 'RecordPaginationComponent', 'selector': 'app-record-pagination'},{'name': 'ResultInsightsComponent', 'selector': 'app-result-insights'},{'name': 'ResultRankingComponent', 'selector': 'app-result-ranking'},{'name': 'ResultRankingComponent', 'selector': 'app-result-ranking'},{'name': 'ResultsRulesComponent', 'selector': 'app-results-rules'},{'name': 'ResultTemplatesComponent', 'selector': 'app-result-templates'},{'name': 'RulesTableComponent', 'selector': 'app-rules-table'},{'name': 'SchedulerComponent', 'selector': 'app-scheduler'},{'name': 'SearchExperienceComponent', 'selector': 'app-search-experience'},{'name': 'SearchFieldPropertiesComponent', 'selector': 'app-search-field-properties'},{'name': 'SearchFilterComponent', 'selector': 'app-search-filter'},{'name': 'SearchInsightsComponent', 'selector': 'app-search-insights'},{'name': 'SearchInterfaceComponent', 'selector': 'app-search-interface'},{'name': 'SearchRelevanceComponent', 'selector': 'app-search-relevance'},{'name': 'SearchSdkComponent', 'selector': '.appContent'},{'name': 'SearchSettingsComponent', 'selector': 'app-search-settings'},{'name': 'SettingsComponent', 'selector': 'app-settings'},{'name': 'SettingsComponent', 'selector': 'app-settings'},{'name': 'SliderComponentComponent', 'selector': 'app-slider-component'},{'name': 'SmallTalkComponent', 'selector': 'app-small-talk'},{'name': 'SnippetsComponent', 'selector': 'app-snippets'},{'name': 'SourcesComponent', 'selector': 'app-sources'},{'name': 'SpellCorrectionComponent', 'selector': 'app-spell-correction'},{'name': 'StatusDockerComponent', 'selector': 'app-status-docker'},{'name': 'StopWordsComponent', 'selector': 'app-stop-words'},{'name': 'StructuredDataComponent', 'selector': 'app-structured-data'},{'name': 'StructuredDataComponent', 'selector': 'app-structured-data'},{'name': 'StructuredDataStatusModalComponent', 'selector': 'app-structured-data-status-modal'},{'name': 'SummaryComponent', 'selector': 'app-summary'},{'name': 'SummaryModalComponent', 'selector': 'kr-summary-modal'},{'name': 'SynonymsComponent', 'selector': 'app-synonyms'},{'name': 'TagsInpComponent', 'selector': 'app-tags-inp'},{'name': 'TeamManagementComponent', 'selector': 'app-team-management'},{'name': 'TraitsComponent', 'selector': 'app-traits'},{'name': 'UpgradePlanComponent', 'selector': 'app-upgrade-plan'},{'name': 'UsageLogComponent', 'selector': 'app-usage-log'},{'name': 'UserEngagementComponent', 'selector': 'app-user-engagement'},{'name': 'UserGuideComponent', 'selector': 'kr-user-guide'},{'name': 'UseronboardingJourneyComponent', 'selector': 'app-useronboarding-journey'},{'name': 'WeightsComponent', 'selector': 'app-weights'}];
+    var DIRECTIVES = [{'name': 'ClickOutSideDirective', 'selector': '[clickOutside]'},{'name': 'EllipsisActiveDirective', 'selector': '[appEllipsisActive]'},{'name': 'ScrollSpyDirective', 'selector': '[scrollSpy]'},{'name': 'SelectTextDirective', 'selector': '[appSelectText]'}];
+    var ACTUAL_COMPONENT = {'name': 'ImportFaqsModalComponent'};
+</script>
+<script src="../js/tree.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+          <label class="dark-mode-switch">
+               <input type="checkbox">
+               <span class="slider">
+                    <svg class="slider-icon" viewBox="0 0 24 24" fill="none" height="20" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" width="20" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path>
+                    </svg>
+               </span>
+          </label>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 1;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'component';
+            var COMPODOC_CURRENT_PAGE_URL = 'ImportFaqsModalComponent.html';
+            var MAX_SEARCH_RESULTS = 15;
+       </script>
+
+       <script src="../js/libs/custom-elements.min.js"></script>
+       <script src="../js/libs/lit-html.js"></script>
+
+       <script src="../js/menu-wc.js" defer></script>
+       <script nomodule src="../js/menu-wc_es5.js" defer></script>
+
+       <script src="../js/libs/bootstrap-native.js"></script>
+
+       <script src="../js/libs/es6-shim.min.js"></script>
+       <script src="../js/libs/EventDispatcher.js"></script>
+       <script src="../js/libs/promise.min.js"></script>
+       <script src="../js/libs/zepto.min.js"></script>
+
+       <script src="../js/compodoc.js"></script>
+
+       <script src="../js/tabs.js"></script>
+       <script src="../js/menu.js"></script>
+       <script src="../js/libs/clipboard.min.js"></script>
+       <script src="../js/libs/prism.js"></script>
+       <script src="../js/sourceCode.js"></script>
+          <script src="../js/search/search.js"></script>
+          <script src="../js/search/lunr.min.js"></script>
+          <script src="../js/search/search-lunr.js"></script>
+          <script src="../js/search/search_index.js"></script>
+       <script src="../js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>

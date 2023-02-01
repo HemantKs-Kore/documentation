@@ -1,0 +1,2359 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>koreai documentation</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	   <link rel="stylesheet" href="../styles/style.css">
+        <link rel="stylesheet" href="../styles/dark.css">
+    </head>
+    <body>
+
+        <div class="navbar navbar-default navbar-fixed-top visible-xs">
+            <a href="../" class="navbar-brand">koreai documentation</a>
+            <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="hidden-xs menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content interface">
+                   <div class="content-data">
+
+
+
+
+
+
+
+
+
+
+
+
+
+<ol class="breadcrumb">
+  <li>Interfaces</li>
+  <li
+  >
+  String</li>
+</ol>
+
+<ul class="nav nav-tabs" role="tablist">
+        <li class="active">
+            <a href="#info" role="tab" id="info-tab" data-toggle="tab" data-link="info">Info</a>
+        </li>
+        <li >
+            <a href="#source" role="tab" id="source-tab" data-toggle="tab" data-link="source">Source</a>
+        </li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane fade active in" id="c-info">
+        <p class="comment">
+            <h3>File</h3>
+        </p>
+        <p class="comment">
+            <code>apps/searchassist/src/app/modules/business-rules/business-rules.component.ts</code>
+        </p>
+
+
+
+
+        <section>
+            <h3 id="index">Index</h3>
+            <table class="table table-sm table-bordered index-table">
+                <tbody>
+                    <tr>
+                        <td class="col-md-4">
+                            <h6><b>Properties</b></h6>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <ul class="index-list">
+                                <li>
+                                        <a href="#replaceBetween" 
+>
+                                            replaceBetween
+                                        </a>
+                                </li>
+                            </ul>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+
+
+            <section>
+                <h3 id="inputs">Properties</h3>
+                    <table class="table table-sm table-bordered">
+                        <tbody>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <a name="replaceBetween"></a>
+                                        <span class="name "><b>replaceBetween</b>
+                                            <a href="#replaceBetween">
+                                                <span class="icon ion-ios-link"></span>
+                                            </a>
+                                        </span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <code>replaceBetween:         <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/function" target="_blank" >function</a></code>
+</code>
+                                    </td>
+                                </tr>
+
+
+                                    <tr>
+                                        <td class="col-md-4">
+                                            <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/function" target="_blank" >function</a></code>
+
+                                        </td>
+                                    </tr>
+
+
+
+
+
+                        </tbody>
+                    </table>
+            </section>
+    </div>
+
+
+    <div class="tab-pane fade  tab-source-code" id="c-source">
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { ElementRef, OnDestroy, ViewChild, ViewChildren } from &#x27;@angular/core&#x27;;
+import { Component, OnInit } from &#x27;@angular/core&#x27;;
+import { MatDialog } from &#x27;@angular/material/dialog&#x27;;
+import { ConfirmationDialogComponent } from &#x27;../../helpers/components/confirmation-dialog/confirmation-dialog.component&#x27;;
+import { KRModalComponent } from &#x27;../../shared/kr-modal/kr-modal.component&#x27;;
+import { ENTER, COMMA } from &#x27;@angular/cdk/keycodes&#x27;;
+import { MatChipInputEvent } from &#x27;@angular/material/chips&#x27;;
+import * as _ from &#x27;underscore&#x27;;
+import { RangeSlider } from &#x27;../../helpers/models/range-slider.model&#x27;;
+import {
+  MatAutocomplete,
+  MatAutocompleteSelectedEvent,
+} from &#x27;@angular/material/autocomplete&#x27;;
+import { SortPipe } from &#x27;../../helpers/sortPipe/sort-pipe&#x27;;
+import { Subscription } from &#x27;rxjs&#x27;;
+import * as moment from &#x27;moment&#x27;;
+import { UpgradePlanComponent } from &#x27;../../helpers/components/upgrade-plan/upgrade-plan.component&#x27;;
+import { PerfectScrollbarComponent } from &#x27;ngx-perfect-scrollbar&#x27;;
+import { DomSanitizer } from &#x27;@angular/platform-browser&#x27;;
+import { EMPTY_SCREEN } from &#x27;../../modules/empty-screen/empty-screen.constants&#x27;;
+import { NotificationService } from &#x27;@kore.apps/services/notification.service&#x27;;
+import { ServiceInvokerService } from &#x27;@kore.apps/services/service-invoker.service&#x27;;
+import { WorkflowService } from &#x27;@kore.apps/services/workflow.service&#x27;;
+import { AppSelectionService } from &#x27;@kore.apps/services/app.selection.service&#x27;;
+import { InlineManualService } from &#x27;@kore.apps/services/inline-manual.service&#x27;;
+import { MixpanelServiceService } from &#x27;@kore.apps/services/mixpanel-service.service&#x27;;
+declare const $: any;
+declare global {
+  interface String {
+    replaceBetween: (start: any, end: any, what: any) &#x3D;&gt; any;
+  }
+}
+@Component({
+  selector: &#x27;app-business-rules&#x27;,
+  templateUrl: &#x27;./business-rules.component.html&#x27;,
+  styleUrls: [&#x27;./business-rules.component.scss&#x27;],
+})
+export class BusinessRulesComponent implements OnInit, OnDestroy {
+  @ViewChild(&#x27;perfectScroll&#x27;) perfectScroll: PerfectScrollbarComponent;
+  contextualEmptyScreen &#x3D; EMPTY_SCREEN.CONTEXTUAL_RULES;
+  nlpEmptyScreen &#x3D; EMPTY_SCREEN.NLP_RULES;
+  emptyScreen &#x3D; this.contextualEmptyScreen;
+  defaultValuesObj: any &#x3D; {
+    contextType: &#x27;searchContext&#x27;,
+    dataType: &#x27;string&#x27;,
+    operator: &#x27;contains&#x27;,
+    contextCategory: &#x27;recentSearches&#x27;,
+    value: [],
+  };
+  ruleOptions &#x3D; {
+    searchContext: [
+      &#x27;recentSearches&#x27;,
+      &#x27;currentSearch&#x27;,
+      &#x27;traits&#x27;,
+      &#x27;entity&#x27;,
+      &#x27;keywords&#x27;,
+    ],
+    pageContext: [&#x27;device&#x27;, &#x27;browser&#x27;, &#x27;currentPage&#x27;, &#x27;recentPages&#x27;],
+    userContext: [&#x27;userType&#x27;, &#x27;userProfile&#x27;, &#x27;age&#x27;, &#x27;sex&#x27;],
+    contextTypes: [&#x27;searchContext&#x27;, &#x27;pageContext&#x27;, &#x27;userContext&#x27;],
+    dataTypes: [&#x27;string&#x27;, &#x27;date&#x27;, &#x27;number&#x27;, &#x27;trait&#x27;, &#x27;entity&#x27;, &#x27;keyword&#x27;],
+    actions: [&#x27;boost&#x27;, &#x27;lower&#x27;, &#x27;hide&#x27;, &#x27;filter&#x27;],
+  };
+  rulesArray &#x3D; [{}, {}];
+  addBusinessRulesRef: any;
+  searchImgSrc: any &#x3D; &#x27;assets/icons/search_gray.svg&#x27;;
+  searchFocusIn &#x3D; false;
+  selectedApp;
+  serachIndexId;
+  indexPipelineId;
+  currentEditInex;
+  submitted &#x3D; false;
+  input_1: any &#x3D; [];
+  input_2: any &#x3D; [];
+  removedCon: boolean &#x3D; false;
+  iconImageCon: boolean &#x3D; false;
+  iconImageOut: boolean &#x3D; false;
+  skip &#x3D; 0;
+  rules &#x3D; [];
+  allRules &#x3D; [];
+  currentSugg: any &#x3D; [];
+  selectedSort &#x3D; &#x27;&#x27;;
+  isAsc &#x3D; true;
+  loadingContent &#x3D; true;
+  selcectionObj: any &#x3D; {
+    selectAll: false,
+    selectedItems: [],
+    ruleType: &#x27;contextual&#x27;,
+    supportURL:
+      &#x27;https://docs.kore.ai/searchassist/concepts/personalizing-results/personalizing-results-ranking/#Configuring_Business_Rules&#x27;,
+  };
+  totalRecord: number &#x3D; 0;
+  activeClose &#x3D; false;
+  sortObj: any &#x3D; {};
+  showSearch &#x3D; false;
+  searchRules &#x3D; &#x27;&#x27;;
+  conditions &#x3D; {
+    string: [&#x27;contains&#x27;, &#x27;doesNotContain&#x27;, &#x27;equals&#x27;, &#x27;notEquals&#x27;],
+    date: [&#x27;equals&#x27;, &#x27;between&#x27;, &#x27;greaterThan&#x27;, &#x27;lessThan&#x27;],
+    number: [
+      &#x27;equals&#x27;,
+      &#x27;between&#x27;,
+      &#x27;greaterThan&#x27;,
+      &#x27;lessThan&#x27;,
+      &#x27;lessThanOrEqualTo&#x27;,
+      &#x27;greaterThanOrEqualTo&#x27;,
+    ],
+    trait: [&#x27;contains&#x27;, &#x27;doesNotContain&#x27;, &#x27;equals&#x27;, &#x27;notEquals&#x27;],
+    entity: [&#x27;contains&#x27;, &#x27;doesNotContain&#x27;, &#x27;equals&#x27;, &#x27;notEquals&#x27;],
+    keyword: [&#x27;contains&#x27;, &#x27;doesNotContain&#x27;, &#x27;equals&#x27;, &#x27;notEquals&#x27;],
+  };
+  datePlaceHolders &#x3D; {
+    equals: &#x27;&#x27;,
+  };
+  defaultOutcomeObj: any &#x3D; {
+    fieldDataType: &#x27;string&#x27;,
+    fieldName: &#x27;&#x27;,
+    fieldId: &#x27;&#x27;,
+    outcomeOperator: &#x27;contains&#x27;,
+    outcomeType: &#x27;boost&#x27;,
+    outcomeValueType: &#x27;static&#x27;,
+    outcomeValue: [],
+    scale: 3,
+  };
+  addEditRuleObj: any &#x3D; {
+    ruleName: &#x27;&#x27;,
+    ruleType: &#x27;contextual&#x27;,
+    isRuleActive: true,
+    rules: [],
+    outcomes: [],
+  };
+  rulesArrayforAddEdit: any &#x3D; [];
+  outcomeArrayforAddEdit: any &#x3D; [];
+  fieldAutoSuggestion: any &#x3D; [];
+  subscription: Subscription;
+  queryPipelineId;
+  fieldWarnings: any &#x3D; {
+    NOT_INDEXED: &#x27;Indexed property has been set to False for this field&#x27;,
+    NOT_EXISTS: &#x27;Associated field has been deleted&#x27;,
+  };
+  filterSystem: any &#x3D; {
+    isRuleActiveFilter: &#x27;all&#x27;,
+  };
+  beforeFilterRules: any &#x3D; [];
+  isRuleActiveArr: any &#x3D; [];
+  private contextSuggestedImput: ElementRef;
+  autoSuggestInputItems: any;
+  readonly separatorKeysCodes: number[] &#x3D; [ENTER, COMMA];
+  componentType: string &#x3D; &#x27;configure&#x27;;
+  loadImageText: boolean &#x3D; false;
+  loadingContent1: boolean &#x3D; false;
+  sortedObject &#x3D; {
+    type: &#x27;ruleName&#x27;,
+    position: &#x27;up&#x27;,
+    value: 1,
+  };
+  filterObject &#x3D; {
+    type: &#x27;&#x27;,
+    header: &#x27;&#x27;,
+  };
+  sys_entities: any &#x3D; [];
+  entityDefaultColors: any &#x3D; [
+    { type: &#x27;system_defined&#x27;, color: &#x27;#135423&#x27; },
+    { type: &#x27;custom&#x27;, color: &#x27;#803C25&#x27; },
+    { type: &#x27;index_field&#x27;, color: &#x27;#381472&#x27; },
+  ];
+  entityFields &#x3D; { startIndex: 0, endIndex: 0, entityId: &#x27;&#x27;, word: &#x27;&#x27; };
+  entityObj: any &#x3D; {
+    entities: [],
+    sentence: &#x27;&#x27;,
+    colorSentence: &#x27;&#x27;,
+    isEditable: false,
+    legends: [],
+  };
+  selectEditIndex: number &#x3D; null;
+  nlpAnnotatorObj: any &#x3D; {
+    showEntityPopup: false,
+    isEditPage: false,
+    entities: {
+      entityId: &#x27;&#x27;,
+      entityName: &#x27;&#x27;,
+      entityType: &#x27;index_field&#x27;,
+      fieldId: &#x27;&#x27;,
+      field_name: &#x27;&#x27;,
+      isEditable: false,
+    },
+    searchEntity: &#x27;&#x27;,
+    annotator: [],
+    Legends: [],
+  };
+  search_field: String &#x3D; &#x27;&#x27;;
+  filteredFields: Array&lt;Object&gt; &#x3D; [];
+  isSearchClear: boolean &#x3D; false;
+  isPaginating: boolean &#x3D; false;
+  @ViewChild(&#x27;contextSuggestedImput&#x27;) set content(content: ElementRef) {
+    if (content) {
+      this.contextSuggestedImput &#x3D; content;
+    }
+  }
+  @ViewChildren(&#x27;contextSuggestedImput&#x27;) set queries(queries: ElementRef) {
+    if (queries) {
+      this.autoSuggestInputItems &#x3D; queries;
+    }
+  }
+  @ViewChild(&#x27;auto&#x27;) matAutocomplete: MatAutocomplete;
+  @ViewChild(&#x27;suggestedInput&#x27;) suggestedInput: ElementRef&lt;HTMLInputElement&gt;;
+  @ViewChild(&#x27;addBusinessRules&#x27;) addBusinessRules: KRModalComponent;
+  @ViewChild(&#x27;plans&#x27;) plans: UpgradePlanComponent;
+  constructor(
+    public workflowService: WorkflowService,
+    private service: ServiceInvokerService,
+    private notificationService: NotificationService,
+    public dialog: MatDialog,
+    private sortPipe: SortPipe,
+    public inlineManual: InlineManualService,
+    public mixpanel: MixpanelServiceService,
+    private appSelectionService: AppSelectionService,
+    private sanitizer: DomSanitizer
+  ) {}
+
+  ngOnInit(): void {
+    this.selectedApp &#x3D; this.workflowService.selectedApp();
+    this.serachIndexId &#x3D; this.selectedApp.searchIndexes[0]._id;
+    this.loadRules();
+    this.subscription &#x3D; this.appSelectionService.queryConfigs.subscribe(
+      (res) &#x3D;&gt; {
+        this.loadRules();
+      }
+    );
+    this.indexPipelineId &#x3D; this.workflowService.selectedIndexPipeline();
+  }
+
+  imageLoad() {
+    this.loadingContent &#x3D; false;
+    this.loadingContent1 &#x3D; true;
+    this.loadImageText &#x3D; true;
+    if (!this.inlineManual.checkVisibility(&#x27;RULES&#x27;)) {
+      this.inlineManual.openHelp(&#x27;RULES&#x27;);
+      this.inlineManual.visited(&#x27;RULES&#x27;);
+    }
+  }
+  loadRules() {
+    this.indexPipelineId &#x3D; this.workflowService.selectedIndexPipeline();
+    if (this.indexPipelineId) {
+      this.queryPipelineId &#x3D; this.workflowService.selectedQueryPipeline()
+        ? this.workflowService.selectedQueryPipeline()._id
+        : this.selectedApp.searchIndexes[0].queryPipelineId;
+      if (this.queryPipelineId) {
+        this.getDyanmicFilterData();
+        this.getRules();
+        this.getFields();
+      }
+    }
+  }
+  searchByRule() {
+    if (this.searchRules) {
+      this.getRules(null, this.searchRules);
+    } else {
+      this.getRules();
+      this.searchRules &#x3D; &#x27;&#x27;;
+    }
+  }
+  paginate(event) {
+    this.skip &#x3D; event.skip;
+    this.filterRules(
+      this.searchRules,
+      &#x27;search&#x27;,
+      this.filterObject.type,
+      this.filterObject.header,
+      this.sortedObject.type,
+      this.sortedObject.value,
+      this.sortedObject.position
+    );
+    // this.getRules(event.skip, this.searchRules)
+  }
+  createNewRule() {
+    this.addEditRuleObj &#x3D; {
+      ruleName: &#x27;&#x27;,
+      isRuleActive: true,
+      ruleType: this.selcectionObj.ruleType,
+      rules: [],
+      outcomes: [],
+    };
+    this.addNewOutcome();
+    this.openModalPopup();
+    if (this.selcectionObj.ruleType &#x3D;&#x3D;&#x3D; &#x27;contextual&#x27;) {
+      this.addNewRule();
+    }
+  }
+  openModalPopup() {
+    this.addBusinessRulesRef &#x3D; this.addBusinessRules.open();
+    setTimeout(() &#x3D;&gt; {
+      this.perfectScroll?.directiveRef?.update();
+      this.perfectScroll?.directiveRef?.scrollToTop();
+    }, 500);
+  }
+  prepereSliderObj(index, scale?) {
+    return new RangeSlider(0, 5, 1, scale || 3, &#x27;outcomeScale&#x27; + index);
+  }
+  valueEvent(val, outcomeObj) {
+    outcomeObj.scale &#x3D; val;
+  }
+  addNewRule() {
+    const ruleObj: any &#x3D; JSON.parse(JSON.stringify(this.defaultValuesObj));
+    ruleObj.value &#x3D; [];
+    this.rulesArrayforAddEdit.push(ruleObj);
+    this.removedCon &#x3D; false;
+  }
+  addNewOutcome() {
+    const ruleObj: any &#x3D; JSON.parse(JSON.stringify(this.defaultOutcomeObj));
+    ruleObj.sliderObj &#x3D; this.prepereSliderObj(
+      this.outcomeArrayforAddEdit.length
+    );
+    this.outcomeArrayforAddEdit.push(ruleObj);
+  }
+  editRule(rule) {
+    this.addEditRuleObj &#x3D; { ...rule };
+    this.setDataForEdit(this.addEditRuleObj);
+    this.openModalPopup();
+  }
+  closeModalPopup() {
+    if ($(&#x27;#contentText&#x27;).length &gt; 0) {
+      $(&#x27;#contentText&#x27;)[0].style.borderColor &#x3D; &#x27;&#x27;;
+    }
+    this.addBusinessRulesRef.close();
+    this.submitted &#x3D; false;
+    this.rulesArrayforAddEdit &#x3D; [];
+    this.outcomeArrayforAddEdit &#x3D; [];
+    this.removedCon &#x3D; false;
+    this.createTag(false, false);
+    this.nlpAnnotatorObj &#x3D; {
+      showEntityPopup: false,
+      isEditPage: false,
+      entities: {
+        entityId: &#x27;&#x27;,
+        entityName: &#x27;&#x27;,
+        entityType: &#x27;index_field&#x27;,
+        fieldId: &#x27;&#x27;,
+        field_name: &#x27;&#x27;,
+        isEditable: false,
+      },
+      searchEntity: &#x27;&#x27;,
+      annotator: [],
+      Legends: [],
+    };
+    this.entityFields &#x3D; { startIndex: 0, endIndex: 0, entityId: &#x27;&#x27;, word: &#x27;&#x27; };
+    this.entityObj &#x3D; {
+      entities: [],
+      sentence: &#x27;&#x27;,
+      colorSentence: &#x27;&#x27;,
+      isEditable: false,
+      legends: [],
+    };
+  }
+  setDataForEdit(ruleObj) {
+    if (ruleObj &amp;&amp; ruleObj.rules &amp;&amp; ruleObj.rules.length) {
+      if (this.selcectionObj?.ruleType &#x3D;&#x3D;&#x3D; &#x27;contextual&#x27;) {
+        this.rulesArrayforAddEdit &#x3D; JSON.parse(JSON.stringify(ruleObj.rules));
+      } else if (this.selcectionObj?.ruleType &#x3D;&#x3D;&#x3D; &#x27;nlp&#x27;) {
+        for (let item of ruleObj.rules) {
+          this.createColorSentence(item);
+        }
+        this.getLegends();
+      }
+    }
+    if (ruleObj &amp;&amp; ruleObj.outcomes &amp;&amp; ruleObj.outcomes.length) {
+      const _outcoms &#x3D; [];
+      let ruleObjOutcomes &#x3D; JSON.parse(JSON.stringify(ruleObj.outcomes));
+      ruleObjOutcomes.forEach((outcome, i) &#x3D;&gt; {
+        const tempObj: any &#x3D; outcome;
+        tempObj.sliderObj &#x3D; this.prepereSliderObj(i, outcome.scale || 3);
+        _outcoms.push(tempObj);
+      });
+      this.outcomeArrayforAddEdit &#x3D; _outcoms;
+    } else {
+      this.addNewOutcome();
+    }
+  }
+  getRulesArrayPayload(rules) {
+    const _verifiedRules &#x3D; [];
+    if (rules &amp;&amp; rules.length) {
+      rules.forEach((rule) &#x3D;&gt; {
+        const tempObj: any &#x3D; {
+          contextCategory: rule.contextCategory,
+          contextType: rule.contextType,
+          operator: rule.operator,
+          dataType: rule.dataType,
+          value: rule.value,
+        };
+        _verifiedRules.push(tempObj);
+      });
+    }
+    return _verifiedRules;
+  }
+  getOutcomeArrayPayload(outcomes) {
+    const _verifiedRules &#x3D; [];
+    if (outcomes &amp;&amp; outcomes.length) {
+      outcomes.forEach((outcome) &#x3D;&gt; {
+        const tempObj: any &#x3D; {
+          outcomeType: outcome.outcomeType,
+          scale: outcome.scale,
+          fieldName: outcome.fieldName,
+          fieldId: outcome.fieldId,
+          fieldDataType: outcome.fieldDataType,
+          outcomeOperator: outcome.outcomeOperator,
+          outcomeValueType: outcome.outcomeValueType,
+          outcomeValue: outcome.outcomeValue,
+        };
+        _verifiedRules.push(tempObj);
+      });
+    }
+    return _verifiedRules;
+  }
+  removeRule(index) {
+    this.rulesArrayforAddEdit.splice(index, 1);
+    this.removedCon &#x3D; true;
+  }
+  removeOutcome(index) {
+    this.outcomeArrayforAddEdit.splice(index, 1);
+  }
+  removeTag(value, tags, index) {
+    value.splice(index, 1);
+  }
+  openDateTimePicker(ruleObj, index) {
+    setTimeout(() &#x3D;&gt; {
+      if (ruleObj &amp;&amp; ruleObj.operator &#x3D;&#x3D;&#x3D; &#x27;between&#x27;) {
+        $(&#x27;#rangePicker_&#x27; + index).click();
+      } else {
+        $(&#x27;#datePicker_&#x27; + index).click();
+      }
+    });
+  }
+  onDatesUpdated(event, ruleObj) {
+    if (!ruleObj.value) {
+      ruleObj.value &#x3D; [];
+    }
+    if (ruleObj &amp;&amp; ruleObj.operator &#x3D;&#x3D;&#x3D; &#x27;between&#x27;) {
+      if (event.startDate &amp;&amp; event.endDate) {
+        moment.utc();
+        const date &#x3D; [];
+        const startDate &#x3D; moment.utc(event.startDate).format();
+        const endDate &#x3D; moment.utc(event.endDate).format();
+        date.push(startDate);
+        date.push(endDate);
+        ruleObj.value.push(date);
+      }
+    } else {
+      if (event.startDate) {
+        const date &#x3D; moment.utc(event.startDate).format();
+        ruleObj.value.push(date);
+      }
+    }
+  }
+  buildCurrentContextSuggetions(ruleObj) {
+    const _ruleOptions &#x3D; JSON.parse(JSON.stringify(this.ruleOptions));
+    const mainContext &#x3D; _ruleOptions.contextTypes;
+    if ($(&#x27;.mat_autofocus_dropdown&#x27;).length) {
+      if (
+        ruleObj.outcomeValueType &#x3D;&#x3D; &#x27;static&#x27; ||
+        (ruleObj.outcomeValueType &#x3D;&#x3D; &#x27;dynamic&#x27; &amp;&amp;
+          ruleObj.newValue &amp;&amp;
+          ruleObj.newValue.search(/\./) !&#x3D;&#x3D; -1)
+      ) {
+        if ($(&#x27;.mat_autofocus_dropdown&#x27;)[0]) {
+          $(&#x27;.mat_autofocus_dropdown&#x27;)[0].style.display &#x3D; &#x27;none&#x27;;
+        }
+      } else {
+        if ($(&#x27;.mat_autofocus_dropdown&#x27;)[0]) {
+          $(&#x27;.mat_autofocus_dropdown&#x27;)[0].style.display &#x3D; &#x27;block&#x27;;
+        }
+      }
+    }
+    this.currentSugg &#x3D; [];
+    if (ruleObj &amp;&amp; ruleObj.newValue) {
+      const selectedContextSelections &#x3D; ruleObj.newValue.split(&#x27;.&#x27;);
+      if (selectedContextSelections &amp;&amp; selectedContextSelections.length) {
+        const selectedContext &#x3D; selectedContextSelections[0];
+        if (selectedContext &amp;&amp; _ruleOptions[selectedContext]) {
+          if (selectedContextSelections.length &#x3D;&#x3D;&#x3D; 3) {
+            this.currentSugg &#x3D; [];
+          } else if (selectedContextSelections.length &#x3D;&#x3D;&#x3D; 2) {
+            let filteredValues &#x3D;
+              _ruleOptions[selectedContextSelections[0]] || [];
+            filteredValues &#x3D; _ruleOptions[selectedContextSelections[0]].filter(
+              (it) &#x3D;&gt; {
+                if (selectedContextSelections[1]) {
+                  return it
+                    .toLowerCase()
+                    .includes(selectedContextSelections[1].toLowerCase());
+                } else {
+                  return true;
+                }
+              }
+            );
+            this.currentSugg &#x3D; filteredValues;
+          } else if (
+            selectedContextSelections.length &#x3D;&#x3D;&#x3D; 1 &amp;&amp;
+            _ruleOptions[selectedContextSelections[0]]
+          ) {
+            this.currentSugg &#x3D; _ruleOptions[selectedContextSelections[0]];
+          } else {
+            this.currentSugg &#x3D; [];
+          }
+        } else {
+          const filteredValues &#x3D; mainContext.filter((it) &#x3D;&gt; {
+            return it.toLowerCase().includes(ruleObj.newValue.toLowerCase());
+          });
+          this.currentSugg &#x3D; filteredValues;
+        }
+      } else {
+        this.currentSugg &#x3D; mainContext;
+      }
+    } else {
+      this.currentSugg &#x3D; mainContext;
+    }
+    let entitiesArray &#x3D; [];
+    for (let annotator of this.nlpAnnotatorObj.annotator) {
+      for (let entity of annotator.entities) {
+        const entityObj &#x3D; this.sys_entities.filter(
+          (item) &#x3D;&gt; item._id &#x3D;&#x3D;&#x3D; entity.entityId
+        );
+        if (!entitiesArray.includes(entityObj[0].entityName))
+          entitiesArray.push(entityObj[0].entityName);
+      }
+    }
+    this.currentSugg &#x3D; [...this.currentSugg, ...entitiesArray];
+  }
+
+  filterTable(source, headerOption) {
+    // this.filterSystem.isRuleActiveFilter &#x3D; &#x27;all&#x27;;
+
+    switch (headerOption) {
+      case &#x27;isRuleActive&#x27;: {
+        this.filterSystem.isRuleActiveFilter &#x3D; source;
+        break;
+      }
+    }
+    this.filterObject &#x3D; {
+      type: source,
+      header: headerOption,
+    };
+    this.filterRules(null, null, source, headerOption);
+  }
+  filterRules(
+    searchValue?,
+    searchSource?,
+    source?,
+    headerOption?,
+    sortHeaderOption?,
+    sortValue?,
+    navigate?
+  ) {
+    // fieldsFilter(searchValue?,searchSource?, source?,headerOption?, sortHeaderOption?,sortValue?,navigate?)
+    this.loadingContent &#x3D; true;
+    if (sortValue) {
+      this.sortedObject &#x3D; {
+        type: sortHeaderOption,
+        value: sortValue,
+        position: navigate,
+      };
+    }
+
+    const quaryparms: any &#x3D; {
+      searchIndexID: this.serachIndexId,
+      indexPipelineId: this.workflowService.selectedIndexPipeline() || &#x27;&#x27;,
+      queryPipelineId: this.workflowService.selectedQueryPipeline()._id,
+      offset: 0,
+      limit: 10,
+    };
+    let request: any &#x3D; {};
+    if (!sortValue) {
+      request &#x3D; {
+        sort: {
+          ruleName: 1,
+        },
+      };
+    } else if (sortValue) {
+      const sort: any &#x3D; {};
+      request &#x3D; {
+        sort,
+      };
+    } else {
+      request &#x3D; {};
+    }
+
+    request.isRuleActive &#x3D; this.filterSystem.isRuleActiveFilter;
+    request.search &#x3D; this.searchRules;
+    if (request.isRuleActive &#x3D;&#x3D; &#x27;all&#x27;) {
+      delete request.isRuleActive;
+    }
+    if (this.searchRules &#x3D;&#x3D;&#x3D; &#x27;&#x27;) {
+      delete request.search;
+    }
+    if (sortValue) {
+      this.getSortIconVisibility(sortHeaderOption, navigate);
+      //Sort start
+      if (sortHeaderOption &#x3D;&#x3D;&#x3D; &#x27;ruleName&#x27;) {
+        request.sort.ruleName &#x3D; sortValue;
+      }
+      if (sortHeaderOption &#x3D;&#x3D;&#x3D; &#x27;isRuleActive&#x27;) {
+        request.sort.isRuleActive &#x3D; sortValue;
+      }
+      // end
+    }
+    this.getRules(
+      searchValue,
+      searchSource,
+      source,
+      headerOption,
+      sortHeaderOption,
+      sortValue,
+      navigate,
+      request
+    );
+    this.getDyanmicFilterData();
+  }
+  sortRules(type?, navigate?, value?) {
+    const quaryparms: any &#x3D; {
+      searchIndexID: this.serachIndexId,
+      indexPipelineId: this.workflowService.selectedIndexPipeline() || &#x27;&#x27;,
+      queryPipelineId: this.workflowService.selectedQueryPipeline()._id,
+      offset: this.skip || 0,
+      limit: 100,
+    };
+    const sort: any &#x3D; {};
+    const request: any &#x3D; {
+      sort,
+    };
+    this.selectedSort &#x3D; type;
+    if (this.selectedSort !&#x3D;&#x3D; type) {
+      this.isAsc &#x3D; true;
+    } else {
+      this.isAsc &#x3D; !this.isAsc;
+    }
+    if (type &#x3D;&#x3D;&#x3D; &#x27;ruleName&#x27;) {
+      request.sort.ruleName &#x3D; value;
+    }
+    if (type &#x3D;&#x3D;&#x3D; &#x27;isRuleActive&#x27;) {
+      request.sort.isRuleActive &#x3D; value;
+    }
+
+    let serviceId &#x3D; &#x27;post.businessRules&#x27;;
+    this.service.invoke(serviceId, quaryparms, request).subscribe(
+      (res) &#x3D;&gt; {
+        this.rules &#x3D; res.rules;
+      },
+      (errRes) &#x3D;&gt; {
+        this.loadingContent &#x3D; false;
+        this.errorToaster(errRes, &#x27;Failed to get fields&#x27;);
+      }
+    );
+  }
+  getDyanmicFilterData(search?) {
+    this.isRuleActiveArr &#x3D; [];
+    const quaryparms: any &#x3D; {
+      searchIndexId: this.serachIndexId,
+    };
+    const request: any &#x3D; {
+      moduleName: &#x27;rules&#x27;,
+      indexPipelineId: this.workflowService.selectedIndexPipeline() || &#x27;&#x27;,
+      queryPipelineId: this.workflowService.selectedQueryPipeline()._id,
+    };
+    if (search) {
+      request.search &#x3D; search;
+    }
+    this.service.invoke(&#x27;post.filters&#x27;, quaryparms, request).subscribe(
+      (res) &#x3D;&gt; {
+        this.isRuleActiveArr &#x3D; [...res.isRuleActive];
+      },
+      (errRes) &#x3D;&gt; {
+        this.errorToaster(errRes, &#x27;Failed to get filters&#x27;);
+      }
+    );
+  }
+  selected(event: MatAutocompleteSelectedEvent, ruleObj, index): void {
+    const newSelectedValue &#x3D; event.option.viewValue;
+    const text &#x3D; this.autoSuggestInputItems._results[index].nativeElement.value;
+    // const text &#x3D; this.autoSuggestInputItems._re[].nativeElement.value;
+    const selectedContextValues &#x3D; (text || &#x27;&#x27;).split(&#x27;.&#x27;) || [];
+    selectedContextValues.push(newSelectedValue);
+    if (selectedContextValues &amp;&amp; selectedContextValues.length) {
+      let newVal &#x3D; &#x27;&#x27;;
+      selectedContextValues.forEach((element) &#x3D;&gt; {
+        if (element) {
+          if (newVal) {
+            newVal &#x3D; newVal + &#x27;.&#x27; + element;
+          } else {
+            newVal &#x3D; element;
+          }
+        }
+      });
+      if (newVal.split(&#x27;.&#x27;).length &gt; 1) {
+        newVal &#x3D; newVal.split(&#x27;.&#x27;)[1];
+      }
+      this.autoSuggestInputItems._results[index].nativeElement.value &#x3D;
+        newVal + &#x27;.&#x27;;
+      ruleObj.newValue &#x3D; newVal + &#x27;.&#x27;;
+      if ($(&#x27;.mat_autofocus_dropdown&#x27;)[0]) {
+        $(&#x27;.mat_autofocus_dropdown&#x27;)[0].style.display &#x3D; &#x27;none&#x27;;
+      }
+    }
+  }
+  addRules(event: MatChipInputEvent, ruleObj, i) {
+    const input &#x3D; event.input;
+    const value &#x3D; event.value;
+    if (ruleObj &amp;&amp; ruleObj.dataType &#x3D;&#x3D;&#x3D; &#x27;number&#x27;) {
+      if (ruleObj.operator &#x3D;&#x3D; &#x27;between&#x27;) {
+        const range &#x3D; value.split(&#x27;-&#x27;);
+        const values: any &#x3D; [];
+        if (range &amp;&amp; range.length &#x3D;&#x3D;&#x3D; 2) {
+          range.forEach((rang) &#x3D;&gt; {
+            const numericVal &#x3D; parseInt(rang.trim(), 10) || 0;
+            values.push(numericVal);
+          });
+          ruleObj.value.push(values);
+        } else {
+          this.notificationService.notify(
+            &#x27;Provide range in proper format, Ex: 111-121&#x27;,
+            &#x27;error&#x27;
+          );
+        }
+      } else {
+        if (value) {
+          ruleObj.value.push(parseInt(value.trim(), 10) || 0);
+        }
+      }
+    } else if ((value || &#x27;&#x27;).trim()) {
+      if (!this.checkDuplicateTags((value || &#x27;&#x27;).trim(), ruleObj.value)) {
+        this.notificationService.notify(
+          &#x27;Duplicate tags are not allowed&#x27;,
+          &#x27;warning&#x27;
+        );
+        return;
+      } else {
+        ruleObj.value.push(value);
+      }
+    }
+    if (input) {
+      input.value &#x3D; &#x27;&#x27;;
+    }
+    if ((this.suggestedInput || {}).nativeElement) {
+      (this.suggestedInput || {}).nativeElement.value &#x3D; &#x27;&#x27;;
+    }
+  }
+  addOutcome(event: MatChipInputEvent, ruleObj, index) {
+    const input &#x3D; event.input;
+    const value &#x3D; event.value;
+    if (!ruleObj.fieldName) {
+      this.notificationService.notify(&#x27;Please select valid field&#x27;, &#x27;error&#x27;);
+      return;
+    }
+    if ((value || &#x27;&#x27;).trim()) {
+      if (
+        !this.checkDuplicateTags((value || &#x27;&#x27;).trim(), ruleObj.outcomeValue)
+      ) {
+        this.notificationService.notify(
+          &#x27;Duplicate tags are not allowed&#x27;,
+          &#x27;warning&#x27;
+        );
+        return;
+      } else {
+        const isEntity &#x3D; this.sys_entities.filter(
+          (item) &#x3D;&gt; item.entityName &#x3D;&#x3D;&#x3D; value.slice(0, -1)
+        );
+        if (isEntity.length &gt; 0) {
+          let val &#x3D; &#x27;&#x27;;
+          if ([&#x27;system_defined&#x27;, &#x27;custom&#x27;].includes(isEntity[0].entityType)) {
+            val &#x3D; &#x60;searchContext.entity.${isEntity[0].entityName}&#x60;;
+          } else {
+            val &#x3D; &#x60;searchContext.indexedFieldEntities.${isEntity[0].entityName}&#x60;;
+          }
+          ruleObj.outcomeValue.push(val);
+        } else {
+          ruleObj.outcomeValue.push(value);
+        }
+      }
+    }
+    if (input) {
+      input.value &#x3D; &#x27;&#x27;;
+    }
+    (
+      (this.autoSuggestInputItems._results[index || 0] || {}).nativeElement ||
+      {}
+    ).value &#x3D; &#x27;&#x27;;
+    if ((this.suggestedInput || {}).nativeElement) {
+      (this.suggestedInput || {}).nativeElement.value &#x3D; &#x27;&#x27;;
+    }
+  }
+  selectedTag(data: MatAutocompleteSelectedEvent, outcomeObj) {
+    // console.log(data.option.value);
+    outcomeObj.fieldDataType &#x3D; data.option.value.fieldDataType;
+    outcomeObj.fieldName &#x3D; data.option.value.fieldName;
+    outcomeObj.fieldId &#x3D; data.option.value._id;
+    if ((this.suggestedInput || {}).nativeElement) {
+      (this.suggestedInput || {}).nativeElement.value &#x3D; &#x27;&#x27;;
+    }
+    this.fieldAutoSuggestion &#x3D; [];
+  }
+  selectField(data, outcomeObj) {
+    outcomeObj.fieldDataType &#x3D; data.fieldDataType;
+    outcomeObj.fieldName &#x3D; data.fieldName;
+    outcomeObj.fieldId &#x3D; data._id;
+    this.search_field &#x3D; &#x27;&#x27;;
+    $(&#x27;#responseFields&#x27;)[0].style.borderColor &#x3D; &#x27;&#x27;;
+  }
+  checkDuplicateTags(suggestion: string, alltTags): boolean {
+    return alltTags.every((f) &#x3D;&gt; f !&#x3D;&#x3D; suggestion);
+  }
+  ruleSelection(ruleObj, value, key) {
+    if (key &#x3D;&#x3D;&#x3D; &#x27;contextCategory&#x27;) {
+      ruleObj.contextCategory &#x3D; value;
+      if (ruleObj.contextCategory &#x3D;&#x3D; &#x27;traits&#x27;) {
+        ruleObj.dataType &#x3D; &#x27;trait&#x27;;
+      } else if (ruleObj.contextCategory &#x3D;&#x3D; &#x27;entity&#x27;) {
+        ruleObj.dataType &#x3D; &#x27;entity&#x27;;
+      } else if (ruleObj.contextCategory &#x3D;&#x3D; &#x27;keywords&#x27;) {
+        ruleObj.dataType &#x3D; &#x27;keyword&#x27;;
+      } else {
+        ruleObj.dataType &#x3D; &#x27;string&#x27;;
+      }
+    }
+    if (key &#x3D;&#x3D;&#x3D; &#x27;contextType&#x27;) {
+      ruleObj.contextType &#x3D; value;
+      ruleObj.contextCategory &#x3D; this.ruleOptions[value][0];
+      if (ruleObj.contextType &#x3D;&#x3D;&#x3D; &#x27;userContext&#x27;) {
+        ruleObj.contextCategory &#x3D; &#x27;&#x27;;
+      }
+      ruleObj.value &#x3D; [];
+    }
+    if (key &#x3D;&#x3D;&#x3D; &#x27;operator&#x27;) {
+      if (ruleObj.operator !&#x3D;&#x3D; value) {
+        ruleObj.value &#x3D; [];
+      }
+      ruleObj.operator &#x3D; value;
+    }
+    if (key &#x3D;&#x3D;&#x3D; &#x27;dataType&#x27;) {
+      if (ruleObj.dataType !&#x3D;&#x3D; value) {
+        ruleObj.operator &#x3D; this.conditions[value][0];
+        ruleObj.value &#x3D; [];
+      }
+      ruleObj.dataType &#x3D; value;
+    }
+  }
+  outcomeSclection(outcome, value, key) {
+    if (key &#x3D;&#x3D;&#x3D; &#x27;outcomeType&#x27;) {
+      outcome.outcomeType &#x3D; value;
+    }
+    if (key &#x3D;&#x3D;&#x3D; &#x27;outcomeOperator&#x27;) {
+      outcome.outcomeOperator &#x3D; value;
+    }
+    if (key &#x3D;&#x3D;&#x3D; &#x27;outcomeValueType&#x27;) {
+      outcome.outcomeValue &#x3D; [];
+      outcome.outcomeValueType &#x3D; value;
+    }
+  }
+  checkUncheckfacets(rule) {
+    const selectedElements &#x3D; $(&#x27;.selectRuleCheckBoxDiv:checkbox:checked&#x27;);
+    const allElements &#x3D; $(&#x27;.selectRuleCheckBoxDiv&#x27;);
+    if (selectedElements.length &#x3D;&#x3D;&#x3D; allElements.length) {
+      // $(&#x27;#selectAllRules&#x27;)[0].checked &#x3D; true;
+      this.selcectionObj.selectAll &#x3D; true;
+    } else {
+      // $(&#x27;#selectAllRules&#x27;)[0].checked &#x3D; false;
+      this.selcectionObj.selectAll &#x3D; false;
+    }
+    const element &#x3D; $(&#x27;#&#x27; + rule._id);
+    const addition &#x3D; element[0].checked;
+    this.addRemoveRuleFromSelection(rule._id, addition);
+  }
+  addRemoveRuleFromSelection(ruleId?, addtion?, clear?) {
+    if (clear) {
+      const allfacets &#x3D; $(&#x27;.selectRuleCheckBoxDiv&#x27;);
+      $.each(allfacets, (index, element) &#x3D;&gt; {
+        if ($(element) &amp;&amp; $(element).length) {
+          $(element)[0].checked &#x3D; false;
+        }
+      });
+      this.selcectionObj.selectedItems &#x3D; {};
+      this.selcectionObj.selectedCount &#x3D; 0;
+      this.selcectionObj.selectAll &#x3D; false;
+      // $(&#x27;#checkbox-1&#x27;).checked &#x3D; false;
+    } else {
+      if (ruleId) {
+        if (addtion) {
+          this.selcectionObj.selectedItems[ruleId] &#x3D; {};
+        } else {
+          if (this.selcectionObj.selectedItems[ruleId]) {
+            delete this.selcectionObj.selectedItems[ruleId];
+          }
+        }
+      }
+      this.selcectionObj.selectedCount &#x3D; Object.keys(
+        this.selcectionObj.selectedItems
+      ).length;
+      if (this.selcectionObj.selectedCount &#x3D;&#x3D;&#x3D; this.rules.length) {
+        this.selcectionObj.selectAll &#x3D; true;
+        //$(&#x27;#checkbox-1&#x27;).checked &#x3D; true;
+      }
+    }
+  }
+  selectAllFromPartial() {
+    this.selcectionObj.selectAll &#x3D; true;
+    this.selectAll();
+  }
+  selectAll(unselectAll?) {
+    const allfacets &#x3D; $(&#x27;.selectRuleCheckBoxDiv&#x27;);
+    if (allfacets &amp;&amp; allfacets.length) {
+      $.each(allfacets, (index, element) &#x3D;&gt; {
+        if ($(element) &amp;&amp; $(element).length) {
+          $(element)[0].checked &#x3D; unselectAll
+            ? false
+            : this.selcectionObj.selectAll;
+          const ruleId &#x3D; $(element)[0].id;
+          this.addRemoveRuleFromSelection(ruleId, $(element)[0].checked);
+        }
+      });
+    }
+    // if (unselectAll) {
+    //   $(&#x27;#selectAllRules&#x27;)[0].checked &#x3D; false;
+    // }
+  }
+
+  validateRules() {
+    if (this.addEditRuleObj &amp;&amp; this.addEditRuleObj.ruleName.length) {
+      this.submitted &#x3D; false;
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  validateCon() {
+    if (this.removedCon &#x3D;&#x3D; false) {
+      for (let j &#x3D; 0; j &lt; this.rulesArrayforAddEdit.length; j++) {
+        for (let i &#x3D; 0; i &lt;&#x3D; this.rulesArrayforAddEdit[j].value.length; i++) {
+          if (this.rulesArrayforAddEdit[j].value.length &#x3D;&#x3D; 0) {
+            $(&#x27;#ConditionInput&#x27;).parent(&#x27;div&#x27;).css(&#x27;border-color&#x27;, &#x27;#DD3646&#x27;);
+            this.iconImageCon &#x3D; true;
+            return false;
+          } else {
+            this.iconImageCon &#x3D; false;
+            return true;
+          }
+        }
+      }
+    } else {
+      this.iconImageCon &#x3D; false;
+      // this.submitted&#x3D;false;
+      return true;
+    }
+  }
+  validateOut() {
+    for (let i &#x3D; 0; i &lt; this.outcomeArrayforAddEdit.length; i++) {
+      for (
+        let j &#x3D; 0;
+        j &lt;&#x3D; this.outcomeArrayforAddEdit[i].outcomeValue.length;
+        j++
+      ) {
+        if (this.outcomeArrayforAddEdit[i].fieldId &#x3D;&#x3D;&#x3D; &#x27;&#x27;) {
+          $(&#x27;#responseFields&#x27;)[0].style.borderColor &#x3D; &#x27;#DD3646&#x27;;
+        } else if (!this.outcomeArrayforAddEdit[i].outcomeValue.length) {
+          $(&#x27;#OutcomeInput&#x27;).parent(&#x27;div&#x27;).css(&#x27;border-color&#x27;, &#x27;#DD3646&#x27;);
+          this.iconImageOut &#x3D; true;
+          return false;
+        } else {
+          this.iconImageOut &#x3D; false;
+          // this.submitted &#x3D; false;
+          return true;
+        }
+      }
+    }
+  }
+  //create business rule
+  createRule() {
+    this.submitted &#x3D; true;
+    let isValidate: boolean;
+    if (this.selcectionObj?.ruleType &#x3D;&#x3D;&#x3D; &#x27;nlp&#x27;) {
+      isValidate &#x3D;
+        this.validateRules() &amp;&amp;
+        this.validateOut() &amp;&amp;
+        this.emptyAnnotatorValidate() &amp;&amp;
+        this.validateLegends(&#x27;all&#x27;);
+    } else if (this.selcectionObj?.ruleType &#x3D;&#x3D;&#x3D; &#x27;contextual&#x27;) {
+      isValidate &#x3D;
+        this.validateRules() &amp;&amp; this.validateCon() &amp;&amp; this.validateOut();
+    }
+    if (isValidate) {
+      this.submitted &#x3D; false;
+      const quaryparms: any &#x3D; {
+        searchIndexID: this.serachIndexId,
+        queryPipelineId: this.queryPipelineId,
+        indexPipelineId: this.workflowService.selectedIndexPipeline() || &#x27;&#x27;,
+      };
+      let payload: any &#x3D; {
+        ruleName: this.addEditRuleObj.ruleName,
+        isRuleActive: this.addEditRuleObj.isRuleActive,
+        ruleType: this.selcectionObj?.ruleType,
+        outcomes:
+          this.getOutcomeArrayPayload(this.outcomeArrayforAddEdit) || [],
+      };
+      if (this.selcectionObj?.ruleType &#x3D;&#x3D;&#x3D; &#x27;contextual&#x27;) {
+        payload.rules &#x3D;
+          this.getRulesArrayPayload(this.rulesArrayforAddEdit) || [];
+      } else if (this.selcectionObj?.ruleType &#x3D;&#x3D;&#x3D; &#x27;nlp&#x27;) {
+        // for (let item of this.nlpAnnotatorObj.annotator) {
+        //   delete item?.colorSentence;
+        //   delete item?.isEditable;
+        // }
+        payload.rules &#x3D; this.nlpAnnotatorObj.annotator;
+      }
+      if (!payload.outcomes.length) {
+        this.errorToaster(null, &#x27;Atleast one outcome is required&#x27;);
+        return;
+      }
+
+      this.service
+        .invoke(&#x27;create.businessRules&#x27;, quaryparms, payload)
+        .subscribe(
+          (res) &#x3D;&gt; {
+            if (this.filterSystem.isRuleActiveFilter &#x3D;&#x3D; &#x27;all&#x27;) {
+              this.rules.push(res);
+              // this.selectRuleType(this.selcectionObj.ruleType);
+            }
+            // if (this.searchRules) {
+            //   this.getRules(null, this.searchRules);
+            // }
+            this.beforeFilterRules.push(res);
+            this.isRuleActiveArr &#x3D; [];
+            this.beforeFilterRules.forEach((element) &#x3D;&gt; {
+              this.isRuleActiveArr.push(element.isRuleActive);
+            });
+            this.isRuleActiveArr &#x3D; [...new Set(this.isRuleActiveArr)];
+            this.filterTable(
+              this.filterSystem.isRuleActiveFilter,
+              &#x27;isRuleActive&#x27;
+            );
+            this.closeModalPopup();
+            this.notificationService.notify(&#x27;Added successfully&#x27;, &#x27;success&#x27;);
+            this.mixpanel.postEvent(&#x27;Business Rule- Created&#x27;, {});
+            // console.log(&#x27;MIXPANNEL BR CREATE&#x27;)
+          },
+          (errRes) &#x3D;&gt; {
+            if (
+              errRes &amp;&amp;
+              errRes.error &amp;&amp;
+              errRes.error.errors[0].code &#x3D;&#x3D; &#x27;FeatureAccessLimitExceeded&#x27;
+            ) {
+              this.closeModalPopup();
+              this.errorToaster(errRes, errRes.error.errors[0].msg);
+              this.plans?.openSelectedPopup(&#x27;choose_plan&#x27;);
+            } else {
+              this.errorToaster(errRes, &#x27;Failed to create rules&#x27;);
+            }
+          }
+        );
+    } else {
+      let message &#x3D; &#x27;&#x27;;
+      if (this.selcectionObj?.ruleType &#x3D;&#x3D;&#x3D; &#x27;contextual&#x27;) {
+        if (!this.validateCon()) {
+          $(&#x27;#ConditionInput&#x27;).parent(&#x27;div&#x27;).css(&#x27;border-color&#x27;, &#x27;#DD3646&#x27;);
+          $(&#x27;#infoWarningCon&#x27;).css({
+            top: &#x27;35%&#x27;,
+            position: &#x27;absolute&#x27;,
+            right: &#x27;3%&#x27;,
+            display: &#x27;block&#x27;,
+          });
+          message &#x3D; &#x27;Enter the required fields to proceed&#x27;;
+          this.notificationService.notify(message, &#x27;error&#x27;);
+        }
+      }
+      if (!this.validateOut()) {
+        $(&#x27;#OutcomeInput&#x27;).parent(&#x27;div&#x27;).css(&#x27;border-color&#x27;, &#x27;#DD3646&#x27;);
+        $(&#x27;#infoWarningOut&#x27;).css({
+          top: &#x27;35%&#x27;,
+          position: &#x27;absolute&#x27;,
+          right: &#x27;3%&#x27;,
+          display: &#x27;block&#x27;,
+        });
+        message &#x3D; &#x27;Enter the required fields to proceed&#x27;;
+        this.notificationService.notify(message, &#x27;error&#x27;);
+      }
+      if (!this.emptyAnnotatorValidate()) {
+        $(&#x27;#contentText&#x27;)[0].style.borderColor &#x3D; &#x27;#DD3646&#x27;;
+        message &#x3D; &#x27;Enter the required fields to proceed&#x27;;
+        this.notificationService.notify(message, &#x27;error&#x27;);
+      }
+    }
+    // this.loadRules();
+  }
+
+  //check nlp annotaator is empty
+  emptyAnnotatorValidate() {
+    return this.nlpAnnotatorObj.annotator.length &#x3D;&#x3D;&#x3D; 0 ? false : true;
+  }
+
+  //validate legends in all annotators
+  validateLegends(type) {
+    let entityArray &#x3D; [],
+      isValid &#x3D; false,
+      count &#x3D; 0;
+    const legendCount &#x3D; this.nlpAnnotatorObj.Legends.length;
+    if (type &#x3D;&#x3D;&#x3D; &#x27;all&#x27;) {
+      let entityCountArray &#x3D; [];
+      this.nlpAnnotatorObj.annotator.forEach((item) &#x3D;&gt; {
+        entityCountArray.push(item.entities.length);
+      });
+      const isCountEqual &#x3D; entityCountArray.every((val) &#x3D;&gt; val &#x3D;&#x3D;&#x3D; legendCount);
+      if (isCountEqual) {
+        this.nlpAnnotatorObj.annotator.forEach((annotator) &#x3D;&gt; {
+          annotator.entities.forEach((item1) &#x3D;&gt; {
+            const entityObj &#x3D; this.sys_entities.filter(
+              (item) &#x3D;&gt; item._id &#x3D;&#x3D;&#x3D; item1.entityId
+            );
+            if (!entityArray.includes(entityObj[0].entityName))
+              entityArray.push(entityObj[0].entityName);
+          });
+        });
+      } else {
+        isValid &#x3D; false;
+      }
+    } else if (type &#x3D;&#x3D;&#x3D; &#x27;single&#x27;) {
+      this.entityObj.entities.forEach((entity) &#x3D;&gt; {
+        const entityObj &#x3D; this.sys_entities.filter(
+          (item) &#x3D;&gt; item._id &#x3D;&#x3D;&#x3D; entity.entityId
+        );
+        if (!entityArray.includes(entityObj[0].entityName))
+          entityArray.push(entityObj[0].entityName);
+      });
+    }
+    if (entityArray.length &gt; 0) {
+      entityArray.forEach((val) &#x3D;&gt; {
+        this.nlpAnnotatorObj.Legends.forEach((legend) &#x3D;&gt; {
+          if (val &#x3D;&#x3D;&#x3D; legend?.name) count++;
+        });
+      });
+      isValid &#x3D; count &#x3D;&#x3D;&#x3D; legendCount &amp;&amp; entityArray.length &#x3D;&#x3D;&#x3D; legendCount;
+    }
+    if (!isValid)
+      this.errorToaster(
+        null,
+        &#x27;Tags should equally matched with legends in each annotator&#x27;
+      );
+    return isValid;
+  }
+
+  //get all fields
+  getFields() {
+    const quaryparms: any &#x3D; {
+      searchIndexID: this.serachIndexId,
+      indexPipelineId: this.indexPipelineId,
+    };
+    const payload &#x3D; {
+      sort: {
+        fieldName: 1,
+      },
+    };
+    this.service.invoke(&#x27;post.allField&#x27;, quaryparms, payload).subscribe(
+      (res) &#x3D;&gt; {
+        this.fieldAutoSuggestion &#x3D; res?.fields || [];
+      },
+      (errRes) &#x3D;&gt; {
+        this.errorToaster(errRes, &#x27;Failed to get fields&#x27;);
+      }
+    );
+  }
+
+  getRules(
+    searchValue?,
+    searchSource?,
+    source?,
+    headerOption?,
+    sortHeaderOption?,
+    sortValue?,
+    navigate?,
+    request?
+  ) {
+    const quaryparms: any &#x3D; {
+      searchIndexID: this.serachIndexId,
+      queryPipelineId: this.queryPipelineId,
+      indexPipelineId: this.workflowService.selectedIndexPipeline() || &#x27;&#x27;,
+      offset: this.skip || 0,
+      limit: 10,
+    };
+    let payload: any &#x3D; {};
+    if (!sortHeaderOption &amp;&amp; !headerOption) {
+      payload &#x3D; {
+        sort: {
+          ruleName: 1,
+        },
+      };
+    } else {
+      payload &#x3D; request;
+    }
+
+    let serviceId &#x3D; &#x27;post.businessRules&#x27;;
+    if (this.searchRules) {
+      payload.search &#x3D; this.searchRules;
+    }
+    if (this.filterSystem.isRuleActiveFilter !&#x3D; &#x27;all&#x27;) {
+      payload[&#x27;isRuleActive&#x27;] &#x3D; this.filterSystem.isRuleActiveFilter;
+    }
+    payload[&#x27;ruleType&#x27;] &#x3D; this.selcectionObj?.ruleType || &#x27;contextual&#x27;;
+    this.service.invoke(serviceId, quaryparms, payload).subscribe(
+      (res) &#x3D;&gt; {
+        this.isSearchClear &#x3D; false;
+        this.allRules &#x3D; res.rules || [];
+        this.rules &#x3D; this.allRules;
+        // this.selectRuleType(this.selcectionObj.ruleType);
+        if (payload[&#x27;ruleType&#x27;] &#x3D;&#x3D;&#x3D; &#x27;nlp&#x27;) {
+          this.getEntities();
+        }
+        this.beforeFilterRules &#x3D; JSON.parse(JSON.stringify(this.rules));
+        if (this.rules.length &gt; 0) {
+          this.loadingContent &#x3D; false;
+          this.loadingContent1 &#x3D; false;
+        } else {
+          this.loadingContent1 &#x3D; true;
+        }
+
+        this.totalRecord &#x3D; res.totalCount || 0;
+        this.loadingContent &#x3D; false;
+        this.isPaginating &#x3D; false;
+        this.addRemoveRuleFromSelection(null, null, true);
+      },
+      (errRes) &#x3D;&gt; {
+        this.loadingContent &#x3D; false;
+        this.loadingContent1 &#x3D; false;
+        this.isSearchClear &#x3D; false;
+        this.isPaginating &#x3D; false;
+        this.errorToaster(errRes, &#x27;Failed to get rules&#x27;);
+      }
+    );
+  }
+  updateRule(rule) {
+    this.submitted &#x3D; true;
+    if (this.validateRules()) {
+      this.submitted &#x3D; false;
+      const quaryparms: any &#x3D; {
+        searchIndexID: this.serachIndexId,
+        queryPipelineId: this.queryPipelineId,
+        indexPipelineId: this.workflowService.selectedIndexPipeline() || &#x27;&#x27;,
+        ruleId: rule._id,
+      };
+      let payload: any &#x3D; {
+        ruleName: this.addEditRuleObj.ruleName,
+        isRuleActive: this.addEditRuleObj.isRuleActive,
+        ruleType: this.selcectionObj?.ruleType,
+        outcomes:
+          this.getOutcomeArrayPayload(this.outcomeArrayforAddEdit) || [],
+      };
+      if (this.selcectionObj?.ruleType &#x3D;&#x3D;&#x3D; &#x27;contextual&#x27;) {
+        (payload.rules &#x3D;
+          this.getRulesArrayPayload(this.rulesArrayforAddEdit) || []),
+          (payload.outcomes &#x3D;
+            this.getOutcomeArrayPayload(this.outcomeArrayforAddEdit) || []);
+      } else if (this.selcectionObj?.ruleType &#x3D;&#x3D;&#x3D; &#x27;nlp&#x27;) {
+        // for (let item of this.nlpAnnotatorObj.annotator) {
+        //   delete item?.colorSentence;
+        //   delete item?.isEditable;
+        // }
+        payload.rules &#x3D; this.nlpAnnotatorObj.annotator;
+      }
+      if (!payload.outcomes.length) {
+        this.errorToaster(null, &#x27;Atleast one outcome is required&#x27;);
+        return;
+      }
+      if (
+        this.selcectionObj?.ruleType &#x3D;&#x3D;&#x3D; &#x27;nlp&#x27; &amp;&amp;
+        !this.validateLegends(&#x27;all&#x27;)
+      ) {
+        return;
+      }
+      this.service.invoke(&#x27;update.businessRule&#x27;, quaryparms, payload).subscribe(
+        (res) &#x3D;&gt; {
+          const editRule &#x3D; _.findIndex(this.rules, (pg) &#x3D;&gt; {
+            return pg._id &#x3D;&#x3D;&#x3D; rule._id;
+          });
+          this.rules[editRule] &#x3D; res;
+          // if (this.searchRules) {
+          //   this.getRules(null, this.searchRules);
+          // }
+          this.beforeFilterRules[editRule] &#x3D; res;
+          this.isRuleActiveArr &#x3D; [];
+          this.beforeFilterRules.forEach((element) &#x3D;&gt; {
+            this.isRuleActiveArr.push(element.isRuleActive);
+          });
+          this.isRuleActiveArr &#x3D; [...new Set(this.isRuleActiveArr)];
+          this.filterTable(
+            this.filterSystem.isRuleActiveFilter,
+            &#x27;isRuleActive&#x27;
+          );
+          this.notificationService.notify(&#x27;Updated Successfully&#x27;, &#x27;success&#x27;);
+          this.closeModalPopup();
+          this.mixpanel.postEvent(&#x27;Business Rule- Updated&#x27;, {});
+        },
+        (errRes) &#x3D;&gt; {
+          this.errorToaster(errRes, &#x27;Failed to update rule&#x27;);
+        }
+      );
+    }
+  }
+  deleteRulePop(rule, i) {
+    const dialogRef &#x3D; this.dialog.open(ConfirmationDialogComponent, {
+      width: &#x27;530px&#x27;,
+      height: &#x27;auto&#x27;,
+      panelClass: &#x27;delete-popup&#x27;,
+      data: {
+        // title: &#x27;Delete rule&#x27;,
+        // text: &#x27;Are you sure you want to delete selected rule?&#x27;,
+        newTitle: &#x27;Are you sure you want to delete?&#x27;,
+        body: &#x27;Selected rule will be deleted.&#x27;,
+        buttons: [
+          { key: &#x27;yes&#x27;, label: &#x27;Delete&#x27;, type: &#x27;danger&#x27; },
+          { key: &#x27;no&#x27;, label: &#x27;Cancel&#x27; },
+        ],
+        confirmationPopUp: true,
+      },
+    });
+
+    dialogRef.componentInstance.onSelect.subscribe((result) &#x3D;&gt; {
+      if (result &#x3D;&#x3D;&#x3D; &#x27;yes&#x27;) {
+        this.deleteRule(rule, i, dialogRef);
+      } else if (result &#x3D;&#x3D;&#x3D; &#x27;no&#x27;) {
+        dialogRef.close();
+        // console.log(&#x27;deleted&#x27;)
+      }
+    });
+  }
+  deleteMultiePop() {
+    const dialogRef &#x3D; this.dialog.open(ConfirmationDialogComponent, {
+      width: &#x27;530px&#x27;,
+      height: &#x27;auto&#x27;,
+      panelClass: &#x27;delete-popup&#x27;,
+      data: {
+        // title: &#x27;Delete selected rules&#x27;,
+        // text: &#x27;Are you sure you want to delete selected rules?&#x27;,
+        newTitle: &#x27;Are you sure you want to delete?&#x27;,
+        body: &#x27;Selected rules will be deleted.&#x27;,
+        buttons: [
+          { key: &#x27;yes&#x27;, label: &#x27;Delete&#x27;, type: &#x27;danger&#x27; },
+          { key: &#x27;no&#x27;, label: &#x27;Cancel&#x27; },
+        ],
+        confirmationPopUp: true,
+      },
+    });
+
+    dialogRef.componentInstance.onSelect.subscribe((result) &#x3D;&gt; {
+      if (result &#x3D;&#x3D;&#x3D; &#x27;yes&#x27;) {
+        this.deleteSelectedRules(dialogRef);
+      } else if (result &#x3D;&#x3D;&#x3D; &#x27;no&#x27;) {
+        dialogRef.close();
+        // console.log(&#x27;deleted&#x27;)
+      }
+    });
+  }
+  deleteSelectedRules(dialogRef) {
+    const quaryparms: any &#x3D; {
+      searchIndexID: this.serachIndexId,
+      queryPipelineId: this.queryPipelineId,
+      indexPipelineId: this.workflowService.selectedIndexPipeline() || &#x27;&#x27;,
+      limit: 100,
+    };
+    const payload: any &#x3D; {
+      rules: [],
+    };
+    if (this.selcectionObj &amp;&amp; this.selcectionObj.selectedItems) {
+      const selectedItems &#x3D; Object.keys(this.selcectionObj.selectedItems);
+      if (selectedItems &amp;&amp; selectedItems.length) {
+        selectedItems.forEach((ruleId, i) &#x3D;&gt; {
+          const tempobj &#x3D; {
+            _id: ruleId,
+          };
+          payload.rules.push(tempobj);
+        });
+      }
+    }
+    this.service
+      .invoke(&#x27;delete.businessRulesBulk&#x27;, quaryparms, payload)
+      .subscribe(
+        (res) &#x3D;&gt; {
+          if (dialogRef &amp;&amp; dialogRef.close) {
+            dialogRef.close();
+          }
+          this.getRules(null, this.searchRules);
+          this.notificationService.notify(&#x27;Deleted Successfully&#x27;, &#x27;success&#x27;);
+          this.mixpanel.postEvent(&#x27;Business Rule - Deleted&#x27;, {});
+          // console.log(&#x27;MIXPANNEL BR DELETE&#x27;)
+        },
+        (errRes) &#x3D;&gt; {
+          this.errorToaster(errRes, &#x27;Failed to delete rule&#x27;);
+        }
+      );
+  }
+  deleteRule(rule, i, dilogRef) {
+    const quaryparms: any &#x3D; {
+      searchIndexID: this.serachIndexId,
+      queryPipelineId: this.queryPipelineId,
+      indexPipelineId: this.workflowService.selectedIndexPipeline() || &#x27;&#x27;,
+      ruleId: rule._id,
+      limit: 100,
+    };
+    this.service.invoke(&#x27;delete.businessRule&#x27;, quaryparms).subscribe(
+      (res) &#x3D;&gt; {
+        const deleteIndex &#x3D; _.findIndex(this.allRules, (pg) &#x3D;&gt; {
+          return pg._id &#x3D;&#x3D;&#x3D; rule._id;
+        });
+        this.allRules.splice(deleteIndex, 1);
+        const deleteIndex1 &#x3D; _.findIndex(this.beforeFilterRules, (pg) &#x3D;&gt; {
+          return pg._id &#x3D;&#x3D;&#x3D; rule._id;
+        });
+        this.beforeFilterRules.splice(deleteIndex1, 1);
+        if (!this.allRules.length) {
+          this.isRuleActiveArr &#x3D; [];
+          this.beforeFilterRules.forEach((element) &#x3D;&gt; {
+            this.isRuleActiveArr.push(element.isRuleActive);
+            this.isRuleActiveArr &#x3D; [...new Set(this.isRuleActiveArr)];
+            this.filterTable(&#x27;all&#x27;, &#x27;isRuleActive&#x27;);
+          });
+        }
+        if (dilogRef &amp;&amp; dilogRef.close) {
+          dilogRef.close();
+        }
+        this.selectRuleType(this.selcectionObj.ruleType);
+        this.notificationService.notify(&#x27;Deleted Successfully&#x27;, &#x27;success&#x27;);
+        this.mixpanel.postEvent(&#x27;Business Rule - Deleted&#x27;, {});
+        // console.log(&#x27;MIXPANNEL BR DELETE&#x27;)
+      },
+      (errRes) &#x3D;&gt; {
+        this.errorToaster(errRes, &#x27;Failed to delete rule&#x27;);
+      }
+    );
+  }
+  toggleSearch() {
+    if (this.showSearch &amp;&amp; this.searchRules) {
+      this.searchRules &#x3D; &#x27;&#x27;;
+    }
+    this.showSearch &#x3D; !this.showSearch;
+    if (this.showSearch) {
+      $(&#x27;#searchInput&#x27;).focus();
+    }
+  }
+  getSortIconVisibility(sortingField: string, type: string) {
+    switch (this.selectedSort) {
+      case &#x27;ruleName&#x27;: {
+        if (this.selectedSort &#x3D;&#x3D; sortingField) {
+          if (this.isAsc &#x3D;&#x3D; false &amp;&amp; type &#x3D;&#x3D; &#x27;down&#x27;) {
+            return &#x27;display-block&#x27;;
+          }
+          if (this.isAsc &#x3D;&#x3D; true &amp;&amp; type &#x3D;&#x3D; &#x27;up&#x27;) {
+            return &#x27;display-block&#x27;;
+          }
+          return &#x27;display-none&#x27;;
+        }
+        return null;
+      }
+      case &#x27;isRuleActive&#x27;: {
+        if (this.selectedSort &#x3D;&#x3D; sortingField) {
+          if (this.isAsc &#x3D;&#x3D; false &amp;&amp; type &#x3D;&#x3D; &#x27;down&#x27;) {
+            return &#x27;display-block&#x27;;
+          }
+          if (this.isAsc &#x3D;&#x3D; true &amp;&amp; type &#x3D;&#x3D; &#x27;up&#x27;) {
+            return &#x27;display-block&#x27;;
+          }
+          return &#x27;display-none&#x27;;
+        }
+        return null;
+      }
+    }
+  }
+  compare(a: number | string, b: number | string, isAsc: boolean) {
+    return (a &lt; b ? -1 : 1) * (isAsc ? 1 : -1);
+  }
+  sortByApi(sort) {
+    this.selectedSort &#x3D; sort;
+    if (this.selectedSort !&#x3D;&#x3D; sort) {
+      this.isAsc &#x3D; true;
+    } else {
+      this.isAsc &#x3D; !this.isAsc;
+    }
+    let checkSortValue &#x3D; 1;
+    let naviagtionArrow &#x3D; &#x27;&#x27;;
+    if (this.isAsc) {
+      naviagtionArrow &#x3D; &#x27;up&#x27;;
+      checkSortValue &#x3D; 1;
+    } else {
+      naviagtionArrow &#x3D; &#x27;down&#x27;;
+      checkSortValue &#x3D; -1;
+    }
+    this.filterRules(
+      null,
+      null,
+      null,
+      null,
+      sort,
+      checkSortValue,
+      naviagtionArrow
+    );
+  }
+  errorToaster(errRes, message) {
+    if (
+      errRes &amp;&amp;
+      errRes.error &amp;&amp;
+      errRes.error.errors &amp;&amp;
+      errRes.error.errors.length &amp;&amp;
+      errRes.error.errors[0].msg
+    ) {
+      this.notificationService.notify(errRes.error.errors[0].msg, &#x27;error&#x27;);
+    } else if (message) {
+      this.notificationService.notify(message, &#x27;error&#x27;);
+    } else {
+      this.notificationService.notify(&#x27;Somthing went worng&#x27;, &#x27;error&#x27;);
+    }
+  }
+
+  //unsubscribe subjects
+  ngOnDestroy() {
+    // this.subscription ? this.subscription.unsubscribe() : false;
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
+  }
+  checkIsArray(value) {
+    if (Array.isArray(value)) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+  focusoutSearch() {
+    if (this.activeClose) {
+      this.searchRules &#x3D; &#x27;&#x27;;
+      this.activeClose &#x3D; false;
+      this.getRules(null, this.searchRules);
+    }
+    this.showSearch &#x3D; !this.showSearch;
+  }
+  focusinSearch(inputSearch) {
+    setTimeout(() &#x3D;&gt; {
+      document.getElementById(inputSearch).focus();
+    }, 100);
+  }
+  modifyFieldWarningMsg(warningMessage) {
+    let index &#x3D; warningMessage.indexOf(&#x27;changed&#x27;);
+    if (index &gt; -1) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+  updateRuleStatus(rule, event, index) {
+    const isRuleStatus &#x3D; event.target.checked;
+    const quaryparms: any &#x3D; {
+      searchIndexID: this.serachIndexId,
+      queryPipelineId: this.queryPipelineId,
+      indexPipelineId: this.workflowService.selectedIndexPipeline() || &#x27;&#x27;,
+      ruleId: rule._id,
+    };
+    const payload: any &#x3D; {
+      ruleName: rule.ruleName,
+      isRuleActive: isRuleStatus,
+      rules: rule.rules,
+      outcomes: rule.outcomes,
+    };
+    this.service.invoke(&#x27;update.businessRule&#x27;, quaryparms, payload).subscribe(
+      (res) &#x3D;&gt; {
+        this.notificationService.notify(&#x27;Updated Successfully&#x27;, &#x27;success&#x27;);
+        if (this.filterSystem.isRuleActiveFilter !&#x3D;&#x3D; &#x27;all&#x27;) {
+          this.rules.splice(index, 1);
+        } else {
+          this.rules &#x3D; this.rules.map((item) &#x3D;&gt; {
+            if (item?._id &#x3D;&#x3D;&#x3D; rule?._id) {
+              item.isRuleActive &#x3D; isRuleStatus;
+            }
+            return item;
+          });
+        }
+        this.getDyanmicFilterData();
+      },
+      (errRes) &#x3D;&gt; {
+        this.errorToaster(errRes, &#x27;Failed to update rule&#x27;);
+      }
+    );
+  }
+  //NLP Annotator code
+
+  //get dialog dimensions based on event
+  getDialogDiemensions(event) {
+    const dialog: any &#x3D; document.getElementsByClassName(&#x27;nlp-custom-tag-popup&#x27;);
+    if (dialog) {
+      dialog[0].style.top &#x3D; (event.offsetY * 100) / window.innerHeight + &#x27;%&#x27;;
+      dialog[0].style.left &#x3D;
+        (event.offsetX * 100) / window.innerWidth + 14 + &#x27;%&#x27;;
+    }
+  }
+
+  //fetch index info from appSelectText directive
+  getSelectedIndex(index) {
+    this.entityFields &#x3D; { startIndex: 0, endIndex: 0, entityId: &#x27;&#x27;, word: &#x27;&#x27; };
+    if (this.entityObj.sentence[index?.start] &#x3D;&#x3D; &#x27; &#x27;) {
+      index.start &#x3D; index?.start + 1;
+    }
+    this.entityFields.startIndex &#x3D; index?.start;
+    this.entityFields.endIndex &#x3D; index?.start + index?.text?.length;
+    this.entityFields.word &#x3D; index?.text;
+    if (index?.text?.length &gt; 0) this.nlpAnnotatorObj.showEntityPopup &#x3D; true;
+  }
+
+  //click on Entity to select
+  selectEntity(entity) {
+    this.entityFields.entityId &#x3D; entity?._id;
+    this.saveEntity();
+    if (this.selectEditIndex !&#x3D;&#x3D; null) {
+      this.nlpAnnotatorObj.annotator[this.selectEditIndex].colorSentence &#x3D;
+        this.updateColorSentence();
+    } else {
+      this.entityObj.colorSentence &#x3D; this.updateColorSentence();
+    }
+    this.nlpAnnotatorObj.showEntityPopup &#x3D; false;
+    //this.getLegends();
+  }
+
+  //save entity or not
+  saveEntity() {
+    let isPush &#x3D; false;
+    let entityArray &#x3D;
+      this.selectEditIndex !&#x3D;&#x3D; null
+        ? this.nlpAnnotatorObj.annotator[this.selectEditIndex].entities
+        : this.entityObj.entities;
+    if (entityArray.length &gt; 0) {
+      for (let i &#x3D; 0; i &lt;&#x3D; entityArray.length; i++) {
+        if (this.entityFields?.startIndex &#x3D;&#x3D;&#x3D; entityArray[i]?.startIndex) {
+          entityArray[i].entityId &#x3D; this.entityFields.entityId;
+          isPush &#x3D; true;
+        }
+      }
+    }
+    if (isPush &#x3D;&#x3D;&#x3D; false) entityArray.push(this.entityFields);
+    if (this.selectEditIndex !&#x3D;&#x3D; null) {
+      this.nlpAnnotatorObj.annotator[this.selectEditIndex].entities &#x3D;
+        entityArray;
+    } else {
+      this.entityObj.entities &#x3D; entityArray;
+    }
+  }
+
+  //detect text is deleting
+  dynamicColorPreview(type, event) {
+    if (event?.keyCode &#x3D;&#x3D;&#x3D; 13) return false;
+    if (type &#x3D;&#x3D;&#x3D; &#x27;add&#x27;) {
+      this.selectEditIndex &#x3D; null;
+      this.closeAllEditAnnotators();
+    }
+    setTimeout(() &#x3D;&gt; {
+      if (this.selectEditIndex !&#x3D;&#x3D; null) {
+        this.nlpAnnotatorObj.annotator[this.selectEditIndex].colorSentence &#x3D;
+          this.updateColorSentence();
+      } else {
+        this.entityObj.colorSentence &#x3D; this.updateColorSentence();
+      }
+      //this.getLegends();
+    }, 300);
+  }
+
+  //close edit mode in all annotators
+  closeAllEditAnnotators() {
+    for (let item of this.nlpAnnotatorObj.annotator) {
+      item.isEditable &#x3D; false;
+    }
+  }
+
+  //add color sentence to original sentence
+  updateColorSentence() {
+    setTimeout(() &#x3D;&gt; {
+      $(&#x27;.tag-tooltip-container&#x27;)
+        .mouseenter(function (event) {
+          const title &#x3D; $(event.currentTarget)
+            .closest(&#x27;.tag-tooltip-container&#x27;)
+            .attr(&#x27;tagname&#x27;);
+          $(&#x27;.tag-tooltip-text&#x27;).html(title);
+          $(&#x27;.tag-tooltip-text&#x27;).css({
+            top: event.pageY - event.offsetY + 30 + &#x27;px&#x27;,
+            left: event.offsetX + 30 + $(&#x27;.tag-tooltip-text&#x27;).width() + &#x27;px&#x27;,
+            visibility: &#x27;visible&#x27;,
+          });
+        })
+        .mouseleave(function () {
+          $(&#x27;.tag-tooltip-text&#x27;).html(&#x27;&#x27;);
+          $(&#x27;.tag-tooltip-text&#x27;).css({
+            top: &#x27;0px&#x27;,
+            left: &#x27;0px&#x27;,
+            visibility: &#x27;hidden&#x27;,
+          });
+        });
+    }, 1000);
+    let entityArray &#x3D; [];
+    const orgSentence &#x3D;
+      this.selectEditIndex !&#x3D;&#x3D; null
+        ? this.nlpAnnotatorObj.annotator[this.selectEditIndex].sentence
+        : this.entityObj.sentence;
+    const entityObj &#x3D;
+      this.selectEditIndex !&#x3D;&#x3D; null
+        ? this.nlpAnnotatorObj.annotator[this.selectEditIndex]
+        : this.entityObj;
+    let total_entities: any &#x3D; this.getUniqueListBy(
+      entityObj.entities,
+      &#x27;startIndex&#x27;
+    );
+    total_entities &#x3D; this.removeEntities(entityObj);
+    if (this.selectEditIndex !&#x3D;&#x3D; null) {
+      this.nlpAnnotatorObj.annotator[this.selectEditIndex].entities &#x3D;
+        total_entities;
+    } else {
+      this.entityObj.entities &#x3D; total_entities;
+    }
+    if (total_entities.length &gt; 0) {
+      for (let i &#x3D; 0; i &lt; total_entities.length; i++) {
+        let sentence &#x3D; &#x27;&#x27;;
+        const startIndex &#x3D; total_entities[i].startIndex;
+        const endIndex &#x3D; total_entities[i].endIndex;
+        const entity &#x3D; this.sys_entities.filter(
+          (item) &#x3D;&gt; item._id &#x3D;&#x3D;&#x3D; total_entities[i].entityId
+        );
+        const applyColor &#x3D; this.entityDefaultColors.filter(
+          (item) &#x3D;&gt; item.type &#x3D;&#x3D;&#x3D; entity[0].entityType
+        );
+        const entityName &#x3D;
+          entity[0].entityName.charAt(0).toUpperCase() +
+          entity[0].entityName.substr(1).toLowerCase();
+        sentence &#x3D;
+          &#x60;&lt;span class&#x3D;&quot;tag-tooltip-container&quot; tagname&#x3D;&quot;${entityName}&quot; contenteditable&#x3D;&quot;false&quot; style&#x3D;&quot;font-weight:bold;color:${applyColor[0].color}&quot;&gt;&#x60; +
+          orgSentence.substring(startIndex, endIndex) +
+          &#x60;&lt;/span&gt;&#x60;;
+        entityArray.push([startIndex, endIndex, sentence]);
+      }
+      const sentence &#x3D; this.getSentenceByEntity(entityArray, orgSentence);
+      return sentence;
+    } else {
+      entityArray &#x3D; [];
+      return orgSentence;
+    }
+  }
+
+  //remove entities if word not matched with sentence
+  removeEntities(data: any) {
+    let array &#x3D; [];
+    for (let item of data?.entities) {
+      const sentence &#x3D; data?.sentence;
+      const word &#x3D; item?.word;
+      console.log(
+        sentence.indexOf(word, item?.startIndex),
+        sentence.indexOf(word),
+        word,
+        item?.startIndex,
+        item?.startIndex + item?.word?.length
+      );
+      const indexes &#x3D; [
+        sentence.indexOf(word, item?.startIndex),
+        sentence.indexOf(word) + word?.length,
+      ];
+      const endIndex &#x3D; item?.startIndex + item?.word?.length;
+      if (indexes[0] &#x3D;&#x3D;&#x3D; item?.startIndex &amp;&amp; indexes[1] &#x3D;&#x3D;&#x3D; endIndex) {
+        array.push(item);
+      }
+    }
+    return array;
+  }
+
+  //remove duplicate items in array
+  getUniqueListBy(arr, key) {
+    return [...new Map(arr.map((item) &#x3D;&gt; [item[key], item])).values()];
+  }
+
+  //update string charaters
+  getSentenceByEntity(entityArray, str) {
+    String.prototype.replaceBetween &#x3D; function (start, end, what) {
+      var value &#x3D; this.substring(0, start + 1) + what + this.substring(end);
+      return value;
+    };
+    entityArray.sort(function (a, b) {
+      return b[0] - a[0];
+    });
+    for (var ii &#x3D; 0, triplet; !!(triplet &#x3D; entityArray[ii]); ii++) {
+      str &#x3D; str.replaceBetween(triplet[0] - 1, triplet[1], triplet[2]);
+    }
+    return str;
+  }
+
+  //after sentence changes click on add button
+  AddSelectedEnity() {
+    if (this.validateEntityObject()) {
+      let isCall: boolean &#x3D; false;
+      if (this.selectEditIndex !&#x3D;&#x3D; null) {
+        this.nlpAnnotatorObj.annotator[this.selectEditIndex].isEditable &#x3D; false;
+        this.selectEditIndex &#x3D; null;
+        isCall &#x3D; true;
+      } else {
+        isCall &#x3D;
+          this.nlpAnnotatorObj.annotator.length &#x3D;&#x3D;&#x3D; 0
+            ? true
+            : this.validateLegends(&#x27;single&#x27;);
+        if (isCall) {
+          this.nlpAnnotatorObj.annotator.push(this.entityObj);
+          $(&#x27;#contentText&#x27;)[0].style.borderColor &#x3D; &#x27;&#x27;;
+        }
+      }
+      if (isCall) {
+        this.getLegends();
+        this.entityObj &#x3D; {
+          entities: [],
+          sentence: &#x27;&#x27;,
+          colorSentence: &#x27;&#x27;,
+          isEditable: false,
+          legends: [],
+        };
+        this.entityFields &#x3D; {
+          startIndex: 0,
+          endIndex: 0,
+          entityId: &#x27;&#x27;,
+          word: &#x27;&#x27;,
+        };
+      }
+    }
+  }
+
+  //validate entity while click on add/done button
+  validateEntityObject() {
+    let isvalid &#x3D; true,
+      message &#x3D; &#x27;&#x27;;
+    const text: string &#x3D;
+      this.selectEditIndex !&#x3D;&#x3D; null
+        ? this.nlpAnnotatorObj.annotator[this.selectEditIndex].sentence
+        : this.entityObj.sentence;
+    const entities &#x3D;
+      this.selectEditIndex !&#x3D;&#x3D; null
+        ? this.nlpAnnotatorObj.annotator[this.selectEditIndex].entities
+        : this.entityObj.entities;
+    if (text.length &#x3D;&#x3D;&#x3D; 0) {
+      message &#x3D; &#x27;Sentence is required&#x27;;
+      isvalid &#x3D; false;
+    } else if (entities.length &#x3D;&#x3D;&#x3D; 0) {
+      message &#x3D; &#x27;At least one Tag is required&#x27;;
+      isvalid &#x3D; false;
+    }
+    if (isvalid &#x3D;&#x3D;&#x3D; false) this.notificationService.notify(message, &#x27;error&#x27;);
+    return isvalid;
+  }
+
+  //create or cancel entity
+  createTag(isPopup, isEdit) {
+    const annotatorArray &#x3D; this.nlpAnnotatorObj.annotator;
+    this.nlpAnnotatorObj &#x3D; {
+      showEntityPopup: isPopup,
+      isEditPage: isEdit,
+      entities: {
+        entityId: &#x27;&#x27;,
+        entityName: &#x27;&#x27;,
+        entityType: &#x27;index_field&#x27;,
+        fieldId: &#x27;&#x27;,
+        field_name: &#x27;&#x27;,
+        isEditable: false,
+      },
+      annotator: annotatorArray,
+      Legends: this.nlpAnnotatorObj.Legends,
+    };
+    if (isPopup &#x3D;&#x3D;&#x3D; false &amp;&amp; isEdit &#x3D;&#x3D;&#x3D; false) this.search_field &#x3D; &#x27;&#x27;;
+  }
+  //based on entity type show modal height
+  setModalHeight(type) {
+    $(&#x27;.nlp-custom-tag-popup&#x27;).css(
+      &#x27;height&#x27;,
+      type &#x3D;&#x3D;&#x3D; &#x27;custom&#x27; ? &#x27;355px&#x27; : &#x27;450px&#x27;
+    );
+  }
+
+  //select rule type
+  selectRuleType(type) {
+    if (type &#x3D;&#x3D;&#x3D; &#x27;contextual&#x27;) {
+      this.emptyScreen &#x3D; this.contextualEmptyScreen;
+    } else {
+      this.emptyScreen &#x3D; this.nlpEmptyScreen;
+    }
+    this.searchRules &#x3D; &#x27;&#x27;;
+    this.selcectionObj.selectAll &#x3D; false;
+    this.selcectionObj.selectedItems &#x3D; [];
+    this.selcectionObj.selectedCount &#x3D; 0;
+    this.selcectionObj.ruleType &#x3D; type;
+    this.filterSystem.isRuleActiveFilter &#x3D; &#x27;all&#x27;;
+    this.skip &#x3D; 0;
+    this.getRules();
+    // this.rules &#x3D; this.allRules?.filter(item &#x3D;&gt; {
+    //   if (type &#x3D;&#x3D;&#x3D; &#x27;contextual&#x27;) {
+    //     return (item?.ruleType &#x3D;&#x3D;&#x3D; type || item?.ruleType &#x3D;&#x3D;&#x3D; null)
+    //   } else {
+    //     return item?.ruleType &#x3D;&#x3D;&#x3D; type
+    //   }
+
+    // });
+
+    // this.beforeFilterRules &#x3D; JSON.parse(JSON.stringify(this.rules));
+    // if (this.rules.length &gt; 0) {
+    //   this.loadingContent &#x3D; false;
+    //   this.loadingContent1 &#x3D; false;
+    // }
+    // else {
+    //   this.loadingContent1 &#x3D; true;
+    // }
+  }
+
+  //delete annotator using index
+  deleteAnnotator(index) {
+    this.nlpAnnotatorObj.annotator.splice(index, 1);
+    this.getLegends();
+  }
+
+  //get entities list
+  getEntities() {
+    const quaryparms: any &#x3D; {
+      sidx: this.serachIndexId,
+      queryPipelineId: this.queryPipelineId,
+      fip: this.workflowService.selectedIndexPipeline() || &#x27;&#x27;,
+    };
+    this.service.invoke(&#x27;get.entities&#x27;, quaryparms).subscribe(
+      (res) &#x3D;&gt; {
+        const response &#x3D; res?.entities?.map((item) &#x3D;&gt; {
+          if (item?.entityType &#x3D;&#x3D;&#x3D; &#x27;index_field&#x27;) {
+            const field_name &#x3D; this.fieldAutoSuggestion?.filter(
+              (field) &#x3D;&gt; field?._id &#x3D;&#x3D;&#x3D; item?.fieldId
+            );
+            return { ...item, field_name: field_name[0]?.fieldName };
+          } else {
+            return item;
+          }
+        });
+        let rules &#x3D; [];
+        for (let item of this.rules) {
+          let chips &#x3D; [];
+          for (let rule of item?.rules) {
+            for (let entity of rule?.entities) {
+              const entityName &#x3D; res?.entities?.filter(
+                (ent) &#x3D;&gt; ent._id &#x3D;&#x3D;&#x3D; entity.entityId
+              );
+              if (!chips.includes(entityName[0].entityName)) {
+                chips.push(entityName[0].entityName);
+              }
+            }
+          }
+          const obj &#x3D; { ...item, chips: chips };
+          rules.push(obj);
+        }
+        this.rules &#x3D; rules;
+        this.sys_entities &#x3D; response;
+      },
+      (errRes) &#x3D;&gt; {
+        this.errorToaster(errRes, &#x27;Failed to get entities&#x27;);
+      }
+    );
+  }
+
+  //choose specific entity by clicking
+  chooseEntity(type, entity?) {
+    this.filteredFields &#x3D; [];
+    const isEditEntity &#x3D; type &#x3D;&#x3D;&#x3D; &#x27;add&#x27; ? true : false;
+    this.createTag(true, isEditEntity);
+    if (entity) {
+      this.nlpAnnotatorObj.entities.entityId &#x3D; entity?._id;
+      this.nlpAnnotatorObj.entities.isEditable &#x3D; true;
+      this.nlpAnnotatorObj.entities.entityName &#x3D; entity?.entityName;
+      this.nlpAnnotatorObj.entities.entityType &#x3D; entity?.entityType;
+      this.nlpAnnotatorObj.entities.fieldId &#x3D; entity?.fieldId;
+      const field_name &#x3D; this.fieldAutoSuggestion?.filter(
+        (item) &#x3D;&gt; item._id &#x3D;&#x3D;&#x3D; entity?.fieldId
+      );
+      if (field_name.length)
+        this.nlpAnnotatorObj.entities.field_name &#x3D; field_name[0].fieldName;
+    }
+    this.setModalHeight(entity ? entity?.entityType : &#x27;index&#x27;);
+    const fields &#x3D; [];
+    for (let item of this.sys_entities) {
+      if (item?.entityType &#x3D;&#x3D;&#x3D; &#x27;index_field&#x27;) fields.push(item?.fieldId);
+    }
+    for (let field of this.fieldAutoSuggestion) {
+      const isInclude &#x3D; fields.includes(field?._id);
+      if (!isInclude &amp;&amp; field?.fieldDataType !&#x3D;&#x3D; &#x27;number&#x27;)
+        this.filteredFields.push(field);
+    }
+    if (type &#x3D;&#x3D;&#x3D; &#x27;remove&#x27;) this.search_field &#x3D; &#x27;&#x27;;
+  }
+
+  //add entity
+  addEntity() {
+    const url &#x3D; this.nlpAnnotatorObj.entities.isEditable
+      ? &#x27;put.entities&#x27;
+      : &#x27;post.entities&#x27;;
+    let quaryparms: any &#x3D; {
+      sidx: this.serachIndexId,
+      queryPipelineId: this.queryPipelineId,
+      fip: this.workflowService.selectedIndexPipeline() || &#x27;&#x27;,
+    };
+    if (this.nlpAnnotatorObj.entities.isEditable) {
+      quaryparms.entityId &#x3D; this.nlpAnnotatorObj.entities.entityId;
+    }
+    delete this.nlpAnnotatorObj.entities.field_name;
+    delete this.nlpAnnotatorObj.entities.isEditable;
+    delete this.nlpAnnotatorObj.entities.entityId;
+    if (this.nlpAnnotatorObj.entities.entityType &#x3D;&#x3D;&#x3D; &#x27;custom&#x27;) {
+      delete this.nlpAnnotatorObj.entities.fieldId;
+    }
+    const payload &#x3D; this.nlpAnnotatorObj.entities;
+    this.service.invoke(url, quaryparms, payload).subscribe(
+      (res) &#x3D;&gt; {
+        if (res) {
+          this.createTag(true, false);
+          this.getEntities();
+          this.setModalHeight(&#x27;index&#x27;);
+        }
+      },
+      (errRes) &#x3D;&gt; {
+        this.errorToaster(errRes, &#x27;Failed to get entities&#x27;);
+      }
+    );
+  }
+
+  //delete entity
+  deleteEntity(event, index, entity) {
+    event.stopImmediatePropagation();
+    if (!this.validateEntityLengend(entity)) {
+      const quaryparms: any &#x3D; {
+        sidx: this.serachIndexId,
+        queryPipelineId: this.queryPipelineId,
+        fip: this.workflowService.selectedIndexPipeline() || &#x27;&#x27;,
+      };
+      const payload &#x3D; { entityIds: [entity?._id] };
+      this.service.invoke(&#x27;delete.entities&#x27;, quaryparms, payload).subscribe(
+        (res) &#x3D;&gt; {
+          if (res) {
+            this.sys_entities.splice(index, 1);
+          }
+        },
+        (errRes) &#x3D;&gt; {
+          this.errorToaster(errRes, &#x27;Failed to get entities&#x27;);
+        }
+      );
+    } else {
+      this.errorToaster(
+        &#x27;error&#x27;,
+        &#x27;Entity mapped in sentence,Please unmap to continue delete&#x27;
+      );
+    }
+  }
+
+  //validate entity exist in legends
+  validateEntityLengend(entity) {
+    const isExist &#x3D;
+      this.nlpAnnotatorObj.Legends.length &gt; 0
+        ? this.nlpAnnotatorObj.Legends.some(
+            (item) &#x3D;&gt; item.name &#x3D;&#x3D;&#x3D; entity?.entityName
+          )
+        : false;
+    return isExist;
+  }
+
+  //create color sentence while click on edit
+  createColorSentence(rule) {
+    this.entityObj &#x3D; {
+      entities: rule?.entities,
+      sentence: rule?.sentence,
+      colorSentence: &#x27;&#x27;,
+      isEditable: false,
+      legends: [],
+    };
+    this.entityObj.colorSentence &#x3D; this.updateColorSentence();
+    this.nlpAnnotatorObj.annotator.push(this.entityObj);
+    this.entityObj &#x3D; {
+      entities: [],
+      sentence: &#x27;&#x27;,
+      colorSentence: &#x27;&#x27;,
+      isEditable: false,
+      legends: [],
+    };
+  }
+
+  //edit annotator object
+  editAnnotatorSentence(index, annotator) {
+    annotator.isEditable &#x3D; true;
+    this.selectEditIndex &#x3D; index;
+    this.updateLegendAnnotators();
+  }
+
+  //cancel annotator sentence
+  cancelAnnotatorSentence(annotator) {
+    annotator.isEditable &#x3D; false;
+    this.selectEditIndex &#x3D; null;
+  }
+
+  //show legends method
+  getLegends() {
+    let legends &#x3D; [];
+    for (let annotator of this.nlpAnnotatorObj.annotator) {
+      for (let entity of annotator.entities) {
+        const Item &#x3D; this.sys_entities.filter(
+          (item) &#x3D;&gt; item._id &#x3D;&#x3D;&#x3D; entity.entityId
+        );
+        legends.push({ name: Item[0]?.entityName, type: Item[0]?.entityType });
+      }
+    }
+    // for (let obj of this.entityObj.entities) {
+    //   const Item &#x3D; this.sys_entities.filter(item &#x3D;&gt; item._id &#x3D;&#x3D;&#x3D; obj.entityId);
+    //   legends.push({ name: Item[0]?.entityName, type: Item[0]?.entityType });
+    // }
+    this.nlpAnnotatorObj.Legends &#x3D; this.getUniqueListBy(legends, &#x27;name&#x27;);
+  }
+
+  //toipc guide method
+  openUserMetaTagsSlider() {
+    this.appSelectionService.topicGuideShow.next(undefined);
+  }
+
+  //assign field to object
+  selectNLPField(field) {
+    this.nlpAnnotatorObj.entities.fieldId &#x3D; field?._id;
+    this.nlpAnnotatorObj.entities.field_name &#x3D; field?.fieldName;
+    this.search_field &#x3D; &#x27;&#x27;;
+  }
+
+  //validate legends equality with annotators
+  updateLegendAnnotators() {
+    for (let item of this.nlpAnnotatorObj?.annotator) {
+      let entities &#x3D; [];
+      item.legends &#x3D; [];
+      for (let entity of item?.entities) {
+        const Item &#x3D; this.sys_entities.filter(
+          (item) &#x3D;&gt; item._id &#x3D;&#x3D;&#x3D; entity.entityId
+        );
+        entities.push(Item[0].entityName);
+      }
+      if (this.nlpAnnotatorObj?.Legends) {
+        for (let legend of this.nlpAnnotatorObj?.Legends) {
+          if (!entities.includes(legend.name)) {
+            item.legends.push({ name: legend.name, type: legend.type });
+          }
+        }
+      }
+    }
+  }
+
+  isEmptyScreenLoading(isLoading) {
+    this.loadingContent &#x3D; isLoading;
+  }
+}
+</code></pre>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+          <label class="dark-mode-switch">
+               <input type="checkbox">
+               <span class="slider">
+                    <svg class="slider-icon" viewBox="0 0 24 24" fill="none" height="20" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" width="20" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path>
+                    </svg>
+               </span>
+          </label>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 1;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'interface';
+            var COMPODOC_CURRENT_PAGE_URL = 'String.html';
+            var MAX_SEARCH_RESULTS = 15;
+       </script>
+
+       <script src="../js/libs/custom-elements.min.js"></script>
+       <script src="../js/libs/lit-html.js"></script>
+
+       <script src="../js/menu-wc.js" defer></script>
+       <script nomodule src="../js/menu-wc_es5.js" defer></script>
+
+       <script src="../js/libs/bootstrap-native.js"></script>
+
+       <script src="../js/libs/es6-shim.min.js"></script>
+       <script src="../js/libs/EventDispatcher.js"></script>
+       <script src="../js/libs/promise.min.js"></script>
+       <script src="../js/libs/zepto.min.js"></script>
+
+       <script src="../js/compodoc.js"></script>
+
+       <script src="../js/tabs.js"></script>
+       <script src="../js/menu.js"></script>
+       <script src="../js/libs/clipboard.min.js"></script>
+       <script src="../js/libs/prism.js"></script>
+       <script src="../js/sourceCode.js"></script>
+          <script src="../js/search/search.js"></script>
+          <script src="../js/search/lunr.min.js"></script>
+          <script src="../js/search/search-lunr.js"></script>
+          <script src="../js/search/search_index.js"></script>
+       <script src="../js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>

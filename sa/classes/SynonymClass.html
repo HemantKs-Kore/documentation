@@ -1,0 +1,748 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>koreai documentation</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	   <link rel="stylesheet" href="../styles/style.css">
+        <link rel="stylesheet" href="../styles/dark.css">
+    </head>
+    <body>
+
+        <div class="navbar navbar-default navbar-fixed-top visible-xs">
+            <a href="../" class="navbar-brand">koreai documentation</a>
+            <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="hidden-xs menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content class">
+                   <div class="content-data">
+
+
+
+
+
+
+
+
+
+
+
+
+<ol class="breadcrumb">
+  <li>Classes</li>
+  <li >SynonymClass</li>
+</ol>
+
+<ul class="nav nav-tabs" role="tablist">
+        <li class="active">
+            <a href="#info" role="tab" id="info-tab" data-toggle="tab" data-link="info">Info</a>
+        </li>
+        <li >
+            <a href="#source" role="tab" id="source-tab" data-toggle="tab" data-link="source">Source</a>
+        </li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane fade active in" id="c-info">
+        <p class="comment">
+            <h3>File</h3>
+        </p>
+        <p class="comment">
+            <code>apps/searchassist/src/app/modules/search-settings/modules/synonyms/synonyms.component.ts</code>
+        </p>
+
+
+
+
+
+
+            <section>
+    <h3 id="index">Index</h3>
+    <table class="table table-sm table-bordered index-table">
+        <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Properties</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#synonyms" >synonyms</a>
+                            </li>
+                            <li>
+                                <a href="#type" >type</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+
+
+
+
+
+        </tbody>
+    </table>
+</section>
+
+
+            <section>
+    
+    <h3 id="inputs">
+        Properties
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="synonyms"></a>
+                    <span class="name">
+                        <span ><b>synonyms</b></span>
+                        <a href="#synonyms"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../interfaces/String.html" target="_self" >Array&lt;String&gt;</a></code>
+
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="503" class="link-to-prism">apps/searchassist/src/app/modules/search-settings/modules/synonyms/synonyms.component.ts:503</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="type"></a>
+                    <span class="name">
+                        <span ><b>type</b></span>
+                        <a href="#type"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../interfaces/String.html" target="_self" >String</a></code>
+
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="502" class="link-to-prism">apps/searchassist/src/app/modules/search-settings/modules/synonyms/synonyms.component.ts:502</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+</section>
+
+
+
+
+
+
+
+    </div>
+
+
+    <div class="tab-pane fade  tab-source-code" id="c-source">
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { EMPTY_SCREEN } from &#x27;./../../../empty-screen/empty-screen.constants&#x27;;
+import { Component, OnDestroy, OnInit } from &#x27;@angular/core&#x27;;
+import { ENTER, COMMA } from &#x27;@angular/cdk/keycodes&#x27;;
+import { MatChipInputEvent } from &#x27;@angular/material/chips&#x27;;
+import { Router } from &#x27;@angular/router&#x27;;
+import { MatDialog } from &#x27;@angular/material/dialog&#x27;;
+import * as _ from &#x27;underscore&#x27;;
+import { Observable, Subscription } from &#x27;rxjs&#x27;;
+import { WorkflowService } from &#x27;@kore.apps/services/workflow.service&#x27;;
+import { ServiceInvokerService } from &#x27;@kore.apps/services/service-invoker.service&#x27;;
+import { AuthService } from &#x27;@kore.apps/services/auth.service&#x27;;
+import { NotificationService } from &#x27;@kore.apps/services/notification.service&#x27;;
+import { AppSelectionService } from &#x27;@kore.apps/services/app.selection.service&#x27;;
+import { InlineManualService } from &#x27;@kore.apps/services/inline-manual.service&#x27;;
+import { ConfirmationDialogComponent } from &#x27;@kore.apps/helpers/components/confirmation-dialog/confirmation-dialog.component&#x27;;
+declare const $: any;
+
+@Component({
+  selector: &#x27;app-synonyms&#x27;,
+  templateUrl: &#x27;./synonyms.component.html&#x27;,
+  styleUrls: [&#x27;./synonyms.component.scss&#x27;],
+})
+export class SynonymsComponent implements OnInit, OnDestroy {
+  emptyScreen &#x3D; EMPTY_SCREEN.INDICES_SYNONYMS;
+  selectedApp: any &#x3D; {};
+  synonymSearch: any &#x3D; &#x27;&#x27;;
+  showSearch &#x3D; false;
+  synonyms: any &#x3D; [];
+  synonymDropdownTypeArr: any &#x3D; [];
+  serachIndexId;
+  loadingContent &#x3D; true;
+  skip &#x3D; 0;
+  timeoutId: any;
+  filteroneWaySynonym: boolean;
+  filterSynonym: boolean;
+  haveRecord &#x3D; false;
+  currentEditIndex: any &#x3D; -1;
+  editIndex: any &#x3D; -1;
+  pipeline;
+  showFlag;
+  totalRecord: number &#x3D; 0;
+  synonymData: any[] &#x3D; [];
+  synonymDuplicateData: Array&lt;Object&gt; &#x3D; [];
+  synonymArr: any &#x3D; [];
+  synonymTypeArr$: Observable&lt;any[]&gt;;
+  synonymGet: any &#x3D; [];
+  visible &#x3D; true;
+  selectable &#x3D; true;
+  removable &#x3D; true;
+  addOnBlur &#x3D; true;
+  queryPipelineId;
+  editSubmitted: boolean &#x3D; false;
+  // showSynonym:boolean
+  indexPipelineId;
+  isAsc &#x3D; true;
+  selectedSort &#x3D; &#x27;type&#x27;;
+  checksort &#x3D; &#x27;asc&#x27;;
+  searchKeyword: any;
+  filterType: any &#x3D; &#x27;&#x27;;
+  displaySearch: boolean &#x3D; false;
+  newSynonymObj: any &#x3D; {
+    type: &#x27;synonym&#x27;,
+    addNew: false,
+    values: [],
+  };
+  addNewSynonymObj: any &#x3D; {
+    type: &#x27;synonym&#x27;,
+    synonyms: [],
+  };
+  editSynonymObj: any &#x3D; {};
+  activeClose &#x3D; false;
+  selectedFilter: any;
+  createFromScratch: any;
+  synonymObj;
+  filterSystem: any &#x3D; {
+    typefilter: &#x27;all&#x27;,
+  };
+  sortedObject &#x3D; {
+    type: &#x27;fieldName&#x27;,
+    position: &#x27;up&#x27;,
+    value: 1,
+  };
+  filterObject &#x3D; {
+    type: &#x27;all&#x27;,
+    header: &#x27;&#x27;,
+  };
+  // synonym;
+  // showoneWaySynonym:boolean;
+  readonly separatorKeysCodes: number[] &#x3D; [ENTER, COMMA];
+  synArr: any[] &#x3D; [];
+  synArrTemp: any[] &#x3D; [];
+  subscription: Subscription;
+  componentType: string &#x3D; &#x27;configure&#x27;;
+  submitted: boolean &#x3D; false;
+  searchImgSrc: any &#x3D; &#x27;assets/icons/search_gray.svg&#x27;;
+  searchFocusIn &#x3D; false;
+  constructor(
+    public workflowService: WorkflowService,
+    private service: ServiceInvokerService,
+    private notificationService: NotificationService,
+    private authService: AuthService,
+    private router: Router,
+    public dialog: MatDialog,
+    private appSelectionService: AppSelectionService,
+    public inlineManual: InlineManualService
+  ) {
+    this.synonymObj &#x3D; new SynonymClass();
+  }
+
+  ngOnInit() {
+    this.selectedApp &#x3D; this.workflowService?.selectedApp();
+    this.serachIndexId &#x3D; this.selectedApp?.searchIndexes[0]?._id;
+    this.loadSynonyms();
+    this.subscription &#x3D; this.appSelectionService.queryConfigs.subscribe(
+      (res) &#x3D;&gt; {
+        this.loadSynonyms();
+      }
+    );
+  }
+  loadImageText: boolean &#x3D; false;
+  loadingContent1: boolean;
+  imageLoad() {
+    this.loadingContent &#x3D; false;
+    this.loadingContent1 &#x3D; true;
+    this.loadImageText &#x3D; true;
+    if (!this.inlineManual.checkVisibility(&#x27;SYNONYMS&#x27;)) {
+      this.inlineManual.openHelp(&#x27;SYNONYMS&#x27;);
+      this.inlineManual.visited(&#x27;SYNONYMS&#x27;);
+    }
+  }
+  loadSynonyms() {
+    this.indexPipelineId &#x3D; this.workflowService?.selectedIndexPipeline();
+    if (this.indexPipelineId) {
+      this.queryPipelineId &#x3D; this.workflowService?.selectedQueryPipeline()
+        ? this.workflowService.selectedQueryPipeline()?._id
+        : this.selectedApp.searchIndexes[0]?.queryPipelineId;
+      if (this.queryPipelineId) {
+        this.getSynonyms();
+      }
+    }
+  }
+  paginate(event) {
+    this.skip &#x3D; event.skip;
+    // this.getFileds(event.skip, this.searchFields)
+  }
+  synonymChanged() {
+    this.addNewSynonymObj.values &#x3D; [];
+    this.synonymObj.synonyms &#x3D; [];
+    this.addNewSynonymObj.keyword &#x3D; [];
+  }
+  errorToaster(errRes, message) {
+    if (
+      errRes &amp;&amp;
+      errRes.error &amp;&amp;
+      errRes.error.errors &amp;&amp;
+      errRes.error.errors.length &amp;&amp;
+      errRes.error.errors[0].msg
+    ) {
+      this.notificationService.notify(errRes.error.errors[0].msg, &#x27;error&#x27;);
+    } else if (message) {
+      this.notificationService.notify(message, &#x27;error&#x27;);
+    } else {
+      this.notificationService.notify(&#x27;Somthing went worng&#x27;, &#x27;error&#x27;);
+    }
+  }
+  removeList(syn, synonymId, i) {
+    const synonyms &#x3D; [...this.synonymData];
+    const index &#x3D; synonyms[i].values.indexOf(syn);
+    if (index &gt;&#x3D; 0) {
+      synonyms[i].values.splice(index, 1);
+    }
+  }
+  toggleSearch() {
+    if (this.showSearch &amp;&amp; this.synonymSearch) {
+      this.synonymSearch &#x3D; &#x27;&#x27;;
+    }
+    this.showSearch &#x3D; !this.showSearch;
+  }
+  focusoutSearch() {
+    if (this.activeClose) {
+      this.synonymSearch &#x3D; &#x27;&#x27;;
+      this.activeClose &#x3D; false;
+    }
+    this.showSearch &#x3D; !this.showSearch;
+  }
+  focusinSearch(inputSearch) {
+    setTimeout(() &#x3D;&gt; {
+      document.getElementById(inputSearch).focus();
+    }, 100);
+  }
+  openUserMetaTagsSlider() {
+    this.appSelectionService.topicGuideShow.next(undefined);
+  }
+
+  //-------------------------(Author:BHARADWAJ)
+  checkDuplicateTags(suggestion: string, alltTags): boolean {
+    return alltTags.every((f) &#x3D;&gt; f !&#x3D;&#x3D; suggestion);
+  }
+  add(event: MatChipInputEvent, type) {
+    const input &#x3D; event.input;
+    const value &#x3D; event.value;
+    if ((value || &#x27;&#x27;).trim()) {
+      let synObj &#x3D;
+        type &#x3D;&#x3D; &#x27;add&#x27;
+          ? this.addNewSynonymObj.synonyms
+          : this.editSynonymObj.synonyms;
+      if (!this.checkDuplicateTags((value || &#x27;&#x27;).trim(), synObj)) {
+        this.notificationService.notify(
+          &#x27;Duplicate tags are not allowed&#x27;,
+          &#x27;warning&#x27;
+        );
+        return;
+      } else {
+        type &#x3D;&#x3D; &#x27;add&#x27;
+          ? this.addNewSynonymObj.synonyms.push(value.trim())
+          : this.editSynonymObj.synonyms.push(value.trim());
+      }
+    }
+    if (input) {
+      input.value &#x3D; &#x27;&#x27;;
+    }
+  }
+  //VALIDATION FOR SYNONYM
+  getSynonyms() {
+    this.loadingContent &#x3D; true;
+    const quaryparms: any &#x3D; {
+      streamId: this.selectedApp._id,
+      queryPipelineId: this.queryPipelineId,
+      indexPipelineId: this.workflowService.selectedIndexPipeline() || &#x27;&#x27;,
+      code: &#x27;en&#x27;,
+      sortField: this.selectedSort ? this.selectedSort : &#x27;type&#x27;,
+      orderType: this.checksort ? this.checksort : &#x27;asc&#x27;,
+      searchKey: this.searchKeyword ? this.searchKeyword : &#x27;&#x27;,
+      synonymType: this.filterType ? this.filterType : &#x27;&#x27;,
+    };
+    this.service.invoke(&#x27;get.synonyms&#x27;, quaryparms).subscribe(
+      (res) &#x3D;&gt; {
+        if (res &amp;&amp; res.data) {
+          this.synonymData &#x3D; res.data;
+          this.synonymDuplicateData &#x3D; res?.data;
+          this.loadingContent &#x3D; false;
+        }
+      },
+      (errRes) &#x3D;&gt; {
+        this.loadingContent &#x3D; false;
+        this.errorToaster(errRes, &#x27;Failed to get Synonyms&#x27;);
+      }
+    );
+  }
+  debouncedSearch() {
+    clearTimeout(this.timeoutId);
+    this.timeoutId &#x3D; setTimeout(() &#x3D;&gt; {
+      this.searchKeyword &#x3D; this.synonymSearch;
+      this.getSynonyms();
+    }, 300);
+  }
+  validateSynonyms() {
+    if (
+      this.addNewSynonymObj?.type &#x3D;&#x3D;&#x3D; &#x27;oneWaySynonym&#x27; &amp;&amp;
+      !this.addNewSynonymObj?.keyword &amp;&amp;
+      !this.addNewSynonymObj?.synonyms?.length
+    ) {
+      return false;
+    } else if (
+      this.addNewSynonymObj?.type &#x3D;&#x3D;&#x3D; &#x27;synonym&#x27; &amp;&amp;
+      !(this.addNewSynonymObj?.synonyms.length &gt; 1)
+    ) {
+      return false;
+    } else {
+      return true;
+    }
+  }
+  //SELECTING SYNONYMN TYPE
+  changeSynonymType() {
+    this.addNewSynonymObj.synonyms &#x3D; [];
+    this.synonymObj.synonyms &#x3D; [];
+    this.addNewSynonymObj.keyword &#x3D; &#x27;&#x27;;
+    this.submitted &#x3D; false;
+  }
+  addSynonym() {
+    this.submitted &#x3D; true;
+    if (this.validateSynonyms()) {
+      const obj: any &#x3D; {
+        type: this.addNewSynonymObj.type,
+        synonyms: this.addNewSynonymObj.synonyms,
+      };
+      if (this.addNewSynonymObj.type &#x3D;&#x3D;&#x3D; &#x27;oneWaySynonym&#x27;) {
+        if (
+          !(
+            this.addNewSynonymObj.synonyms &amp;&amp;
+            this.addNewSynonymObj.synonyms.length
+          )
+        ) {
+          this.notificationService.notify(&#x27;Synonyms cannot be empty&#x27;, &#x27;error&#x27;);
+          return;
+        }
+        if (!this.addNewSynonymObj.keyword) {
+          this.notificationService.notify(&#x27;Please enter keyword&#x27;, &#x27;error&#x27;);
+          return;
+        } else {
+          obj.keyword &#x3D; this.addNewSynonymObj.keyword;
+        }
+      }
+      if (this.addNewSynonymObj.type &#x3D;&#x3D;&#x3D; &#x27;oneWaySynonym&#x27;) {
+        this.filteroneWaySynonym &#x3D; true;
+      } else if (this.addNewSynonymObj.type &#x3D;&#x3D;&#x3D; &#x27;synonym&#x27;) {
+        this.filterSynonym &#x3D; true;
+      }
+      this.addOrUpddate(obj, &#x27;add&#x27;);
+    } else if (
+      this.addNewSynonymObj?.type &#x3D;&#x3D;&#x3D; &#x27;synonym&#x27; &amp;&amp;
+      this.addNewSynonymObj?.synonyms.length &#x3D;&#x3D;&#x3D; 1
+    ) {
+      this.notificationService.notify(
+        &#x27;Synonyms should be more than one&#x27;,
+        &#x27;warning&#x27;
+      );
+    } else {
+      this.notificationService.notify(
+        &#x27;Enter the required fields to proceed&#x27;,
+        &#x27;error&#x27;
+      );
+    }
+  }
+  addOrUpddate(synonymData, type, dialogRef?) {
+    const quaryparms: any &#x3D; {
+      streamId: this.selectedApp._id,
+      queryPipelineId: this.queryPipelineId,
+      indexPipelineId: this.workflowService.selectedIndexPipeline() || &#x27;&#x27;,
+      synonymId: synonymData._id,
+    };
+    const payload: any &#x3D; {
+      languageCode: &#x27;en&#x27;,
+      type: synonymData.type,
+      keyword: synonymData.keyword,
+      synonyms: synonymData.synonyms,
+    };
+    var url: any &#x3D; &#x27;&#x27;;
+    if (synonymData.type &#x3D;&#x3D; &#x27;synonym&#x27;) delete payload.keyword;
+    url &#x3D; type &#x3D;&#x3D; &#x27;add&#x27; ? &#x27;put.addSynonym&#x27; : &#x27;put.EditSynonym&#x27;;
+    this.service.invoke(url, quaryparms, payload).subscribe(
+      (res) &#x3D;&gt; {
+        this.getSynonyms();
+        this.editIndex &#x3D; -1;
+        this.submitted &#x3D; false;
+        if (type &#x3D;&#x3D; &#x27;add&#x27;) this.addNewSynonymObj.synonyms &#x3D; [];
+        if (synonymData.type &#x3D;&#x3D; &#x27;oneWaySynonym&#x27;)
+          this.addNewSynonymObj.keyword &#x3D; [];
+        if (dialogRef &amp;&amp; dialogRef.close) {
+          dialogRef.close();
+        }
+        this.notificationService.notify(
+          &#x27;Synonym Added Successfully&#x27;,
+          &#x27;success&#x27;
+        );
+      },
+      (errRes) &#x3D;&gt; {
+        this.errorToaster(errRes, &#x27;Failed To Add Synonym&#x27;);
+      }
+    );
+  }
+  remove(syn, type) {
+    const index &#x3D;
+      type &#x3D;&#x3D; &#x27;add&#x27;
+        ? this.addNewSynonymObj.synonyms.indexOf(syn)
+        : this.editSynonymObj.synonyms.indexOf(syn);
+    if (index &gt;&#x3D; 0 &amp;&amp; type &#x3D;&#x3D; &#x27;add&#x27;) {
+      this.addNewSynonymObj.synonyms.splice(index, 1);
+    } else {
+      this.editSynonymObj.synonyms.splice(index, 1);
+    }
+  }
+  deleteSynonymnConfirmationPopUp(synonym, index) {
+    const dialogRef: any &#x3D; this.dialog.open(ConfirmationDialogComponent, {
+      width: &#x27;530px&#x27;,
+      height: &#x27;auto&#x27;,
+      panelClass: &#x27;delete-popup&#x27;,
+      data: {
+        newTitle: &#x27;Are you sure you want to delete ?&#x27;,
+        body: &#x27;Selected Synonym group will be deleted.&#x27;,
+        buttons: [
+          { key: &#x27;yes&#x27;, label: &#x27;Delete&#x27;, type: &#x27;danger&#x27; },
+          { key: &#x27;no&#x27;, label: &#x27;Cancel&#x27; },
+        ],
+        confirmationPopUp: true,
+      },
+    });
+
+    dialogRef.componentInstance.onSelect.subscribe((result) &#x3D;&gt; {
+      if (result &#x3D;&#x3D;&#x3D; &#x27;yes&#x27;) {
+        if (this.showFlag &#x3D;&#x3D;&#x3D; true) {
+          this.deleteSynonymn(synonym, index, dialogRef);
+        }
+      } else if (result &#x3D;&#x3D;&#x3D; &#x27;no&#x27;) {
+        dialogRef.close();
+        // console.log(&#x27;deleted&#x27;)
+      }
+    });
+  }
+  deleteSynonymn(synonym, index, dialogRef) {
+    const quaryparms: any &#x3D; {
+      streamId: this.selectedApp._id,
+      queryPipelineId: this.queryPipelineId,
+      indexPipelineId: this.workflowService.selectedIndexPipeline() || &#x27;&#x27;,
+      synonymId: synonym._id,
+    };
+    this.service.invoke(&#x27;delete.synonymn&#x27;, quaryparms).subscribe(
+      (res) &#x3D;&gt; {
+        if (res) {
+          this.synonymData.splice(index, 1);
+          this.notificationService.notify(
+            &#x27;Synonym deleted successfully&#x27;,
+            &#x27;success&#x27;
+          );
+        }
+        if (dialogRef &amp;&amp; dialogRef.close) {
+          dialogRef.close();
+        }
+      },
+      (errRes) &#x3D;&gt; {
+        this.errorToaster(errRes, &#x27;Failed to delete Synonymn&#x27;);
+      }
+    );
+  }
+  editSynonymn(index, synonymn) {
+    this.editIndex &#x3D; index;
+    this.editSynonymObj &#x3D; this.synonymData[index];
+  }
+  addEditedSynonym(synonymn) {
+    this.editSubmitted &#x3D; true;
+    if (
+      !this.editSynonymObj ||
+      (this.editSynonymObj.synonyms &amp;&amp; !this.editSynonymObj.synonyms.length)
+    ) {
+      return false;
+    } else if (
+      this.editSynonymObj.type &#x3D;&#x3D; &#x27;oneWaySynonym&#x27; &amp;&amp;
+      !this.editSynonymObj.keyword
+    ) {
+      return false;
+    } else {
+      this.addOrUpddate(synonymn, &#x27;edit&#x27;);
+    }
+  }
+  cancelEdit(index) {
+    this.editIndex &#x3D; null;
+    this.getSynonyms();
+    // this.editSynonymObj &#x3D; this.synonymData[index]
+  }
+  sortByApi(sort) {
+    this.selectedSort &#x3D; sort;
+    if (this.selectedSort !&#x3D;&#x3D; sort) {
+      this.isAsc &#x3D; true;
+    } else {
+      this.isAsc &#x3D; !this.isAsc;
+    }
+    let naviagtionArrow &#x3D; &#x27;&#x27;;
+    if (this.isAsc) {
+      naviagtionArrow &#x3D; &#x27;up&#x27;;
+      this.checksort &#x3D; &#x27;asc&#x27;;
+    } else {
+      naviagtionArrow &#x3D; &#x27;down&#x27;;
+      this.checksort &#x3D; &#x27;desc&#x27;;
+    }
+    this.getSynonyms();
+  }
+  getSortIconVisibility(sortingField: string, type: string, component: string) {
+    switch (this.selectedSort) {
+      case &#x27;type&#x27;: {
+        if (this.selectedSort &#x3D;&#x3D; sortingField) {
+          if (this.isAsc &#x3D;&#x3D; false &amp;&amp; type &#x3D;&#x3D; &#x27;down&#x27;) {
+            return &#x27;display-block&#x27;;
+          }
+          if (this.isAsc &#x3D;&#x3D; true &amp;&amp; type &#x3D;&#x3D; &#x27;up&#x27;) {
+            return &#x27;display-block&#x27;;
+          }
+          return &#x27;display-none&#x27;;
+        }
+      }
+    }
+  }
+  filterTable(source, headerOption) {
+    switch (headerOption) {
+      case &#x27;type&#x27;: {
+        this.filterSystem.typefilter &#x3D; source;
+        break;
+      }
+    }
+    this.filterObject &#x3D; {
+      type: source,
+      header: headerOption,
+    };
+    this.filterType &#x3D; headerOption;
+    this.getSynonyms();
+  }
+  ngOnDestroy() {
+    this.subscription ? this.subscription.unsubscribe() : false;
+  }
+  //-------------------------(Author:BHARADWAJ)
+}
+class SynonymClass {
+  type: String;
+  synonyms: Array&lt;String&gt;;
+}
+</code></pre>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+          <label class="dark-mode-switch">
+               <input type="checkbox">
+               <span class="slider">
+                    <svg class="slider-icon" viewBox="0 0 24 24" fill="none" height="20" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" width="20" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path>
+                    </svg>
+               </span>
+          </label>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 1;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'class';
+            var COMPODOC_CURRENT_PAGE_URL = 'SynonymClass.html';
+            var MAX_SEARCH_RESULTS = 15;
+       </script>
+
+       <script src="../js/libs/custom-elements.min.js"></script>
+       <script src="../js/libs/lit-html.js"></script>
+
+       <script src="../js/menu-wc.js" defer></script>
+       <script nomodule src="../js/menu-wc_es5.js" defer></script>
+
+       <script src="../js/libs/bootstrap-native.js"></script>
+
+       <script src="../js/libs/es6-shim.min.js"></script>
+       <script src="../js/libs/EventDispatcher.js"></script>
+       <script src="../js/libs/promise.min.js"></script>
+       <script src="../js/libs/zepto.min.js"></script>
+
+       <script src="../js/compodoc.js"></script>
+
+       <script src="../js/tabs.js"></script>
+       <script src="../js/menu.js"></script>
+       <script src="../js/libs/clipboard.min.js"></script>
+       <script src="../js/libs/prism.js"></script>
+       <script src="../js/sourceCode.js"></script>
+          <script src="../js/search/search.js"></script>
+          <script src="../js/search/lunr.min.js"></script>
+          <script src="../js/search/search-lunr.js"></script>
+          <script src="../js/search/search_index.js"></script>
+       <script src="../js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>
