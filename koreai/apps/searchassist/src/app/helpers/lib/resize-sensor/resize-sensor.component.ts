@@ -10,7 +10,7 @@ export class MarkdownEditorResizeSensorComponent {
 
   @ViewChild('resizeSensor') resizeSensor: ElementRef;
 
-  @Input() interval: number = 500;
+  @Input() interval = 500;
   @Output() resize: EventEmitter<any> = new EventEmitter<any>();
 
   private sizeInfo: any = {
@@ -35,8 +35,8 @@ export class MarkdownEditorResizeSensorComponent {
   }
 
   private detectSize() {
-    let width = this.resizeSensor.nativeElement.offsetWidth;
-    let height = this.resizeSensor.nativeElement.offsetHeight;
+    const width = this.resizeSensor.nativeElement.offsetWidth;
+    const height = this.resizeSensor.nativeElement.offsetHeight;
     if (this.sizeInfo.width !== width || this.sizeInfo.height !== height) {
       this.sizeInfo = {
         width: width,

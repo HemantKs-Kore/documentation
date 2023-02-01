@@ -21,8 +21,8 @@ export class SideBarService {
   isOnboardingPage = false;
   openJourneyForfirstTime = false;
   searchConfiguration: any;
-  isSDKCached: boolean = false;
-  isSDKOpen: boolean = false;
+  isSDKCached = false;
+  isSDKOpen = false;
   toggle(data) {
     this.change.next(data);
   }

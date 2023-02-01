@@ -20,7 +20,7 @@ export class SelectTextDirective {
   constructor(private el:ElementRef) { }
 
   handleContextMenu = (event) => {
-          var _selectedText = this.getSelectedText();
+          let _selectedText = this.getSelectedText();
           if(_selectedText){
             _selectedText =  _selectedText.trim();
           }          
@@ -39,14 +39,14 @@ export class SelectTextDirective {
   }
 
   getTextStartEndIndex = () => {
-    var mainDiv = this.el.nativeElement;
-    var sel = this.getSelectionCharOffsetsWithin(mainDiv);
+    const mainDiv = this.el.nativeElement;
+    const sel = this.getSelectionCharOffsetsWithin(mainDiv);
     return sel;
   }
 
   getSelectionCharOffsetsWithin(element) {
-    var start = 0, end = 0;
-    var sel, range, priorRange,text;
+    let start = 0, end = 0;
+    let sel, range, priorRange,text;
     if (typeof window.getSelection != "undefined") {
       range = window.getSelection().getRangeAt(0);
       priorRange = range.cloneRange();

@@ -19,8 +19,8 @@ export class UseronboardingJourneyComponent implements OnInit, OnDestroy {
   tourConfigData: any = [];
   checklistCount: number;
   userInfo: any = {};
-  showSteps: boolean = false;
-  showStatusIcon: boolean = true;
+  showSteps = false;
+  showStatusIcon = true;
   prevStep;
   nextStep;
   subscribedShow: any;
@@ -88,8 +88,8 @@ export class UseronboardingJourneyComponent implements OnInit, OnDestroy {
   }
   //track checklist count and show count number
   trackChecklist() {
-    let arr = [];
-    let Index = [];
+    const arr = [];
+    const Index = [];
     this.tourData.forEach((item) => {
       Object.keys(item).forEach((key) => {
         arr.push(item[key])
@@ -100,8 +100,8 @@ export class UseronboardingJourneyComponent implements OnInit, OnDestroy {
     })
     this.collapseOpen = Index[0];
     let count = 0;
-    for (let key in this.tourData) {
-      for (let key1 in this.tourData[key]) {
+    for (const key in this.tourData) {
+      for (const key1 in this.tourData[key]) {
         if (this.tourData[key][key1]) {
           count = count + 1;
         }
@@ -153,18 +153,18 @@ export class UseronboardingJourneyComponent implements OnInit, OnDestroy {
   }
   //filter prev and next step
   filterSteps(prev, next) {
-    let data = [];
+    const data = [];
     let pre, nex;
-    for (let key in this.tourData) {
+    for (const key in this.tourData) {
       if (key < prev) {
-        for (let key1 in this.tourData[key]) {
+        for (const key1 in this.tourData[key]) {
           if (this.tourData[key][key1]) {
             pre = key;
           }
         }
       }
       if (key >= next) {
-        for (let key1 in this.tourData[key]) {
+        for (const key1 in this.tourData[key]) {
           if (!this.tourData[key][key1]) {
             data.push(key);
             nex = data[0];

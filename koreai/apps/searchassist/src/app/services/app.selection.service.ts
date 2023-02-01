@@ -41,8 +41,8 @@ export class AppSelectionService {
   public currentsubscriptionPlanDetails: any;
   public currentUsageData: any;
   public inlineManualInfo: any = [];
-  public env_dep_type: String = '';
-  res_length: number = 0;
+  public env_dep_type = '';
+  res_length = 0;
   getTourArray: any = {};
   private storageType = 'localStorage';
   constructor(
@@ -106,7 +106,7 @@ export class AppSelectionService {
     subject.subscribe(
       (res: any) => {
         this.queryList = res || [];
-        let length = this.queryList.length;
+        const length = this.queryList.length;
         if (this.queryList) {
           this.workflowService.appQueryPipelines(res);
           let queryPipeline: any = [];
@@ -292,10 +292,10 @@ export class AppSelectionService {
     const payload = { features: ['ingestDocs', 'searchQueries'] };
     this.service.invoke('post.usageData', queryParms, payload).subscribe(
       (res) => {
-        let docs = Number.isInteger(res.ingestDocs.percentageUsed)
+        const docs = Number.isInteger(res.ingestDocs.percentageUsed)
           ? res.ingestDocs.percentageUsed
           : parseFloat(res.ingestDocs.percentageUsed).toFixed(2);
-        let queries = Number.isInteger(res.searchQueries.percentageUsed)
+        const queries = Number.isInteger(res.searchQueries.percentageUsed)
           ? res.searchQueries.percentageUsed
           : parseFloat(res.searchQueries.percentageUsed).toFixed(2);
         this.currentUsageData = {
@@ -314,8 +314,8 @@ export class AppSelectionService {
     );
   }
   getInlineManualcall() {
-    let selectedApp = this.workflowService?.selectedApp();
-    let searchIndexId = selectedApp ? selectedApp.searchIndexes[0]?._id : '';
+    const selectedApp = this.workflowService?.selectedApp();
+    const searchIndexId = selectedApp ? selectedApp.searchIndexes[0]?._id : '';
     const quaryparms: any = {
       searchIndexId: searchIndexId,
     };
@@ -480,8 +480,8 @@ export class AppSelectionService {
           this.getTourConfigData.next(this.getTourArray);
           let count = 0;
           const stepsData = this.getTourArray.onBoardingChecklist;
-          for (let key in stepsData) {
-            for (let key1 in stepsData[key]) {
+          for (const key in stepsData) {
+            for (const key1 in stepsData[key]) {
               if (stepsData[key][key1]) {
                 count = count + 1;
               }
