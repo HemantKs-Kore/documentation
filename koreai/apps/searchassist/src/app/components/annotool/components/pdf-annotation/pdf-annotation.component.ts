@@ -86,7 +86,7 @@ export class PdfAnnotationComponent implements OnInit, OnChanges {
     fitToPage: false,
     pdfUrl: '',
   };
-  loaderFlag: boolean = false;
+  loaderFlag = false;
   public hostRectangle: SelectionRectangle | null;
   public overRectange: SelectionRectangle | null;
   private selectedText: string;
@@ -113,25 +113,25 @@ export class PdfAnnotationComponent implements OnInit, OnChanges {
     streamId: null,
     pdfUrl: '',
   };
-  extractionLoader: boolean = false;
+  extractionLoader = false;
   streamId: string = null;
-  pdfSize: string = '0 KB';
+  pdfSize = '0 KB';
   fileId: string = null;
   sourceId: string = null;
   fileName: string = null;
-  togglePage: boolean = false;
-  removeAnnotationFlag: boolean = false;
+  togglePage = false;
+  removeAnnotationFlag = false;
   saveSelection: any;
   restoreSelection: any;
-  removalText: string = '';
+  removalText = '';
   overStateEvent: any = null;
-  removeClassName: string = '';
-  pdfProgressPerc: number = 0;
+  removeClassName = '';
+  pdfProgressPerc = 0;
   form: FormGroup;
   private themeWrapper = document.querySelector('body');
-  removeProgressBar: boolean = false;
+  removeProgressBar = false;
   selectedApp: any = {};
-  searchIndexId: string = '';
+  searchIndexId = '';
 
   constructor(
     private _formBuilder: FormBuilder,
@@ -206,7 +206,7 @@ export class PdfAnnotationComponent implements OnInit, OnChanges {
   // User Guilde - How to annotate
   userGuide() {
     setTimeout(() => {
-      let payload = {
+      const payload = {
         header: 'How to Annotate',
         body: {},
         footer: 'Learn more',
@@ -230,7 +230,7 @@ export class PdfAnnotationComponent implements OnInit, OnChanges {
   }
 
   confirmText() {
-    let getRmvTxt = getAllElements(
+    const getRmvTxt = getAllElements(
       this.overStateEvent,
       this.removeClassName,
       this.pdfPayload
@@ -273,7 +273,7 @@ export class PdfAnnotationComponent implements OnInit, OnChanges {
     if ($event.target.className === ClassTypes.heading) {
       // Heading
       this.removeAnnotationFlag = false;
-      let boundry = $event.target.getBoundingClientRect();
+      const boundry = $event.target.getBoundingClientRect();
       this.overRectange = {
         left: boundry.left,
         top: boundry.top,
@@ -290,7 +290,7 @@ export class PdfAnnotationComponent implements OnInit, OnChanges {
     } else if ($event.target.className === ClassTypes.header) {
       // Header
       this.removeAnnotationFlag = false;
-      let boundry = $event.target.getBoundingClientRect();
+      const boundry = $event.target.getBoundingClientRect();
       this.overRectange = {
         left: boundry.left,
         top: boundry.top,
@@ -307,7 +307,7 @@ export class PdfAnnotationComponent implements OnInit, OnChanges {
     } else if ($event.target.className === ClassTypes.exclude) {
       // Ignore text
       this.removeAnnotationFlag = false;
-      let boundry = $event.target.getBoundingClientRect();
+      const boundry = $event.target.getBoundingClientRect();
       this.overRectange = {
         left: boundry.left,
         top: boundry.top,
@@ -324,7 +324,7 @@ export class PdfAnnotationComponent implements OnInit, OnChanges {
     } else if ($event.target.className === ClassTypes.footer) {
       // Footer
       this.removeAnnotationFlag = false;
-      let boundry = $event.target.getBoundingClientRect();
+      const boundry = $event.target.getBoundingClientRect();
       this.overRectange = {
         left: boundry.left,
         top: boundry.top,
@@ -347,8 +347,8 @@ export class PdfAnnotationComponent implements OnInit, OnChanges {
     this.removeAnnotationFlag = false;
   }
   scrollHandler(event) {
-    let x: any = this.perfectScroll.directiveRef.position(true).x || 0;
-    let y: any = this.perfectScroll.directiveRef.position(true).y || 0;
+    const x: any = this.perfectScroll.directiveRef.position(true).x || 0;
+    const y: any = this.perfectScroll.directiveRef.position(true).y || 0;
     this.perfectScroll.directiveRef.update(); //for update scroll
     this.perfectScroll.directiveRef.scrollTo(0, 0, 100);
   }
@@ -472,9 +472,9 @@ export class PdfAnnotationComponent implements OnInit, OnChanges {
   // text layer render - rewriting span's with div elements
   textLayerRendered(e: CustomEvent) {
     // console.log(e);
-    var divs = document.querySelectorAll('.textLayer > span');
-    for (var i = 0; i < divs.length; i++) {
-      var s: any = document.createElement('div');
+    const divs = document.querySelectorAll('.textLayer > span');
+    for (let i = 0; i < divs.length; i++) {
+      const s: any = document.createElement('div');
       s.style = divs[i].getAttribute('style');
       s.innerHTML = divs[i].innerHTML;
       divs[i].outerHTML = s.outerHTML;
@@ -490,13 +490,13 @@ export class PdfAnnotationComponent implements OnInit, OnChanges {
       pdfData.loadingTask._transport._lastProgress
     ) {
       let _size = pdfData.loadingTask._transport._lastProgress.total;
-      let fSExt = new Array('Bytes', 'KB', 'MB', 'GB'),
+      let fSExt = ['Bytes', 'KB', 'MB', 'GB'],
         i = 0;
       while (_size > 900) {
         _size /= 1024;
         i++;
       }
-      let exactSize: string =
+      const exactSize: string =
         (Math.round(_size * 100) / 100).toFixed() + '' + fSExt[i];
       this.pdfSize = exactSize;
     }
@@ -555,22 +555,22 @@ export class PdfAnnotationComponent implements OnInit, OnChanges {
   cancelData(selectedText) {
     if (selectedText) {
       if (this.pdfPayload.title.includes(selectedText)) {
-        let index = this.pdfPayload.title.indexOf(selectedText);
+        const index = this.pdfPayload.title.indexOf(selectedText);
         this.pdfPayload.title.splice(index, 1);
         this.pdfPayload.title_pageno.splice(index, 1);
         this.cancelSerializationData(selectedText);
       } else if (this.pdfPayload.header.includes(selectedText)) {
-        let index = this.pdfPayload.header.indexOf(selectedText);
+        const index = this.pdfPayload.header.indexOf(selectedText);
         this.pdfPayload.header.splice(index, 1);
         this.pdfPayload.header_pageno.splice(index, 1);
         this.cancelSerializationData(selectedText);
       } else if (this.pdfPayload.footer.includes(selectedText)) {
-        let index = this.pdfPayload.footer.indexOf(selectedText);
+        const index = this.pdfPayload.footer.indexOf(selectedText);
         this.pdfPayload.footer.splice(index, 1);
         this.pdfPayload.footer_pageno.splice(index, 1);
         this.cancelSerializationData(selectedText);
       } else if (this.pdfPayload.ignoreText.includes(selectedText)) {
-        let index = this.pdfPayload.ignoreText.indexOf(selectedText);
+        const index = this.pdfPayload.ignoreText.indexOf(selectedText);
         this.pdfPayload.ignoreText.splice(index, 1);
         this.pdfPayload.ignoreTextPageno.splice(index, 1);
         this.cancelSerializationData(selectedText);
@@ -621,7 +621,7 @@ export class PdfAnnotationComponent implements OnInit, OnChanges {
       this.pdfPayload.serialization &&
       this.pdfPayload.serialization.length
     ) {
-      let index = this.pdfPayload.serialization.findIndex(
+      const index = this.pdfPayload.serialization.findIndex(
         (res) => res.selectedText === text
       );
       this.pdfPayload.serialization.splice(index, 1);
@@ -654,7 +654,7 @@ export class PdfAnnotationComponent implements OnInit, OnChanges {
                     this.notificationService.notify(res.Response, 'success');
                   }
                 } else if (res.serialization) {
-                  let sPayload = {
+                  const sPayload = {
                     title: res.title,
                     header: res.header,
                     footer: res.footer,
@@ -731,7 +731,7 @@ export class PdfAnnotationComponent implements OnInit, OnChanges {
   }
   // extract pdf
   extractPDF() {
-    let payloadResponse = {
+    const payloadResponse = {
       // "streamId": this.pdfPayload.streamId,
       // "fileId": this.fileId,
       title: this.pdfPayload.title,
@@ -803,7 +803,7 @@ export class PdfAnnotationComponent implements OnInit, OnChanges {
     if (!this.fileName) {
       console.log(this.fileName, 'File name not found');
     }
-    let payloadResponse = {
+    const payloadResponse = {
       // "streamId": this.pdfPayload.streamId,
       // "fileId": this.fileId,
       title: this.pdfPayload.title,
@@ -855,7 +855,7 @@ export class PdfAnnotationComponent implements OnInit, OnChanges {
       this.pdfPayload.footer.length ||
       this.pdfPayload.ignoreText.length
     ) {
-      let obj = {
+      const obj = {
         title: 'Confirmation',
         confirmationMsg:
           'Data miss matching with orginal data, please click try again to delete manually.',
@@ -910,7 +910,7 @@ export class PdfAnnotationComponent implements OnInit, OnChanges {
       this.pdfConfig.renderTextMode = 0;
       this.ignorePageAnnotation();
     } else {
-      let index = this.pdfPayload.ignorePages.indexOf(
+      const index = this.pdfPayload.ignorePages.indexOf(
         this.pdfConfig.currentPage
       );
       this.pdfPayload.ignorePages.splice(index, 1);
@@ -920,7 +920,7 @@ export class PdfAnnotationComponent implements OnInit, OnChanges {
   }
   // update ignore pages
   updateIgnorePages() {
-    let index = this.pdfPayload.ignorePages.indexOf(this.pdfConfig.currentPage);
+    const index = this.pdfPayload.ignorePages.indexOf(this.pdfConfig.currentPage);
     if (this.pdfPayload.ignorePages[index]) {
       this.pdfForm.get('ignorePages').setValue(true);
     } else {
@@ -933,11 +933,11 @@ export class PdfAnnotationComponent implements OnInit, OnChanges {
       this.pdfPayload.serialization.length &&
       this.pdfPayload.ignorePages.length
     ) {
-      let findPageNumber = this.pdfPayload.ignorePages.indexOf(
+      const findPageNumber = this.pdfPayload.ignorePages.indexOf(
         this.pdfConfig.currentPage
       );
       if (findPageNumber !== -1) {
-        let findObj = this.pdfPayload.serialization.filter((obj) => {
+        const findObj = this.pdfPayload.serialization.filter((obj) => {
           return obj.currentPage === this.pdfConfig.currentPage;
         });
         if (findObj && findObj.length) {
@@ -961,7 +961,7 @@ export class PdfAnnotationComponent implements OnInit, OnChanges {
   // Search page number
   searchPage(event) {
     this.togglePage = false;
-    let number = Number(event.target.value) || this.pdfConfig.currentPage || 1;
+    const number = Number(event.target.value) || this.pdfConfig.currentPage || 1;
     if (number <= this.pdfConfig.totalPages) {
       this.pdfConfig.currentPage = number;
       this.pdfConfig.totalPages = this.pdfConfig.totalPages;
@@ -1000,7 +1000,7 @@ export class PdfAnnotationComponent implements OnInit, OnChanges {
         // Firfox special chars
         this.selectedText = this.selectedText.replace(/(\r\n|\n|\r)/gm, '');
       }
-      let contentHtml = this.rangeService.rangeSelectionHtml();
+      const contentHtml = this.rangeService.rangeSelectionHtml();
       if (contentHtml && checkDuplicateClasses(contentHtml)) {
         // check duplicate selection
         // console.log("It's already annotated!");
@@ -1014,7 +1014,7 @@ export class PdfAnnotationComponent implements OnInit, OnChanges {
           this.hostRectangle = null;
           this.hostRectangle = this.rangeService.viewportRectangle();
           if (this.hostRectangle && Math.sign(this.hostRectangle.top) === -1) {
-            let rectange: any = {};
+            const rectange: any = {};
             rectange.top = 100;
             rectange.left = this.hostRectangle.left;
             this.hostRectangle = null;
@@ -1033,7 +1033,7 @@ export class PdfAnnotationComponent implements OnInit, OnChanges {
     if (this.pdfPayload.serialization) {
       this.removeProgressBar = false;
       setTimeout(() => {
-        var filteredRes = this.pdfPayload.serialization.filter((val, index) => {
+        const filteredRes = this.pdfPayload.serialization.filter((val, index) => {
           return val.currentPage == this.pdfConfig.currentPage;
         });
         if (filteredRes && filteredRes.length) {
@@ -1049,10 +1049,10 @@ export class PdfAnnotationComponent implements OnInit, OnChanges {
   // Unique values filtering from array
   uniqueListFromArray(arr) {
     if (arr.length) {
-      let finalArr: any[] = arr.filter((item, i, ar) => ar.indexOf(item) === i);
+      const finalArr: any[] = arr.filter((item, i, ar) => ar.indexOf(item) === i);
       if (this.pdfPayload.ignorePages.length) {
         this.pdfPayload.ignorePages.forEach((item) => {
-          let index = finalArr.indexOf(item);
+          const index = finalArr.indexOf(item);
           if (index !== -1) finalArr.splice(index, 1);
         });
         if (Array.isArray(finalArr)) {
@@ -1068,9 +1068,9 @@ export class PdfAnnotationComponent implements OnInit, OnChanges {
             return a - b;
           });
         }
-        let firstArr = finalArr.slice(0, 20);
-        let moreTxt = '...';
-        let result = firstArr.concat(moreTxt);
+        const firstArr = finalArr.slice(0, 20);
+        const moreTxt = '...';
+        const result = firstArr.concat(moreTxt);
         return join(result);
       } else {
         if (Array.isArray(finalArr)) {
@@ -1085,10 +1085,10 @@ export class PdfAnnotationComponent implements OnInit, OnChanges {
   }
   tooltipText(arr) {
     if (arr) {
-      let finalArr: any[] = arr.filter((item, i, ar) => ar.indexOf(item) === i);
+      const finalArr: any[] = arr.filter((item, i, ar) => ar.indexOf(item) === i);
       if (this.pdfPayload.ignorePages.length) {
         this.pdfPayload.ignorePages.forEach((item) => {
-          let index = finalArr.indexOf(item);
+          const index = finalArr.indexOf(item);
           if (index !== -1) finalArr.splice(index, 1);
         });
         if (Array.isArray(finalArr)) {
@@ -1155,10 +1155,10 @@ enum ClassTypes {
   exclude = 'exclude-highlight',
 }
 function getSelectionText() {
-  var document: any = window.document;
+  const document: any = window.document;
   if (window.getSelection) {
     try {
-      var activeElement = document.activeElement;
+      const activeElement = document.activeElement;
       if (activeElement && activeElement.value) {
         return activeElement.value.substring(
           activeElement.selectionStart,
@@ -1176,9 +1176,9 @@ function getSelectionText() {
 // Get next, prev & curr Siblings text from current element
 function getAllElements(element, className, payload) {
   // Current
-  let resultText: string = element.textContent;
+  const resultText: string = element.textContent;
   if (findMatchedData(payload, '', resultText, '', className).isMatched) {
-    let findMatchedObj: IFindMatched = findMatchedData(
+    const findMatchedObj: IFindMatched = findMatchedData(
       payload,
       '',
       resultText,
@@ -1195,14 +1195,14 @@ function getAllElements(element, className, payload) {
     return resultText;
   }
   // PREV
-  let prevResultText = [];
-  var lp = $('.' + className).length;
+  const prevResultText = [];
+  const lp = $('.' + className).length;
   let prevEle: any = $(element).parent().prev().children();
   if ($(prevEle).hasClass(className)) {
     for (let i = 0; i < lp; i++) {
       for (let j = prevEle.length; j > 0; j--) {
         if (prevEle.length && $(prevEle).hasClass(className)) {
-          let text = $(prevEle).text();
+          const text = $(prevEle).text();
           prevResultText.push(text);
           if (
             findMatchedData(
@@ -1214,7 +1214,7 @@ function getAllElements(element, className, payload) {
             ).isMatched
           ) {
             prevEle = {};
-            let findMatchedObj: IFindMatched = findMatchedData(
+            const findMatchedObj: IFindMatched = findMatchedData(
               payload,
               prevResultText,
               resultText,
@@ -1242,7 +1242,7 @@ function getAllElements(element, className, payload) {
     for (let i = 0; i < lp; i++) {
       for (let j = 0; j < nextEle.length; j++) {
         if (nextEle.length && $(nextEle).hasClass(className)) {
-          let text = $(nextEle).text();
+          const text = $(nextEle).text();
           nextResultText.push(text);
           if (
             findMatchedData(
@@ -1254,7 +1254,7 @@ function getAllElements(element, className, payload) {
             ).isMatched
           ) {
             nextEle = {};
-            let findMatchedObj: IFindMatched = findMatchedData(
+            const findMatchedObj: IFindMatched = findMatchedData(
               payload,
               prevResultText,
               resultText,
@@ -1276,9 +1276,9 @@ function getAllElements(element, className, payload) {
     }
   }
 
-  let prvTxt = prevResultText.reverse().join('') || '';
-  let nxtText = nextResultText.join('') || '';
-  let finalText = prvTxt + resultText + nxtText;
+  const prvTxt = prevResultText.reverse().join('') || '';
+  const nxtText = nextResultText.join('') || '';
+  const finalText = prvTxt + resultText + nxtText;
   return finalText || '';
 }
 // Remove/Detach classes for Prev+ current + next elements span's
@@ -1299,7 +1299,7 @@ function removeTextClass(className, element) {
   $(element).removeClass(className);
   $(element).toggleClass('rangy');
   // PREV
-  let lp = $('.' + className).length;
+  const lp = $('.' + className).length;
   let prevEle: any = $(element).parent().prev().children();
   let nextEle: any = $(element).parent().next().children();
   if ($(prevEle).hasClass(className)) {
@@ -1395,9 +1395,9 @@ function findMatchedData(
   nextText,
   className
 ): IFindMatched {
-  let prvTxt = prevText && prevText.length ? prevText.reverse().join('') : '';
-  let nxtText = nextText && nextText.length ? nextText.join('') : '';
-  let finalText = prvTxt + currText + nxtText;
+  const prvTxt = prevText && prevText.length ? prevText.reverse().join('') : '';
+  const nxtText = nextText && nextText.length ? nextText.join('') : '';
+  const finalText = prvTxt + currText + nxtText;
   let resultObj: IFindMatched = {
     isMatched: true,
     option: null,
@@ -1419,7 +1419,7 @@ function findMatchedData(
     if (!resultObj.isMatched) {
       if (payload.title.length) {
         payload.title.forEach((item, index) => {
-          let subStr = item.substr(finalText, finalText.length);
+          const subStr = item.substr(finalText, finalText.length);
           if (subStr && payload.title.includes(subStr)) {
             resultObj = {
               isMatched: true,
@@ -1431,7 +1431,7 @@ function findMatchedData(
         });
       } else if (payload.header.length) {
         payload.header.forEach((item, index) => {
-          let subStr = item.substr(finalText, finalText.length);
+          const subStr = item.substr(finalText, finalText.length);
           if (subStr && payload.header.includes(subStr)) {
             resultObj = {
               isMatched: true,
@@ -1443,7 +1443,7 @@ function findMatchedData(
         });
       } else if (payload.footer.length) {
         payload.footer.forEach((item, index) => {
-          let subStr = item.substr(finalText, finalText.length);
+          const subStr = item.substr(finalText, finalText.length);
           if (subStr && payload.footer.includes(subStr)) {
             resultObj = {
               isMatched: true,
@@ -1455,7 +1455,7 @@ function findMatchedData(
         });
       } else if (payload.ignoreText.length) {
         payload.ignoreText.forEach((item, index) => {
-          let subStr = item.substr(finalText, finalText.length);
+          const subStr = item.substr(finalText, finalText.length);
           if (subStr && payload.ignoreText.includes(subStr)) {
             resultObj = {
               isMatched: true,

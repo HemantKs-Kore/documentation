@@ -1,7 +1,7 @@
 import { Injectable, OnInit, OnDestroy } from '@angular/core';
 import { Subject } from 'rxjs';
 
-declare var rangy;
+declare let rangy;
 
 @Injectable({
   providedIn: 'root'
@@ -17,21 +17,21 @@ export class RangySelectionService implements OnInit, OnDestroy {
     if (rangy.features.implementsControlRange) {
       // console.log("supprts feature rangecontrol",rangy.features);
     }
-    var serializerModule = rangy.modules.Serializer;
+    const serializerModule = rangy.modules.Serializer;
     if (rangy.supported && serializerModule && serializerModule.supported) {
       // console.log("supprts feature rangecontrol2", serializerModule);
     }
   }
   // Range Selection viewportRectangle
   viewportRectangle() {
-    var selection = document.getSelection();
-    var range = selection.getRangeAt(0);
-    var viewportRectangle = range.getBoundingClientRect();
+    const selection = document.getSelection();
+    const range = selection.getRangeAt(0);
+    const viewportRectangle = range.getBoundingClientRect();
     return viewportRectangle || null;
   }
   // Range Selection Text
   rangeSelectionText() {
-    var text = (rangy.getSelection().trim()).toString();
+    let text = (rangy.getSelection().trim()).toString();
     text = text.trim();
     return text;
   }
@@ -41,11 +41,11 @@ export class RangySelectionService implements OnInit, OnDestroy {
   }
   // Text highlightion
   getTextHighlighter(className) {
-    var highlighter = null;
+    let highlighter = null;
     if (!className) {
       className = ''; //no-highlight
     }
-    var classApplierModule = rangy.modules.ClassApplier;
+    const classApplierModule = rangy.modules.ClassApplier;
     if (rangy.supported && classApplierModule && classApplierModule.supported) {
       if (className) {
         highlighter = rangy.createHighlighter();
@@ -56,7 +56,7 @@ export class RangySelectionService implements OnInit, OnDestroy {
           elementProperties: {
             href: "#",
             onclick: function () {
-              var highlight = highlighter.getHighlightForElement(this);
+              const highlight = highlighter.getHighlightForElement(this);
               // console.log("Hightlight" + highlight);
               if (window.confirm("Delete this note (ID " + highlight.id + ")?")) {
                 highlighter.removeHighlights([highlight]);
@@ -85,15 +85,15 @@ export class RangySelectionService implements OnInit, OnDestroy {
   // remove classes 
   removeClasses(className) {
     // console.log(this)
-    let query = document.querySelectorAll(className);
+    const query = document.querySelectorAll(className);
     query.forEach((item, index) => {
       item.remove(className);
     });
   }
   // Seriliation 
   getSerilization() {
-    var selObj = rangy.getSelection();
-    var coordVal = rangy.serializeSelection(selObj, true);
+    const selObj = rangy.getSelection();
+    const coordVal = rangy.serializeSelection(selObj, true);
     return coordVal;
   }
   // Deserilization
@@ -111,14 +111,14 @@ export class RangySelectionService implements OnInit, OnDestroy {
                 // console.log('ERROR: failed deserialization');
               }
               if (loop) {
-                let applier = rangy.createClassApplier(highlighterval.className || 'no-title');
+                const applier = rangy.createClassApplier(highlighterval.className || 'no-title');
                 applier.toggleSelection();
                 rangy.getSelection().removeAllRanges();
               }
 
             } else if (rangy.canDeserializeRange(highlighterval.coords)) {
               rangy.deserializeRange(highlighterval.coords);
-              let applier = rangy.createClassApplier(highlighterval.className || 'no-title');
+              const applier = rangy.createClassApplier(highlighterval.className || 'no-title');
               applier.toggleSelection();
               rangy.getSelection().removeAllRanges();
             } else {
@@ -146,7 +146,7 @@ export class RangySelectionService implements OnInit, OnDestroy {
           if (highlighterval && Object.keys(highlighterval).length) {
             if (rangy.canDeserializeSelection(highlighterval.coords)) {
               rangy.deserializeSelection(highlighterval.coords, null, window);
-              let applier = rangy.createClassApplier(highlighterval.className || 'no-title');
+              const applier = rangy.createClassApplier(highlighterval.className || 'no-title');
               applier.toggleSelection();
               rangy.getSelection().removeAllRanges();
             } else {
@@ -177,7 +177,7 @@ export class RangySelectionService implements OnInit, OnDestroy {
   // Single Deserialization
   singleDeserialization(serializeRange) {
     if (rangy.canDeserializeSelection(serializeRange.coords)) {
-      var applier = rangy.createClassApplier(serializeRange.className || 'no-title');
+      const applier = rangy.createClassApplier(serializeRange.className || 'no-title');
       rangy.deserializeSelection(serializeRange.coords);
       applier.toggleSelection();
       rangy.getSelection().removeAllRanges();
@@ -187,7 +187,7 @@ export class RangySelectionService implements OnInit, OnDestroy {
   }
   // Save selection
   saveSelection() {
-    var savedSel = rangy.saveSelection();
+    const savedSel = rangy.saveSelection();
     return savedSel;
   }
   // Restore selection
@@ -196,21 +196,21 @@ export class RangySelectionService implements OnInit, OnDestroy {
   }
   // FirstRange
   getFirstRange() {
-    var sel = rangy.getSelection();
+    const sel = rangy.getSelection();
     return sel.rangeCount ? sel.getRangeAt(0) : null;
   }
   // Delete Node range
   deleteRange() {
-    var range = this.getFirstRange();
+    const range = this.getFirstRange();
     if (range) {
       range.deleteContents();
     }
   }
   // Surround element
   surroundRange() {
-    var range = this.getFirstRange();
+    const range = this.getFirstRange();
     if (range) {
-      var el = document.createElement("span");
+      const el = document.createElement("span");
       el.id = "id1";
       // el.style.backgroundColor = "pink";
       if (range.canSurroundContents(el)) {

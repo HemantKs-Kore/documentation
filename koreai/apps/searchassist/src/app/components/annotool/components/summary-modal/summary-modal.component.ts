@@ -15,8 +15,8 @@ import { ServiceInvokerService } from '@kore.apps/services/service-invoker.servi
   styleUrls: ['./summary-modal.component.scss'],
 })
 export class SummaryModalComponent implements OnInit {
-  loaderFlag: boolean = false;
-  noDataFound: boolean = false;
+  loaderFlag = false;
+  noDataFound = false;
   searchText = new FormControl(null);
   constructor(
     // private _formBuilder: FormBuilder,
@@ -44,7 +44,7 @@ export class SummaryModalComponent implements OnInit {
   }
   // delete data
   deleteRow(index, option, selectedText) {
-    let obj = {
+    const obj = {
       title: 'Confirmation',
       confirmationMsg: 'Are you sure?',
       yes: 'Confirm',
@@ -87,7 +87,7 @@ export class SummaryModalComponent implements OnInit {
       this.dialogData.pdfResponse.serialization &&
       this.dialogData.pdfResponse.serialization.length
     ) {
-      let index = this.dialogData.pdfResponse.serialization.findIndex(
+      const index = this.dialogData.pdfResponse.serialization.findIndex(
         (res) => res.selectedText === text
       );
       this.dialogData.pdfResponse.serialization.splice(index, 1);

@@ -480,7 +480,7 @@
                                                                 </div>
                                                             </ng-container>
                     
-                                                            <div class="add-domain" [ngClass]="{'disable-class' : webClientDetails.domains[webClientDetails.domains.length-1] == ''  }" (click)="webClientDetails.domains[webClientDetails.domains.length-1] == ''?null:addNewDomain(domainUrl)">
+                                                            <div class="add-domain" [ngClass]="{'disable-class' : webClientDetails.domains[webClientDetails.domains.length-1] === ''  }" (click)="webClientDetails.domains[webClientDetails.domains.length-1] === ''?null:addNewDomain(domainUrl)">
                                                                 <img src="assets/icons/add_blue.svg" >
                                                                 <span>{{"settings_add_domains" | translate}}</span>
                                                             </div>

@@ -34,9 +34,9 @@ export class PricingComponent implements OnInit, OnDestroy {
     { selected: false, name: 'I don’t need it now' },
   ];
   termPlan = 'Monthly';
-  pageLoading: boolean = true;
-  featureLimit: number = 6;
-  btnLoader: boolean = false;
+  pageLoading = true;
+  featureLimit = 6;
+  btnLoader = false;
   bannerObj = { msg: '', show: false, type: '' };
   currentSubscriptionPlan: any = {};
   selectedApp;
@@ -47,9 +47,9 @@ export class PricingComponent implements OnInit, OnDestroy {
   updateUsageData: Subscription;
   usageDetails: any = {};
   monthRange = 'Jan - June';
-  isyAxisDocumentdata: boolean = true;
-  isyAxisQuerydata: boolean = true;
-  componentType: string = 'addData';
+  isyAxisDocumentdata = true;
+  isyAxisQuerydata = true;
+  componentType = 'addData';
   constructor(
     public workflowService: WorkflowService,
     private service: ServiceInvokerService,
@@ -142,7 +142,7 @@ export class PricingComponent implements OnInit, OnDestroy {
       const commentInput: any = document.getElementById('cancel_comment_text');
       const checkboxes: any = document.querySelectorAll('.checkbox-custom');
       commentInput.value = '';
-      for (let check of checkboxes) {
+      for (const check of checkboxes) {
         check.checked = false;
       }
       this.cancelSubscriptionModelPopRef.close();
@@ -202,9 +202,9 @@ export class PricingComponent implements OnInit, OnDestroy {
   //cancel subscription api
   cancelSubscription() {
     this.btnLoader = true;
-    let checkedData = [];
+    const checkedData = [];
     const comment_data: any = document.getElementById('cancel_comment_text');
-    for (let data of this.cancellationCheckboxText) {
+    for (const data of this.cancellationCheckboxText) {
       if (data.selected) checkedData.push(data.name);
     }
     const queryParam = { streamId: this.selectedApp._id };
@@ -236,10 +236,10 @@ export class PricingComponent implements OnInit, OnDestroy {
   //Grap data
   pricingChart() {
     let xAxisQueryData = [];
-    let years = [];
+    const years = [];
     let xAxisDocumentData = [];
-    let yAxisQueryData = [];
-    let yAxisDocumentData = [];
+    const yAxisQueryData = [];
+    const yAxisDocumentData = [];
     let barDocColor = '#28A745';
     let barQueColor = '#7027E5';
     if (

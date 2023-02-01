@@ -19,7 +19,7 @@ export class StatusDockerComponent implements OnInit {
    serachIndexId;
    selectedApp: any = {};
 
-  @Input('statusDockerLoading') statusDockerLoading : any;
+  @Input() statusDockerLoading : any;
 
   public dockersList : Array<any> = [];
   public pollingSubscriber : any;
@@ -226,14 +226,14 @@ export class StatusDockerComponent implements OnInit {
       jobId: dockId,
       sidx:this.serachIndexId
     }
-   let payload = {
+   const payload = {
     "store":{
       "toastSeen":true,
       "urlParams":fileName,
              }      
     }
     this.service.invoke('attachment.file', params ).subscribe(res=>{
-       let hrefURL = res.fileUrl + fileName;
+       const hrefURL = res.fileUrl + fileName;
        window.open(hrefURL , '_self');
         this.service.invoke('put.dockStatus',params,payload).subscribe(res=>{
         }

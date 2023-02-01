@@ -372,10 +372,10 @@ export class ResultsRulesComponent implements OnInit, OnDestroy {
         this.groupIds = _.map(res.groups, function (o) {
           return _.pick(o, 'name', '_id');
         });
-        let temp = _.pluck(res.groups, 'attributes').filter((o) => {
+        const temp = _.pluck(res.groups, 'attributes').filter((o) => {
           return o.length != 0;
         });
-        let tempVals = [];
+        const tempVals = [];
         temp.forEach((o) => {
           tempVals.push(...o);
         });
@@ -393,20 +393,20 @@ export class ResultsRulesComponent implements OnInit, OnDestroy {
       rule.values = [];
       for (var i = 0; i < event.length; i++) {
         if (event[i].indexOf(':') == -1) {
-          let temp3 = {
+          const temp3 = {
             type: 'string',
             value: event[i],
           };
           rule.values.push(temp3);
         } else {
-          let temp1 = {
+          const temp1 = {
             type: 'group',
             groupId: _.findWhere(this.groupIds, {
               name: event[i].split(':')[0],
             })._id,
             value: event[i].split(':')[0],
           };
-          let temp2 = {
+          const temp2 = {
             type: 'groupValue',
             groupId: _.findWhere(this.groupIds, {
               name: event[i].split(':')[0],
@@ -424,20 +424,20 @@ export class ResultsRulesComponent implements OnInit, OnDestroy {
       this.rulesObjOO.then.values = [];
       for (var i = 0; i < event.length; i++) {
         if (event[i].indexOf(':') == -1) {
-          let temp3 = {
+          const temp3 = {
             type: 'string',
             value: event[i],
           };
           this.rulesObjOO.then.values.push(temp3);
         } else {
-          let temp1 = {
+          const temp1 = {
             type: 'group',
             groupId: _.findWhere(this.groupIds, {
               name: event[i].split(':')[0],
             })._id,
             value: event[i].split(':')[0],
           };
-          let temp2 = {
+          const temp2 = {
             type: 'groupValue',
             groupId: _.findWhere(this.groupIds, {
               name: event[i].split(':')[0],
@@ -475,11 +475,11 @@ export class ResultsRulesComponent implements OnInit, OnDestroy {
       return _.pick(o, 'contextCategory', 'contextType', 'operator', 'values');
     });
     this.validationRules.rules[0].rules = rulesCheck;
-    let params = {
+    const params = {
       searchIndexId: this.serachIndexId,
       ruleId: this.ruleEditId,
     };
-    let payload = {
+    const payload = {
       name: this.name.na,
       type: 'web',
       definition: { if: {}, then: {} },
@@ -557,7 +557,7 @@ export class ResultsRulesComponent implements OnInit, OnDestroy {
 
   allSubscribe() {
     this.selectAllSub = this.rulesService.selectAll.subscribe((res) => {
-      let tabActive = _.findWhere(this.tabsList, { isSelected: true }).name;
+      const tabActive = _.findWhere(this.tabsList, { isSelected: true }).name;
       if (tabActive == 'Drafts') {
         this.draftRules = _.map(this.draftRules, (o) => {
           o.isChecked = !this.rulesService.isCheckAll;
@@ -622,7 +622,7 @@ export class ResultsRulesComponent implements OnInit, OnDestroy {
       });
     });
     this.bulkSendSub = this.rulesService.bulkSend.subscribe((res) => {
-      let tabActive = _.findWhere(this.tabsList, { isSelected: true }).name;
+      const tabActive = _.findWhere(this.tabsList, { isSelected: true }).name;
       let selectedIds = [];
       if (tabActive == 'Drafts') {
         selectedIds = _.map(
@@ -640,10 +640,10 @@ export class ResultsRulesComponent implements OnInit, OnDestroy {
           (o) => _.pick(o, '_id')
         );
       }
-      let params = {
+      const params = {
         searchIndexId: this.serachIndexId,
       };
-      let payload = {
+      const payload = {
         rules: selectedIds,
         state: res,
         action: 'edit',
@@ -659,7 +659,7 @@ export class ResultsRulesComponent implements OnInit, OnDestroy {
       );
     });
     this.bulkDeleteSub = this.rulesService.bulkDelete.subscribe((res) => {
-      let tabActive = _.findWhere(this.tabsList, { isSelected: true }).name;
+      const tabActive = _.findWhere(this.tabsList, { isSelected: true }).name;
       let selectedIds = [];
       if (tabActive == 'Drafts') {
         selectedIds = _.map(
@@ -677,10 +677,10 @@ export class ResultsRulesComponent implements OnInit, OnDestroy {
           (o) => _.pick(o, '_id')
         );
       }
-      let params = {
+      const params = {
         searchIndexId: this.serachIndexId,
       };
-      let payload = {
+      const payload = {
         rules: selectedIds,
         action: 'delete',
       };
@@ -812,7 +812,7 @@ export class ResultsRulesComponent implements OnInit, OnDestroy {
     const params = {
       searchIndexId: this.serachIndexId,
     };
-    let payload = {
+    const payload = {
       name: this.name.na,
       type: 'web',
       definition: { if: {}, then: {} },

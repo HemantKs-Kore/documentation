@@ -765,7 +765,7 @@ export class AddFaqComponent implements OnInit, OnDestroy {
           );
         }
       );
-      let defaultAns = [...this.anwerPayloadObj.defaultAnswers];
+      const defaultAns = [...this.anwerPayloadObj.defaultAnswers];
       for (let k = defaultAns.length - 1; k >= 0; k--) {
         if (defaultAns[k].text.trim() == '') {
           this.anwerPayloadObj.defaultAnswers.splice(k, 1);

@@ -27,7 +27,7 @@ export class AddResultComponent implements OnInit {
   loadingContent = false;
   subscription: Subscription;
   indexPipelineId: any;
-  isResultTemplate: boolean = false;
+  isResultTemplate = false;
   structuredDataHeading: any = '';
   structuredDataDes: any = '';
   fieldData: any = [];
@@ -87,7 +87,7 @@ export class AddResultComponent implements OnInit {
   }
 
   getFieldAutoComplete() {
-    let query: any = '';
+    const query: any = '';
     const quaryparms: any = {
       searchIndexID: this.serachIndexId,
       indexPipelineId: this.indexPipelineId,
@@ -220,7 +220,7 @@ export class AddResultComponent implements OnInit {
         if (element.contentId == record.contentId) {
           this.recordArray.splice(index, 1);
           duplicate = true;
-          var id = element.contentId;
+          const id = element.contentId;
           $('[custumId=' + id + ']').prop('checked', false);
         }
       });
@@ -228,7 +228,7 @@ export class AddResultComponent implements OnInit {
     if (!duplicate) this.recordArray.push(record);
     if (this.recordArray.length) {
       this.recordArray.forEach((element) => {
-        var id = element.contentId;
+        const id = element.contentId;
         $('[custumId=' + id + ']').prop('checked', true);
       });
       // $('#viewTypeCheckboxControl').prop('checked', false);
@@ -254,9 +254,9 @@ export class AddResultComponent implements OnInit {
       queryPipelineId: this.queryPipelineId,
       indexPipelineId: this.workflowService.selectedIndexPipeline() || '',
     };
-    let result: any = [];
+    const result: any = [];
     this.recordArray.forEach((element, index) => {
-      var obj: any = {};
+      const obj: any = {};
       obj.contentType = contentTaskFlag
         ? contentType
         : element.sys_content_type;
@@ -270,7 +270,7 @@ export class AddResultComponent implements OnInit {
       // }
       result.push(obj);
     });
-    let payload: any = {};
+    const payload: any = {};
 
     payload.searchQuery = this.query;
     payload.results = result;

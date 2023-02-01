@@ -52,9 +52,9 @@ export class SchedulerComponent implements OnInit {
   year = '';
   endsOnSelected = '';
   minDate;
-  recurringFrequency: boolean = false;
-  isCustom: boolean = false;
-  timeZoneArray: Array<String> = ['IST', 'EST', 'UTC'];
+  recurringFrequency = false;
+  isCustom = false;
+  timeZoneArray: Array<string> = ['IST', 'EST', 'UTC'];
   recurringFrequencyArray: Array<Object> = [
     { key: 'Does not repeat', value: 'Does not repeat' },
     { key: 'Daily', value: 'Daily' },
@@ -64,17 +64,17 @@ export class SchedulerComponent implements OnInit {
     { key: 'Every weekday(Monday to Friday)', value: 'Every weekday' },
     { key: 'Custom...', value: 'Custom' },
   ];
-  repeatEveryArray: Array<String> = ['Day', 'Week', 'Month', 'Year'];
+  repeatEveryArray: Array<string> = ['Day', 'Week', 'Month', 'Year'];
   scheduledData: Object = {};
   @Input() crwalObject: any;
   @Input() schedule: any;
-  @Input() schedulerType: String = 'horizantalSchedular';
+  @Input() schedulerType = 'horizantalSchedular';
   @Output() scheduleData = new EventEmitter();
   @Output() cronExpress = new EventEmitter();
   @ViewChild('schedualarDataModelPop') schedualarDataModelPop: KRModalComponent;
   @ViewChild('perfectScroll') perfectScroll: PerfectScrollbarComponent;
   constructor(private notificationService: NotificationService) {
-    var date = new Date();
+    const date = new Date();
     this.day = date.toString().split(' ')[0].toLocaleUpperCase();
     this.weeKDay = this.day || 'SUN';
     this.month = date.toString().split(' ')[1].toLocaleUpperCase();
@@ -126,7 +126,7 @@ export class SchedulerComponent implements OnInit {
   }
   ngOnChanges(changes) {
     if (!this.crwalObject?.date) {
-      var emptyData = new scheduleOpts();
+      const emptyData = new scheduleOpts();
       this.scheduleData.emit(emptyData);
       this.istStratDate = '';
       this.startDate = '';
@@ -309,7 +309,7 @@ export class SchedulerComponent implements OnInit {
     }
   }
   dateConverter(weeKDay) {
-    var day;
+    let day;
     switch (weeKDay) {
       case 'SUN':
         day = '1';
@@ -339,9 +339,9 @@ export class SchedulerComponent implements OnInit {
   }
   dateFormatConverter(date) {
     if (date && typeof date == 'object') {
-      let year = date.getFullYear();
-      let month = date.getMonth() + 1;
-      let day = date.getDate();
+      const year = date.getFullYear();
+      const month = date.getMonth() + 1;
+      const day = date.getDate();
       let dayStr = String(day);
       let monthStr = String(month);
       if (day < 10) {
@@ -358,11 +358,11 @@ export class SchedulerComponent implements OnInit {
     }
   }
   scheduleEmittFunc() {
-    let scheduledObject: scheduleOpts = new scheduleOpts();
-    let time: Time = new Time();
-    let interVal: InterVal = new InterVal();
-    let intervalValue: IntervalValue = new IntervalValue();
-    let endsOn: EndsOn = new EndsOn();
+    const scheduledObject: scheduleOpts = new scheduleOpts();
+    const time: Time = new Time();
+    const interVal: InterVal = new InterVal();
+    const intervalValue: IntervalValue = new IntervalValue();
+    const endsOn: EndsOn = new EndsOn();
     /**Secheduled Data */
 
     scheduledObject.date = this.dateFormatConverter(this.startDate);
