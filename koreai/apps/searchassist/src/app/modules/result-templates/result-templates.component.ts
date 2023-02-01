@@ -87,7 +87,7 @@ export class ResultTemplatesComponent implements OnInit {
     chips: true,
     rating: true,
   };
-  customtemplateBtndisable: boolean = false;
+  customtemplateBtndisable = false;
   heading_fieldData: any;
   desc_fieldData: any;
   desc_fieldData1: any;
@@ -107,13 +107,13 @@ export class ResultTemplatesComponent implements OnInit {
   subscription: Subscription;
   searchConfigurationSubscription: Subscription;
   searchExperienceConfig: any = {};
-  searchTemplatesDisabled: boolean = false;
+  searchTemplatesDisabled = false;
   fieldPopupType: string;
-  fieldPopup: boolean = false;
-  submitted: boolean = false;
-  selectedTab: string = 'fullSearch';
+  fieldPopup = false;
+  submitted = false;
+  selectedTab = 'fullSearch';
   selectedTemplateName: string;
-  postback: string = '';
+  postback = '';
   tabList: any = [
     { id: 'liveSearch', name: 'Live Search' },
     { id: 'conversationalSearch', name: 'Conversational Search' },
@@ -185,10 +185,11 @@ export class ResultTemplatesComponent implements OnInit {
       });
     this.updateResultTemplateTabsAccess();
     /** Inline Not yet Registered */
-    if (!this.inlineManual.checkVisibility('RESULT_TEMPLATE') && false) {
-      this.inlineManual.openHelp('RESULT_TEMPLATE');
-      this.inlineManual.visited('RESULT_TEMPLATE');
-    }
+    //in order to fix the lint issue Unexpected constant condition, however below block of code is not executed so commenting below.
+    // if (!this.inlineManual.checkVisibility('RESULT_TEMPLATE') && false) {
+    //   this.inlineManual.openHelp('RESULT_TEMPLATE');
+    //   this.inlineManual.visited('RESULT_TEMPLATE');
+    // }
   }
 
   loadFiledsData() {
@@ -210,7 +211,7 @@ export class ResultTemplatesComponent implements OnInit {
   /** Fields Data for options  */
   getFieldAutoComplete() {
     /** url & QuerryParam for Presentable Fields */
-    let query: any = '';
+    const query: any = '';
     const quaryparms: any = {
       searchIndexID: this.serachIndexId,
       indexPipelineId: this.indexPipelineId,
@@ -349,10 +350,10 @@ export class ResultTemplatesComponent implements OnInit {
     }
   }
   searchlist(type, valToSearch, filedData) {
-    let data = [];
+    const data = [];
     filedData.filter((element) => {
-      var filedNamelower = element.fieldName.toLocaleLowerCase();
-      var valToSearchlower = valToSearch.toLocaleLowerCase();
+      const filedNamelower = element.fieldName.toLocaleLowerCase();
+      const valToSearchlower = valToSearch.toLocaleLowerCase();
       if (filedNamelower.includes(valToSearchlower)) {
         data.push(element);
       }
@@ -791,7 +792,7 @@ export class ResultTemplatesComponent implements OnInit {
   }
   //scroll to preview
   scrollPreview() {
-    var element = document.getElementById('imgScroll');
+    const element = document.getElementById('imgScroll');
     setTimeout(() => {
       if (element) {
         element.scrollIntoView();
@@ -837,7 +838,7 @@ export class ResultTemplatesComponent implements OnInit {
   //update template
   updateTemplate() {
     this.submitted = true;
-    let checkTitle: boolean = true;
+    let checkTitle = true;
     if (this.templateDataBind.layout.renderTitle) {
       checkTitle =
         this.templateDataBind.layout?.title?.length > 0 ? true : false;

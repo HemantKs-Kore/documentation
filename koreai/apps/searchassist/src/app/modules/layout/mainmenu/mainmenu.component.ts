@@ -72,9 +72,9 @@ export class MainMenuComponent implements OnInit, OnDestroy {
   routeChanged: Subscription;
   queryConfigsSubscription: Subscription;
   editName = false;
-  editNameVal: String = '';
+  editNameVal = '';
   editIndexName = false;
-  editIndexNameVal: String = '';
+  editIndexNameVal = '';
   submitted = false;
   public showStatusDocker = false;
   public statusDockerLoading = false;
@@ -155,7 +155,9 @@ export class MainMenuComponent implements OnInit, OnDestroy {
             });
         }
       }
-    } catch (e) {}
+    } catch (e) {
+      console.log(e);
+    }
   }
   showNotificationBanner(type) {
     $('.hover-documnet-show-data').css({
@@ -481,7 +483,7 @@ export class MainMenuComponent implements OnInit, OnDestroy {
         if (type == 'index') {
           // this.indexPipelineService.removeOneFromCache(indexConfigs);
           this.indexConfigs.splice(deleteIndex, 1);
-          let default_index = this.indexConfigs.filter(
+          const default_index = this.indexConfigs.filter(
             (item) => item.default == true
           );
           this.appSelectionService.getIndexPipelineIds(default_index);
@@ -687,7 +689,7 @@ export class MainMenuComponent implements OnInit, OnDestroy {
     };
     this.service.invoke('get.checkInExperiment', queryParms).subscribe(
       (res) => {
-        let text = res.validated
+        const text = res.validated
           ? `Selected ${
               type == 'index' ? 'Index' : 'Search'
             } Configuration will be deleted from the app.`

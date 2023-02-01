@@ -15,6 +15,7 @@ import { NotificationService } from '@kore.apps/services/notification.service';
 })
 export class CustomConfigFormComponent implements OnInit, OnChanges {
   @Input() formData;
+  // eslint-disable-next-line @angular-eslint/no-output-on-prefix
   @Output() onFormSubmit = new EventEmitter();
   isEditing = false;
   constructor(public notificationService: NotificationService) {}

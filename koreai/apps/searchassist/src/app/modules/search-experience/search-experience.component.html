@@ -155,14 +155,15 @@
                 src="assets/icons/search-experience/top-down-mini.jpg"
                 class="w-100"
                 *ngIf="
-                  searchObject.searchExperienceConfig.searchBarPosition == 'top'
+                  searchObject.searchExperienceConfig.searchBarPosition ===
+                  'top'
                 "
               />
               <img
                 src="assets/icons/search-experience/bottum-up-mini.jpg"
                 class="w-100"
                 *ngIf="
-                  searchObject.searchExperienceConfig.searchBarPosition ==
+                  searchObject.searchExperienceConfig.searchBarPosition ===
                   'bottom'
                 "
               />
@@ -197,7 +198,7 @@
                   </div>
                   <input
                     type="text"
-                    [ngClass]="{ activeBox: selectSearch == 'inputBox' }"
+                    [ngClass]="{ activeBox: selectSearch === 'inputBox' }"
                     class="input-search"
                     [ngStyle]="{
                       background:
@@ -221,7 +222,7 @@
                   <img
                     [src]="searchIcon"
                     class="search-icon"
-                    [ngClass]="{ activeBox: selectSearch == 'inputIcon' }"
+                    [ngClass]="{ activeBox: selectSearch === 'inputIcon' }"
                     height="15"
                     width="15"
                   />
@@ -244,7 +245,9 @@
                     value="{{
                       searchObject.searchWidgetConfig.searchBarPlaceholderText
                     }}"
-                    [ngClass]="{ activeBox: selectSearch == 'placeholderText' }"
+                    [ngClass]="{
+                      activeBox: selectSearch === 'placeholderText'
+                    }"
                     [ngStyle]="{
                       color:
                         searchObject.searchWidgetConfig
@@ -267,7 +270,7 @@
                   class="btn-customize kr-sg-button-primary read-mode btn_lg inside-input-btn"
                   (click)="selectSearchBox('button'); closeAllBoxs('all')"
                   [ngClass]="{
-                    activeBox: selectSearch == 'button',
+                    activeBox: selectSearch === 'button',
                     'added-tour': tourGuide === 'step4'
                   }"
                   [ngStyle]="{
@@ -300,7 +303,7 @@
                 class="btn-customize kr-sg-button-primary read-mode btn_lg"
                 (click)="selectSearchBox('button'); closeAllBoxs('all')"
                 [ngClass]="{
-                  activeBox: selectSearch == 'button',
+                  activeBox: selectSearch === 'button',
                   'added-tour': tourGuide === 'step4'
                 }"
                 [ngStyle]="{
@@ -604,7 +607,7 @@
                       value="outside"
                       [checked]="
                         searchObject.searchWidgetConfig
-                          .buttonPlacementPosition == 'outside'
+                          .buttonPlacementPosition === 'outside'
                       "
                       [disabled]="
                         !searchObject.searchWidgetConfig.searchButtonEnabled
@@ -626,7 +629,7 @@
                       value="inside"
                       [checked]="
                         searchObject.searchWidgetConfig
-                          .buttonPlacementPosition == 'inside'
+                          .buttonPlacementPosition === 'inside'
                       "
                       [disabled]="
                         !searchObject.searchWidgetConfig.searchButtonEnabled
@@ -1094,8 +1097,8 @@
                     <div
                       class="fill-colors-block"
                       *ngIf="
-                        searchObject.searchExperienceConfig.searchBarPosition ==
-                        'bottom'
+                        searchObject.searchExperienceConfig
+                          .searchBarPosition === 'bottom'
                       "
                     >
                       <div class="fill-color">
@@ -1182,12 +1185,12 @@
                 class="default-status"
                 [ngStyle]="{
                   padding:
-                    searchObject.searchExperienceConfig.searchBarPosition ==
+                    searchObject.searchExperienceConfig.searchBarPosition ===
                     'bottom'
                       ? '20'
                       : 0,
                   'border-top':
-                    searchObject.searchExperienceConfig.searchBarPosition ==
+                    searchObject.searchExperienceConfig.searchBarPosition ===
                     'bottom'
                       ? '1'
                       : '0'
@@ -1196,7 +1199,7 @@
                 <div
                   class="default-status-title"
                   *ngIf="
-                    searchObject.searchExperienceConfig.searchBarPosition ==
+                    searchObject.searchExperienceConfig.searchBarPosition ===
                     'bottom'
                   "
                 >
@@ -1205,7 +1208,7 @@
                 <div
                   class="kr-sg-radiobutton w-100"
                   *ngIf="
-                    searchObject.searchExperienceConfig.searchBarPosition ==
+                    searchObject.searchExperienceConfig.searchBarPosition ===
                     'bottom'
                   "
                 >
@@ -1232,8 +1235,8 @@
                     <div
                       class="search-widget-if-bottom-up"
                       *ngIf="
-                        searchObject.searchExperienceConfig.searchBarPosition ==
-                        'bottom'
+                        searchObject.searchExperienceConfig
+                          .searchBarPosition === 'bottom'
                       "
                     >
                       <div
@@ -1361,8 +1364,8 @@
                     <div
                       class="search-widget"
                       *ngIf="
-                        searchObject.searchExperienceConfig.searchBarPosition ==
-                        'top'
+                        searchObject.searchExperienceConfig
+                          .searchBarPosition === 'top'
                       "
                     >
                       <div class="d-flex search-customization-input">
@@ -1491,7 +1494,7 @@
                 <div
                   class="kr-sg-radiobutton w-100 mt-2"
                   *ngIf="
-                    searchObject.searchExperienceConfig.searchBarPosition ==
+                    searchObject.searchExperienceConfig.searchBarPosition ===
                     'bottom'
                   "
                 >
@@ -1512,7 +1515,7 @@
 
                 <ng-container
                   *ngIf="
-                    searchObject.searchExperienceConfig.searchBarPosition ==
+                    searchObject.searchExperienceConfig.searchBarPosition ===
                     'bottom'
                   "
                 >
@@ -1574,10 +1577,10 @@
                       class="label_text"
                       [ngClass]="{
                         enabled:
-                          searchObject.searchInteractionsConfig.showSearches ==
+                          searchObject.searchInteractionsConfig.showSearches ===
                           'recent',
                         disabled:
-                          searchObject.searchInteractionsConfig.showSearches ==
+                          searchObject.searchInteractionsConfig.showSearches ===
                           'frequent'
                       }"
                     >
@@ -1608,7 +1611,7 @@
                           value="frequent"
                           [checked]="
                             searchObject.searchInteractionsConfig
-                              .showSearches == 'Frequent'
+                              .showSearches === 'Frequent'
                           "
                           [(ngModel)]="
                             searchObject.searchInteractionsConfig.showSearches
@@ -1631,7 +1634,7 @@
                           value="recent"
                           [checked]="
                             searchObject.searchInteractionsConfig
-                              .showSearches == 'recent'
+                              .showSearches === 'recent'
                           "
                           [(ngModel)]="
                             searchObject.searchInteractionsConfig.showSearches
@@ -1755,7 +1758,7 @@
     <button
       class="kr-sg-button-secondary btn_lg"
       (click)="nextTab('pre'); closeAllBoxs('all')"
-      *ngIf="selectedTab != 'experience'"
+      *ngIf="selectedTab !== 'experience'"
     >
       {{ 'searchexperience_previous' | translate }}
     </button>
@@ -1769,7 +1772,7 @@
     <button
       class="kr-sg-button-primary btn_lg"
       (click)="saveSearchExperience(); closeAllBoxs('all')"
-      *ngIf="selectedTab == 'feedback'"
+      *ngIf="selectedTab === 'feedback'"
     >
       {{ 'sa_done' | translate }}
     </button>
@@ -1789,11 +1792,11 @@
       {{ 'searchexperience_guide' | translate }} >
       <span
         *ngIf="
-          searchObject.searchExperienceConfig.searchBarPosition == 'bottom'
+          searchObject.searchExperienceConfig.searchBarPosition === 'bottom'
         "
         >{{ 'searchexperience_bottom_up_experience' | translate }}</span
       ><span
-        *ngIf="searchObject.searchExperienceConfig.searchBarPosition == 'top'"
+        *ngIf="searchObject.searchExperienceConfig.searchBarPosition === 'top'"
         >{{ 'searchexperience_top_down_experience' | translate }}</span
       >
     </div>
@@ -1804,7 +1807,7 @@
   <perfect-scrollbar class="perfect-scroll-modal-body">
     <div
       class="modal-body"
-      *ngIf="searchObject.searchExperienceConfig.searchBarPosition == 'bottom'"
+      *ngIf="searchObject.searchExperienceConfig.searchBarPosition === 'bottom'"
     >
       <div class="main-title">
         {{ 'searchexperience_hi' | translate }} {{ userName }},
@@ -1950,7 +1953,7 @@
 
     <div
       class="modal-body topdown-guide"
-      *ngIf="searchObject.searchExperienceConfig.searchBarPosition == 'top'"
+      *ngIf="searchObject.searchExperienceConfig.searchBarPosition === 'top'"
     >
       <div class="main-title">
         {{ 'searchexperience_hi' | translate }} {{ userName }},

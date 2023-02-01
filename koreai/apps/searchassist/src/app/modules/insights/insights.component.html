@@ -94,19 +94,19 @@
                   >
                     <div
                       class="col-lg-7 title-data"
-                      *ngIf="actLog.target.contentType == 'page'"
+                      *ngIf="actLog.target.contentType === 'page'"
                     >
                       {{ actLog.target.contentInfo.title }}
                     </div>
                     <div
                       class="col-lg-7 title-data"
-                      *ngIf="actLog.target.contentType == 'faq'"
+                      *ngIf="actLog.target.contentType === 'faq'"
                     >
                       {{ actLog.target.contentInfo.question }}
                     </div>
                     <div
                       class="col-lg-7 title-data"
-                      *ngIf="actLog.target.contentType == 'task'"
+                      *ngIf="actLog.target.contentType === 'task'"
                     >
                       {{ actLog.target.contentInfo.lname }}
                     </div>
@@ -126,19 +126,19 @@
                   <div class="card-body">
                     <div
                       class="desc-text"
-                      *ngIf="actLog.target.contentType == 'page'"
+                      *ngIf="actLog.target.contentType === 'page'"
                     >
                       {{ actLog.target.contentInfo.searchResultPreview }}
                     </div>
                     <div
                       class="desc-text"
-                      *ngIf="actLog.target.contentType == 'faq'"
+                      *ngIf="actLog.target.contentType === 'faq'"
                     >
                       {{ faqDesc }}
                     </div>
                     <div
                       class="desc-text"
-                      *ngIf="actLog.target.contentType == 'task'"
+                      *ngIf="actLog.target.contentType === 'task'"
                     >
                       {{ actLog.target.contentInfo.lname }}
                     </div>

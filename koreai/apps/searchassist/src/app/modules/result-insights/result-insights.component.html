@@ -231,31 +231,31 @@
             <div class="col-4 title d-flex align-items-center search-results">
               <span
                 class="img-sec"
-                *ngIf="result.answerType == 'faq'"
+                *ngIf="result.answerType === 'faq'"
                 ngbTooltip="{{ result.answerType }}"
                 ><img src="assets/icons/question-box.svg"
               /></span>
               <span
                 class="img-sec"
-                *ngIf="result.answerType == 'web'"
+                *ngIf="result.answerType === 'web'"
                 ngbTooltip="{{ result.answerType }}"
                 ><img src="assets/icons/page.svg"
               /></span>
               <span
                 class="img-sec"
-                *ngIf="result.answerType == 'file'"
+                *ngIf="result.answerType === 'file'"
                 ngbTooltip="{{ result.answerType }}"
                 ><img src="assets/icons/resultranking/file-icon.svg"
               /></span>
               <span
                 class="img-sec"
-                *ngIf="result.answerType == 'data'"
+                *ngIf="result.answerType === 'data'"
                 ngbTooltip="{{ result.answerType }}"
                 ><img src="assets/icons/resultranking/data-icon.svg"
               /></span>
               <span
                 class="img-sec"
-                *ngIf="result.answerType == 'task'"
+                *ngIf="result.answerType === 'task'"
                 ngbTooltip="{{ result.answerType }}"
                 ><img src="assets/icons/sidemenu/new-icons/actions.svg"
               /></span>

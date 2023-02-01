@@ -6,10 +6,6 @@ import {
   EventEmitter,
   ViewChild,
   OnDestroy,
-  ApplicationRef,
-  ElementRef,
-  Injector,
-  Input,
   ViewContainerRef,
 } from '@angular/core';
 import { SideBarService } from '../../../services/header.service';
@@ -600,8 +596,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
 
   switchAccountInternal(account) {
-    if (account.alreadyJoined) {
-    }
     window[this.storageType].setItem(
       'selectedAccount',
       JSON.stringify(account)
@@ -627,7 +621,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
     if (value) {
       this.browseWorkspaceRef = this.browseWorkspace.open();
     }
-    let selectAccountDetail = window[this.storageType].getItem(
+    const selectAccountDetail = window[this.storageType].getItem(
       'selectedAccount'
     )
       ? JSON.parse(window[this.storageType].getItem('selectedAccount'))
@@ -878,12 +872,11 @@ export class HeaderComponent implements OnInit, OnDestroy {
     this.showSearch = !this.showSearch;
   }
   triggerRoute(type, routObj?) {
-    const self = this;
     let queryParams: any = {};
     if (type) {
       setTimeout(() => {
         const slectedRoute = _.filter(this.availableRouts, {
-          displayName: self.searchText.displayName,
+          displayName: this.searchText.displayName,
         });
         if (slectedRoute && slectedRoute.length) {
           queryParams = slectedRoute[0].quaryParms || {};
@@ -999,7 +992,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
         hideResourcesPageLink: 'true',
       })
     );
-    let jStoarge = window[this.storageType].getItem('jStorage')
+    const jStoarge = window[this.storageType].getItem('jStorage')
       ? JSON.parse(window[this.storageType].getItem('jStorage'))
       : {};
     if (jStoarge.currentAccount.accountConf) {
@@ -1111,7 +1104,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
             }
 
             if (this.unReadDocs && this.unReadDocs.length) {
-              let successElements = this.unReadDocs.filter((element) => {
+              const successElements = this.unReadDocs.filter((element) => {
                 /**made code updates in line no 563 on 03/01 added new condition for success,since SUCCESS is upadted to success*/
                 // if (element && element.status === 'SUCCESS') {
                 if (
@@ -1121,7 +1114,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
                   return element;
                 }
               });
-              let failureElements = this.unReadDocs.filter((element) => {
+              const failureElements = this.unReadDocs.filter((element) => {
                 /**made code updates in line no 572 on 03/01 added new condition for FAILED,since FAILURE is updated to FAILED as per new api contract*/
                 // if (element && element.status === 'FAILURE') {
                 if (
@@ -1182,7 +1175,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
   // CHECK FOR THE INPROGRESS JOB
   checkJObStatus(dockersList) {
-    let statusArr: any = [];
+    const statusArr: any = [];
     dockersList.forEach((element) => {
       statusArr.push(element.status);
     });
@@ -1348,7 +1341,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
       jobId: dockId,
       sidx: this.serachIndexId,
     };
-    let payload = {
+    const payload = {
       store: {
         toastSeen: true,
         urlParams: fileName,
@@ -1696,8 +1689,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
   //create app
   createFindlyApp() {
-    const self = this;
-    self.creatingInProgress = true;
+    this.creatingInProgress = true;
     const payload: any = {
       name: this.newApp.name,
       icon: '',
@@ -1729,7 +1721,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
       },
       (errRes) => {
         this.errorToaster(errRes, 'Error in creating app');
-        self.creatingInProgress = false;
+        this.creatingInProgress = false;
       }
     );
   }
@@ -1840,7 +1832,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
         return false;
       }
     } else if (key === 'unread') {
-      let matched = this.unReadDocs.find((res) => {
+      const matched = this.unReadDocs.find((res) => {
         if (res._id === record._id) {
           return res;
         }
@@ -2087,7 +2079,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
       (res) => {
         this.associatedAccounts = res.associatedAccounts;
         const storage = window.localStorage.getItem('jStorage');
-        let updateAssociatedAccounts = JSON.parse(storage);
+        const updateAssociatedAccounts = JSON.parse(storage);
         updateAssociatedAccounts.currentAccount.associatedAccounts =
           this.associatedAccounts;
         window.localStorage.setItem(

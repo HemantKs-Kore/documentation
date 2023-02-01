@@ -8,7 +8,7 @@ import { ServiceInvokerService } from '@kore.apps/services/service-invoker.servi
 import { NotificationService } from '@kore.apps/services/notification.service';
 import { AuthService } from '@kore.apps/services/auth.service';
 import { AppSelectionService } from '@kore.apps/services/app.selection.service';
-declare var require: any;
+declare let require: any;
 const FileSaver = require('file-saver');
 @Component({
   selector: 'app-invoices',
@@ -19,7 +19,7 @@ export class InvoicesComponent implements OnInit, OnDestroy {
   emptyScreen = EMPTY_SCREEN.MANAGE_ORDERS_INVOICES;
   invoices = [];
   showSearch = false;
-  searchInvoice: string = '';
+  searchInvoice = '';
   searchImgSrc: any = 'assets/icons/search_gray.svg';
   searchFocusIn = false;
   selectedApp;
@@ -36,7 +36,7 @@ export class InvoicesComponent implements OnInit, OnDestroy {
     value: '',
     position: '',
   };
-  componentType: string = 'addData';
+  componentType = 'addData';
   constructor(
     public workflowService: WorkflowService,
     private service: ServiceInvokerService,
@@ -137,8 +137,8 @@ export class InvoicesComponent implements OnInit, OnDestroy {
     } else {
       this.isAsc = !this.isAsc;
     }
-    var naviagtionArrow = '';
-    var checkSortValue = 1;
+    let naviagtionArrow = '';
+    let checkSortValue = 1;
     if (this.isAsc) {
       naviagtionArrow = 'up';
       checkSortValue = 1;

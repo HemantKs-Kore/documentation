@@ -90,8 +90,8 @@ export class MetricsComponent implements OnInit {
     // console.log(event)
   }
   getQueries(type) {
-    var today = new Date();
-    var yesterday = new Date(Date.now() - 864e5);
+    const today = new Date();
+    const yesterday = new Date(Date.now() - 864e5);
     const header: any = {
       'x-timezone-offset': '-330',
     };
@@ -100,7 +100,7 @@ export class MetricsComponent implements OnInit {
       offset: 0,
       limit: this.pageLimit,
     };
-    let payload: any = {
+    const payload: any = {
       type: type,
       filters: {
         from: yesterday.toJSON(),
@@ -321,9 +321,9 @@ export class MetricsComponent implements OnInit {
     // var valueList2 = data.map(function (item) {
     //   return item[3];
     // });
-    var totaldata = [];
+    const totaldata = [];
     this.totalSearchSum = 0;
-    for (var i = 0; i < this.searchHistogram.length; i++) {
+    for (let i = 0; i < this.searchHistogram.length; i++) {
       totaldata.push([
         i + 'hr',
         this.searchHistogram[i].totalSearches,
@@ -339,21 +339,21 @@ export class MetricsComponent implements OnInit {
         this.searchesWithClicksSum + this.searchHistogram[i].searchesWithClicks;
     }
 
-    var searchWithResultdata = [];
-    var searchWithClickdata = [];
+    const searchWithResultdata = [];
+    const searchWithClickdata = [];
 
-    var dateList = totaldata.map(function (item) {
+    const dateList = totaldata.map(function (item) {
       return item[0];
     });
 
-    var valueList = totaldata.map(function (item) {
+    const valueList = totaldata.map(function (item) {
       return item[1];
     });
-    var valueList1 = totaldata.map(function (item) {
+    const valueList1 = totaldata.map(function (item) {
       return item[2];
     });
 
-    var valueList2 = totaldata.map(function (item) {
+    const valueList2 = totaldata.map(function (item) {
       return item[3];
     });
     this.chartOption = {
@@ -627,8 +627,8 @@ export class MetricsComponent implements OnInit {
     };
   }
   feedback() {
-    var colorPaletteSearch = ['#28A745', '#EAF6EC'];
-    var colorPaletteResult = ['#FF784B', '#FFF1ED'];
+    const colorPaletteSearch = ['#28A745', '#EAF6EC'];
+    const colorPaletteResult = ['#FF784B', '#FFF1ED'];
     this.feedbackPieSearches = {
       series: [
         {
@@ -669,7 +669,7 @@ export class MetricsComponent implements OnInit {
     };
   }
   busyHours() {
-    let hours = [
+    const hours = [
       '5 am',
       '6 am',
       '7 am',
@@ -684,7 +684,7 @@ export class MetricsComponent implements OnInit {
       '4 pm',
       '5 pm',
     ];
-    let days = [
+    const days = [
       '1st Aug',
       '2nd Aug',
       '3rd Aug',
@@ -694,7 +694,7 @@ export class MetricsComponent implements OnInit {
       '7th Aug',
     ];
 
-    let data = [
+    const data = [
       [0, 0, 1],
       [0, 1, 2],
       [0, 2, 3],

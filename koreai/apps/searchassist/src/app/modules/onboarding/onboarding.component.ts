@@ -1119,8 +1119,8 @@ export class OnboardingComponent implements OnInit {
   }
   //track checklist count and show count number
   trackChecklist() {
-    let arr = [];
-    let Index = [];
+    const arr = [];
+    const Index = [];
     this.tourData.forEach((item) => {
       Object.keys(item).forEach((key) => {
         arr.push(item[key]);
@@ -1131,8 +1131,8 @@ export class OnboardingComponent implements OnInit {
     });
 
     let count = 0;
-    for (let key in this.tourData) {
-      for (let key1 in this.tourData[key]) {
+    for (const key in this.tourData) {
+      for (const key1 in this.tourData[key]) {
         if (this.tourData[key][key1]) {
           count = count + 1;
         }
