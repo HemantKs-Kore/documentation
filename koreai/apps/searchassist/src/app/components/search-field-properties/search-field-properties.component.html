@@ -149,7 +149,7 @@
                         </ng-container>
                         <!-- Edit Conatiner end-->
                         <div class="col-1">
-                            <div class="action_links text-right" *ngIf="selectedProperties.owner != 'sys'">
+                            <div class="action_links text-right" *ngIf="selectedProperties.owner !== 'sys'">
                                 <span class="action_link-icon" ngbTooltip="{{'fields.edit' | translate}}" *ngIf="i !== enableIndex" (click)="editSearchFiledProperties(searchProperties,i)"
                                 [container]="'body'">
                                     <i class="si-pencil-edit"></i>

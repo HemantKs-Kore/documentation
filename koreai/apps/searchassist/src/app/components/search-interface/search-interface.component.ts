@@ -13,8 +13,8 @@ import { InlineManualService } from '@kore.services/inline-manual.service';
 import { MixpanelServiceService } from '@kore.services/mixpanel-service.service';
 
 // import * as PureJSCarousel from 'src/assets/web-kore-sdk/libs/purejscarousel.js';
-declare var PureJSCarousel: any;
-declare var $: any;
+declare let PureJSCarousel: any;
+declare let $: any;
 
 @Component({
   selector: 'app-search-interface',
@@ -69,7 +69,7 @@ export class SearchInterfaceComponent implements OnInit {
   liveSearchResultObj: any = {};
   conversationalSearchResultObj: any = {};
   fullSearchResultObj: any = {}
-  searchTemplatesDisabled: boolean = false;
+  searchTemplatesDisabled = false;
   settingList: any = [
     //   {
     //   id:"searchUi",
@@ -115,15 +115,15 @@ export class SearchInterfaceComponent implements OnInit {
     image : true,
     url : true
   }
-  showDescription: boolean = true;
-  showImage: boolean = false;
-  clickableDisabled: boolean = false;
-  switchActive: boolean = true;
+  showDescription = true;
+  showImage = false;
+  clickableDisabled = false;
+  switchActive = true;
   customizeTemplateObj: customizeTemplate = new customizeTemplate();
   customizeTemplate: templateResponse = new templateResponse();
   carousel: any = [];
-  componentType: string = 'designing';
-  submitted: boolean = false;
+  componentType = 'designing';
+  submitted = false;
   carouselTemplateCount = 0;
   @ViewChild('customModal') customModal: KRModalComponent;
   @ViewChild('previewModal') previewModal: KRModalComponent;
@@ -305,7 +305,7 @@ export class SearchInterfaceComponent implements OnInit {
   selectByDefaultValBindToTemplatae(mapping) {
     if (mapping.heading) {
       this.heading_fieldData.forEach(element => {
-        var obj = {
+        const obj = {
           fieldDataType: element.fieldDataType,
           fieldName: element.fieldName,
           _id: element._id
@@ -318,7 +318,7 @@ export class SearchInterfaceComponent implements OnInit {
     }
     if (mapping.description) {
       this.desc_fieldData.forEach(element => {
-        var obj = {
+        const obj = {
           fieldDataType: element.fieldDataType,
           fieldName: element.fieldName,
           _id: element._id
@@ -431,35 +431,35 @@ export class SearchInterfaceComponent implements OnInit {
   sourcelist(settingObj) {
     settingObj.appearance.forEach(element => {
       if (element.type == 'action' || element.type == 'Action') {
-        let obj = {
+        const obj = {
           type: "Action",
           id: element.templateId ? element.templateId : ""
         }
         this.list.push(obj)
         this.customList.push(obj)
       } else if (element.type == 'faq' || element.type == 'FAQs') {
-        let obj = {
+        const obj = {
           type: "FAQs",
           id: element.templateId ? element.templateId : ""
         }
         this.list.push(obj)
         this.customList.push(obj)
       } else if (element.type == 'page' || element.type == 'Web') {
-        let obj = {
+        const obj = {
           type: "Web",
           id: element.templateId ? element.templateId : ""
         }
         this.list.push(obj)
         this.customList.push(obj)
       } else if (element.type == 'structuredData' || element.type == 'Structured Data') {
-        let obj = {
+        const obj = {
           type: "Structured Data",
           id: element.templateId ? element.templateId : ""
         }
         this.list.push(obj)
         this.customList.push(obj)
       } else if (element.type == 'document' || element.type == 'File') {
-        let obj = {
+        const obj = {
           type: "File",
           id: element.templateId ? element.templateId : ""
         }
@@ -502,9 +502,9 @@ export class SearchInterfaceComponent implements OnInit {
   buildCarousel() {
     setTimeout(() => {
       $('.carousel:last').addClass("carousel" + this.carouselTemplateCount);
-      var count = $(".carousel" + this.carouselTemplateCount).children().length;
+      const count = $(".carousel" + this.carouselTemplateCount).children().length;
       if (count > 1) {
-        var carousel = new PureJSCarousel({
+        const carousel = new PureJSCarousel({
           carousel: '.carousel' + this.carouselTemplateCount,
           slide: '.slide',
           oneByOne: true,
@@ -649,10 +649,10 @@ export class SearchInterfaceComponent implements OnInit {
     //     }
     //   }
     // }
-    let data = []
+    const data = []
     filedData.filter(element => {
-      var filedNamelower = element.fieldName.toLocaleLowerCase();
-      var valToSearchlower = valToSearch.toLocaleLowerCase();
+      const filedNamelower = element.fieldName.toLocaleLowerCase();
+      const valToSearchlower = valToSearch.toLocaleLowerCase();
       if (filedNamelower.includes(valToSearchlower)) {
         data.push(element)
       }
@@ -702,11 +702,11 @@ export class SearchInterfaceComponent implements OnInit {
     }
   }
   copyResultSettings(interfaceType) {
-    let queryparams = {
+    const queryparams = {
       searchIndexId: this.serachIndexId,
       indexPipelineId: this.indexPipelineId
     };
-    let payload = {
+    const payload = {
       "interface": this.selectedSetting,
       "referInterface": interfaceType
     }
@@ -725,8 +725,8 @@ export class SearchInterfaceComponent implements OnInit {
   }
   saveResultSettings(interfaceType?) {
     let payload = {};
-    let _self = this;
-    let setPayload = function (copedInterfaceResultsObj) {
+    const _self = this;
+    const setPayload = function (copedInterfaceResultsObj) {
       copedInterfaceResultsObj.appearance.forEach(element => {
         if (element.type == 'Action') {
           element.type = 'action';
@@ -740,7 +740,7 @@ export class SearchInterfaceComponent implements OnInit {
           element.type = 'document';
         }
       });
-      let payloadBody = {
+      const payloadBody = {
         "_id": _self.selectedSettingResultsObj._id, // Binding the Selected Setting Id
         "resultClassification": {
           "isEnabled": copedInterfaceResultsObj.resultClassification.isEnabled,
@@ -759,7 +759,7 @@ export class SearchInterfaceComponent implements OnInit {
 
       return payloadBody;
     }
-    let queryparams = {
+    const queryparams = {
       searchIndexId: this.serachIndexId,
       indexPipelineId: this.indexPipelineId
     };
@@ -976,7 +976,7 @@ export class SearchInterfaceComponent implements OnInit {
   }
   saveTemplate() {
     this.submitted = true;
-    let validateText = this.validateFeildTextCompare();
+    const validateText = this.validateFeildTextCompare();
 
     if (this.validateTemplate() && !validateText) {
       let url: any;
@@ -1056,7 +1056,7 @@ export class SearchInterfaceComponent implements OnInit {
     }
   }
   getFieldAutoComplete() {
-    let query: any = '';
+    const query: any = '';
     // const quaryparms: any = {
     //   searchIndexID: this.serachIndexId,
     //   indexPipelineId: this.indexPipelineId,
@@ -1182,28 +1182,28 @@ class customizeTemplate {
   template: template = new template();
 }
 class template {
-  type: string = '';
-  typeId: string = '';                    // list1  list 2 or card or carousel
+  type = '';
+  typeId = '';                    // list1  list 2 or card or carousel
   searchResultlayout: searchResultlayout = new searchResultlayout();
   resultMapping: resultMapping = new resultMapping();
-  preview: string = '';                 // collapsable / clickable
+  preview = '';                 // collapsable / clickable
 }
 class searchResultlayout {
-  layout: string = '';                // title with text / image / Centered Content
-  clickable: boolean = true;
-  behaviour: string = 'webpage';          // 'webpage' or 'postback'
-  url: string = '';
-  textAlignment: string = 'left';
+  layout = '';                // title with text / image / Centered Content
+  clickable = true;
+  behaviour = 'webpage';          // 'webpage' or 'postback'
+  url = '';
+  textAlignment = 'left';
 }
 class resultMapping {
-  heading: string = '';
-  headingId: string = '';
-  description: string = '';
-  descriptionId: string = '';
-  image: string = '';
-  imageId: string = '';
-  url: string = '';
-  urlId: string = '';
+  heading = '';
+  headingId = '';
+  description = '';
+  descriptionId = '';
+  image = '';
+  imageId = '';
+  url = '';
+  urlId = '';
 }
 
 /** Template API Response Class */

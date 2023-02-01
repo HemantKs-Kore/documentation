@@ -360,8 +360,8 @@
       "executor": "@nrwl/linter:eslint",
       "options": {
         "lintFilePatterns": [
-          "apps/searchassist/src/app/modules/sources/**/*.ts",
-          "apps/searchassist/src/app/modules/sources/**/*.html"
+          "apps/searchassist/src/app/components/**/*.ts",
+          "apps/searchassist/src/app/components/**/*.html"
         ]
       }
     },

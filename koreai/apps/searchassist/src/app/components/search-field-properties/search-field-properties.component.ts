@@ -39,7 +39,7 @@ export class SearchFieldPropertiesComponent implements OnInit {
   querySubscription: Subscription;
   queryPipelineId: any;
   searchFieldProperties: any = [];
-  totalRecord: number = 0;
+  totalRecord = 0;
   skip = 0;
   limit = 10;
   enableIndex = -1;
@@ -307,7 +307,7 @@ export class SearchFieldPropertiesComponent implements OnInit {
     } else {
       this.isAsc = !this.isAsc;
     }
-    var naviagtionArrow = '';
+    let naviagtionArrow = '';
     //var checkSortValue= 1;
     if (this.isAsc) {
       naviagtionArrow = 'up';

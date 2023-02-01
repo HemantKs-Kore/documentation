@@ -39,10 +39,10 @@ export class SettingsComponent implements OnInit {
   configured;
   scriptTags;
   isAlertsEnabled: boolean;
-  showError: boolean = false;
+  showError = false;
   channelEnabled: true;
-  existingCredential: boolean = false;
-  configFlag: boolean = false;
+  existingCredential = false;
+  configFlag = false;
   channnelConguired: any = [];
   credntial: any = {
     name: "",
@@ -52,7 +52,7 @@ export class SettingsComponent implements OnInit {
     enabled: false
   };
   delChannel = false;
-  componentType: string = 'optimize';
+  componentType = 'optimize';
   channels = [
     {
       id: 'rtm',
@@ -220,7 +220,7 @@ export class SettingsComponent implements OnInit {
     } else {
       scope = [];
     }
-    let payload = {
+    const payload = {
       appName: this.credntial.name,
       algorithm: this.credntial.awt,
       scope: scope,
@@ -287,7 +287,7 @@ export class SettingsComponent implements OnInit {
         userId: this.authService.getUserId(),
         streamId: this.selectedApp._id
       }
-      let payload = {
+      const payload = {
         domains : this.webClientDetails.domains
       }
       // payload.domains = this.webClientDetails.domains;
@@ -428,7 +428,7 @@ export class SettingsComponent implements OnInit {
         // console.log(res);
         if (res && res.configuredBots) {
           res.configuredBots.forEach(element => {
-            let obj = {
+            const obj = {
               "_id": element._id,
               "state": "new"
             }
@@ -437,7 +437,7 @@ export class SettingsComponent implements OnInit {
         }
         if (res && res.unpublishedBots) {
           res.unpublishedBots.forEach(element => {
-            let obj = {
+            const obj = {
               "_id": element._id,
               "state": "delete"
             }
@@ -458,7 +458,7 @@ export class SettingsComponent implements OnInit {
     const queryParams = {
       streamId: this.selectedApp._id
     }
-    let payload = {
+    const payload = {
       "resources":
         [
           {
@@ -498,7 +498,7 @@ export class SettingsComponent implements OnInit {
       userId: this.authService.getUserId(),
       streamId: this.selectedApp._id
     }
-    let payload = {
+    const payload = {
       "bots": this.allBotArray,
       // [
       //   {
@@ -556,7 +556,7 @@ export class SettingsComponent implements OnInit {
       userId: this.authService.getUserId(),
       streamId: this.selectedApp._id
     }
-    let payload = {
+    const payload = {
       type: "rtm",
       name: 'Web / Mobile Client',
       app: {
@@ -612,7 +612,7 @@ export class SettingsComponent implements OnInit {
           const queryParams = {
             streamId: this.selectedApp._id
           }
-          let payload = { "channels": [] }
+          const payload = { "channels": [] }
           this.service.invoke('delete.credentialData', queryParams, payload).subscribe(
             res => {
               this.delChannel = true;
@@ -676,7 +676,7 @@ export class SettingsComponent implements OnInit {
       userId: this.authService.getUserId(),
       streamId: this.selectedApp._id
     }
-    let payload = {
+    const payload = {
       type: "rtm",
       name: 'Web / Mobile Client',
       app: {
@@ -723,7 +723,7 @@ export class SettingsComponent implements OnInit {
   };
 
   showPasword() {
-    var show: any = document.getElementById("password");
+    const show: any = document.getElementById("password");
     if (show.type === "password") {
       this.showPassword = true;
       show.type = "text";

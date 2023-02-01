@@ -107,7 +107,7 @@ export class AddAlternateQuestionComponent implements OnInit {
     if (this.f.question.trim() == '') {
       return;
     }
-    let params = {
+    const params = {
       question: ((this.faqServ || {}).faqData || {}).question || '',
       answer: ((this.faqServ || {}).faqData || {}).answer || '',
       _source: {

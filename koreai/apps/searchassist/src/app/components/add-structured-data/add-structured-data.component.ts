@@ -58,11 +58,11 @@ export class AddStructuredDataComponent implements OnInit {
   previousDataIndex: any;
   nextDataIndex: any;
   allStructuredData: any = [];
-  submitted: boolean = false;
-  isInvalidJSON: boolean = false;
+  submitted = false;
+  isInvalidJSON = false;
 
   @Output() closeStructuredDataModal = new EventEmitter();
-  @Input('selectedSourceType') selectedSourceType: any;
+  @Input() selectedSourceType: any;
   @ViewChild('sourceCreation') sourceCreation: any;
   @ViewChild('codemirror') codemirror: any;
   @ViewChild('perfectScroll') perfectScroll: PerfectScrollbarComponent;
@@ -227,7 +227,7 @@ export class AddStructuredDataComponent implements OnInit {
   }
 
   deleteStructuredData(record) {
-    let quaryparms: any = {};
+    const quaryparms: any = {};
     quaryparms.searchIndexId = this.selectedApp.searchIndexes[0]._id;
     quaryparms.sourceId = Math.random().toString(36).substr(7);
     if (record) {
@@ -370,13 +370,13 @@ export class AddStructuredDataComponent implements OnInit {
   }
 
   proceedSource() {
-    let payload: any = {};
+    const payload: any = {};
     const searchIndex = this.selectedApp.searchIndexes[0]._id;
     const quaryparms: any = {
       searchIndexId: searchIndex,
       type: this.selectedSourceType.sourceType,
     };
-    let endPoint = 'add.structuredData';
+    const endPoint = 'add.structuredData';
     this.submitted = true;
     if (this.validateStructuredData()) {
       if (
@@ -392,7 +392,7 @@ export class AddStructuredDataComponent implements OnInit {
         this.selectedSourceType.resourceType === 'structuredDataManual'
       ) {
         try {
-          let payload_temp = JSON.parse(this.structuredData.payload);
+          const payload_temp = JSON.parse(this.structuredData.payload);
           // console.log("payload", payload);
           if (this.selectedJsonForEdit) {
             // edit
@@ -441,7 +441,7 @@ export class AddStructuredDataComponent implements OnInit {
   }
 
   updateStructuredData(jsonData) {
-    let quaryparms: any = {};
+    const quaryparms: any = {};
     quaryparms.searchIndexId = this.selectedApp.searchIndexes[0]._id;
     // quaryparms.sourceId = Math.random().toString(36).substr(7);
     if (jsonData) {
@@ -507,7 +507,7 @@ export class AddStructuredDataComponent implements OnInit {
     this.isInvalidJSON = false;
     this.submitted = false;
     try {
-      let payload_temp = JSON.parse(this.structuredData.payload);
+      const payload_temp = JSON.parse(this.structuredData.payload);
       if (payload_temp) {
         this.selectedSourceType.resourceAdded = true;
       }
@@ -517,7 +517,7 @@ export class AddStructuredDataComponent implements OnInit {
   }
 
   indentObj() {
-    let count = this.codemirror.codeMirror.lineCount();
+    const count = this.codemirror.codeMirror.lineCount();
     for (let i = 0; i <= count; i++) {
       this.codemirror.codeMirror.indentLine(i, 'smart');
     }
@@ -550,7 +550,7 @@ export class AddStructuredDataComponent implements OnInit {
       .then((res) => res.blob()) // Gets the response and returns it as a blob
       .then((blob: any) => {
         const link: any = document.createElement('a');
-        let objectURL = URL.createObjectURL(blob);
+        const objectURL = URL.createObjectURL(blob);
         link.href = objectURL;
         (link.target = '_blank'), (link.download = fileName), link.click();
         link.remove();

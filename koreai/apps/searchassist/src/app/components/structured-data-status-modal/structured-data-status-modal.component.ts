@@ -18,7 +18,7 @@ import { AppSelectionService } from '@kore.services/app.selection.service';
 export class StructuredDataStatusModalComponent implements OnInit {
 
   @Output() closeStructuredDataStatusModal = new EventEmitter();
-  @Input('structuredDataDocPayload') structuredDataDocPayload : any;
+  @Input() structuredDataDocPayload : any;
   @ViewChild('perfectScroll') perfectScroll: PerfectScrollbarComponent;
 
   constructor(private notificationService: NotificationService,
@@ -29,7 +29,7 @@ export class StructuredDataStatusModalComponent implements OnInit {
     private router: Router) { }
 
   docStatusObject : any = {};
-  componentType: string = 'addData';
+  componentType = 'addData';
   public pollingSubscriber : any;
 
   ngOnInit(): void {

@@ -44,7 +44,7 @@ export class ListFieldsComponent implements OnInit {
   @Input() isLoading = false;
   @Input() isaddLoading = false;
   page_number = 0;
-  highlightMsg: string = '';
+  highlightMsg = '';
   constructor(
     public workflowService: WorkflowService,
     private appSelectionService: AppSelectionService,
@@ -62,7 +62,7 @@ export class ListFieldsComponent implements OnInit {
   recordArray = [];
   fieldsAr: any = [];
   filteredFieldsArr = [];
-  modal_open: boolean = false;
+  modal_open = false;
   selectedSort = 'fieldName';
   componenttype;
   checksort = 'asc';
@@ -225,7 +225,7 @@ export class ListFieldsComponent implements OnInit {
   }
   //** open add field modal pop up */
   openModalPopup() {
-    let flag = false;
+    const flag = false;
     this.shouldClear = false;
     this.calladdApi.emit(flag);
     this.addFieldModalPopRef = this.addFieldModalPop.open();
@@ -274,7 +274,7 @@ export class ListFieldsComponent implements OnInit {
   //** Add Fields pass the selected values to the other components */
   add() {
     let record = {};
-    let arrayId = [];
+    const arrayId = [];
     const filteredValues = this.popupfieldvalues.filter(
       (item) => item.isChecked
     );

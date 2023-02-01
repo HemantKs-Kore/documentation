@@ -104,7 +104,7 @@ export class GroupInputComponent implements OnInit {
     // this.groupCtrl.setValue(null);
     let valG = this.groupInput.nativeElement.value;
     if (valG.indexOf('.') > -1) {
-      let gg = valG.substr(0, valG.indexOf('.'));
+      const gg = valG.substr(0, valG.indexOf('.'));
       if (this.allGroups.indexOf(gg) == -1) {
         valG = '';
         this.groupCtrl.setValue(null);
@@ -128,7 +128,7 @@ export class GroupInputComponent implements OnInit {
   }
 
   getAllGroups() {
-    let params = {
+    const params = {
       searchIndexId: this.searchIndexId,
       offset: 0,
       limit: 100,
@@ -158,7 +158,7 @@ export class GroupInputComponent implements OnInit {
       return;
     }
     if (event.indexOf('.') > -1) {
-      let gg = event.substr(0, event.indexOf('.'));
+      const gg = event.substr(0, event.indexOf('.'));
       if (this.allGroups.indexOf(gg) == -1) {
         this.groupInput.nativeElement.value = '';
         this.groupCtrl.setValue(null);
@@ -176,13 +176,13 @@ export class GroupInputComponent implements OnInit {
 
   private _filter(value: string): string[] {
     if (value.indexOf('.') > -1) {
-      let gg = value.substr(0, value.indexOf('.'));
+      const gg = value.substr(0, value.indexOf('.'));
       if (this.allGroups.indexOf(gg) == -1) {
         this.groupInput.nativeElement.value = '';
         this.groupCtrl.setValue(null);
         return;
       } else {
-        let vv = value.substr(value.indexOf('.') + 1);
+        const vv = value.substr(value.indexOf('.') + 1);
         return this.currentSugg.filter(
           (group) => group.toLowerCase().indexOf(vv) === 0
         );

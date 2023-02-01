@@ -30,14 +30,14 @@ export class ResultRankingComponent implements OnInit, OnDestroy {
   indexPipelineId;
   customizeLog: any = [];
   selectedRecord: any = {};
-  resultLogs: boolean = false;
+  resultLogs = false;
   customizeList: any;
   totalRecord = 0;
   limitpage = 10;
   customizeListBack: any;
-  loadingContent: boolean = true;
-  nextPage: boolean = false;
-  icontoggle: boolean = false;
+  loadingContent = true;
+  nextPage = false;
+  icontoggle = false;
   faqDesc: any;
   mocData: any;
   subscription: Subscription;
@@ -50,7 +50,7 @@ export class ResultRankingComponent implements OnInit, OnDestroy {
   showSearch = false;
   activeClose = false;
   searchSources = '';
-  componentType: string = 'optimize';
+  componentType = 'optimize';
   searchImgSrc: any = 'assets/icons/search_gray.svg';
   searchFocusIn = false;
   fieldData: any;
@@ -58,7 +58,7 @@ export class ResultRankingComponent implements OnInit, OnDestroy {
   strucDataDec = '';
   strucDataHeadingDis = '';
   strucDataDecDis = '';
-  loadImageText: boolean = false;
+  loadImageText = false;
   loadingContent1: boolean;
   customizedActionLogData = [];
   constructor(
@@ -133,7 +133,7 @@ export class ResultRankingComponent implements OnInit, OnDestroy {
     }
   }
   getFieldAutoComplete() {
-    let query: any = '';
+    const query: any = '';
     // const quaryparms: any = {
     //   searchIndexID: this.serachIndexId,
     //   indexPipelineId: this.indexPipelineId,
@@ -161,12 +161,12 @@ export class ResultRankingComponent implements OnInit, OnDestroy {
     );
   }
   multiplyAction(value) {
-    let count = value / 0.25;
+    const count = value / 0.25;
     if (count > 4) {
-      let data = count - 4;
+      const data = count - 4;
       return data;
     } else {
-      let data = 4 - count;
+      const data = 4 - count;
       return data >= 0 ? data : -1 * data;
     }
   }
@@ -216,13 +216,13 @@ export class ResultRankingComponent implements OnInit, OnDestroy {
     };
     this.service.invoke('get.templateById', quaryparms).subscribe(
       (res) => {
-        let strucDataHeadingId = res.mapping.heading;
+        const strucDataHeadingId = res.mapping.heading;
         this.fieldData.forEach((element) => {
           if (element._id == res.mapping.heading) {
             this.strucDataHeading = element.fieldName;
           }
         });
-        let strucDataDecId = res.mapping.description;
+        const strucDataDecId = res.mapping.description;
         this.fieldData.forEach((element) => {
           if (element._id == res.mapping.description) {
             this.strucDataDec = element.fieldName;
@@ -257,11 +257,11 @@ export class ResultRankingComponent implements OnInit, OnDestroy {
       queryPipelineId: this.queryPipelineId,
       indexPipelineId: this.workflowService.selectedIndexPipeline() || '',
     };
-    let ids = [];
+    const ids = [];
     this.collectedRecord.forEach((element) => {
       ids.push(element._id);
     });
-    let payload = {
+    const payload = {
       ids: ids,
     };
     const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
@@ -315,7 +315,7 @@ export class ResultRankingComponent implements OnInit, OnDestroy {
     });
   }
   lauchTest() {
-    let testButtun = document.getElementsByClassName(
+    const testButtun = document.getElementsByClassName(
       'rr-tour-test-btn'
     )[0] as HTMLBaseElement;
     testButtun.click();
@@ -326,7 +326,7 @@ export class ResultRankingComponent implements OnInit, OnDestroy {
       this.headerService.fromResultRank(false);
       // let ball = document.getElementsByClassName('start-search-icon-div')[0] as HTMLBaseElement;
       // ball.click()
-      let testButtun = document.getElementsByClassName(
+      const testButtun = document.getElementsByClassName(
         'rr-tour-test-btn'
       )[0] as HTMLBaseElement;
       testButtun.click();
@@ -340,7 +340,7 @@ export class ResultRankingComponent implements OnInit, OnDestroy {
             this.headerService.searchConfiguration.experienceConfig
               .searchBarPosition == 'top'
           ) {
-            var link = document.getElementById('search') as HTMLDataElement;
+            const link = document.getElementById('search') as HTMLDataElement;
             link.value = this.selectedRecord.searchQuery;
             link.focus();
             $('#search').addClass('from-result-ranking');
@@ -350,11 +350,11 @@ export class ResultRankingComponent implements OnInit, OnDestroy {
                 this.headerService.searchConfiguration.experienceConfig
                   .searchBarPosition == 'top'
               ) {
-                let containerClass = document.getElementsByClassName(
+                const containerClass = document.getElementsByClassName(
                   'top-down-search-background-div'
                 )[0] as HTMLBaseElement;
                 containerClass.classList.add('if-full-results');
-                let container = document.getElementsByClassName(
+                const container = document.getElementsByClassName(
                   'all-result-container'
                 )[0] as HTMLBaseElement;
                 container.style.display = 'block';
@@ -368,7 +368,7 @@ export class ResultRankingComponent implements OnInit, OnDestroy {
         setTimeout(() => {
           // let texBox = document.getElementsByName('search')[1] as HTMLDataElement;
           // texBox.value = this.selectedRecord.searchQuery;
-          var link = document.getElementById('search') as HTMLDataElement;
+          const link = document.getElementById('search') as HTMLDataElement;
           link.value = this.selectedRecord.searchQuery;
           $('#search').addClass('from-result-ranking');
           link.click();
@@ -377,9 +377,9 @@ export class ResultRankingComponent implements OnInit, OnDestroy {
           // let go = document.getElementsByClassName('search-button')[0] as HTMLBaseElement;
           // go.click();
 
-          var box = document.getElementById('searchBox') as HTMLDataElement;
+          const box = document.getElementById('searchBox') as HTMLDataElement;
           box.style.display = 'block';
-          var container = document.getElementById(
+          const container = document.getElementById(
             'searchChatContainer'
           ) as HTMLDataElement;
           container.click();
@@ -415,7 +415,7 @@ export class ResultRankingComponent implements OnInit, OnDestroy {
   }
   selectAll() {
     //this.collectedRecord = [];
-    let selected = false;
+    const selected = false;
     if (this.collectedRecord.length == this.customizeList.length) {
       this.resetSelected();
     } else if (
@@ -519,7 +519,7 @@ export class ResultRankingComponent implements OnInit, OnDestroy {
         this.actionLogData = JSON.parse(JSON.stringify(res.customizations));
         this.customizedActionLogData = [];
         this.actionLogData.forEach((data) => {
-          let actLog = new ActionLog();
+          const actLog = new ActionLog();
           actLog.selected = false;
           actLog.drop = false;
           actLog.contentType = data.target.contentType;
@@ -799,8 +799,8 @@ export class ResultRankingComponent implements OnInit, OnDestroy {
   }
 
   applyFilter(value) {
-    let list = [...this.customizeListBack];
-    let listPush = [];
+    const list = [...this.customizeListBack];
+    const listPush = [];
     if (value) {
       list.forEach((element) => {
         if (element.searchQuery.includes(value)) {
@@ -827,7 +827,7 @@ export class ResultRankingComponent implements OnInit, OnDestroy {
       (res) => {
         this.customizeLog = res;
         for (let i = 0; i < this.customizeLog.length; i++) {
-          let time = this.customizeLog[i].createdOn;
+          const time = this.customizeLog[i].createdOn;
           this.customizeLog[i].createdOn = moment(time).fromNow();
           this.customizeLog[i]['selected'] = false;
           if (this.customizeLog[i].target.contentType == 'data') {
@@ -994,7 +994,7 @@ export class ResultRankingComponent implements OnInit, OnDestroy {
     );
   }
   toggle(icontoggle, selected) {
-    let previousIndex = this.iconIndex;
+    const previousIndex = this.iconIndex;
     //previousIndex == index ? this.icontoggle = !icontoggle : this.icontoggle = icontoggle;
     this.icontoggle = !icontoggle;
     // this.iconIndex  = index;
@@ -1036,18 +1036,18 @@ export class ResultRankingComponent implements OnInit, OnDestroy {
 }
 
 class ActionLog {
-  selected: boolean = false;
-  drop: boolean = false;
-  contentType: string = '';
-  icon: string = '';
-  title: string = '';
-  desc: string = '';
-  action: string = '';
-  actionIcon: string = '';
-  actionDesc: string = '';
-  value: string = '';
-  addedResult: string = '';
-  lMod: string = '';
-  createdOn: string = '';
-  contentId: String = '';
+  selected = false;
+  drop = false;
+  contentType = '';
+  icon = '';
+  title = '';
+  desc = '';
+  action = '';
+  actionIcon = '';
+  actionDesc = '';
+  value = '';
+  addedResult = '';
+  lMod = '';
+  createdOn = '';
+  contentId = '';
 }
