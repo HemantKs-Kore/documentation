@@ -12,17 +12,9 @@ import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
 import { MatChipsModule } from '@angular/material/chips';
 import { SharedPipesModule } from '@kore.apps/helpers/filters/shared-pipes.module';
 import { HttpClient } from '@angular/common/http';
-import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { EmptyScreenModule } from '../empty-screen/empty-screen.module';
-
-// AoT requires an exported function for factories
-export function createTranslateLoader(http: HttpClient) {
-  return new TranslateHttpLoader(
-    http,
-    './assets/i18n/team-management/',
-    '.json'
-  );
-}
+import { createTranslateLoader } from '@kore.shared/*';
+import { Router } from '@angular/router';
 
 @NgModule({
   declarations: [TeamManagementComponent],
@@ -35,7 +27,7 @@ export function createTranslateLoader(http: HttpClient) {
       loader: {
         provide: TranslateLoader,
         useFactory: createTranslateLoader,
-        deps: [HttpClient],
+        deps: [HttpClient, Router],
       },
       isolate: true,
     }),
