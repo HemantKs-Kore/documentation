@@ -393,12 +393,12 @@
           <ng-container *ngIf="!loading_skelton">
             <div class="upgrade-btn" (click)="redirectToPricing()">
               {{
-                currentPlan?.changesScheduledFor == 'none' ||
-                currentPlan?.changesScheduledFor == 'downgrade' ||
-                currentPlan?.planName != 'Free'
+                currentPlan?.changesScheduledFor === 'none' ||
+                currentPlan?.changesScheduledFor === 'downgrade' ||
+                currentPlan?.planName !== 'Free'
                   ? ('plan.upgrade_btn' | translate)
-                  : currentPlan?.changesScheduledFor == 'cancel' &&
-                    currentPlan?.status != 'expired'
+                  : currentPlan?.changesScheduledFor === 'cancel' &&
+                    currentPlan?.status !== 'expired'
                   ? ('plan.revert_cancellation_btn' | translate)
                   : ('plan.reactivate_btn' | translate)
               }}

@@ -330,14 +330,13 @@ export class WorkbenchComponent implements OnInit, OnDestroy, AfterViewInit {
     }
   }
   ngAfterViewInit() {
-    const self = this;
     setTimeout(() => {
       $('#addToolTo').click();
     }, 700);
     this.bindDocumentClickEvents();
   }
   bindDocumentClickEvents() {
-    const self = this;
+    // const self = this;
     $('body')
       .off('click')
       .on('click', (event) => {
@@ -346,7 +345,7 @@ export class WorkbenchComponent implements OnInit, OnDestroy, AfterViewInit {
             !$(event.target).closest('.simulator-div').length &&
             !$(event.target).closest('.simulatebtnContainer').length
           ) {
-            self.closeSimulator();
+            this.closeSimulator();
           }
         }
       });
@@ -363,7 +362,7 @@ export class WorkbenchComponent implements OnInit, OnDestroy, AfterViewInit {
       this.selectedStage.condition.mappings.splice(index, 1);
     } else if (type === 'update') {
       if (field === 'field') {
-        if (mappingType == 'config') {
+        if (mappingType === 'config') {
           this.selectedStage.config.mappings[index] = {
             ...this.selectedStage.config.mappings[index],
             fieldId: data,
@@ -1048,9 +1047,6 @@ export class WorkbenchComponent implements OnInit, OnDestroy, AfterViewInit {
             'Workbench - Rule Created - Custom Script',
             {}
           );
-        } else if (s.type === 'position') {
-        } else if (s.type === 'cluster') {
-        } else if (s.type === 'indexer') {
         } else if (s.type === 'keyword_extraction') {
           this.mixpanel.postEvent(
             'Workbench - Rule Created - Keyword Extraction',
@@ -3079,7 +3075,6 @@ export class WorkbenchComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   ngOnDestroy() {
-    const self = this;
     if (this.pollingSubscriber) {
       this.pollingSubscriber.unsubscribe();
     }

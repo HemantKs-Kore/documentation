@@ -2,7 +2,7 @@
 
 <ng-container>
   <div class="channels-main-container">
-    <div class="header-sec-breadcums col-12 row m-0" *ngIf="slider == 0">
+    <div class="header-sec-breadcums col-12 row m-0" *ngIf="slider === 0">
       <app-useronboarding-journey
         [componentType]="componentType"
       ></app-useronboarding-journey>
@@ -115,7 +115,7 @@
         else noChannels
       "
     >
-      <div class="body-sec" *ngIf="slider == 0">
+      <div class="body-sec" *ngIf="slider === 0">
         <div class="info-data">
           <div class="img-block"><img src="assets/icons/Info_gray.svg" /></div>
           <div class="info-title">{{ 'settings_info_text' | translate }}</div>
@@ -209,7 +209,7 @@
             <div class="title">{{ 'settings_generate_token' | translate }}</div>
           </div>
         </div>
-        <div class="row card-steps" *ngIf="slider == 1">
+        <div class="row card-steps" *ngIf="slider === 1">
           <div class="card_list">
             <div class="step-title">{{ 'settings_step_1' | translate }}</div>
             <div class="img-block">
@@ -260,7 +260,7 @@
           </div>
         </div>
 
-        <div class="web-and-mobile-client-steps d-none" *ngIf="slider == 1">
+        <div class="web-and-mobile-client-steps d-none" *ngIf="slider === 1">
           <div class="web-and-client-card">
             <div class="wacc-step">STEP 1</div>
             <div class="wacc-header">Download Searchassist SDK</div>
@@ -293,7 +293,7 @@
           </div>
         </div>
 
-        <div class="select_credentials_sec" *ngIf="slider == 2">
+        <div class="select_credentials_sec" *ngIf="slider === 2">
           <div class="main-heading">
             {{
               'settings_seems_like_there_are_no_credentials_created'
@@ -391,7 +391,7 @@
           </label>
         </div>
 
-        <div *ngIf="slider == 3" [ngClass]="{ 'm-0': existingCredential }">
+        <div *ngIf="slider === 3" [ngClass]="{ 'm-0': existingCredential }">
           <div class="mb-3" *ngIf="existingCredential">
             <div class="channels-container-info">
               <div class="breadcum-header d-none">
@@ -907,12 +907,12 @@
                                     'disable-class':
                                       webClientDetails.domains[
                                         webClientDetails.domains.length - 1
-                                      ] == ''
+                                      ] === ''
                                   }"
                                   (click)="
                                     webClientDetails.domains[
                                       webClientDetails.domains.length - 1
-                                    ] == ''
+                                    ] === ''
                                       ? null
                                       : addNewDomain(domainUrl)
                                   "
@@ -1140,7 +1140,7 @@
         <div>
           <button
             class="kr-sg-button-secondary btn_lg mr-2"
-            *ngIf="slider == 2"
+            *ngIf="slider === 2"
             (click)="back()"
           >
             {{ 'settings_back' | translate }}
@@ -1149,7 +1149,7 @@
             class="kr-sg-button-primary btn_lg"
             (click)="continue()"
             *ngIf="slider !== 3"
-            [disabled]="(!credntial.name || !credntial.awt) && slider == 2"
+            [disabled]="(!credntial.name || !credntial.awt) && slider === 2"
           >
             {{ 'settings.continue' | translate }}
           </button>
@@ -1162,7 +1162,7 @@
           </button>
           <button
             class="kr-sg-button-primary btn_lg"
-            *ngIf="slider == 3"
+            *ngIf="slider === 3"
             (click)="validationForDomainURl()"
           >
             {{ 'settings_save' | translate }}

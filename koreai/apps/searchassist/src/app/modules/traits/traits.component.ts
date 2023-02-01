@@ -99,10 +99,10 @@ export class TraitsComponent implements OnInit {
   traitsCount = false;
   indexPipelineId;
   subscription: Subscription;
-  totalRecord: number = 0;
+  totalRecord = 0;
   submitted = false;
   uttSubmitted = false;
-  componentType: string = 'indexing';
+  componentType = 'indexing';
   utteranceModel;
   constructor(
     public workflowService: WorkflowService,
@@ -129,7 +129,7 @@ export class TraitsComponent implements OnInit {
     );
   }
   loadingTraits1: boolean;
-  loadImageText: boolean = false;
+  loadImageText = false;
   isEmptyScreenLoading() {
     this.loadingTraits = false;
     this.loadingTraits1 = true;
@@ -147,14 +147,14 @@ export class TraitsComponent implements OnInit {
   getTraitsSliceValue(traits) {
     let sliceValue = 0;
     if (traits.length) {
-      let columnWidth =
+      const columnWidth =
         document.getElementsByClassName('traits-groups')[0].clientWidth - 65;
       let traitsLength = 0;
       traits.forEach((t) => {
-        var canvas = document.createElement('canvas');
-        var ctx = canvas.getContext('2d');
+        const canvas = document.createElement('canvas');
+        const ctx = canvas.getContext('2d');
         ctx.font = '400 14px Roboto';
-        var width = ctx.measureText(t.traitName + ', ').width;
+        const width = ctx.measureText(t.traitName + ', ').width;
         traitsLength = width + traitsLength;
         if (columnWidth < traitsLength) {
           return sliceValue;
@@ -300,7 +300,7 @@ export class TraitsComponent implements OnInit {
         this.updateTraitsApi(traitsGroup._id, payload);
       } else if (!byTraitId) {
         if (this.traits.traitGroups && this.traits.traitGroups.length) {
-          let index = this.traits.traitGroups.findIndex(
+          const index = this.traits.traitGroups.findIndex(
             (d) => d.groupName == payload.groupName
           );
           if (index > -1) {
@@ -443,8 +443,8 @@ export class TraitsComponent implements OnInit {
         if (bulk && this.selcectionObj.selectedCount > 1) {
           this.deleteBulkTrait(dialogRef);
         } else if (this.selcectionObj.selectedCount == 1) {
-          let selectedIds = Object.keys(this.selcectionObj.selectedItems);
-          let index = this.traits.traitGroups.findIndex((d) => {
+          const selectedIds = Object.keys(this.selcectionObj.selectedItems);
+          const index = this.traits.traitGroups.findIndex((d) => {
             d._id == selectedIds[0];
           });
           this.deleteTrait(index, { _id: selectedIds[0] }, dialogRef);
@@ -459,13 +459,13 @@ export class TraitsComponent implements OnInit {
     this.selcectionObj.selectedItems = {};
     this.selcectionObj.selectedCount = 0;
     this.selcectionObj.selectAll = false;
-    let partialElement: any = document.getElementsByClassName(
+    const partialElement: any = document.getElementsByClassName(
       'partial-select-checkbox'
     );
     if (partialElement.length) {
       partialElement[0].classList.add('d-none');
     }
-    let selectAllElement: any = document.getElementsByClassName(
+    const selectAllElement: any = document.getElementsByClassName(
       'select-all-checkbox'
     );
     if (selectAllElement.length) {
@@ -561,13 +561,13 @@ export class TraitsComponent implements OnInit {
     const selectedElements = $('.selectEachTraitInput:checkbox:checked');
     const allElements = $('.selectEachTraitInput');
     if (selectedElements.length === allElements.length) {
-      let partialElement: any = document.getElementsByClassName(
+      const partialElement: any = document.getElementsByClassName(
         'partial-select-checkbox'
       );
       if (partialElement.length) {
         partialElement[0].classList.add('d-none');
       }
-      let selectAllElement: any = document.getElementsByClassName(
+      const selectAllElement: any = document.getElementsByClassName(
         'select-all-checkbox'
       );
       if (selectAllElement.length) {
@@ -575,10 +575,10 @@ export class TraitsComponent implements OnInit {
       }
       $('#selectAllTraits')[0].checked = true;
     } else {
-      let partialElement: any = document.getElementsByClassName(
+      const partialElement: any = document.getElementsByClassName(
         'partial-select-checkbox'
       );
-      let selectAllElement: any = document.getElementsByClassName(
+      const selectAllElement: any = document.getElementsByClassName(
         'select-all-checkbox'
       );
 
@@ -1314,13 +1314,13 @@ export class TraitsComponent implements OnInit {
         }
       });
     }
-    let partialElement: any = document.getElementsByClassName(
+    const partialElement: any = document.getElementsByClassName(
       'partial-select-checkbox'
     );
     if (partialElement.length) {
       partialElement[0].classList.add('d-none');
     }
-    let selectAllElement: any = document.getElementsByClassName(
+    const selectAllElement: any = document.getElementsByClassName(
       'select-all-checkbox'
     );
     if (selectAllElement.length) {
@@ -1335,13 +1335,13 @@ export class TraitsComponent implements OnInit {
     if ($('#selectAllTraits').length) {
       $('#selectAllTraits')[0].checked = false;
     }
-    let partialElement: any = document.getElementsByClassName(
+    const partialElement: any = document.getElementsByClassName(
       'partial-select-checkbox'
     );
     if (partialElement.length) {
       partialElement[0].classList.add('d-none');
     }
-    let selectAllElement: any = document.getElementsByClassName(
+    const selectAllElement: any = document.getElementsByClassName(
       'select-all-checkbox'
     );
     if (selectAllElement.length) {

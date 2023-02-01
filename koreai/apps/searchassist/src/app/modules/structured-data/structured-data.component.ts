@@ -68,11 +68,11 @@ export class StructuredDataComponent implements OnInit {
     readOnly: 'nocursor',
     scrollbarStyle: 'null',
   };
-  searchActive: boolean = false;
+  searchActive = false;
   actionforcheckbox: any = ''; //flag which returns 'all' as value in select all scenario/'partial' value in partial select scenario
   searchText: any = '';
   selectedStructuredData: any = [];
-  allSelected: boolean = false;
+  allSelected = false;
   adwancedSearchModalPopRef: any;
   advancedSearchInput = '';
   selecteditems: any = []; //array to capture the selected checkboxes info from items list
@@ -96,38 +96,38 @@ export class StructuredDataComponent implements OnInit {
       value: 'notequals',
     },
   ];
-  isLoading: boolean = false;
+  isLoading = false;
   structuredDataStatusModalRef: any;
   structuredDataDocPayload: any;
-  noItems: boolean = false;
-  emptySearchResults: boolean = false;
+  noItems = false;
+  emptySearchResults = false;
   skip: any;
   page: any;
   totalCount: any;
-  defaultView: boolean = true;
+  defaultView = true;
   fields: any = [];
   limitpage = 10;
   searchField;
   advancedSearch: any = {};
   tempAdvancedSearch: any = {};
   disableContainer: any = false;
-  isResultTemplate: boolean = false;
-  isResultTemplateLoading: boolean = false;
+  isResultTemplate = false;
+  isResultTemplateLoading = false;
   serachIndexId: any;
   searchFocusIn = false;
   search: any;
   formatter: any;
   showSelectedData: boolean;
   showSelectAllQues: boolean;
-  enableSearchBlock: boolean = false;
+  enableSearchBlock = false;
   indexPipelineId: any;
   queryPipelineId: any;
   subscription: Subscription;
   activeClose = false;
   paginateEvent: any;
   showSelectedCount = 0;
-  componentType: string = 'addData';
-  onboardingOpened: boolean = false;
+  componentType = 'addData';
+  onboardingOpened = false;
   currentRouteData: any = '';
   @ViewChild('addStructuredDataModalPop')
   addStructuredDataModalPop: KRModalComponent;
@@ -187,7 +187,7 @@ export class StructuredDataComponent implements OnInit {
     }
   }
   isLoading1: boolean;
-  loadImageText: boolean = false;
+  loadImageText = false;
 
   getStructuredDataList(skip?) {
     this.isLoading = true;
@@ -251,7 +251,7 @@ export class StructuredDataComponent implements OnInit {
           //   });
           // });
           //changes made on 31/01
-          let uniquedata = this.structuredDataItemsList.filter(
+          const uniquedata = this.structuredDataItemsList.filter(
             ({ _id: id1 }) =>
               !this.selecteditems.some(({ _id: id2 }) => id2 === id1)
           );
@@ -387,7 +387,7 @@ export class StructuredDataComponent implements OnInit {
   }
 
   getNestedElements(element) {
-    let objectValues = [];
+    const objectValues = [];
     if (typeof element === 'object' && element != null)
       Object.keys(element).forEach((key: any, index) => {
         let nested = false;
@@ -749,7 +749,7 @@ export class StructuredDataComponent implements OnInit {
   }
 
   designPayloadForAdvancedSearch() {
-    let payload: any = {};
+    const payload: any = {};
     payload.operand = this.advancedSearch.operand;
     payload.cond = [];
     this.advancedSearch.rules.forEach((rule) => {
@@ -780,8 +780,8 @@ export class StructuredDataComponent implements OnInit {
       }
     } else {
       setTimeout(() => {
-        let id = 'direct-search';
-        let element = document.getElementById(id);
+        const id = 'direct-search';
+        const element = document.getElementById(id);
         if (element) {
           element.focus();
         }
@@ -918,7 +918,7 @@ export class StructuredDataComponent implements OnInit {
     //   });
     // });
     //changes made on 31/01
-    let uniquedata = this.structuredDataItemsList.filter(
+    const uniquedata = this.structuredDataItemsList.filter(
       ({ _id: id1 }) => !this.selecteditems.some(({ _id: id2 }) => id2 === id1)
     );
     if (uniquedata.length > 0) {
@@ -965,7 +965,7 @@ export class StructuredDataComponent implements OnInit {
       //       }
       //     });
       // });
-      let uniquedata = this.structuredDataItemsList.filter(
+      const uniquedata = this.structuredDataItemsList.filter(
         ({ _id: id1 }) =>
           !this.selecteditems.some(({ _id: id2 }) => id2 === id1)
       );
@@ -975,7 +975,7 @@ export class StructuredDataComponent implements OnInit {
         });
       }
     } else {
-      let count = this.checkForAllBoolean(this.structuredDataItemsList);
+      const count = this.checkForAllBoolean(this.structuredDataItemsList);
       if (count > 0 && count < this.limitpage) {
         this.showSelectedCount =
           this.showSelectedCount + (this.limitpage - count); // this.limitpage is obtained from pagination count
@@ -1025,7 +1025,7 @@ export class StructuredDataComponent implements OnInit {
       this.showSelectedCount < this.totalCount
     ) {
       // changes made on 31/01
-      let uniquedata = this.structuredDataItemsList.filter(
+      const uniquedata = this.structuredDataItemsList.filter(
         ({ _id: id1 }) =>
           !this.selecteditems.some(({ _id: id2 }) => id2 === id1)
       );
@@ -1037,7 +1037,7 @@ export class StructuredDataComponent implements OnInit {
       //*for partial unselection scenario 03/02 changes */
       // else if(uniquedata.length>0 && bool===false)
       else if (bool === false) {
-        let commonelements = this.structuredDataItemsList.filter(
+        const commonelements = this.structuredDataItemsList.filter(
           ({ _id: id1 }) =>
             this.selecteditems.some(({ _id: id2 }) => id2 === id1)
         );
@@ -1285,7 +1285,7 @@ export class StructuredDataComponent implements OnInit {
   }
 
   deleteStructuredData(record) {
-    let quaryparms: any = {};
+    const quaryparms: any = {};
     quaryparms.searchIndexId = this.selectedApp.searchIndexes[0]._id;
     quaryparms.sourceId = Math.random().toString(36).substr(7);
     if (record) {
@@ -1328,8 +1328,8 @@ export class StructuredDataComponent implements OnInit {
     if (this.skip == undefined) {
       this.skip = 0;
     }
-    let quaryparms: any = {};
-    let payload: any = {};
+    const quaryparms: any = {};
+    const payload: any = {};
     quaryparms.searchIndexId = this.selectedApp.searchIndexes[0]._id;
     if (this.selecteditems.length) {
       if (this.allSelected) {
@@ -1510,7 +1510,7 @@ export class StructuredDataComponent implements OnInit {
       jobId: dockId,
       sidx: this.serachIndexId,
     };
-    let payload = {
+    const payload = {
       store: {
         toastSeen: true,
         urlParams: fileName,
@@ -1518,7 +1518,7 @@ export class StructuredDataComponent implements OnInit {
     };
     this.service.invoke('attachment.file', params).subscribe(
       (res) => {
-        let hrefURL = res.fileUrl + fileName;
+        const hrefURL = res.fileUrl + fileName;
         window.open(hrefURL, '_self');
         this.service
           .invoke('put.dockStatus', params, payload)

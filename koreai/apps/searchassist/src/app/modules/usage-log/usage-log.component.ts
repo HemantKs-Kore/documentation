@@ -14,7 +14,7 @@ declare const $: any;
   templateUrl: './usage-log.component.html',
   styleUrls: ['./usage-log.component.scss'],
 })
-export class UsageLogComponent implements OnInit {
+export class UsageLogComponent implements OnInit, OnDestroy {
   emptyScreen = EMPTY_SCREEN.MANAGE_USAGE_LOGS;
   usageLogs = [];
   queryTypeArr = [];
@@ -41,7 +41,7 @@ export class UsageLogComponent implements OnInit {
   selectedSort = '';
   isAsc = true;
   current_plan_name: string;
-  componentType: string = 'addData';
+  componentType = 'addData';
   beforeFilterUsageLogs: any = [];
   constructor(
     public workflowService: WorkflowService,
@@ -60,7 +60,7 @@ export class UsageLogComponent implements OnInit {
     // this.subscription = this.appSelectionService.appSelectedConfigs.subscribe(res => {
     //   this.loadUsageLogs();
     // })
-    let subscription_data =
+    const subscription_data =
       this.appSelectionService.currentsubscriptionPlanDetails;
     this.current_plan_name = subscription_data?.subscription.planName;
   }
@@ -173,7 +173,7 @@ export class UsageLogComponent implements OnInit {
     if (!this.beforeFilterUsageLogs.length) {
       this.beforeFilterUsageLogs = JSON.parse(JSON.stringify(this.usageLogs));
     }
-    let tempUsageLogs = this.beforeFilterUsageLogs.filter((field: any) => {
+    const tempUsageLogs = this.beforeFilterUsageLogs.filter((field: any) => {
       if (source !== 'all') {
         if (headerOption === 'queryType') {
           if (field.queryType === source) {
@@ -376,7 +376,7 @@ export class UsageLogComponent implements OnInit {
       jobId: dockId,
       sidx: this.serachIndexId,
     };
-    let payload = {
+    const payload = {
       store: {
         toastSeen: true,
         urlParams: fileName,
@@ -384,7 +384,7 @@ export class UsageLogComponent implements OnInit {
     };
     this.service.invoke('attachment.file', params).subscribe(
       (res) => {
-        let hrefURL = res.fileUrl + (fileName ? fileName : '');
+        const hrefURL = res.fileUrl + (fileName ? fileName : '');
         window.open(hrefURL, '_self');
         this.service
           .invoke('put.dockStatus', params, payload)

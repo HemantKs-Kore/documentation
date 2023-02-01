@@ -283,9 +283,9 @@
             </div>
             <div class="col-3 title pl-4">
               {{
-                usageLog.queryType == 'liveSearch'
+                usageLog.queryType === 'liveSearch'
                   ? 'Live Search'
-                  : usageLog.queryType == 'fullSearch'
+                  : usageLog.queryType === 'fullSearch'
                   ? 'Full Search'
                   : 'Query Suggestions'
               }}

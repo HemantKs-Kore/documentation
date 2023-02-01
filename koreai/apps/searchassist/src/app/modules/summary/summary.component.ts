@@ -177,7 +177,7 @@ export class SummaryComponent implements OnInit, AfterViewInit, OnDestroy {
     );
     this.currentUsageSubscription =
       this.appSelectionService.queryConfigs.subscribe((res) => {
-        let subscription_data =
+        const subscription_data =
           this.appSelectionService?.currentsubscriptionPlanDetails;
         this.currentPlan = subscription_data?.subscription;
         this.initialCall('changed');
@@ -254,8 +254,8 @@ export class SummaryComponent implements OnInit, AfterViewInit, OnDestroy {
   getQueries(type) {
     //moved the below flag to ngOnInit to fix the NAN display issue for few sec in summary screen on 08/03
     //this.loading_skelton = true;
-    var today = new Date();
-    let from = new Date(Date.now() - 1 * 864e5);
+    const today = new Date();
+    const from = new Date(Date.now() - 1 * 864e5);
     const header: any = {
       'x-timezone-offset': '-330',
     };
@@ -265,7 +265,7 @@ export class SummaryComponent implements OnInit, AfterViewInit, OnDestroy {
       offset: 0,
       limit: 100,
     };
-    let payload: any = {
+    const payload: any = {
       type: type,
       filters: {
         from: from.toJSON(),
@@ -379,7 +379,7 @@ export class SummaryComponent implements OnInit, AfterViewInit, OnDestroy {
             ? true
             : false;
         if (status == undefined) {
-          let subscription_data =
+          const subscription_data =
             this.appSelectionService?.currentsubscriptionPlanDetails;
           this.currentPlan = subscription_data?.subscription;
         }
