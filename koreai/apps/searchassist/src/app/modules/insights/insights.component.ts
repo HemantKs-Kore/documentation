@@ -17,8 +17,8 @@ export class InsightsComponent implements OnInit {
   queryPipelineId;
   show = false;
   actionLog_id = 0;
-  icontoggle: boolean = false;
-  graphMode: boolean = true;
+  icontoggle = false;
+  graphMode = true;
   iconIndex;
   ctrVal;
   slider: any = 1;
@@ -84,12 +84,12 @@ export class InsightsComponent implements OnInit {
     // }
     //this.query = "Open bank account"
     this.getAppDetails();
-    let date = new Date();
-    let _month_old_date = new Date(Date.now() - 30 * 864e5);
-    let sdate = new Date(Date.now());
-    let startDate =
+    const date = new Date();
+    const _month_old_date = new Date(Date.now() - 30 * 864e5);
+    const sdate = new Date(Date.now());
+    const startDate =
       date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate();
-    let endDate =
+    const endDate =
       _month_old_date.getFullYear() +
       '-' +
       (_month_old_date.getMonth() + 1) +
@@ -100,7 +100,7 @@ export class InsightsComponent implements OnInit {
       startDate: _month_old_date.toJSON(), // startDate,  //"2020-10-10",
       endDate: sdate.toJSON(), //endDate,  //"2020-11-10"//endDate,
     };
-    var payload = {
+    const payload = {
       searchQuery: this.query,
     };
     const header: any = {
@@ -156,10 +156,10 @@ export class InsightsComponent implements OnInit {
       : this.selectedApp.searchIndexes[0].queryPipelineId;
   }
   analyticGraph(responseData) {
-    let search_x_axis_data = [];
-    let click_x_axis_data = [];
-    let ctr_x_axis_data = [];
-    let _y_axis_data = [];
+    const search_x_axis_data = [];
+    const click_x_axis_data = [];
+    const ctr_x_axis_data = [];
+    const _y_axis_data = [];
     const monthNames = [
       'Jan',
       'Feb',
@@ -177,7 +177,7 @@ export class InsightsComponent implements OnInit {
 
     if (responseData.searchesData) {
       responseData.searchesData.forEach((element) => {
-        let date = new Date(element.date);
+        const date = new Date(element.date);
         _y_axis_data.push(date.getDate() + ' ' + monthNames[date.getMonth()]);
         search_x_axis_data.push(element.searches);
         _y_axis_data.push(element.date);
@@ -365,7 +365,7 @@ export class InsightsComponent implements OnInit {
   }
   filter() {}
   toggle(icontoggle, selected) {
-    let previousIndex = this.iconIndex;
+    const previousIndex = this.iconIndex;
     //previousIndex == index ? this.icontoggle = !icontoggle : this.icontoggle = icontoggle;
     this.icontoggle = !icontoggle;
     //this.iconIndex  = index;

@@ -113,7 +113,7 @@ export class IndexConfigurationSettingsComponent implements OnInit {
   }
   //geting the seedData
   getAvilableLanguages() {
-    let url = 'get.indexAvailableLanguages';
+    const url = 'get.indexAvailableLanguages';
     this.service.invoke(url).subscribe(
       (res) => {
         this.languageList = res.languages;
@@ -138,8 +138,8 @@ export class IndexConfigurationSettingsComponent implements OnInit {
   }
   // clearing the seedData
   clearCheckbox() {
-    let arr = [...this.supportedLanguages];
-    let dumyArr = [];
+    const arr = [...this.supportedLanguages];
+    const dumyArr = [];
     arr.forEach((arrElement) => {
       dumyArr.push(arrElement.languageCode);
     });
@@ -156,7 +156,7 @@ export class IndexConfigurationSettingsComponent implements OnInit {
     this.languageList[index].selected = !this.languageList[index].selected;
   }
   addLang() {
-    let langArr = [];
+    const langArr = [];
     this.languageList.forEach((element) => {
       if (element.selected) {
         langArr.push(element);
@@ -167,17 +167,17 @@ export class IndexConfigurationSettingsComponent implements OnInit {
   //add or edit Language
   saveLanguage(dialogRef?, langArr?) {
     this.isAddLoading = true;
-    let queryParams = {
+    const queryParams = {
       streamId: this.selectedApp._id,
       indexPipelineId: this.indexPipelineId,
     };
-    let payload = {
+    const payload = {
       language: {
         enable: true,
         values: langArr,
       },
     };
-    let url = 'put.indexLanguages';
+    const url = 'put.indexLanguages';
     this.service.invoke(url, queryParams, payload).subscribe(
       (res) => {
         this.getIndexPipeline();
@@ -232,7 +232,7 @@ export class IndexConfigurationSettingsComponent implements OnInit {
     });
   }
   updateLangListFun(list) {
-    let updateArr = [];
+    const updateArr = [];
     this.supportedLanguages.forEach((element, index) => {
       if (element.languageCode != list.languageCode) {
         updateArr.push(element);
@@ -293,7 +293,7 @@ export class IndexConfigurationSettingsComponent implements OnInit {
   }
   deleteLanguage(dialogRef?, list?) {
     this.unCheck();
-    let updateArr = this.updateLangListFun(list);
+    const updateArr = this.updateLangListFun(list);
     this.saveLanguage(dialogRef, updateArr);
   }
   clearSearch() {
