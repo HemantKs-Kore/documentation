@@ -225,18 +225,21 @@
                         'sa_please_wait' | translate
                       }}</span>
                     </div>
-                    <iframe
-                      id="topicGuideMediaModal"
-                      [src]="topicGuideVideoUrl | safe : 'resourceUrl'"
-                      class="noBorder"
-                      (load)="showHideSpinner()"
-                      width="100% "
-                      height="100% "
-                      allow="autoplay"
-                      iframe-onload="onMediaLoadedLoaded(this)"
-                      allowfullscreen
-                      controls
-                    ></iframe>
+                    <ng-container *ngIf="topicGuideVideoUrl">
+                      <iframe
+                        id="topicGuideMediaModal"
+                        [src]="topicGuideVideoUrl | safe : 'resourceUrl'"
+                        class="noBorder"
+                        (load)="showHideSpinner()"
+                        width="100% "
+                        height="100% "
+                        allow="autoplay"
+                        iframe-onload="onMediaLoadedLoaded(this)"
+                        allowfullscreen
+                        controls
+                      ></iframe>
+                    </ng-container>
+
                     <!-- <iframe id="topicGuideMediaModal" class="noBorder" allowfullscreen controls (load)="showHideSpinner();onMediaLoadedLoaded(this)" [src]="topicGuideVideoUrl" width="100% " height="100% " allow="autoplay" ></iframe> -->
                   </div>
                 </div>
