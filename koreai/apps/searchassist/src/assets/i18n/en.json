@@ -3613,9 +3613,9 @@
   "stopwords_How_would_you_like_to_start": "How would you like to start?",
   "stopwords_Add_defaults": "Add default stop words",
   "stopwords_Add_defaults_eg": "Eg: If, Me, I, Can, Not, Won’t etc..",
-  "stopwords_Remove_Default_Stop_Words": "Remove Defalut",
-  "stopwords_reset_to_default": "Reset To Defalut",
-  "stopwords_add_defalut": "Add Defalut",
+  "stopwords_Remove_Default_Stop_Words": "Remove Default Stop Words",
+  "stopwords_reset_to_default": "Reset To Default Stop Word",
+  "stopwords_add_defalut": "Add Default Stop Word",
   "stopwords_clear_all": "Clear All",
   "stopwords_Get_Started": "Get Started",
 

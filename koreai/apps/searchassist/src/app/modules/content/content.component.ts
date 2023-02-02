@@ -277,6 +277,7 @@ export class ContentComponent implements OnInit, OnDestroy {
   };
   isSearchLoading = false;
   isPageDelete = false;
+  isPageLoader = false;
   @ViewChild('statusModalDocument') statusModalDocument: KRModalComponent;
   @ViewChild('perfectScroll') perfectScroll: PerfectScrollbarComponent;
   @ViewChild('addSourceModalPop') addSourceModalPop: KRModalComponent;
@@ -948,11 +949,17 @@ export class ContentComponent implements OnInit, OnDestroy {
         this.lastData = data;
         if (data.length || this.pagesSearch || isFocused) {
           this.swapSlider('page');
-          this.selectedPage = {
-            ...this.pagingData[0],
-            isSection: false,
-            isBody: false,
-          };
+          // this.selectedPage = {
+          //   ...this.pagingData[0],
+          //   isSection: false,
+          //   isBody: false,
+          // };
+          /** updating from multiple data to onDemand data */
+          this.pagingData.forEach((element) => {
+            element['url_display'] = element._source.page_url;
+          });
+          const firstIndex = 0;
+          this.callContentPage(this.pagingData[firstIndex]._id); // Please check the above line for the details
         } else {
           if (data.length == 0 && this.pagesSearch.length == 0) {
             this.swapSlider('config');
@@ -979,7 +986,47 @@ export class ContentComponent implements OnInit, OnDestroy {
       }
     );
   }
-
+  /** Page deatils onDemand */
+  callContentPage(pageId) {
+    this.isPageLoader = true;
+    const searchIndex = this.selectedApp.searchIndexes[0]._id;
+    const quaryparms: any = {
+      searchIndexId: searchIndex,
+      webDomainId: this.selectedSource._id,
+      contentId: pageId,
+    };
+    const payload: any = {};
+    this.service
+      .invoke('get.extracted.pagsById', quaryparms, payload)
+      .subscribe(
+        (res) => {
+          this.isSearchLoading = false;
+          this.isPageLoader = false;
+          if (this.selectedPage) {
+            this.selectedPage = { ...res, isSection: false, isBody: false };
+          }
+          //this.selectedPage = {...this.pagingData[0],isSection:false,isBody:false};
+          // Response is only for page_html , page_body
+        },
+        (errRes) => {
+          this.isPageLoader = false;
+          if (
+            errRes &&
+            errRes.error &&
+            errRes.error.errors &&
+            errRes.error.errors.length &&
+            errRes.error.errors[0].msg
+          ) {
+            this.notificationService.notify(
+              errRes.error.errors[0].msg,
+              'error'
+            );
+          } else {
+            this.notificationService.notify('Failed to fetch page', 'error');
+          }
+        }
+      );
+  }
   viewPages() {
     this.sliderStep = 0;
   }

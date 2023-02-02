@@ -803,7 +803,7 @@ export class OnboardingComponent implements OnInit {
             desc: 'Data is fetched from various sources and ingested into the application for accurate search results',
             imgURL: 'assets/icons/onboarding/database.svg',
             route: '/sources',
-            tourdata: this.tourData[0].addData,
+            tourdata: this.tourData[0]?.addData,
             videoUrl: 'https://www.w3schools.com/tags/movie.mp4',
             docUrl:
               'https://docs.kore.ai/searchassist/concepts/managing-content/introduction-to-content-sources/',
@@ -814,7 +814,7 @@ export class OnboardingComponent implements OnInit {
             desc: 'Index configurations allows you to configure the fields, traits,keywords or create workbench pipelines to suit your business needs.',
             imgURL: 'assets/icons/onboarding/review-index.svg',
             route: '/FieldManagementComponent',
-            tourdata: this.tourData[1].indexData,
+            tourdata: this.tourData[1]?.indexData,
             videoUrl: 'https://www.w3schools.com/tags/movie.mp4',
             docUrl:
               'https://docs.kore.ai/searchassist/concepts/managing-indices/introduction-to-indices/',
@@ -825,7 +825,7 @@ export class OnboardingComponent implements OnInit {
             desc: 'Search Configuration allows you to improve search relevance by configuring  synonyms, weights, stop words, re-ranking results, adding rules or facets.',
             imgURL: 'assets/icons/onboarding/review-search.svg',
             route: '/weights',
-            tourdata: this.tourData[2].optimiseSearchResults,
+            tourdata: this.tourData[2]?.optimiseSearchResults,
             videoUrl: 'https://www.w3schools.com/tags/movie.mp4',
             docUrl:
               'https://docs.kore.ai/searchassist/concepts/managing-relevance/managing-relevance/',
@@ -836,7 +836,7 @@ export class OnboardingComponent implements OnInit {
             desc: 'SearchAssist allows you to customise the Search Experiance and design the Search Interface based on the business context.',
             imgURL: 'assets/icons/onboarding/search-design.svg',
             route: '/search-experience',
-            tourdata: this.tourData[3].designSearchExperience,
+            tourdata: this.tourData[3]?.designSearchExperience,
             videoUrl: 'https://www.w3schools.com/tags/movie.mp4',
             docUrl:
               'https://docs.kore.ai/searchassist/concepts/designing-search-experience/designing-search-experience/',
@@ -847,7 +847,7 @@ export class OnboardingComponent implements OnInit {
             desc: 'SearchAssist allows you to validate the Configuration and Search Experience before deploying the app by just clicking on the Preview button.',
             imgURL: 'assets/icons/onboarding/acid-surface.svg',
             route: 'test',
-            tourdata: this.tourData[4].testApp,
+            tourdata: this.tourData[4]?.testApp,
             videoUrl: 'https://www.w3schools.com/tags/movie.mp4',
             docUrl:
               'https://docs.kore.ai/searchassist/concepts/testing-as-you-build/testing-as-you-build/',
@@ -858,7 +858,7 @@ export class OnboardingComponent implements OnInit {
             desc: 'Configure your application to connect to any of the channels available',
             imgURL: 'assets/icons/onboarding/hand.svg',
             route: '/settings',
-            tourdata: this.tourData[5].fineTuneRelevance,
+            tourdata: this.tourData[5]?.fineTuneRelevance,
             videoUrl: 'https://www.w3schools.com/tags/movie.mp4',
             docUrl:
               'https://docs.kore.ai/searchassist/deploying-searchassist-app/developers-corner/',
@@ -1121,7 +1121,7 @@ export class OnboardingComponent implements OnInit {
   trackChecklist() {
     const arr = [];
     const Index = [];
-    this.tourData.forEach((item) => {
+    this.tourData?.forEach((item) => {
       Object.keys(item).forEach((key) => {
         arr.push(item[key]);
       });

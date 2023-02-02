@@ -974,9 +974,9 @@ export class AppExperimentsComponent implements OnInit {
       }
     }
   }
-  // run an experiment
-  runExperiment(id, status, event) {
-    event.stopPropagation();
+  // Activate the Experiment based on Status
+  activateStatus(id, status, event, dialogRef?) {
+    dialogRef ? dialogRef.close() : null;
     const quaryparms: any = {
       searchIndexId: this.serachIndexId,
       experimentId: id,
@@ -997,13 +997,13 @@ export class AppExperimentsComponent implements OnInit {
         });
         if (status === 'active') {
           this.filterExperiments = this.filterExperiments.map((data) => {
-            const hours = moment().diff(moment(data.end), 'hours');
-            const days = moment().diff(moment(data.end), 'days');
-            const days_result =
+            let hours = moment().diff(moment(data.end), 'hours');
+            let days = moment().diff(moment(data.end), 'days');
+            let days_result =
               Math.abs(hours) > 24
                 ? Math.abs(days) + ' days'
                 : Math.abs(hours) + ' hrs';
-            const res_obj = data.variants.reduce((p, c) =>
+            let res_obj = data.variants.reduce((p, c) =>
               p.ctr > c.ctr ? p : c
             );
             return {
@@ -1036,26 +1036,50 @@ export class AppExperimentsComponent implements OnInit {
       }
     );
   }
-  // delete experiment popup
-  deleteExperimentPopup(record, event) {
+  // run an experiment
+  runExperiment(id, status, event) {
     event.stopPropagation();
-    const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+    if (status == 'stopped') {
+      this.confirmationPopup(id, event, status);
+    } else {
+      this.activateStatus(id, status, event);
+    }
+  }
+  // Confirmation experiment popup
+  confirmationPopup(record, event, status) {
+    event.stopPropagation();
+    let title =
+      status == 'delete'
+        ? 'Are you sure you want to delete?'
+        : 'Are you sure you want to stop the experiment?';
+    let desc =
+      status == 'delete'
+        ? 'Selected Experiment will be permanently deleted.'
+        : 'Selected experiment will be permanently stopped, which will end the experiment';
+    let action = status == 'delete' ? 'Delete' : 'Stop';
+    let popupContent = {
       width: '530px',
       height: 'auto',
       panelClass: 'delete-popup',
       data: {
-        newTitle: 'Are you sure you want to delete?',
-        body: 'Selected Experiment will be permanently deleted.',
+        newTitle: title,
+        body: desc,
         buttons: [
-          { key: 'yes', label: 'Delete', type: 'danger' },
+          { key: 'yes', label: action, type: 'danger' },
           { key: 'no', label: 'Cancel' },
         ],
         confirmationPopUp: true,
       },
-    });
+    };
+    const dialogRef = this.dialog.open(
+      ConfirmationDialogComponent,
+      popupContent
+    );
     dialogRef.componentInstance.onSelect.subscribe((result) => {
       if (result === 'yes') {
-        this.deleteExperiment(record, dialogRef);
+        status == 'delete'
+          ? this.deleteExperiment(record, dialogRef)
+          : this.activateStatus(record, status, event, dialogRef);
       } else if (result === 'no') {
         dialogRef.close();
       }

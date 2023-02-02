@@ -78,6 +78,7 @@ export class WorkbenchComponent implements OnInit, OnDestroy, AfterViewInit {
   showNewStageType = false;
   loadingSimulate = true;
   subscription: Subscription;
+  fieldOffset = 50;
   @ViewChild('tleft') public tooltip: NgbTooltip;
   @ViewChild('addFieldModalPop') addFieldModalPop: KRModalComponent;
   @ViewChild('suggestedInput') suggestedInput: ElementRef<HTMLInputElement>;
@@ -1190,6 +1191,10 @@ export class WorkbenchComponent implements OnInit, OnDestroy, AfterViewInit {
             if (!(this.selectedStage.type !== 'custom_script')) {
               this.setResetNewMappingsObj('remove_mapping', null, true);
             }
+            const stageKeys = Object.keys(this.defaultStageTypesObj);
+            stageKeys.forEach((element: any) => {
+              delete this.newMappingObj[element];
+            });
             /** Workbench plain text temp */
             // if (this.newMappingObj && this.newMappingObj.custom_script &&
             //   this.newMappingObj.custom_script.defaultValue && this.newMappingObj.custom_script.defaultValue.script) {
@@ -1449,6 +1454,13 @@ export class WorkbenchComponent implements OnInit, OnDestroy, AfterViewInit {
     }
   }
   validation(save) {
+    /** if we need to add the Data without click on plus button */
+    // if(this.selectedStage.type == 'snippet_extraction'){
+    //   if(!this.selectedStage.config.mappings){
+    //     this.selectedStage.config['mappings'] = [];
+    //     this.selectedStage.config.mappings.push(this.newMappingObj[this.selectedStage.type].defaultValue)
+    //   }
+    // }
     if (this.selectedStage.condition.mappings && this.selectedStage.name) {
       if (Object.keys(this.newMappingObj).length == 0) {
         if (save === true) {
@@ -2402,9 +2414,26 @@ export class WorkbenchComponent implements OnInit, OnDestroy, AfterViewInit {
     // let serviceId ='get.allField';
     this.service.invoke(serviceId, quaryparms, payload).subscribe(
       (res) => {
-        this.fields = res.fields || [];
-        this.getIndexPipline();
-        this.loadingFields = false;
+        if (res.hasMore) {
+          //this.fields.push(res.fields);
+          res.fields.forEach((element) => {
+            this.fields.push(element);
+          });
+          // this.fields = [...res.fields];
+          this.getFileds(this.fieldOffset);
+          this.fieldOffset = this.fieldOffset + 50;
+        } else {
+          if (!offset) {
+            this.fields = res.fields || [];
+          } else if (offset) {
+            res.fields.forEach((element) => {
+              this.fields.push(element);
+            });
+          }
+          this.getIndexPipline();
+          this.loadingFields = false;
+          this.fieldOffset = 50;
+        }
       },
       (errRes) => {
         this.loadingFields = false;

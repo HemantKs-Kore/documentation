@@ -292,19 +292,19 @@ export class AppSelectionService {
     const payload = { features: ['ingestDocs', 'searchQueries'] };
     this.service.invoke('post.usageData', queryParms, payload).subscribe(
       (res) => {
-        let docs = Number.isInteger(res.ingestDocs.percentageUsed)
+        let docs = Number.isInteger(res?.ingestDocs?.percentageUsed)
           ? res.ingestDocs.percentageUsed
-          : parseFloat(res.ingestDocs.percentageUsed).toFixed(2);
-        let queries = Number.isInteger(res.searchQueries.percentageUsed)
+          : parseFloat(res?.ingestDocs?.percentageUsed).toFixed(2);
+        let queries = Number.isInteger(res?.searchQueries?.percentageUsed)
           ? res.searchQueries.percentageUsed
-          : parseFloat(res.searchQueries.percentageUsed).toFixed(2);
+          : parseFloat(res?.searchQueries?.percentageUsed).toFixed(2);
         this.currentUsageData = {
-          ingestCount: res.ingestDocs.used,
-          ingestLimit: res.ingestDocs.limit,
+          ingestCount: res?.ingestDocs?.used,
+          ingestLimit: res?.ingestDocs?.limit,
           ingestDocs: docs,
           searchQueries: queries,
-          searchCount: res.searchQueries.used,
-          searchLimit: res.searchQueries.limit,
+          searchCount: res?.searchQueries?.used,
+          searchLimit: res?.searchQueries?.limit,
         };
         this.updateUsageData.next('updatedUsage');
       },
