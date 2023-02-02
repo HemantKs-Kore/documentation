@@ -42,7 +42,7 @@ export class AuthGuard implements CanActivate {
       this.appUrlsService.redirectToLogin();
       return false;
     } else {
-      let jStoarge = window[this.storageType].getItem('jStorage')
+      const jStoarge = window[this.storageType].getItem('jStorage')
         ? JSON.parse(window[this.storageType].getItem('jStorage'))
         : {};
       if (!jStoarge.currentAccount.accountConf) {

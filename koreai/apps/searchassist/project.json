@@ -379,8 +379,8 @@
       "executor": "@nrwl/linter:eslint",
       "options": {
         "lintFilePatterns": [
-          "apps/searchassist/src/app/components/**/*.ts",
-          "apps/searchassist/src/app/components/**/*.html"
+          "apps/searchassist/src/**/*.ts",
+          "apps/searchassist/src/**/*.html"
         ]
       }
     },

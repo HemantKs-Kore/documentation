@@ -22,6 +22,8 @@ declare const $: any;
 })
 export class SynonymsComponent implements OnInit, OnDestroy {
   emptyScreen = EMPTY_SCREEN.INDICES_SYNONYMS;
+  loadImageText = false;
+  loadingContent1: boolean;
   selectedApp: any = {};
   synonymSearch: any = '';
   showSearch = false;
@@ -38,9 +40,9 @@ export class SynonymsComponent implements OnInit, OnDestroy {
   editIndex: any = -1;
   pipeline;
   showFlag;
-  totalRecord: number = 0;
+  totalRecord = 0;
   synonymData: any[] = [];
-  synonymDuplicateData: Array<Object> = [];
+  synonymDuplicateData = [];
   synonymArr: any = [];
   synonymTypeArr$: Observable<any[]>;
   synonymGet: any = [];
@@ -49,7 +51,7 @@ export class SynonymsComponent implements OnInit, OnDestroy {
   removable = true;
   addOnBlur = true;
   queryPipelineId;
-  editSubmitted: boolean = false;
+  editSubmitted = false;
   // showSynonym:boolean
   indexPipelineId;
   isAsc = true;
@@ -57,7 +59,7 @@ export class SynonymsComponent implements OnInit, OnDestroy {
   checksort = 'asc';
   searchKeyword: any;
   filterType: any = '';
-  displaySearch: boolean = false;
+  displaySearch = false;
   newSynonymObj: any = {
     type: 'synonym',
     addNew: false,
@@ -90,8 +92,8 @@ export class SynonymsComponent implements OnInit, OnDestroy {
   synArr: any[] = [];
   synArrTemp: any[] = [];
   subscription: Subscription;
-  componentType: string = 'configure';
-  submitted: boolean = false;
+  componentType = 'configure';
+  submitted = false;
   searchImgSrc: any = 'assets/icons/search_gray.svg';
   searchFocusIn = false;
   constructor(
@@ -117,8 +119,7 @@ export class SynonymsComponent implements OnInit, OnDestroy {
       }
     );
   }
-  loadImageText: boolean = false;
-  loadingContent1: boolean;
+
   imageLoad() {
     this.loadingContent = false;
     this.loadingContent1 = true;
@@ -200,7 +201,7 @@ export class SynonymsComponent implements OnInit, OnDestroy {
     const input = event.input;
     const value = event.value;
     if ((value || '').trim()) {
-      let synObj =
+      const synObj =
         type == 'add'
           ? this.addNewSynonymObj.synonyms
           : this.editSynonymObj.synonyms;
@@ -335,7 +336,7 @@ export class SynonymsComponent implements OnInit, OnDestroy {
       keyword: synonymData.keyword,
       synonyms: synonymData.synonyms,
     };
-    var url: any = '';
+    let url: any = '';
     if (synonymData.type == 'synonym') delete payload.keyword;
     url = type == 'add' ? 'put.addSynonym' : 'put.EditSynonym';
     this.service.invoke(url, quaryparms, payload).subscribe(
@@ -499,6 +500,6 @@ export class SynonymsComponent implements OnInit, OnDestroy {
   //-------------------------(Author:BHARADWAJ)
 }
 class SynonymClass {
-  type: String;
-  synonyms: Array<String>;
+  type: string;
+  synonyms: Array<string>;
 }

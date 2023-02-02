@@ -1,4 +1,10 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  OnDestroy,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ConfirmationDialogComponent } from '../../helpers/components/confirmation-dialog/confirmation-dialog.component';
 import { KRModalComponent } from '../../shared/kr-modal/kr-modal.component';
@@ -24,8 +30,14 @@ declare const $: any;
   templateUrl: './team-management.component.html',
   styleUrls: ['./team-management.component.scss'],
 })
-export class TeamManagementComponent implements OnInit {
+export class TeamManagementComponent implements OnInit, OnDestroy {
   emptyScreen = EMPTY_SCREEN.MANAGE_TEAM;
+  rolesList: any = [];
+  member_roleId;
+  member_ownerId;
+  membersList: any = [];
+  orgId: string;
+  accountId: string;
   selectedApp;
   serachIndexId;
   indexPipelineId;
@@ -53,10 +65,10 @@ export class TeamManagementComponent implements OnInit {
   allMembers: string[] = [];
   allMembersCount: number;
   addOnBlur = false;
-  componentType: string = 'addData';
+  componentType = 'addData';
   autoSuggestEmails: any = [];
   autocomplete: any;
-  autocomplete_text: string = '';
+  autocomplete_text = '';
   resultFormatter: any;
   inputFormatter: any;
   teamModalRef: any;
@@ -196,7 +208,7 @@ export class TeamManagementComponent implements OnInit {
   //delete multiple members
   deleteBulkFacet(dialogRef) {
     const teams = Object.keys(this.selcectionObj.selectedItems);
-    let users = [];
+    const users = [];
     for (let i = 0; i < this.membersList.length; i++) {
       if (!teams.includes(this.membersList[i]._id)) {
         users.push({
@@ -212,8 +224,8 @@ export class TeamManagementComponent implements OnInit {
   }
   //delete single member
   deleteFacet(member, dialogRef) {
-    let users = [];
-    for (let i in this.membersList) {
+    const users = [];
+    for (const i in this.membersList) {
       if (this.membersList[i]._id !== member._id)
         users.push({
           userId: this.membersList[i]._id,
@@ -274,8 +286,7 @@ export class TeamManagementComponent implements OnInit {
     }
   }
   // userinfo method
-  orgId: string;
-  accountId: string;
+
   getUserInfo() {
     const quaryparms: any = {
       id: this.authService.getUserId(),
@@ -292,7 +303,7 @@ export class TeamManagementComponent implements OnInit {
   }
 
   //get members method
-  membersList: any = [];
+
   getRoleMembers() {
     const quaryparms: any = {
       id: this.authService.getUserId(),
@@ -311,9 +322,7 @@ export class TeamManagementComponent implements OnInit {
     );
   }
   //get list of roles
-  rolesList: any = [];
-  member_roleId;
-  member_ownerId;
+
   getRoles() {
     const Headers = { accountid: this.accountId };
     const quaryparms: any = {
@@ -378,8 +387,8 @@ export class TeamManagementComponent implements OnInit {
   //add member
   addMember() {
     if (this.members.length !== 0) {
-      let users = [];
-      for (let i in this.membersList) {
+      const users = [];
+      for (const i in this.membersList) {
         users.push({
           userId: this.membersList[i]._id,
           roleId:
@@ -390,7 +399,7 @@ export class TeamManagementComponent implements OnInit {
       }
       const validateEmail = this.members.every((e) => e.invalid === false);
       if (validateEmail) {
-        for (let i in this.members) {
+        for (const i in this.members) {
           users.push({
             emailId: this.members[i].value,
             roleId: this.member_roleId[0]._id,
@@ -412,7 +421,7 @@ export class TeamManagementComponent implements OnInit {
   }
   //update member method
   updateMember(users, dialogref?, type?) {
-    let payload = {
+    const payload = {
       codevelopers: {
         users: users,
         groups: [],
@@ -461,7 +470,7 @@ export class TeamManagementComponent implements OnInit {
   }
   //validate email in mat-chip
   private validateEmail(email) {
-    var re =
+    const re =
       /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     return re.test(String(email).toLowerCase());
   }

@@ -1,7 +1,7 @@
 <div class="md-editor-container" [class.font-awesome5]="options?.usingFontAwesome5" [class.fullscreen]="isFullScreen"
   [class.md-editor-resizable]="options?.resizable" [style.height]="height">
   <div class="md-layout">
-    <div class="tool-bar" *ngIf="!hideToolbar && mode != 'preview'">
+    <div class="tool-bar" *ngIf="!hideToolbar && mode !== 'preview'">
       <div class="btn-group">
         <!-- <button class="btn btn-sm btn-default" type="button" title="Heading" (click)="insertContent('Heading')"
           *ngIf="!hideIcons.Heading">
@@ -77,7 +77,7 @@
       </div>
     </div>
     <div class="editor-container">
-      <div [class.dragover]="dragover" [style.display]="mode == 'preview' ? 'none' : null"
+      <div [class.dragover]="dragover" [style.display]="mode === 'preview' ? 'none' : null"
         (dragover)="onDragover($event)">
         <div class="drag-container">
           <div class="upload-loading">
@@ -91,12 +91,12 @@
           <div class="ace-editor" #aceEditor></div>
         </div>
       </div>
-      <div class="preview-container" [style.display]="(mode == 'preview' || showPreviewPanel) ? 'block' : 'none'"
+      <div class="preview-container" [style.display]="(mode === 'preview' || showPreviewPanel) ? 'block' : 'none'"
         (click)="previewPanelClick($event)">
         <div class="preview-panel" #previewContainer></div>
       </div>
     </div>
-    <div class="md-footer" *ngIf="maxlength > 0 && mode != 'preview'">
+    <div class="md-footer" *ngIf="maxlength > 0 && mode !== 'preview'">
       <div class="text-right length-view">
         {{ markdownValue?.length }} / {{ maxlength }}
       </div>

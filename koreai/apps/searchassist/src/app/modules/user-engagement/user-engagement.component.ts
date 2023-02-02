@@ -5,6 +5,7 @@ import {
   EventEmitter,
   ElementRef,
   ViewChild,
+  AfterViewInit,
 } from '@angular/core';
 // import { EChartOption } from 'echarts';
 import { Options } from 'ng5-slider';
@@ -23,7 +24,7 @@ declare const $: any;
   templateUrl: './user-engagement.component.html',
   styleUrls: ['./user-engagement.component.scss'],
 })
-export class UserEngagementComponent implements OnInit {
+export class UserEngagementComponent implements OnInit, AfterViewInit {
   math = Math;
   selectedApp;
   serachIndexId;
@@ -64,22 +65,22 @@ export class UserEngagementComponent implements OnInit {
   recordEnd = 5;
 
   /**slider */
-  durationRange1: number = 0;
-  durationRange2: number = 24;
+  durationRange1 = 0;
+  durationRange2 = 24;
   durationOptions: Options = {
     floor: 0,
     ceil: 24,
   };
 
-  messagesRange1: number = 5;
-  messagesRange2: number = 20;
+  messagesRange1 = 5;
+  messagesRange2 = 20;
   messagesOptions: Options = {
     floor: 0,
     ceil: 30,
   };
 
-  tasksRange1: number = 2;
-  tasksRange2: number = 5;
+  tasksRange1 = 2;
+  tasksRange2 = 5;
   tasksOptions: Options = {
     floor: 0,
     ceil: 20,
@@ -92,7 +93,7 @@ export class UserEngagementComponent implements OnInit {
   };
   type = '';
   refElement: any;
-  componentType: string = 'addData';
+  componentType = 'addData';
   @Output() updatedRanges = new EventEmitter();
   /**slider */
   maxHeatValue = 0;
@@ -133,7 +134,7 @@ export class UserEngagementComponent implements OnInit {
   minDate: any = moment().subtract({ days: 95 });
   maxDate: any = moment();
   defaultSelectedDay = 7;
-  showDateRange: boolean = false;
+  showDateRange = false;
   busyHour_dataDIV: any = '';
   selected: { startDate: Moment; endDate: Moment } = {
     startDate: this.startDate,
@@ -372,7 +373,7 @@ export class UserEngagementComponent implements OnInit {
   }
   dateLimt(type) {
     this.dateType = type;
-    let selectedindexpipeline = this.selecteddropId;
+    const selectedindexpipeline = this.selecteddropId;
     if (selectedindexpipeline) {
       this.getuserCharts('UsersChart', selectedindexpipeline);
       this.getuserCharts('UsersBusyChart', selectedindexpipeline);
@@ -384,10 +385,10 @@ export class UserEngagementComponent implements OnInit {
   }
 
   getuserCharts(type, selectedindexpipeline?) {
-    var today = new Date();
-    var yesterday = new Date(Date.now() - 864e5);
-    var week = new Date(Date.now() - 6 * 864e5);
-    var custom = new Date(Date.now() - 29 * 864e5);
+    const today = new Date();
+    const yesterday = new Date(Date.now() - 864e5);
+    const week = new Date(Date.now() - 6 * 864e5);
+    const custom = new Date(Date.now() - 29 * 864e5);
     let from: any; //new Date();
     if (this.dateType == 'hour') {
       from = yesterday;
@@ -397,11 +398,11 @@ export class UserEngagementComponent implements OnInit {
       this.group = 'date';
     } else if (this.dateType == 'custom') {
       from = custom;
-      var duration = moment.duration(
+      const duration = moment.duration(
         Date.parse(this.endDate.toJSON()) - Date.parse(this.startDate.toJSON()),
         'milliseconds'
       );
-      var days = duration.asDays();
+      const days = duration.asDays();
       console.log(days);
       if (days > 28) {
         this.group = 'week';
@@ -437,7 +438,7 @@ export class UserEngagementComponent implements OnInit {
       offset: 0,
       limit: this.pageLimit,
     };
-    let payload = {
+    const payload = {
       type: type,
       filters: {
         from: startDateRandom, //this.startDate.toJSON(),//from.toJSON(),
@@ -503,8 +504,8 @@ export class UserEngagementComponent implements OnInit {
     );
   }
   getQueries(type) {
-    var today = new Date();
-    var yesterday = new Date(Date.now() - 864e5);
+    const today = new Date();
+    const yesterday = new Date(Date.now() - 864e5);
     const header: any = {
       'x-timezone-offset': '-330',
     };
@@ -514,7 +515,7 @@ export class UserEngagementComponent implements OnInit {
       offset: 0,
       limit: this.pageLimit,
     };
-    let payload: any = {
+    const payload: any = {
       type: type,
       filters: {
         from: yesterday.toJSON(),
@@ -562,7 +563,6 @@ export class UserEngagementComponent implements OnInit {
         } else if (type == 'SearchHistogram') {
           this.searchHistogram = res.result;
           this.summaryChart();
-        } else if (type == 'MostUsedDevices') {
         }
       },
       (errRes) => {
@@ -630,9 +630,9 @@ export class UserEngagementComponent implements OnInit {
   }
 
   summaryChart() {
-    var totaldata = [];
+    const totaldata = [];
     this.totalSearchSum = 0;
-    for (var i = 0; i < this.searchHistogram.length; i++) {
+    for (let i = 0; i < this.searchHistogram.length; i++) {
       totaldata.push([
         i + 'hr',
         this.searchHistogram[i].totalSearches,
@@ -648,21 +648,21 @@ export class UserEngagementComponent implements OnInit {
         this.searchesWithClicksSum + this.searchHistogram[i].searchesWithClicks;
     }
 
-    var searchWithResultdata = [];
-    var searchWithClickdata = [];
+    const searchWithResultdata = [];
+    const searchWithClickdata = [];
 
-    var dateList = totaldata.map(function (item) {
+    const dateList = totaldata.map(function (item) {
       return item[0];
     });
 
-    var valueList = totaldata.map(function (item) {
+    const valueList = totaldata.map(function (item) {
       return item[1];
     });
-    var valueList1 = totaldata.map(function (item) {
+    const valueList1 = totaldata.map(function (item) {
       return item[2];
     });
 
-    var valueList2 = totaldata.map(function (item) {
+    const valueList2 = totaldata.map(function (item) {
       return item[3];
     });
   }
@@ -681,14 +681,14 @@ export class UserEngagementComponent implements OnInit {
       'Nov',
       'Dec',
     ];
-    let xAxisData = [];
-    let yAxisRepeatUser = [];
-    let yAxisNewUsers = [];
+    const xAxisData = [];
+    const yAxisRepeatUser = [];
+    const yAxisNewUsers = [];
     let splitNumber = 1;
     if (this.group == 'date') {
       // 7 days
       this.usersChart.forEach((element) => {
-        let date = new Date(element.date);
+        const date = new Date(element.date);
         xAxisData.push(date.getDate() + ' ' + monthNames[date.getMonth()]);
         yAxisRepeatUser.push(element.repeatedUsers);
         yAxisNewUsers.push(element.newUsers);
@@ -707,13 +707,13 @@ export class UserEngagementComponent implements OnInit {
     if (this.group == 'week') {
       // custom
       this.usersChart.forEach((element, index) => {
-        let date = new Date(element.date);
+        const date = new Date(element.date);
         xAxisData.push(date.getDate() + ' ' + monthNames[date.getMonth()]);
         yAxisRepeatUser.push(element.repeatedUsers);
         yAxisNewUsers.push(element.newUsers);
       });
     }
-    let sumArray = [];
+    const sumArray = [];
     yAxisRepeatUser.forEach((element, index) => {
       sumArray.push(element + yAxisNewUsers[index]);
       // console.log(element , yAxisNewUsers[index] , element + yAxisNewUsers[index])
@@ -880,8 +880,8 @@ export class UserEngagementComponent implements OnInit {
     return graphData;
   }
   mostUsedDevice() {
-    let graphData = [];
-    let y_axis = ['Desktop', 'Tablet', 'Mobile'];
+    const graphData = [];
+    const y_axis = ['Desktop', 'Tablet', 'Mobile'];
     //this.checkAxis(y_axis,this.mostUsedDev_bro_geo_sen,graphData)
     //console.log(this.checkAxis(y_axis,this.mostUsedDev_bro_geo_sen,graphData))
     // this.mostUsedDev_bro_geo_sen.forEach(element => {
@@ -1023,9 +1023,9 @@ export class UserEngagementComponent implements OnInit {
   }
   mostUsedBrowser() {
     let graphData = [];
-    let gridWidth = '0%';
+    const gridWidth = '0%';
     let minHeight = 40;
-    let mostUsedBrowserNumberOfuserObj = {};
+    const mostUsedBrowserNumberOfuserObj = {};
     let y_axis = [];
     let barColor = '#FF784B';
     y_axis = this.mostUsedDev_bro_geo_sen
@@ -1046,7 +1046,7 @@ export class UserEngagementComponent implements OnInit {
     //console.log(this.checkAxis(y_axis,this.mostUsedDev_bro_geo_sen,graphData))
     this.mostUsedDev_bro_geo_sen.forEach((element) => {
       y_axis.forEach((y) => {
-        let name = element.name ? this.toCapitalize(element.name) : '';
+        const name = element.name ? this.toCapitalize(element.name) : '';
         if (y == name) {
           y = name || '';
           element.name = name;
@@ -1233,7 +1233,7 @@ export class UserEngagementComponent implements OnInit {
   geo() {
     let graphData = [];
     let y_axis = []; //['US','India','UK','Japan'];
-    let geoNumberOfuserObj = {};
+    const geoNumberOfuserObj = {};
     let barColor = '#93D3A2';
     y_axis = this.mostUsedDev_bro_geo_sen
       .filter(function (e) {
@@ -1355,8 +1355,8 @@ export class UserEngagementComponent implements OnInit {
     };
   }
   sentiments() {
-    let graphData = [];
-    let y_axis = [];
+    const graphData = [];
+    const y_axis = [];
     //this.checkAxis(y_axis,this.mostUsedDev_bro_geo_sen,graphData)
     this.mostUsedDev_bro_geo_sen.forEach((element) => {
       graphData.push(element.percentOfUsers);
@@ -1447,25 +1447,25 @@ export class UserEngagementComponent implements OnInit {
       '11 pm',
       '0 am',
     ];
-    let busyChartArrayData: any = [];
-    let yAxisData = [];
-    let xAxisData = [];
+    const busyChartArrayData: any = [];
+    const yAxisData = [];
+    const xAxisData = [];
     let heatData = [[]];
-    let toolTipData = [[]];
-    let totalMaxValueArr = [];
-    let start = this.lowValue; // 3
-    let end = this.highValue; // 17
+    const toolTipData = [[]];
+    const totalMaxValueArr = [];
+    const start = this.lowValue; // 3
+    const end = this.highValue; // 17
     let secondIndex = 0;
     let checkData = [];
     // For Dimensions
-    let dimensions = [];
+    const dimensions = [];
     dimensions.push('product');
     if (this.group == 'hour' || this.group == 'date' || this.group == 'week') {
       for (const property in this.usersBusyChart) {
         busyChartArrayData.push(this.usersBusyChart[property]);
         // let date =  property.split('-')[2];
         if (property.split('T').length > 1) {
-          let splitData = property.split('T')[0];
+          const splitData = property.split('T')[0];
           yAxisData.push(
             splitData.split('-')[2] +
               ' ' +
@@ -1547,9 +1547,9 @@ export class UserEngagementComponent implements OnInit {
     });
 
     // For source
-    let source = [];
+    const source = [];
     for (let i = start; i < end; i++) {
-      let sourceObj = {};
+      const sourceObj = {};
       sourceObj['product'] = hourConversion[i];
       for (let a = 1; a < dimensions.length; a++) {
         // if((this.group == 'date' || this.group == 'week' )&&  i == 0){
@@ -1737,9 +1737,9 @@ export class UserEngagementComponent implements OnInit {
       sliderCombined['style'].fontSize = '12px';
     }
     $(document).on('hover', '.ng5-slider-selection-bar', () => {
-      let val = this.highValue - this.lowValue;
+      const val = this.highValue - this.lowValue;
       val > 1 ? val + ' hrs' : val + ' hr';
-      var div = `<div>${val}</div>
+      const div = `<div>${val}</div>
         `;
       return div;
       //document.getElementsByClassName('ng5-slider-selection-bar')[0].classList.add('ng5-slider ng5-slider-span')
@@ -1749,7 +1749,7 @@ export class UserEngagementComponent implements OnInit {
     // console.log(e);
     //console.log(data[e[0].data[0]][e[0].data[1]].totalUsers)
     let loopDIV: any = '';
-    let dataDIV = `<div class="metrics-tooltips-hover agent_drop_tolltip">
+    const dataDIV = `<div class="metrics-tooltips-hover agent_drop_tolltip">
         <div class="split-sec">
           <div class="main-title" >${e[0].axisValue}</div>
           <div class="data-content"></div>
@@ -1775,8 +1775,8 @@ export class UserEngagementComponent implements OnInit {
     if (loopDIV) return (this.busyHour_dataDIV = dataDIV + loopDIV);
   }
   tooltipHoverN(e, x, y) {
-    let loopDIV: any = '';
-    let tempIncrementalData = {
+    const loopDIV: any = '';
+    const tempIncrementalData = {
       '0 am': ' - 1 am',
       '1 am': ' - 2 am',
       '2 am': ' - 3 am',
@@ -1802,7 +1802,7 @@ export class UserEngagementComponent implements OnInit {
       '10 pm': ' - 11 pm',
       '11 pm': ' - 0 am',
     };
-    let dataDIV = `
+    const dataDIV = `
         <div class="metrics-tooltips-hover agent_drop_tolltip">
         <div class="split-sec">
           <div class="main-title">${y[e.value[1]]}</div>

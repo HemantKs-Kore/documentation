@@ -38,16 +38,16 @@ export class UpgradePlanComponent implements OnInit, OnDestroy {
   confirmUpgradeModelPopRef: any;
   freePlanUpgradeModelPopRef: any;
 
-  validations: boolean = false;
+  validations = false;
   countriesList: any = [];
   search_country = '';
-  featureLimit: number = 8;
+  featureLimit = 8;
   termPlan = 'Monthly';
   featureTypes: any = [];
   frequentFAQs: any = [];
   totalPlansData: Array<any> = [];
   filterPlansData: Array<any> = [];
-  showPlanDetails: string = '';
+  showPlanDetails = '';
   orderConfirmData: any;
   selectedPlan: any = {};
   selectedApp: any;
@@ -60,7 +60,7 @@ export class UpgradePlanComponent implements OnInit, OnDestroy {
   invoiceOrderId: any;
   featuresExceededUsage: any = [];
   upgradePlanData: any = {};
-  selectedPaymentPage: string = 'payment_confirm';
+  selectedPaymentPage = 'payment_confirm';
   showLoader: boolean;
   payementResponse: any = {
     hostedPage: {
@@ -77,8 +77,8 @@ export class UpgradePlanComponent implements OnInit, OnDestroy {
   };
   overageDeatils: any = {};
   currentSubsciptionData: Subscription;
-  isOverageShow: boolean = false;
-  btnLoader: boolean = false;
+  isOverageShow = false;
+  btnLoader = false;
   enterpriseForm: any = {
     name: '',
     email: '',
@@ -147,7 +147,7 @@ export class UpgradePlanComponent implements OnInit, OnDestroy {
           return a.displayOrder - b.displayOrder;
         });
         this.totalPlansData.forEach((data) => {
-          let dat = Object.values(data.featureAccess);
+          const dat = Object.values(data.featureAccess);
           data = Object.assign(data, { featureData: dat });
         });
         this.plansData.emit();
@@ -283,7 +283,7 @@ export class UpgradePlanComponent implements OnInit, OnDestroy {
     appObserver.subscribe(
       (res) => {
         this.payementResponse = res;
-        let url = this.payementResponse.hostedPage.url;
+        const url = this.payementResponse.hostedPage.url;
         this.invoiceOrderId = this.payementResponse.hostedPage.transactionId;
         this.urlSafe = this.sanitizer.bypassSecurityTrustResourceUrl(url);
         this.poling();
@@ -479,14 +479,14 @@ export class UpgradePlanComponent implements OnInit, OnDestroy {
     this.filterPlansData = [];
     this.termPlan = billingUnit;
     if (this.totalPlansData.length > 0) {
-      for (let data of this.totalPlansData) {
+      for (const data of this.totalPlansData) {
         if (data?.billingUnit == billingUnit || data?.planId === 'fp_free') {
           this.filterPlansData.push(data);
         }
       }
-      let listData = [...this.totalPlansData];
+      const listData = [...this.totalPlansData];
       this.listPlanFeaturesData = [];
-      let listDataMonthlyFeature = [];
+      const listDataMonthlyFeature = [];
       listData.forEach((data) => {
         Object.keys(data.featureAccess);
         Object.values(data.featureAccess);
@@ -523,7 +523,7 @@ export class UpgradePlanComponent implements OnInit, OnDestroy {
 
   //based on choosePlanType in order confirm popup
   choosePlanType(type) {
-    let data = this.totalPlansData.filter(
+    const data = this.totalPlansData.filter(
       (plan) =>
         plan.name == this.orderConfirmData.name && plan.billingUnit == type
     );
@@ -562,7 +562,7 @@ export class UpgradePlanComponent implements OnInit, OnDestroy {
     this.selectedApp = this.workflowService.selectedApp();
     const currentSubscriptionPlan =
       this.appSelectionService.currentsubscriptionPlanDetails;
-    let overage = [];
+    const overage = [];
     if (this.overageDeatils.docCount > 0) {
       overage.push({
         feature: 'ingestDocs',

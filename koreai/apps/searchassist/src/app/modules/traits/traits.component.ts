@@ -7,7 +7,7 @@ import {
 } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import * as _ from 'underscore';
-import { of, interval, Subject, Subscription } from 'rxjs';
+import { Subscription } from 'rxjs';
 import { PerfectScrollbarComponent } from 'ngx-perfect-scrollbar';
 import { nanoid } from 'nanoid';
 import { Router, ActivatedRoute } from '@angular/router';
@@ -28,7 +28,7 @@ declare const $: any;
   styleUrls: ['./traits.component.scss'],
   encapsulation: ViewEncapsulation.None,
 })
-export class TraitsComponent implements OnInit {
+export class TraitsComponent implements OnInit, OnDestroy {
   emptyScreen = EMPTY_SCREEN.INDICES_TRAITS;
   @ViewChild('statusModalPop') statusModalPop: KRModalComponent;
   @ViewChild('addUtteranceModalPop') addUtteranceModalPop: KRModalComponent;
@@ -73,6 +73,8 @@ export class TraitsComponent implements OnInit {
   serachIndexId;
   queryPipelineId;
   traitDeleted;
+  loadingTraits1: boolean;
+  loadImageText = false;
   defaultGroupConfigs: any = {
     matchStrategy: 'probability',
     scoreThreshold: 0.5,
@@ -99,10 +101,10 @@ export class TraitsComponent implements OnInit {
   traitsCount = false;
   indexPipelineId;
   subscription: Subscription;
-  totalRecord: number = 0;
+  totalRecord = 0;
   submitted = false;
   uttSubmitted = false;
-  componentType: string = 'indexing';
+  componentType = 'indexing';
   utteranceModel;
   constructor(
     public workflowService: WorkflowService,
@@ -128,8 +130,7 @@ export class TraitsComponent implements OnInit {
       }
     );
   }
-  loadingTraits1: boolean;
-  loadImageText: boolean = false;
+
   isEmptyScreenLoading() {
     this.loadingTraits = false;
     this.loadingTraits1 = true;
@@ -147,14 +148,14 @@ export class TraitsComponent implements OnInit {
   getTraitsSliceValue(traits) {
     let sliceValue = 0;
     if (traits.length) {
-      let columnWidth =
+      const columnWidth =
         document.getElementsByClassName('traits-groups')[0].clientWidth - 65;
       let traitsLength = 0;
       traits.forEach((t) => {
-        var canvas = document.createElement('canvas');
-        var ctx = canvas.getContext('2d');
+        const canvas = document.createElement('canvas');
+        const ctx = canvas.getContext('2d');
         ctx.font = '400 14px Roboto';
-        var width = ctx.measureText(t.traitName + ', ').width;
+        const width = ctx.measureText(t.traitName + ', ').width;
         traitsLength = width + traitsLength;
         if (columnWidth < traitsLength) {
           return sliceValue;
@@ -277,7 +278,6 @@ export class TraitsComponent implements OnInit {
       return;
     }
     const traits: any = {};
-    const self = this;
     let payload: any = {};
     const confirm = () => {
       if (!this.traits.addEditTraits.traits) {
@@ -300,7 +300,7 @@ export class TraitsComponent implements OnInit {
         this.updateTraitsApi(traitsGroup._id, payload);
       } else if (!byTraitId) {
         if (this.traits.traitGroups && this.traits.traitGroups.length) {
-          let index = this.traits.traitGroups.findIndex(
+          const index = this.traits.traitGroups.findIndex(
             (d) => d.groupName == payload.groupName
           );
           if (index > -1) {
@@ -443,8 +443,8 @@ export class TraitsComponent implements OnInit {
         if (bulk && this.selcectionObj.selectedCount > 1) {
           this.deleteBulkTrait(dialogRef);
         } else if (this.selcectionObj.selectedCount == 1) {
-          let selectedIds = Object.keys(this.selcectionObj.selectedItems);
-          let index = this.traits.traitGroups.findIndex((d) => {
+          const selectedIds = Object.keys(this.selcectionObj.selectedItems);
+          const index = this.traits.traitGroups.findIndex((d) => {
             d._id == selectedIds[0];
           });
           this.deleteTrait(index, { _id: selectedIds[0] }, dialogRef);
@@ -459,13 +459,13 @@ export class TraitsComponent implements OnInit {
     this.selcectionObj.selectedItems = {};
     this.selcectionObj.selectedCount = 0;
     this.selcectionObj.selectAll = false;
-    let partialElement: any = document.getElementsByClassName(
+    const partialElement: any = document.getElementsByClassName(
       'partial-select-checkbox'
     );
     if (partialElement.length) {
       partialElement[0].classList.add('d-none');
     }
-    let selectAllElement: any = document.getElementsByClassName(
+    const selectAllElement: any = document.getElementsByClassName(
       'select-all-checkbox'
     );
     if (selectAllElement.length) {
@@ -561,13 +561,13 @@ export class TraitsComponent implements OnInit {
     const selectedElements = $('.selectEachTraitInput:checkbox:checked');
     const allElements = $('.selectEachTraitInput');
     if (selectedElements.length === allElements.length) {
-      let partialElement: any = document.getElementsByClassName(
+      const partialElement: any = document.getElementsByClassName(
         'partial-select-checkbox'
       );
       if (partialElement.length) {
         partialElement[0].classList.add('d-none');
       }
-      let selectAllElement: any = document.getElementsByClassName(
+      const selectAllElement: any = document.getElementsByClassName(
         'select-all-checkbox'
       );
       if (selectAllElement.length) {
@@ -575,10 +575,10 @@ export class TraitsComponent implements OnInit {
       }
       $('#selectAllTraits')[0].checked = true;
     } else {
-      let partialElement: any = document.getElementsByClassName(
+      const partialElement: any = document.getElementsByClassName(
         'partial-select-checkbox'
       );
-      let selectAllElement: any = document.getElementsByClassName(
+      const selectAllElement: any = document.getElementsByClassName(
         'select-all-checkbox'
       );
 
@@ -758,7 +758,7 @@ export class TraitsComponent implements OnInit {
     );
   }
   getTraitGroupById(groupId, traitKey) {
-    const self = this;
+    // const self = this;
     const quaryparms: any = {
       // userId: this.authService.getUserId(),
       // streamId: this.selectedApp._id,
@@ -774,7 +774,7 @@ export class TraitsComponent implements OnInit {
           this.traits.addEditTraits.traitsArray = [];
           $.each(this.traits.addEditTraits.traits, (key, value) => {
             value.key = key;
-            self.traits.addEditTraits.traitsArray.push(value);
+            this.traits.addEditTraits.traitsArray.push(value);
           });
           this.groupConfigs.matchStrategy = res.matchStrategy || 'probability';
           this.groupConfigs.algo = res.algo || 'n_gram';
@@ -1089,8 +1089,7 @@ export class TraitsComponent implements OnInit {
   checkForSecialChar(str, allowNegation, stringTitle) {
     // as of now only used for traits needs to update based on future requirment on reusability
     stringTitle = stringTitle || '';
-    let characters =
-      /[\=\`\~\!@#\$\%\^&\*\(\)\-\+\{\}\:"\[\];\',\.\/<>\?\|\\]+/;
+    let characters = /[=`~!@#$%^&*()\-+{}:"[\];',./<>?|\\]+/;
     if (allowNegation && /[!]/.test(str)) {
       if (str && str[0] !== '!') {
         this.notificationService.notify(
@@ -1314,13 +1313,13 @@ export class TraitsComponent implements OnInit {
         }
       });
     }
-    let partialElement: any = document.getElementsByClassName(
+    const partialElement: any = document.getElementsByClassName(
       'partial-select-checkbox'
     );
     if (partialElement.length) {
       partialElement[0].classList.add('d-none');
     }
-    let selectAllElement: any = document.getElementsByClassName(
+    const selectAllElement: any = document.getElementsByClassName(
       'select-all-checkbox'
     );
     if (selectAllElement.length) {
@@ -1335,13 +1334,13 @@ export class TraitsComponent implements OnInit {
     if ($('#selectAllTraits').length) {
       $('#selectAllTraits')[0].checked = false;
     }
-    let partialElement: any = document.getElementsByClassName(
+    const partialElement: any = document.getElementsByClassName(
       'partial-select-checkbox'
     );
     if (partialElement.length) {
       partialElement[0].classList.add('d-none');
     }
-    let selectAllElement: any = document.getElementsByClassName(
+    const selectAllElement: any = document.getElementsByClassName(
       'select-all-checkbox'
     );
     if (selectAllElement.length) {

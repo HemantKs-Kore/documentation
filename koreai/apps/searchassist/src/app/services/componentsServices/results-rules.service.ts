@@ -9,7 +9,7 @@ export class ResultsRulesService {
     deleteRule = new Subject();
     bulkSend = new Subject();
     bulkDelete = new Subject();
-    showReviewFooter: boolean = false;
-    isCheckAll: boolean = false;
+    showReviewFooter = false;
+    isCheckAll = false;
     
 }

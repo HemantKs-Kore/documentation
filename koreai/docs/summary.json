@@ -4,9 +4,27 @@
     "file": "get-started.md"
   },
   {
+    "title": "Performance Report",
+    "file": "perf/perf-comp.md",
+    "children": [
+      {
+        "title": "Perf Report Now",
+        "file": "perf/perf-report-now.md"
+      },
+      {
+        "title": "Perf Report App",
+        "file": "perf/perf-report-app.md"
+      }
+    ]
+  },
+  {
     "title": "Performance",
     "file": "performance.md",
     "children": [
+      {
+        "title": "Best Practices",
+        "file": "perf/best-practices.md"
+      },
       {
         "title": "Best Practices",
         "file": "perf/best-practices.md"

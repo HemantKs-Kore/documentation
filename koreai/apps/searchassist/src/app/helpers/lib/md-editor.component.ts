@@ -42,8 +42,8 @@ export class CustomMarkdownEditorComponent implements ControlValueAccessor, Vali
 
   @ViewChild('aceEditor') public aceEditorContainer: ElementRef;
   @ViewChild('previewContainer') public previewContainer: ElementRef;
-  @Input() public hideToolbar: boolean = false;
-  @Input() public height: string = "300px";
+  @Input() public hideToolbar = false;
+  @Input() public height = "300px";
   @Input() public preRender: Function;
   @Input() public postRender: Function;
   @Input() public upload: Function;
@@ -62,15 +62,15 @@ export class CustomMarkdownEditorComponent implements ControlValueAccessor, Vali
       }
     }, 100);
   }
-  private _mode: string = 'editor';
+  private _mode = 'editor';
 
   @Input()
   public get options(): MdEditorOption {
     return this._options || {};
   }
   public set options(value: MdEditorOption) {
-    let _options = Object.assign(DEFAULT_EDITOR_OPTION, {}, value);
-    let _hideIcons = {};
+    const _options = Object.assign(DEFAULT_EDITOR_OPTION, {}, value);
+    const _hideIcons = {};
     if (typeof _options.showPreviewPanel === 'boolean') {
       this.showPreviewPanel = _options.showPreviewPanel;
     }
@@ -86,10 +86,10 @@ export class CustomMarkdownEditorComponent implements ControlValueAccessor, Vali
   @Output() public onPreviewDomChanged: EventEmitter<HTMLElement> = new EventEmitter<HTMLElement>();
 
   public hideIcons: any = {};
-  public showPreviewPanel: boolean = true;
-  public isFullScreen: boolean = false;
-  public dragover: boolean = false;
-  public isUploading: boolean = false;
+  public showPreviewPanel = true;
+  public isFullScreen = false;
+  public dragover = false;
+  public isUploading = false;
 
   //#region Markdown value and html value define
   public get markdownValue(): string {
@@ -130,12 +130,12 @@ export class CustomMarkdownEditorComponent implements ControlValueAccessor, Vali
 
   ngOnInit() {
     if (!this._isInBrowser) return;
-    let markedRender = new marked.Renderer();
+    const markedRender = new marked.Renderer();
     markedRender.image = this._getRender('image');
     markedRender.code = this._getRender('code');
     markedRender.table = this._getRender('table');
     markedRender.listitem = this._getRender('listitem');
-    let markedjsOpt = {
+    const markedjsOpt = {
       renderer: markedRender,
       highlight: (code: any) => hljs.highlightAuto(code).value
     };
@@ -144,8 +144,8 @@ export class CustomMarkdownEditorComponent implements ControlValueAccessor, Vali
 
   ngAfterViewInit() {
     if (!this._isInBrowser) return;
-    let editorElement = this.aceEditorContainer.nativeElement;
-    let editor = ace.edit(editorElement);
+    const editorElement = this.aceEditorContainer.nativeElement;
+    const editor = ace.edit(editorElement);
     editor.$blockScrolling = Infinity;
     editor.getSession().setUseWrapMode(true);
     editor.getSession().setMode("ace/mode/markdown");
@@ -154,7 +154,7 @@ export class CustomMarkdownEditorComponent implements ControlValueAccessor, Vali
 
     editor.on('change', (e: any) => {
       if (this._isValueSettedByprogrammatically) return;
-      let val = editor.getValue();
+      const val = editor.getValue();
       this._updateMarkdownValue(val, true);
       this._onChange(this.markdownValue);
     });
@@ -194,10 +194,10 @@ export class CustomMarkdownEditorComponent implements ControlValueAccessor, Vali
   insertContent(type: string, customContent?: string) {
     if (!this._aceEditorIns) return;
     let selectedText = this._aceEditorIns.getSelectedText();
-    let isSelected = !!selectedText;
+    const isSelected = !!selectedText;
     let startSize = 2;
-    let initText: string = '';
-    let range = this._aceEditorIns.selection.getRange();
+    let initText = '';
+    const range = this._aceEditorIns.selection.getRange();
     switch (type) {
       case 'Bold':
         initText = 'Bold Text';
@@ -360,7 +360,7 @@ export class CustomMarkdownEditorComponent implements ControlValueAccessor, Vali
           return (this.preRender && this.preRender instanceof Function) ? this.preRender(mdContent) : mdContent;
         })
         .then(mdContent => {
-          let html = marked(mdContent || '', this._markedJsOpt);
+          const html = marked(mdContent || '', this._markedJsOpt);
           return (this.postRender && this.postRender instanceof Function) ? this.postRender(html) : html;
         })
         .then(parsedHtml => {
@@ -379,7 +379,7 @@ export class CustomMarkdownEditorComponent implements ControlValueAccessor, Vali
   }
 
   private _getRender(renderType: 'image' | 'table' | 'code' | 'listitem') {
-    let customRender = this.options && this.options.customRender && this.options.customRender[renderType];
+    const customRender = this.options && this.options.customRender && this.options.customRender[renderType];
     if (customRender && typeof customRender === 'function') {
       return customRender;
     } else {
@@ -395,8 +395,8 @@ export class CustomMarkdownEditorComponent implements ControlValueAccessor, Vali
           };
         case 'code':
           return function (code: any, language: any) {
-            let validLang = !!(language && hljs.getLanguage(language));
-            let highlighted = validLang ? hljs.highlight(language, code).value : code;
+            const validLang = !!(language && hljs.getLanguage(language));
+            const highlighted = validLang ? hljs.highlight(language, code).value : code;
             return `<pre style="padding: 0; border-radius: 0;"><code class="hljs ${language}">${highlighted}</code></pre>`;
           };
         case 'table':
@@ -443,8 +443,8 @@ export class CustomMarkdownEditorComponent implements ControlValueAccessor, Vali
       })
       .then(data => {
         if (Array.isArray(data)) {
-          let msg = [];
-          for (let item of data) {
+          const msg = [];
+          for (const item of data) {
             let tempMsg = `[${item.name}](${item.url})`;
             if (item.isImg) {
               tempMsg = `!${tempMsg}`;

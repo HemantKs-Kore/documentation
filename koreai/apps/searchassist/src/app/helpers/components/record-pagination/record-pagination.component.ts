@@ -80,7 +80,7 @@ export class RecordPaginationComponent implements OnInit {
     this.pageChanged.emit(eventObj);
   }
   inputPageChange(event) {
-    let inputNumber = event.target.value.replace(/\D/g,'')
+    const inputNumber = event.target.value.replace(/\D/g,'')
     if(inputNumber!==''){
       if(Number(inputNumber) < 1){
         this.inputPage = 1

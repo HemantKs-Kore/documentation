@@ -73,7 +73,7 @@ export class InlineManualService {
     BOT_ACTION_FROM_LANDING_PAGE: '88834',
   };
   loadInlineManualScripts = function () {
-    var _self = this;
+    const _self = this;
     function inlinemanual_init() {
       createInlineManualPlayer(inlineManualPlayerData);
       setTimeout(function () {
@@ -84,7 +84,7 @@ export class InlineManualService {
       }, 200);
     }
     function loadInlineManualScripts(PLAYER_ID) {
-      var koreUID = _self.authService.getUserId();
+      let koreUID = _self.authService.getUserId();
       koreUID = btoa(
         koreUID.substring(koreUID.indexOf('u-') + 2, koreUID.length)
       ); //converting to base64 by removing u-
@@ -92,11 +92,11 @@ export class InlineManualService {
       //     uid: koreUID
       // };
       //inlineManualTracking['uid'] = koreUID
-      var scripts = [
+      const scripts = [
         '//inlinemanual.com/embed/player.' + PLAYER_ID + '.bare.js',
       ];
-      var script = scripts.shift();
-      var el = document.createElement('script') as any;
+      const script = scripts.shift();
+      const el = document.createElement('script') as any;
       el.language = 'javascript';
       el.async = 'true';
       el.charset = 'UTF-8';
@@ -154,7 +154,7 @@ export class InlineManualService {
     }
   }
   checkVisibility(module, moduleName?) {
-    let visited = false;
+    const visited = false;
     // let data = [];
     // if(this.appSelectionService && this.appSelectionService.inlineManualInfo){
     //    data = [...this.appSelectionService.inlineManualInfo];
@@ -224,7 +224,7 @@ export class InlineManualService {
   }
   // AppsCue
   loadAppscue() {
-    let self = this;
+    const self = this;
     const env: any = environment;
     if (env.APPCUES && env.APPCUES.ENABLE) {
       self.loadAppcuesScripts(env.APPCUES.APPCUES_KEY);
@@ -232,12 +232,12 @@ export class InlineManualService {
   }
 
   loadAppcuesScripts = function (appcuesKey) {
-    let self = this;
+    const self = this;
     function appcues_init() {
       if (self.authService.isAuthenticated()) {
-        var koreUID = self.authService.getUserId();
-        var koreAuthInfo = self.authService.getAuthInfo();
-        var koreEmail = koreAuthInfo.currentAccount
+        let koreUID = self.authService.getUserId();
+        const koreAuthInfo = self.authService.getAuthInfo();
+        const koreEmail = koreAuthInfo.currentAccount
           ? koreAuthInfo.currentAccount.userInfo.emailId
           : koreAuthInfo.entAdmin
           ? koreAuthInfo.entAdmin.userInfo.emailId
@@ -254,10 +254,10 @@ export class InlineManualService {
       }
     }
     function loadAppcuesScript(APPCUES_KEY) {
-      var _self = this;
-      var scripts = ['//fast.appcues.com/' + APPCUES_KEY + '.js'];
-      var script = scripts.shift();
-      var el: any = document.createElement('script');
+      const _self = this;
+      const scripts = ['//fast.appcues.com/' + APPCUES_KEY + '.js'];
+      const script = scripts.shift();
+      const el: any = document.createElement('script');
       el.language = 'javascript';
       el.async = 'true';
       el.charset = 'UTF-8';

@@ -331,14 +331,13 @@ export class WorkbenchComponent implements OnInit, OnDestroy, AfterViewInit {
     }
   }
   ngAfterViewInit() {
-    const self = this;
     setTimeout(() => {
       $('#addToolTo').click();
     }, 700);
     this.bindDocumentClickEvents();
   }
   bindDocumentClickEvents() {
-    const self = this;
+    // const self = this;
     $('body')
       .off('click')
       .on('click', (event) => {
@@ -347,7 +346,7 @@ export class WorkbenchComponent implements OnInit, OnDestroy, AfterViewInit {
             !$(event.target).closest('.simulator-div').length &&
             !$(event.target).closest('.simulatebtnContainer').length
           ) {
-            self.closeSimulator();
+            this.closeSimulator();
           }
         }
       });
@@ -364,7 +363,7 @@ export class WorkbenchComponent implements OnInit, OnDestroy, AfterViewInit {
       this.selectedStage.condition.mappings.splice(index, 1);
     } else if (type === 'update') {
       if (field === 'field') {
-        if (mappingType == 'config') {
+        if (mappingType === 'config') {
           this.selectedStage.config.mappings[index] = {
             ...this.selectedStage.config.mappings[index],
             fieldId: data,
@@ -1049,9 +1048,6 @@ export class WorkbenchComponent implements OnInit, OnDestroy, AfterViewInit {
             'Workbench - Rule Created - Custom Script',
             {}
           );
-        } else if (s.type === 'position') {
-        } else if (s.type === 'cluster') {
-        } else if (s.type === 'indexer') {
         } else if (s.type === 'keyword_extraction') {
           this.mixpanel.postEvent(
             'Workbench - Rule Created - Keyword Extraction',
@@ -2201,7 +2197,6 @@ export class WorkbenchComponent implements OnInit, OnDestroy, AfterViewInit {
       this.removeExcludeDocumentStage(indexArrayLength, false);
     } else {
       this.simulteObj.showSimulation = true;
-      const self = this;
       this.simulating = true;
       this.simulteObj.simulating = true;
       const payload: any = {
@@ -2651,70 +2646,66 @@ export class WorkbenchComponent implements OnInit, OnDestroy, AfterViewInit {
     this.setResetNewMappingsObj();
   }
   selectStage(stage, i) {
-    if (this.changesDetected && false) {
-      this.confirmChangeDiscard(stage, i);
-    } else {
-      this.currentEditIndex = i;
-      this.selectedStageIndex = i;
-      //this.checkNewAddition();
-      if (
-        stage &&
-        stage.type === 'custom_script' &&
-        stage.config &&
-        stage.config.mappings &&
-        stage.config.mappings.length
-      ) {
-        if (!this.newMappingObj.custom_script) {
-          this.newMappingObj.custom_script = {
-            defaultValue: {
-              script: '',
-            },
-          };
-        }
-        /**04/03 code updates as per FLY-4519 */
-        console.log('***********', this.pipeline);
-        this.pipeline.forEach((pipeLineStage, index) => {
-          if (
-            pipeLineStage.type === 'custom_script' &&
-            pipeLineStage.config &&
-            pipeLineStage.config.hasOwnProperty('mappings') &&
-            pipeLineStage.config.mappings.length &&
-            i == index
-          ) {
-            this.newMappingObj.custom_script.defaultValue.script =
-              pipeLineStage.config.mappings[0].script;
-          } else if (
-            pipeLineStage.type === 'custom_script' &&
-            i == index &&
-            !pipeLineStage.config.hasOwnProperty('mappings')
-          ) {
-            this.newMappingObj.custom_script.defaultValue.script = '';
-          }
-        });
-        //this.newMappingObj.custom_script.defaultValue.script = stage.config.mappings[0].script || '';
-        //this.newMappingObj.custom_script.defaultValue.script = stage.config.mappings[stage.config.mappings.length-1].script || '';
-      } else {
-        if (!this.newMappingObj.custom_script) {
-          this.newMappingObj.custom_script = {
-            defaultValue: {
-              script: '',
-            },
-          };
-        }
-        /**04/03 code updates as per FLY-4519 */
+    this.currentEditIndex = i;
+    this.selectedStageIndex = i;
+    //this.checkNewAddition();
+    if (
+      stage &&
+      stage.type === 'custom_script' &&
+      stage.config &&
+      stage.config.mappings &&
+      stage.config.mappings.length
+    ) {
+      if (!this.newMappingObj.custom_script) {
+        this.newMappingObj.custom_script = {
+          defaultValue: {
+            script: '',
+          },
+        };
+      }
+      /**04/03 code updates as per FLY-4519 */
+      console.log('***********', this.pipeline);
+      this.pipeline.forEach((pipeLineStage, index) => {
         if (
-          stage &&
-          stage.type === 'custom_script' &&
-          !stage.config.hasOwnProperty('mappings')
+          pipeLineStage.type === 'custom_script' &&
+          pipeLineStage.config &&
+          pipeLineStage.config.hasOwnProperty('mappings') &&
+          pipeLineStage.config.mappings.length &&
+          i == index
+        ) {
+          this.newMappingObj.custom_script.defaultValue.script =
+            pipeLineStage.config.mappings[0].script;
+        } else if (
+          pipeLineStage.type === 'custom_script' &&
+          i == index &&
+          !pipeLineStage.config.hasOwnProperty('mappings')
         ) {
           this.newMappingObj.custom_script.defaultValue.script = '';
         }
-        //this.newMappingObj.custom_script.defaultValue.script = '';
+      });
+      //this.newMappingObj.custom_script.defaultValue.script = stage.config.mappings[0].script || '';
+      //this.newMappingObj.custom_script.defaultValue.script = stage.config.mappings[stage.config.mappings.length-1].script || '';
+    } else {
+      if (!this.newMappingObj.custom_script) {
+        this.newMappingObj.custom_script = {
+          defaultValue: {
+            script: '',
+          },
+        };
       }
-      this.selectedStage = stage;
-      if ((stage && stage.type) != 'custom_script') {
-        this.setResetNewMappingsObj('remove_mapping');
+      /**04/03 code updates as per FLY-4519 */
+      if (
+        stage &&
+        stage.type === 'custom_script' &&
+        !stage.config.hasOwnProperty('mappings')
+      ) {
+        this.newMappingObj.custom_script.defaultValue.script = '';
       }
+      //this.newMappingObj.custom_script.defaultValue.script = '';
+    }
+    this.selectedStage = stage;
+    if ((stage && stage.type) != 'custom_script') {
+      this.setResetNewMappingsObj('remove_mapping');
     }
   }
   checkDuplicateTags(suggestion: string, alltTags): boolean {
@@ -3108,7 +3099,6 @@ export class WorkbenchComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   ngOnDestroy() {
-    const self = this;
     if (this.pollingSubscriber) {
       this.pollingSubscriber.unsubscribe();
     }

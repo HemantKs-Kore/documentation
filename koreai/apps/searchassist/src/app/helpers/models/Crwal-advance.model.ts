@@ -1,13 +1,13 @@
 export class CrwalObj {
-    url: String = '';
-    desc: String = '';
-    name: String = '';
+    url = '';
+    desc = '';
+    name = '';
     advanceOpts: AdvanceOpts = new AdvanceOpts();
-    authorizationEnabled: boolean = false;
+    authorizationEnabled = false;
     authorizationProfle: AuthorizationProfle = new AuthorizationProfle();
 }
 export class AdvanceOpts {
-    scheduleOpt: boolean = false;
+    scheduleOpt = false;
     scheduleOpts: scheduleOpts = new scheduleOpts();
     useCookies = false;
     respectRobotTxtDirectives = false;
@@ -16,16 +16,16 @@ export class AdvanceOpts {
     blockHttpsMsgs = false;
     crawlDepth: number;
     maxUrlLimit: number;
-    repeatInterval: String = "";
-    crawlEverything: boolean = true;
-    allowedOpt: boolean = false;
+    repeatInterval = "";
+    crawlEverything = true;
+    allowedOpt = false;
     allowedURLs: Array<Object> = [];
-    blockedOpt: boolean = false;
+    blockedOpt = false;
     blockedURLs: Array<Object> = [];
 }
 
 export class AuthorizationProfle {
-    sso_type: String = "";
+    sso_type = "";
     formFields: any = [];
     basicFields: any = [
         {
@@ -47,53 +47,53 @@ export class AuthorizationProfle {
             duplicateObj:{value: "password"}
         }];
     authorizationFields: Array<AuthorizationFields> = [];
-    authCheckUrl: String = "";
-    testType: String = "";
-    testValue: String = "";
+    authCheckUrl = "";
+    testType = "";
+    testValue = "";
 }
 
 export class AuthorizationFields {
-    type: String;
-    key: String;
-    value: String;
-    isEnabled: Boolean;
+    type: string;
+    key: string;
+    value: string;
+    isEnabled: boolean;
 }
 
 export class scheduleOpts {
-    date: String = "";
+    date = "";
     time: Time = new Time();
     interval: InterVal = new InterVal();
 }
 export class InterVal {
-    intervalType: String = "";
+    intervalType = "";
     intervalValue: IntervalValue = new IntervalValue();
 }
 export class Time {
-    hour: String = "";
-    minute: String = "";
+    hour = "";
+    minute = "";
     timeOpt = null;
-    timezone: String = "";
+    timezone = "";
 }
 export class IntervalValue {
     every: number = null;
-    schedulePeriod: String = "";
-    repeatOn: String = "";
+    schedulePeriod = "";
+    repeatOn = "";
     endsOn: EndsOn = new EndsOn();
 }
 export class EndsOn {
-    endType: String = "";
-    endDate: String = "";
+    endType = "";
+    endDate = "";
     occurrences: number = null;
 
 }
 export class AllowUrl {
-    condition: String = 'contains';
-    url: String = '';
-    name: String = 'Contains';
+    condition = 'contains';
+    url = '';
+    name = 'Contains';
 }
 export class BlockUrl {
-    condition: String = 'contains';
-    url: String = '';
-    name: String = 'Contains';
+    condition = 'contains';
+    url = '';
+    name = 'Contains';
 }
 

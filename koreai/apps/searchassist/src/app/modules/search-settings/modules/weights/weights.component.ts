@@ -30,7 +30,7 @@ declare const $: any;
 export class WeightsComponent implements OnInit, OnDestroy {
   pageNumber: number;
   numberofweigths: number;
-  selected: boolean = false;
+  selected = false;
   addEditWeighObj: any = null;
   loadingContent = true;
   addDditWeightPopRef: any;
@@ -130,7 +130,7 @@ export class WeightsComponent implements OnInit, OnDestroy {
     this.addEditWeighObj.fieldId = event._id;
   }
   prepereWeights() {
-    let weightArr = [];
+    const weightArr = [];
     if (this.weights) {
       this.weights.forEach((element, i) => {
         const name = (element.fieldName || '').replace(/[^\w]/gi, '');

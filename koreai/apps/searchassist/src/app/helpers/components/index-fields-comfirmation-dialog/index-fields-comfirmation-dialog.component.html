@@ -18,10 +18,10 @@
 		<span>{{"search_settings_field_used" |translate}} </span>
 
 		<ng-container *ngIf="data.resultArr.length === 1">{{ data.resultArr[0] }} 
-			<i *ngIf="data.resultArr[0] == 'SearchSettings'" class="si-info"  [ngbTooltip]="tipContent"></i>
+			<i *ngIf="data.resultArr[0] === 'SearchSettings'" class="si-info"  [ngbTooltip]="tipContent"></i>
 		</ng-container>
 		<ng-container *ngIf="data.resultArr.length === 2">{{ data.resultArr[0] }} {{"sa_and" |translate}}  {{ data.resultArr[1] }}
-			<i *ngIf="data.resultArr[1] == 'SearchSettings'" class="si-info"  [ngbTooltip]="tipContent"></i>
+			<i *ngIf="data.resultArr[1] === 'SearchSettings'" class="si-info"  [ngbTooltip]="tipContent"></i>
 		</ng-container>
 		<ng-container *ngIf="data.resultArr.length > 2">
 			<span *ngFor="let item of data.resultArr; last as isLast">
@@ -29,12 +29,12 @@
 				
 
 				<ng-container *ngIf="!isLast">{{ item }}
-					<i *ngIf="item == 'SearchSettings'" class="si-info"  [ngbTooltip]="tipContent"></i>,</ng-container>
+					<i *ngIf="item === 'SearchSettings'" class="si-info"  [ngbTooltip]="tipContent"></i>,</ng-container>
 			
 				
 			<ng-container *ngIf="isLast">
 				{{"sa_and" |translate}} {{ item }} 
-				 <i *ngIf="item == 'SearchSettings'" class="si-info"  [ngbTooltip]="tipContent"></i>
+				 <i *ngIf="item === 'SearchSettings'" class="si-info"  [ngbTooltip]="tipContent"></i>
 			</ng-container>
 
 			</span>			
@@ -49,7 +49,7 @@
 		<ng-template #cancel>
 		  {{item.label}} 
 	   </ng-template>
-	   <span *ngIf="item.label=='Delete'|| item.label=='OK'; else cancel">{{item.label}}</span>      
+	   <span *ngIf="item.label==='Delete'|| item.label==='OK'; else cancel">{{item.label}}</span>      
 		<div class="loader-in-button ml-2"*ngIf="item.key === 'save' && isSelected" style="display: inline-block"><img src="assets/images/icons/fa-spinner.svg"></div>
 	  </button>
 	</div>

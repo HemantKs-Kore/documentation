@@ -51,7 +51,7 @@
     [ngClass]="{
       'stop-words-no-border': !(
         stopwordsList?.length ||
-        (stopWordsIntiType == 'scratch' && createFromScratch)
+        (stopWordsIntiType === 'scratch' && createFromScratch)
       )
     }"
   >
@@ -115,7 +115,7 @@
     <ng-container
       *ngIf="
         (!loadingContent && stopwordsList?.length) ||
-        (stopWordsIntiType == 'scratch' && createFromScratch)
+        (stopWordsIntiType === 'scratch' && createFromScratch)
       "
     >
       <div class="listingHeader row m-0">
