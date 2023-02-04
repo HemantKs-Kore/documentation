@@ -87,7 +87,7 @@ export class AuthInterceptor implements HttpInterceptor {
     this.appUrls.redirectToLogin();
   }
   private resolveUrl(toResolveUrl, values, deleteProp) {
-    const _regExToParamName = /\:([a-zA-Z]+)/g;
+    const _regExToParamName = /:([a-zA-Z]+)/g;
     return toResolveUrl.replace(_regExToParamName, (matchStr, valName) => {
       const r = values[valName];
       if (typeof r !== 'undefined' && typeof r !== null) {

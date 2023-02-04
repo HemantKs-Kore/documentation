@@ -2883,20 +2883,16 @@ export class WorkbenchComponent implements OnInit, OnDestroy, AfterViewInit {
     }
   }
   createNewMap() {
-    if (this.changesDetected && false) {
-      this.confirmChangeDiscard();
-    } else {
-      this.changesDetected = true;
-      const obj: any = new StageClass();
-      const newArray = [];
-      obj.name = this.defaultStageTypes[0].name;
-      obj.enable = true;
-      obj.type = this.defaultStageTypes[0].type;
-      obj.category = this.defaultStageTypes[0].category;
-      newArray.push(obj);
-      this.pipeline = newArray.concat(this.pipeline);
-      this.selectedStage = this.pipeline[0];
-    }
+    this.changesDetected = true;
+    const obj: any = new StageClass();
+    const newArray = [];
+    obj.name = this.defaultStageTypes[0].name;
+    obj.enable = true;
+    obj.type = this.defaultStageTypes[0].type;
+    obj.category = this.defaultStageTypes[0].category;
+    newArray.push(obj);
+    this.pipeline = newArray.concat(this.pipeline);
+    this.selectedStage = this.pipeline[0];
   }
   selectNewItem(defaultStage) {
     this.newStageObj = JSON.parse(JSON.stringify(defaultStage));

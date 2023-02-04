@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from '@kore.services/auth.service';
 import { NotificationService } from '../../services/notification.service';
@@ -25,7 +25,9 @@ import { LazyLoadService } from '@kore.shared/*';
   templateUrl: './structured-data.component.html',
   styleUrls: ['./structured-data.component.scss'],
 })
-export class StructuredDataComponent implements OnInit {
+export class StructuredDataComponent implements OnInit, OnDestroy {
+  isLoading1: boolean;
+  loadImageText = false;
   emptyScreen = EMPTY_SCREEN.STRUCTURED_DATA;
   addStructuredDataModalPopRef: any;
   selectedSourceType: any;
@@ -186,8 +188,6 @@ export class StructuredDataComponent implements OnInit {
       this.getAllSettings();
     }
   }
-  isLoading1: boolean;
-  loadImageText = false;
 
   getStructuredDataList(skip?) {
     this.isLoading = true;
@@ -232,8 +232,7 @@ export class StructuredDataComponent implements OnInit {
             }
           });
         });
-        if (quaryparms && quaryparms.skip) {
-        }
+
         //changes made on 31/01
         if (this.allSelected || this.actionforcheckbox == 'all') {
           this.showSelectedData = true; // To show number of records selected
@@ -339,7 +338,6 @@ export class StructuredDataComponent implements OnInit {
   }
 
   designDefaultData(structuredDataItemsList) {
-    this.defaultView = this.defaultView;
     structuredDataItemsList.forEach((element: any, index) => {
       element.objectValues = [];
       Object.keys(element._source).forEach((key: any, index) => {

@@ -10,6 +10,7 @@ export class DockStatusService {
   selectedApp: any;
   showStatusDocker = false;
 
+  // eslint-disable-next-line @angular-eslint/no-output-native
   @Output() change: EventEmitter<boolean> = new EventEmitter();
 
   constructor(

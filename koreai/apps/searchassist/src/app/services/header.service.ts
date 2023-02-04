@@ -4,6 +4,7 @@ import { Injectable, Output, EventEmitter } from '@angular/core';
   providedIn: 'root',
 })
 export class SideBarService {
+  // eslint-disable-next-line @angular-eslint/no-output-native
   @Output() change: EventEmitter<boolean> = new EventEmitter();
   @Output() fromCallFlowExpand: EventEmitter<boolean> = new EventEmitter();
   @Output() openSearchSDKFromHeader: EventEmitter<any> = new EventEmitter();

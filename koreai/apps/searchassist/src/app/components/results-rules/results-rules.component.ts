@@ -391,7 +391,7 @@ export class ResultsRulesComponent implements OnInit, OnDestroy {
   addedGroupToRule(event, rule, type?) {
     if (type == 'if') {
       rule.values = [];
-      for (var i = 0; i < event.length; i++) {
+      for (let i = 0; i < event.length; i++) {
         if (event[i].indexOf(':') == -1) {
           const temp3 = {
             type: 'string',
@@ -420,9 +420,9 @@ export class ResultsRulesComponent implements OnInit, OnDestroy {
           rule.values.push(temp2);
         }
       }
-    } else if (type == 'then') {
+    } else if (type === 'then') {
       this.rulesObjOO.then.values = [];
-      for (var i = 0; i < event.length; i++) {
+      for (let i = 0; i < event.length; i++) {
         if (event[i].indexOf(':') == -1) {
           const temp3 = {
             type: 'string',

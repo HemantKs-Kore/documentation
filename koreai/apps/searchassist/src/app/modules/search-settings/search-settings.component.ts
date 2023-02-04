@@ -1,10 +1,6 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { KRModalComponent } from '../../shared/kr-modal/kr-modal.component';
-import { of, interval, Subject, Subscription } from 'rxjs';
-import {
-  PerfectScrollbarComponent,
-  PerfectScrollbarDirective,
-} from 'ngx-perfect-scrollbar';
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Subscription } from 'rxjs';
+
 import { Router } from '@angular/router';
 import { WorkflowService } from '@kore.apps/services/workflow.service';
 import { AppSelectionService } from '@kore.apps/services/app.selection.service';
@@ -16,7 +12,7 @@ import { ServiceInvokerService } from '@kore.apps/services/service-invoker.servi
   templateUrl: './search-settings.component.html',
   styleUrls: ['./search-settings.component.scss'],
 })
-export class SearchSettingsComponent implements OnInit {
+export class SearchSettingsComponent implements OnInit, OnDestroy {
   selectedApp;
   indexPipelineId;
   streamId: any;

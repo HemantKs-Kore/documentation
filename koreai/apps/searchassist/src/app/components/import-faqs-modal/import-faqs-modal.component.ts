@@ -34,7 +34,7 @@ export class ImportFaqsModalComponent implements OnInit, OnDestroy {
   fileData: Subscription;
   validExtensions: string[] = ['.csv', '.json'];
   fileName: string;
-  importPayload: {};
+  importPayload;
   importProgress: any = 0;
   polling: Subscription;
   errorMessage = '';
@@ -44,7 +44,7 @@ export class ImportFaqsModalComponent implements OnInit, OnDestroy {
     next: [0, 1, 2],
     ok: [3, 4],
   };
-  params: {};
+  params;
 
   constructor(
     private fUpload: FileUploadService,

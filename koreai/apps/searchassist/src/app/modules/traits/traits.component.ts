@@ -1,3 +1,4 @@
+/* eslint-disable no-self-assign */
 import {
   Component,
   OnInit,
@@ -1100,6 +1101,7 @@ export class TraitsComponent implements OnInit, OnDestroy {
         );
         return true;
       }
+      // eslint-disable-next-line no-useless-escape
       characters = /[\=\`\~\@#\$\%\^&\*\(\)\-\+\{\}\:"\[\];\',\.\/<>\?\|\\]+/;
       if (str && str[0] === '!') {
         let testStringNeagtion = str;
@@ -1277,8 +1279,6 @@ export class TraitsComponent implements OnInit, OnDestroy {
     );
     if (index > -1) {
       this.showEditTraitInput = null;
-      this.traits.addEditTraits.traitsArray[index].key =
-        this.traits.addEditTraits.traitsArray[index].key;
     }
   }
   showEditTrait(index, event) {
@@ -1362,7 +1362,6 @@ export class TraitsComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    const self = this;
     if (this.subscription) {
       this.subscription.unsubscribe();
     }

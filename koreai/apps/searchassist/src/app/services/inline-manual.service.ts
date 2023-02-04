@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-this-alias */
 import { Injectable } from '@angular/core';
 import { environment } from '../../environments/environment';
 import { ServiceInvokerService } from './service-invoker.service';

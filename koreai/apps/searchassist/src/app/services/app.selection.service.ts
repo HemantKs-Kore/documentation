@@ -159,6 +159,7 @@ export class AppSelectionService {
       } else {
         this.redirectToLogin();
       }
+      // eslint-disable-next-line no-empty
     } catch (e) {}
     return previOusState;
   }

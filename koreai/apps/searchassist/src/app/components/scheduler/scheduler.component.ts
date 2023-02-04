@@ -55,7 +55,7 @@ export class SchedulerComponent implements OnInit {
   recurringFrequency = false;
   isCustom = false;
   timeZoneArray: Array<string> = ['IST', 'EST', 'UTC'];
-  recurringFrequencyArray: Array<Object> = [
+  recurringFrequencyArray = [
     { key: 'Does not repeat', value: 'Does not repeat' },
     { key: 'Daily', value: 'Daily' },
     { key: 'Weekly', value: 'Weekly' },

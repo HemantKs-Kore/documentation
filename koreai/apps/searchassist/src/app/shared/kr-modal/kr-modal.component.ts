@@ -1,13 +1,22 @@
-import { Component, OnInit, ElementRef, ViewChild, Input, ViewEncapsulation, AfterViewInit } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  ElementRef,
+  ViewChild,
+  Input,
+  ViewEncapsulation,
+  AfterViewInit,
+} from '@angular/core';
 import { NgbModal, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import * as _ from 'underscore';
 
 @Component({
   // tslint:disable-next-line:component-selector
+  // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'kr-modal',
   templateUrl: './kr-modal.component.html',
   styleUrls: ['./kr-modal.component.scss'],
-  encapsulation: ViewEncapsulation.None
+  encapsulation: ViewEncapsulation.None,
 })
 export class KRModalComponent implements OnInit, AfterViewInit {
   @Input() modalType: string;
@@ -17,15 +26,15 @@ export class KRModalComponent implements OnInit, AfterViewInit {
     FULL: 'full',
     SLIDE: 'slide',
     CENTER: 'center',
-    NOBACKDROP:"nodrop",
-    BACKDROPMODALTOP:"above-modal-drop"
+    NOBACKDROP: 'nodrop',
+    BACKDROPMODALTOP: 'above-modal-drop',
   };
-  constructor(private modalService: NgbModal, public activeModal: NgbActiveModal) {
-
-  }
+  constructor(
+    private modalService: NgbModal,
+    public activeModal: NgbActiveModal
+  ) {}
 
   @ViewChild('hostContentsWrap') hostContentsWrap: ElementRef;
-
 
   ngAfterViewInit() {
     // console.log('ngAfterViewInit');
@@ -33,7 +42,6 @@ export class KRModalComponent implements OnInit, AfterViewInit {
       // this.modalService.open(this.hostContentsWrap)
     }, 0);
   }
-
 
   ngOnInit() {
     this.modalType = this.modalType || 'default';
@@ -43,7 +51,7 @@ export class KRModalComponent implements OnInit, AfterViewInit {
       backdropClass: 'kr-back-drop',
       windowClass: 'kr-modal',
       backdrop: 'static',
-      keyboard : false
+      keyboard: false,
     };
     if (this.modalClass) {
       config.windowClass = config.windowClass + ' ' + this.modalClass;
@@ -56,7 +64,7 @@ export class KRModalComponent implements OnInit, AfterViewInit {
         backdropClass: 'kr-back-drop full-back-drop',
         windowClass: 'kr-modal kr-full ' + (this.modalClass || ''),
         backdrop: 'static',
-        keyboard : false
+        keyboard: false,
       });
     }
     if (this.modalType === this.modalTypes.CENTER) {
@@ -64,7 +72,7 @@ export class KRModalComponent implements OnInit, AfterViewInit {
         backdropClass: 'kr-back-drop full-back-drop',
         windowClass: 'kr-modal kr-center ' + (this.modalClass || ''),
         backdrop: 'static',
-        keyboard : false
+        keyboard: false,
       });
     }
 
@@ -73,7 +81,7 @@ export class KRModalComponent implements OnInit, AfterViewInit {
         backdropClass: 'kr-back-drop no-back-drop',
         windowClass: 'kr-modal kr-center ' + (this.modalClass || ''),
         backdrop: 'static',
-        keyboard : false
+        keyboard: false,
       });
     }
 
@@ -82,7 +90,7 @@ export class KRModalComponent implements OnInit, AfterViewInit {
         backdropClass: 'kr-back-drop above-modal-drop-class',
         windowClass: 'kr-modal kr-center ' + (this.modalClass || ''),
         backdrop: 'static',
-        keyboard : false
+        keyboard: false,
       });
     }
 
@@ -91,12 +99,10 @@ export class KRModalComponent implements OnInit, AfterViewInit {
         backdropClass: 'kr-back-drop',
         windowClass: 'kr-modal kr-slide ' + (this.modalClass || ''),
         backdrop: 'static',
-        keyboard : false
+        keyboard: false,
       });
     }
 
-    return this.modalService.open(
-      this.hostContentsWrap, config);
+    return this.modalService.open(this.hostContentsWrap, config);
   }
-
 }
