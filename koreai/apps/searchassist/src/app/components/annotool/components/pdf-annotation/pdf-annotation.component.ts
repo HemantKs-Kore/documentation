@@ -1,3 +1,4 @@
+/* eslint-disable no-empty */
 import {
   Component,
   OnInit,
@@ -6,6 +7,7 @@ import {
   ViewChild,
   HostListener,
   Inject,
+  OnDestroy,
 } from '@angular/core';
 import {
   PdfViewerComponent,
@@ -58,7 +60,7 @@ import { SimplebarAngularModule } from 'simplebar-angular';
     PerfectScrollbarModule,
   ],
 })
-export class PdfAnnotationComponent implements OnInit {
+export class PdfAnnotationComponent implements OnInit, OnDestroy {
   @ViewChild(PdfViewerComponent)
   private pdfComponent: PdfViewerComponent;
   @ViewChild('perfectScroll') perfectScroll: PerfectScrollbarComponent;
@@ -238,7 +240,6 @@ export class PdfAnnotationComponent implements OnInit {
       this.removeProgressBar = true;
       $('.pdf-viewer').css('width', $('.pdf-viewer').width() + 1);
       this.pdfComponent.updateSize();
-      this.pdfConfig.zoom = this.pdfConfig.zoom;
       setTimeout(() => {
         this.removeProgressBar = false;
       }, 150);
@@ -487,8 +488,8 @@ export class PdfAnnotationComponent implements OnInit {
       pdfData.loadingTask._transport._lastProgress
     ) {
       let _size = pdfData.loadingTask._transport._lastProgress.total;
-      let fSExt = ['Bytes', 'KB', 'MB', 'GB'],
-        i = 0;
+      const fSExt = ['Bytes', 'KB', 'MB', 'GB'];
+      let i = 0;
       while (_size > 900) {
         _size /= 1024;
         i++;
@@ -893,7 +894,6 @@ export class PdfAnnotationComponent implements OnInit {
         setTimeout(() => {
           $('.pdf-viewer').css('width', $('.pdf-viewer').width() + 1);
           this.pdfComponent.updateSize();
-          this.pdfConfig.zoom = this.pdfConfig.zoom;
         }, 200);
       });
     } else {
@@ -946,7 +946,6 @@ export class PdfAnnotationComponent implements OnInit {
         }
         $('.pdf-viewer').css('width', $('.pdf-viewer').width() + 1);
         this.pdfComponent.updateSize();
-        this.pdfConfig.zoom = this.pdfConfig.zoom;
       }
     }
   }
@@ -964,7 +963,6 @@ export class PdfAnnotationComponent implements OnInit {
       Number(event.target.value) || this.pdfConfig.currentPage || 1;
     if (number <= this.pdfConfig.totalPages) {
       this.pdfConfig.currentPage = number;
-      this.pdfConfig.totalPages = this.pdfConfig.totalPages;
       this.pdfComponent.page = number;
     } else {
       this.notificationService.notify(
@@ -1022,7 +1020,6 @@ export class PdfAnnotationComponent implements OnInit {
           }
           this.updatePayload();
           this.rangySerialization = this.rangeService.getSerilization();
-        } else {
         }
       }
     }, 50);
@@ -1201,6 +1198,7 @@ function getAllElements(element, className, payload) {
     return resultText;
   }
   // PREV
+  const nextResultText = [];
   const prevResultText = [];
   const lp = $('.' + className).length;
   let prevEle: any = $(element).parent().prev().children();
@@ -1242,7 +1240,6 @@ function getAllElements(element, className, payload) {
     }
   }
   // NEXT
-  var nextResultText = [];
   let nextEle: any = $(element).parent().next().children();
   if ($(nextEle).hasClass(className)) {
     for (let i = 0; i < lp; i++) {

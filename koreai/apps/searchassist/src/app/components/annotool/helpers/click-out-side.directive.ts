@@ -1,46 +1,48 @@
+/* eslint-disable @angular-eslint/directive-selector */
 import {
-    Directive,
-    ElementRef,
-    Output,
-    EventEmitter,
-    HostListener,
-    OnInit
-} from "@angular/core";
-import { fromEvent } from "rxjs";
-import { take } from "rxjs/operators";
+  Directive,
+  ElementRef,
+  Output,
+  EventEmitter,
+  HostListener,
+  OnInit,
+  OnDestroy,
+} from '@angular/core';
+import { fromEvent } from 'rxjs';
+import { take } from 'rxjs/operators';
 /* Click out side Directive  */
 /* Syntax: .html file => In element add (clickOutside)="overRectange =null;"  */
-/* 
+/*
     Created on : 22 Sep, 2020
     Author     : Pradeep muniganti
 */
 @Directive({
-    selector: "[clickOutside]"
+  selector: '[clickOutside]',
 })
-export class ClickOutSideDirective implements OnInit {
-    @Output() clickOutside = new EventEmitter();
+export class ClickOutSideDirective implements OnInit, OnDestroy {
+  @Output() clickOutside = new EventEmitter();
 
-    captured = false;
+  captured = false;
 
-    constructor(private elRef: ElementRef) { }
+  constructor(private elRef: ElementRef) {}
 
-    @HostListener("document:click", ["$event.target"])
-    onClick(target) {
-        if (!this.captured) {
-            return;
-        }
-
-        if (!this.elRef.nativeElement.contains(target)) {
-            this.clickOutside.emit();
-        }
+  @HostListener('document:click', ['$event.target'])
+  onClick(target) {
+    if (!this.captured) {
+      return;
     }
 
-    ngOnInit() {
-        fromEvent(document, "click", { capture: true })
-            .pipe(take(1))
-            .subscribe(() => (this.captured = true));
+    if (!this.elRef.nativeElement.contains(target)) {
+      this.clickOutside.emit();
     }
-    ngOnDestroy() {
-        window.removeEventListener("click", this.onClick, false);
-    }
+  }
+
+  ngOnInit() {
+    fromEvent(document, 'click', { capture: true })
+      .pipe(take(1))
+      .subscribe(() => (this.captured = true));
+  }
+  ngOnDestroy() {
+    window.removeEventListener('click', this.onClick, false);
+  }
 }

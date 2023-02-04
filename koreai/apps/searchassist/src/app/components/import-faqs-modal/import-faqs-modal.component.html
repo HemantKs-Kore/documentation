@@ -116,7 +116,7 @@
       class="kr-sg-button-primary btn_md mr-2"
       [disabled]="step === 0"
       *ngIf="showSteps.next.indexOf(step) > -1"
-      (click)="step == 1 ? startImport() : false"
+      (click)="step === 1 ? startImport() : false"
     >
       Next
     </button>

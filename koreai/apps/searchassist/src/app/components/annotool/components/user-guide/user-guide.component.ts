@@ -1,3 +1,4 @@
+/* eslint-disable @angular-eslint/component-selector */
 import { Component, OnInit, Inject } from '@angular/core';
 import {
   MatDialog,

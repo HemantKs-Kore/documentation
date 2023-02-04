@@ -12,17 +12,17 @@ declare const $: any;
 @Component({
   selector: 'app-settings',
   templateUrl: './settings.component.html',
-  styleUrls: ['./settings.component.scss']
+  styleUrls: ['./settings.component.scss'],
 })
 export class SettingsComponent implements OnInit {
   emptyScreen = EMPTY_SCREEN.MANAGE;
   slider = 0;
-  refId = "";
+  refId = '';
   botID = '';
   enableConfiguration = true;
   showPassword: boolean;
   pageDisable = true;
-  configuredBot_streamId = "";
+  configuredBot_streamId = '';
   selectedApp: any;
   serachIndexId: any;
   addCredentialRef: any;
@@ -30,7 +30,7 @@ export class SettingsComponent implements OnInit {
   listData: any;
   firstlistData;
   showSearch = false;
-  domainUrl='';
+  domainUrl = '';
   domainUrlArr = [];
   searchImgSrc: any = 'assets/icons/search_gray.svg';
   searchFocusIn = false;
@@ -45,11 +45,11 @@ export class SettingsComponent implements OnInit {
   configFlag = false;
   channnelConguired: any = [];
   credntial: any = {
-    name: "",
+    name: '',
     anonymus: true,
     register: true,
     awt: 'HS256',
-    enabled: false
+    enabled: false,
   };
   delChannel = false;
   componentType = 'optimize';
@@ -62,7 +62,7 @@ export class SettingsComponent implements OnInit {
       hide: false,
       class: 'websdk',
       catagory: 'others',
-      icon: "assets/icons/web-mobile-client.png"
+      icon: 'assets/icons/web-mobile-client.png',
     },
     // {
     //   id: 'ivrLocal',
@@ -74,16 +74,18 @@ export class SettingsComponent implements OnInit {
     //   catagory: 'other',
     //   icon: "assets/icons/webhook.svg"
     // }
-  ]
+  ];
   allBotArray = [];
   @ViewChild('addCredential') addCredential: KRModalComponent;
 
-  constructor(public workflowService: WorkflowService,
+  constructor(
+    public workflowService: WorkflowService,
     private appSelectionService: AppSelectionService,
     private service: ServiceInvokerService,
     public dialog: MatDialog,
     private notificationService: NotificationService,
-    public authService: AuthService) { }
+    public authService: AuthService
+  ) {}
 
   ngOnInit(): void {
     this.selectedApp = this.workflowService.selectedApp();
@@ -93,37 +95,34 @@ export class SettingsComponent implements OnInit {
     this.credentialsSelection();
     this.getWebClientDetails();
   }
-  credentialsSelection(){
-    if(this.selectedApp && this.selectedApp.channels.length){
-      this.selectedApp.channels.forEach(element => {
-          this.enableConfiguration = element.enable;
-          if(element.appUsage != ''){
-            this.configured = true;
-          }
-
+  credentialsSelection() {
+    if (this.selectedApp && this.selectedApp.channels.length) {
+      this.selectedApp.channels.forEach((element) => {
+        this.enableConfiguration = element.enable;
+        if (element.appUsage != '') {
+          this.configured = true;
+        }
       });
     }
   }
   prepareChannelData() {
-
-    const channels = JSON.parse(JSON.stringify(this.channels))
+    const channels = JSON.parse(JSON.stringify(this.channels));
     channels.forEach((channel) => {
       this.selectedApp.channels.forEach((streamChannel) => {
         if (channel.id === streamChannel.type) {
-          const tempChannel: any = streamChannel
-          tempChannel.id = channel.id,
-            tempChannel.status = channel.status,
-            tempChannel.hide = channel.hide,
-            tempChannel.class = channel.class,
-            tempChannel.icon = channel.icon
-          if (channel.enable = true) {
-            channel = tempChannel
+          const tempChannel: any = streamChannel;
+          (tempChannel.id = channel.id),
+            (tempChannel.status = channel.status),
+            (tempChannel.hide = channel.hide),
+            (tempChannel.class = channel.class),
+            (tempChannel.icon = channel.icon);
+          if (channel.enable === true) {
+            channel = tempChannel;
           }
         }
-
-      })
-    })
-    this.channels = channels
+      });
+    });
+    this.channels = channels;
     // console.log(this.channels);
   }
   copy(val) {
@@ -138,8 +137,7 @@ export class SettingsComponent implements OnInit {
     selBox.select();
     document.execCommand('copy');
     document.body.removeChild(selBox);
-    this.notificationService.notify('Copied to clipboard', 'success')
-
+    this.notificationService.notify('Copied to clipboard', 'success');
   }
 
   jwtAuth(awt) {
@@ -161,62 +159,71 @@ export class SettingsComponent implements OnInit {
   }
   cancel() {
     this.credntial.name = '';
-    if (this.slider > 0)
-      this.slider = this.slider - 1;
-    if (this.existingCredential = true)
-      this.slider = 0;
+    if (this.slider > 0) this.slider = this.slider - 1;
+    if (this.existingCredential === true) this.slider = 0;
   }
   // if(slider)
   back() {
-    if (this.slider != 0)
-      this.slider = this.slider - 1;
-    if (this.existingCredential = true && this.slider != 1) {
-      this.slider = 0
+    if (this.slider != 0) this.slider = this.slider - 1;
+    if (this.existingCredential === true && this.slider != 1) {
+      this.slider = 0;
       this.credntial.name = '';
     }
   }
 
   validateSource() {
     if (this.credntial.awt != 'HS256') {
-      this.createCredential()
-    }
-    else if (this.credntial.awt == 'Signing algorithm') {
+      this.createCredential();
+    } else if (this.credntial.awt == 'Signing algorithm') {
       this.showError = true;
-      $(".dropdown-input").css("border-color", "#DD3646");
-      this.notificationService.notify('Enter the required fields to proceed', 'error');
+      $('.dropdown-input').css('border-color', '#DD3646');
+      this.notificationService.notify(
+        'Enter the required fields to proceed',
+        'error'
+      );
     }
 
     if (this.credntial.name) {
-      this.createCredential()
+      this.createCredential();
+    } else {
+      $('#addSourceTitleInput').css('border-color', '#DD3646');
+      $('#infoWarning1').css({
+        top: '58%',
+        position: 'absolute',
+        right: '1.5%',
+        display: 'block',
+      });
+      this.notificationService.notify(
+        'Enter the required fields to proceed',
+        'error'
+      );
     }
-    else {
-
-      $("#addSourceTitleInput").css("border-color", "#DD3646");
-      $("#infoWarning1").css({ "top": "58%", "position": "absolute", "right": "1.5%", "display": "block" });
-      this.notificationService.notify('Enter the required fields to proceed', 'error');
-    }
-
   }
   //track changing of input
   inputChanged(type) {
     if (type == 'title') {
-      this.credntial.name != '' ? $("#infoWarning").hide() : $("#infoWarning").show();
-      $("#addSourceTitleInput").css("border-color", this.credntial.name != '' ? "#BDC1C6" : "#DD3646");
+      this.credntial.name != ''
+        ? $('#infoWarning').hide()
+        : $('#infoWarning').show();
+      $('#addSourceTitleInput').css(
+        'border-color',
+        this.credntial.name != '' ? '#BDC1C6' : '#DD3646'
+      );
     }
   }
 
   createCredential() {
     const queryParams = {
       userId: this.authService.getUserId(),
-      streamId: this.selectedApp._id
-    }
+      streamId: this.selectedApp._id,
+    };
     let scope = [];
     if (this.credntial.anonymus && this.credntial.register) {
-      scope = ["anonymouschat", "registration"];
+      scope = ['anonymouschat', 'registration'];
     } else if (this.credntial.anonymus && !this.credntial.register) {
-      scope = ["anonymouschat"];
+      scope = ['anonymouschat'];
     } else if (!this.credntial.anonymus && this.credntial.register) {
-      scope = ["registration"];
+      scope = ['registration'];
     } else {
       scope = [];
     }
@@ -227,111 +234,142 @@ export class SettingsComponent implements OnInit {
       bots: [this.selectedApp._id],
       pushNotifications: {
         enable: this.credntial.enabled,
-        webhookUrl: ""
-      }
-    }
-
-    this.service.invoke('create.createCredential', queryParams, payload).subscribe(
-      res => {
-        // console.log(res);
-        // this.listData={};
-        // this.listData = res;
-        this.botID = res.bots[0];
-        // this.slider = this.slider + 1;
-        // this.listData != this.credntial.name;
-        if (this.slider == 3 && this.existingCredential) {
-          this.slider = 3
-        }
-        this.appSelectionService.updateTourConfig('optimize');
-        this.notificationService.notify('Created successfully', 'success');
-        this.closeModalPopup();
-        this.getCredential();
-
+        webhookUrl: '',
       },
-      errRes => {
-        if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
-          this.notificationService.notify(errRes.error.errors[0].msg, 'error');
-        } else {
-          this.notificationService.notify('Failed ', 'error');
-        }
-      }
-    );
-  }
-  getWebClientDetails() {
-    const queryParams = {
-      userId: this.authService.getUserId(),
-      streamId: this.selectedApp._id
-    }
-    this.service.invoke('get.embededSdk', queryParams).subscribe(
-      res => {
-        this.webClientDetails = res;
-        this.scriptTags =    res.scriptTag +  res.scriptTagInitilization ;
-      },
-      errRes => {
-        if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
-          this.notificationService.notify(errRes.error.errors[0].msg, 'error');
-        } else {
-          this.notificationService.notify('Failed ', 'error');
-        }
-      }
-    );
-  }
-  updateEmbededSdk(){
-    this.webClientDetails.domains.forEach((element, index) => {
-      if(element == ""){
-      //  var index = this.webClientDetails.domains.indexOf(element);
-       this.webClientDetails.domains.splice(index,1)
-      }
-    });
-      const queryParams = {
-        userId: this.authService.getUserId(),
-        streamId: this.selectedApp._id
-      }
-      const payload = {
-        domains : this.webClientDetails.domains
-      }
-      // payload.domains = this.webClientDetails.domains;
-      this.service.invoke('post.updateEmbededSdk', queryParams ,payload).subscribe(
-        res => {
-          // console.log('API Triggered',res);
+    };
+
+    this.service
+      .invoke('create.createCredential', queryParams, payload)
+      .subscribe(
+        (res) => {
+          // console.log(res);
+          // this.listData={};
+          // this.listData = res;
+          this.botID = res.bots[0];
+          // this.slider = this.slider + 1;
+          // this.listData != this.credntial.name;
+          if (this.slider == 3 && this.existingCredential) {
+            this.slider = 3;
+          }
+          this.appSelectionService.updateTourConfig('optimize');
+          this.notificationService.notify('Created successfully', 'success');
+          this.closeModalPopup();
+          this.getCredential();
         },
-        errRes => {
-          if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
-            this.notificationService.notify(errRes.error.errors[0].msg, 'error');
+        (errRes) => {
+          if (
+            errRes &&
+            errRes.error.errors &&
+            errRes.error.errors.length &&
+            errRes.error.errors[0] &&
+            errRes.error.errors[0].msg
+          ) {
+            this.notificationService.notify(
+              errRes.error.errors[0].msg,
+              'error'
+            );
           } else {
             this.notificationService.notify('Failed ', 'error');
           }
         }
       );
-
   }
-  onFocusOutEvent(event){
-    this.webClientDetails.domains[this.webClientDetails.domains.length - 1] = event.target.value;
+  getWebClientDetails() {
+    const queryParams = {
+      userId: this.authService.getUserId(),
+      streamId: this.selectedApp._id,
+    };
+    this.service.invoke('get.embededSdk', queryParams).subscribe(
+      (res) => {
+        this.webClientDetails = res;
+        this.scriptTags = res.scriptTag + res.scriptTagInitilization;
+      },
+      (errRes) => {
+        if (
+          errRes &&
+          errRes.error.errors &&
+          errRes.error.errors.length &&
+          errRes.error.errors[0] &&
+          errRes.error.errors[0].msg
+        ) {
+          this.notificationService.notify(errRes.error.errors[0].msg, 'error');
+        } else {
+          this.notificationService.notify('Failed ', 'error');
+        }
+      }
+    );
   }
-  addNewDomain(){
-      this.webClientDetails.domains.push('')
+  updateEmbededSdk() {
+    this.webClientDetails.domains.forEach((element, index) => {
+      if (element == '') {
+        //  var index = this.webClientDetails.domains.indexOf(element);
+        this.webClientDetails.domains.splice(index, 1);
+      }
+    });
+    const queryParams = {
+      userId: this.authService.getUserId(),
+      streamId: this.selectedApp._id,
+    };
+    const payload = {
+      domains: this.webClientDetails.domains,
+    };
+    // payload.domains = this.webClientDetails.domains;
+    this.service
+      .invoke('post.updateEmbededSdk', queryParams, payload)
+      .subscribe(
+        (res) => {
+          // console.log('API Triggered',res);
+        },
+        (errRes) => {
+          if (
+            errRes &&
+            errRes.error.errors &&
+            errRes.error.errors.length &&
+            errRes.error.errors[0] &&
+            errRes.error.errors[0].msg
+          ) {
+            this.notificationService.notify(
+              errRes.error.errors[0].msg,
+              'error'
+            );
+          } else {
+            this.notificationService.notify('Failed ', 'error');
+          }
+        }
+      );
   }
-  deleteDomain(recordIndex){
-    this.webClientDetails.domains.splice(recordIndex,1)
+  onFocusOutEvent(event) {
+    this.webClientDetails.domains[this.webClientDetails.domains.length - 1] =
+      event.target.value;
   }
-  validationForDomainURl(){
-   if( this.webClientDetails.domains[this.webClientDetails.domains.length - 1] == ''){
-    $('#domain-url'+ [this.webClientDetails.domains.length - 1]).css("border-color","#DD3646")
-    this.notificationService.notify('Domain cannot be empty','error');
-   }
-   else{
-    this.configureCredential(true);
-   }
+  addNewDomain() {
+    this.webClientDetails.domains.push('');
   }
-
+  deleteDomain(recordIndex) {
+    this.webClientDetails.domains.splice(recordIndex, 1);
+  }
+  validationForDomainURl() {
+    if (
+      this.webClientDetails.domains[this.webClientDetails.domains.length - 1] ==
+      ''
+    ) {
+      $('#domain-url' + [this.webClientDetails.domains.length - 1]).css(
+        'border-color',
+        '#DD3646'
+      );
+      this.notificationService.notify('Domain cannot be empty', 'error');
+    } else {
+      this.configureCredential(true);
+    }
+  }
 
   getCredential() {
     const queryParams = {
       userId: this.authService.getUserId(),
-      streamId: this.selectedApp._id
-    }
+      streamId: this.selectedApp._id,
+    };
     this.service.invoke('get.credential', queryParams).subscribe(
-      res => {
+      (res) => {
         this.channnelConguired.apps = [...res.apps];
         if (this.channnelConguired.apps.length > 0) {
           this.existingCredential = true;
@@ -343,27 +381,36 @@ export class SettingsComponent implements OnInit {
 
           //   });
           // }
-          if(this.channnelConguired && this.channnelConguired.apps.length){
-            this.channnelConguired.apps.forEach(element => {
-              if(element.appUsage){
+          if (this.channnelConguired && this.channnelConguired.apps.length) {
+            this.channnelConguired.apps.forEach((element) => {
+              if (element.appUsage) {
                 this.listData = element;
               }
             });
-            this.selctedChannel(this.channnelConguired.apps[this.channnelConguired.apps.length - 1])
+            this.selctedChannel(
+              this.channnelConguired.apps[
+                this.channnelConguired.apps.length - 1
+              ]
+            );
           }
           //this.listData = this.channnelConguired.apps[this.channnelConguired.apps.length - 1];
-          this.slider = 3
+          this.slider = 3;
           this.configFlag = true;
-        }
-        else if (this.channnelConguired.apps.length == 0) {
+        } else if (this.channnelConguired.apps.length == 0) {
           this.existingCredential = false;
-          this.slider = 1
+          this.slider = 1;
         }
 
         // console.log(res)
       },
-      errRes => {
-        if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
+      (errRes) => {
+        if (
+          errRes &&
+          errRes.error.errors &&
+          errRes.error.errors.length &&
+          errRes.error.errors[0] &&
+          errRes.error.errors[0].msg
+        ) {
           this.notificationService.notify(errRes.error.errors[0].msg, 'error');
         } else {
           this.notificationService.notify('Failed ', 'error');
@@ -373,25 +420,22 @@ export class SettingsComponent implements OnInit {
   }
   proceedChannel(channel) {
     if (channel && channel.id === 'rtm') {
-      this.getCredential()
+      this.getCredential();
     }
     // if(this.enableConfiguration){
     //   event.stopPropagation();
     // }
-    else (this.notificationService.notify('Channel not available ', 'error'))
-
+    else this.notificationService.notify('Channel not available ', 'error');
   }
   continue(channel) {
     if (this.slider == 0) {
-      this.getCredential()
+      this.getCredential();
       // this.configFlag = true;
-
     }
     if (this.slider == 2) {
-      this.createCredential()
+      this.createCredential();
       this.configFlag = true;
       this.slider = this.slider + 1;
-
     }
     if (this.slider < 3 && this.slider != 0) {
       // this.configFlag = true;
@@ -403,15 +447,10 @@ export class SettingsComponent implements OnInit {
 
     // }
 
-
     //  if (this.slider < 3  && this.slider == 0 ) {
     //     // this.configFlag = true;
 
-
-
-
     // }
-
   }
   radio(bool) {
     this.isAlertsEnabled = bool;
@@ -419,34 +458,41 @@ export class SettingsComponent implements OnInit {
   getLinkedBot() {
     const queryParams = {
       userId: this.authService.getUserId(),
-      streamId: this.selectedApp._id
-    }
+      streamId: this.selectedApp._id,
+    };
 
     this.service.invoke('get.streamData', queryParams).subscribe(
-      res => {
-        if (res.configuredBots.length) this.configuredBot_streamId = res.configuredBots[0]._id
+      (res) => {
+        if (res.configuredBots.length)
+          this.configuredBot_streamId = res.configuredBots[0]._id;
         // console.log(res);
         if (res && res.configuredBots) {
-          res.configuredBots.forEach(element => {
+          res.configuredBots.forEach((element) => {
             const obj = {
-              "_id": element._id,
-              "state": "new"
-            }
+              _id: element._id,
+              state: 'new',
+            };
             this.allBotArray.push(obj);
           });
         }
         if (res && res.unpublishedBots) {
-          res.unpublishedBots.forEach(element => {
+          res.unpublishedBots.forEach((element) => {
             const obj = {
-              "_id": element._id,
-              "state": "delete"
-            }
+              _id: element._id,
+              state: 'delete',
+            };
             this.allBotArray.push(obj);
           });
         }
       },
-      errRes => {
-        if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
+      (errRes) => {
+        if (
+          errRes &&
+          errRes.error.errors &&
+          errRes.error.errors.length &&
+          errRes.error.errors[0] &&
+          errRes.error.errors[0].msg
+        ) {
           // this.notificationService.notify(errRes.error.errors[0].msg, 'error');
         } else {
           this.notificationService.notify('Failed to get LInked BOT', 'error');
@@ -456,35 +502,80 @@ export class SettingsComponent implements OnInit {
   }
   standardPublish() {
     const queryParams = {
-      streamId: this.selectedApp._id
-    }
+      streamId: this.selectedApp._id,
+    };
     const payload = {
-      "resources":
-        [
-          {
-            "namespace": "enterprise",
-            "resourceId": this.refId,
-            "namespaceIds": [],
-            "resourceType": "dialog",
-            "approvalRequestedLanguages": ["en"]
-          },
-          { "resourceId": "smalltalk", "resourceType": "smalltalk", "approvalRequestedLanguages": ["en"] },
-          { "resourceId": "NL", "resourceType": "NL", "modules": ["linked_bot_training", "bot_synonyms", "thresholds_and_configurations", "standard_responses", "default_dialog", "settings"] },
-          { "resourceId": "CHANNELS", "resourceType": "CHANNELS", "modules": ["rtm"] }, { "resourceId": "EXTENSIONS", "resourceType": "EXTENSIONS", "modules": ["botkit", "websdk", "events"] },
-          { "resourceId": "SETTINGS", "resourceType": "SETTINGS", "modules": ["general", "pii", "ivr", "hold_resume", "custom_script", "advanced", "bot_variables"] },
-          { "resourceId": "BOTLANGUAGES", "resourceType": "BOTLANGUAGES", "modules": { "enabledLanguages": ["en"] } }], "publishAllComponents": true, "versionComment": "publishing", "linkedBotCount": 1
-    }
+      resources: [
+        {
+          namespace: 'enterprise',
+          resourceId: this.refId,
+          namespaceIds: [],
+          resourceType: 'dialog',
+          approvalRequestedLanguages: ['en'],
+        },
+        {
+          resourceId: 'smalltalk',
+          resourceType: 'smalltalk',
+          approvalRequestedLanguages: ['en'],
+        },
+        {
+          resourceId: 'NL',
+          resourceType: 'NL',
+          modules: [
+            'linked_bot_training',
+            'bot_synonyms',
+            'thresholds_and_configurations',
+            'standard_responses',
+            'default_dialog',
+            'settings',
+          ],
+        },
+        { resourceId: 'CHANNELS', resourceType: 'CHANNELS', modules: ['rtm'] },
+        {
+          resourceId: 'EXTENSIONS',
+          resourceType: 'EXTENSIONS',
+          modules: ['botkit', 'websdk', 'events'],
+        },
+        {
+          resourceId: 'SETTINGS',
+          resourceType: 'SETTINGS',
+          modules: [
+            'general',
+            'pii',
+            'ivr',
+            'hold_resume',
+            'custom_script',
+            'advanced',
+            'bot_variables',
+          ],
+        },
+        {
+          resourceId: 'BOTLANGUAGES',
+          resourceType: 'BOTLANGUAGES',
+          modules: { enabledLanguages: ['en'] },
+        },
+      ],
+      publishAllComponents: true,
+      versionComment: 'publishing',
+      linkedBotCount: 1,
+    };
 
     this.service.invoke('standard.publish', queryParams, payload).subscribe(
-      res => {
+      (res) => {
         this.notificationService.notify('Standard Published', 'success');
         if (this.allBotArray.length > 0) {
           this.universalPublish();
         }
         // console.log(res);
       },
-      errRes => {
-        if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
+      (errRes) => {
+        if (
+          errRes &&
+          errRes.error.errors &&
+          errRes.error.errors.length &&
+          errRes.error.errors[0] &&
+          errRes.error.errors[0].msg
+        ) {
           this.notificationService.notify(errRes.error.errors[0].msg, 'error');
         } else {
           this.notificationService.notify('Failed Standard Publish', 'error');
@@ -496,28 +587,34 @@ export class SettingsComponent implements OnInit {
   universalPublish() {
     const queryParams = {
       userId: this.authService.getUserId(),
-      streamId: this.selectedApp._id
-    }
+      streamId: this.selectedApp._id,
+    };
     const payload = {
-      "bots": this.allBotArray,
+      bots: this.allBotArray,
       // [
       //   {
       //     "_id": this.configuredBot_streamId,
       //     "state": "new"
       //   }
       // ],
-      "publishAllComponents": true,
-      "versionComment": "publishing",
-      "linkedBotCount": 1
-    }
+      publishAllComponents: true,
+      versionComment: 'publishing',
+      linkedBotCount: 1,
+    };
 
     this.service.invoke('universal.publish', queryParams, payload).subscribe(
-      res => {
+      (res) => {
         this.notificationService.notify('Universal Published', 'success');
         // console.log(res);
       },
-      errRes => {
-        if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
+      (errRes) => {
+        if (
+          errRes &&
+          errRes.error.errors &&
+          errRes.error.errors.length &&
+          errRes.error.errors[0] &&
+          errRes.error.errors[0].msg
+        ) {
           this.notificationService.notify(errRes.error.errors[0].msg, 'error');
         } else {
           this.notificationService.notify('Failed ', 'error');
@@ -527,17 +624,23 @@ export class SettingsComponent implements OnInit {
   }
   getdialog() {
     const queryParams = {
-      streamId: this.selectedApp._id
-    }
+      streamId: this.selectedApp._id,
+    };
 
     this.service.invoke('get.dialog', queryParams).subscribe(
-      res => {
+      (res) => {
         this.refId = res[0]._id;
         // console.log(res)
         //this.notificationService.notify('Credential Configuered', 'success');
       },
-      errRes => {
-        if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
+      (errRes) => {
+        if (
+          errRes &&
+          errRes.error.errors &&
+          errRes.error.errors.length &&
+          errRes.error.errors[0] &&
+          errRes.error.errors[0].msg
+        ) {
           this.notificationService.notify(errRes.error.errors[0].msg, 'error');
         } else {
           // this.notificationService.notify('Failed get DialogID', 'error');
@@ -554,10 +657,10 @@ export class SettingsComponent implements OnInit {
     // }
     const queryParams = {
       userId: this.authService.getUserId(),
-      streamId: this.selectedApp._id
-    }
+      streamId: this.selectedApp._id,
+    };
     const payload = {
-      type: "rtm",
+      type: 'rtm',
       name: 'Web / Mobile Client',
       app: {
         clientId: this.listData.clientId,
@@ -566,11 +669,11 @@ export class SettingsComponent implements OnInit {
       isAlertsEnabled: this.isAlertsEnabled,
       enable: this.enableConfiguration,
       sttEnabled: false,
-      sttEngine: "kore"
-    }
+      sttEngine: 'kore',
+    };
 
     this.service.invoke('configure.credential', queryParams, payload).subscribe(
-      res => {
+      (res) => {
         this.slider = 0;
         this.selectedApp.channels = res.channels;
         this.workflowService.selectedApp(this.selectedApp);
@@ -583,8 +686,14 @@ export class SettingsComponent implements OnInit {
         this.delChannel = false;
         // console.log(res);
       },
-      errRes => {
-        if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
+      (errRes) => {
+        if (
+          errRes &&
+          errRes.error.errors &&
+          errRes.error.errors.length &&
+          errRes.error.errors[0] &&
+          errRes.error.errors[0].msg
+        ) {
           this.notificationService.notify(errRes.error.errors[0].msg, 'error');
         } else {
           this.notificationService.notify('Failed ', 'error');
@@ -596,9 +705,12 @@ export class SettingsComponent implements OnInit {
     const modalData: any = {
       newTitle: 'Are you sure you want to delete?',
       body: 'Search users cannot interact with the app through this channel if it is delete. ',
-      buttons: [{ key: 'yes', label: 'Delete' }, { key: 'no', label: 'Cancel' }],
-      confirmationPopUp: true
-    }
+      buttons: [
+        { key: 'yes', label: 'Delete' },
+        { key: 'no', label: 'Cancel' },
+      ],
+      confirmationPopUp: true,
+    };
 
     const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
       width: '530px',
@@ -606,47 +718,58 @@ export class SettingsComponent implements OnInit {
       panelClass: 'delete-popup',
       data: modalData,
     });
-    dialogRef.componentInstance.onSelect
-      .subscribe(result => {
-        if (result === 'yes') {
-          const queryParams = {
-            streamId: this.selectedApp._id
-          }
-          const payload = { "channels": [] }
-          this.service.invoke('delete.credentialData', queryParams, payload).subscribe(
-            res => {
+    dialogRef.componentInstance.onSelect.subscribe((result) => {
+      if (result === 'yes') {
+        const queryParams = {
+          streamId: this.selectedApp._id,
+        };
+        const payload = { channels: [] };
+        this.service
+          .invoke('delete.credentialData', queryParams, payload)
+          .subscribe(
+            (res) => {
               this.delChannel = true;
               this.getLinkedBot();
               this.prepareChannelData();
             },
-            errRes => {
+            (errRes) => {
               this.delChannel = false;
-              if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
-                this.notificationService.notify(errRes.error.errors[0].msg, 'error');
+              if (
+                errRes &&
+                errRes.error.errors &&
+                errRes.error.errors.length &&
+                errRes.error.errors[0] &&
+                errRes.error.errors[0].msg
+              ) {
+                this.notificationService.notify(
+                  errRes.error.errors[0].msg,
+                  'error'
+                );
               } else {
                 this.notificationService.notify('Failed ', 'error');
               }
             }
           );
-          dialogRef.close();
-        } else if (result === 'no') {
-          this.delChannel = false;
-          dialogRef.close();
-        }
-      })
-
+        dialogRef.close();
+      } else if (result === 'no') {
+        this.delChannel = false;
+        dialogRef.close();
+      }
+    });
   }
   enableDisableCredential() {
-
     const modalData: any = {
       newTitle: 'Are you sure you want to disable?',
       body: 'Search users cannot interact with the app through this channel if it is disabled. ',
-      buttons: [{ key: 'yes', label: 'Disable' }, { key: 'no', label: 'Cancel' }],
-      confirmationPopUp: true
-    }
+      buttons: [
+        { key: 'yes', label: 'Disable' },
+        { key: 'no', label: 'Cancel' },
+      ],
+      confirmationPopUp: true,
+    };
     if (this.enableConfiguration) {
       this.disableCredential();
-      this.notificationService.notify('Web SDK channel is enabled.', 'success')
+      this.notificationService.notify('Web SDK channel is enabled.', 'success');
       // modalData.newTitle = 'Are you sure you want to Enable ?'
       // modalData.body = 'Channel will be enabled.';
       // modalData.buttons[0].label = 'Enable' ;
@@ -658,42 +781,50 @@ export class SettingsComponent implements OnInit {
         panelClass: 'delete-popup',
         data: modalData,
       });
-      dialogRef.componentInstance.onSelect
-        .subscribe(result => {
-          if (result === 'yes') {
-            this.disableCredential();
-            dialogRef.close();
-          } else if (result === 'no') {
-            this.enableConfiguration = !this.enableConfiguration;
-            dialogRef.close();
-          }
-        })
+      dialogRef.componentInstance.onSelect.subscribe((result) => {
+        if (result === 'yes') {
+          this.disableCredential();
+          dialogRef.close();
+        } else if (result === 'no') {
+          this.enableConfiguration = !this.enableConfiguration;
+          dialogRef.close();
+        }
+      });
     }
-
   }
   disableCredential(pageDisable?) {
     const queryParams = {
       userId: this.authService.getUserId(),
-      streamId: this.selectedApp._id
-    }
+      streamId: this.selectedApp._id,
+    };
     const payload = {
-      type: "rtm",
+      type: 'rtm',
       name: 'Web / Mobile Client',
       app: {
-        clientId: this.selectedApp.channels.length ? this.selectedApp.channels[0].app.clientId : "",
-        appName: this.selectedApp.channels.length ? this.selectedApp.channels[0].app.appName : "",
+        clientId: this.selectedApp.channels.length
+          ? this.selectedApp.channels[0].app.clientId
+          : '',
+        appName: this.selectedApp.channels.length
+          ? this.selectedApp.channels[0].app.appName
+          : '',
       },
       isAlertsEnabled: this.isAlertsEnabled,
       enable: this.enableConfiguration ? true : false,
       sttEnabled: false,
-      sttEngine: "kore"
-    }
+      sttEngine: 'kore',
+    };
     this.service.invoke('configure.credential', queryParams, payload).subscribe(
-      res => {
+      (res) => {
         // console.log(res);
       },
-      errRes => {
-        if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
+      (errRes) => {
+        if (
+          errRes &&
+          errRes.error.errors &&
+          errRes.error.errors.length &&
+          errRes.error.errors[0] &&
+          errRes.error.errors[0].msg
+        ) {
           this.notificationService.notify(errRes.error.errors[0].msg, 'error');
         } else {
           this.notificationService.notify('Failed ', 'error');
@@ -719,18 +850,17 @@ export class SettingsComponent implements OnInit {
     if (this.showSearch && this.searchchannel) {
       this.searchchannel = '';
     }
-    this.showSearch = !this.showSearch
-  };
+    this.showSearch = !this.showSearch;
+  }
 
   showPasword() {
-    const show: any = document.getElementById("password");
-    if (show.type === "password") {
+    const show: any = document.getElementById('password');
+    if (show.type === 'password') {
       this.showPassword = true;
-      show.type = "text";
-
+      show.type = 'text';
     } else {
       this.showPassword = false;
-      show.type = "password";
+      show.type = 'password';
     }
   }
   focusoutSearch() {
@@ -743,10 +873,9 @@ export class SettingsComponent implements OnInit {
   focusinSearch(inputSearch) {
     setTimeout(() => {
       document.getElementById(inputSearch).focus();
-    }, 100)
+    }, 100);
   }
   openUserMetaTagsSlider() {
     this.appSelectionService.topicGuideShow.next(undefined);
   }
 }
-

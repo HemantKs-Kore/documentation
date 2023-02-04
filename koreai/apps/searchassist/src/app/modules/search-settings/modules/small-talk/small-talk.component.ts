@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { of, interval, Subject, Subscription } from 'rxjs';
 import { WorkflowService } from '@kore.apps/services/workflow.service';
 import { ServiceInvokerService } from '@kore.apps/services/service-invoker.service';
@@ -12,7 +12,7 @@ import { selectAppIds } from '@kore.apps/store/app.selectors';
   templateUrl: './small-talk.component.html',
   styleUrls: ['./small-talk.component.scss'],
 })
-export class SmallTalkComponent implements OnInit {
+export class SmallTalkComponent implements OnInit, OnDestroy {
   searchIndexId: any;
   selectedApp: any;
   LinkABot: any;

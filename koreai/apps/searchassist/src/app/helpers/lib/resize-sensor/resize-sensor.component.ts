@@ -1,3 +1,4 @@
+/* eslint-disable @angular-eslint/no-output-native */
 import {
   Component,
   NgZone,
@@ -6,6 +7,7 @@ import {
   ViewChild,
   ElementRef,
   EventEmitter,
+  AfterViewInit,
 } from '@angular/core';
 
 @Component({
@@ -14,7 +16,7 @@ import {
   templateUrl: './resize-sensor.html',
   styleUrls: ['./resize-sensor.scss'],
 })
-export class MarkdownEditorResizeSensorComponent {
+export class MarkdownEditorResizeSensorComponent implements AfterViewInit {
   @ViewChild('resizeSensor') resizeSensor: ElementRef;
 
   @Input() interval = 500;

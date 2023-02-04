@@ -653,8 +653,7 @@ export class StructuredDataComponent implements OnInit, OnDestroy {
   checkAdvancedSearchValidation() {
     if (this.advancedSearch.operand && this.advancedSearch.operand.length) {
       if (this.advancedSearch.rules.length) {
-        let isPassed: any;
-        isPassed = this.advancedSearch.rules.every((rule) => {
+        const isPassed = this.advancedSearch.rules.every((rule) => {
           if (rule.fieldName.length && rule.operator.length) {
             if (rule.operator !== 'exists' && rule.operator !== 'notexists') {
               if (rule.value.length) {
@@ -934,8 +933,7 @@ export class StructuredDataComponent implements OnInit, OnDestroy {
   checkForAllBoolean(arr): any {
     let count = 0;
     //this.selecteditems=[];
-    if (this.actionforcheckbox == 'partial') {
-    } else {
+    if (this.actionforcheckbox !== 'partial') {
       this.selecteditems = []; //emptying the selecteditems array
     }
     arr.forEach((element) => {

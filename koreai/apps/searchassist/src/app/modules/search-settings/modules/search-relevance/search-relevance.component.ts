@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { WorkflowService } from '@kore.apps/services/workflow.service';
 import { AppSelectionService } from '@kore.apps/services/app.selection.service';
@@ -14,7 +14,7 @@ declare const $: any;
   templateUrl: './search-relevance.component.html',
   styleUrls: ['./search-relevance.component.scss'],
 })
-export class SearchRelevanceComponent implements OnInit {
+export class SearchRelevanceComponent implements OnInit, OnDestroy {
   searchrelevancedata: any;
   selectedApp;
   indexPipelineId;

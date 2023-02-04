@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/ban-types */
+/* eslint-disable @angular-eslint/no-output-on-prefix */
 /* eslint-disable @angular-eslint/component-selector */
 import {
   Component,
@@ -12,6 +14,9 @@ import {
   NgZone,
   Inject,
   PLATFORM_ID,
+  OnDestroy,
+  OnInit,
+  AfterViewInit,
 } from '@angular/core';
 import {
   NG_VALUE_ACCESSOR,
@@ -59,7 +64,7 @@ const DEFAULT_EDITOR_OPTION: MdEditorOption = {
   ],
 })
 export class CustomMarkdownEditorComponent
-  implements ControlValueAccessor, Validator
+  implements OnInit, AfterViewInit, ControlValueAccessor, Validator, OnDestroy
 {
   @ViewChild('aceEditor') public aceEditorContainer: ElementRef;
   @ViewChild('previewContainer') public previewContainer: ElementRef;
@@ -142,7 +147,7 @@ export class CustomMarkdownEditorComponent
   private _onTouched = () => {};
 
   constructor(
-    @Inject(PLATFORM_ID) private platform: Object,
+    @Inject(PLATFORM_ID) private platform,
     @Attribute('required') public required: boolean = false,
     @Attribute('maxlength') public maxlength: number = -1,
     private _ngZone: NgZone,

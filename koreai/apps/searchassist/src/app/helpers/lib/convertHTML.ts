@@ -318,10 +318,8 @@ export class ConvertMDtoHTML {
         dummyString = ignoreWords(dummyString);
         if (dummyString.indexOf(match) !== -1) {
           // tslint:disable-next-line:one-variable-per-declaration
-          let _link = p1.indexOf('http') < 0 ? 'http://' + match : match,
-            _target: string;
-          // _link = encodeURIComponent(_link);
-          _target = "target='underscoreblank'";
+          let _link = p1.indexOf('http') < 0 ? 'http://' + match : match;
+          const _target = "target='underscoreblank'";
           if (hyperLinksMap) {
             const _randomKey =
               'korerandom://' + Object.keys(hyperLinksMap).length;
