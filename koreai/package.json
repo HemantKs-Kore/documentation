@@ -4,7 +4,12 @@
   "license": "MIT",
   "scripts": {
     "start": "ng serve searchassist -o",
+    "serve:app": "ng serve searchassist -o --configuration=app",
     "build": "ng build searchassist",
+    "build:prod": "ng build searchassist --configuration=prod",
+    "build:clouddev": "ng build searchassist --configuration=clouddev",
+    "build:app": "ng build searchassist --configuration=app",
+    "build:qa": "ng build searchassist --configuration=qa",
     "ng": "nx",
     "lint": "ng lint searchassist",
     "lintfix": "nx lint searchassist --fix",

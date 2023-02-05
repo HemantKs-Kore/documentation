@@ -103,8 +103,7 @@
             }
           ],
           "outputHashing": "all",
-          "vendorChunk": true,
-          "namedChunks": true
+          "vendorChunk": true
         },
         "development": {
           "buildOptimizer": false,
@@ -120,22 +119,6 @@
               "replace": "apps/searchassist/src/environments/environment.ts",
               "with": "apps/searchassist/src/environments/environment.prod.ts"
             }
-          ],
-          "optimization": true,
-          "outputHashing": "all",
-          "sourceMap": false,
-          "extractCss": true,
-          "namedChunks": false,
-          "aot": true,
-          "extractLicenses": true,
-          "vendorChunk": false,
-          "buildOptimizer": true,
-          "budgets": [
-            {
-              "type": "initial",
-              "maximumWarning": "2mb",
-              "maximumError": "15mb"
-            }
           ]
         },
         "clouddev": {
@@ -143,22 +126,6 @@
             {
               "replace": "apps/searchassist/src/environments/environment.ts",
               "with": "apps/searchassist/src/environments/environment.clouddev.ts"
-            }
-          ],
-          "optimization": true,
-          "outputHashing": "all",
-          "sourceMap": false,
-          "extractCss": true,
-          "namedChunks": false,
-          "aot": true,
-          "extractLicenses": true,
-          "vendorChunk": false,
-          "buildOptimizer": true,
-          "budgets": [
-            {
-              "type": "initial",
-              "maximumWarning": "2mb",
-              "maximumError": "15mb"
             }
           ]
         },
@@ -168,22 +135,6 @@
               "replace": "apps/searchassist/src/environments/environment.ts",
               "with": "apps/searchassist/src/environments/environment.app.ts"
             }
-          ],
-          "optimization": true,
-          "outputHashing": "all",
-          "sourceMap": true,
-          "extractCss": true,
-          "namedChunks": false,
-          "aot": true,
-          "extractLicenses": true,
-          "vendorChunk": false,
-          "buildOptimizer": true,
-          "budgets": [
-            {
-              "type": "initial",
-              "maximumWarning": "2mb",
-              "maximumError": "15mb"
-            }
           ]
         },
         "qa": {
@@ -191,22 +142,6 @@
             {
               "replace": "apps/searchassist/src/environments/environment.ts",
               "with": "apps/searchassist/src/environments/environment.qa.ts"
-            }
-          ],
-          "optimization": true,
-          "outputHashing": "all",
-          "sourceMap": false,
-          "extractCss": true,
-          "namedChunks": false,
-          "aot": true,
-          "extractLicenses": true,
-          "vendorChunk": false,
-          "buildOptimizer": true,
-          "budgets": [
-            {
-              "type": "initial",
-              "maximumWarning": "2mb",
-              "maximumError": "15mb"
             }
           ]
         },
@@ -216,22 +151,6 @@
               "replace": "apps/searchassist/src/environments/environment.ts",
               "with": "apps/searchassist/src/environments/environment.uat.ts"
             }
-          ],
-          "optimization": true,
-          "outputHashing": "all",
-          "sourceMap": false,
-          "extractCss": true,
-          "namedChunks": false,
-          "aot": true,
-          "extractLicenses": true,
-          "vendorChunk": false,
-          "buildOptimizer": true,
-          "budgets": [
-            {
-              "type": "initial",
-              "maximumWarning": "2mb",
-              "maximumError": "15mb"
-            }
           ]
         },
         "onprem": {
@@ -239,22 +158,6 @@
             {
               "replace": "apps/searchassist/src/environments/environment.ts",
               "with": "apps/searchassist/src/environments/environment.onprem.ts"
-            }
-          ],
-          "optimization": true,
-          "outputHashing": "all",
-          "sourceMap": false,
-          "extractCss": true,
-          "namedChunks": false,
-          "aot": true,
-          "extractLicenses": true,
-          "vendorChunk": false,
-          "buildOptimizer": true,
-          "budgets": [
-            {
-              "type": "initial",
-              "maximumWarning": "2mb",
-              "maximumError": "15mb"
             }
           ]
         },
@@ -264,22 +167,6 @@
               "replace": "apps/searchassist/src/environments/environment.ts",
               "with": "apps/searchassist/src/environments/environment.qa1.ts"
             }
-          ],
-          "optimization": true,
-          "outputHashing": "all",
-          "sourceMap": false,
-          "extractCss": true,
-          "namedChunks": false,
-          "aot": true,
-          "extractLicenses": true,
-          "vendorChunk": false,
-          "buildOptimizer": true,
-          "budgets": [
-            {
-              "type": "initial",
-              "maximumWarning": "2mb",
-              "maximumError": "15mb"
-            }
           ]
         },
         "pilot": {
@@ -287,22 +174,6 @@
             {
               "replace": "apps/searchassist/src/environments/environment.ts",
               "with": "apps/searchassist/src/environments/environment.pilot.ts"
-            }
-          ],
-          "optimization": true,
-          "outputHashing": "all",
-          "sourceMap": false,
-          "extractCss": true,
-          "namedChunks": false,
-          "aot": true,
-          "extractLicenses": true,
-          "vendorChunk": false,
-          "buildOptimizer": true,
-          "budgets": [
-            {
-              "type": "initial",
-              "maximumWarning": "2mb",
-              "maximumError": "15mb"
             }
           ]
         },
@@ -312,22 +183,6 @@
               "replace": "apps/searchassist/src/environments/environment.ts",
               "with": "apps/searchassist/src/environments/environment.loadtest.ts"
             }
-          ],
-          "optimization": true,
-          "outputHashing": "all",
-          "sourceMap": false,
-          "extractCss": true,
-          "namedChunks": false,
-          "aot": true,
-          "extractLicenses": true,
-          "vendorChunk": false,
-          "buildOptimizer": true,
-          "budgets": [
-            {
-              "type": "initial",
-              "maximumWarning": "2mb",
-              "maximumError": "15mb"
-            }
           ]
         },
         "qabots": {
@@ -335,22 +190,6 @@
             {
               "replace": "apps/searchassist/src/environments/environment.ts",
               "with": "apps/searchassist/src/environments/environment.qabots.ts"
-            }
-          ],
-          "optimization": true,
-          "outputHashing": "all",
-          "sourceMap": false,
-          "extractCss": true,
-          "namedChunks": false,
-          "aot": true,
-          "extractLicenses": true,
-          "vendorChunk": false,
-          "buildOptimizer": true,
-          "budgets": [
-            {
-              "type": "initial",
-              "maximumWarning": "2mb",
-              "maximumError": "15mb"
             }
           ]
         }
@@ -365,6 +204,9 @@
         },
         "development": {
           "browserTarget": "searchassist:build:development"
+        },
+        "app": {
+          "browserTarget": "searchassist:build:app"
         }
       },
       "defaultConfiguration": "development"
