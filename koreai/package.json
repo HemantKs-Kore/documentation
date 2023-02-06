@@ -29,6 +29,7 @@
     "criticalCss": "node tools/scripts/csscoverage.js",
     "perf:report": "lighthouse --output-path=./dist/lighthouse-report.html https://searchassist-app.kore.ai/home/ --view --preset=desktop --port 51745",
     "deploy": "ngh --dir=dist --message=\"deploy\"",
+    "audit": "npm audit --omit=dev",
     "update-angular": "ng update @angular/cli @angular/core"
   },
   "private": true,
@@ -121,7 +122,7 @@
     "eslint": "~8.33.0",
     "eslint-config-prettier": "8.6.0",
     "eslint-plugin-cypress": "^2.12.1",
-    "faker": "^6.6.6",
+    "faker": "^5.5.3",
     "jest": "29.4.1",
     "jest-environment-jsdom": "29.4.1",
     "jest-preset-angular": "12.2.6",
