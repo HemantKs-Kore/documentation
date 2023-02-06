@@ -329,9 +329,9 @@
                     </div>
                     <div
                       class="user-name text-truncate"
-                      ngbTooltip="{{ filter.userDetails.fullName }}"
+                      ngbTooltip="{{ filter?.userDetails?.fullName }}"
                     >
-                      {{ filter.userDetails.fullName }}
+                      {{ filter?.userDetails?.fullName }}
                     </div>
                     <div
                       *ngIf="filter.createdBy !== userId"
