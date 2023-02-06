@@ -47,7 +47,11 @@ ng g m test --route test --module app
 
 ## Lighthouse
 
+https://github.com/GoogleChrome/lighthouse/blob/HEAD/docs/readme.md#using-programmatically
+
 ```
+npm i lighthouse -g
+chrome-debug
 npm run perf:report
 ```
 
