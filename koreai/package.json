@@ -28,6 +28,7 @@
     "postbuild": "node tools/scripts/uncss.js",
     "criticalCss": "node tools/scripts/csscoverage.js",
     "perf:report": "lighthouse --output-path=./dist/lighthouse-report.html https://searchassist-app.kore.ai/home/ --view --preset=desktop --port 51745",
+    "deploy": "ngh --dir=dist --message=\"deploy\"",
     "update-angular": "ng update @angular/cli @angular/core"
   },
   "private": true,

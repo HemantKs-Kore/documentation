@@ -27,6 +27,7 @@ if (environment.tag !== 'dev') {
 window.appConfig = environment;
 if (environment.production) {
   enableProdMode();
+  window.console.log = () => {};
 }
 
 window.appConfig = environment;
