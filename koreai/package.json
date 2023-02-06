@@ -24,7 +24,10 @@
     "wba": "npm run wba-build && webpack-bundle-analyzer dist/apps/searchassist/stats.json",
     "sonar": "sonar-scanner",
     "compodoc": "compodoc -p apps/searchassist/tsconfig.doc.json --includes docs -d dist/documentation && npm run copyDocsAsset",
-    "copyDocsAsset": "cpx \"docs/images/*\" dist/documentation/additional-documentation/images"
+    "copyDocsAsset": "cpx \"docs/images/*\" dist/documentation/additional-documentation/images",
+    "postbuild": "node tools/scripts/uncss.js",
+    "criticalCss": "node tools/scripts/csscoverage.js",
+    "update-angular": "ng update @angular/cli @angular/core"
   },
   "private": true,
   "dependencies": {
@@ -111,6 +114,7 @@
     "@typescript-eslint/eslint-plugin": "^5.36.1",
     "@typescript-eslint/parser": "^5.36.1",
     "cpx": "^1.5.0",
+    "cssmin": "^0.4.3",
     "cypress": "^10.7.0",
     "eslint": "~8.15.0",
     "eslint-config-prettier": "8.1.0",
@@ -123,6 +127,8 @@
     "nodemon": "^2.0.20",
     "nx": "15.5.1",
     "prettier": "^2.6.2",
+    "puppeteer": "^19.6.3",
+    "purgecss": "^5.0.0",
     "sonar-scanner": "^3.1.0",
     "source-map-explorer": "^2.5.3",
     "ts-jest": "28.0.5",
