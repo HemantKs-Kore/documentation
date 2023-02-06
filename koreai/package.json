@@ -27,6 +27,7 @@
     "copyDocsAsset": "cpx \"docs/images/*\" dist/documentation/additional-documentation/images",
     "postbuild": "node tools/scripts/uncss.js",
     "criticalCss": "node tools/scripts/csscoverage.js",
+    "perf:report": "lighthouse --output-path=./dist/lighthouse-report.html https://searchassist-app.kore.ai/home/ --view --preset=desktop --port 51745",
     "update-angular": "ng update @angular/cli @angular/core"
   },
   "private": true,
@@ -124,6 +125,7 @@
     "jest-environment-jsdom": "28.1.1",
     "jest-preset-angular": "12.2.3",
     "json-server": "^0.17.1",
+    "lighthouse": "^9.6.8",
     "nodemon": "^2.0.20",
     "nx": "15.5.1",
     "prettier": "^2.6.2",

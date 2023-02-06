@@ -45,6 +45,12 @@ ng g cypress-project tiktik-e2e --project searchassist
 ng g m test --route test --module app
 ```
 
+## Lighthouse
+
+```
+npm run perf:report
+```
+
 ## Feature
 
 - Global Styles for all possible apps
