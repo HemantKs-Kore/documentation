@@ -964,7 +964,10 @@ export class HeaderComponent implements OnInit, OnDestroy {
       searchIndexId: selectedApp.searchIndexes[0]._id,
       jobId: this.dockersList[0]._id,
     };
-    this.service.invoke('stopTrain.app', quaryparms).subscribe(
+    const payload = {
+      indexPipelineId: this.workflowService?.selectedIndexPipeline(),
+    };
+    this.service.invoke('stopTrain.app', quaryparms, payload).subscribe(
       (res) => {
         if (res && !this.training) {
           this.notificationService.notify(
