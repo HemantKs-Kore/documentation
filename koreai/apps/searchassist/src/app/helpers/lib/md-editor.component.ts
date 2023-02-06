@@ -1,5 +1,31 @@
-import { Component, ViewChild, forwardRef, Renderer2, Attribute, Input, Output, EventEmitter, ElementRef, NgZone, Inject, PLATFORM_ID } from '@angular/core';
-import { NG_VALUE_ACCESSOR, ControlValueAccessor, NG_VALIDATORS, Validator, AbstractControl, ValidationErrors } from '@angular/forms';
+/* eslint-disable @typescript-eslint/ban-types */
+/* eslint-disable @angular-eslint/no-output-on-prefix */
+/* eslint-disable @angular-eslint/component-selector */
+import {
+  Component,
+  ViewChild,
+  forwardRef,
+  Renderer2,
+  Attribute,
+  Input,
+  Output,
+  EventEmitter,
+  ElementRef,
+  NgZone,
+  Inject,
+  PLATFORM_ID,
+  OnDestroy,
+  OnInit,
+  AfterViewInit,
+} from '@angular/core';
+import {
+  NG_VALUE_ACCESSOR,
+  ControlValueAccessor,
+  NG_VALIDATORS,
+  Validator,
+  AbstractControl,
+  ValidationErrors,
+} from '@angular/forms';
 import { isPlatformBrowser } from '@angular/common';
 import { DomSanitizer } from '@angular/platform-browser';
 import { MdEditorOption } from './md-editor.types';
@@ -17,8 +43,8 @@ const DEFAULT_EDITOR_OPTION: MdEditorOption = {
   usingFontAwesome5: false,
   scrollPastEnd: 0,
   enablePreviewContentClick: false,
-  resizable: false
-}
+  resizable: false,
+};
 
 @Component({
   selector: 'md-editor',
@@ -28,36 +54,40 @@ const DEFAULT_EDITOR_OPTION: MdEditorOption = {
     {
       provide: NG_VALUE_ACCESSOR,
       useExisting: forwardRef(() => CustomMarkdownEditorComponent),
-      multi: true
+      multi: true,
     },
     {
       provide: NG_VALIDATORS,
       useExisting: forwardRef(() => CustomMarkdownEditorComponent),
-      multi: true
-    }
-  ]
+      multi: true,
+    },
+  ],
 })
-
-export class CustomMarkdownEditorComponent implements ControlValueAccessor, Validator {
-
+export class CustomMarkdownEditorComponent
+  implements OnInit, AfterViewInit, ControlValueAccessor, Validator, OnDestroy
+{
   @ViewChild('aceEditor') public aceEditorContainer: ElementRef;
   @ViewChild('previewContainer') public previewContainer: ElementRef;
   @Input() public hideToolbar = false;
-  @Input() public height = "300px";
-  @Input() public preRender: Function;
-  @Input() public postRender: Function;
-  @Input() public upload: Function;
+  @Input() public height = '300px';
+  @Input() public preRender;
+  @Input() public postRender;
+  @Input() public upload;
 
   @Input()
   public get mode(): string {
     return this._mode;
   }
   public set mode(value: string) {
-    this._mode = (!value || ['editor', 'preview'].indexOf(value.toLowerCase()) === -1)
-      ? 'editor'
-      : value;
+    this._mode =
+      !value || ['editor', 'preview'].indexOf(value.toLowerCase()) === -1
+        ? 'editor'
+        : value;
     setTimeout(() => {
-      if (this._aceEditorIns && typeof this._aceEditorIns.resize === 'function') {
+      if (
+        this._aceEditorIns &&
+        typeof this._aceEditorIns.resize === 'function'
+      ) {
         this._aceEditorIns.resize();
       }
     }, 100);
@@ -75,7 +105,7 @@ export class CustomMarkdownEditorComponent implements ControlValueAccessor, Vali
       this.showPreviewPanel = _options.showPreviewPanel;
     }
     if (Array.isArray(_options.hideIcons)) {
-      _options.hideIcons.forEach((v: any) => _hideIcons[v] = true);
+      _options.hideIcons.forEach((v: any) => (_hideIcons[v] = true));
     }
     this._options = _options;
     this.hideIcons = _hideIcons;
@@ -83,7 +113,8 @@ export class CustomMarkdownEditorComponent implements ControlValueAccessor, Vali
   private _options: any = {};
 
   @Output() public onEditorLoaded: EventEmitter<any> = new EventEmitter<any>();
-  @Output() public onPreviewDomChanged: EventEmitter<HTMLElement> = new EventEmitter<HTMLElement>();
+  @Output() public onPreviewDomChanged: EventEmitter<HTMLElement> =
+    new EventEmitter<HTMLElement>();
 
   public hideIcons: any = {};
   public showPreviewPanel = true;
@@ -100,7 +131,6 @@ export class CustomMarkdownEditorComponent implements ControlValueAccessor, Vali
   public previewHtml: any;
   //#endregion
 
-
   private _aceEditorIns: any;
   private _aceEditorResizeTimer: any;
   private _convertMarkdownToHtmlTimer: any;
@@ -113,20 +143,18 @@ export class CustomMarkdownEditorComponent implements ControlValueAccessor, Vali
     return isPlatformBrowser(this.platform);
   }
 
-  private _onChange = (_: any) => { };
-  private _onTouched = () => { };
+  private _onChange = (_: any) => {};
+  private _onTouched = () => {};
 
   constructor(
-    @Inject(PLATFORM_ID) private platform: Object,
+    @Inject(PLATFORM_ID) private platform,
     @Attribute('required') public required: boolean = false,
     @Attribute('maxlength') public maxlength: number = -1,
     private _ngZone: NgZone,
     private _renderer2: Renderer2,
     private _domSanitizer: DomSanitizer,
-    public dialog: MatDialog,
-  ) {
-
-  }
+    public dialog: MatDialog
+  ) {}
 
   ngOnInit() {
     if (!this._isInBrowser) return;
@@ -137,9 +165,13 @@ export class CustomMarkdownEditorComponent implements ControlValueAccessor, Vali
     markedRender.listitem = this._getRender('listitem');
     const markedjsOpt = {
       renderer: markedRender,
-      highlight: (code: any) => hljs.highlightAuto(code).value
+      highlight: (code: any) => hljs.highlightAuto(code).value,
     };
-    this._markedJsOpt = Object.assign({}, markedjsOpt, this.options.markedjsOpt);
+    this._markedJsOpt = Object.assign(
+      {},
+      markedjsOpt,
+      this.options.markedjsOpt
+    );
   }
 
   ngAfterViewInit() {
@@ -148,7 +180,7 @@ export class CustomMarkdownEditorComponent implements ControlValueAccessor, Vali
     const editor = ace.edit(editorElement);
     editor.$blockScrolling = Infinity;
     editor.getSession().setUseWrapMode(true);
-    editor.getSession().setMode("ace/mode/markdown");
+    editor.getSession().setMode('ace/mode/markdown');
     editor.setValue(this.markdownValue, 1);
     editor.setOption('scrollPastEnd', this._options.scrollPastEnd || 0);
 
@@ -158,7 +190,9 @@ export class CustomMarkdownEditorComponent implements ControlValueAccessor, Vali
       this._updateMarkdownValue(val, true);
       this._onChange(this.markdownValue);
     });
-    editor.on('blur', () => { this._onTouched() });
+    editor.on('blur', () => {
+      this._onTouched();
+    });
 
     this.onEditorLoaded.next(editor);
     this._aceEditorIns = editor;
@@ -226,46 +260,47 @@ export class CustomMarkdownEditorComponent implements ControlValueAccessor, Vali
         this.openImageDialog(range);
         return;
       case 'Ul':
-        selectedText = `* ${selectedText || initText}`
+        selectedText = `* ${selectedText || initText}`;
         break;
       case 'Ol':
-        selectedText = `1. ${selectedText || initText}`
+        selectedText = `1. ${selectedText || initText}`;
         startSize = 3;
         break;
       case 'Code':
         initText = 'Source Code';
-        selectedText = "```language\r\n" + (selectedText || initText) + "\r\n```";
+        selectedText =
+          '```language\r\n' + (selectedText || initText) + '\r\n```';
         startSize = 3;
         break;
       case 'Divider':
         selectedText = `\n___`;
         return this.insertCustomMarkDown(range, selectedText);
       case 'h1':
-        selectedText = '#h1'
+        selectedText = '#h1';
         startSize = 3;
         break;
       case 'h2':
-        selectedText = '#h2'
+        selectedText = '#h2';
         startSize = 3;
         break;
       case 'h3':
-        selectedText = '#h3'
+        selectedText = '#h3';
         startSize = 3;
         break;
       case 'h4':
-        selectedText = '#h4'
+        selectedText = '#h4';
         startSize = 3;
         break;
       case 'h5':
-        selectedText = '#h5'
+        selectedText = '#h5';
         startSize = 3;
         break;
       case 'h6':
-        selectedText = '#h6'
+        selectedText = '#h6';
         startSize = 3;
         break;
       case 'pre':
-        selectedText = '``````'
+        selectedText = '``````';
         startSize = 6;
         break;
       case 'Custom':
@@ -296,7 +331,11 @@ export class CustomMarkdownEditorComponent implements ControlValueAccessor, Vali
 
   fullScreen() {
     this.isFullScreen = !this.isFullScreen;
-    this._renderer2.setStyle(document.body, 'overflowY', this.isFullScreen ? 'hidden' : 'auto');
+    this._renderer2.setStyle(
+      document.body,
+      'overflowY',
+      this.isFullScreen ? 'hidden' : 'auto'
+    );
     this.editorResize();
   }
 
@@ -305,7 +344,7 @@ export class CustomMarkdownEditorComponent implements ControlValueAccessor, Vali
   }
 
   editorResize(timeOut: number = 100) {
-    if (!this._aceEditorIns) return
+    if (!this._aceEditorIns) return;
     if (this._aceEditorResizeTimer) clearTimeout(this._aceEditorResizeTimer);
     this._aceEditorResizeTimer = setTimeout(() => {
       this._aceEditorIns.resize();
@@ -335,13 +374,17 @@ export class CustomMarkdownEditorComponent implements ControlValueAccessor, Vali
   }
 
   onAceEditorPaste(event: ClipboardEvent): void {
-    if (event instanceof ClipboardEvent && event.clipboardData.files.length > 0) {
+    if (
+      event instanceof ClipboardEvent &&
+      event.clipboardData.files.length > 0
+    ) {
       this._uploadFiles(event.clipboardData.files);
     }
   }
 
   private _updateMarkdownValue(value: any, changedByUser: boolean = false) {
-    const normalizedValue = typeof value === 'string' ? value : (value || '').toString();
+    const normalizedValue =
+      typeof value === 'string' ? value : (value || '').toString();
     if (this._markdownValue === normalizedValue) return;
     this._markdownValue = normalizedValue;
     this._updateDom();
@@ -353,33 +396,50 @@ export class CustomMarkdownEditorComponent implements ControlValueAccessor, Vali
   }
 
   private _updateDom() {
-    if (this._convertMarkdownToHtmlTimer) clearTimeout(this._convertMarkdownToHtmlTimer);
+    if (this._convertMarkdownToHtmlTimer)
+      clearTimeout(this._convertMarkdownToHtmlTimer);
     this._convertMarkdownToHtmlTimer = setTimeout(() => {
       Promise.resolve(this.markdownValue)
         .then((mdContent) => {
-          return (this.preRender && this.preRender instanceof Function) ? this.preRender(mdContent) : mdContent;
+          return this.preRender && this.preRender instanceof Function
+            ? this.preRender(mdContent)
+            : mdContent;
         })
-        .then(mdContent => {
+        .then((mdContent) => {
           const html = marked(mdContent || '', this._markedJsOpt);
-          return (this.postRender && this.postRender instanceof Function) ? this.postRender(html) : html;
+          return this.postRender && this.postRender instanceof Function
+            ? this.postRender(html)
+            : html;
         })
-        .then(parsedHtml => {
-          this.previewHtml = this._domSanitizer.bypassSecurityTrustHtml(parsedHtml);
+        .then((parsedHtml) => {
+          this.previewHtml =
+            this._domSanitizer.bypassSecurityTrustHtml(parsedHtml);
           if (this.previewContainer && this.previewContainer.nativeElement) {
             this._ngZone.runOutsideAngular(() => {
-              this._renderer2.setProperty(this.previewContainer.nativeElement, 'innerHTML', parsedHtml);
-              setTimeout(() => { this.onPreviewDomChanged.next(this.previewContainer.nativeElement); }, 100);
+              this._renderer2.setProperty(
+                this.previewContainer.nativeElement,
+                'innerHTML',
+                parsedHtml
+              );
+              setTimeout(() => {
+                this.onPreviewDomChanged.next(
+                  this.previewContainer.nativeElement
+                );
+              }, 100);
             });
           }
         })
-        .catch(err => {
+        .catch((err) => {
           console.error(err);
-        })
+        });
     }, 100);
   }
 
   private _getRender(renderType: 'image' | 'table' | 'code' | 'listitem') {
-    const customRender = this.options && this.options.customRender && this.options.customRender[renderType];
+    const customRender =
+      this.options &&
+      this.options.customRender &&
+      this.options.customRender[renderType];
     if (customRender && typeof customRender === 'function') {
       return customRender;
     } else {
@@ -390,13 +450,15 @@ export class CustomMarkdownEditorComponent implements ControlValueAccessor, Vali
             if (title) {
               out += ` title="${title}"`;
             }
-            out += (<any>this.options).xhtml ? "/>" : ">";
+            out += (<any>this.options).xhtml ? '/>' : '>';
             return out;
           };
         case 'code':
           return function (code: any, language: any) {
             const validLang = !!(language && hljs.getLanguage(language));
-            const highlighted = validLang ? hljs.highlight(language, code).value : code;
+            const highlighted = validLang
+              ? hljs.highlight(language, code).value
+              : code;
             return `<pre style="padding: 0; border-radius: 0;"><code class="hljs ${language}">${highlighted}</code></pre>`;
           };
         case 'table':
@@ -408,12 +470,21 @@ export class CustomMarkdownEditorComponent implements ControlValueAccessor, Vali
             if (/^\s*\[[x ]\]\s*/.test(text) || text.startsWith('<input')) {
               if (text.startsWith('<input')) {
                 text = text
-                  .replace('<input disabled="" type="checkbox">', '<i class="fa fa-square-o"></i>')
-                  .replace('<input checked="" disabled="" type="checkbox">', '<i class="fa fa-check-square"></i>');
+                  .replace(
+                    '<input disabled="" type="checkbox">',
+                    '<i class="fa fa-square-o"></i>'
+                  )
+                  .replace(
+                    '<input checked="" disabled="" type="checkbox">',
+                    '<i class="fa fa-check-square"></i>'
+                  );
               } else {
                 text = text
                   .replace(/^\s*\[ \]\s*/, '<i class="fa fa-square-o"></i> ')
-                  .replace(/^\s*\[x\]\s*/, '<i class="fa fa-check-square"></i> ');
+                  .replace(
+                    /^\s*\[x\]\s*/,
+                    '<i class="fa fa-check-square"></i> '
+                  );
               }
               return `<li>${text}</li>`;
             } else {
@@ -441,7 +512,7 @@ export class CustomMarkdownEditorComponent implements ControlValueAccessor, Vali
       .then(() => {
         return this.upload(files);
       })
-      .then(data => {
+      .then((data) => {
         if (Array.isArray(data)) {
           const msg = [];
           for (const item of data) {
@@ -453,18 +524,19 @@ export class CustomMarkdownEditorComponent implements ControlValueAccessor, Vali
           }
           this.insertContent('Custom', msg.join('\r\n'));
         } else {
-          console.warn('Invalid upload result. Please using follow this type `UploadResult`.')
+          console.warn(
+            'Invalid upload result. Please using follow this type `UploadResult`.'
+          );
         }
         this.isUploading = false;
         this.dragover = false;
       })
-      .catch(err => {
+      .catch((err) => {
         console.error(err);
         this.isUploading = false;
         this.dragover = false;
       });
   }
-
 
   /* Custom Logic start */
 
@@ -472,12 +544,12 @@ export class CustomMarkdownEditorComponent implements ControlValueAccessor, Vali
     const dialogRef = this.dialog.open(EditorUrlDialogComponent, {
       width: '446px',
       height: '306px',
-      panelClass: "editor-url-popup-panel",
-      data: { type: "link" }
+      panelClass: 'editor-url-popup-panel',
+      data: { type: 'link' },
     });
 
-    dialogRef.afterClosed().subscribe(result => {
-      if(result){
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
         const selectedText = `[${result.altText}](${result.url})`;
         this.insertCustomMarkDown(range, selectedText);
       }
@@ -488,18 +560,18 @@ export class CustomMarkdownEditorComponent implements ControlValueAccessor, Vali
     const dialogRef = this.dialog.open(EditorUrlDialogComponent, {
       width: '446px',
       height: '306px',
-      panelClass: "editor-url-popup-panel",
-      data: { type: "image" }
+      panelClass: 'editor-url-popup-panel',
+      data: { type: 'image' },
     });
-    dialogRef.afterClosed().subscribe(result => {
-      if(result){
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
         const selectedText = `![${result.altText}](${result.url})`;
         this.insertCustomMarkDown(range, selectedText);
       }
     });
   }
 
-  insertCustomMarkDown(range, selectedText ) {
+  insertCustomMarkDown(range, selectedText) {
     this._aceEditorIns.session.replace(range, selectedText);
     this._aceEditorIns.focus();
   }

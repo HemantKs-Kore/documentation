@@ -1,4 +1,11 @@
-import { Component, OnInit, Output, Input, EventEmitter } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  Output,
+  Input,
+  EventEmitter,
+  OnDestroy,
+} from '@angular/core';
 import { AppSelectionService } from '@kore.apps/services/app.selection.service';
 import { NotificationService } from '@kore.apps/services/notification.service';
 import { ServiceInvokerService } from '@kore.apps/services/service-invoker.service';
@@ -12,7 +19,7 @@ import { v4 } from 'uuid';
   templateUrl: './custom-configurations.component.html',
   styleUrls: ['./custom-configurations.component.scss'],
 })
-export class CustomConfigurationsComponent implements OnInit {
+export class CustomConfigurationsComponent implements OnInit, OnDestroy {
   formData = {};
   isLoading = false;
   selectedApp;

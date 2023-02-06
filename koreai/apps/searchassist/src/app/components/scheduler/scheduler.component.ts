@@ -5,6 +5,7 @@ import {
   Input,
   Output,
   EventEmitter,
+  OnChanges,
 } from '@angular/core';
 import { MatDatepickerInputEvent } from '@angular/material/datepicker';
 import { KRModalComponent } from '../../shared/kr-modal/kr-modal.component';
@@ -24,7 +25,7 @@ declare const $: any;
   templateUrl: './scheduler.component.html',
   styleUrls: ['./scheduler.component.scss'],
 })
-export class SchedulerComponent implements OnInit {
+export class SchedulerComponent implements OnInit, OnChanges {
   schedualarDataModelPopRef: any;
   istStratDate: any;
   startDate: any;
@@ -55,7 +56,7 @@ export class SchedulerComponent implements OnInit {
   recurringFrequency = false;
   isCustom = false;
   timeZoneArray: Array<string> = ['IST', 'EST', 'UTC'];
-  recurringFrequencyArray: Array<Object> = [
+  recurringFrequencyArray = [
     { key: 'Does not repeat', value: 'Does not repeat' },
     { key: 'Daily', value: 'Daily' },
     { key: 'Weekly', value: 'Weekly' },
@@ -64,8 +65,8 @@ export class SchedulerComponent implements OnInit {
     { key: 'Every weekday(Monday to Friday)', value: 'Every weekday' },
     { key: 'Custom...', value: 'Custom' },
   ];
-  repeatEveryArray: Array<string> = ['Day', 'Week', 'Month', 'Year'];
-  scheduledData: Object = {};
+  repeatEveryArray = ['Day', 'Week', 'Month', 'Year'];
+  scheduledData = {};
   @Input() crwalObject: any;
   @Input() schedule: any;
   @Input() schedulerType = 'horizantalSchedular';
@@ -219,7 +220,7 @@ export class SchedulerComponent implements OnInit {
     if (this.meridiem == 'PM' && Number(timeHH) == 12) {
       timeHH = '12';
     }
-    !this.timeMM ? (this.timeMM = 0) : (this.timeMM = this.timeMM);
+    // !this.timeMM && (this.timeMM = 0);
     if (Number(this.timeMM) > 59 && this.timeMM.toString().length == 2) {
       this.timeMM = '59';
       $('#scheduleMn').val('59');
@@ -232,7 +233,7 @@ export class SchedulerComponent implements OnInit {
       this.timeMM = '0';
       $('#scheduleMn').val('0');
     }
-    timeHH == '' ? (timeHH = '0') : (timeHH = timeHH);
+    timeHH === '' && (timeHH = '0');
     if (this.rstz == 'Does not repeat') {
       //this.cronExpression = '0 ' + this.timeMM + ' '+ timeHH + ' ' + this.date + ' ' + this.month + ' ? ' + this.year;
       //this.cronExpression = this.timeMM + ' '+ timeHH + ' ' + this.date + ' ' + this.month + ' ' + this.year;

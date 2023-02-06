@@ -1,13 +1,22 @@
-import { Component, NgZone, Input, Output, ViewChild, ElementRef, EventEmitter } from '@angular/core';
+/* eslint-disable @angular-eslint/no-output-native */
+import {
+  Component,
+  NgZone,
+  Input,
+  Output,
+  ViewChild,
+  ElementRef,
+  EventEmitter,
+  AfterViewInit,
+} from '@angular/core';
 
 @Component({
+  // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'md-editor-resize-sensor',
   templateUrl: './resize-sensor.html',
-  styleUrls: ['./resize-sensor.scss']
+  styleUrls: ['./resize-sensor.scss'],
 })
-
-export class MarkdownEditorResizeSensorComponent {
-
+export class MarkdownEditorResizeSensorComponent implements AfterViewInit {
   @ViewChild('resizeSensor') resizeSensor: ElementRef;
 
   @Input() interval = 500;
@@ -15,18 +24,16 @@ export class MarkdownEditorResizeSensorComponent {
 
   private sizeInfo: any = {
     width: 0,
-    height: 0
-  }
+    height: 0,
+  };
 
-  constructor(private _ngZone: NgZone) {
-
-  }
+  constructor(private _ngZone: NgZone) {}
 
   ngAfterViewInit() {
     this.sizeInfo = {
       width: this.resizeSensor.nativeElement.offsetWidth,
-      height: this.resizeSensor.nativeElement.offsetHeight
-    }
+      height: this.resizeSensor.nativeElement.offsetHeight,
+    };
     this._ngZone.runOutsideAngular(() => {
       setTimeout(() => {
         this.detectSize();
@@ -40,8 +47,8 @@ export class MarkdownEditorResizeSensorComponent {
     if (this.sizeInfo.width !== width || this.sizeInfo.height !== height) {
       this.sizeInfo = {
         width: width,
-        height: height
-      }
+        height: height,
+      };
       this.resize.emit(this.sizeInfo);
     }
     setTimeout(() => {

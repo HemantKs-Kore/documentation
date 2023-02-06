@@ -13,7 +13,7 @@ export class ParentBridgeService {
   }
   private windowElement: any;
   registerEventsFromParent() {
-    const self: any = this;
+    // const self: any = this;
     const eventMethod = window.addEventListener
       ? 'addEventListener'
       : 'attachEvent';
@@ -24,7 +24,7 @@ export class ParentBridgeService {
       (e) => {
         if (e.data && e.data.action) {
           const data: any = e.data;
-          self.parentEvent.next(data);
+          this.parentEvent.next(data);
           console.log('TOpic Guide ---', data);
           if (data?.payload?.url && data?.action == 'videoModal') {
             this.mixpanel?.postEvent('Topic - Play Topic Video', {

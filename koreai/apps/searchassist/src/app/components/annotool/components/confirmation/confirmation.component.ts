@@ -1,10 +1,14 @@
 import { Component, OnInit, Inject } from '@angular/core';
-import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import {
+  MatDialog,
+  MatDialogRef,
+  MAT_DIALOG_DATA,
+} from '@angular/material/dialog';
 
 @Component({
-  selector: 'kr-confirmation',
+  selector: 'app-confirmation',
   templateUrl: './confirmation.component.html',
-  styleUrls: ['./confirmation.component.scss']
+  styleUrls: ['./confirmation.component.scss'],
 })
 export class ConfirmationComponent implements OnInit {
   dialogInfo: any = {};
@@ -12,7 +16,7 @@ export class ConfirmationComponent implements OnInit {
     public dialog: MatDialog,
     public dialogRef: MatDialogRef<ConfirmationComponent>,
     @Inject(MAT_DIALOG_DATA) public dialogData: any
-    ) { }
+  ) {}
 
   ngOnInit() {
     this.dialogInfo = this.dialogData.info;

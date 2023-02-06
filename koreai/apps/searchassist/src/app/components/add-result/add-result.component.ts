@@ -1,4 +1,11 @@
-import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  Output,
+  EventEmitter,
+  Input,
+  OnDestroy,
+} from '@angular/core';
 import { Subscription } from 'rxjs';
 import { SideBarService } from './../../services/header.service';
 import { WorkflowService } from '@kore.apps/services/workflow.service';
@@ -12,7 +19,7 @@ declare const $: any;
   templateUrl: './add-result.component.html',
   styleUrls: ['./add-result.component.scss'],
 })
-export class AddResultComponent implements OnInit {
+export class AddResultComponent implements OnInit, OnDestroy {
   searchType = '';
   positionRecord = 'top';
   searchRadioType = 'all';

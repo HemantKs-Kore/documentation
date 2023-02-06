@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { NotificationService } from '../../services/notification.service';
 import { KRModalComponent } from '../../shared/kr-modal/kr-modal.component';
@@ -25,7 +25,7 @@ import { LazyLoadService } from '@kore.shared/*';
   templateUrl: './structured-data.component.html',
   styleUrls: ['./structured-data.component.scss'],
 })
-export class StructuredDataComponent implements OnInit {
+export class StructuredDataComponent implements OnInit, OnDestroy {
   emptyScreen = EMPTY_SCREEN.STRUCTURED_DATA;
   addStructuredDataModalPopRef: any;
   selectedSourceType: any;
@@ -232,8 +232,7 @@ export class StructuredDataComponent implements OnInit {
             }
           });
         });
-        if (quaryparms && quaryparms.skip) {
-        }
+
         //changes made on 31/01
         if (this.allSelected || this.actionforcheckbox == 'all') {
           this.showSelectedData = true; // To show number of records selected
@@ -339,7 +338,6 @@ export class StructuredDataComponent implements OnInit {
   }
 
   designDefaultData(structuredDataItemsList) {
-    this.defaultView = this.defaultView;
     structuredDataItemsList.forEach((element: any, index) => {
       element.objectValues = [];
       Object.keys(element._source).forEach((key: any, index) => {
@@ -655,8 +653,7 @@ export class StructuredDataComponent implements OnInit {
   checkAdvancedSearchValidation() {
     if (this.advancedSearch.operand && this.advancedSearch.operand.length) {
       if (this.advancedSearch.rules.length) {
-        let isPassed: any;
-        isPassed = this.advancedSearch.rules.every((rule) => {
+        const isPassed = this.advancedSearch.rules.every((rule) => {
           if (rule.fieldName.length && rule.operator.length) {
             if (rule.operator !== 'exists' && rule.operator !== 'notexists') {
               if (rule.value.length) {
@@ -936,8 +933,7 @@ export class StructuredDataComponent implements OnInit {
   checkForAllBoolean(arr): any {
     let count = 0;
     //this.selecteditems=[];
-    if (this.actionforcheckbox == 'partial') {
-    } else {
+    if (this.actionforcheckbox !== 'partial') {
       this.selecteditems = []; //emptying the selecteditems array
     }
     arr.forEach((element) => {

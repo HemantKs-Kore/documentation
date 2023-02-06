@@ -18,7 +18,7 @@ import { MixpanelServiceService } from '@kore.apps/services/mixpanel-service.ser
   templateUrl: './app-experiments.component.html',
   styleUrls: ['./app-experiments.component.scss'],
 })
-export class AppExperimentsComponent implements OnInit {
+export class AppExperimentsComponent implements OnInit, OnDestroy {
   emptyScreen = EMPTY_SCREEN.ANALYTICS;
   addExperimentsRef: any;
   selectedApp: any;

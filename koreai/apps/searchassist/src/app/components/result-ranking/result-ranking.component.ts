@@ -448,8 +448,6 @@ export class ResultRankingComponent implements OnInit, OnDestroy {
     // }
   }
   multiSelect(record, opt, event) {
-    if (event) {
-    }
     if (event.target.checked) {
       this.collectedRecord.push(record);
     } else {

@@ -7,7 +7,7 @@
   ></app-useronboarding-journey>
   <div class="header-sec">
     <div class="title">
-      {{ "structuredData_structuredData" | translate }}
+      {{ 'structuredData_structuredData' | translate }}
       <span
         class="module-topic"
         tooltipClass="tooltip-global-"
@@ -73,7 +73,7 @@
           ><img
             src="assets/icons/search.svg"
             [ngClass]="{ 'd-none': searchActive }"
-          />{{ "sa_search" | translate }}</span
+          />{{ 'sa_search' | translate }}</span
         >
       </div>
 
@@ -83,7 +83,7 @@
         (click)="openAdvancedSearch()"
       >
         <img src="assets/icons/content/advanced_filter.svg" />{{
-          "structuredData_advancedSearch" | translate
+          'structuredData_advancedSearch' | translate
         }}
       </div>
       <div
@@ -99,7 +99,7 @@
             ngbDropdownToggle
           >
             <img src="assets/icons/add_plus.svg" />{{
-              "structuredData_addField" | translate
+              'structuredData_addField' | translate
             }}
           </button>
           <ul class="dropdown-menu content-menu faq-filter-add" ngbDropdownMenu>
@@ -107,13 +107,13 @@
               id="btn_open_import_structured_data"
               (click)="openAddStructuredData('structuredData')"
             >
-              {{ "structuredData_import" | translate }}
+              {{ 'structuredData_import' | translate }}
             </li>
             <li
               id="btn_open_manual_structured_data"
               (click)="openAddStructuredData('structuredDataManual')"
             >
-              {{ "structuredData_addManually" | translate }}
+              {{ 'structuredData_addManually' | translate }}
             </li>
           </ul>
         </div>
@@ -141,7 +141,7 @@
               (click)="exportStructureData('json')"
               *ngIf="true"
             >
-              {{ "faqSource.export_to_json" | translate }}
+              {{ 'faqSource.export_to_json' | translate }}
             </li>
             <!-- <li (click)='exportFaq("csv")' *ngIf="true">{{'faqSource.export_to_csv' | translate}}</li> -->
           </ul>
@@ -160,8 +160,8 @@
                         <div class="col-9 d-flex p-0 align-items-center">
                             <img src="assets/icons/structured-data/Info.svg" class="mr-2">
                             <span class="info-text">Data has already been indexed</span>
-                        </div>      
-                        <div class="col-3 p-0 text-right"><img class="close-icon" src="assets/icons/modal-close.svg"></div>                                                                                                                              
+                        </div>
+                        <div class="col-3 p-0 text-right"><img class="close-icon" src="assets/icons/modal-close.svg"></div>
                     </div> -->
         <div
           class="d-flex align-items-center m-0 position-relative"
@@ -198,7 +198,7 @@
                 >
               </ng-container>
               <span class="ml-3 filter-title" (click)="openAdvancedSearch()">{{
-                "structuredData_editFilter" | translate
+                'structuredData_editFilter' | translate
               }}</span>
             </ng-container>
           </div>
@@ -234,10 +234,10 @@
             </div>
             <div class="row m-0 col-12 p-0 align-items-center">
               <div class="col-5 title">
-                {{ "structuredData_key_caps" | translate }}
+                {{ 'structuredData_key_caps' | translate }}
               </div>
               <div class="col-3 title">
-                {{ "structuredData_value_caps" | translate }}
+                {{ 'structuredData_value_caps' | translate }}
               </div>
               <div
                 class="text-right col-4 p-0"
@@ -246,8 +246,8 @@
                 <span
                   *ngIf="showSelectedCount > 0 || allSelected"
                   class="selected-count"
-                  >{{ allSelected ? "All" : showSelectedCount }}
-                  {{ "structuredData_selected" | translate }}</span
+                  >{{ allSelected ? 'All' : showSelectedCount }}
+                  {{ 'structuredData_selected' | translate }}</span
                 >
                 <button
                   id="btn_delete_all_structured_data"
@@ -255,7 +255,7 @@
                   *ngIf="showSelectedCount > 0 || allSelected"
                   (click)="deleteStructuredDataPopup()"
                 >
-                  {{ "structuredData_delete" | translate }}
+                  {{ 'structuredData_delete' | translate }}
                 </button>
                 <!-- <button id="btn_change_view_structured_data" class="kr-sg-button-secondary btn_lg ml-2"  *ngIf="!noItems" (click)="defaultView = !defaultView">{{ defaultView ? ('structuredData_switch_to_json' | translate) : ('structuredData_switch_to_default' | translate)}}</button>                             -->
               </div>
@@ -303,7 +303,7 @@
                   class="ml-3 view-json"
                   *ngIf="data.objectLength > 5"
                   (click)="editJson(data, d_index)"
-                  >{{ "structuredData_viewJson" | translate }}</span
+                  >{{ 'structuredData_viewJson' | translate }}</span
                 >
               </div>
             </ng-container>
@@ -345,7 +345,7 @@
                         title="{{ objectValue.key }}"
                       >
                         {{ objectValue.key }} ({{ objectValue.valuesLength }}
-                        {{ "structuredData_fields" | translate }})
+                        {{ 'structuredData_fields' | translate }})
                       </div>
                       <ng-container *ngIf="objectValue.expanded">
                         <div
@@ -390,7 +390,7 @@
                               {{ childObject.key }} ({{
                                 childObject.valuesLength
                               }}
-                              {{ "structuredData_fields" | translate }})
+                              {{ 'structuredData_fields' | translate }})
                             </div>
                             <ng-container *ngIf="childObject.expanded">
                               <div
@@ -431,13 +431,13 @@
                     </ng-container>
                     <!-- <div class="col-1 p-0 default-key text-truncate" title="{{ objectValue.key }}">{{ objectValue.key }}</div>
                                                         <div class="col-11 pr-0 default-value text-truncate" *ngIf="!objectValue.nested" title="{{ objectValue.value }}">{{ objectValue.value }}</div>
-                                                        <div class="col-11 pr-0 default-value align-items-start text-truncate" *ngIf="objectValue.nested">                                                                                   
+                                                        <div class="col-11 pr-0 default-value align-items-start text-truncate" *ngIf="objectValue.nested">
                                                         <div class="d-flex align-items-start text-truncate">
                                                             <img class="pointer mr-2 mt-1" (click)="objectValue.expanded = !objectValue.expanded" *ngIf="objectValue.nested && !objectValue.expanded" src="assets/icons/structured-data/carrot-right.svg">
                                                             <img class="pointer mr-2 mt-1" *ngIf="objectValue.nested && objectValue.expanded" (click)="objectValue.expanded = !objectValue.expanded" src="assets/icons/structured-data/carrot-down.svg">
-                                                            <pre *ngIf="objectValue.nested && objectValue.expanded">{{ objectValue.expandedValue | json }}</pre> 
+                                                            <pre *ngIf="objectValue.nested && objectValue.expanded">{{ objectValue.expandedValue | json }}</pre>
                                                             <div *ngIf="objectValue.nested && !objectValue.expanded" class="text-truncate">{{ objectValue.value }}</div>
-                                                        </div>                                            
+                                                        </div>
                                                     </div>                                         -->
                   </div>
                 </div>
@@ -446,7 +446,7 @@
                   *ngIf="data.objectLength > 3"
                   (click)="editJson(data, d_index)"
                 >
-                  {{ "structuredData_seeMore" | translate }}
+                  {{ 'structuredData_seeMore' | translate }}
                 </div>
               </div>
             </ng-container>
@@ -481,12 +481,12 @@
               <img src="assets/icons/info.svg" />
               <span class="tooltiptext">
                 <div class="">
-                  {{ "structuredData_updated_by" | translate }} :
-                  {{ data.modUserDetails ? data.modUserDetails.fullName : "" }}
+                  {{ 'structuredData_updated_by' | translate }} :
+                  {{ data.modUserDetails ? data.modUserDetails.fullName : '' }}
                 </div>
                 <div class="">
-                  {{ "structuredData_updated_on" | translate }} :
-                  {{ data.lMod | dateFormatPipe : "DD MMM YYYY" }}
+                  {{ 'structuredData_updated_on' | translate }} :
+                  {{ data.lMod | dateFormatPipe : 'DD MMM YYYY' }}
                 </div>
               </span>
             </div>
@@ -535,14 +535,14 @@
             (click)="openAddStructuredData('structuredData')"
           >
             <i class="si-union"></i>
-            {{ "structuredData_import" | translate }}
+            {{ 'structuredData_import' | translate }}
           </button>
           <button
             class="kr-sg-button-secondary btn_lg"
             (click)="openAddStructuredData('structuredDataManual')"
           >
             <i class="si-add-plus"></i>
-            {{ "structuredData_addManually" | translate }}
+            {{ 'structuredData_addManually' | translate }}
           </button>
         </div>
       </app-empty-screen>
@@ -560,7 +560,7 @@
       <div class="mainLoadingSpinner" *ngIf="isLoading">
         <mat-spinner diameter="18" strokeWidth="2"></mat-spinner>
         <span class="please-wait-message">{{
-          "synonyms.please_wait" | translate
+          'synonyms.please_wait' | translate
         }}</span>
       </div>
     </div>
@@ -571,15 +571,15 @@
   >
     <img class="info-icon" src="assets/icons/structured-data/Info.svg" />
     <div class="info-text">
-      {{ "structuredData_noResultTemplate" | translate }}
+      {{ 'structuredData_noResultTemplate' | translate }}
       <span class="interface-link" (click)="navigateToSearchInterface()"
-        ><b>{{ "structuredData_searchInterfacePath" | translate }}</b></span
+        ><b>{{ 'structuredData_searchInterfacePath' | translate }}</b></span
       >
-      {{ "structuredData_toDefine" | translate
+      {{ 'structuredData_toDefine' | translate
       }}<a
         href="https://docs.kore.ai/searchassist/search-experience/result-templates/"
         target="_blank"
-        >{{ "structuredData_learnMore" | translate }}</a
+        >{{ 'structuredData_learnMore' | translate }}</a
       >
     </div>
     <img
@@ -607,7 +607,7 @@
   #advancedSearchModalPop
 >
   <div class="modal-header">
-    <div class="title">{{ "structuredData_advancedSearch" | translate }}</div>
+    <div class="title">{{ 'structuredData_advancedSearch' | translate }}</div>
     <div class="close_icon">
       <img
         id="btn_close_advanced_search"
@@ -669,7 +669,7 @@
                 {{
                   rule.operator
                     ? getOperatorName(rule.operator)
-                    : ("structuredData_selected_operator" | translate)
+                    : ('structuredData_selected_operator' | translate)
                 }}
               </button>
               <ul class="dropdown-menu content-menu">
@@ -710,7 +710,7 @@
           <div class="kr-sg-radiobutton">
             <input
               id="radio-and"
-              [disabled]="index != 0"
+              [disabled]="index !== 0"
               [(ngModel)]="advancedSearch.operand"
               name="radio{{ index }}"
               value="and"
@@ -718,13 +718,13 @@
               type="radio"
             />
             <label for="radio-and" class="radio-custom-label"
-              >{{ "sa_add_caps" | translate }}
+              >{{ 'sa_add_caps' | translate }}
             </label>
           </div>
           <div class="kr-sg-radiobutton">
             <input
               id="radio-or"
-              [disabled]="index != 0"
+              [disabled]="index !== 0"
               [(ngModel)]="advancedSearch.operand"
               name="radio{{ index }}"
               value="or"
@@ -734,8 +734,8 @@
             <label
               for="radio-or"
               class="radio-custom-label"
-              [class.disabled]="index != 0"
-              >{{ "structuredData__or" | translate }}</label
+              [class.disabled]="index !== 0"
+              >{{ 'structuredData__or' | translate }}</label
             >
           </div>
         </div>
@@ -743,7 +743,7 @@
 
       <div class="add-rule" (click)="addRule()">
         <img src="assets/images/add-cross.svg" alt="add-rule" />{{
-          "structuredData_add_rule" | translate
+          'structuredData_add_rule' | translate
         }}
       </div>
     </div>
@@ -755,14 +755,14 @@
       id="btn_cancel_advanced_search"
       (click)="cancleAdvansedSearch()"
     >
-      {{ "structuredData_cancel" | translate }}
+      {{ 'structuredData_cancel' | translate }}
     </button>
     <button
       class="kr-sg-button-primary btn_lg mr-3"
       id="btn_apply_advanced_search"
       (click)="applyAdvancedSearch()"
     >
-      {{ "structuredData_apply" | translate }}
+      {{ 'structuredData_apply' | translate }}
     </button>
   </div>
 </kr-modal>

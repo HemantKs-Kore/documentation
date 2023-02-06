@@ -5,6 +5,7 @@ import {
   Output,
   Input,
   EventEmitter,
+  OnDestroy,
 } from '@angular/core';
 import {
   PerfectScrollbarComponent,
@@ -27,7 +28,7 @@ declare const $: any;
   templateUrl: './list-fields.component.html',
   styleUrls: ['./list-fields.component.scss'],
 })
-export class ListFieldsComponent implements OnInit {
+export class ListFieldsComponent implements OnInit, OnDestroy {
   @ViewChild('addFieldModalPop') addFieldModalPop: KRModalComponent;
   @ViewChild(PerfectScrollbarComponent)
   perfectScroll?: PerfectScrollbarComponent;
@@ -262,9 +263,8 @@ export class ListFieldsComponent implements OnInit {
   //** fetch the search value and emit it to the other components */
 
   getsearchvalue(value, component) {
-    let component_type;
     this.search_value = value;
-    component_type = component;
+    const component_type = component;
     this.searchModel.emit({
       componenttype: component_type,
       searchvalue: this.search_value,

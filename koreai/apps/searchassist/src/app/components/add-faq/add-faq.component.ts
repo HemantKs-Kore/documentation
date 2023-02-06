@@ -6,9 +6,9 @@ import {
   Input,
   ElementRef,
   ViewChild,
-  AfterViewInit,
   Inject,
   OnDestroy,
+  AfterViewInit,
 } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatChipInputEvent } from '@angular/material/chips';
@@ -47,7 +47,7 @@ declare const $: any;
     { provide: 'instance2', useClass: FaqsService },
   ],
 })
-export class AddFaqComponent implements OnInit, OnDestroy {
+export class AddFaqComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild('suggestedInput') suggestedInput: ElementRef<HTMLInputElement>;
   @ViewChild('createImagePop') createImagePop: KRModalComponent;
   @ViewChild('createLinkPop') createLinkPop: KRModalComponent;
@@ -976,7 +976,7 @@ export class AddFaqComponent implements OnInit, OnDestroy {
     return sel;
   }
   onSelected(type) {
-    const _self: any = this;
+    // const _self: any = this;
     let range: any = {
       startIndex: 0,
       endIndex: 0,
@@ -990,7 +990,7 @@ export class AddFaqComponent implements OnInit, OnDestroy {
     if (type === 'link') {
       this.openLinkApp(range);
     } else {
-      _self[type](range.text, range);
+      this[type](range.text, range);
     }
     // if(type === 'underline'){
     //   $(this.container)[0].innerText.style.textdecoration = "underline"
@@ -1038,10 +1038,8 @@ export class AddFaqComponent implements OnInit, OnDestroy {
     }
   }
   saveLink() {
-    let text;
-    let link;
-    text = this.linkInfo.link;
-    link = this.linkInfo.linkText;
+    let text = this.linkInfo.link;
+    const link = this.linkInfo.linkText;
 
     if (this.linkInfo.type === 'link') {
       text = '[' + link + '](' + text + ')';
@@ -1053,8 +1051,7 @@ export class AddFaqComponent implements OnInit, OnDestroy {
   }
   bold(text, range) {
     const verifyForUndo = (tex) => {
-      let chunk;
-      chunk = tex.replace(/\*/g, '');
+      const chunk = tex.replace(/\*/g, '');
       return '*' + chunk + '*' === tex;
     };
     if (verifyForUndo(text)) {
@@ -1067,8 +1064,7 @@ export class AddFaqComponent implements OnInit, OnDestroy {
   }
   italic(text, range) {
     const verifyForUndo = (tex) => {
-      let chunk;
-      chunk = tex.replace(/~/g, '');
+      const chunk = tex.replace(/~/g, '');
       return '_' + chunk + '_' === tex;
     };
     if (verifyForUndo(text)) {
@@ -1109,8 +1105,7 @@ export class AddFaqComponent implements OnInit, OnDestroy {
   }
   indentLeft(text, range) {
     const verifyForUndo = (txt) => {
-      let chunk;
-      chunk = txt.replace(/^>>/, '');
+      const chunk = txt.replace(/^>>/, '');
       return '>>' + chunk === txt;
     };
     if (verifyForUndo(text)) {
@@ -1123,8 +1118,7 @@ export class AddFaqComponent implements OnInit, OnDestroy {
   }
   indentRight(text, range) {
     const verifyForUndo = (txt) => {
-      let chunk;
-      chunk = txt.replace(/^<</, '');
+      const chunk = txt.replace(/^<</, '');
       return '<<' + chunk === txt;
     };
     if (verifyForUndo(text)) {

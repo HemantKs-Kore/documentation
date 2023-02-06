@@ -160,7 +160,7 @@ export class SettingsComponent implements OnInit {
   cancel() {
     this.credntial.name = '';
     if (this.slider > 0) this.slider = this.slider - 1;
-    if ((this.existingCredential = true)) this.slider = 0;
+    if (this.existingCredential === true) this.slider = 0;
   }
   // if(slider)
   back() {

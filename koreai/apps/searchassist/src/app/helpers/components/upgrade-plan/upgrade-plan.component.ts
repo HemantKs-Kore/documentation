@@ -108,8 +108,8 @@ export class UpgradePlanComponent implements OnInit, OnDestroy {
   @ViewChild('paymentGatewayModel') paymentGatewayModel: KRModalComponent;
   @ViewChild('contactUsModel') contactUsModel: KRModalComponent;
   @ViewChild('confirmUpgradeModel') confirmUpgradeModel: KRModalComponent;
-  @Output() updateBanner = new EventEmitter<{}>();
-  @Output() plansData = new EventEmitter<''>();
+  @Output() updateBanner = new EventEmitter<any>();
+  @Output() plansData = new EventEmitter<any>();
   @ViewChild(PerfectScrollbarComponent)
   public directiveScroll: PerfectScrollbarComponent;
   @ViewChild('freePlanUpgradeModel') freePlanUpgradeModel: KRModalComponent;

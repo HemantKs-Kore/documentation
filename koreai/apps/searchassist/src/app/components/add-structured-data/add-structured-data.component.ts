@@ -2,6 +2,7 @@ import {
   Component,
   EventEmitter,
   Input,
+  OnChanges,
   OnInit,
   Output,
   ViewChild,
@@ -25,7 +26,7 @@ declare const $: any;
   templateUrl: './add-structured-data.component.html',
   styleUrls: ['./add-structured-data.component.scss'],
 })
-export class AddStructuredDataComponent implements OnInit {
+export class AddStructuredDataComponent implements OnInit, OnChanges {
   public newSourceObj: any = {};
   csvContent: any = '';
   fileObj: any = {};
@@ -94,8 +95,6 @@ export class AddStructuredDataComponent implements OnInit {
   lazyLoadCodeMirror(): Observable<any[]> {
     return this.lazyLoadService.loadStyle('codemirror.min.css');
   }
-
-  ngAfterViewInit() {}
 
   ngOnChanges(changes) {
     setTimeout(() => {
