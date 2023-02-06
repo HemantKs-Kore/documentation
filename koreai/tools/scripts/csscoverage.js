@@ -1,7 +1,7 @@
 const puppeteer = require('puppeteer');
 const util = require('util');
 const fs = require('fs');
-const distDir = 'dist/ngapp/';
+const distDir = 'dist/apps/searchassist/';
 const cssmin = require('cssmin');
 
 function updateHtml(criticalCssStr) {
@@ -22,7 +22,7 @@ function updateHtml(criticalCssStr) {
   const browser = await puppeteer.launch();
   const page = await browser.newPage();
   await page.coverage.startCSSCoverage();
-  await page.goto('https://hs2504785.github.io/ngdemos/ngapp/'); // Change this
+  await page.goto('https://searchassist-qa.kore.ai/home/'); // Change this
   const css_coverage = await page.coverage.stopCSSCoverage();
   // console.log(util.inspect(css_coverage, { showHidden: false, depth: null }));
   await browser.close();
@@ -35,6 +35,7 @@ function updateHtml(criticalCssStr) {
   let filename;
 
   for (const entry of css_coverage) {
+    console.log('PAA', entry.url);
     if (!filename && entry.url.includes('.css')) {
       filename = entry.url.split('/').pop();
     }
@@ -73,7 +74,7 @@ function updateHtml(criticalCssStr) {
     updateHtml(cssmin(final_css_bytes));
   }
 
-  fs.writeFile(distDir + filename, cssmin(final_unused_css_bytes), error => {
+  fs.writeFile(filename, cssmin(final_unused_css_bytes), (error) => {
     if (error) {
       console.log('Error creating file unused', error);
     } else {
