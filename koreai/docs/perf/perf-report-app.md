@@ -2,6 +2,10 @@
 
 https://searchassist-app.kore.ai/home/
 
+Lighthouse Report:
+
+https://koredotcom.github.io/findly/lighthouse-report.html
+
 ![Home](../images/app-home.png)
 
 ![Http](../images/app-http.png)
