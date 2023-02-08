@@ -960,70 +960,50 @@ export class OnboardingComponent implements OnInit {
     this.supportParentfaq = false;
     this.supportChildfaq = faq.childData;
     this.breadcrumbNameFaq = faq.replace('/', '');
-    /**Sources*/
-    if (this.breadcrumbNameFaq == 'content') {
-      this.breadcrumbNameFaq = 'Content';
-    } else if (this.breadcrumbNameFaq == 'faqs') {
-      this.breadcrumbNameFaq = 'FAQs';
-    } else if (this.breadcrumbNameFaq == 'botActions') {
-      this.breadcrumbNameFaq = 'Actions';
-    } else if (this.breadcrumbNameFaq == 'structuredData') {
-      this.breadcrumbNameFaq = 'Structured Data';
-    } else if (this.breadcrumbNameFaq == 'connectors') {
-      this.breadcrumbNameFaq = 'Connectors';
-    } else if (this.breadcrumbNameFaq == 'summary') {
-      /**Overview*/
-      this.breadcrumbNameFaq = 'Overview';
-    } else if (this.breadcrumbNameFaq == 'FieldManagementComponent') {
-      /**Indices */
-      this.breadcrumbNameFaq = 'Field Management';
-    } else if (this.breadcrumbNameFaq == 'traits') {
-      this.breadcrumbNameFaq = 'Traits';
-    } else if (this.breadcrumbNameFaq == 'index') {
-      this.breadcrumbNameFaq = 'Workbench';
-    } else if (this.breadcrumbNameFaq == 'weights') {
-      this.breadcrumbNameFaq = 'Weights';
-    } else if (this.breadcrumbNameFaq == 'synonyms') {
-      this.breadcrumbNameFaq = 'Synonyms';
-    } else if (this.breadcrumbNameFaq == 'stopWords') {
-      this.breadcrumbNameFaq = 'Stop Words';
-    } else if (this.breadcrumbNameFaq == 'resultranking') {
-      this.breadcrumbNameFaq = 'Results Ranking';
-    } else if (this.breadcrumbNameFaq == 'facets') {
-      this.breadcrumbNameFaq = 'Facets';
-    } else if (this.breadcrumbNameFaq == 'rules') {
-      this.breadcrumbNameFaq = 'Business Rules';
-    } else if (this.breadcrumbNameFaq == 'search-experience') {
-      this.breadcrumbNameFaq = 'Search Interface';
-    } else if (this.breadcrumbNameFaq == 'resultTemplate') {
-      this.breadcrumbNameFaq = 'Result Templates';
-    } else if (this.breadcrumbNameFaq == 'experiments') {
-      /**Analytics*/
-      this.breadcrumbNameFaq = 'Experiments';
-    } else if (this.breadcrumbNameFaq == 'dashboard') {
-      this.breadcrumbNameFaq = 'Dashboard';
-    } else if (this.breadcrumbNameFaq == 'userEngagement') {
-      this.breadcrumbNameFaq = 'User Engagement';
-    } else if (this.breadcrumbNameFaq == 'searchInsights') {
-      this.breadcrumbNameFaq = 'Search Insights';
-    } else if (this.breadcrumbNameFaq == 'resultInsights') {
-      this.breadcrumbNameFaq = 'Results Insights';
-    } else if (this.breadcrumbNameFaq == 'generalSettings') {
-      /**Manage */
-      this.breadcrumbNameFaq = 'General Settings';
-    } else if (this.breadcrumbNameFaq == 'settings') {
-      this.breadcrumbNameFaq = 'Channels';
-    } else if (this.breadcrumbNameFaq == 'credentials-list') {
-      this.breadcrumbNameFaq = 'Credentials';
-    } else if (this.breadcrumbNameFaq == 'team-management') {
-      this.breadcrumbNameFaq = 'Team';
-    } else if (this.breadcrumbNameFaq == 'pricing') {
-      this.breadcrumbNameFaq = 'Pricing';
-    } else if (this.breadcrumbNameFaq == 'usageLog') {
-      this.breadcrumbNameFaq = 'Usage Log';
-    } else if (this.breadcrumbNameFaq == 'invoices') {
-      this.breadcrumbNameFaq = 'Invoices';
-    }
+    const routeObj = {
+      content: 'Content',
+      faqs: 'FAQs',
+      botActions: 'Actions',
+      structuredData: 'Structured Data',
+      connectors: 'Connectors',
+      summary: 'Overview',
+      FieldManagementComponent: 'Field Management',
+      traits: 'Traits',
+      workbench: 'Workbench',
+      'search-settings/weights': 'Weights',
+      synonyms: 'Synonyms',
+      stopWords: 'Stop Words',
+      resultranking: 'Results Ranking',
+      facets: 'Facets',
+      rules: 'Business Rules',
+      'search-experience': 'Search Interface',
+      resultTemplate: 'Result Templates',
+      experiments: 'Experiments',
+      dashboard: 'Dashboard',
+      userEngagement: 'User Engagement',
+      searchInsights: 'Search Insights',
+      resultInsights: 'Results Insights',
+      generalSettings: 'General Settings',
+      settings: 'Channels',
+      'credentials-list': 'Credentials',
+      'team-management': 'Team',
+      pricing: 'Pricing',
+      usageLog: 'Usage Log',
+      invoices: 'Invoices',
+      'index-configuration-settings': 'Index Settings',
+      'search-settings/snippets': 'Smart Answers',
+      'search-settings/presentable': 'Presentable',
+      'search-settings/highlighting': 'Highlighting',
+      'search-settings/spell_correction': 'Spell Correction',
+      'search-settings/search_relevance': 'Search Relevance',
+      'search-settings/synonyms': 'Synonyms',
+      'search-settings/stop_words': 'Stop Words',
+      'search-settings/bot_actions': 'Bot Actions',
+      'search-settings/small_talk': 'Small Talk',
+      'search-settings/custom_configurations': 'Custom Configurations',
+    };
+    this.breadcrumbNameFaq =
+      routeObj[this.breadcrumbNameFaq] || this.breadcrumbNameFaq;
   }
   closeMediaModal(event) {
     this.mediaObj = {};
