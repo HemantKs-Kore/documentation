@@ -360,9 +360,9 @@ export class SourcesComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild('schedularDataPop') schedularDataPop: KRModalComponent;
   @ViewChild('contentStatusModalPop') contentStatusModalPop: KRModalComponent;
   ngOnInit() {
-    this.router.routeReuseStrategy.shouldReuseRoute = () => {
-      return false;
-    };
+    // this.router.routeReuseStrategy.shouldReuseRoute = () => {
+    //   return false;
+    // };
     this.appSelectionService.getTourConfig();
     this.selectedApp = this.workflowService.selectedApp();
     this.searchIndexId = this.selectedApp?.searchIndexes[0]?._id;
