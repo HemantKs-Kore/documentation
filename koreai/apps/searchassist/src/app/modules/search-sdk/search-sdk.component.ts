@@ -154,6 +154,9 @@ export class SearchSdkComponent implements OnInit, OnDestroy {
   lazyLoadCodeScripts(): Observable<any> {
     return forkJoin([
       this.lazyLoadService.loadScript(
+        '../../../assets/web-kore-sdk/demo/libs/moment.js'
+      ),
+      this.lazyLoadService.loadScript(
         '../../../assets/web-kore-sdk/demo/libs/kore-no-conflict-start.js'
       ),
       this.lazyLoadService.loadScript(
