@@ -1,8 +1,8 @@
+/* eslint-disable @typescript-eslint/no-this-alias */
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { Subscription } from 'rxjs';
 import { SearchSdkService } from './services/search-sdk.service';
-import $ from 'jquery';
 import { SideBarService } from '@kore.apps/services/header.service';
 import { WorkflowService } from '@kore.apps/services/workflow.service';
 import { AppSelectionService } from '@kore.apps/services/app.selection.service';
@@ -10,6 +10,8 @@ import { EndPointsService } from '@kore.apps/services/end-points.service';
 import { ServiceInvokerService } from '@kore.apps/services/service-invoker.service';
 import { LazyLoadService } from '@kore.shared/*';
 import { LocalStoreService } from '@kore.services/localstore.service';
+import { Store } from '@ngrx/store';
+import { selectAppIds } from '@kore.apps/store/app.selectors';
 
 // import('../../../assets/web-kore-sdk/demo/libs/kore-no-conflict-start.js');
 // import('../../../assets/web-kore-sdk/libs/uuid.min.js');
@@ -35,8 +37,9 @@ import { LocalStoreService } from '@kore.services/localstore.service';
 // import('../../../assets/web-kore-sdk/demo/findly/findly-config.js');
 // import('../../../assets/web-kore-sdk/demo/libs/kore-no-conflict-end.js');
 // import('../../../assets/web-kore-sdk/libs/lodash.min.js');
-// declare const $: any;
+declare const $: any;
 declare const FindlySDK: any;
+declare let self: any;
 
 @Component({
   standalone: true,
@@ -49,6 +52,7 @@ export class SearchSdkComponent implements OnInit, OnDestroy {
   searchExperienceConfig: any = {};
   sub: Subscription;
   styleSub: Subscription;
+  $: any;
 
   loading = true;
   userInfo: any = {};
@@ -86,8 +90,10 @@ export class SearchSdkComponent implements OnInit, OnDestroy {
   searchExperinceLoading = false;
   indexPipelineId: any;
   queryPipelineId: any;
+  searchIndexId;
   // isDemoApp: boolean = false;
   selectedApp: any;
+  streamId;
   // @ViewChild('headerComp') headerComp: AppHeaderComponent;
 
   constructor(
@@ -106,89 +112,118 @@ export class SearchSdkComponent implements OnInit, OnDestroy {
     // private translate: TranslateService,
     private searchSdkService: SearchSdkService,
     public localstore: LocalStoreService,
-    private lazyLoadService: LazyLoadService
+    private lazyLoadService: LazyLoadService,
+    private store: Store
   ) {}
 
   ngOnInit(): void {
+    self = this;
+    this.initAppIds();
     this.loadStyles();
-    this.SearchConfigurationSubscription =
-      this.headerService.resetSearchConfiguration.subscribe((res) => {
-        this.distroySearch();
-        this.loadSearchExperience();
-        this.getSearchExperience();
-      });
+    // this.SearchConfigurationSubscription =
+    //   this.headerService.resetSearchConfiguration.subscribe((res) => {
+
+    //   });
     this.loadScripts().then(() => {
+      // before click
+      this.distroySearch();
+
+      // after load
+      this.showHideSearch(false);
+      this.showHideTopDownSearch(false);
+
       this.initSearchSDK();
-      this.searchSDKHeader();
     });
     this.toggleSdkPopup();
   }
-  loadSearchExperience() {
-    this.indexPipelineId = this.workflowService.selectedIndexPipeline();
-    this.queryPipelineId = this.workflowService.selectedQueryPipeline()
-      ? this.workflowService.selectedQueryPipeline()._id
-      : this.selectedApp.searchIndexes[0].queryPipelineId;
-    /** fetching the ID from Previous state for refresh app */
-    if (!this.queryPipelineId) {
-      const preStateData = this.localstore.getPreviousState();
-      if (preStateData && preStateData.selectedQueryPipeline) {
-        this.queryPipelineId = preStateData.selectedQueryPipeline._id;
-      }
-    }
-    if (
-      this.indexPipelineId &&
-      this.queryPipelineId &&
-      this.searchExperinceLoading === false
-    ) {
-      this.getSearchExperience();
-    }
+
+  initAppIds() {
+    const idsSub = this.store
+      .select(selectAppIds)
+      .subscribe(
+        ({ streamId, searchIndexId, indexPipelineId, queryPipelineId }) => {
+          this.streamId = streamId;
+          this.searchIndexId = searchIndexId;
+          this.indexPipelineId = indexPipelineId;
+          this.queryPipelineId = queryPipelineId;
+
+          this.$ = $;
+          this.getSearchExperience();
+        }
+      );
+    this.sub?.add(idsSub);
   }
+
   // added setTimeout function and verifying for indexpipeline before we make api call, for  resolving the search interface failure issue
   getSearchExperience() {
     // let selectedApp: any;
-    const selectedApp = this.workflowService.selectedApp();
-    const searchIndex = selectedApp.searchIndexes[0]._id;
+
     const quaryparms: any = {
-      searchIndexId: searchIndex,
-      indexPipelineId: this.workflowService.selectedIndexPipeline(),
-      queryPipelineId: this.workflowService.selectedQueryPipeline()
-        ? this.workflowService.selectedQueryPipeline()._id
-        : this.queryPipelineId,
+      searchIndexId: this.searchIndexId,
+      indexPipelineId: this.indexPipelineId,
+      queryPipelineId: this.queryPipelineId,
     };
-    setTimeout(function () {
-      if (!quaryparms.indexPipelineId) {
-        quaryparms.indexPipelineId =
-          this.workflowService.selectedIndexPipelineId;
-      }
-      if (!quaryparms.queryPipelineId) {
-        quaryparms.queryPipelineId =
-          this.workflowService.selectedQueryPipeline()
-            ? this.workflowService.selectedQueryPipeline()._id
-            : this.selectedApp.searchIndexes[0].queryPipelineId;
-      }
-      if (quaryparms.indexPipelineId && quaryparms.queryPipelineId) {
-        this.service.invoke('get.searchexperience.list', quaryparms).subscribe(
-          (res) => {
-            this.searchExperienceConfig = res;
-            this.searchExperinceLoading = true;
-            this.headerService.updateSearchConfigurationValue(res);
-            $('#test-btn-launch-sdk').removeAttr('disabled').button('refresh');
-            this.headerService.searchConfiguration = res;
-            //if (this.isDemoApp) this.searchSDKHeader();
-          },
-          (errRes) => {
-            // console.log("getSearchExperience failed happen");
-            // console.log(errRes);
-          }
-        );
-      } else {
-        this.getSearchExperience();
-      }
-    }, 100);
+
+    if (quaryparms.indexPipelineId && quaryparms.queryPipelineId) {
+      this.service.invoke('get.searchexperience.list', quaryparms).subscribe(
+        (res) => {
+          this.searchExperienceConfig = res;
+          this.searchExperinceLoading = true;
+          this.headerService.updateSearchConfigurationValue(res);
+          this.$('#test-btn-launch-sdk')
+            .removeAttr('disabled')
+            .button('refresh');
+          this.headerService.searchConfiguration = res;
+          //if (this.isDemoApp) this.searchSDKHeader();
+        },
+        (errRes) => {
+          // console.log("getSearchExperience failed happen");
+          // console.log(errRes);
+        }
+      );
+    }
+
+    // setTimeout(function () {
+    //   // if (!quaryparms.indexPipelineId) {
+    //   //   quaryparms.indexPipelineId =
+    //   //     this.workflowService.selectedIndexPipelineId;
+    //   // }
+    //   // if (!quaryparms.queryPipelineId) {
+    //   //   quaryparms.queryPipelineId =
+    //   //     this.workflowService.selectedQueryPipeline()
+    //   //       ? this.workflowService.selectedQueryPipeline()._id
+    //   //       : this.selectedApp.searchIndexes[0].queryPipelineId;
+    //   // }
+    //   if (quaryparms.indexPipelineId && quaryparms.queryPipelineId) {
+    //     this.service.invoke('get.searchexperience.list', quaryparms).subscribe(
+    //       (res) => {
+    //         this.searchExperienceConfig = res;
+    //         this.searchExperinceLoading = true;
+    //         this.headerService.updateSearchConfigurationValue(res);
+    //         this.$('#test-btn-launch-sdk').removeAttr('disabled').button('refresh');
+    //         this.headerService.searchConfiguration = res;
+    //         //if (this.isDemoApp) this.searchSDKHeader();
+    //       },
+    //       (errRes) => {
+    //         // console.log("getSearchExperience failed happen");
+    //         // console.log(errRes);
+    //       }
+    //     );
+    //   } else {
+    //     this.getSearchExperience();
+    //   }
+    // }, 100);
   }
 
   openSdk() {
     console.log('OPEN');
+    this.resetFindlySearchSDK({
+      _id: this.streamId,
+      pipelineId: this.queryPipelineId,
+      indexpipelineId: this.indexPipelineId,
+    });
+
+    this.searchSDKHeader();
   }
 
   closeSdk() {
@@ -246,59 +281,59 @@ export class SearchSdkComponent implements OnInit, OnDestroy {
   }
 
   initSearchSDK() {
-    $('body').append('<div class="start-search-icon-div"></div>');
+    this.$('body').append('<div class="start-search-icon-div"></div>');
     setTimeout(() => {
-      $('.start-search-icon-div').click(() => {
-        if (!$('.search-background-div:visible').length) {
+      this.$('.start-search-icon-div').click(() => {
+        if (!this.$('.search-background-div:visible').length) {
           this.showHideSearch(true);
         } else {
           this.showHideSearch(false);
         }
       });
     }, 200);
-    $('#advanceModeSdk').change(function () {
-      if ($(this).is(':checked')) {
-        $('.search-container').removeClass('advanced-mode');
+    this.$('#advanceModeSdk').change(function () {
+      if (this.$(this).is(':checked')) {
+        this.$('.search-container').removeClass('advanced-mode');
       } else {
-        $('.search-container').addClass('advanced-mode');
+        this.$('.search-container').addClass('advanced-mode');
       }
     });
   }
 
   showHideSearch(show, disabelInstanceDistroy?) {
     if (show) {
-      $('.appContent').append(
+      this.$('.appContent').append(
         '<div class="search-background-div"><div class="bgDullOpacity"></div></div>'
       );
-      $('.appContent').append(
+      this.$('.appContent').append(
         '<label class="kr-sg-toggle advancemode-checkbox" style="display:none;"><input type="checkbox" id="advanceModeSdk" checked><div class="slider"></div></label>'
       );
-      $('.search-background-div').show();
-      // $('.start-search-icon-div').addClass('active');
-      $('.search-background-div')
+      this.$('.search-background-div').show();
+      // this.$('.start-search-icon-div').addClass('active');
+      this.$('.search-background-div')
         .off('click')
         .on('click', (event) => {
           if (event.target.classList.contains('bgDullOpacity')) {
             this.cacheBottomUpSDK(false);
           }
         });
-      $('.advancemode-checkbox').css({ display: 'block' });
-      $('.search-container').addClass('search-container-adv');
-      $('.search-container').addClass('add-new-result');
+      this.$('.advancemode-checkbox').css({ display: 'block' });
+      this.$('.search-container').addClass('search-container-adv');
+      this.$('.search-container').addClass('add-new-result');
       this.initSearch();
-      $('#test-btn-launch-sdk').addClass('active');
-      $('#open-chat-window-no-clicks').css({ display: 'block' });
+      this.$('#test-btn-launch-sdk').addClass('active');
+      this.$('#open-chat-window-no-clicks').css({ display: 'block' });
       this.headerService.isSDKOpen = true;
     } else {
-      $('.search-background-div').remove();
-      $('.advancemode-checkbox').remove();
-      $('.start-search-icon-div').removeClass('active');
+      this.$('.search-background-div').remove();
+      this.$('.advancemode-checkbox').remove();
+      this.$('.start-search-icon-div').removeClass('active');
       this.bridgeDataInsights = true;
       this.addNewResult = true;
       this.showInsightFull = false;
       this.distroySearch();
-      $('#test-btn-launch-sdk').removeClass('active');
-      $('#open-chat-window-no-clicks').css({ display: 'none' });
+      this.$('#test-btn-launch-sdk').removeClass('active');
+      this.$('#open-chat-window-no-clicks').css({ display: 'none' });
       this.headerService.isSDKCached = false;
       this.headerService.isSDKOpen = false;
     }
@@ -306,35 +341,37 @@ export class SearchSdkComponent implements OnInit, OnDestroy {
 
   cacheBottomUpSDK(key) {
     if (key) {
-      $('.search-background-div').css('display', 'block');
+      this.$('.search-background-div').css('display', 'block');
       if (
-        $('#show-all-results-container').length &&
-        $('#show-all-results-container').attr('isCached') == 'true'
+        this.$('#show-all-results-container').length &&
+        this.$('#show-all-results-container').attr('isCached') == 'true'
       ) {
-        $('#show-all-results-container').css('display', 'block');
+        this.$('#show-all-results-container').css('display', 'block');
       }
-      $('#test-btn-launch-sdk').addClass('active');
-      $('#open-chat-window-no-clicks').css({ display: 'block' });
+      this.$('#test-btn-launch-sdk').addClass('active');
+      this.$('#open-chat-window-no-clicks').css({ display: 'block' });
       this.headerService.isSDKOpen = true;
     } else {
-      $('.search-background-div').css('display', 'none');
-      $('body').removeClass('sdk-body');
-      if ($('#show-all-results-container').length) {
+      this.$('.search-background-div').css('display', 'none');
+      this.$('body').removeClass('sdk-body');
+      if (this.$('#show-all-results-container').length) {
         if (
-          !$('#show-all-results-container').attr('isCached') ||
-          $('#show-all-results-container').attr('isCached') == 'false'
+          !this.$('#show-all-results-container').attr('isCached') ||
+          this.$('#show-all-results-container').attr('isCached') == 'false'
         ) {
-          if ($('#show-all-results-container').attr('isCached') == 'false') {
-            $('#show-all-results-container').attr('isCached', 'false');
+          if (
+            this.$('#show-all-results-container').attr('isCached') == 'false'
+          ) {
+            this.$('#show-all-results-container').attr('isCached', 'false');
           }
           // else {
-          //   $('#show-all-results-container').attr('isCached', 'true');
+          //   this.$('#show-all-results-container').attr('isCached', 'true');
           // }
-          $('#show-all-results-container').css('display', 'none');
+          this.$('#show-all-results-container').css('display', 'none');
         }
       }
-      $('#test-btn-launch-sdk').removeClass('active');
-      $('#open-chat-window-no-clicks').css({ display: 'none' });
+      this.$('#test-btn-launch-sdk').removeClass('active');
+      this.$('#open-chat-window-no-clicks').css({ display: 'none' });
       this.headerService.isSDKCached = true;
       this.headerService.isSDKOpen = false;
     }
@@ -351,9 +388,9 @@ export class SearchSdkComponent implements OnInit, OnDestroy {
       ) {
         if (
           !this.headerService.isSDKCached ||
-          !$('.search-background-div').length
+          !this.$('.search-background-div').length
         ) {
-          if (!$('.search-background-div:visible').length) {
+          if (!this.$('.search-background-div:visible').length) {
             this.showHideSearch(true);
             this.resultRankDataSubscription =
               this.headerService.resultRankData.subscribe((res: any) => {
@@ -364,15 +401,15 @@ export class SearchSdkComponent implements OnInit, OnDestroy {
             this.cacheBottomUpSDK(false);
           }
         } else {
-          if ($('.search-background-div').css('display') == 'block') {
+          if (this.$('.search-background-div').css('display') == 'block') {
             this.cacheBottomUpSDK(false);
           } else {
             this.cacheBottomUpSDK(true);
           }
         }
       } else {
-        if (!$('.top-down-search-background-div:visible').length) {
-          $('.top-down-search-background-div').addClass('active');
+        if (!this.$('.top-down-search-background-div:visible').length) {
+          this.$('.top-down-search-background-div').addClass('active');
           this.showHideTopDownSearch(true);
         } else {
           this.showHideTopDownSearch(false);
@@ -460,44 +497,47 @@ export class SearchSdkComponent implements OnInit, OnDestroy {
     };
     this.searchInstance.showSearch(findlyConfig.botOptions, searchConfig, true);
     this.resetFindlySearchSDK(this.workflowService.selectedApp());
-    $('body').addClass('sdk-body');
+    this.$('body').addClass('sdk-body');
   }
 
   assertion(options, callback) {
-    this.service?.invoke('bt.post.sts', {}).subscribe((res) => {
+    self.service?.invoke('bt.post.sts', {}).subscribe((res) => {
       const data = res;
       options.assertion = data.jwt;
       callback(null, options);
     });
   }
 
-  resetFindlySearchSDK(appData) {
+  resetFindlySearchSDK(searchData) {
     if (this.searchInstance && this.searchInstance.setAPIDetails) {
-      if (
-        appData &&
-        appData.searchIndexes &&
-        appData.searchIndexes.length &&
-        appData.searchIndexes[0]._id
-      ) {
-        const searchData = {
-          _id: appData.searchIndexes[0]._id,
-          pipelineId: this.workflowService.selectedQueryPipeline()
-            ? this.workflowService.selectedQueryPipeline()._id
-            : '',
-          indexpipelineId: this.workflowService.selectedIndexPipeline() || '',
-        };
-        window.selectedFindlyApp = searchData;
-        this.searchInstance.setAPIDetails();
-      }
+      window.selectedFindlyApp = searchData;
+      this.searchInstance.setAPIDetails();
+
+      // if (
+      //   appData &&
+      //   appData.searchIndexes &&
+      //   appData.searchIndexes.length &&
+      //   appData.searchIndexes[0]._id
+      // ) {
+      //   const searchData = {
+      //     _id: appData.searchIndexes[0]._id,
+      //     pipelineId: this.workflowService.selectedQueryPipeline()
+      //       ? this.workflowService.selectedQueryPipeline()._id
+      //       : '',
+      //     indexpipelineId: this.workflowService.selectedIndexPipeline() || '',
+      //   };
+      //   window.selectedFindlyApp = searchData;
+      //   this.searchInstance.setAPIDetails();
+      // }
     }
   }
 
   clearBodyClasses() {
     // have to clear the classes set for Top-down
-    if ($('body').hasClass('top-down')) {
-      $('body').removeClass('top-down');
-      $('body').removeClass('sdk-top-down-interface');
-      $('body').removeClass('sdk-body');
+    if (this.$('body').hasClass('top-down')) {
+      this.$('body').removeClass('top-down');
+      this.$('body').removeClass('sdk-top-down-interface');
+      this.$('body').removeClass('sdk-body');
     }
   }
 
@@ -506,7 +546,7 @@ export class SearchSdkComponent implements OnInit, OnDestroy {
   distroyTopDownSearch() {
     if (this.topDownSearchInstance && this.topDownSearchInstance.destroy) {
       this.topDownSearchInstance.destroy();
-      $('body').removeClass('sdk-body');
+      this.$('body').removeClass('sdk-body');
     }
   }
 
@@ -582,16 +622,16 @@ export class SearchSdkComponent implements OnInit, OnDestroy {
       'top-down-search-background-div',
       searchConfig
     );
-    $('body').addClass('sdk-body');
+    this.$('body').addClass('sdk-body');
   }
 
   showHideTopDownSearch(show) {
     if (show) {
-      $('.appContent').append(
+      this.$('.appContent').append(
         '<div class="top-down-search-background-div"><div class="bgDullOpacity"></div></div>'
       );
-      $('.top-down-search-background-div').show();
-      $('.top-down-search-background-div')
+      this.$('.top-down-search-background-div').show();
+      this.$('.top-down-search-background-div')
         .off('click')
         .on('click', (event) => {
           if (
@@ -602,32 +642,32 @@ export class SearchSdkComponent implements OnInit, OnDestroy {
             this.showHideTopDownSearch(false);
           }
         });
-      $('.appContent').append(
+      this.$('.appContent').append(
         '<div class="close-top-down-search-outer"><img class="close-top-down-search" src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTAiIGhlaWdodD0iMTAiIHZpZXdCb3g9IjAgMCAxMCAxMCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTUuNzA3MDMgNS4wMDAwOUw5Ljg1MzU1IDAuODUzNTUzQzEwLjA0ODggMC42NTgyOTEgMTAuMDQ4OCAwLjM0MTcwOSA5Ljg1MzU1IDAuMTQ2NDQ3QzkuNjU4MjkgLTAuMDQ4ODE1NyA5LjM0MTcxIC0wLjA0ODgxNTQgOS4xNDY0NSAwLjE0NjQ0N0w0Ljk5OTkxIDQuMjkzTDAuODUzNTU1IDAuMTQ2ODE0QzAuNjU4Mjg4IC0wLjA0ODQ0NDQgMC4zNDE3MDYgLTAuMDQ4NDM4IDAuMTQ2NDQ4IDAuMTQ2ODI4Qy0wLjA0ODgxMDQgMC4zNDIwOTQgLTAuMDQ4ODA0IDAuNjU4Njc3IDAuMTQ2NDYyIDAuODUzOTM1TDQuMjkyOCA1LjAwMDFMMC4xNDY0NDcgOS4xNDY0NkMtMC4wNDg4MTU3IDkuMzQxNzMgLTAuMDQ4ODE1NSA5LjY1ODMxIDAuMTQ2NDQ3IDkuODUzNTdDMC4zNDE3MDkgMTAuMDQ4OCAwLjY1ODI5MiAxMC4wNDg4IDAuODUzNTUzIDkuODUzNTdMNC45OTk5MiA1LjcwNzJMOS4xNDY0NiA5Ljg1MzU3QzkuMzQxNzMgMTAuMDQ4OCA5LjY1ODMxIDEwLjA0ODggOS44NTM1NyA5Ljg1MzU1QzEwLjA0ODggOS42NTgyOSAxMC4wNDg4IDkuMzQxNzEgOS44NTM1NSA5LjE0NjQ1TDUuNzA3MDMgNS4wMDAwOVoiIGZpbGw9IiMyMDIxMjQiLz4KPC9zdmc+Cg=="></div>'
       );
-      $('.close-top-down-search-outer')
+      this.$('.close-top-down-search-outer')
         .off('click')
         .on('click', () => {
           this.showHideTopDownSearch(false);
         });
-      $('.start-search-icon-div').addClass('active');
-      $('.search-container').addClass('search-container-adv');
-      $('.search-container').addClass('add-new-result');
+      this.$('.start-search-icon-div').addClass('active');
+      this.$('.search-container').addClass('search-container-adv');
+      this.$('.search-container').addClass('add-new-result');
       this.initTopDownSearch();
-      $('#test-btn-launch-sdk').addClass('active');
-      $('#open-chat-window-no-clicks').css({ display: 'block' });
+      this.$('#test-btn-launch-sdk').addClass('active');
+      this.$('#open-chat-window-no-clicks').css({ display: 'block' });
       this.headerService.isSDKOpen = true;
     } else {
-      $('.top-down-search-background-div').remove();
-      $('.close-top-down-search-outer').remove();
-      $('body').removeClass('sdk-top-down-interface');
-      $('.start-search-icon-div').removeClass('active');
+      this.$('.top-down-search-background-div').remove();
+      this.$('.close-top-down-search-outer').remove();
+      this.$('body').removeClass('sdk-top-down-interface');
+      this.$('.start-search-icon-div').removeClass('active');
       this.bridgeDataInsights = true;
       this.addNewResult = true;
       this.showInsightFull = false;
       this.distroyTopDownSearch();
-      $('#test-btn-launch-sdk').removeClass('active');
-      $('#open-chat-window-no-clicks').css({ display: 'none' });
+      this.$('#test-btn-launch-sdk').removeClass('active');
+      this.$('#open-chat-window-no-clicks').css({ display: 'none' });
       this.headerService.isSDKOpen = false;
     }
   }

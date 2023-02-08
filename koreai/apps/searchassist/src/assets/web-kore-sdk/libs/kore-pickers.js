@@ -137,7 +137,7 @@
   KorePickers.prototype.init = function (mainConfig) {
     mainConfig = this.mainConfig;
     let chatWindowInstance = this.chatWindowInstance;
-    if (chatWindowInstance.config.pickersConfig.showDateRangePickerIcon) {
+    if (chatWindowInstance.config.pickersConfig?.showDateRangePickerIcon) {
       this.showDateRangeIconToFooter();
       //    KorePickers.prototype.showDateRangePicker(mainConfig);
       chatWindowInstance.config.chatContainer.on(
@@ -148,7 +148,7 @@
         }
       );
     }
-    if (chatWindowInstance.config.pickersConfig.showDatePickerIcon) {
+    if (chatWindowInstance.config.pickersConfig?.showDatePickerIcon) {
       this.showDateIconToFooter();
       // KorePickers.prototype.showDatePicker(mainConfig);
       chatWindowInstance.config.chatContainer.on(
