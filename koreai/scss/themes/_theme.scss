@@ -5,11 +5,11 @@
 @include mat.core();
 
 // include style for all material components
-// @include mat.all-component-themes($my-app-theme);
+@include mat.all-component-themes(light.$kore-light-theme);
 
 // include specific component style
 // must include
-@include mat.core-theme(light.$kore-light-theme);
+// @include mat.core-theme(light.$kore-light-theme);
 
 // components
 @include mat.button-theme(light.$kore-light-theme);
