@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { KRModalComponent } from '../../shared/kr-modal/kr-modal.component';
 import { PerfectScrollbarComponent } from 'ngx-perfect-scrollbar';
 import { interval, Subscription } from 'rxjs';
@@ -18,7 +18,7 @@ declare const $: any;
   templateUrl: './index-configuration-settings.component.html',
   styleUrls: ['./index-configuration-settings.component.scss'],
 })
-export class IndexConfigurationSettingsComponent implements OnInit {
+export class IndexConfigurationSettingsComponent implements OnInit, OnDestroy {
   addLangModalPopRef: any;
   indexPipelineId;
   queryPipelineId;

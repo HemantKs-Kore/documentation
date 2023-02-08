@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { KRModalComponent } from '../../shared/kr-modal/kr-modal.component';
 import { Subscription } from 'rxjs';
@@ -17,7 +17,7 @@ declare const $: any;
   templateUrl: './result-templates.component.html',
   styleUrls: ['./result-templates.component.scss'],
 })
-export class ResultTemplatesComponent implements OnInit {
+export class ResultTemplatesComponent implements OnInit, OnDestroy {
   customModalRef: any;
   templateModalRef: any;
   selectedApp: any;

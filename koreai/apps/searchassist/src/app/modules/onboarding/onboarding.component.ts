@@ -803,7 +803,7 @@ export class OnboardingComponent implements OnInit {
             desc: 'Data is fetched from various sources and ingested into the application for accurate search results',
             imgURL: 'assets/icons/onboarding/database.svg',
             route: '/sources',
-            tourdata: this.tourData[0]?.addData,
+            tourdata: this.tourData?.[0].addData,
             videoUrl: 'https://www.w3schools.com/tags/movie.mp4',
             docUrl:
               'https://docs.kore.ai/searchassist/concepts/managing-content/introduction-to-content-sources/',
@@ -814,7 +814,7 @@ export class OnboardingComponent implements OnInit {
             desc: 'Index configurations allows you to configure the fields, traits,keywords or create workbench pipelines to suit your business needs.',
             imgURL: 'assets/icons/onboarding/review-index.svg',
             route: '/FieldManagementComponent',
-            tourdata: this.tourData[1]?.indexData,
+            tourdata: this.tourData?.[1].indexData,
             videoUrl: 'https://www.w3schools.com/tags/movie.mp4',
             docUrl:
               'https://docs.kore.ai/searchassist/concepts/managing-indices/introduction-to-indices/',
@@ -825,7 +825,7 @@ export class OnboardingComponent implements OnInit {
             desc: 'Search Configuration allows you to improve search relevance by configuring  synonyms, weights, stop words, re-ranking results, adding rules or facets.',
             imgURL: 'assets/icons/onboarding/review-search.svg',
             route: '/weights',
-            tourdata: this.tourData[2]?.optimiseSearchResults,
+            tourdata: this.tourData?.[2].optimiseSearchResults,
             videoUrl: 'https://www.w3schools.com/tags/movie.mp4',
             docUrl:
               'https://docs.kore.ai/searchassist/concepts/managing-relevance/managing-relevance/',
@@ -836,7 +836,7 @@ export class OnboardingComponent implements OnInit {
             desc: 'SearchAssist allows you to customise the Search Experiance and design the Search Interface based on the business context.',
             imgURL: 'assets/icons/onboarding/search-design.svg',
             route: '/search-experience',
-            tourdata: this.tourData[3]?.designSearchExperience,
+            tourdata: this.tourData?.[3].designSearchExperience,
             videoUrl: 'https://www.w3schools.com/tags/movie.mp4',
             docUrl:
               'https://docs.kore.ai/searchassist/concepts/designing-search-experience/designing-search-experience/',
@@ -847,7 +847,7 @@ export class OnboardingComponent implements OnInit {
             desc: 'SearchAssist allows you to validate the Configuration and Search Experience before deploying the app by just clicking on the Preview button.',
             imgURL: 'assets/icons/onboarding/acid-surface.svg',
             route: 'test',
-            tourdata: this.tourData[4]?.testApp,
+            tourdata: this.tourData?.[4].testApp,
             videoUrl: 'https://www.w3schools.com/tags/movie.mp4',
             docUrl:
               'https://docs.kore.ai/searchassist/concepts/testing-as-you-build/testing-as-you-build/',
@@ -858,7 +858,7 @@ export class OnboardingComponent implements OnInit {
             desc: 'Configure your application to connect to any of the channels available',
             imgURL: 'assets/icons/onboarding/hand.svg',
             route: '/settings',
-            tourdata: this.tourData[5]?.fineTuneRelevance,
+            tourdata: this.tourData?.[5].fineTuneRelevance,
             videoUrl: 'https://www.w3schools.com/tags/movie.mp4',
             docUrl:
               'https://docs.kore.ai/searchassist/deploying-searchassist-app/developers-corner/',
@@ -960,70 +960,50 @@ export class OnboardingComponent implements OnInit {
     this.supportParentfaq = false;
     this.supportChildfaq = faq.childData;
     this.breadcrumbNameFaq = faq.replace('/', '');
-    /**Sources*/
-    if (this.breadcrumbNameFaq == 'content') {
-      this.breadcrumbNameFaq = 'Content';
-    } else if (this.breadcrumbNameFaq == 'faqs') {
-      this.breadcrumbNameFaq = 'FAQs';
-    } else if (this.breadcrumbNameFaq == 'botActions') {
-      this.breadcrumbNameFaq = 'Actions';
-    } else if (this.breadcrumbNameFaq == 'structuredData') {
-      this.breadcrumbNameFaq = 'Structured Data';
-    } else if (this.breadcrumbNameFaq == 'connectors') {
-      this.breadcrumbNameFaq = 'Connectors';
-    } else if (this.breadcrumbNameFaq == 'summary') {
-      /**Overview*/
-      this.breadcrumbNameFaq = 'Overview';
-    } else if (this.breadcrumbNameFaq == 'FieldManagementComponent') {
-      /**Indices */
-      this.breadcrumbNameFaq = 'Field Management';
-    } else if (this.breadcrumbNameFaq == 'traits') {
-      this.breadcrumbNameFaq = 'Traits';
-    } else if (this.breadcrumbNameFaq == 'index') {
-      this.breadcrumbNameFaq = 'Workbench';
-    } else if (this.breadcrumbNameFaq == 'weights') {
-      this.breadcrumbNameFaq = 'Weights';
-    } else if (this.breadcrumbNameFaq == 'synonyms') {
-      this.breadcrumbNameFaq = 'Synonyms';
-    } else if (this.breadcrumbNameFaq == 'stopWords') {
-      this.breadcrumbNameFaq = 'Stop Words';
-    } else if (this.breadcrumbNameFaq == 'resultranking') {
-      this.breadcrumbNameFaq = 'Results Ranking';
-    } else if (this.breadcrumbNameFaq == 'facets') {
-      this.breadcrumbNameFaq = 'Facets';
-    } else if (this.breadcrumbNameFaq == 'rules') {
-      this.breadcrumbNameFaq = 'Business Rules';
-    } else if (this.breadcrumbNameFaq == 'search-experience') {
-      this.breadcrumbNameFaq = 'Search Interface';
-    } else if (this.breadcrumbNameFaq == 'resultTemplate') {
-      this.breadcrumbNameFaq = 'Result Templates';
-    } else if (this.breadcrumbNameFaq == 'experiments') {
-      /**Analytics*/
-      this.breadcrumbNameFaq = 'Experiments';
-    } else if (this.breadcrumbNameFaq == 'dashboard') {
-      this.breadcrumbNameFaq = 'Dashboard';
-    } else if (this.breadcrumbNameFaq == 'userEngagement') {
-      this.breadcrumbNameFaq = 'User Engagement';
-    } else if (this.breadcrumbNameFaq == 'searchInsights') {
-      this.breadcrumbNameFaq = 'Search Insights';
-    } else if (this.breadcrumbNameFaq == 'resultInsights') {
-      this.breadcrumbNameFaq = 'Results Insights';
-    } else if (this.breadcrumbNameFaq == 'generalSettings') {
-      /**Manage */
-      this.breadcrumbNameFaq = 'General Settings';
-    } else if (this.breadcrumbNameFaq == 'settings') {
-      this.breadcrumbNameFaq = 'Channels';
-    } else if (this.breadcrumbNameFaq == 'credentials-list') {
-      this.breadcrumbNameFaq = 'Credentials';
-    } else if (this.breadcrumbNameFaq == 'team-management') {
-      this.breadcrumbNameFaq = 'Team';
-    } else if (this.breadcrumbNameFaq == 'pricing') {
-      this.breadcrumbNameFaq = 'Pricing';
-    } else if (this.breadcrumbNameFaq == 'usageLog') {
-      this.breadcrumbNameFaq = 'Usage Log';
-    } else if (this.breadcrumbNameFaq == 'invoices') {
-      this.breadcrumbNameFaq = 'Invoices';
-    }
+    const routeObj = {
+      content: 'Content',
+      faqs: 'FAQs',
+      botActions: 'Actions',
+      structuredData: 'Structured Data',
+      connectors: 'Connectors',
+      summary: 'Overview',
+      FieldManagementComponent: 'Field Management',
+      traits: 'Traits',
+      workbench: 'Workbench',
+      'search-settings/weights': 'Weights',
+      synonyms: 'Synonyms',
+      stopWords: 'Stop Words',
+      resultranking: 'Results Ranking',
+      facets: 'Facets',
+      rules: 'Business Rules',
+      'search-experience': 'Search Interface',
+      resultTemplate: 'Result Templates',
+      experiments: 'Experiments',
+      dashboard: 'Dashboard',
+      userEngagement: 'User Engagement',
+      searchInsights: 'Search Insights',
+      resultInsights: 'Results Insights',
+      generalSettings: 'General Settings',
+      settings: 'Channels',
+      'credentials-list': 'Credentials',
+      'team-management': 'Team',
+      pricing: 'Pricing',
+      usageLog: 'Usage Log',
+      invoices: 'Invoices',
+      'index-configuration-settings': 'Index Settings',
+      'search-settings/snippets': 'Smart Answers',
+      'search-settings/presentable': 'Presentable',
+      'search-settings/highlighting': 'Highlighting',
+      'search-settings/spell_correction': 'Spell Correction',
+      'search-settings/search_relevance': 'Search Relevance',
+      'search-settings/synonyms': 'Synonyms',
+      'search-settings/stop_words': 'Stop Words',
+      'search-settings/bot_actions': 'Bot Actions',
+      'search-settings/small_talk': 'Small Talk',
+      'search-settings/custom_configurations': 'Custom Configurations',
+    };
+    this.breadcrumbNameFaq =
+      routeObj[this.breadcrumbNameFaq] || this.breadcrumbNameFaq;
   }
   closeMediaModal(event) {
     this.mediaObj = {};

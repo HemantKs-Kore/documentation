@@ -1,11 +1,18 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  Input,
+  Output,
+  EventEmitter,
+  OnChanges,
+} from '@angular/core';
 
 @Component({
   selector: 'app-record-pagination',
   templateUrl: './record-pagination.component.html',
-  styleUrls: ['./record-pagination.component.scss']
+  styleUrls: ['./record-pagination.component.scss'],
 })
-export class RecordPaginationComponent implements OnInit {
+export class RecordPaginationComponent implements OnInit, OnChanges {
   //testRecord = [];
   //limitpage = 10;
   remainder = 0;
@@ -18,7 +25,7 @@ export class RecordPaginationComponent implements OnInit {
   @Input() limitpage: any;
   @Input() totalRecord: any;
   @Output() pageChanged = new EventEmitter();
-  constructor() { }
+  constructor() {}
 
   ngOnInit(): void {
     // for(let i = 1 ; i < 569 ; i++){
@@ -26,7 +33,7 @@ export class RecordPaginationComponent implements OnInit {
     // }
     this.endPage = Number(Math.ceil(this.totalRecord / this.limitpage));
     //this.endPage = Number(this.totalRecord/this.limitpage);
-    this.remainder = Number((this.totalRecord % this.limitpage));
+    this.remainder = Number(this.totalRecord % this.limitpage);
 
     // if(this.remainder > 0){
     //   this.endPage = this.endPage - 1;
@@ -38,14 +45,13 @@ export class RecordPaginationComponent implements OnInit {
     if (this.inputPage > this.endPage) {
       this.inputPage = this.inputPage - 1;
     }
-    
-    this.previousDisable = true;
 
+    this.previousDisable = true;
   }
 
-  ngOnChanges(){
+  ngOnChanges() {
     this.endPage = Number(Math.ceil(this.totalRecord / this.limitpage));
-    this.remainder = Number((this.totalRecord % this.limitpage));
+    this.remainder = Number(this.totalRecord % this.limitpage);
     if (this.endPage <= 0) {
       this.inputPage = 1;
       this.endPage = 1;
@@ -61,59 +67,58 @@ export class RecordPaginationComponent implements OnInit {
       skip = (inputPage - 1) * this.limitpage;
       limit = this.limitpage + this.remainder;
     } else {
-      skip = (inputPage - 1) * this.limitpage
+      skip = (inputPage - 1) * this.limitpage;
     }
     const eventObj = {
       limit: limit,
-      skip: skip
+      skip: skip,
+    };
+    if (inputPage == this.endPage) {
+      this.nextDisable = true;
+    } else {
+      this.nextDisable = false;
     }
-    if(inputPage == this.endPage){
-      this.nextDisable= true;
-    }else{
-      this.nextDisable= false;
-    }
-    if(inputPage == 1){
-      this.previousDisable= true;
-    }else{
-      this.previousDisable= false;
+    if (inputPage == 1) {
+      this.previousDisable = true;
+    } else {
+      this.previousDisable = false;
     }
     this.pageChanged.emit(eventObj);
   }
   inputPageChange(event) {
-    const inputNumber = event.target.value.replace(/\D/g,'')
-    if(inputNumber!==''){
-      if(Number(inputNumber) < 1){
-        this.inputPage = 1
-      }
-      else if (Number(inputNumber) <= this.endPage) {
+    const inputNumber = event.target.value.replace(/\D/g, '');
+    if (inputNumber !== '') {
+      if (Number(inputNumber) < 1) {
+        this.inputPage = 1;
+      } else if (Number(inputNumber) <= this.endPage) {
         this.inputPage = Number(inputNumber);
-      } 
-      else if(Number(inputNumber) > this.endPage){
-        this.inputPage = this.endPage
+      } else if (Number(inputNumber) > this.endPage) {
+        this.inputPage = this.endPage;
       }
-      setTimeout(()=>{
-        this.pageChangeEvent(this.inputPage)
-      },500)
-    }
-    else{
+      setTimeout(() => {
+        this.pageChangeEvent(this.inputPage);
+      }, 500);
+    } else {
       //this.inputPage = 1
     }
   }
   arrowFirst() {
     this.inputPage = this.startpage;
-    this.pageChangeEvent(this.inputPage)
+    this.pageChangeEvent(this.inputPage);
   }
   arrowLast() {
     this.inputPage = this.endPage;
-    this.pageChangeEvent(this.inputPage)
+    this.pageChangeEvent(this.inputPage);
   }
   arrowPrevious() {
-    if (this.inputPage > this.startpage) this.inputPage = Number(this.inputPage) - 1;
-    this.inputPage > 0 ? this.inputPage : this.inputPage  = 1;
-    this.pageChangeEvent(this.inputPage)
+    if (this.inputPage > this.startpage)
+      this.inputPage = Number(this.inputPage) - 1;
+    this.inputPage > 0 ? this.inputPage : (this.inputPage = 1);
+    this.pageChangeEvent(this.inputPage);
   }
   arrowNext() {
-    if (this.inputPage < this.endPage) this.inputPage = Number(this.inputPage) + 1;
-    this.pageChangeEvent(this.inputPage)
+    if (this.inputPage < this.endPage)
+      this.inputPage = Number(this.inputPage) + 1;
+    this.pageChangeEvent(this.inputPage);
   }
 }

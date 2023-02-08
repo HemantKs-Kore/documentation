@@ -5,6 +5,7 @@ import {
   Output,
   Input,
   EventEmitter,
+  OnDestroy,
 } from '@angular/core';
 import {
   PerfectScrollbarComponent,
@@ -19,6 +20,8 @@ import { AppSelectionService } from '@kore.apps/services/app.selection.service';
 import { ServiceInvokerService } from '@kore.apps/services/service-invoker.service';
 import { NotificationService } from '@kore.apps/services/notification.service';
 import { ConfirmationDialogComponent } from '@kore.apps/helpers/components/confirmation-dialog/confirmation-dialog.component';
+import { Store } from '@ngrx/store';
+import { selectAppIds } from '@kore.apps/store/app.selectors';
 
 declare const $: any;
 
@@ -27,7 +30,7 @@ declare const $: any;
   templateUrl: './list-fields.component.html',
   styleUrls: ['./list-fields.component.scss'],
 })
-export class ListFieldsComponent implements OnInit {
+export class ListFieldsComponent implements OnInit, OnDestroy {
   @ViewChild('addFieldModalPop') addFieldModalPop: KRModalComponent;
   @ViewChild(PerfectScrollbarComponent)
   perfectScroll?: PerfectScrollbarComponent;
@@ -52,7 +55,8 @@ export class ListFieldsComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private service: ServiceInvokerService,
-    private notificationService: NotificationService
+    private notificationService: NotificationService,
+    private store: Store
   ) {}
 
   addFieldModalPopRef: any;
@@ -66,11 +70,12 @@ export class ListFieldsComponent implements OnInit {
   selectedSort = 'fieldName';
   componenttype;
   checksort = 'asc';
-  querySubscription: Subscription;
+  sub: Subscription;
   isAsc = true;
   streamId: any;
   indexPipelineId: any;
   queryPipelineId: any;
+  searchIndexId;
   selectedApp;
   loadingContent = true;
   usageArr = [];
@@ -85,19 +90,34 @@ export class ListFieldsComponent implements OnInit {
     // if(this.tablefieldvalues && this.tablefieldvalues.length){
     //   this.loadingContent = false
     // }
+    this.initAppIds();
     this.selectedApp = this.workflowService?.selectedApp();
     //console.log(this.presentabledata);
-    this.indexPipelineId = this.workflowService.selectedIndexPipeline();
-    this.queryPipelineId = this.workflowService.selectedQueryPipeline()
-      ? this.workflowService.selectedQueryPipeline()._id
-      : '';
-    this.querySubscription =
-      this.appSelectionService.queryConfigSelected.subscribe((res) => {
-        this.indexPipelineId = this.workflowService.selectedIndexPipeline();
-        this.queryPipelineId = this.workflowService.selectedQueryPipeline()
-          ? this.workflowService.selectedQueryPipeline()._id
-          : '';
-      });
+    // this.indexPipelineId = this.workflowService.selectedIndexPipeline();
+    // this.queryPipelineId = this.workflowService.selectedQueryPipeline()
+    //   ? this.workflowService.selectedQueryPipeline()._id
+    //   : '';
+    // this.querySubscription =
+    //   this.appSelectionService.queryConfigSelected.subscribe((res) => {
+    //     this.indexPipelineId = this.workflowService.selectedIndexPipeline();
+    //     this.queryPipelineId = this.workflowService.selectedQueryPipeline()
+    //       ? this.workflowService.selectedQueryPipeline()._id
+    //       : '';
+    //   });
+  }
+
+  initAppIds() {
+    const idsSub = this.store
+      .select(selectAppIds)
+      .subscribe(
+        ({ streamId, searchIndexId, indexPipelineId, queryPipelineId }) => {
+          this.streamId = streamId;
+          this.searchIndexId = searchIndexId;
+          this.indexPipelineId = indexPipelineId;
+          this.queryPipelineId = queryPipelineId;
+        }
+      );
+    this.sub?.add(idsSub);
   }
   /** To cehck for the Selected fileds - > use 'checkPopupfieldvalues()' to loop the slected fields on retun */
   checkPopupfieldvalues() {
@@ -262,9 +282,8 @@ export class ListFieldsComponent implements OnInit {
   //** fetch the search value and emit it to the other components */
 
   getsearchvalue(value, component) {
-    let component_type;
     this.search_value = value;
-    component_type = component;
+    const component_type = component;
     this.searchModel.emit({
       componenttype: component_type,
       searchvalue: this.search_value,
@@ -352,7 +371,7 @@ export class ListFieldsComponent implements OnInit {
   getFieldUsage(record): any {
     const quaryparms: any = {
       indexPipelineId: this.indexPipelineId,
-      streamId: this.selectedApp._id,
+      streamId: this.streamId,
       queryPipelineId: this.queryPipelineId,
       fieldId: record._id,
     };
@@ -449,6 +468,6 @@ export class ListFieldsComponent implements OnInit {
 
   //**unsubcribing the query subsciption */
   ngOnDestroy() {
-    this.querySubscription ? this.querySubscription.unsubscribe() : false;
+    this.sub?.unsubscribe();
   }
 }

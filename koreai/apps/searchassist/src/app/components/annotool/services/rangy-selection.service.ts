@@ -1,13 +1,12 @@
-import { Injectable, OnInit, OnDestroy } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs';
 
 declare let rangy;
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
-export class RangySelectionService implements OnInit, OnDestroy {
-
+export class RangySelectionService {
   private removalTextLoader = new Subject<boolean>();
   private polling = new Subject<boolean>();
   constructor() {
@@ -31,7 +30,7 @@ export class RangySelectionService implements OnInit, OnDestroy {
   }
   // Range Selection Text
   rangeSelectionText() {
-    let text = (rangy.getSelection().trim()).toString();
+    let text = rangy.getSelection().trim().toString();
     text = text.trim();
     return text;
   }
@@ -51,20 +50,21 @@ export class RangySelectionService implements OnInit, OnDestroy {
         highlighter = rangy.createHighlighter();
         highlighter.addClassApplier(rangy.createClassApplier(className), {
           ignoreWhiteSpace: true,
-          tagNames: ["span"],
-          elementTagName: "a",
+          tagNames: ['span'],
+          elementTagName: 'a',
           elementProperties: {
-            href: "#",
+            href: '#',
             onclick: function () {
               const highlight = highlighter.getHighlightForElement(this);
               // console.log("Hightlight" + highlight);
-              if (window.confirm("Delete this note (ID " + highlight.id + ")?")) {
+              if (
+                window.confirm('Delete this note (ID ' + highlight.id + ')?')
+              ) {
                 highlighter.removeHighlights([highlight]);
               }
               return false;
-            }
-          }
-
+            },
+          },
         });
         highlighter.highlightSelection(className);
         rangy.getSelection().removeAllRanges();
@@ -82,7 +82,7 @@ export class RangySelectionService implements OnInit, OnDestroy {
       // console.log("No highlighter found");
     }
   }
-  // remove classes 
+  // remove classes
   removeClasses(className) {
     // console.log(this)
     const query = document.querySelectorAll(className);
@@ -90,7 +90,7 @@ export class RangySelectionService implements OnInit, OnDestroy {
       item.remove(className);
     });
   }
-  // Seriliation 
+  // Seriliation
   getSerilization() {
     const selObj = rangy.getSelection();
     const coordVal = rangy.serializeSelection(selObj, true);
@@ -105,20 +105,24 @@ export class RangySelectionService implements OnInit, OnDestroy {
         serializeRangeAr.forEach((highlighterval: any, index) => {
           if (highlighterval && Object.keys(highlighterval).length) {
             if (rangy.canDeserializeSelection(highlighterval.coords)) {
+              let loop;
               try {
-                var loop = rangy.deserializeSelection(highlighterval.coords);
+                loop = rangy.deserializeSelection(highlighterval.coords);
               } catch (ex) {
                 // console.log('ERROR: failed deserialization');
               }
               if (loop) {
-                const applier = rangy.createClassApplier(highlighterval.className || 'no-title');
+                const applier = rangy.createClassApplier(
+                  highlighterval.className || 'no-title'
+                );
                 applier.toggleSelection();
                 rangy.getSelection().removeAllRanges();
               }
-
             } else if (rangy.canDeserializeRange(highlighterval.coords)) {
               rangy.deserializeRange(highlighterval.coords);
-              const applier = rangy.createClassApplier(highlighterval.className || 'no-title');
+              const applier = rangy.createClassApplier(
+                highlighterval.className || 'no-title'
+              );
               applier.toggleSelection();
               rangy.getSelection().removeAllRanges();
             } else {
@@ -142,11 +146,13 @@ export class RangySelectionService implements OnInit, OnDestroy {
     try {
       if (serializeRangeAr.length) {
         // deserialize with related serialized coords only
-        serializeRangeAr.forEach(highlighterval => {
+        serializeRangeAr.forEach((highlighterval) => {
           if (highlighterval && Object.keys(highlighterval).length) {
             if (rangy.canDeserializeSelection(highlighterval.coords)) {
               rangy.deserializeSelection(highlighterval.coords, null, window);
-              const applier = rangy.createClassApplier(highlighterval.className || 'no-title');
+              const applier = rangy.createClassApplier(
+                highlighterval.className || 'no-title'
+              );
               applier.toggleSelection();
               rangy.getSelection().removeAllRanges();
             } else {
@@ -177,7 +183,9 @@ export class RangySelectionService implements OnInit, OnDestroy {
   // Single Deserialization
   singleDeserialization(serializeRange) {
     if (rangy.canDeserializeSelection(serializeRange.coords)) {
-      const applier = rangy.createClassApplier(serializeRange.className || 'no-title');
+      const applier = rangy.createClassApplier(
+        serializeRange.className || 'no-title'
+      );
       rangy.deserializeSelection(serializeRange.coords);
       applier.toggleSelection();
       rangy.getSelection().removeAllRanges();
@@ -210,20 +218,16 @@ export class RangySelectionService implements OnInit, OnDestroy {
   surroundRange() {
     const range = this.getFirstRange();
     if (range) {
-      const el = document.createElement("span");
-      el.id = "id1";
+      const el = document.createElement('span');
+      el.id = 'id1';
       // el.style.backgroundColor = "pink";
       if (range.canSurroundContents(el)) {
         range.surroundContents(el);
       } else {
-        alert("Unable to surround range because range partially selects a non-text node. See DOM4 spec for more information.");
+        alert(
+          'Unable to surround range because range partially selects a non-text node. See DOM4 spec for more information.'
+        );
       }
     }
-  }
-  ngOnInit() {
-
-  }
-  ngOnDestroy() {
-
   }
 }

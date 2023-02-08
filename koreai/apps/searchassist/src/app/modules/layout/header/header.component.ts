@@ -723,9 +723,9 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   cancelButton() {
     const requestedAccounts = this.currentAppControlList?.requestedAccounts;
-    for (let index = 0; index < this.WorkspaceList.length; index++) {
+    for (let index = 0; index < this.WorkspaceList?.length; index++) {
       const element = this.WorkspaceList[index];
-      for (let i = 0; i < requestedAccounts.length; i++) {
+      for (let i = 0; i < requestedAccounts?.length; i++) {
         const account = requestedAccounts[i];
         if (element._id == account.acctId) {
           const obj = {
@@ -965,7 +965,10 @@ export class HeaderComponent implements OnInit, OnDestroy {
       searchIndexId: selectedApp.searchIndexes[0]._id,
       jobId: this.dockersList[0]._id,
     };
-    this.service.invoke('stopTrain.app', quaryparms).subscribe(
+    const payload = {
+      indexPipelineId: this.workflowService?.selectedIndexPipeline(),
+    };
+    this.service.invoke('stopTrain.app', quaryparms, payload).subscribe(
       (res) => {
         if (res && !this.training) {
           this.notificationService.notify(
@@ -1640,7 +1643,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
     this.store.dispatch(
       setAppId({ appId: app._id, searchIndexId: app.searchIndexes[0]._id })
     );
-    $('#test-btn-launch-sdk').attr('disabled', 'disabled').button('refresh');
+    // $('#test-btn-launch-sdk').attr('disabled', 'disabled').button('refresh');
     this.training = false;
     this.appSelectionService.openApp(app);
     //this.appSelectionService.refreshSummaryPage.next('changed');
@@ -1659,7 +1662,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
     const queryParms = {
       searchIndexId: this.workflowService.selectedSearchIndexId,
     };
-    const appId = JSON.parse(localStorage.krPreviousState);
+    // const appId = JSON.parse(localStorage.krPreviousState);
     this.service.invoke('get.dockStatus', queryParms).subscribe(
       (res) => {
         /**made changes on 24/02 as per new api contract in response we no longer use the key
@@ -2030,7 +2033,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
     }
   }
   JoinWorkspace(workspace, i) {
-    const payload: any[] = this.currentAppControlList?.requestedAccounts;
+    const payload: any[] = this.currentAppControlList?.requestedAccounts || [];
     payload.push({ acctId: workspace._id });
     // adding Header
     const selectAccountDetail = window[this.storageType].getItem(

@@ -47,6 +47,7 @@ const FileSaver = require('file-saver');
 })
 export class ContentComponent implements OnInit, OnDestroy {
   emptyScreen = EMPTY_SCREEN.CONTENT;
+  isPageLoader = false;
   loadingSliderContent = false;
   showSearch;
   searchImgSrc: any = 'assets/icons/search_gray.svg';
@@ -277,7 +278,6 @@ export class ContentComponent implements OnInit, OnDestroy {
   };
   isSearchLoading = false;
   isPageDelete = false;
-  isPageLoader = false;
   @ViewChild('statusModalDocument') statusModalDocument: KRModalComponent;
   @ViewChild('perfectScroll') perfectScroll: PerfectScrollbarComponent;
   @ViewChild('addSourceModalPop') addSourceModalPop: KRModalComponent;
@@ -886,6 +886,7 @@ export class ContentComponent implements OnInit, OnDestroy {
     this.isSearchLoading = true;
     this.getCrawledPages();
   }
+
   getCrawledPages(limit?, skip?) {
     this.pagingData = [];
     this.docContent = {};

@@ -32,7 +32,9 @@ declare const $: any;
   templateUrl: './field-management.component.html',
   styleUrls: ['./field-management.component.scss'],
 })
-export class FieldManagementComponent implements OnInit {
+export class FieldManagementComponent
+  implements OnInit, AfterViewInit, OnDestroy
+{
   emptyScreen = EMPTY_SCREEN.INDICES_FIELD;
   showSearch = false;
   selectedApp;
@@ -158,8 +160,8 @@ export class FieldManagementComponent implements OnInit {
   openModalPopup() {
     this.addFieldModalPopRef = this.addFieldModalPop.open();
     setTimeout(() => {
-      this.perfectScroll.directiveRef.update();
-      this.perfectScroll.directiveRef.scrollToTop();
+      this.perfectScroll.directiveRef?.update();
+      this.perfectScroll.directiveRef?.scrollToTop();
     }, 500);
   }
   selectFieldType(type) {

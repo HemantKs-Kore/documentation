@@ -1,3 +1,4 @@
+/* eslint-disable no-empty */
 import {
   Component,
   OnInit,
@@ -6,6 +7,7 @@ import {
   ViewChild,
   HostListener,
   Inject,
+  OnDestroy,
 } from '@angular/core';
 import {
   PdfViewerComponent,
@@ -44,7 +46,7 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { SimplebarAngularModule } from 'simplebar-angular';
 
 @Component({
-  selector: 'kr-pdf-annotation',
+  selector: 'app-pdf-annotation',
   standalone: true,
   templateUrl: './pdf-annotation.component.html',
   styleUrls: ['./pdf-annotation.component.scss'],
@@ -58,7 +60,7 @@ import { SimplebarAngularModule } from 'simplebar-angular';
     PerfectScrollbarModule,
   ],
 })
-export class PdfAnnotationComponent implements OnInit, OnChanges {
+export class PdfAnnotationComponent implements OnInit, OnDestroy {
   @ViewChild(PdfViewerComponent)
   private pdfComponent: PdfViewerComponent;
   @ViewChild('perfectScroll') perfectScroll: PerfectScrollbarComponent;
@@ -92,8 +94,8 @@ export class PdfAnnotationComponent implements OnInit, OnChanges {
   private selectedText: string;
   pdfForm: FormGroup;
   rangyHightlights: any = null;
-  rangySerialization: Object = null;
-  rangySaveSelection: Object = null;
+  rangySerialization = null;
+  rangySaveSelection = null;
   pdfPayload = {
     pdfsize: [],
     parentCanvas: {
@@ -157,10 +159,7 @@ export class PdfAnnotationComponent implements OnInit, OnChanges {
     const simpleBar = new SimpleBar(document.getElementById('simpleBar'));
     simpleBar.getScrollElement().addEventListener('scroll', this.onScrollEvent);
   }
-  ngAfterViewInit() {
-    // console.log(this.pdfComponent);
-  }
-  ngOnChanges() {}
+
   ngOnDestroy() {
     window.removeEventListener('mouseup', this.textLayerMouseup, false);
     window.removeEventListener('mouseover', this.onMouse, false);
@@ -241,7 +240,6 @@ export class PdfAnnotationComponent implements OnInit, OnChanges {
       this.removeProgressBar = true;
       $('.pdf-viewer').css('width', $('.pdf-viewer').width() + 1);
       this.pdfComponent.updateSize();
-      this.pdfConfig.zoom = this.pdfConfig.zoom;
       setTimeout(() => {
         this.removeProgressBar = false;
       }, 150);
@@ -490,8 +488,8 @@ export class PdfAnnotationComponent implements OnInit, OnChanges {
       pdfData.loadingTask._transport._lastProgress
     ) {
       let _size = pdfData.loadingTask._transport._lastProgress.total;
-      let fSExt = ['Bytes', 'KB', 'MB', 'GB'],
-        i = 0;
+      const fSExt = ['Bytes', 'KB', 'MB', 'GB'];
+      let i = 0;
       while (_size > 900) {
         _size /= 1024;
         i++;
@@ -896,7 +894,6 @@ export class PdfAnnotationComponent implements OnInit, OnChanges {
         setTimeout(() => {
           $('.pdf-viewer').css('width', $('.pdf-viewer').width() + 1);
           this.pdfComponent.updateSize();
-          this.pdfConfig.zoom = this.pdfConfig.zoom;
         }, 200);
       });
     } else {
@@ -920,7 +917,9 @@ export class PdfAnnotationComponent implements OnInit, OnChanges {
   }
   // update ignore pages
   updateIgnorePages() {
-    const index = this.pdfPayload.ignorePages.indexOf(this.pdfConfig.currentPage);
+    const index = this.pdfPayload.ignorePages.indexOf(
+      this.pdfConfig.currentPage
+    );
     if (this.pdfPayload.ignorePages[index]) {
       this.pdfForm.get('ignorePages').setValue(true);
     } else {
@@ -947,7 +946,6 @@ export class PdfAnnotationComponent implements OnInit, OnChanges {
         }
         $('.pdf-viewer').css('width', $('.pdf-viewer').width() + 1);
         this.pdfComponent.updateSize();
-        this.pdfConfig.zoom = this.pdfConfig.zoom;
       }
     }
   }
@@ -961,10 +959,10 @@ export class PdfAnnotationComponent implements OnInit, OnChanges {
   // Search page number
   searchPage(event) {
     this.togglePage = false;
-    const number = Number(event.target.value) || this.pdfConfig.currentPage || 1;
+    const number =
+      Number(event.target.value) || this.pdfConfig.currentPage || 1;
     if (number <= this.pdfConfig.totalPages) {
       this.pdfConfig.currentPage = number;
-      this.pdfConfig.totalPages = this.pdfConfig.totalPages;
       this.pdfComponent.page = number;
     } else {
       this.notificationService.notify(
@@ -1022,7 +1020,6 @@ export class PdfAnnotationComponent implements OnInit, OnChanges {
           }
           this.updatePayload();
           this.rangySerialization = this.rangeService.getSerilization();
-        } else {
         }
       }
     }, 50);
@@ -1033,9 +1030,11 @@ export class PdfAnnotationComponent implements OnInit, OnChanges {
     if (this.pdfPayload.serialization) {
       this.removeProgressBar = false;
       setTimeout(() => {
-        const filteredRes = this.pdfPayload.serialization.filter((val, index) => {
-          return val.currentPage == this.pdfConfig.currentPage;
-        });
+        const filteredRes = this.pdfPayload.serialization.filter(
+          (val, index) => {
+            return val.currentPage == this.pdfConfig.currentPage;
+          }
+        );
         if (filteredRes && filteredRes.length) {
           this.rangeService.deserialization(filteredRes);
         } else {
@@ -1049,7 +1048,9 @@ export class PdfAnnotationComponent implements OnInit, OnChanges {
   // Unique values filtering from array
   uniqueListFromArray(arr) {
     if (arr.length) {
-      const finalArr: any[] = arr.filter((item, i, ar) => ar.indexOf(item) === i);
+      const finalArr: any[] = arr.filter(
+        (item, i, ar) => ar.indexOf(item) === i
+      );
       if (this.pdfPayload.ignorePages.length) {
         this.pdfPayload.ignorePages.forEach((item) => {
           const index = finalArr.indexOf(item);
@@ -1085,7 +1086,9 @@ export class PdfAnnotationComponent implements OnInit, OnChanges {
   }
   tooltipText(arr) {
     if (arr) {
-      const finalArr: any[] = arr.filter((item, i, ar) => ar.indexOf(item) === i);
+      const finalArr: any[] = arr.filter(
+        (item, i, ar) => ar.indexOf(item) === i
+      );
       if (this.pdfPayload.ignorePages.length) {
         this.pdfPayload.ignorePages.forEach((item) => {
           const index = finalArr.indexOf(item);
@@ -1195,6 +1198,7 @@ function getAllElements(element, className, payload) {
     return resultText;
   }
   // PREV
+  const nextResultText = [];
   const prevResultText = [];
   const lp = $('.' + className).length;
   let prevEle: any = $(element).parent().prev().children();
@@ -1236,7 +1240,6 @@ function getAllElements(element, className, payload) {
     }
   }
   // NEXT
-  var nextResultText = [];
   let nextEle: any = $(element).parent().next().children();
   if ($(nextEle).hasClass(className)) {
     for (let i = 0; i < lp; i++) {

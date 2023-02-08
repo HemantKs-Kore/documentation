@@ -137,7 +137,7 @@
   KorePickers.prototype.init = function (mainConfig) {
     mainConfig = this.mainConfig;
     let chatWindowInstance = this.chatWindowInstance;
-    if (chatWindowInstance.config.pickersConfig.showDateRangePickerIcon) {
+    if (chatWindowInstance.config.pickersConfig?.showDateRangePickerIcon) {
       this.showDateRangeIconToFooter();
       //    KorePickers.prototype.showDateRangePicker(mainConfig);
       chatWindowInstance.config.chatContainer.on(
@@ -148,7 +148,7 @@
         }
       );
     }
-    if (chatWindowInstance.config.pickersConfig.showDatePickerIcon) {
+    if (chatWindowInstance.config.pickersConfig?.showDatePickerIcon) {
       this.showDateIconToFooter();
       // KorePickers.prototype.showDatePicker(mainConfig);
       chatWindowInstance.config.chatContainer.on(
@@ -159,7 +159,7 @@
         }
       );
     }
-    if (chatWindowInstance.config.pickersConfig.showClockPickerIcon) {
+    if (chatWindowInstance.config.pickersConfig?.showClockPickerIcon) {
       this.showClockIconToFooter();
       // KorePickers.prototype.showDatePicker(mainConfig);
       chatWindowInstance.config.chatContainer.on(
@@ -170,7 +170,9 @@
         }
       );
     }
-    if (chatWindowInstance.config.pickersConfig.showradioOptionMenuPickerIcon) {
+    if (
+      chatWindowInstance.config.pickersConfig?.showradioOptionMenuPickerIcon
+    ) {
       this.showAccountIconToFooter();
       // KorePickers.prototype.showDatePicker(mainConfig);
       chatWindowInstance.config.chatContainer.on(
@@ -181,7 +183,7 @@
         }
       );
     }
-    if (chatWindowInstance.config.pickersConfig.showTaskMenuPickerIcon) {
+    if (chatWindowInstance.config.pickersConfig?.showTaskMenuPickerIcon) {
       this.addTaskIconToFooter();
       // KorePickers.prototype.showDatePicker(mainConfig);
       chatWindowInstance.config.chatContainer.on(

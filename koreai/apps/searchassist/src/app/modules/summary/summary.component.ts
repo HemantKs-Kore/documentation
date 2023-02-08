@@ -146,21 +146,7 @@ export class SummaryComponent implements OnInit, AfterViewInit, OnDestroy {
     private router: Router,
     public inlineManual: InlineManualService,
     public appSelectionService: AppSelectionService
-  ) // private indexPipelineService: IndexPipelineService,
-  // private queryPipelineService: QueryPipelineService
-  {
-    // this.getQueryPipelines();
-  }
-
-  // getQueryPipelines() {
-  //   this.sub = this.indexPipelineService
-  //     .getItemById()
-  //     .pipe(
-  //       filter((res) => !!res),
-  //       switchMap((res) => this.queryPipelineService.getQueryPipelines(res))
-  //     )
-  //     .subscribe();
-  // }
+  ) {}
 
   async ngOnInit() {
     //moved the below flag to ngOnInit to fix the NAN display issue for few sec in summary screen on 08/03
@@ -447,10 +433,11 @@ export class SummaryComponent implements OnInit, AfterViewInit, OnDestroy {
     });
   }
   redirectToPricing() {
-    this.appSelectionService.routeChanged.next({
-      name: 'pathchanged',
-      path: '/pricing',
-    });
+    this.router.navigateByUrl('/pricing');
+    // this.appSelectionService.routeChanged.next({
+    //   name: 'pathchanged',
+    //   path: '/pricing',
+    // });
   }
   openOnBoardingModal() {
     this.onboard.openOnBoardingModal();

@@ -179,7 +179,7 @@ export class AppsComponent implements OnInit {
     this.store.dispatch(
       setAppId({ appId: app._id, searchIndexId: app.searchIndexes[0]._id })
     );
-    $('#test-btn-launch-sdk').attr('disabled', 'disabled').button('refresh');
+    // $('#test-btn-launch-sdk').attr('disabled', 'disabled').button('refresh');
     this.appSelectionService.tourConfigCancel.next({
       name: undefined,
       status: 'pending',

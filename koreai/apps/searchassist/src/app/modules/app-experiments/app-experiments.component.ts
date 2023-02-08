@@ -18,7 +18,7 @@ import { MixpanelServiceService } from '@kore.apps/services/mixpanel-service.ser
   templateUrl: './app-experiments.component.html',
   styleUrls: ['./app-experiments.component.scss'],
 })
-export class AppExperimentsComponent implements OnInit {
+export class AppExperimentsComponent implements OnInit, OnDestroy {
   emptyScreen = EMPTY_SCREEN.ANALYTICS;
   addExperimentsRef: any;
   selectedApp: any;
@@ -997,13 +997,13 @@ export class AppExperimentsComponent implements OnInit {
         });
         if (status === 'active') {
           this.filterExperiments = this.filterExperiments.map((data) => {
-            let hours = moment().diff(moment(data.end), 'hours');
-            let days = moment().diff(moment(data.end), 'days');
-            let days_result =
+            const hours = moment().diff(moment(data.end), 'hours');
+            const days = moment().diff(moment(data.end), 'days');
+            const days_result =
               Math.abs(hours) > 24
                 ? Math.abs(days) + ' days'
                 : Math.abs(hours) + ' hrs';
-            let res_obj = data.variants.reduce((p, c) =>
+            const res_obj = data.variants.reduce((p, c) =>
               p.ctr > c.ctr ? p : c
             );
             return {
@@ -1048,16 +1048,16 @@ export class AppExperimentsComponent implements OnInit {
   // Confirmation experiment popup
   confirmationPopup(record, event, status) {
     event.stopPropagation();
-    let title =
+    const title =
       status == 'delete'
         ? 'Are you sure you want to delete?'
         : 'Are you sure you want to stop the experiment?';
-    let desc =
+    const desc =
       status == 'delete'
         ? 'Selected Experiment will be permanently deleted.'
         : 'Selected experiment will be permanently stopped, which will end the experiment';
-    let action = status == 'delete' ? 'Delete' : 'Stop';
-    let popupContent = {
+    const action = status == 'delete' ? 'Delete' : 'Stop';
+    const popupContent = {
       width: '530px',
       height: 'auto',
       panelClass: 'delete-popup',

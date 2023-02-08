@@ -10,7 +10,7 @@ import { ConfirmationComponent } from '../confirmation/confirmation.component';
 import { ServiceInvokerService } from '@kore.apps/services/service-invoker.service';
 
 @Component({
-  selector: 'kr-summary-modal',
+  selector: 'app-summary-modal',
   templateUrl: './summary-modal.component.html',
   styleUrls: ['./summary-modal.component.scss'],
 })

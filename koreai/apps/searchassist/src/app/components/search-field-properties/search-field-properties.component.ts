@@ -31,7 +31,7 @@ declare const $: any;
   templateUrl: './search-field-properties.component.html',
   styleUrls: ['./search-field-properties.component.scss'],
 })
-export class SearchFieldPropertiesComponent implements OnInit {
+export class SearchFieldPropertiesComponent implements OnInit, OnDestroy {
   selectedApp;
   serachIndexId;
   indexPipelineId;

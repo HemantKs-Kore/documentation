@@ -1,3 +1,4 @@
+/* eslint-disable prefer-spread */
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
@@ -79,7 +80,7 @@ export class ServiceInvokerService {
   }
 
   private resolveUrl(toResolveUrl, values, deleteProp) {
-    const _regExToParamName = /\:([a-zA-Z]+)/g;
+    const _regExToParamName = /:([a-zA-Z]+)/g;
     return toResolveUrl.replace(_regExToParamName, (matchStr, valName) => {
       const r = values[valName];
       if (typeof r !== 'undefined' && typeof r !== null) {
