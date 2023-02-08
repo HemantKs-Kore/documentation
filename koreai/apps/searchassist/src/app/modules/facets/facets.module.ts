@@ -10,6 +10,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { SharedPipesModule } from '@kore.apps/helpers/filters/shared-pipes.module';
 import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 import { EmptyScreenModule } from '../empty-screen/empty-screen.module';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [FacetsComponent],
@@ -23,6 +24,7 @@ import { EmptyScreenModule } from '../empty-screen/empty-screen.module';
     SharedPipesModule,
     NgbDropdownModule,
     EmptyScreenModule,
+    FormsModule,
   ],
 })
 export class FacetsModule {}
