@@ -29,7 +29,6 @@ import { Router } from '@angular/router';
         useFactory: createTranslateLoader,
         deps: [HttpClient, Router],
       },
-      isolate: true,
     }),
     MatFormFieldModule,
     FormsModule,

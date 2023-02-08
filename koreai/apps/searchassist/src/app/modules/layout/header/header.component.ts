@@ -32,6 +32,7 @@ import { SearchSdkService } from '@kore.apps/modules/search-sdk/services/search-
 import { OnboardingComponent } from '@kore.apps/modules/onboarding/onboarding.component';
 import { Store } from '@ngrx/store';
 import { setAppId } from '@kore.apps/store/app.actions';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-header',
@@ -932,7 +933,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
           },
           (errRes) => {
             this.training = false;
-            this.notificationService.notify('Failed to train the app', 'error');
+            this.errorToaster(errRes, 'Failed to train the app');
           }
         );
       }
@@ -978,6 +979,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
       },
       (errRes) => {
         this.training = true;
+        this.showClose = false;
         this.notificationService.notify('Failed to stop training', 'error');
       }
     );
@@ -1041,10 +1043,9 @@ export class HeaderComponent implements OnInit, OnDestroy {
             this.dockersList = JSON.parse(JSON.stringify(res));
             /**made code updates in line no 503 on 03/01 added new condition for success and jobType,since SUCCESS is updated to success and action is updated to jobType and TRAIN has been updated to TRAINING */
             // if (this.trainingInitiated && this.dockersList[0].status === 'SUCCESS' && this.dockersList[0].action === "TRAIN") {
-            if (this.training) {
-              this.checkTrainStatus(this.dockersList);
-            }
-
+            // if (this.training) {
+            //   this.checkTrainStatus(this.dockersList);
+            // }
             this.dockersList.forEach((record: any) => {
               record.createdOn = moment(record.createdOn).format(
                 'Do MMM YYYY | h:mm A'
@@ -1190,9 +1191,19 @@ export class HeaderComponent implements OnInit, OnDestroy {
     dockersList.forEach((element) => {
       statusArr.push(element.status);
     });
-    const Statisvalues =
-      'SUCCESS' || 'FAILED' || 'HALTED' || 'STOPPED' || 'CONFIGURED';
-    this.disableClearAll = !statusArr.includes(Statisvalues);
+    const Statusvalues = [
+      'SUCCESS',
+      'FAILED',
+      'HALTED',
+      'STOPPED',
+      'CONFIGURED',
+      'halted',
+      'success',
+      'failed',
+    ];
+    this.disableClearAll = !statusArr.some((item) =>
+      Statusvalues.includes(item)
+    );
   }
 
   getStatusView(status, other?) {
