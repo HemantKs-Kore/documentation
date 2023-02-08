@@ -20,10 +20,30 @@ api calls should not be duplicated
     "node_modules/rangy/lib/rangy-selectionsaverestore.js",
     "node_modules/rangy/lib/rangy-serializer.js",
     "node_modules/rangy/lib/rangy-textrange.js"
-6.              "apps/searchassist/src/app/helpers/lib/assets/marked.min.js", removed as not used anywhere as of now.
+6.               "apps/searchassist/src/app/helpers/lib/assets/marked.min.js", removed as not used anywhere as of now.
 7.  Styling
 
 - Global style for the app
 - bootstrap js not required ( hence popper js )
 - Single styling library ( bootstrap, Material )
 - Single font library ( si-font , material icon, bootstrap icon )
+
+8. codemirror should be lazy loaded
+   // main.ts
+   import 'codemirror/mode/javascript/javascript';
+   import 'codemirror/addon/fold/foldgutter';
+   import 'codemirror/addon/fold/brace-fold';
+   import 'codemirror/lib/codemirror';
+   import 'codemirror/addon/edit/closebrackets';
+   import 'codemirror/addon/edit/matchbrackets';
+   import 'codemirror/addon/lint/lint';
+   import 'codemirror/addon/lint/json-lint';
+   import 'codemirror/addon/lint/javascript-lint';
+   import 'codemirror/addon/hint/javascript-hint';
+
+// styles.scss
+@import '~codemirror/lib/codemirror';
+@import '~codemirror/theme/neo';
+@import '~codemirror/lib/codemirror';
+@import '~codemirror/addon/fold/foldgutter';
+@import '~codemirror/addon/lint/lint';
