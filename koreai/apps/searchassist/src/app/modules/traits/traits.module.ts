@@ -9,9 +9,10 @@ import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
 import { FormsModule } from '@angular/forms';
 import { MatDialogModule } from '@angular/material/dialog';
 import { EmptyScreenModule } from '../empty-screen/empty-screen.module';
+import { TraitsFilterPipe } from './traits-filter.pipe';
 
 @NgModule({
-  declarations: [TraitsComponent],
+  declarations: [TraitsComponent, TraitsFilterPipe],
   imports: [
     CommonModule,
     TraitsRoutingModule,

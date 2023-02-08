@@ -10,7 +10,7 @@ import { MixpanelServiceService } from '@kore.services/mixpanel-service.service'
 @Component({
   selector: 'app-useronboarding-journey',
   templateUrl: './useronboarding-journey.component.html',
-  styleUrls: ['./useronboarding-journey.component.scss']
+  styleUrls: ['./useronboarding-journey.component.scss'],
 })
 export class UseronboardingJourneyComponent implements OnInit, OnDestroy {
   onBoardingModalPopRef: any;
@@ -28,26 +28,43 @@ export class UseronboardingJourneyComponent implements OnInit, OnDestroy {
   subscription1: Subscription;
   status: string;
   collapseOpen: number;
-  steps: any = [{ name: 'Start by Adding Data', path: '/sources' }, { name: 'Index Data', path: '/FieldManagementComponent' }, { name: 'Optimize Search Results', path: '/weights' }, { name: 'Design Search Experience', path: '/searchInterface' }, { name: 'Test the Application', path: '/resultranking' }, { name: 'Fine-Tune Relevance', path: '/resultranking' }];
+  steps: any = [
+    { name: 'Start by Adding Data', path: '/sources' },
+    { name: 'Index Data', path: '/FieldManagementComponent' },
+    { name: 'Optimize Search Results', path: '/weights' },
+    { name: 'Design Search Experience', path: '/searchInterface' },
+    { name: 'Test the Application', path: '/resultranking' },
+    { name: 'Fine-Tune Relevance', path: '/resultranking' },
+  ];
   @ViewChild('onBoardingModalPop') onBoardingModalPop: KRModalComponent;
-  constructor(private router: Router, private appSelectionService: AppSelectionService, private service: ServiceInvokerService, private notificationService: NotificationService, private authService: AuthService, public mixpanel: MixpanelServiceService) { }
+  constructor(
+    private router: Router,
+    private appSelectionService: AppSelectionService,
+    private service: ServiceInvokerService,
+    private notificationService: NotificationService,
+    private authService: AuthService,
+    public mixpanel: MixpanelServiceService
+  ) {}
   ngOnInit(): void {
     this.initialCall();
-    this.subscription = this.appSelectionService.getTourConfigData.subscribe(res => {
-      this.tourConfigData = res;
-      this.tourData = res.onBoardingChecklist;
-      this.trackChecklist();
-    })
-    this.subscription1 = this.appSelectionService.tourConfigCancel.subscribe(res => {
-      this.subscribedShow = res.name;
-      this.status = res.status;
-      if (res.name != undefined) {
-        this.showSteps = res.name;
+    this.subscription = this.appSelectionService.getTourConfigData.subscribe(
+      (res) => {
+        this.tourConfigData = res;
+        this.tourData = res.onBoardingChecklist;
+        this.trackChecklist();
       }
-      else if (this.status == 'completed') {
-        this.showSteps = true;
+    );
+    this.subscription1 = this.appSelectionService.tourConfigCancel.subscribe(
+      (res) => {
+        this.subscribedShow = res.name;
+        this.status = res.status;
+        if (res.name != undefined) {
+          this.showSteps = res.name;
+        } else if (this.status == 'completed') {
+          this.showSteps = true;
+        }
       }
-    })
+    );
   }
   //initial call
   initialCall() {
@@ -69,7 +86,10 @@ export class UseronboardingJourneyComponent implements OnInit, OnDestroy {
   }
   //close checklist button
   closeChecklist(type?) {
-    this.appSelectionService.tourConfigCancel.next({ name: false, status: 'pending' });
+    this.appSelectionService.tourConfigCancel.next({
+      name: false,
+      status: 'pending',
+    });
     if (type == 'self') {
       this.closeOnBoardingModal();
       this.mixpanel.postEvent('Create App - Checklist Dismissed', {});
@@ -77,12 +97,18 @@ export class UseronboardingJourneyComponent implements OnInit, OnDestroy {
   }
   //goto Routes
   gotoRoutes(step) {
-    this.appSelectionService.routeChanged.next({ name: 'pathchanged', path: step });
+    this.appSelectionService.routeChanged.next({
+      name: 'pathchanged',
+      path: step,
+    });
     if (step !== '/settings') {
       this.closeOnBoardingModal();
     }
     if (step == '/settings') {
-      this.appSelectionService.tourConfigCancel.next({ name: false, status: 'pending' });
+      this.appSelectionService.tourConfigCancel.next({
+        name: false,
+        status: 'pending',
+      });
     }
     //this.router.navigate([step], { skipLocationChange: true });
   }
@@ -90,14 +116,14 @@ export class UseronboardingJourneyComponent implements OnInit, OnDestroy {
   trackChecklist() {
     const arr = [];
     const Index = [];
-    this.tourData.forEach((item) => {
+    this.tourData?.forEach((item) => {
       Object.keys(item).forEach((key) => {
-        arr.push(item[key])
+        arr.push(item[key]);
       });
-    })
+    });
     arr.map((item, index) => {
-      if (item == false) Index.push(index)
-    })
+      if (item == false) Index.push(index);
+    });
     this.collapseOpen = Index[0];
     let count = 0;
     for (const key in this.tourData) {
@@ -109,45 +135,48 @@ export class UseronboardingJourneyComponent implements OnInit, OnDestroy {
     }
     this.checklistCount = count;
     if (this.status == 'pending') {
-      this.showSteps = this.checklistCount === 6 ? false : this.subscribedShow == undefined ? true : this.subscribedShow;
+      this.showSteps =
+        this.checklistCount === 6
+          ? false
+          : this.subscribedShow == undefined
+          ? true
+          : this.subscribedShow;
       if (this.checklistCount != 6) {
         this.showSteps = true;
       }
-    }
-    else {
+    } else {
       this.showSteps = true;
     }
     if (this.checklistCount != 6) {
       if (this.componentType == 'addData') {
-        this.showStatusIcon = this.tourData[0].addData ? true : false;
+        this.showStatusIcon = this.tourData?.[0].addData ? true : false;
         this.filterSteps(0, 0);
-      }
-      else if (this.componentType == 'indexing') {
-        this.showStatusIcon = this.tourData[1].indexData ? true : false;
+      } else if (this.componentType == 'indexing') {
+        this.showStatusIcon = this.tourData[1]?.indexData ? true : false;
         this.filterSteps(1, 0);
-      }
-      else if (this.componentType == 'configure') {
-        this.showStatusIcon = this.tourData[2].optimiseSearchResults ? true : false;
+      } else if (this.componentType == 'configure') {
+        this.showStatusIcon = this.tourData?.[2].optimiseSearchResults
+          ? true
+          : false;
         this.filterSteps(2, 0);
-      }
-      else if (this.componentType == 'designing') {
-        this.showStatusIcon = this.tourData[3].designSearchExperience ? true : false;
+      } else if (this.componentType == 'designing') {
+        this.showStatusIcon = this.tourData?.[3].designSearchExperience
+          ? true
+          : false;
         this.filterSteps(3, 0);
-      }
-      else if (this.componentType == 'test') {
-        this.showStatusIcon = this.tourData[4].testApp ? true : false;
+      } else if (this.componentType == 'test') {
+        this.showStatusIcon = this.tourData?.[4].testApp ? true : false;
         this.filterSteps(4, 0);
-      }
-      else if (this.componentType == 'optimize') {
-        this.showStatusIcon = this.tourData[5].fineTuneRelevance ? true : false;
+      } else if (this.componentType == 'optimize') {
+        this.showStatusIcon = this.tourData?.[5].fineTuneRelevance
+          ? true
+          : false;
         this.filterSteps(5, 0);
-      }
-      else if (this.componentType == 'summary') {
+      } else if (this.componentType == 'summary') {
         this.showStatusIcon = true;
         this.filterSteps(0, 0);
       }
-    }
-    else {
+    } else {
       this.showStatusIcon = true;
     }
   }

@@ -12,7 +12,9 @@ import { AuthService } from '@kore.apps/services/auth.service';
 import { NotificationService } from '@kore.apps/services/notification.service';
 import { AppSelectionService } from '@kore.apps/services/app.selection.service';
 import { InlineManualService } from '@kore.apps/services/inline-manual.service';
+import { Store } from '@ngrx/store';
 import { ConfirmationDialogComponent } from '@kore.apps/helpers/components/confirmation-dialog/confirmation-dialog.component';
+import { selectAppIds } from '@kore.apps/store/app.selectors';
 declare const $: any;
 
 @Component({
@@ -40,6 +42,8 @@ export class SynonymsComponent implements OnInit, OnDestroy {
   editIndex: any = -1;
   pipeline;
   showFlag;
+  streamId;
+  searchIndexId;
   totalRecord = 0;
   synonymData: any[] = [];
   synonymDuplicateData = [];
@@ -91,7 +95,7 @@ export class SynonymsComponent implements OnInit, OnDestroy {
   readonly separatorKeysCodes: number[] = [ENTER, COMMA];
   synArr: any[] = [];
   synArrTemp: any[] = [];
-  subscription: Subscription;
+  sub: Subscription;
   componentType = 'configure';
   submitted = false;
   searchImgSrc: any = 'assets/icons/search_gray.svg';
@@ -104,20 +108,36 @@ export class SynonymsComponent implements OnInit, OnDestroy {
     private router: Router,
     public dialog: MatDialog,
     private appSelectionService: AppSelectionService,
-    public inlineManual: InlineManualService
+    public inlineManual: InlineManualService,
+    private store: Store
   ) {
     this.synonymObj = new SynonymClass();
   }
 
   ngOnInit() {
-    this.selectedApp = this.workflowService?.selectedApp();
-    this.serachIndexId = this.selectedApp?.searchIndexes[0]?._id;
+    this.initAppIds();
+    // this.selectedApp = this.workflowService?.selectedApp();
+    // this.serachIndexId = this.selectedApp?.searchIndexes[0]?._id;
     this.loadSynonyms();
-    this.subscription = this.appSelectionService.queryConfigs.subscribe(
-      (res) => {
-        this.loadSynonyms();
-      }
-    );
+    // this.subscription = this.appSelectionService.queryConfigs.subscribe(
+    //   (res) => {
+    //     this.loadSynonyms();
+    //   }
+    // );
+  }
+
+  initAppIds() {
+    const idsSub = this.store
+      .select(selectAppIds)
+      .subscribe(
+        ({ streamId, searchIndexId, indexPipelineId, queryPipelineId }) => {
+          this.streamId = streamId;
+          this.searchIndexId = searchIndexId;
+          this.indexPipelineId = indexPipelineId;
+          this.queryPipelineId = queryPipelineId;
+        }
+      );
+    this.sub?.add(idsSub);
   }
 
   imageLoad() {
@@ -130,14 +150,8 @@ export class SynonymsComponent implements OnInit, OnDestroy {
     }
   }
   loadSynonyms() {
-    this.indexPipelineId = this.workflowService?.selectedIndexPipeline();
-    if (this.indexPipelineId) {
-      this.queryPipelineId = this.workflowService?.selectedQueryPipeline()
-        ? this.workflowService.selectedQueryPipeline()?._id
-        : this.selectedApp.searchIndexes[0]?.queryPipelineId;
-      if (this.queryPipelineId) {
-        this.getSynonyms();
-      }
+    if (this.indexPipelineId && this.queryPipelineId) {
+      this.getSynonyms();
     }
   }
   paginate(event) {
@@ -225,9 +239,9 @@ export class SynonymsComponent implements OnInit, OnDestroy {
   getSynonyms() {
     this.loadingContent = true;
     const quaryparms: any = {
-      streamId: this.selectedApp._id,
+      streamId: this.streamId,
       queryPipelineId: this.queryPipelineId,
-      indexPipelineId: this.workflowService.selectedIndexPipeline() || '',
+      indexPipelineId: this.indexPipelineId,
       code: 'en',
       sortField: this.selectedSort ? this.selectedSort : 'type',
       orderType: this.checksort ? this.checksort : 'asc',
@@ -325,9 +339,9 @@ export class SynonymsComponent implements OnInit, OnDestroy {
   }
   addOrUpddate(synonymData, type, dialogRef?) {
     const quaryparms: any = {
-      streamId: this.selectedApp._id,
+      streamId: this.streamId,
       queryPipelineId: this.queryPipelineId,
-      indexPipelineId: this.workflowService.selectedIndexPipeline() || '',
+      indexPipelineId: this.indexPipelineId,
       synonymId: synonymData._id,
     };
     const payload: any = {
@@ -389,9 +403,9 @@ export class SynonymsComponent implements OnInit, OnDestroy {
 
     dialogRef.componentInstance.onSelect.subscribe((result) => {
       if (result === 'yes') {
-        if (this.showFlag === true) {
-          this.deleteSynonymn(synonym, index, dialogRef);
-        }
+        // if (this.showFlag = true) {
+        this.deleteSynonymn(synonym, index, dialogRef);
+        // }
       } else if (result === 'no') {
         dialogRef.close();
         // console.log('deleted')
@@ -400,9 +414,9 @@ export class SynonymsComponent implements OnInit, OnDestroy {
   }
   deleteSynonymn(synonym, index, dialogRef) {
     const quaryparms: any = {
-      streamId: this.selectedApp._id,
+      streamId: this.streamId,
       queryPipelineId: this.queryPipelineId,
-      indexPipelineId: this.workflowService.selectedIndexPipeline() || '',
+      indexPipelineId: this.indexPipelineId,
       synonymId: synonym._id,
     };
     this.service.invoke('delete.synonymn', quaryparms).subscribe(
@@ -495,7 +509,7 @@ export class SynonymsComponent implements OnInit, OnDestroy {
     this.getSynonyms();
   }
   ngOnDestroy() {
-    this.subscription ? this.subscription.unsubscribe() : false;
+    this.sub?.unsubscribe();
   }
   //-------------------------(Author:BHARADWAJ)
 }

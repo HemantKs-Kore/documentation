@@ -11,7 +11,7 @@ import { NotificationService } from '../../services/notification.service';
 import { HttpClient } from '@angular/common/http';
 import { Subscription } from 'rxjs';
 import { LocalStoreService } from './../../services/localstore.service';
-import { NgbDropdown, NgbDropdownMenu } from '@ng-bootstrap/ng-bootstrap';
+import { NgbDropdownMenu } from '@ng-bootstrap/ng-bootstrap';
 import { ServiceInvokerService } from '@kore.apps/services/service-invoker.service';
 import { SideBarService } from '@kore.apps/services/header.service';
 import { AppSelectionService } from '@kore.apps/services/app.selection.service';

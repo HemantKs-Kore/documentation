@@ -2399,7 +2399,7 @@ export class FaqsComponent implements OnInit, AfterViewInit, OnDestroy {
   clicksViews() {
     const quaryparms: any = {
       searchIndexId: this.serachIndexId,
-      faqId: this.selectedFaq._id,
+      faqId: this.selectedFaq?._id,
     };
     this.service.invoke('get.clicksViews', quaryparms).subscribe(
       (res) => {

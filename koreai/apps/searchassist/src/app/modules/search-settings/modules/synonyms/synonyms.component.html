@@ -127,7 +127,7 @@
         [ngClass]="{ 'col-10': addNewSynonymObj.type === 'synonym' }"
       >
         <div class="tags">
-          <div class="chip-sys-data">
+          <div class="chip-sys-data kr-sg-input-text">
             <mat-form-field
               class="example-chip-list"
               [class.err-block]="
@@ -137,35 +137,32 @@
               appearance="outline"
             >
               <mat-chip-grid #chipList>
-                <perfect-scrollbar class="mat-chip-scroll">
-                  <mat-chip-row
-                    id="sa_syn{{ index }}"
-                    *ngFor="
-                      let syn of addNewSynonymObj.synonyms;
-                      let index = index
-                    "
-                    [selectable]="selectable"
-                    [removable]="removable"
-                    (removed)="remove(syn, 'add')"
-                    ><span *ngIf="syn">{{ syn }}</span>
-                    <mat-icon matChipRemove>
-                      <span class="close-icon"><i class="si-close"></i></span
-                    ></mat-icon>
-                  </mat-chip-row>
-                  <input
-                    placeholder="{{
-                      'synonyms_type_synonym_and_enter' | translate
-                    }}"
-                    [matChipInputFor]="chipList"
-                    [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
-                    [matChipInputAddOnBlur]="addOnBlur"
-                    (matChipInputTokenEnd)="add($event, 'add')"
-                    #suggestedInput
-                    [(ngModel)]="synonymObj.synonyms"
-                    [ngModelOptions]="{ standalone: true }"
-                    autocomplete="off"
-                  />
-                </perfect-scrollbar>
+                <mat-chip-row
+                  id="sa_syn{{ index }}"
+                  *ngFor="
+                    let syn of addNewSynonymObj.synonyms;
+                    let index = index
+                  "
+                  [selectable]="selectable"
+                  [removable]="removable"
+                  (removed)="remove(syn, 'add')"
+                >
+                  <span *ngIf="syn">{{ syn }}</span>
+                  <i class="si-close"></i>
+                </mat-chip-row>
+                <input
+                  placeholder="{{
+                    'synonyms_type_synonym_and_enter' | translate
+                  }}"
+                  [matChipInputFor]="chipList"
+                  [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                  [matChipInputAddOnBlur]="addOnBlur"
+                  (matChipInputTokenEnd)="add($event, 'add')"
+                  #suggestedInput
+                  [(ngModel)]="synonymObj.synonyms"
+                  [ngModelOptions]="{ standalone: true }"
+                  autocomplete="off"
+                />
               </mat-chip-grid>
             </mat-form-field>
           </div>

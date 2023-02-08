@@ -454,7 +454,7 @@ export class MainMenuComponent implements OnInit, OnDestroy {
     }
     this.appSelectionService.selectQueryConfig(queryConfigs);
     this.selectedConfig = queryConfigs._id;
-    this.reloadCurrentRoute();
+    // this.reloadCurrentRoute();
   }
   deleteIndexPipeLine(indexConfigs, dialogRef, type) {
     let queryParms = {
