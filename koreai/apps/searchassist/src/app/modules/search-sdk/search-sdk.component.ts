@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-this-alias */
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
-import { Subscription } from 'rxjs';
+import { forkJoin, Observable, Subscription } from 'rxjs';
 import { SearchSdkService } from './services/search-sdk.service';
 import { SideBarService } from '@kore.apps/services/header.service';
 import { WorkflowService } from '@kore.apps/services/workflow.service';
@@ -124,7 +124,8 @@ export class SearchSdkComponent implements OnInit, OnDestroy {
     //   this.headerService.resetSearchConfiguration.subscribe((res) => {
 
     //   });
-    this.loadScripts().then(() => {
+
+    this.lazyLoadCodeScripts().subscribe(() => {
       // before click
       this.distroySearch();
 
@@ -133,8 +134,91 @@ export class SearchSdkComponent implements OnInit, OnDestroy {
       this.showHideTopDownSearch(false);
 
       this.initSearchSDK();
+
+      this.openSdk();
     });
+
+    // this.loadScripts().then(() => {
+    //   // before click
+    //   this.distroySearch();
+
+    //   // after load
+    //   this.showHideSearch(false);
+    //   this.showHideTopDownSearch(false);
+
+    //   this.initSearchSDK();
+    // });
     this.toggleSdkPopup();
+  }
+
+  lazyLoadCodeScripts(): Observable<any> {
+    return forkJoin([
+      this.lazyLoadService.loadScript(
+        '../../../assets/web-kore-sdk/demo/libs/kore-no-conflict-start.js'
+      ),
+      this.lazyLoadService.loadScript(
+        '../../../assets/web-kore-sdk/libs/uuid.min.js'
+      ),
+      this.lazyLoadService.loadScript(
+        '../../../assets/web-kore-sdk/libs/d3.v4.min.js'
+      ),
+      this.lazyLoadService.loadScript(
+        '../../../assets/web-kore-sdk/libs/KoreGraphAdapter.js'
+      ),
+      this.lazyLoadService.loadScript(
+        '../../../assets/web-kore-sdk/libs/pubsub.js'
+      ),
+      this.lazyLoadService.loadScript(
+        '../../../assets/web-kore-sdk/demo/libs/jquery.tmpl.min.js'
+      ),
+      // this.lazyLoadService.loadScript(
+      //   '../../../assets/web-kore-sdk/demo/libs/jquery-ui.min.js'
+      // ),
+
+      this.lazyLoadService.loadScript(
+        '../../../assets/web-kore-sdk/kore-bot-sdk-client.js'
+      ),
+      this.lazyLoadService.loadScript(
+        '../../../assets/web-kore-sdk/demo/custom/searchTemplate.js'
+      ),
+
+      this.lazyLoadService.loadScript(
+        '../../../assets/web-kore-sdk/demo/custom/customTemplate.js'
+      ),
+      this.lazyLoadService.loadScript(
+        '../../../assets/web-kore-sdk/demo/i18n/en.js'
+      ),
+      this.lazyLoadService.loadScript(
+        '../../../assets/web-kore-sdk/demo/i18n/ja.js'
+      ),
+      this.lazyLoadService.loadScript(
+        '../../../assets/web-kore-sdk/demo/i18n/ko.js'
+      ),
+      this.lazyLoadService.loadScript(
+        '../../../assets/web-kore-sdk/libs/emoji.js'
+      ),
+      this.lazyLoadService.loadScript(
+        '../../../assets/web-kore-sdk/libs/perfect-scrollbar.js'
+      ),
+      this.lazyLoadService.loadScript(
+        '../../../assets/web-kore-sdk/libs/kore-pickers.js'
+      ),
+      this.lazyLoadService.loadScript(
+        '../../../assets/web-kore-sdk/demo/findly/findly-sdk.js'
+      ),
+      this.lazyLoadService.loadScript(
+        '../../../assets/web-kore-sdk/libs/purejscarousel.js'
+      ),
+      this.lazyLoadService.loadScript(
+        '../../../assets/web-kore-sdk/demo/findly/findly-config.js'
+      ),
+      this.lazyLoadService.loadScript(
+        '../../../assets/web-kore-sdk/demo/libs/kore-no-conflict-end.js'
+      ),
+      this.lazyLoadService.loadScript(
+        '../../../assets/web-kore-sdk/libs/lodash.min.js'
+      ),
+    ]);
   }
 
   initAppIds() {

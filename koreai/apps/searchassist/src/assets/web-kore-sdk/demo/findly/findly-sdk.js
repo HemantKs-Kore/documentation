@@ -1,5 +1,4 @@
 //"use strict";
-import * as moment from 'moment';
 function _typeof(obj) {
   if (typeof Symbol === 'function' && typeof Symbol.iterator === 'symbol') {
     _typeof = function _typeof(obj) {
@@ -18,7 +17,7 @@ function _typeof(obj) {
   return _typeof(obj);
 }
 
-(function ($, moment) {
+(function ($) {
   var koreJquery;
   if (
     window &&
@@ -26992,4 +26991,4 @@ function _typeof(obj) {
 
   window.FindlySDK = sdk;
   return sdk;
-})(jQuery, moment);
+})(jQuery);

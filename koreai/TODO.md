@@ -20,4 +20,10 @@ api calls should not be duplicated
     "node_modules/rangy/lib/rangy-selectionsaverestore.js",
     "node_modules/rangy/lib/rangy-serializer.js",
     "node_modules/rangy/lib/rangy-textrange.js"
-6.            "apps/searchassist/src/app/helpers/lib/assets/marked.min.js", removed as not used anywhere as of now.
+6.              "apps/searchassist/src/app/helpers/lib/assets/marked.min.js", removed as not used anywhere as of now.
+7.  Styling
+
+- Global style for the app
+- bootstrap js not required ( hence popper js )
+- Single styling library ( bootstrap, Material )
+- Single font library ( si-font , material icon, bootstrap icon )
