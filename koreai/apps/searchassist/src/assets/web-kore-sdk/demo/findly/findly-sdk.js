@@ -11297,16 +11297,19 @@ function _typeof(obj) {
         _findlyConfig = findlyConfig.botOptions;
       }
       _self.isDev = false;
-      if (
-        _self.config &&
-        _self.config.API_KEY_CONFIG &&
-        _self.config.API_KEY_CONFIG.KEY !== 'YOUR_API_KEY'
-      ) {
-        window['KoreSDK'].findlyConfig.botOptions.assertionFn =
-          _self.getAssertionToken.bind(this);
-      } else {
-        window['KoreSDK'].findlyConfig.botOptions.assertionFn = this.getJWT;
+      if (window['KoreSDK'].findlyConfig) {
+        if (
+          _self.config &&
+          _self.config.API_KEY_CONFIG &&
+          _self.config.API_KEY_CONFIG.KEY !== 'YOUR_API_KEY'
+        ) {
+          window['KoreSDK'].findlyConfig.botOptions.assertionFn =
+            _self.getAssertionToken.bind(this);
+        } else {
+          window['KoreSDK'].findlyConfig.botOptions.assertionFn = this.getJWT;
+        }
       }
+
       if (_findlyConfig.searchIndexID && _findlyConfig.queryPipelineId) {
         const searchData = {
           _id: _findlyConfig.searchIndexID,

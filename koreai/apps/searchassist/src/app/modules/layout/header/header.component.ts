@@ -1624,7 +1624,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
     this.store.dispatch(
       setAppId({ appId: app._id, searchIndexId: app.searchIndexes[0]._id })
     );
-    $('#test-btn-launch-sdk').attr('disabled', 'disabled').button('refresh');
+    // $('#test-btn-launch-sdk').attr('disabled', 'disabled').button('refresh');
     this.training = false;
     this.appSelectionService.openApp(app);
     //this.appSelectionService.refreshSummaryPage.next('changed');
