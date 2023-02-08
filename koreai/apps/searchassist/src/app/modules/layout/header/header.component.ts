@@ -16,7 +16,7 @@ import { debounceTime, map, startWith } from 'rxjs/operators';
 import { SliderComponentComponent } from '../../../shared/slider-component/slider-component.component';
 import { DockStatusService } from '../../../services/dockstatusService/dock-status.service';
 import { interval, Subscription } from 'rxjs';
-// import * as moment from 'moment';
+import * as moment from 'moment';
 declare const $: any;
 import * as _ from 'underscore';
 import { AuthService } from '@kore.apps/services/auth.service';
@@ -1044,10 +1044,18 @@ export class HeaderComponent implements OnInit, OnDestroy {
             if (this.training) {
               this.checkTrainStatus(this.dockersList);
             }
+
             this.dockersList.forEach((record: any) => {
-              // record.createdOn = moment(record.createdOn).format(
-              //   'Do MMM YYYY | h:mm A'
-              // );
+              record.createdOn = moment(record.createdOn).format(
+                'Do MMM YYYY | h:mm A'
+              );
+              if (
+                this.training ||
+                (record.jobType === 'TRAINING' &&
+                  record.status === 'INPROGRESS')
+              ) {
+                this.checkTrainStatus(this.dockersList);
+              }
               /**added condition for success on 24/02 in line 519 as per new api contract since SUCCESS is updated to success */
               // if ((record.status === 'SUCCESS') && record.fileId && (record.store && !record.store.toastSeen)) {
               if (
