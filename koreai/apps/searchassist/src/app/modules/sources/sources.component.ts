@@ -2009,9 +2009,9 @@ export class SourcesComponent implements OnInit, AfterViewInit, OnDestroy {
       .subscribe((res) => {
         if (res) {
           // console.log(this.anntationObj);
-          if (this.anntationObj._id) {
+          if (this.anntationObj?._id) {
             this.openStatusModal();
-            this.poling(this.anntationObj._id);
+            this.poling(this.anntationObj?._id);
           }
         }
       });
