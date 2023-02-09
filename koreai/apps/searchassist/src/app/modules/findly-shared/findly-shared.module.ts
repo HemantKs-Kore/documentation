@@ -5,7 +5,6 @@ import { KrModalModule } from './../../shared/kr-modal/kr-modal.module';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ListFieldsComponent } from '../../components/search-settings/list-fields/list-fields.component';
-import { RangeSliderSearchExperienceComponent } from '../../helpers/components/range-slider-search-experience/range-slider-search-experience.component';
 import { TranslateModule } from '@ngx-translate/core';
 import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
 import { SearchFilterComponent } from '../../helpers/components/search-filter/search-filter.component';
@@ -19,12 +18,7 @@ import { SynonymFilterPipe } from '../../components/synonyms/synonym-filter';
 import { UseronboardingJourneyModule } from '@kore.apps/helpers/components/useronboarding-journey/useronboarding-journey.module';
 
 @NgModule({
-  declarations: [
-    ListFieldsComponent,
-    RangeSliderSearchExperienceComponent,
-    SearchFilterComponent,
-    SynonymFilterPipe,
-  ],
+  declarations: [ListFieldsComponent, SearchFilterComponent, SynonymFilterPipe],
   imports: [
     CommonModule,
     TranslateModule,
@@ -41,7 +35,6 @@ import { UseronboardingJourneyModule } from '@kore.apps/helpers/components/usero
   ],
   exports: [
     ListFieldsComponent,
-    RangeSliderSearchExperienceComponent,
     TranslateModule,
     PerfectScrollbarModule,
     SearchFilterComponent,
