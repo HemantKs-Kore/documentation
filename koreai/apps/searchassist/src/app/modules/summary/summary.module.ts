@@ -10,6 +10,7 @@ import { SharedPipesModule } from '@kore.apps/helpers/filters/shared-pipes.modul
 
 import { QueryPipelineDataService } from './services/query-pipeline-data.service';
 import { IndexPipelineDataService } from './services/index-pipeline-data.service';
+import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 
 // export const indexPipelineFeatureKey = 'indexPipeline';
 // export const queryPipelineFeatureKey = 'queryPipeline';
@@ -38,6 +39,7 @@ import { IndexPipelineDataService } from './services/index-pipeline-data.service
     UseronboardingJourneyModule,
     TranslateModule.forChild(),
     SharedPipesModule,
+    NgbTooltipModule,
   ],
 })
 export class SummaryModule {

@@ -13,7 +13,10 @@
               <span>({{ 'overview_last_24hrs' | translate }})</span>
               <img
                 src="assets/icons/gray_info.svg"
-                ngbTooltip="Number of unique users performed search during the selected period"
+                ngbTooltip="{{
+                  'user_engagement_no_of_unique_users_performed_during_selected_period'
+                    | translate
+                }}"
                 placement="top-center"
                 [container]="'body'"
                 tooltipClass="dashboard-custom-tooltips"
