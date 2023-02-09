@@ -11,6 +11,7 @@ import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 import { UseronboardingJourneyModule } from '@kore.apps/helpers/components/useronboarding-journey/useronboarding-journey.module';
 import { NgxEchartsModule } from 'ngx-echarts';
 import { AnalyticsDropdownComponent } from '@kore.apps/helpers/components/analytics-dropdown/analytics-dropdown.component';
+import { Ng5SliderModule } from 'ng5-slider';
 
 @NgModule({
   declarations: [UserEngagementComponent],
@@ -25,6 +26,7 @@ import { AnalyticsDropdownComponent } from '@kore.apps/helpers/components/analyt
     UseronboardingJourneyModule,
     NgxEchartsModule.forChild(),
     AnalyticsDropdownComponent,
+    Ng5SliderModule,
   ],
 })
 export class UserEngagementModule {}
