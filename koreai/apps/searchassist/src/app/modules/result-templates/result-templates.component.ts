@@ -165,6 +165,7 @@ export class ResultTemplatesComponent implements OnInit, OnDestroy {
     this.indexPipelineId = this.workflowService?.selectedIndexPipeline();
 
     this.loadFiledsData();
+    this.getSearchExperience();
     // this.subscription = this.appSelectionService.appSelectedConfigs.subscribe(res => {
     //   this.loadFiledsData();
     // })
@@ -177,13 +178,13 @@ export class ResultTemplatesComponent implements OnInit, OnDestroy {
         this.loadFiledsData();
       }
     );
-    this.searchExperienceConfig = this.headerService.searchConfiguration;
-    this.searchConfigurationSubscription =
-      this.headerService.savedSearchConfiguration.subscribe((res) => {
-        this.searchExperienceConfig = res;
-        this.loadFiledsData();
-        this.updateResultTemplateTabsAccess();
-      });
+    // this.searchExperienceConfig = this.headerService.searchConfiguration;
+    // this.searchConfigurationSubscription =
+    //   this.headerService.savedSearchConfiguration.subscribe((res) => {
+    //     this.searchExperienceConfig = res;
+    //     this.loadFiledsData();
+    //     this.updateResultTemplateTabsAccess();
+    //   });
     this.updateResultTemplateTabsAccess();
     /** Inline Not yet Registered */
     //in order to fix the lint issue Unexpected constant condition, however below block of code is not executed so commenting below.
@@ -191,6 +192,26 @@ export class ResultTemplatesComponent implements OnInit, OnDestroy {
     //   this.inlineManual.openHelp('RESULT_TEMPLATE');
     //   this.inlineManual.visited('RESULT_TEMPLATE');
     // }
+  }
+
+  //get default data
+  getSearchExperience() {
+    const searchIndex = this.selectedApp.searchIndexes[0]._id;
+    const quaryparms: any = {
+      searchIndexId: searchIndex,
+      indexPipelineId: this.indexPipelineId,
+      queryPipelineId: this.queryPipelineId,
+    };
+    this.service.invoke('get.searchexperience.list', quaryparms).subscribe(
+      (res) => {
+        this.searchExperienceConfig = res;
+        this.loadFiledsData();
+        this.updateResultTemplateTabsAccess();
+      },
+      (errRes) => {
+        console.log(errRes);
+      }
+    );
   }
 
   loadFiledsData() {
