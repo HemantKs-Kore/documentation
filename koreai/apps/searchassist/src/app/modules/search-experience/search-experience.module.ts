@@ -13,6 +13,7 @@ import {
 import { UseronboardingJourneyModule } from '@kore.apps/helpers/components/useronboarding-journey/useronboarding-journey.module';
 import { PickerModule } from '@ctrl/ngx-emoji-mart';
 import { ColorPickerModule } from 'ngx-color-picker';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [SearchExperienceComponent],
@@ -27,6 +28,7 @@ import { ColorPickerModule } from 'ngx-color-picker';
     PickerModule,
     NgbDropdownModule,
     ColorPickerModule,
+    FormsModule,
   ],
 })
 export class SearchExperienceModule {}
