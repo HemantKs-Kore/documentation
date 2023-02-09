@@ -3,7 +3,6 @@ import { CommonModule } from '@angular/common';
 
 import { WorkbenchRoutingModule } from './workbench-routing.module';
 import { WorkbenchComponent } from './workbench.component';
-import { UpgradePlanModule } from '@kore.apps/helpers/components/upgrade-plan/upgrade-plan.module';
 import { KrModalModule } from '@kore.apps/shared/kr-modal/kr-modal.module';
 import { TranslateModule } from '@ngx-translate/core';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
@@ -22,6 +21,7 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
 import { MatInputModule } from '@angular/material/input';
 import { UseronboardingJourneyModule } from '@kore.apps/helpers/components/useronboarding-journey/useronboarding-journey.module';
 import { MatDialogModule } from '@angular/material/dialog';
+import { PlanUpgradeModule } from '../pricing/shared/plan-upgrade/plan-upgrade.module';
 
 @NgModule({
   declarations: [WorkbenchComponent],
@@ -29,7 +29,7 @@ import { MatDialogModule } from '@angular/material/dialog';
     CommonModule,
     WorkbenchRoutingModule,
     CommonModule,
-    UpgradePlanModule,
+    PlanUpgradeModule,
     KrModalModule,
     TranslateModule.forChild(),
     MatProgressSpinnerModule,
@@ -53,4 +53,4 @@ import { MatDialogModule } from '@angular/material/dialog';
     MatDialogModule,
   ],
 })
-export class WorkbenchModule {}
+export class WorkbenchModule { }

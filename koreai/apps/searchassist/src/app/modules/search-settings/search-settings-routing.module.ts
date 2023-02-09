@@ -63,13 +63,6 @@ const routes: Routes = [
         },
       },
       {
-        path: 'snippets',
-        loadChildren: () =>
-          import('./modules/snippets/snippets.module').then(
-            (m) => m.SnippetsModule
-          ),
-      },
-      {
         path: 'synonyms',
         loadChildren: () =>
           import('./modules/synonyms/synonyms.module').then(
@@ -124,4 +117,4 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],
 })
-export class SearchSettingsRoutingModule {}
+export class SearchSettingsRoutingModule { }

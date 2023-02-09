@@ -6,6 +6,7 @@ import {
   NavigationStart,
   Router,
 } from '@angular/router';
+import { AppSelectionService } from './services/app.selection.service';
 import { LoaderService } from './shared/loader/loader.service';
 
 @Component({
@@ -19,11 +20,13 @@ export class AppComponent implements OnInit {
   sourceMenu = false;
   appSelected = false;
 
-  constructor(private router: Router, private loaderService: LoaderService) {
+  constructor(private router: Router, private loaderService: LoaderService, private appSelectionService: AppSelectionService) {
     this.onRouteEvents();
   }
 
-  ngOnInit() {}
+  ngOnInit() {
+    if (Object.entries(localStorage?.jStorage).length > 2) this.appSelectionService?.getAllPlans();
+  }
 
   onRouteEvents() {
     this.router.events.subscribe((event: any) => {

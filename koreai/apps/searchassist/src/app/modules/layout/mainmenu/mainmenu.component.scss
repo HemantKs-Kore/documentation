@@ -369,11 +369,12 @@ app-mainmenu {
         // }
       }
     }
-    .disable_btn {
-      pointer-events: none;
-      color: #bdc1c6 !important;
-      cursor: default;
-    }
+    .disable_btn{
+			pointer-events: none;
+			color:#BDC1C6 !important;
+			cursor:default !important;
+			opacity: 0.5;
+		}	
     .inside-config-tab-left-menus {
       padding: 20px !important;
       .inside-menu-title {

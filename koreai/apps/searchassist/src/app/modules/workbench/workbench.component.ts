@@ -19,7 +19,6 @@ import { startWith } from 'rxjs/operators';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
 import { FormControl } from '@angular/forms';
-import { UpgradePlanComponent } from '../../helpers/components/upgrade-plan/upgrade-plan.component';
 import { NotificationService } from '@kore.apps/services/notification.service';
 import { ServiceInvokerService } from '@kore.apps/services/service-invoker.service';
 import { WorkflowService } from '@kore.apps/services/workflow.service';
@@ -27,6 +26,7 @@ import { AuthService } from '@kore.apps/services/auth.service';
 import { AppSelectionService } from '@kore.apps/services/app.selection.service';
 import { InlineManualService } from '@kore.apps/services/inline-manual.service';
 import { MixpanelServiceService } from '@kore.apps/services/mixpanel-service.service';
+import { PlanUpgradeComponent } from '../pricing/shared/plan-upgrade/plan-upgrade.component';
 declare const $: any;
 @Component({
   selector: 'app-workbench',
@@ -292,8 +292,8 @@ export class WorkbenchComponent implements OnInit, OnDestroy, AfterViewInit {
     private appSelectionService: AppSelectionService,
     public inlineManual: InlineManualService,
     public mixpanel: MixpanelServiceService
-  ) {}
-  @ViewChild('plans') plans: UpgradePlanComponent;
+  ) { }
+  @ViewChild('plans') plans: PlanUpgradeComponent;
   ngOnInit(): void {
     this.selectedApp = this.workflowService.selectedApp();
     // console.log("this.selectedApp", this.selectedApp)
@@ -419,7 +419,7 @@ export class WorkbenchComponent implements OnInit, OnDestroy, AfterViewInit {
           // this.traitsSuggesitions = allTraitskeys;
         }
       },
-      (err) => {}
+      (err) => { }
     );
   }
   drop(event: CdkDragDrop<string[]>, list) {
@@ -571,7 +571,7 @@ export class WorkbenchComponent implements OnInit, OnDestroy, AfterViewInit {
           this.newMappingObj.field_mapping.defaultValue.target_field &&
           (this.newMappingObj.field_mapping.defaultValue.value ||
             this.newMappingObj.field_mapping.defaultValue.operation ===
-              'remove' ||
+            'remove' ||
             this.newMappingObj.field_mapping.defaultValue.source_field)
         ) {
           this.addFiledmappings(this.newMappingObj.field_mapping.defaultValue);
@@ -1420,7 +1420,7 @@ export class WorkbenchComponent implements OnInit, OnDestroy, AfterViewInit {
       );
     } else if (type == 'entitytarget') {
       this.newMappingObj[this.selectedStage.type].defaultValue.target_field !=
-      ''
+        ''
         ? $('#infoWarning4').hide()
         : $('#infoWarning4').show();
       $('#entitytarget').css(
@@ -1508,13 +1508,13 @@ export class WorkbenchComponent implements OnInit, OnDestroy, AfterViewInit {
               }
             } else if (
               this.newMappingObj.field_mapping.defaultValue.target_field ===
-                '' ||
+              '' ||
               this.newMappingObj.field_mapping.defaultValue.value === ''
             ) {
               if (
                 this.newMappingObj.field_mapping.defaultValue.value === '' &&
                 this.newMappingObj.field_mapping.defaultValue.target_field ===
-                  ''
+                ''
               ) {
                 $('#fieldname').css('border-color', '#DD3646');
                 $('#infoWarning').css({
@@ -1566,7 +1566,7 @@ export class WorkbenchComponent implements OnInit, OnDestroy, AfterViewInit {
           }
         } else if (
           this.newMappingObj.field_mapping.defaultValue.operation ===
-            'rename' ||
+          'rename' ||
           this.newMappingObj.field_mapping.defaultValue.operation === 'copy'
         ) {
           for (
@@ -1590,18 +1590,18 @@ export class WorkbenchComponent implements OnInit, OnDestroy, AfterViewInit {
               }
             } else if (
               this.newMappingObj.field_mapping.defaultValue.source_field ===
-                '' ||
+              '' ||
               this.newMappingObj.field_mapping.defaultValue.source_field ===
-                undefined ||
+              undefined ||
               this.newMappingObj.field_mapping.defaultValue.target_field === ''
             ) {
               if (
                 (this.newMappingObj.field_mapping.defaultValue.source_field ===
                   '' ||
                   this.newMappingObj.field_mapping.defaultValue.source_field ===
-                    undefined) &&
+                  undefined) &&
                 this.newMappingObj.field_mapping.defaultValue.target_field ===
-                  ''
+                ''
               ) {
                 $('#rename_sourcefield').css('border-color', '#DD3646');
                 $('#infoWarning2').css({
@@ -1619,9 +1619,9 @@ export class WorkbenchComponent implements OnInit, OnDestroy, AfterViewInit {
                 });
               } else if (
                 this.newMappingObj.field_mapping.defaultValue.source_field ===
-                  '' ||
+                '' ||
                 this.newMappingObj.field_mapping.defaultValue.source_field ===
-                  undefined
+                undefined
               ) {
                 $('#rename_sourcefield').css('border-color', '#DD3646');
                 $('#infoWarning2').css({
@@ -2385,9 +2385,9 @@ export class WorkbenchComponent implements OnInit, OnDestroy, AfterViewInit {
   getFileds(offset?) {
     this.loadingFields = true;
     const quaryparms: any = {
-        searchIndexID: this.serachIndexId,
-        indexPipelineId: this.indexPipelineId,
-      },
+      searchIndexID: this.serachIndexId,
+      indexPipelineId: this.indexPipelineId,
+    },
       payload = {
         sort: {
           fieldName: 1,
@@ -2775,8 +2775,8 @@ export class WorkbenchComponent implements OnInit, OnDestroy, AfterViewInit {
         map.operation === 'rename' || map.operation === 'copy'
           ? !map.target_field || !map.source_field
           : map.operation === 'remove'
-          ? !map.target_field
-          : !map.target_field || !map.value
+            ? !map.target_field
+            : !map.target_field || !map.value
       ) {
         return false;
       }

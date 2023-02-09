@@ -13,7 +13,7 @@ import {
 } from '@ng-bootstrap/ng-bootstrap';
 import { FormsModule } from '@angular/forms';
 import { MatDialogModule } from '@angular/material/dialog';
-import { UpgradePlanModule } from '@kore.apps/helpers/components/upgrade-plan/upgrade-plan.module';
+import { PlanUpgradeModule } from '../pricing/shared/plan-upgrade/plan-upgrade.module';
 import { UseronboardingJourneyModule } from '@kore.apps/helpers/components/useronboarding-journey/useronboarding-journey.module';
 import { NgxDaterangepickerMd } from 'ngx-daterangepicker-material';
 import { SharedPipesModule } from '@kore.apps/helpers/filters/shared-pipes.module';
@@ -31,7 +31,7 @@ import { SelectTextDirective } from '@kore.apps/helpers/directives/select-text.d
     CommonModule,
     BusinessRulesRoutingModule,
     TranslateModule.forChild(),
-    UpgradePlanModule,
+    PlanUpgradeModule,
     PerfectScrollbarModule,
     KrModalModule,
     NgbTooltipModule,
@@ -51,4 +51,4 @@ import { SelectTextDirective } from '@kore.apps/helpers/directives/select-text.d
     NgbModalModule,
   ],
 })
-export class BusinessRulesModule {}
+export class BusinessRulesModule { }

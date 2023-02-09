@@ -12,15 +12,15 @@ import {
 } from '@ng-bootstrap/ng-bootstrap';
 import { KrModalModule } from '../../../shared/kr-modal/kr-modal.module';
 import { MatDialogModule } from '@angular/material/dialog';
-import { UpgradePlanModule } from '@kore.apps/helpers/components/upgrade-plan/upgrade-plan.module';
 import { SharedPipesModule } from '@kore.apps/helpers/filters/shared-pipes.module';
 import { ConfirmationDialogComponent } from '@kore.apps/helpers/components/confirmation-dialog/confirmation-dialog.component';
+import { PlanUpgradeModule } from '@kore.apps/modules/pricing/shared/plan-upgrade/plan-upgrade.module';
 
 @NgModule({
   declarations: [MainMenuComponent, ConfirmationDialogComponent],
   imports: [
     CommonModule,
-    UpgradePlanModule,
+    PlanUpgradeModule,
     KrModalModule,
     PerfectScrollbarModule,
     TranslateModule,
@@ -35,4 +35,4 @@ import { ConfirmationDialogComponent } from '@kore.apps/helpers/components/confi
   entryComponents: [ConfirmationDialogComponent],
   exports: [MainMenuComponent],
 })
-export class MainMenuModule {}
+export class MainMenuModule { }

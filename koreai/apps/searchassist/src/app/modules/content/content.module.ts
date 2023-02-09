@@ -1,5 +1,5 @@
 import { SourcesModule } from './../sources/sources.module';
-import { UpgradePlanModule } from './../../helpers/components/upgrade-plan/upgrade-plan.module';
+import { PlanUpgradeModule } from '../pricing/shared/plan-upgrade/plan-upgrade.module';
 import { StructuredDataModule } from './../structured-data/structured-data.module';
 import { FormsModule } from '@angular/forms';
 import { AddStructuredDataModule } from './../../components/add-structured-data/add-structured-data.module';
@@ -35,9 +35,9 @@ import { OnboardingModule } from '../onboarding/onboarding.module';
     NgbDropdownModule,
     KrModalModule,
     StructuredDataModule,
-    UpgradePlanModule,
+    PlanUpgradeModule,
     SourcesModule,
     OnboardingModule,
   ],
 })
-export class ContentModule {}
+export class ContentModule { }

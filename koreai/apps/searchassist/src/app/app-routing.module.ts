@@ -171,20 +171,6 @@ const routes: Routes = [
           ),
       },
       {
-        path: 'invoices',
-        loadChildren: () =>
-          import('./modules/invoices/invoices.module').then(
-            (m) => m.InvoicesModule
-          ),
-      },
-      {
-        path: 'usageLog',
-        loadChildren: () =>
-          import('./modules/usage-log/usage-log.module').then(
-            (m) => m.UsageLogModule
-          ),
-      },
-      {
         path: 'index-configuration-settings',
         loadChildren: () =>
           import(
@@ -198,10 +184,13 @@ const routes: Routes = [
             (m) => m.TeamManagementModule
           ),
       },
-      // { path: 'pricing', component: PricingComponent },
-      //   path: 'index-configuration-settings',
-      //   component: IndexConfigurationSettingsComponent,
-      // },
+      {
+        path: 'pricing',
+        loadChildren: () =>
+          import('./modules/pricing/pricing.module').then(
+            (m) => m.PricingModule
+          ),
+      },
       {
         path: 'search-settings',
         loadChildren: () =>
@@ -273,4 +262,4 @@ const routes: Routes = [
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule],
 })
-export class AppRoutingModule {}
+export class AppRoutingModule { }

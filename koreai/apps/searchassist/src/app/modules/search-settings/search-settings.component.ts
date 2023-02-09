@@ -26,7 +26,6 @@ export class SearchSettingsComponent implements OnInit, OnDestroy {
     { key: 'Presentable', value: 'presentable' },
     { key: 'Highlighting', value: 'highlighting' },
     { key: 'Spell Correction', value: 'spell_correction' },
-    { key: 'Snippets', value: 'snippets' },
     { key: 'Search Relevance', value: 'search_relevance' },
     { key: 'Synonyms', value: 'synonyms' },
     { key: 'Stop Words', value: 'stop_words' },
@@ -40,7 +39,7 @@ export class SearchSettingsComponent implements OnInit, OnDestroy {
     private notificationService: NotificationService,
     private service: ServiceInvokerService,
     public router: Router
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.selectedApp = this.workflowService.selectedApp();
