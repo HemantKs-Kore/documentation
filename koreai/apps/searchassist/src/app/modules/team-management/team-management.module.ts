@@ -22,14 +22,7 @@ import { Router } from '@angular/router';
     CommonModule,
     TeamManagementRoutingModule,
     KrModalModule,
-    TranslateModule.forChild({
-      defaultLanguage: 'en',
-      loader: {
-        provide: TranslateLoader,
-        useFactory: createTranslateLoader,
-        deps: [HttpClient, Router],
-      },
-    }),
+    TranslateModule.forChild(),
     MatFormFieldModule,
     FormsModule,
     NgbTypeaheadModule,
