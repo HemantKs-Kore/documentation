@@ -14,7 +14,7 @@ import { ConfirmationDialogComponent } from '../../helpers/components/confirmati
 import { KRModalComponent } from '../../shared/kr-modal/kr-modal.component';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import * as _ from 'underscore';
-import { of, interval, Subject, Subscription } from 'rxjs';
+import { interval, Subscription, Observable } from 'rxjs';
 import { startWith } from 'rxjs/operators';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
@@ -27,6 +27,7 @@ import { AuthService } from '@kore.apps/services/auth.service';
 import { AppSelectionService } from '@kore.apps/services/app.selection.service';
 import { InlineManualService } from '@kore.apps/services/inline-manual.service';
 import { MixpanelServiceService } from '@kore.apps/services/mixpanel-service.service';
+import { LazyLoadService } from '@kore.shared/*';
 declare const $: any;
 @Component({
   selector: 'app-workbench',
@@ -292,7 +293,8 @@ export class WorkbenchComponent implements OnInit, OnDestroy, AfterViewInit {
     public authService: AuthService,
     private appSelectionService: AppSelectionService,
     public inlineManual: InlineManualService,
-    public mixpanel: MixpanelServiceService
+    public mixpanel: MixpanelServiceService,
+    private lazyLoadService: LazyLoadService
   ) {}
   @ViewChild('plans') plans: UpgradePlanComponent;
   ngOnInit(): void {
@@ -318,7 +320,14 @@ export class WorkbenchComponent implements OnInit, OnDestroy, AfterViewInit {
         this.loadIndexAll();
       }
     );
+
+    this.lazyLoadCodeMirror();
   }
+
+  lazyLoadCodeMirror(): Observable<any[]> {
+    return this.lazyLoadService.loadStyle('codemirror.min.css');
+  }
+
   loadIndexAll() {
     this.indexPipelineId = this.workflowService.selectedIndexPipeline();
     if (this.indexPipelineId) {
