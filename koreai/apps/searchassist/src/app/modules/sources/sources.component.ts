@@ -460,7 +460,7 @@ export class SourcesComponent implements OnInit, AfterViewInit, OnDestroy {
     if (this.addSourceModalPopDummyRef?.close) {
       this.addSourceModalPopDummyRef.close();
       this.url_failed = false;
-      //this.selectedSourceType=null;
+      this.selectedSourceType = null;
       if (isEmit) this.cancleEvent.emit();
     }
   }
@@ -1742,7 +1742,7 @@ export class SourcesComponent implements OnInit, AfterViewInit, OnDestroy {
             this.extract_sourceId = res._id;
             this.appSelectionService.updateTourConfig('addData');
             //this.addSourceModalPopRef.close();
-            if (this.selectedSourceType.sourceType === 'content') {
+            if (this.selectedSourceType?.sourceType === 'content') {
               this.statusObject = {
                 ...this.statusObject,
                 validation: res.validations,
@@ -1750,22 +1750,22 @@ export class SourcesComponent implements OnInit, AfterViewInit, OnDestroy {
               };
               this.mixpanel.postEvent('Content Crawl web domain added', {});
             }
-            if (this.selectedSourceType.sourceType === 'faq') {
+            if (this.selectedSourceType?.sourceType === 'faq') {
               this.mixpanel.postEvent('FAQ-created', {});
               this.poling(res._id, 'scheduler');
             }
-            if (this.selectedSourceType.resourceType === 'file') {
+            if (this.selectedSourceType?.resourceType === 'file') {
               this.mixpanel.postEvent('Content File extraction success', {});
             }
             if (
-              this.selectedSourceType.resourceType === '' &&
-              this.selectedSourceType.sourceType === 'faq'
+              this.selectedSourceType?.resourceType === '' &&
+              this.selectedSourceType?.sourceType === 'faq'
             ) {
               this.mixpanel.postEvent('FAQ Web extract started', {});
             }
             if (
-              this.selectedSourceType.resourceType === 'importfaq' &&
-              this.selectedSourceType.sourceType === 'faq'
+              this.selectedSourceType?.resourceType === 'importfaq' &&
+              this.selectedSourceType?.sourceType === 'faq'
             ) {
               console.log('mix event:FAQ File extraction started');
               //this.mixpanel.postEvent('FAQ File extraction started', {});
@@ -1792,7 +1792,7 @@ export class SourcesComponent implements OnInit, AfterViewInit, OnDestroy {
                   this.btnDisabled = false;
                 }, 500);
               } else {
-                if (this.selectedSourceType.sourceType === 'content') {
+                if (this.selectedSourceType?.sourceType === 'content') {
                   this.mixpanel.postEvent(
                     'Content Crawl web domain failed',
                     {}
@@ -1826,10 +1826,10 @@ export class SourcesComponent implements OnInit, AfterViewInit, OnDestroy {
   upgrade() { }
   callWebCraller(crawler, searchIndex) {
     let payload = {};
-    const resourceType = this.selectedSourceType.resourceType;
+    const resourceType = this.selectedSourceType?.resourceType;
     const quaryparms: any = {
       searchIndexId: searchIndex,
-      type: this.selectedSourceType.sourceType,
+      type: this.selectedSourceType?.sourceType,
     };
     crawler.name = this.newSourceObj.name;
     crawler.url = this.newSourceObj.url;

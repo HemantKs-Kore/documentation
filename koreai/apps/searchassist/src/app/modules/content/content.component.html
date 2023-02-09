@@ -2573,7 +2573,7 @@
                             [ngClass]="{
                               active: selectedPage?._id === page?._id
                             }"
-                            (click)="selectedPage = page"
+                            (click)="callContentPage(page?._id)"
                             data-toggle="tab"
                             href="#menu{{ i }}"
                           >
@@ -2600,7 +2600,10 @@
                     </div>
                   </perfect-scrollbar>
                 </div>
-                <div *ngIf="pagingData.length > 0" class="right_content">
+                <div
+                  *ngIf="pagingData.length > 0 && !isPageLoader"
+                  class="right_content"
+                >
                   <div class="tab-content">
                     <div class="tab-pane active" id="#menu{{i}">
                       <div class="pages-info-tabs">
@@ -2825,6 +2828,9 @@
                       </div>
                     </div>
                   </div>
+                </div>
+                <div class="mainLoadingSpinner" *ngIf="isPageLoader">
+                  <mat-spinner diameter="18" strokeWidth="2"></mat-spinner>
                 </div>
               </div>
             </div>

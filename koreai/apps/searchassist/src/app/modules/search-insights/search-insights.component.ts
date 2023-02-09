@@ -47,9 +47,9 @@ export class SearchInsightsComponent implements OnInit {
   selectedSort = '';
   isAsc = true;
   sortedObject = {
-    type: 'fieldName',
-    position: 'up',
-    value: 'asc',
+    type: '',
+    position: '',
+    value: '',
   };
   startDate: any = moment().subtract({ days: 7 });
   endDate: any = moment();

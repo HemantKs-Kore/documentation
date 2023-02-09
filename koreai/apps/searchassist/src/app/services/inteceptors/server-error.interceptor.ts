@@ -6,7 +6,7 @@ import {
   HttpHandler,
   HttpEvent,
   HttpInterceptor,
-  HttpErrorResponse
+  HttpErrorResponse,
 } from '@angular/common/http';
 import { EMPTY, Observable, throwError } from 'rxjs';
 
@@ -17,28 +17,29 @@ export class ServerErrorInterceptor implements HttpInterceptor {
   handleServerError(error: HttpErrorResponse) {
     let errMsg = '';
     switch (error.status) {
-        case 401: {
-          errMsg = '401 Unauthorized';
-          break;
-        }
-        case 404: {
-          errMsg = 'Requested Resource Not Found';
-          break;
-        }
-        case 403: {
-          errMsg = 'Access Denied';
-          break;
-        }
-        case 500: {
-          errMsg = 'Internal Server Error';
-          break;
-        }
-        default: {
-          errMsg = `${error.statusText}`;
-        }
+      case 401: {
+        errMsg = '401 Unauthorized';
+        break;
+      }
+      case 404: {
+        errMsg = 'Requested Resource Not Found';
+        break;
+      }
+      case 403: {
+        errMsg = 'Access Denied';
+        break;
+      }
+      case 500: {
+        errMsg = 'Internal Server Error';
+        break;
+      }
+      // default: {
+      //   errMsg = `${error.statusText}`;
+      // }
     }
 
-    this.notificationService.notify(errMsg, 'error');
+    errMsg && this.notificationService.notify(errMsg, 'error');
+    return throwError(() => error);
   }
 
   intercept(
@@ -56,14 +57,12 @@ export class ServerErrorInterceptor implements HttpInterceptor {
         if (err.error instanceof ErrorEvent) {
           // Client Side Http Error
           // this.notificationService.notify(err.error.message, 'error');
-          return throwError(err);
+          return throwError(() => err);
         } else {
           // Server Side Http Error
-          this.handleServerError(err);
-          return EMPTY;
+          return this.handleServerError(err);
         }
       })
     );
   }
-
 }

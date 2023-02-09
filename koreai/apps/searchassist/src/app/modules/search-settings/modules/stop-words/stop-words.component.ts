@@ -273,7 +273,7 @@ export class StopWordsComponent implements OnInit, OnDestroy {
       },
       (errRes) => {
         if (type)
-          this.notificationService.notify('Failed To Add Stopwords', 'success');
+          this.notificationService.notify('Failed To Add Stopwords', 'error');
       }
     );
   }

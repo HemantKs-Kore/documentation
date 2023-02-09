@@ -63,9 +63,9 @@ export class ResultInsightsComponent implements OnInit {
   // userEngagementChartData : EChartOption;
   selectedSort = '';
   sortedObject = {
-    type: 'fieldName',
-    position: 'up',
-    value: 1,
+    type: '',
+    position: '',
+    value: '',
   };
   loadingQueries = true;
   isAsc = true;

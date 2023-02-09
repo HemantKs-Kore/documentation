@@ -2393,10 +2393,10 @@
                 class="input- d-none"
                 (keyup)="
                   addCustomScript(
-                    newMappingObj.custom_script.defaultValue.script
+                    newMappingObj.custom_script?.defaultValue.script
                   )
                 "
-                [(ngModel)]="newMappingObj.custom_script.defaultValue.script"
+                [(ngModel)]="newMappingObj.custom_script?.defaultValue.script"
               ></textarea>
               <!-- Changed the painless cript editor from Text Area to CodeMirror -->
               <div class="painless-script-wrapper">

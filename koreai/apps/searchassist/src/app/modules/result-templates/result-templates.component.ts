@@ -26,6 +26,7 @@ export class ResultTemplatesComponent implements OnInit, OnDestroy {
   serachIndexId: any;
   indexPipelineId: any;
   queryPipelineId: any;
+  allPresetableFieldData: any;
   allFieldData: any;
   preview_title: any = '';
   preview_desc: any = '';
@@ -164,6 +165,7 @@ export class ResultTemplatesComponent implements OnInit, OnDestroy {
     this.indexPipelineId = this.workflowService?.selectedIndexPipeline();
 
     this.loadFiledsData();
+    this.getSearchExperience();
     // this.subscription = this.appSelectionService.appSelectedConfigs.subscribe(res => {
     //   this.loadFiledsData();
     // })
@@ -176,13 +178,13 @@ export class ResultTemplatesComponent implements OnInit, OnDestroy {
         this.loadFiledsData();
       }
     );
-    this.searchExperienceConfig = this.headerService.searchConfiguration;
-    this.searchConfigurationSubscription =
-      this.headerService.savedSearchConfiguration.subscribe((res) => {
-        this.searchExperienceConfig = res;
-        this.loadFiledsData();
-        this.updateResultTemplateTabsAccess();
-      });
+    // this.searchExperienceConfig = this.headerService.searchConfiguration;
+    // this.searchConfigurationSubscription =
+    //   this.headerService.savedSearchConfiguration.subscribe((res) => {
+    //     this.searchExperienceConfig = res;
+    //     this.loadFiledsData();
+    //     this.updateResultTemplateTabsAccess();
+    //   });
     this.updateResultTemplateTabsAccess();
     /** Inline Not yet Registered */
     //in order to fix the lint issue Unexpected constant condition, however below block of code is not executed so commenting below.
@@ -192,13 +194,34 @@ export class ResultTemplatesComponent implements OnInit, OnDestroy {
     // }
   }
 
+  //get default data
+  getSearchExperience() {
+    const searchIndex = this.selectedApp.searchIndexes[0]._id;
+    const quaryparms: any = {
+      searchIndexId: searchIndex,
+      indexPipelineId: this.indexPipelineId,
+      queryPipelineId: this.queryPipelineId,
+    };
+    this.service.invoke('get.searchexperience.list', quaryparms).subscribe(
+      (res) => {
+        this.searchExperienceConfig = res;
+        this.loadFiledsData();
+        this.updateResultTemplateTabsAccess();
+      },
+      (errRes) => {
+        console.log(errRes);
+      }
+    );
+  }
+
   loadFiledsData() {
     this.indexPipelineId = this.workflowService.selectedIndexPipeline();
     if (this.indexPipelineId) {
       this.queryPipelineId = this.workflowService.selectedQueryPipeline()
         ? this.workflowService.selectedQueryPipeline()._id
         : this.selectedApp.searchIndexes[0].queryPipelineId;
-      this.getFieldAutoComplete();
+      this.getFieldAutoComplete('all');
+      this.getFieldAutoComplete('presentable');
       // this.getAllSettings(this.selectedTab)
     }
   }
@@ -209,66 +232,69 @@ export class ResultTemplatesComponent implements OnInit, OnDestroy {
     this.selectedTab = id;
   }
   /** Fields Data for options  */
-  getFieldAutoComplete() {
+  getFieldAutoComplete(type) {
     /** url & QuerryParam for Presentable Fields */
-    const query: any = '';
-    const quaryparms: any = {
-      searchIndexID: this.serachIndexId,
-      indexPipelineId: this.indexPipelineId,
-      query,
-    };
-    const url = 'get.getFieldAutocomplete';
-
-    /** url & QuerryParam for Presentable Fields */
-    //   const url = 'get.presentableFields'
-    //   const quaryparms: any = {
-    //     isSelected:true,
-    //     sortField: "fieldName",
-    //     orderType: 'asc', //desc,
-    //     indexPipelineId:this.indexPipelineId,
-    //     streamId:this.selectedApp._id,
-    //     queryPipelineId:this.queryPipelineId,
-    //     searchKey:''
-    //   };
+    let url = '';
+    let quaryparms;
+    if (type == 'all') {
+      url = 'get.getFieldAutocomplete';
+      const query: any = '';
+      quaryparms = {
+        searchIndexID: this.serachIndexId,
+        indexPipelineId: this.indexPipelineId,
+        query,
+      };
+    } /** url & QuerryParam for Presentable Fields */ else if (
+      type == 'presentable'
+    ) {
+      url = 'get.presentableFields';
+      quaryparms = {
+        isSelected: true,
+        sortField: 'fieldName',
+        orderType: 'asc', //desc,
+        indexPipelineId: this.indexPipelineId,
+        streamId: this.selectedApp._id,
+        queryPipelineId: this.queryPipelineId,
+        searchKey: '',
+      };
+    }
     this.service.invoke(url, quaryparms).subscribe(
       (res) => {
-        /**  for Presentable Fields */
-
-        // this.heading_fieldData = [...res.data];
-        // this.desc_fieldData = [...res.data];
-        // this.desc_fieldData1 = [...res.data];
-        // this.label1_fieldData = [...res.data];
-        // this.label2_fieldData = [...res.data];
-        // this.rate_fieldData = [...res.data];
-        // this.Strikedrate_fieldData = [...res.data];
-        // this.img_fieldData = [...res.data];
-        // this.url_fieldData = [...res.data];
-        // this.icon_fieldData = [...res.data];
-        // this.textField1_fieldData = [...res.data];
-        // this.textField2_fieldData = [...res.data];
-        // this.chips_fieldData = [...res.data];
-        // this.rating_fieldData = [...res.data];
-        // this.fieldData = [...res.data];
-        // this.allFieldData = res.data;
-
-        /** for All Fields */
-        this.heading_fieldData = [...res];
-        this.desc_fieldData = [...res];
-        this.desc_fieldData1 = [...res];
-        this.label1_fieldData = [...res];
-        this.label2_fieldData = [...res];
-        this.rate_fieldData = [...res];
-        this.Strikedrate_fieldData = [...res];
-        this.img_fieldData = [...res];
-        this.url_fieldData = [...res];
-        this.icon_fieldData = [...res];
-        this.textField1_fieldData = [...res];
-        this.textField2_fieldData = [...res];
-        this.chips_fieldData = [...res];
-        this.rating_fieldData = [...res];
-        this.fieldData = [...res];
-        this.allFieldData = res;
-        // console.log('Field Data ....', res)
+        if (type == 'all') {
+          // this.heading_fieldData = [...res];
+          // this.desc_fieldData = [...res];
+          // this.desc_fieldData1 = [...res];
+          // this.label1_fieldData = [...res];
+          // this.label2_fieldData = [...res];
+          // this.rate_fieldData = [...res];
+          // this.Strikedrate_fieldData = [...res];
+          // this.img_fieldData = [...res];
+          // this.url_fieldData = [...res];
+          this.icon_fieldData = [...res];
+          // this.textField1_fieldData = [...res];
+          // this.textField2_fieldData = [...res];
+          // this.chips_fieldData = [...res];
+          // this.rating_fieldData = [...res];
+          // this.fieldData = [...res];
+          this.allFieldData = res;
+        } else if (type == 'presentable') {
+          this.heading_fieldData = [...res.data];
+          this.desc_fieldData = [...res.data];
+          this.desc_fieldData1 = [...res.data];
+          this.label1_fieldData = [...res.data];
+          this.label2_fieldData = [...res.data];
+          this.rate_fieldData = [...res.data];
+          this.Strikedrate_fieldData = [...res.data];
+          this.img_fieldData = [...res.data];
+          this.url_fieldData = [...res.data];
+          //this.icon_fieldData = [...res.data];
+          this.textField1_fieldData = [...res.data];
+          this.textField2_fieldData = [...res.data];
+          this.chips_fieldData = [...res.data];
+          this.rating_fieldData = [...res.data];
+          this.fieldData = [...res.data];
+          this.allPresetableFieldData = res.data;
+        }
       },
       (errRes) => {
         this.errorToaster(errRes, 'Failed to get fields');
@@ -280,52 +306,52 @@ export class ResultTemplatesComponent implements OnInit, OnDestroy {
     if (type == 'heading') {
       this.templateDataBind.mapping.heading = field._id;
       this.preview_title = field.fieldName;
-      this.heading_fieldData = [...this.allFieldData];
+      this.heading_fieldData = [...this.allPresetableFieldData];
       this.templateFieldValidateObj.heading = true;
     } else if (type == 'description') {
       this.templateDataBind.mapping.description = field._id;
       this.preview_desc = field.fieldName;
-      this.desc_fieldData = [...this.allFieldData];
+      this.desc_fieldData = [...this.allPresetableFieldData];
       this.templateFieldValidateObj.description = true;
     } else if (type == 'description1') {
       this.templateDataBind.mapping.description1 = field._id;
       this.preview_desc1 = field.fieldName;
-      this.desc_fieldData1 = [...this.allFieldData];
+      this.desc_fieldData1 = [...this.allPresetableFieldData];
       this.templateFieldValidateObj.description1 = true;
     } else if (type == 'label1') {
       this.templateDataBind.mapping.label1 = field._id;
       this.preview_label1 = field.fieldName;
-      this.label1_fieldData = [...this.allFieldData];
+      this.label1_fieldData = [...this.allPresetableFieldData];
       this.templateFieldValidateObj.label1 = true;
     } else if (type == 'label2') {
       this.templateDataBind.mapping.label2 = field._id;
       this.preview_label2 = field.fieldName;
-      this.label2_fieldData = [...this.allFieldData];
+      this.label2_fieldData = [...this.allPresetableFieldData];
       this.templateFieldValidateObj.label2 = true;
     } else if (type == 'rateField') {
       this.templateDataBind.mapping.rateField = field._id;
       this.preview_rateFiled = field.fieldName;
-      this.rate_fieldData = [...this.allFieldData];
+      this.rate_fieldData = [...this.allPresetableFieldData];
       this.templateFieldValidateObj.rateField = true;
     } else if (type == 'strikedOffRate') {
       this.templateDataBind.mapping.strikedOffRate = field._id;
       this.preview_StrikedrateFiled = field.fieldName;
-      this.Strikedrate_fieldData = [...this.allFieldData];
+      this.Strikedrate_fieldData = [...this.allPresetableFieldData];
       this.templateFieldValidateObj.strikedOffRate = true;
     } else if (type == 'rating') {
       this.templateDataBind.mapping.rating = field._id;
       this.preview_rating = field.fieldName;
-      this.rating_fieldData = [...this.allFieldData];
+      this.rating_fieldData = [...this.allPresetableFieldData];
       this.templateFieldValidateObj.rating = true;
     } else if (type == 'image') {
       this.templateDataBind.mapping.img = field._id;
       this.preview_img = field.fieldName;
-      this.img_fieldData = [...this.allFieldData];
+      this.img_fieldData = [...this.allPresetableFieldData];
       this.templateFieldValidateObj.image = true;
     } else if (type == 'url') {
       this.templateDataBind.mapping.url = field._id;
       this.preview_url = field.fieldName;
-      this.url_fieldData = [...this.allFieldData];
+      this.url_fieldData = [...this.allPresetableFieldData];
       this.templateFieldValidateObj.url = true;
     } else if (type == 'icon') {
       this.templateDataBind.mapping.icon = field._id;
@@ -335,17 +361,17 @@ export class ResultTemplatesComponent implements OnInit, OnDestroy {
     } else if (type == 'textField1') {
       this.templateDataBind.mapping.textField1 = field._id;
       this.preview_textField1 = field.fieldName;
-      this.textField1_fieldData = [...this.allFieldData];
+      this.textField1_fieldData = [...this.allPresetableFieldData];
       this.templateFieldValidateObj.textField1 = true;
     } else if (type == 'textField2') {
       this.templateDataBind.mapping.textField2 = field._id;
       this.preview_textField2 = field.fieldName;
-      this.textField2_fieldData = [...this.allFieldData];
+      this.textField2_fieldData = [...this.allPresetableFieldData];
       this.templateFieldValidateObj.textField2 = true;
     } else if (type == 'chips') {
       this.templateDataBind.mapping.chips = field._id;
       this.preview_chips = field.fieldName;
-      this.chips_fieldData = [...this.allFieldData];
+      this.chips_fieldData = [...this.allPresetableFieldData];
       this.templateFieldValidateObj.chips = true;
     }
   }

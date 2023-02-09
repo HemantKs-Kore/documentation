@@ -974,9 +974,9 @@ export class AppExperimentsComponent implements OnInit, OnDestroy {
       }
     }
   }
-  // run an experiment
-  runExperiment(id, status, event) {
-    event.stopPropagation();
+  // Activate the Experiment based on Status
+  activateStatus(id, status, event, dialogRef?) {
+    dialogRef ? dialogRef.close() : null;
     const quaryparms: any = {
       searchIndexId: this.serachIndexId,
       experimentId: id,
@@ -1036,26 +1036,50 @@ export class AppExperimentsComponent implements OnInit, OnDestroy {
       }
     );
   }
-  // delete experiment popup
-  deleteExperimentPopup(record, event) {
+  // run an experiment
+  runExperiment(id, status, event) {
     event.stopPropagation();
-    const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+    if (status == 'stopped') {
+      this.confirmationPopup(id, event, status);
+    } else {
+      this.activateStatus(id, status, event);
+    }
+  }
+  // Confirmation experiment popup
+  confirmationPopup(record, event, status) {
+    event.stopPropagation();
+    const title =
+      status == 'delete'
+        ? 'Are you sure you want to delete?'
+        : 'Are you sure you want to stop the experiment?';
+    const desc =
+      status == 'delete'
+        ? 'Selected Experiment will be permanently deleted.'
+        : 'Selected experiment will be permanently stopped, which will end the experiment';
+    const action = status == 'delete' ? 'Delete' : 'Stop';
+    const popupContent = {
       width: '530px',
       height: 'auto',
       panelClass: 'delete-popup',
       data: {
-        newTitle: 'Are you sure you want to delete?',
-        body: 'Selected Experiment will be permanently deleted.',
+        newTitle: title,
+        body: desc,
         buttons: [
-          { key: 'yes', label: 'Delete', type: 'danger' },
+          { key: 'yes', label: action, type: 'danger' },
           { key: 'no', label: 'Cancel' },
         ],
         confirmationPopUp: true,
       },
-    });
+    };
+    const dialogRef = this.dialog.open(
+      ConfirmationDialogComponent,
+      popupContent
+    );
     dialogRef.componentInstance.onSelect.subscribe((result) => {
       if (result === 'yes') {
-        this.deleteExperiment(record, dialogRef);
+        status == 'delete'
+          ? this.deleteExperiment(record, dialogRef)
+          : this.activateStatus(record, status, event, dialogRef);
       } else if (result === 'no') {
         dialogRef.close();
       }

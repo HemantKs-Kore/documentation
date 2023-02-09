@@ -160,8 +160,8 @@ export class FieldManagementComponent
   openModalPopup() {
     this.addFieldModalPopRef = this.addFieldModalPop.open();
     setTimeout(() => {
-      this.perfectScroll.directiveRef.update();
-      this.perfectScroll.directiveRef.scrollToTop();
+      this.perfectScroll.directiveRef?.update();
+      this.perfectScroll.directiveRef?.scrollToTop();
     }, 500);
   }
   selectFieldType(type) {

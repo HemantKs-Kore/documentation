@@ -14,7 +14,7 @@ import { ConfirmationDialogComponent } from '../../helpers/components/confirmati
 import { KRModalComponent } from '../../shared/kr-modal/kr-modal.component';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import * as _ from 'underscore';
-import { of, interval, Subject, Subscription } from 'rxjs';
+import { interval, Subscription, Observable } from 'rxjs';
 import { startWith } from 'rxjs/operators';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
@@ -27,6 +27,7 @@ import { AppSelectionService } from '@kore.apps/services/app.selection.service';
 import { InlineManualService } from '@kore.apps/services/inline-manual.service';
 import { MixpanelServiceService } from '@kore.apps/services/mixpanel-service.service';
 import { PlanUpgradeComponent } from '../pricing/shared/plan-upgrade/plan-upgrade.component';
+import { LazyLoadService } from '@kore.shared/*';
 declare const $: any;
 @Component({
   selector: 'app-workbench',
@@ -78,6 +79,7 @@ export class WorkbenchComponent implements OnInit, OnDestroy, AfterViewInit {
   showNewStageType = false;
   loadingSimulate = true;
   subscription: Subscription;
+  fieldOffset = 50;
   @ViewChild('tleft') public tooltip: NgbTooltip;
   @ViewChild('addFieldModalPop') addFieldModalPop: KRModalComponent;
   @ViewChild('suggestedInput') suggestedInput: ElementRef<HTMLInputElement>;
@@ -291,9 +293,11 @@ export class WorkbenchComponent implements OnInit, OnDestroy, AfterViewInit {
     public authService: AuthService,
     private appSelectionService: AppSelectionService,
     public inlineManual: InlineManualService,
-    public mixpanel: MixpanelServiceService
+    public mixpanel: MixpanelServiceService,
+    private lazyLoadService: LazyLoadService
   ) { }
   @ViewChild('plans') plans: PlanUpgradeComponent;
+
   ngOnInit(): void {
     this.selectedApp = this.workflowService.selectedApp();
     // console.log("this.selectedApp", this.selectedApp)
@@ -317,7 +321,14 @@ export class WorkbenchComponent implements OnInit, OnDestroy, AfterViewInit {
         this.loadIndexAll();
       }
     );
+
+    this.lazyLoadCodeMirror();
   }
+
+  lazyLoadCodeMirror(): Observable<any[]> {
+    return this.lazyLoadService.loadStyle('codemirror.min.css');
+  }
+
   loadIndexAll() {
     this.indexPipelineId = this.workflowService.selectedIndexPipeline();
     if (this.indexPipelineId) {
@@ -1186,6 +1197,10 @@ export class WorkbenchComponent implements OnInit, OnDestroy, AfterViewInit {
             if (!(this.selectedStage.type !== 'custom_script')) {
               this.setResetNewMappingsObj('remove_mapping', null, true);
             }
+            const stageKeys = Object.keys(this.defaultStageTypesObj);
+            stageKeys.forEach((element: any) => {
+              delete this.newMappingObj[element];
+            });
             /** Workbench plain text temp */
             // if (this.newMappingObj && this.newMappingObj.custom_script &&
             //   this.newMappingObj.custom_script.defaultValue && this.newMappingObj.custom_script.defaultValue.script) {
@@ -1445,6 +1460,13 @@ export class WorkbenchComponent implements OnInit, OnDestroy, AfterViewInit {
     }
   }
   validation(save) {
+    /** if we need to add the Data without click on plus button */
+    // if(this.selectedStage.type == 'snippet_extraction'){
+    //   if(!this.selectedStage.config.mappings){
+    //     this.selectedStage.config['mappings'] = [];
+    //     this.selectedStage.config.mappings.push(this.newMappingObj[this.selectedStage.type].defaultValue)
+    //   }
+    // }
     if (this.selectedStage.condition.mappings && this.selectedStage.name) {
       if (Object.keys(this.newMappingObj).length == 0) {
         if (save === true) {
@@ -2397,9 +2419,26 @@ export class WorkbenchComponent implements OnInit, OnDestroy, AfterViewInit {
     // let serviceId ='get.allField';
     this.service.invoke(serviceId, quaryparms, payload).subscribe(
       (res) => {
-        this.fields = res.fields || [];
-        this.getIndexPipline();
-        this.loadingFields = false;
+        if (res.hasMore) {
+          //this.fields.push(res.fields);
+          res.fields.forEach((element) => {
+            this.fields.push(element);
+          });
+          // this.fields = [...res.fields];
+          this.getFileds(this.fieldOffset);
+          this.fieldOffset = this.fieldOffset + 50;
+        } else {
+          if (!offset) {
+            this.fields = res.fields || [];
+          } else if (offset) {
+            res.fields.forEach((element) => {
+              this.fields.push(element);
+            });
+          }
+          this.getIndexPipline();
+          this.loadingFields = false;
+          this.fieldOffset = 50;
+        }
       },
       (errRes) => {
         this.loadingFields = false;
