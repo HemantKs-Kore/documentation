@@ -181,8 +181,8 @@ export class SearchExperienceComponent implements OnInit, OnDestroy {
   }
   //validate max length in textarea
   testInputLength(event) {
-    if (event.value.length > 150) {
-      event.value = event.value.substring(0, 150);
+    if (event?.value?.length > 150) {
+      event.value = event?.value?.substring(0, 150);
     }
   }
   //select tab on number
