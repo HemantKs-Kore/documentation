@@ -14,6 +14,7 @@ import { EmptyScreenModule } from '../empty-screen/empty-screen.module';
 import { NouisliderModule } from 'ng2-nouislider';
 import {
   NgbDropdownModule,
+  NgbProgressbarModule,
   NgbTooltipModule,
 } from '@ng-bootstrap/ng-bootstrap';
 
@@ -33,6 +34,7 @@ import {
     NouisliderModule,
     NgbTooltipModule,
     NgbDropdownModule,
+    NgbProgressbarModule,
   ],
 })
 export class AppExperimentsModule {}
