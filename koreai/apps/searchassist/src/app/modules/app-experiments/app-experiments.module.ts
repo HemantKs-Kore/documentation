@@ -12,6 +12,10 @@ import { NgxDaterangepickerMd } from 'ngx-daterangepicker-material';
 import { SharedPipesModule } from '@kore.apps/helpers/filters/shared-pipes.module';
 import { EmptyScreenModule } from '../empty-screen/empty-screen.module';
 import { NouisliderModule } from 'ng2-nouislider';
+import {
+  NgbDropdownModule,
+  NgbTooltipModule,
+} from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
   declarations: [AppExperimentsComponent],
@@ -27,6 +31,8 @@ import { NouisliderModule } from 'ng2-nouislider';
     SharedPipesModule,
     EmptyScreenModule,
     NouisliderModule,
+    NgbTooltipModule,
+    NgbDropdownModule,
   ],
 })
 export class AppExperimentsModule {}
