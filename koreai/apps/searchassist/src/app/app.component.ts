@@ -6,6 +6,7 @@ import {
   NavigationStart,
   Router,
 } from '@angular/router';
+import { LazyLoadService } from '@kore.shared/*';
 import { LoaderService } from './shared/loader/loader.service';
 import { Store } from '@ngrx/store';
 import { setSearchExperienceConfig } from './store/app.actions';
@@ -24,7 +25,8 @@ export class AppComponent implements OnInit {
   constructor(
     private router: Router,
     private loaderService: LoaderService,
-    private store: Store
+    private store: Store,
+    private lazyLoadService: LazyLoadService
   ) {
     this.onRouteEvents();
   }
@@ -34,6 +36,11 @@ export class AppComponent implements OnInit {
   }
   getSearchExperienecconfig() {
     this.store.dispatch(setSearchExperienceConfig());
+    this.lazyLoadStyles();
+  }
+
+  lazyLoadStyles() {
+    this.lazyLoadService.loadStyle('vendor.min.css');
   }
 
   onRouteEvents() {
