@@ -26,7 +26,7 @@ export class LazyLoadService {
 
     const script = this.document.createElement('script');
     script.type = 'text/javascript';
-    script.async = true;
+    script.defer = true;
     script.src = url;
     script.onload = () => {
       this._loadedLibraries[url].next(null);
