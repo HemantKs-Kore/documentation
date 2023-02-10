@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { KRModalComponent } from '../../shared/kr-modal/kr-modal.component';
-import { Subscription } from 'rxjs';
+import { filter, Subscription } from 'rxjs';
 import { ConfirmationDialogComponent } from '../../helpers/components/confirmation-dialog/confirmation-dialog.component';
 import * as moment from 'moment';
 import { AppSelectionService } from '@kore.apps/services/app.selection.service';
@@ -11,6 +11,8 @@ import { NotificationService } from '@kore.apps/services/notification.service';
 import { WorkflowService } from '@kore.apps/services/workflow.service';
 import { ServiceInvokerService } from '@kore.apps/services/service-invoker.service';
 import { LocalStoreService } from '@kore.apps/services/localstore.service';
+import { Store } from '@ngrx/store';
+import { selectSearchExperiance } from '@kore.apps/store/app.selectors';
 declare const $: any;
 @Component({
   selector: 'app-result-templates',
@@ -155,7 +157,8 @@ export class ResultTemplatesComponent implements OnInit, OnDestroy {
     public dialog: MatDialog,
     public headerService: SideBarService,
     public inlineManual: InlineManualService,
-    public localstore: LocalStoreService
+    public localstore: LocalStoreService,
+    private store: Store
   ) {}
 
   ngOnInit(): void {
@@ -196,22 +199,16 @@ export class ResultTemplatesComponent implements OnInit, OnDestroy {
 
   //get default data
   getSearchExperience() {
-    const searchIndex = this.selectedApp.searchIndexes[0]._id;
-    const quaryparms: any = {
-      searchIndexId: searchIndex,
-      indexPipelineId: this.indexPipelineId,
-      queryPipelineId: this.queryPipelineId,
-    };
-    this.service.invoke('get.searchexperience.list', quaryparms).subscribe(
-      (res) => {
+    const searchExperianceConfigSub = this.store
+      .select(selectSearchExperiance)
+      .pipe(filter((res) => !!res))
+      .subscribe((res) => {
         this.searchExperienceConfig = res;
         this.loadFiledsData();
         this.updateResultTemplateTabsAccess();
-      },
-      (errRes) => {
-        console.log(errRes);
-      }
-    );
+      });
+
+    this.subscription?.add(searchExperianceConfigSub);
   }
 
   loadFiledsData() {

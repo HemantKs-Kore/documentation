@@ -9,7 +9,7 @@ import { KRModalComponent } from '../../shared/kr-modal/kr-modal.component';
 import { RangeSlider } from '../../helpers/models/range-slider.model';
 import { NotificationService } from '../../services/notification.service';
 import { HttpClient } from '@angular/common/http';
-import { Subscription } from 'rxjs';
+import { filter, Subscription } from 'rxjs';
 import { LocalStoreService } from './../../services/localstore.service';
 import { NgbDropdownMenu } from '@ng-bootstrap/ng-bootstrap';
 import { ServiceInvokerService } from '@kore.apps/services/service-invoker.service';
@@ -19,6 +19,8 @@ import { InlineManualService } from '@kore.apps/services/inline-manual.service';
 import { WorkflowService } from '@kore.apps/services/workflow.service';
 import { MixpanelServiceService } from '@kore.apps/services/mixpanel-service.service';
 import { AuthService } from '@kore.apps/services/auth.service';
+import { selectSearchExperiance } from '@kore.apps/store/app.selectors';
+import { Store } from '@ngrx/store';
 declare const $: any;
 @Component({
   selector: 'app-search-experience',
@@ -140,7 +142,8 @@ export class SearchExperienceComponent implements OnInit, OnDestroy {
     public headerService: SideBarService,
     public localstore: LocalStoreService,
     public inlineManual: InlineManualService,
-    public mixpanel: MixpanelServiceService
+    public mixpanel: MixpanelServiceService,
+    private store: Store
   ) {}
 
   ngOnInit(): void {
@@ -735,15 +738,65 @@ export class SearchExperienceComponent implements OnInit, OnDestroy {
     }, 100);
   }
   //get default data
+  // getSearchExperience() {
+  //   const searchIndex = this.selectedApp.searchIndexes[0]._id;
+  //   const quaryparms: any = {
+  //     searchIndexId: searchIndex,
+  //     indexPipelineId: this.indexPipelineId,
+  //     queryPipelineId: this.queryPipelineId,
+  //   };
+  //   this.service.invoke('get.searchexperience.list', quaryparms).subscribe(
+  //     (res) => {
+  //       this.searchObject = {
+  //         searchExperienceConfig: res.experienceConfig,
+  //         searchWidgetConfig: res.widgetConfig,
+  //         searchInteractionsConfig: res.interactionsConfig,
+  //       };
+  //       if (this.searchObject.searchWidgetConfig.searchBarIcon !== '') {
+  //         this.searchIcon = this.searchObject.searchWidgetConfig.searchBarIcon;
+  //       }
+  //       // if (this.searchObject.searchInteractionsConfig.welcomeMsgEmoji !== '') {
+  //       //   this.emojiIcon = this.searchObject.searchInteractionsConfig.welcomeMsgEmoji;
+  //       // }
+  //       const fetchInputWidth = document.createElement('span');
+  //       document.body.appendChild(fetchInputWidth);
+  //       fetchInputWidth.innerText =
+  //         this.searchObject.searchWidgetConfig.searchBarPlaceholderText;
+  //       this.width = fetchInputWidth.offsetWidth + 57;
+  //       fetchInputWidth.remove();
+  //       this.changeSlider(
+  //         this.searchObject.searchExperienceConfig.searchBarPosition,
+  //         this.searchObject.searchInteractionsConfig
+  //       );
+  //       this.color = this.searchObject.searchWidgetConfig.searchBarFillColor;
+  //       this.color1 = this.searchObject.searchWidgetConfig.searchBarBorderColor;
+  //       this.color2 =
+  //         this.searchObject.searchWidgetConfig.searchBarPlaceholderTextColor;
+  //       this.color3 = this.searchObject.searchWidgetConfig.buttonTextColor;
+  //       this.color4 = this.searchObject.searchWidgetConfig.buttonFillColor;
+  //       this.color5 = this.searchObject.searchWidgetConfig.buttonBorderColor;
+  //       this.color6 =
+  //         this.searchObject.searchInteractionsConfig.welcomeMsgColor;
+  //       this.color7 =
+  //         this.searchObject.searchInteractionsConfig?.welcomeMsgFillColor;
+  //       if (!this.inlineManual.checkVisibility('SEARCH_INTERFACE')) {
+  //         this.inlineManual.openHelp('SEARCH_INTERFACE');
+  //         this.inlineManual.visited('SEARCH_INTERFACE');
+  //       }
+  //     },
+  //     (errRes) => {
+  //       console.log(errRes);
+  //     }
+  //   );
+  // }
+
   getSearchExperience() {
-    const searchIndex = this.selectedApp.searchIndexes[0]._id;
-    const quaryparms: any = {
-      searchIndexId: searchIndex,
-      indexPipelineId: this.indexPipelineId,
-      queryPipelineId: this.queryPipelineId,
-    };
-    this.service.invoke('get.searchexperience.list', quaryparms).subscribe(
-      (res) => {
+    const searchExperianceConfigSub = this.store
+      .select(selectSearchExperiance)
+      .pipe(filter((res) => !!res))
+      .subscribe((result) => {
+        const res = JSON.parse(JSON.stringify(result));
+
         this.searchObject = {
           searchExperienceConfig: res.experienceConfig,
           searchWidgetConfig: res.widgetConfig,
@@ -752,9 +805,7 @@ export class SearchExperienceComponent implements OnInit, OnDestroy {
         if (this.searchObject.searchWidgetConfig.searchBarIcon !== '') {
           this.searchIcon = this.searchObject.searchWidgetConfig.searchBarIcon;
         }
-        // if (this.searchObject.searchInteractionsConfig.welcomeMsgEmoji !== '') {
-        //   this.emojiIcon = this.searchObject.searchInteractionsConfig.welcomeMsgEmoji;
-        // }
+
         const fetchInputWidth = document.createElement('span');
         document.body.appendChild(fetchInputWidth);
         fetchInputWidth.innerText =
@@ -780,12 +831,11 @@ export class SearchExperienceComponent implements OnInit, OnDestroy {
           this.inlineManual.openHelp('SEARCH_INTERFACE');
           this.inlineManual.visited('SEARCH_INTERFACE');
         }
-      },
-      (errRes) => {
-        console.log(errRes);
-      }
-    );
+      });
+
+    this.subscription?.add(searchExperianceConfigSub);
   }
+
   //save color method
   saveColor(color) {
     const exist = this.searchObject.searchWidgetConfig.userSelectedColors.some(
