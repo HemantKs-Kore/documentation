@@ -10,7 +10,11 @@ import { ServiceInvokerService } from '@kore.apps/services/service-invoker.servi
 import { LazyLoadService } from '@kore.shared/*';
 import { LocalStoreService } from '@kore.services/localstore.service';
 import { Store } from '@ngrx/store';
-import { selectAppIds } from '@kore.apps/store/app.selectors';
+import { filter } from 'rxjs/operators';
+import {
+  selectAppIds,
+  selectSearchExperiance,
+} from '@kore.apps/store/app.selectors';
 
 // import('../../../assets/web-kore-sdk/demo/libs/kore-no-conflict-start.js');
 // import('../../../assets/web-kore-sdk/libs/uuid.min.js');
@@ -116,7 +120,9 @@ export class SearchSdkComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    self = this;
+    this.$ = $;
+
+    this.getSearchExperience();
     this.initAppIds();
     this.loadStyles();
     // this.SearchConfigurationSubscription =
@@ -232,9 +238,6 @@ export class SearchSdkComponent implements OnInit, OnDestroy {
           this.searchIndexId = searchIndexId;
           this.indexPipelineId = indexPipelineId;
           this.queryPipelineId = queryPipelineId;
-
-          this.$ = $;
-          this.getSearchExperience();
         }
       );
     this.sub?.add(idsSub);
@@ -242,63 +245,21 @@ export class SearchSdkComponent implements OnInit, OnDestroy {
 
   // added setTimeout function and verifying for indexpipeline before we make api call, for  resolving the search interface failure issue
   getSearchExperience() {
-    // let selectedApp: any;
-
-    const quaryparms: any = {
-      searchIndexId: this.searchIndexId,
-      indexPipelineId: this.indexPipelineId,
-      queryPipelineId: this.queryPipelineId,
-    };
-
-    if (quaryparms.indexPipelineId && quaryparms.queryPipelineId) {
-      this.service.invoke('get.searchexperience.list', quaryparms).subscribe(
-        (res) => {
-          this.searchExperienceConfig = res;
-          this.searchExperinceLoading = true;
-          this.headerService.updateSearchConfigurationValue(res);
-          this.$('#test-btn-launch-sdk')
-            .removeAttr('disabled')
-            .button('refresh');
-          this.headerService.searchConfiguration = res;
-          //if (this.isDemoApp) this.searchSDKHeader();
-        },
-        (errRes) => {
-          // console.log("getSearchExperience failed happen");
-          // console.log(errRes);
+    const searchExperianceConfigSub = this.store
+      .select(selectSearchExperiance)
+      .pipe(filter((res) => !!res))
+      .subscribe((res) => {
+        if (!this.$) {
+          this.$ = $;
         }
-      );
-    }
+        this.searchExperienceConfig = res;
+        this.searchExperinceLoading = true;
+        this.headerService.updateSearchConfigurationValue(res);
+        this.$('#test-btn-launch-sdk').removeAttr('disabled').button('refresh');
+        this.headerService.searchConfiguration = res;
+      });
 
-    // setTimeout(function () {
-    //   // if (!quaryparms.indexPipelineId) {
-    //   //   quaryparms.indexPipelineId =
-    //   //     this.workflowService.selectedIndexPipelineId;
-    //   // }
-    //   // if (!quaryparms.queryPipelineId) {
-    //   //   quaryparms.queryPipelineId =
-    //   //     this.workflowService.selectedQueryPipeline()
-    //   //       ? this.workflowService.selectedQueryPipeline()._id
-    //   //       : this.selectedApp.searchIndexes[0].queryPipelineId;
-    //   // }
-    //   if (quaryparms.indexPipelineId && quaryparms.queryPipelineId) {
-    //     this.service.invoke('get.searchexperience.list', quaryparms).subscribe(
-    //       (res) => {
-    //         this.searchExperienceConfig = res;
-    //         this.searchExperinceLoading = true;
-    //         this.headerService.updateSearchConfigurationValue(res);
-    //         this.$('#test-btn-launch-sdk').removeAttr('disabled').button('refresh');
-    //         this.headerService.searchConfiguration = res;
-    //         //if (this.isDemoApp) this.searchSDKHeader();
-    //       },
-    //       (errRes) => {
-    //         // console.log("getSearchExperience failed happen");
-    //         // console.log(errRes);
-    //       }
-    //     );
-    //   } else {
-    //     this.getSearchExperience();
-    //   }
-    // }, 100);
+    this.sub?.add(searchExperianceConfigSub);
   }
 
   openSdk() {
