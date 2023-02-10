@@ -30,6 +30,7 @@
     "perf:report": "lighthouse --output-path=./dist/lighthouse-report.html https://searchassist-app.kore.ai/home/ --view --preset=desktop --port 51745",
     "deploy": "ngh --dir=dist --message=\"deploy\"",
     "audit": "npm audit --omit=dev",
+    "buildjs": "node ./tools/build.js",
     "update-angular": "ng update @angular/cli @angular/core"
   },
   "private": true,
@@ -133,6 +134,7 @@
     "prettier": "^2.8.3",
     "puppeteer": "^19.6.3",
     "purgecss": "^5.0.0",
+    "shelljs": "^0.8.5",
     "sonar-scanner": "^3.1.0",
     "source-map-explorer": "^2.5.3",
     "ts-jest": "29.0.5",
