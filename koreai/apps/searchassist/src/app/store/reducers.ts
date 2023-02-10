@@ -1,3 +1,4 @@
+import { SearchExperienceConfigInterface } from '@kore.apps/shared/types/search-experience-config';
 import { routerReducer, RouterReducerState } from '@ngrx/router-store';
 import { createReducer, on } from '@ngrx/store';
 
@@ -13,6 +14,7 @@ export interface AppState {
   searchIndexId: string;
   indexPipelineId: string;
   queryPipelineId: string;
+  searchExperienceConfig: SearchExperienceConfigInterface;
 }
 
 const appInitialState: AppState = {
@@ -20,6 +22,7 @@ const appInitialState: AppState = {
   searchIndexId: null,
   indexPipelineId: null,
   queryPipelineId: null,
+  searchExperienceConfig: null,
 };
 
 export const rootReducer = createReducer(
