@@ -220,9 +220,9 @@ export class SearchSdkComponent implements OnInit, OnDestroy {
       this.lazyLoadService.loadScript(
         '../../../assets/web-kore-sdk/demo/findly/findly-config.js'
       ),
-      this.lazyLoadService.loadScript(
-        '../../../assets/web-kore-sdk/demo/libs/kore-no-conflict-end.js'
-      ),
+      // this.lazyLoadService.loadScript(
+      //   '../../../assets/web-kore-sdk/demo/libs/kore-no-conflict-end.js'
+      // ),
       this.lazyLoadService.loadScript(
         '../../../assets/web-kore-sdk/libs/lodash.min.js'
       ),
