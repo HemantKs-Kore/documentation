@@ -6,6 +6,7 @@ import {
   NavigationStart,
   Router,
 } from '@angular/router';
+import { LazyLoadService } from '@kore.shared/*';
 import { LoaderService } from './shared/loader/loader.service';
 
 @Component({
@@ -19,11 +20,21 @@ export class AppComponent implements OnInit {
   sourceMenu = false;
   appSelected = false;
 
-  constructor(private router: Router, private loaderService: LoaderService) {
+  constructor(
+    private router: Router,
+    private loaderService: LoaderService,
+    private lazyLoadService: LazyLoadService
+  ) {
     this.onRouteEvents();
   }
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.lazyLoadStyles();
+  }
+
+  lazyLoadStyles() {
+    this.lazyLoadService.loadStyle('vendor.min.css');
+  }
 
   onRouteEvents() {
     this.router.events.subscribe((event: any) => {
