@@ -6,6 +6,7 @@ import {
   setAppId,
   setIndexPipelineId,
   setQueryPipelineId,
+  setSearchExperienceConfigSuccess,
 } from './app.actions';
 
 export interface AppState {
@@ -34,7 +35,10 @@ export const rootReducer = createReducer(
     return { ...state, indexPipelineId };
   }),
   on(setQueryPipelineId, (state, { queryPipelineId }) => {
-    return { ...state, queryPipelineId };
+    return { ...state, queryPipelineId, searchExperienceConfig: null };
+  }),
+  on(setSearchExperienceConfigSuccess, (state, { searchExperienceConfig }) => {
+    return { ...state, searchExperienceConfig };
   })
 );
 

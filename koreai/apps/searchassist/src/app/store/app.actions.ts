@@ -18,7 +18,12 @@ export const setQueryPipelineId = createAction(
 );
 
 export const setSearchExperienceConfig = createAction(
-  AppActionTypes.SET_SEARCH_EXPERIENCE_CONFIG
+  AppActionTypes.SET_SEARCH_EXPERIENCE_CONFIG,
+  props<{
+    searchIndexId: string;
+    indexPipelineId: string;
+    queryPipelineId: string;
+  }>()
 );
 export const setSearchExperienceConfigSuccess = createAction(
   AppActionTypes.SET_SEARCH_EXPERIENCE_CONFIG,

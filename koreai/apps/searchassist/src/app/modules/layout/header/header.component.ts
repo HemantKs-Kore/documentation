@@ -32,6 +32,7 @@ import { SearchSdkService } from '@kore.apps/modules/search-sdk/services/search-
 import { OnboardingComponent } from '@kore.apps/modules/onboarding/onboarding.component';
 import { Store } from '@ngrx/store';
 import { setAppId } from '@kore.apps/store/app.actions';
+import { selectEnablePreview } from '@kore.apps/store/app.selectors';
 
 @Component({
   selector: 'app-header',
@@ -339,6 +340,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   notifyAccountInfo: any;
   isJoinedClicked = false;
   isRouteDisabled = false;
+  enablePreview$ = this.store.select(selectEnablePreview);
   constructor(
     private authService: AuthService,
     public headerService: SideBarService,

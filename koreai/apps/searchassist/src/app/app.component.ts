@@ -9,7 +9,6 @@ import {
 import { LazyLoadService } from '@kore.shared/*';
 import { LoaderService } from './shared/loader/loader.service';
 import { Store } from '@ngrx/store';
-import { setSearchExperienceConfig } from './store/app.actions';
 
 @Component({
   selector: 'app-root',
@@ -32,10 +31,6 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.getSearchExperienecconfig();
-  }
-  getSearchExperienecconfig() {
-    this.store.dispatch(setSearchExperienceConfig());
     this.lazyLoadStyles();
   }
 
