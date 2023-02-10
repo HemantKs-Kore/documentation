@@ -7,6 +7,8 @@ import {
   Router,
 } from '@angular/router';
 import { LoaderService } from './shared/loader/loader.service';
+import { Store } from '@ngrx/store';
+import { setSearchExperienceConfig } from './store/app.actions';
 
 @Component({
   selector: 'app-root',
@@ -19,11 +21,20 @@ export class AppComponent implements OnInit {
   sourceMenu = false;
   appSelected = false;
 
-  constructor(private router: Router, private loaderService: LoaderService) {
+  constructor(
+    private router: Router,
+    private loaderService: LoaderService,
+    private store: Store
+  ) {
     this.onRouteEvents();
   }
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.getSearchExperienecconfig();
+  }
+  getSearchExperienecconfig() {
+    this.store.dispatch(setSearchExperienceConfig());
+  }
 
   onRouteEvents() {
     this.router.events.subscribe((event: any) => {
