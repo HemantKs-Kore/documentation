@@ -2301,7 +2301,7 @@ export class WorkbenchComponent implements OnInit, OnDestroy, AfterViewInit {
             this.newMappingObj.custom_script.defaultValue.script =
               plainScriptTxt;
           }
-          this.errorToaster(errRes, 'Failed to get stop words');
+          this.errorToaster(errRes, 'Failed to Simulate');
         }
       );
     }
@@ -2576,7 +2576,7 @@ export class WorkbenchComponent implements OnInit, OnDestroy, AfterViewInit {
         }, 700);
       },
       (errRes) => {
-        this.errorToaster(errRes, 'Failed to get stop words');
+        this.errorToaster(errRes, 'Failed to Simulate');
       }
     );
   }
