@@ -19,6 +19,7 @@ import { WorkflowService } from '@kore.apps/services/workflow.service';
 import { AppSelectionService } from '@kore.apps/services/app.selection.service';
 import { Observable } from 'rxjs';
 import { LazyLoadService } from '@kore.shared/*';
+import '../../../assets/js/codemirror.js';
 declare const $: any;
 
 @Component({

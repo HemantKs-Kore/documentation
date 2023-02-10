@@ -19,6 +19,7 @@ import { ServiceInvokerService } from '@kore.apps/services/service-invoker.servi
 import { WorkflowService } from '@kore.apps/services/workflow.service';
 import { OnboardingComponent } from '../onboarding/onboarding.component';
 import { LazyLoadService } from '@kore.shared/*';
+import '../../../assets/js/codemirror.js';
 
 @Component({
   selector: 'app-structured-data',
