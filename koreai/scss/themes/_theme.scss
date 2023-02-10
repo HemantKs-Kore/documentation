@@ -5,22 +5,22 @@
 @include mat.core();
 
 // include style for all material components
-@include mat.all-component-themes(light.$kore-light-theme);
+// @include mat.all-component-themes(light.$kore-light-theme);
 
 // include specific component style
 // must include
-// @include mat.core-theme(light.$kore-light-theme);
+@include mat.core-theme(light.$kore-light-theme);
 
 // components
-// @include mat.card-theme(light.$kore-light-theme);
-// @include mat.progress-bar-theme(light.$kore-light-theme);
+@include mat.card-theme(light.$kore-light-theme);
+@include mat.progress-bar-theme(light.$kore-light-theme);
 // @include mat.tooltip-theme(light.$kore-light-theme);
-// @include mat.form-field-theme(light.$kore-light-theme);
-// @include mat.input-theme(light.$kore-light-theme);
+@include mat.form-field-theme(light.$kore-light-theme);
+@include mat.input-theme(light.$kore-light-theme);
 // @include mat.select-theme(light.$kore-light-theme);
-// @include mat.autocomplete-theme(light.$kore-light-theme);
-// @include mat.dialog-theme(light.$kore-light-theme);
-// @include mat.chips-theme(light.$kore-light-theme);
+@include mat.autocomplete-theme(light.$kore-light-theme);
+@include mat.dialog-theme(light.$kore-light-theme);
+@include mat.chips-theme(light.$kore-light-theme);
 // @include mat.slide-toggle-theme(light.$kore-light-theme);
 // @include mat.radio-theme(light.$kore-light-theme);
 // @include mat.slider-theme(light.$kore-light-theme);
@@ -32,17 +32,17 @@
 // @include mat.button-theme(light.$kore-light-theme);
 // @include mat.icon-button-theme(light.$kore-light-theme);
 // @include mat.fab-theme(light.$kore-light-theme);
-// @include mat.snack-bar-theme(light.$kore-light-theme);
+@include mat.snack-bar-theme(light.$kore-light-theme);
 // @include mat.table-theme(light.$kore-light-theme);
-// @include mat.progress-spinner-theme(light.$kore-light-theme);
+@include mat.progress-spinner-theme(light.$kore-light-theme);
 // @include mat.badge-theme(light.$kore-light-theme);
 // @include mat.bottom-sheet-theme(light.$kore-light-theme);
 // @include mat.button-toggle-theme(light.$kore-light-theme);
-// @include mat.datepicker-theme(light.$kore-light-theme);
+@include mat.datepicker-theme(light.$kore-light-theme);
 // @include mat.divider-theme(light.$kore-light-theme);
-// @include mat.expansion-theme(light.$kore-light-theme);
+@include mat.expansion-theme(light.$kore-light-theme);
 // @include mat.grid-list-theme(light.$kore-light-theme);
-// @include mat.icon-theme(light.$kore-light-theme);
+@include mat.icon-theme(light.$kore-light-theme);
 // @include mat.sidenav-theme(light.$kore-light-theme);
 // @include mat.stepper-theme(light.$kore-light-theme);
 // @include mat.sort-theme(light.$kore-light-theme);

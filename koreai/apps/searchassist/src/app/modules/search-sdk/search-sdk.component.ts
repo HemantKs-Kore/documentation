@@ -1,6 +1,5 @@
 /* eslint-disable @typescript-eslint/no-this-alias */
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { MatButtonModule } from '@angular/material/button';
 import { forkJoin, Observable, Subscription } from 'rxjs';
 import { SearchSdkService } from './services/search-sdk.service';
 import { SideBarService } from '@kore.apps/services/header.service';
@@ -46,7 +45,7 @@ declare let self: any;
   selector: 'app-search-sdk',
   templateUrl: './search-sdk.component.html',
   styleUrls: ['./search-sdk.component.scss'],
-  imports: [MatButtonModule],
+  imports: [],
 })
 export class SearchSdkComponent implements OnInit, OnDestroy {
   searchExperienceConfig: any = {};
