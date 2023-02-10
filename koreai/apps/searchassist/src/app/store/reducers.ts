@@ -29,13 +29,13 @@ const appInitialState: AppState = {
 export const rootReducer = createReducer(
   appInitialState,
   on(setAppId, (state, { appId, searchIndexId }) => {
-    return { ...state, appId, searchIndexId };
+    return { ...state, appId, searchIndexId, searchExperienceConfig: null };
   }),
   on(setIndexPipelineId, (state, { indexPipelineId }) => {
     return { ...state, indexPipelineId };
   }),
   on(setQueryPipelineId, (state, { queryPipelineId }) => {
-    return { ...state, queryPipelineId, searchExperienceConfig: null };
+    return { ...state, queryPipelineId };
   }),
   on(setSearchExperienceConfigSuccess, (state, { searchExperienceConfig }) => {
     return { ...state, searchExperienceConfig };
