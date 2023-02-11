@@ -30,10 +30,6 @@
         ],
         "styles": [
           "apps/searchassist/src/scss/styles.scss",
-          "apps/searchassist/src/assets/fonts/inter/inter-font.css",
-          "apps/searchassist/src/assets/web-kore-sdk/libs/purejscarousel.css",
-          "apps/searchassist/src/assets/css/bootstrap-slider.css",
-          "node_modules/nouislider/dist/nouislider.min.css",
           {
             "input": "scss/themes/dark.scss",
             "bundleName": "dark-theme",

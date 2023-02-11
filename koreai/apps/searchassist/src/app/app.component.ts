@@ -31,7 +31,9 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.lazyLoadStyles();
+    setTimeout(() => {
+      this.lazyLoadStyles();
+    }, 400);
   }
 
   lazyLoadStyles() {
