@@ -4,6 +4,10 @@
     "file": "get-started.md"
   },
   {
+    "title": "App Setup",
+    "file": "app-setup.md"
+  },
+  {
     "title": "Performance Report",
     "file": "perf/perf-comp.md",
     "children": [
