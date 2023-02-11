@@ -1,5 +1,11 @@
 # Setup
 
+**prerequisite**
+
+NODEJS: https://nodejs.org/dist/v19.6.0/node-v19.6.0-x64.msi
+
+GIT: https://git-scm.com/download/win
+
 ```
 git clone https://github.com/Koredotcom/Findly.git
 cd Findly
