@@ -20,7 +20,7 @@ api calls should not be duplicated
     "node_modules/rangy/lib/rangy-selectionsaverestore.js",
     "node_modules/rangy/lib/rangy-serializer.js",
     "node_modules/rangy/lib/rangy-textrange.js"
-6.               "apps/searchassist/src/app/helpers/lib/assets/marked.min.js", removed as not used anywhere as of now.
+6.                "apps/searchassist/src/app/helpers/lib/assets/marked.min.js", removed as not used anywhere as of now.
 7.  Styling
 
 - Global style for the app
@@ -47,3 +47,10 @@ api calls should not be duplicated
 @import '~codemirror/lib/codemirror';
 @import '~codemirror/addon/fold/foldgutter';
 @import '~codemirror/addon/lint/lint';
+
+9. project.json
+   "apps/searchassist/src/app/helpers/lib/assets/highlight.js/highlight.min.js",
+   "apps/searchassist/src/assets/js/bootstrap-slider.js",
+   "apps/searchassist/src/assets/web-kore-sdk/libs/purejscarousel.js"
+
+   removed, moved to correct location

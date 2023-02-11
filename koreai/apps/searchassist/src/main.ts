@@ -15,7 +15,6 @@ if (environment.tag !== 'dev') {
   environment.API_SERVER_URL =
     window.location.protocol + '//' + window.location.host;
 }
-window.appConfig = environment;
 if (environment.production) {
   enableProdMode();
   window.console.log = () => {};

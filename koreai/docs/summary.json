@@ -32,6 +32,10 @@
       {
         "title": "Performance Guide",
         "file": "perf/guide.md"
+      },
+      {
+        "title": "Script Bundling",
+        "file": "perf/script-bundling.md"
       }
     ]
   }
