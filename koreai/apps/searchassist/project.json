@@ -62,13 +62,7 @@
           "node_modules/bootstrap/dist/js/bootstrap.min.js",
           "apps/searchassist/src/app/helpers/lib/assets/highlight.js/highlight.min.js",
           "apps/searchassist/src/assets/js/bootstrap-slider.js",
-          "apps/searchassist/src/assets/web-kore-sdk/libs/purejscarousel.js",
-          "node_modules/rangy/lib/rangy-core.js",
-          "node_modules/rangy/lib/rangy-classapplier.js",
-          "node_modules/rangy/lib/rangy-highlighter.js",
-          "node_modules/rangy/lib/rangy-selectionsaverestore.js",
-          "node_modules/rangy/lib/rangy-serializer.js",
-          "node_modules/rangy/lib/rangy-textrange.js"
+          "apps/searchassist/src/assets/web-kore-sdk/libs/purejscarousel.js"
         ],
         "serviceWorker": true,
         "ngswConfigPath": "apps/searchassist/ngsw-config.json"
