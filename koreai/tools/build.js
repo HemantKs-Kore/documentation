@@ -9,7 +9,7 @@ const scriptsArr = [
   'apps/searchassist/src/app/helpers/lib/assets/highlight.js/highlight.min.js',
   'apps/searchassist/src/assets/js/bootstrap-slider.js',
   'apps/searchassist/src/assets/web-kore-sdk/libs/purejscarousel.js',
-  // 'apps/searchassist/src/assets/js/appcues/appcues.js',
+  'apps/searchassist/src/assets/js/appcues.js',
 ];
 
 function minifyScript(sourcePath) {
