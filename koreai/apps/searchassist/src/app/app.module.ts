@@ -33,8 +33,13 @@ import { MainMenuModule } from './modules/layout/mainmenu/mainmenu.module';
 import { NgxEchartsModule } from 'ngx-echarts';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { AppEffects } from './store/app.effects';
-import { entityConfig } from './store/entity-metadata';
-import { EntityDataModule } from '@ngrx/data';
+import { appsFeatureKey, entityMetadata } from './store/entity-metadata';
+import {
+  EntityDataModule,
+  EntityDataService,
+  EntityDefinitionService,
+} from '@ngrx/data';
+import { AppsDataService } from './modules/apps/services/apps-data.service';
 // import { AddResultModule } from './modules/add-result/add-result.module';
 // import { InsightsModule } from './modules/insights/insights.module';
 
@@ -80,7 +85,7 @@ export function createTranslateLoader(http: HttpClient) {
     extModules,
     EffectsModule.forRoot([AppEffects]),
     // InsightsModule,
-    EntityDataModule.forRoot(entityConfig),
+    EntityDataModule.forRoot(entityMetadata),
     ServiceWorkerModule.register('ngsw-worker.js', {
       enabled: !isDevMode(),
       // Register the ServiceWorker as soon as the application is stable
@@ -113,7 +118,7 @@ export function createTranslateLoader(http: HttpClient) {
     // MatDatepickerModule,
     // AppSelectionService,
     // DockStatusService,
-    // AppsDataService,
+    AppsDataService,
     // IndexPipelineDataService,
     // QueryPipelineDataService,
   ],
@@ -121,25 +126,23 @@ export function createTranslateLoader(http: HttpClient) {
   bootstrap: [AppComponent],
 })
 export class AppModule {
-  // constructor(
-  //   // private eds: EntityDefinitionService,
-  //   private entityDataService: EntityDataService,
-  //   private appsDataService: AppsDataService,
-  //   private indexPipelineDataService: IndexPipelineDataService,
-  //   private queryPipelineDataService: QueryPipelineDataService
-  // ) {
-  //   // this.eds.registerMetadataMap(entityMetadata);
-  //   this.entityDataService.registerService(
-  //     appsFeatureKey,
-  //     this.appsDataService
-  //   );
-  //   this.entityDataService.registerService(
-  //     indexPipelineFeatureKey,
-  //     this.indexPipelineDataService
-  //   );
-  //   this.entityDataService.registerService(
-  //     queryPipelineFeatureKey,
-  //     this.queryPipelineDataService
-  //   );
-  // }
+  constructor(
+    private eds: EntityDefinitionService,
+    private entityDataService: EntityDataService,
+    private appsDataService: AppsDataService // private indexPipelineDataService: IndexPipelineDataService, // private queryPipelineDataService: QueryPipelineDataService
+  ) {
+    this.eds.registerMetadataMap(entityMetadata);
+    this.entityDataService.registerService(
+      appsFeatureKey,
+      this.appsDataService
+    );
+    // this.entityDataService.registerService(
+    //   indexPipelineFeatureKey,
+    //   this.indexPipelineDataService
+    // );
+    // this.entityDataService.registerService(
+    //   queryPipelineFeatureKey,
+    //   this.queryPipelineDataService
+    // );
+  }
 }

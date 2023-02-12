@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { KRModalComponent } from '../../shared/kr-modal/kr-modal.component';
 // import { AppHeaderComponent } from '../app-header/app-header.component';
@@ -15,6 +15,8 @@ import { MixpanelServiceService } from '@kore.apps/services/mixpanel-service.ser
 import { Store } from '@ngrx/store';
 import { setAppId } from '@kore.apps/store/app.actions';
 import { LazyLoadService } from '@kore.shared/*';
+import { AppsService } from './services/apps.service';
+import { Subscription } from 'rxjs';
 declare const $: any;
 
 @Component({
@@ -23,7 +25,8 @@ declare const $: any;
   templateUrl: './apps.component.html',
   styleUrls: ['./apps.component.scss'],
 })
-export class AppsComponent implements OnInit {
+export class AppsComponent implements OnInit, OnDestroy {
+  sub: Subscription;
   emptyScreen = EMPTY_SCREEN.APP;
   authInfo: any;
   openJourney = false;
@@ -110,7 +113,8 @@ export class AppsComponent implements OnInit {
     private route: ActivatedRoute,
     public mixpanel: MixpanelServiceService,
     private store: Store,
-    private lazyLoadService: LazyLoadService
+    private lazyLoadService: LazyLoadService,
+    private appsService: AppsService
   ) {
     this.authInfo = localstore.getAuthInfo();
     this.userId = this.authService.getUserId();
@@ -199,7 +203,7 @@ export class AppsComponent implements OnInit {
 
   openBoradingJourney() {
     this.headerService.openJourneyForfirstTime = true;
-    this.onboardingpopupjourneyRef = this.createBoardingJourney.open();
+    this.onboardingpopupjourneyRef = this.createBoardingJourney?.open();
     this.mixpanel.postEvent('User Onboarding - Journey Presented', {});
     this.mixpanel.postEvent('Welcome video Shown', {});
   }
@@ -378,8 +382,9 @@ export class AppsComponent implements OnInit {
     this.submitted = true;
     const quaryparms: any = {};
     quaryparms.streamId = this.slectedAppId;
+
     if (this.confirmApp == 'DELETE') {
-      this.service.invoke('delete.app', quaryparms).subscribe(
+      this.appsService.delete(this.slectedAppId).subscribe(
         (res) => {
           if (res) {
             this.notificationService.notify('Deleted Successfully', 'success');
@@ -398,12 +403,13 @@ export class AppsComponent implements OnInit {
             }
           }
         },
-        (errRes) => {
+        () => {
           this.notificationService.notify('Deletion has gone wrong.', 'error');
         }
       );
     }
   }
+
   openUnlinkApp(event, appInfo) {
     this.unlinkPop = true;
     if (event) {
@@ -469,58 +475,107 @@ export class AppsComponent implements OnInit {
   //get all apps
 
   public getAllApps() {
-    this.service.invoke('get.apps').subscribe(
-      (res) => {
-        if (res && res.length) {
-          if (
-            localStorage.getItem('krPreviousState') &&
-            JSON.parse(localStorage.getItem('krPreviousState')) &&
-            JSON.parse(localStorage.getItem('krPreviousState')).route &&
-            JSON.parse(localStorage.getItem('krPreviousState')).route != '/home'
-          ) {
-            const prDetails = JSON.parse(
-              localStorage.getItem('krPreviousState')
-            );
-            if (prDetails && prDetails.formAccount) {
-              this.redirectHome();
-            }
-          }
-          this.prepareApps(res);
-          this.workflowService.showAppCreationHeader(false);
-          this.selectedAppType('All');
-          this.sortApp('Created Date');
-          this.showBoarding = false;
-          this.emptyApp = false;
-        } else {
-          if (
-            localStorage.getItem('krPreviousState') &&
-            JSON.parse(localStorage.getItem('krPreviousState')) &&
-            JSON.parse(localStorage.getItem('krPreviousState')).route &&
-            JSON.parse(localStorage.getItem('krPreviousState')).route != '/home'
-          ) {
+    const allAppsSub = this.appsService.getApps().subscribe((response) => {
+      const res = JSON.parse(JSON.stringify(response));
+      if (res && res.length) {
+        if (
+          localStorage.getItem('krPreviousState') &&
+          JSON.parse(localStorage.getItem('krPreviousState')) &&
+          JSON.parse(localStorage.getItem('krPreviousState')).route &&
+          JSON.parse(localStorage.getItem('krPreviousState')).route != '/home'
+        ) {
+          const prDetails = JSON.parse(localStorage.getItem('krPreviousState'));
+          if (prDetails && prDetails.formAccount) {
             this.redirectHome();
-          } else {
-            /** Issue Fix for multiple onboarding  function called */
-            // if (this.headerService.openJourneyForfirstTime) {
-            //   this.emptyApp = true;
-            //   this.showBoarding = true;
-            //   this.headerService.openJourneyForfirstTime = true;
-            //   this.openBoradingJourney();
-            // }
-            if (!this.headerService.openJourneyForfirstTime) {
-              this.emptyApp = true;
-              this.showBoarding = true;
-              this.headerService.openJourneyForfirstTime = true;
-              this.openBoradingJourney();
-            }
           }
         }
-        this.loadingApps = false;
-        this.clearAccount();
-        //this.checkForSharedApp();
-      },
-      (errRes) => {}
-    );
+        this.prepareApps(res);
+        this.workflowService.showAppCreationHeader(false);
+        this.selectedAppType('All');
+        this.sortApp('Created Date');
+        this.showBoarding = false;
+        this.emptyApp = false;
+      } else {
+        if (
+          localStorage.getItem('krPreviousState') &&
+          JSON.parse(localStorage.getItem('krPreviousState')) &&
+          JSON.parse(localStorage.getItem('krPreviousState')).route &&
+          JSON.parse(localStorage.getItem('krPreviousState')).route != '/home'
+        ) {
+          this.redirectHome();
+        } else {
+          /** Issue Fix for multiple onboarding  function called */
+          // if (this.headerService.openJourneyForfirstTime) {
+          //   this.emptyApp = true;
+          //   this.showBoarding = true;
+          //   this.headerService.openJourneyForfirstTime = true;
+          //   this.openBoradingJourney();
+          // }
+          if (!this.headerService.openJourneyForfirstTime) {
+            this.emptyApp = true;
+            this.showBoarding = true;
+            this.headerService.openJourneyForfirstTime = true;
+            this.openBoradingJourney();
+          }
+        }
+      }
+      this.loadingApps = false;
+      this.clearAccount();
+    });
+
+    this.sub?.add(allAppsSub);
+    // this.service.invoke('get.apps').subscribe(
+    //   (res) => {
+    //     if (res && res.length) {
+    //       if (
+    //         localStorage.getItem('krPreviousState') &&
+    //         JSON.parse(localStorage.getItem('krPreviousState')) &&
+    //         JSON.parse(localStorage.getItem('krPreviousState')).route &&
+    //         JSON.parse(localStorage.getItem('krPreviousState')).route != '/home'
+    //       ) {
+    //         const prDetails = JSON.parse(
+    //           localStorage.getItem('krPreviousState')
+    //         );
+    //         if (prDetails && prDetails.formAccount) {
+    //           this.redirectHome();
+    //         }
+    //       }
+    //       this.prepareApps(res);
+    //       this.workflowService.showAppCreationHeader(false);
+    //       this.selectedAppType('All');
+    //       this.sortApp('Created Date');
+    //       this.showBoarding = false;
+    //       this.emptyApp = false;
+    //     } else {
+    //       if (
+    //         localStorage.getItem('krPreviousState') &&
+    //         JSON.parse(localStorage.getItem('krPreviousState')) &&
+    //         JSON.parse(localStorage.getItem('krPreviousState')).route &&
+    //         JSON.parse(localStorage.getItem('krPreviousState')).route != '/home'
+    //       ) {
+    //         this.redirectHome();
+    //       } else {
+    //         /** Issue Fix for multiple onboarding  function called */
+    //         // if (this.headerService.openJourneyForfirstTime) {
+    //         //   this.emptyApp = true;
+    //         //   this.showBoarding = true;
+    //         //   this.headerService.openJourneyForfirstTime = true;
+    //         //   this.openBoradingJourney();
+    //         // }
+    //         if (!this.headerService.openJourneyForfirstTime) {
+    //           this.emptyApp = true;
+    //           this.showBoarding = true;
+    //           this.headerService.openJourneyForfirstTime = true;
+    //           this.openBoradingJourney();
+    //         }
+    //       }
+    //     }
+    //     this.loadingApps = false;
+    //     this.clearAccount();
+    //     //this.checkForSharedApp();
+    //   },
+    //   (errRes) => {}
+    // );
   }
   clearAccount() {
     const prDetails = localStorage.getItem('krPreviousState')
@@ -561,9 +616,9 @@ export class AppsComponent implements OnInit {
       },
       defaultLanguage: 'en',
     };
-    this.service.invoke('create.app', {}, payload).subscribe(
-      (res) => {
-        // this.appsService.addOneToCache(res);
+
+    this.appsService.add(payload).subscribe({
+      next: (res) => {
         this.createdAppData = res;
         this.notificationService.notify(
           `${this.newApp.name} created successfully`,
@@ -575,11 +630,31 @@ export class AppsComponent implements OnInit {
           this.openCreatedApp();
         }
       },
-      (errRes) => {
+      error: (errRes) => {
         this.errorToaster(errRes, 'Error in creating app');
         this.creatingInProgress = false;
-      }
-    );
+      },
+    });
+
+    // this.service.invoke('create.app', {}, payload).subscribe(
+    //   (res) => {
+    //     // this.appsService.addOneToCache(res);
+    //     this.createdAppData = res;
+    //     this.notificationService.notify(
+    //       `${this.newApp.name} created successfully`,
+    //       'success'
+    //     );
+    //     if (this.appType == 'sampleData') {
+    //       this.createDemoApp(res?.searchIndexes[0]);
+    //     } else {
+    //       this.openCreatedApp();
+    //     }
+    //   },
+    //   (errRes) => {
+    //     this.errorToaster(errRes, 'Error in creating app');
+    //     this.creatingInProgress = false;
+    //   }
+    // );
   }
   //common method for create sample/scratch app
   openCreatedApp() {
@@ -789,4 +864,8 @@ export class AppsComponent implements OnInit {
   //     }
   //   );
   // }
+
+  ngOnDestroy(): void {
+    this.sub?.unsubscribe();
+  }
 }

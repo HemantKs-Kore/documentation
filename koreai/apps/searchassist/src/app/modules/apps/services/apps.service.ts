@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
+import { appsFeatureKey } from '@kore.apps/store/entity-metadata';
 import {
   EntityCollectionServiceBase,
   EntityCollectionServiceElementsFactory,
 } from '@ngrx/data';
-import { map } from 'rxjs';
-import { appsFeatureKey } from '../apps.module';
+import { filter, map } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -12,6 +12,10 @@ import { appsFeatureKey } from '../apps.module';
 export class AppsService extends EntityCollectionServiceBase<any> {
   constructor(serviceElementsFactory: EntityCollectionServiceElementsFactory) {
     super(appsFeatureKey, serviceElementsFactory);
+  }
+
+  getApps() {
+    return this.entities$.pipe(filter((res) => !!res.length));
   }
 
   getSelectedAppById(appId?) {

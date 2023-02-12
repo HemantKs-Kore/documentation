@@ -43,7 +43,7 @@ export class AppDataResolver implements Resolve<any> {
         (res) => {
           observer.next(res);
           this.authService.seedData();
-          this.authService.getfindlyApps();
+          // this.authService.getfindlyApps();
           observer.complete();
         },
         (errRes) => {
