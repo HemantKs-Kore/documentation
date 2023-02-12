@@ -1,9 +1,9 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { ServiceInvokerService } from '@kore.apps/services/service-invoker.service';
-// import { appsFeatureKey } from '@kore.apps/store/entity-metadata';
 import { DefaultDataService, HttpUrlGenerator } from '@ngrx/data';
 import { Observable } from 'rxjs';
+import { appsFeatureKey } from '../apps.module';
 
 @Injectable()
 export class AppsDataService extends DefaultDataService<any> {
@@ -14,7 +14,7 @@ export class AppsDataService extends DefaultDataService<any> {
     httpUrlGenerator: HttpUrlGenerator,
     private service: ServiceInvokerService
   ) {
-    super('appsFeatureKey', http, httpUrlGenerator);
+    super(appsFeatureKey, http, httpUrlGenerator);
   }
 
   override getAll(): Observable<any[]> {

@@ -33,6 +33,8 @@ import { MainMenuModule } from './modules/layout/mainmenu/mainmenu.module';
 import { NgxEchartsModule } from 'ngx-echarts';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { AppEffects } from './store/app.effects';
+import { entityConfig } from './store/entity-metadata';
+import { EntityDataModule } from '@ngrx/data';
 // import { AddResultModule } from './modules/add-result/add-result.module';
 // import { InsightsModule } from './modules/insights/insights.module';
 
@@ -78,7 +80,7 @@ export function createTranslateLoader(http: HttpClient) {
     extModules,
     EffectsModule.forRoot([AppEffects]),
     // InsightsModule,
-    // EntityDataModule.forRoot(entityConfig),
+    EntityDataModule.forRoot(entityConfig),
     ServiceWorkerModule.register('ngsw-worker.js', {
       enabled: !isDevMode(),
       // Register the ServiceWorker as soon as the application is stable
