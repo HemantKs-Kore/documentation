@@ -24,21 +24,7 @@ http://localhost:4200/
 
 ```javascript
 // run exact prod build (no debug info ), remove following, rarly you want to do this
-// npm run serve:app
-
-  // "sourceMap": true,
-  // "namedChunks": true
-
-"app": {
-  "fileReplacements": [
-    {
-      "replace": "apps/searchassist/src/environments/environment.ts",
-      "with": "apps/searchassist/src/environments/environment.app.ts"
-    }
-  ],
-  "sourceMap": true,
-  "namedChunks": true
-},
+npm run serve:prod
 ```
 
 ## Prod Server ( run prod build locally )

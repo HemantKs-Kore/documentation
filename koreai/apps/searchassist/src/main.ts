@@ -11,10 +11,10 @@ declare global {
 }
 
 // overriding the API_SERVER_URL with hosted env to support on-prem
-if (environment.tag !== 'dev') {
-  environment.API_SERVER_URL =
-    window.location.protocol + '//' + window.location.host;
-}
+// if (environment.tag !== 'dev') {
+//   environment.API_SERVER_URL =
+//     window.location.protocol + '//' + window.location.host;
+// }
 if (environment.production) {
   enableProdMode();
   window.console.log = () => {};
