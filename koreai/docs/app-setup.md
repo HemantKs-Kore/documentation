@@ -1,10 +1,12 @@
-# Setup
+# Searchassist App Setup
 
-**prerequisite**
+## Prerequisite
 
 NODEJS: https://nodejs.org/dist/v19.6.0/node-v19.6.0-x64.msi
 
 GIT: https://git-scm.com/download/win
+
+## Code Setup
 
 ```
 git clone https://github.com/Koredotcom/Findly.git
@@ -20,23 +22,28 @@ npm start
 http://localhost:4200/
 ```
 
+```javascript
+// run exact prod build (no debug info ), remove following, rarly you want to do this
+// npm run serve:app
+
+  // "sourceMap": true,
+  // "namedChunks": true
+
+"app": {
+  "fileReplacements": [
+    {
+      "replace": "apps/searchassist/src/environments/environment.ts",
+      "with": "apps/searchassist/src/environments/environment.app.ts"
+    }
+  ],
+  "sourceMap": true,
+  "namedChunks": true
+},
+```
+
 ## Prod Server ( run prod build locally )
 
-```
-// one time
-npm i live-server -g
-```
-
-update Findly/koreai/apps/searchassist/src/app/services/end-points.service.ts
-
 ```javascript
-// this.SERVER_URL = window.location.protocol + '//' + window.location.host;
-this.SERVER_URL = 'https://searchassist-qa.kore.ai';
-```
-
-```
-npm run build
-cd dist/apps/searchassist
-live-server
+npm run serve:app
 http://127.0.0.1:8080/
 ```

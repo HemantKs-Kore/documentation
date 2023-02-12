@@ -4,9 +4,8 @@
   "license": "MIT",
   "scripts": {
     "start": "ng serve searchassist -o",
-    "serve:qa": "ng serve searchassist -o --configuration=qa",
+    "serve:app": "ng build searchassist --configuration=app && live-server dist/apps/searchassist",
     "build": "ng build searchassist",
-    "build:prod": "ng build searchassist --configuration=prod",
     "build:clouddev": "ng build searchassist --configuration=clouddev",
     "build:app": "ng build searchassist --configuration=app",
     "build:qa": "ng build searchassist --configuration=qa",
@@ -130,6 +129,7 @@
     "jest-preset-angular": "12.2.6",
     "json-server": "^0.17.1",
     "lighthouse": "^9.6.8",
+    "live-server": "^1.2.2",
     "nodemon": "^2.0.20",
     "nx": "15.6.3",
     "prettier": "^2.8.3",

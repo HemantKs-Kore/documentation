@@ -30,17 +30,8 @@ ng generate @angular/material:mdc-migration
 
 ## Run prod build locally
 
-update Findly/koreai/apps/searchassist/src/app/services/end-points.service.ts
-
-```javascript
-// this.SERVER_URL = window.location.protocol + '//' + window.location.host;
-this.SERVER_URL = 'https://searchassist-qa.kore.ai';
 ```
-
-```
-npm run build
-cd dist/apps/searchassist
-live-server
+npm run serve:app
 ```
 
 ## E2E
