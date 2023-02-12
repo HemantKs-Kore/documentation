@@ -23,7 +23,7 @@ export class AppsService extends EntityCollectionServiceBase<any> {
       map((apps) => {
         if (appId) {
           return apps.find((app) => {
-            return app.id === appId;
+            return app._id === appId;
           });
         }
         return apps[0];
