@@ -25,11 +25,10 @@ http://localhost:4200/
 ```javascript
 // run exact prod build (no debug info ), remove following, rarly you want to do this
 npm run serve:prod
-```
 
-## Prod Server ( run prod build locally )
-
-```javascript
+// prod build, for developers
 npm run serve:app
-http://127.0.0.1:8080/
+
+// prod build, for QA
+npm run serve:qa
 ```
