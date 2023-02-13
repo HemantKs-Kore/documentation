@@ -10,6 +10,7 @@ import { AppUrlsService } from './app.urls.service';
 import { AuthService } from './auth.service';
 import { environment } from '../../environments/environment';
 import { LocalStoreService } from './localstore.service';
+import { AppsService } from '@kore.apps/modules/apps/services/apps.service';
 environment;
 @Injectable({
   providedIn: 'root',
@@ -53,7 +54,8 @@ export class AppSelectionService {
     private authService: AuthService,
     private appUrls: AppUrlsService,
     public localstore: LocalStoreService,
-    private notificationService: NotificationService
+    private notificationService: NotificationService,
+    private appsService: AppsService
   ) {
     if (environment && environment.USE_SESSION_STORE) {
       this.storageType = 'sessionStorage';
@@ -410,21 +412,11 @@ export class AppSelectionService {
   //get tour congfig data
   getTourConfig() {
     this.getTourArray = {};
-    const appInfo: any = this.workflowService.selectedApp();
-    // console.log("appInfo", appInfo)
-    const quaryparms: any = {
-      streamId: appInfo?._id,
-    };
-    const appObserver = this.service.invoke('get.tourConfig', quaryparms);
-    appObserver.subscribe(
-      (res) => {
-        this.getTourArray = res.tourConfigurations;
-        this.getTourConfigData.next(res.tourConfigurations);
-      },
-      (errRes) => {
-        // console.log(errRes)
-      }
-    );
+
+    this.appsService.getSelectedAppById().subscribe((res) => {
+      this.getTourArray = res.tourConfigurations;
+      this.getTourConfigData.next(res.tourConfigurations);
+    });
   }
   //put tour config
   public updateTourConfig(component) {

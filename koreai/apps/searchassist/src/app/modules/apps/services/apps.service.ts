@@ -1,10 +1,11 @@
 import { Injectable } from '@angular/core';
+import { selectAppId } from '@kore.apps/store/app.selectors';
 import { appsFeatureKey } from '@kore.apps/store/entity-metadata';
 import {
   EntityCollectionServiceBase,
   EntityCollectionServiceElementsFactory,
 } from '@ngrx/data';
-import { filter, map } from 'rxjs';
+import { filter, map, withLatestFrom } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -18,12 +19,13 @@ export class AppsService extends EntityCollectionServiceBase<any> {
     return this.entities$.pipe(filter((res) => !!res.length));
   }
 
-  getSelectedAppById(appId?) {
+  getSelectedAppById() {
     return this.entities$.pipe(
-      map((apps) => {
-        if (appId) {
+      withLatestFrom(this.store.select(selectAppId)),
+      map(([apps, selectedAppId]: any) => {
+        if (selectedAppId) {
           return apps.find((app) => {
-            return app._id === appId;
+            return app._id === selectedAppId;
           });
         }
         return apps[0];
