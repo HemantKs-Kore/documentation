@@ -411,11 +411,14 @@ export class AppSelectionService {
   }
   //get tour congfig data
   getTourConfig() {
-    this.getTourArray = {};
+    // this.getTourArray = {};
 
-    this.appsService.getSelectedAppById().subscribe((res) => {
-      this.getTourArray = res.tourConfigurations;
-      this.getTourConfigData.next(res.tourConfigurations);
+    this.appsService.getSelectedAppById().subscribe((result) => {
+      if (result) {
+        const res = JSON.parse(JSON.stringify(result));
+        this.getTourArray = res.tourConfigurations;
+        this.getTourConfigData.next(res.tourConfigurations);
+      }
     });
   }
   //put tour config

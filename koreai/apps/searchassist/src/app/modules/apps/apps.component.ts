@@ -676,7 +676,7 @@ export class AppsComponent implements OnInit, OnDestroy {
     if (res.length > 0) {
       this.emptyApp = true;
     }
-    this.appSelectionService.getTourConfig();
+    // this.appSelectionService.getTourConfig();
   }
   // create demo app API
   createDemoApp(obj?) {
