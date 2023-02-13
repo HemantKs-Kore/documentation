@@ -370,6 +370,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
   ngOnInit() {
     this.getUserInfo();
+    this.checkroute();
     this.getAllApps();
 
     this.topicGuideShowSubscription =
@@ -1419,7 +1420,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
       .pipe(withLatestFrom(this.appsService.getApps()))
       .subscribe(([appId, res]) => {
         this.appsnum = res;
-        this.checkroute();
         if (appId) {
           this.recentApps = res.filter((app) => app._id != appId).slice(0, 5);
         }
