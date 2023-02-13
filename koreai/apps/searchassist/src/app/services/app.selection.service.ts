@@ -473,6 +473,7 @@ export class AppSelectionService {
 
       this.service.invoke('put.tourConfig', quaryparms, payload).subscribe(
         (res) => {
+          this.appsService.updateOneInCache(res);
           this.getTourConfigData.next(this.getTourArray);
           let count = 0;
           const stepsData = this.getTourArray.onBoardingChecklist;
