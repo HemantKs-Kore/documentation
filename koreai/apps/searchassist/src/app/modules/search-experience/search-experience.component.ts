@@ -21,6 +21,7 @@ import { MixpanelServiceService } from '@kore.apps/services/mixpanel-service.ser
 import { AuthService } from '@kore.apps/services/auth.service';
 import { selectSearchExperiance } from '@kore.apps/store/app.selectors';
 import { Store } from '@ngrx/store';
+import { setSearchExperienceConfigSuccess } from '@kore.apps/store/app.actions';
 declare const $: any;
 @Component({
   selector: 'app-search-experience',
@@ -904,6 +905,12 @@ export class SearchExperienceComponent implements OnInit, OnDestroy {
     };
     this.service.invoke('put.searchexperience', quaryparms, obj).subscribe(
       (res) => {
+        this.store.dispatch(
+          setSearchExperienceConfigSuccess({
+            searchExperienceConfig: res,
+          })
+        );
+
         this.searchIcon = res.widgetConfig.searchBarIcon;
         this.headerService.closeSdk();
         this.headerService.updateSearchConfiguration();
