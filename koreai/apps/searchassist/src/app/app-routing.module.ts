@@ -231,7 +231,18 @@ const routes: Routes = [
           import('./modules/apps/apps.module').then((m) => m.AppsModule),
         pathMatch: 'full',
       },
-      // { path: '**', redirectTo: 'apps' },
+      // {
+      //   path: 'not-found',
+      //   loadChildren: () =>
+      //     import(
+      //       '@kore.libs/shared/src/lib/modules/not-found/not-found.module'
+      //     ).then((m) => m.NotFoundModule),
+      // },
+      // Fallbak route
+      // {
+      //   path: '**',
+      //   redirectTo: '/not-found',
+      // },
     ],
   },
 ];

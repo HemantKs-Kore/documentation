@@ -7,7 +7,7 @@ import { WorkflowService } from '@kore.apps/services/workflow.service';
 import { AppSelectionService } from '@kore.apps/services/app.selection.service';
 import { EndPointsService } from '@kore.apps/services/end-points.service';
 import { ServiceInvokerService } from '@kore.apps/services/service-invoker.service';
-import { LazyLoadService } from '@kore.shared/*';
+import { LazyLoadService } from '@kore.libs/shared/src';
 import { LocalStoreService } from '@kore.services/localstore.service';
 import { Store } from '@ngrx/store';
 import { filter } from 'rxjs/operators';

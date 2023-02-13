@@ -20,6 +20,7 @@
       "@kore.environment/*": ["apps/searchassist/src/environments/*"],
       "@kore.helpers/*": ["apps/searchassist/src/app/helpers/*"],
       "@kore.services/*": ["apps/searchassist/src/app/services/*"],
+      "@kore.libs/*": ["libs/*"],
       "@kore.shared/*": ["libs/shared/src/index.ts"]
     }
   },

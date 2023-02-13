@@ -6,9 +6,9 @@ import {
   NavigationStart,
   Router,
 } from '@angular/router';
-import { LazyLoadService } from '@kore.shared/*';
 import { LoaderService } from './shared/loader/loader.service';
 import { Store } from '@ngrx/store';
+import { LazyLoadService } from '@kore.libs/shared/src';
 
 @Component({
   selector: 'app-root',
