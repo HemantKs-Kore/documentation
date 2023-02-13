@@ -27,7 +27,7 @@ import { AuthService } from '@kore.apps/services/auth.service';
 import { AppSelectionService } from '@kore.apps/services/app.selection.service';
 import { InlineManualService } from '@kore.apps/services/inline-manual.service';
 import { MixpanelServiceService } from '@kore.apps/services/mixpanel-service.service';
-import { LazyLoadService } from '@kore.shared/*';
+import { LazyLoadService } from '@kore.libs/shared/src';
 import '../../../assets/js/codemirror.js';
 declare const $: any;
 @Component({

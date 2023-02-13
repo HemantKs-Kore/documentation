@@ -18,7 +18,7 @@ import { ServiceInvokerService } from '@kore.apps/services/service-invoker.servi
 import { WorkflowService } from '@kore.apps/services/workflow.service';
 import { AppSelectionService } from '@kore.apps/services/app.selection.service';
 import { Observable } from 'rxjs';
-import { LazyLoadService } from '@kore.shared/*';
+import { LazyLoadService } from '@kore.libs/shared/src';
 import '../../../assets/js/codemirror.js';
 declare const $: any;
 

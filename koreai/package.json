@@ -5,7 +5,9 @@
   "scripts": {
     "start": "ng serve searchassist -o",
     "serve:app": "ng build searchassist --configuration=app && live-server dist/apps/searchassist",
-    "serve:prod": "npm run build && live-server dist/apps/searchassist",
+    "serve:qa": "run-s build:qa liveserver",
+    "serve:prod": "run-s build liveserver",
+    "liveserver": "cd dist/apps/searchassist && live-server",
     "build": "ng build searchassist",
     "build:clouddev": "ng build searchassist --configuration=clouddev",
     "build:app": "ng build searchassist --configuration=app",
@@ -132,6 +134,7 @@
     "lighthouse": "^9.6.8",
     "live-server": "^1.2.2",
     "nodemon": "^2.0.20",
+    "npm-run-all": "^4.1.5",
     "nx": "15.6.3",
     "prettier": "^2.8.3",
     "puppeteer": "^19.6.3",

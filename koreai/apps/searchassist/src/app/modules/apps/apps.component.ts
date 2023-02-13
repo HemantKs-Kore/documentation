@@ -14,9 +14,9 @@ import { InlineManualService } from '@kore.apps/services/inline-manual.service';
 import { MixpanelServiceService } from '@kore.apps/services/mixpanel-service.service';
 import { Store } from '@ngrx/store';
 import { setAppId } from '@kore.apps/store/app.actions';
-import { LazyLoadService } from '@kore.shared/*';
 import { AppsService } from './services/apps.service';
 import { Subscription } from 'rxjs';
+import { LazyLoadService } from '@kore.libs/shared/src';
 declare const $: any;
 
 @Component({

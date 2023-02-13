@@ -4,17 +4,19 @@
 
 export const environment = {
   production: true,
-  tag:"qa",
-  API_SERVER_URL:'https://qa.findly.ai',
-  USE_SESSION_STORE:false,
-  MIXPANEL_KEY : "5c3bf404d138a0e9ca816fb8421d6665",
-  INLINE_MANUAL_SITE_KEY :"1ec224ee46620656a9b18a17c80587a3",
-  deployment_type:"",
-  APPCUES:{
-    ENABLE : true,
-    APPCUES_KEY : '112004'
+  tag: 'qa',
+  API_SERVER_URL: 'https://searchassist-qa.kore.ai',
+  // API_SERVER_URL:'https://qa.findly.ai',
+  USE_SESSION_STORE: false,
+  MIXPANEL_KEY: '5c3bf404d138a0e9ca816fb8421d6665',
+  INLINE_MANUAL_SITE_KEY: '1ec224ee46620656a9b18a17c80587a3',
+  deployment_type: '',
+  APPCUES: {
+    ENABLE: true,
+    APPCUES_KEY: '112004',
   },
-  topicGuideBaseUrl:'https://koredotcom.github.io/koredotai-docs/searchassist/topic-guide/'
+  topicGuideBaseUrl:
+    'https://koredotcom.github.io/koredotai-docs/searchassist/topic-guide/',
   // topicGuideBaseUrl:'https://sunilsi-kore.github.io/koredotai-docs/searchassist/topic-guide/'
 };
 
