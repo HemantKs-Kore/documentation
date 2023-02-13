@@ -14,7 +14,9 @@ export class EndPointsService {
 
   constructor() {
     if (environment.production) {
-      this.SERVER_URL = window.location.protocol + '//' + window.location.host;
+      this.SERVER_URL = location.port
+        ? environment.API_SERVER_URL
+        : window.location.host + '//' + window.location.host;
       this.API_SERVER_URL = this.SERVER_URL + this.API_URL_PREFIX; //+ this.API_VERSION_PREFIX;
       this.API_SERVER_URL_PLATFORM = this.SERVER_URL + this.API_URL_PREFIX; //this.API_URL_PREFIX_PLATFORM + this.API_VERSION_PREFIX;
       window.appConfig.API_SERVER_URL = this.SERVER_URL;

@@ -14,6 +14,7 @@ import { InlineManualService } from '@kore.apps/services/inline-manual.service';
 import { MixpanelServiceService } from '@kore.apps/services/mixpanel-service.service';
 import { Store } from '@ngrx/store';
 import { setAppId } from '@kore.apps/store/app.actions';
+import { LazyLoadService } from '@kore.shared/*';
 declare const $: any;
 
 @Component({
@@ -108,22 +109,16 @@ export class AppsComponent implements OnInit {
     public inlineManual: InlineManualService,
     private route: ActivatedRoute,
     public mixpanel: MixpanelServiceService,
-    private store: Store
+    private store: Store,
+    private lazyLoadService: LazyLoadService
   ) {
     this.authInfo = localstore.getAuthInfo();
     this.userId = this.authService.getUserId();
   }
 
   ngOnInit() {
-    // this.checkForNewUser();
-    $('.krFindlyAppComponent').removeClass('appSelected');
-    //const apps = this.workflowService.findlyApps();
-    //this.prepareApps(apps);
     this.getAllApps();
-    setTimeout(() => {
-      $('#serachInputBox').focus();
-    }, 100);
-    // this.buildCarousel();
+    this.loadScripts();
   }
   //Checks whether user is new or not
   checkForNewUser() {
@@ -188,6 +183,20 @@ export class AppsComponent implements OnInit {
     this.appSelectionService.openApp(app, isDemo, isUpgrade);
     this.workflowService.selectedIndexPipelineId = '';
   }
+
+  loadScripts() {
+    this.lazyLoadService.loadScript('scripts.min.js').subscribe(() => {
+      // this.checkForNewUser();
+      $('.krFindlyAppComponent').removeClass('appSelected');
+      //const apps = this.workflowService.findlyApps();
+      //this.prepareApps(apps);
+      setTimeout(() => {
+        $('#serachInputBox').focus();
+      }, 100);
+      // this.buildCarousel();
+    });
+  }
+
   openBoradingJourney() {
     this.headerService.openJourneyForfirstTime = true;
     this.onboardingpopupjourneyRef = this.createBoardingJourney.open();

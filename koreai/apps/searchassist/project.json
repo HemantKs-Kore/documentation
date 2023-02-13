@@ -30,10 +30,6 @@
         ],
         "styles": [
           "apps/searchassist/src/scss/styles.scss",
-          "apps/searchassist/src/assets/fonts/inter/inter-font.css",
-          "apps/searchassist/src/assets/web-kore-sdk/libs/purejscarousel.css",
-          "apps/searchassist/src/assets/css/bootstrap-slider.css",
-          "node_modules/nouislider/dist/nouislider.min.css",
           {
             "input": "scss/themes/dark.scss",
             "bundleName": "dark-theme",
@@ -56,19 +52,11 @@
           }
         ],
         "scripts": [
-          "node_modules/jquery/dist/jquery.min.js",
-          "apps/searchassist/src/assets/web-kore-sdk/demo/libs/jquery-ui.min.js",
-          "node_modules/popper.js/dist/umd/popper.min.js",
-          "node_modules/bootstrap/dist/js/bootstrap.min.js",
-          "apps/searchassist/src/app/helpers/lib/assets/highlight.js/highlight.min.js",
-          "apps/searchassist/src/assets/js/bootstrap-slider.js",
-          "apps/searchassist/src/assets/web-kore-sdk/libs/purejscarousel.js",
-          "node_modules/rangy/lib/rangy-core.js",
-          "node_modules/rangy/lib/rangy-classapplier.js",
-          "node_modules/rangy/lib/rangy-highlighter.js",
-          "node_modules/rangy/lib/rangy-selectionsaverestore.js",
-          "node_modules/rangy/lib/rangy-serializer.js",
-          "node_modules/rangy/lib/rangy-textrange.js"
+          {
+            "input": "apps/searchassist/src/assets/js/scripts.min.js",
+            "bundleName": "scripts.min",
+            "inject": false
+          }
         ],
         "serviceWorker": true,
         "ngswConfigPath": "apps/searchassist/ngsw-config.json"
@@ -140,7 +128,9 @@
               "replace": "apps/searchassist/src/environments/environment.ts",
               "with": "apps/searchassist/src/environments/environment.app.ts"
             }
-          ]
+          ],
+          "sourceMap": true,
+          "namedChunks": true
         },
         "qa": {
           "fileReplacements": [

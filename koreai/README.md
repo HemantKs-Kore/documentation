@@ -28,6 +28,12 @@ nx migrate latest
 ng generate @angular/material:mdc-migration
 ```
 
+## Run prod build locally
+
+```
+npm run serve:app
+```
+
 ## E2E
 
 ```
@@ -75,3 +81,7 @@ https://www.wittyprogramming.dev/articles/lazy-load-component-angular-without-ro
 ## Budget
 
 https://googlechrome.github.io/lighthouse/scorecalc/
+
+## Bundling Scripts
+
+Don't forget to update `tools/build.js` if want to add new 3rd part script, and run `npm run buildjs` it's required only when new script added.
