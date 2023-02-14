@@ -23,7 +23,7 @@ export class SimulateComponent {
     matchBrackets: true,
     readOnly: true
   };
-  showSummaryView: Boolean = true;
+  showSummaryView = true;
   summaryViewObj: any = new SummaryViewObjSchema();
   private _array = Array;
   @Input() config: any;
@@ -60,8 +60,8 @@ export class SimulateComponent {
         if (res) {
           this.summaryViewObj.isLoading = false;
           const snippetArray = res?.graph_answer?.payload;
-          let Data = [];
-          for (let item of snippetArray) {
+          const Data = [];
+          for (const item of snippetArray) {
             Data.push(item?.center_panel.data[0])
           }
           if (Data.length < 2) {
@@ -72,7 +72,7 @@ export class SimulateComponent {
             else {
               emptyObj = this.summaryViewObj.data;
             }
-            for (let item of emptyObj) {
+            for (const item of emptyObj) {
               item.isNoAnswer = true;
               item.message = 'No Answer';
               delete item?.snippet_content;
@@ -109,7 +109,7 @@ export class SimulateComponent {
 
   //copy snippet JSON
   copySnippetJSON() {
-    let jsonBox: any = document.createElement('textarea');
+    const jsonBox: any = document.createElement('textarea');
     jsonBox.innerText = JSON.stringify(this.summaryViewObj.data);
     jsonBox.setAttribute('readonly', '');
     jsonBox.style.position = 'absolute';

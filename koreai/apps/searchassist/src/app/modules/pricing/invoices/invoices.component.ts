@@ -6,7 +6,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { AuthService } from '@kore.services/auth.service';
 import { AppSelectionService } from '@kore.services/app.selection.service';
 import { EMPTY_SCREEN } from '../../empty-screen/empty-screen.constants';
-declare var require: any
+declare let require: any
 const FileSaver = require('file-saver');
 @Component({
   selector: 'app-invoices',
@@ -17,16 +17,16 @@ const FileSaver = require('file-saver');
 export class InvoicesComponent {
   emptyScreen = EMPTY_SCREEN.MANAGE_ORDERS_INVOICES;
   invoices = [];
-  showSearch: Boolean = false;
-  searchInvoice: string = '';
-  searchImgSrc: String = 'assets/icons/search_gray.svg';
-  searchFocusIn: Boolean = false;
+  showSearch = false;
+  searchInvoice = '';
+  searchImgSrc = 'assets/icons/search_gray.svg';
+  searchFocusIn = false;
   selectedApp: any;
-  serachIndexId: String;
-  indexPipelineId: String;
+  serachIndexId: string;
+  indexPipelineId: string;
   totalRecord: number;
-  selectedSort: String = '';
-  loading: Boolean = false;
+  selectedSort = '';
+  loading = false;
 
   constructor(
     public workflowService: WorkflowService,

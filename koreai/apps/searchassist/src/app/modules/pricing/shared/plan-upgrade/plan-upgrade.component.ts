@@ -37,10 +37,10 @@ export class PlanUpgradeComponent {
   private _array = Array;
   planNames = plansName;
   overagesObject: any = { isOpted: false, optIn: true, isCheckboxEnabled: true };
-  validations: boolean = false;
+  validations = false;
   countriesList: Array<Object> = []
   search_country = '';
-  termPlan: String = "month";
+  termPlan = "month";
   featureTypes: any = [];
   frequentFAQs: any = [];
   planHoverText: Object = {};
@@ -57,7 +57,7 @@ export class PlanUpgradeComponent {
   invoiceOrderId: any;
   featuresExceededUsage: any = [];
   upgradePlanData: any = {};
-  selectedPaymentPage: string = 'payment_confirm';
+  selectedPaymentPage = 'payment_confirm';
   showLoader: boolean;
   payementResponse: any = {
     hostedPage: {
@@ -71,8 +71,8 @@ export class PlanUpgradeComponent {
     enterpriceYear: 'enterprise'
   }
   currentSubsciptionData: Subscription;
-  isOverageShow: boolean = false;
-  btnLoader: boolean = false;
+  isOverageShow = false;
+  btnLoader = false;
   enterpriseForm: any = { name: '', email: '', message: '', phone: '', company: '', country: '', targetPlan: '', currentPlan: '' };
   enterpriseRadioBtnArray: Array<Object> = [{ name: 'plan_modify_plan', value: 'Modify My Current Plan' }, { name: 'plan_downgrade_standard', value: 'Downgrade to Standard Plan' }];
 
@@ -141,7 +141,7 @@ export class PlanUpgradeComponent {
   //select type plan like monthly or yearly
   typeOfPlan(type?) {
     this.listPlanFeaturesData = [];
-    let listDataMonthlyFeature = [];
+    const listDataMonthlyFeature = [];
     const billingUnit = (type) ? type : (this.selectedPlan?.billing?.unit || 'month');
     this.filterPlansData = [];
     this.termPlan = billingUnit;
@@ -149,7 +149,7 @@ export class PlanUpgradeComponent {
       this.totalPlansData?.forEach(data => {
         if (data?.billing?.unit === billingUnit || data?.type === 'enterprise') this.filterPlansData.push(data);
       })
-      let listData = [...this.totalPlansData];
+      const listData = [...this.totalPlansData];
       listData.forEach(data => {
         Object.keys(data.featureAccess);
         Object.values(data.featureAccess);
@@ -178,10 +178,10 @@ export class PlanUpgradeComponent {
 
   //fetch hoverText from HoverText Object
   getHoverText(text) {
-    let Text: String = '';
+    let Text = '';
     const Data = Object.entries(this.planHoverText);
     if (Data?.length) {
-      for (let item of Data) {
+      for (const item of Data) {
         if (item[0] === text) Text = item[1];
       }
     }

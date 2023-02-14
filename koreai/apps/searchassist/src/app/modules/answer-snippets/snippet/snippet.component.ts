@@ -15,11 +15,11 @@ import { SliderComponentComponent } from '../../../shared/slider-component/slide
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SnippetComponent implements OnInit, OnDestroy {
-  isEyeOpen: Boolean = false;
+  isEyeOpen = false;
   selectedApp: any;
-  isLoading: Boolean = false;
+  isLoading = false;
   snippetArray: Array<any> = [];
-  isWorkbenchSnippetDisabled: Boolean = false;
+  isWorkbenchSnippetDisabled = false;
   configObj: ConfigObj = { searchIndexId: '', indexPipelineId: '', queryPipelineId: '' };
   selectedSnippetObj: any = { type: 'extractive_model' };
   openAIObj = new openAIObj();
@@ -98,7 +98,7 @@ export class SnippetComponent implements OnInit, OnDestroy {
 
   //reset to default for similarity / weights slider
   resetToDeafult(type) {
-    let Obj = { ...this.selectedSnippetObj };
+    const Obj = { ...this.selectedSnippetObj };
     if (type === 'similarity') {
       Obj.similarityScore = this.sliderDefaultConfigs.similarity_score;
       Obj.similarity_slider = new RangeSlider(0, 100, 1, Obj?.similarityScore, 'editSlider', '', true);
@@ -168,7 +168,7 @@ export class SnippetComponent implements OnInit, OnDestroy {
   //select particular snippet
   selectSnippet(type) {
     let Obj: any = {};
-    let Data = this.snippetArray?.filter(item => item?.type === type);
+    const Data = this.snippetArray?.filter(item => item?.type === type);
     if (type === 'extractive_model') {
       Obj = { ...Data[0] };
       Obj.similarity_slider = new RangeSlider(0, 100, 1, Obj?.similarityScore, 'editSlider', '', true);
@@ -269,6 +269,6 @@ interface sliderDefaultObj {
 }
 
 class openAIObj {
-  openAIKey: String = '';
-  isOpenAIFirst: Boolean = true;
+  openAIKey = '';
+  isOpenAIFirst = true;
 }

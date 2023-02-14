@@ -1,4 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import {
+  Component,
+  ComponentRef,
+  OnInit,
+  ViewChild,
+  ViewContainerRef,
+} from '@angular/core';
 import {
   NavigationCancel,
   NavigationEnd,
@@ -10,6 +16,7 @@ import { AppSelectionService } from './services/app.selection.service';
 import { LoaderService } from './shared/loader/loader.service';
 import { Store } from '@ngrx/store';
 import { LazyLoadService } from '@kore.libs/shared/src';
+import { MainMenuComponent } from './modules/layout/mainmenu/mainmenu.component';
 
 @Component({
   selector: 'app-root',
@@ -17,9 +24,12 @@ import { LazyLoadService } from '@kore.libs/shared/src';
   styleUrls: ['./app.component.scss'],
 })
 export class AppComponent implements OnInit {
+  @ViewChild('dynamicRef', { read: ViewContainerRef }) dynamicRef;
+  isMainMenuLoaded = false;
+  mainMenuRef: ComponentRef<MainMenuComponent>;
   showMainMenu = true;
-  settingMainMenu = false;
-  sourceMenu = false;
+  // settingMainMenu = false;
+  // sourceMenu = false;
   appSelected = false;
 
   constructor(private router: Router, private loaderService: LoaderService, private appSelectionService: AppSelectionService, private lazyLoadService: LazyLoadService) {
@@ -61,13 +71,38 @@ export class AppComponent implements OnInit {
     });
   }
 
+  updateMenuProps(menuType, event) {
+    this.mainMenuRef.instance[menuType] = event;
+  }
+
+  loadMainMenu(menuType, event) {
+    if (!this.isMainMenuLoaded) {
+      import('./modules/layout/mainmenu/mainmenu.component').then(
+        ({ MainMenuComponent }) => {
+          this.isMainMenuLoaded = true;
+
+          if (this.dynamicRef) {
+            this.dynamicRef.clear();
+            this.mainMenuRef =
+              this.dynamicRef.createComponent(MainMenuComponent);
+            this.updateMenuProps(menuType, event);
+          }
+        }
+      );
+    } else {
+      this.updateMenuProps(menuType, event);
+    }
+  }
+
   showMenu(event) {
     this.showMainMenu = event;
+    this.loadMainMenu('show', event);
   }
+
   showSourceMenu(event) {
-    this.sourceMenu = event;
+    this.loadMainMenu('sourceMenu', event);
   }
   settingMenu(event) {
-    this.settingMainMenu = event;
+    this.loadMainMenu('settingMainMenu', event);
   }
 }

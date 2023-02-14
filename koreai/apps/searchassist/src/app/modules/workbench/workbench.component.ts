@@ -100,7 +100,7 @@ export class WorkbenchComponent implements OnInit, OnDestroy, AfterViewInit {
   ];
   newMappingObj: any = {};
   sourceType = 'all';
-  isAnswerSnippetEnabled: Boolean = false;
+  isAnswerSnippetEnabled = false;
   defaultStageTypesObj: any = {
     field_mapping: {
       name: 'Field Mapping',
@@ -1118,7 +1118,7 @@ export class WorkbenchComponent implements OnInit, OnDestroy, AfterViewInit {
       this.removeExcludeDocumentStage(indexArrayLength, true);
     } else {
       this.savingConfig = true;
-      let quaryparms: any = {
+      const quaryparms: any = {
         searchIndexID: this.serachIndexId,
         indexPipelineId: this.indexPipelineId,
         deleteSnippetExtractionStage: false
@@ -2353,7 +2353,7 @@ export class WorkbenchComponent implements OnInit, OnDestroy, AfterViewInit {
             this.modifiedStages.deletedStages.push(this.pipeline[i]);
           } else {
             if (this.modifiedStages.createdStages.length) {
-              let index = this.modifiedStages.createdStages.findIndex((d) => d.type == this.pipeline[i].type);
+              const index = this.modifiedStages.createdStages.findIndex((d) => d.type == this.pipeline[i].type);
               if (index > -1) {
                 this.modifiedStages.createdStages.splice(index, 1);
               }

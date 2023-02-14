@@ -25,8 +25,8 @@ export class PlanDetailsComponent {
   cancellationCheckboxObj: Array<Object> = [{ selected: false, name: 'It’s too costly', value: 'Its too costly' }, { selected: false, name: 'I found another product that fulfils my needs', value: 'I found another product that fulfils my needs' }, { selected: false, name: 'I don’t use it enough', value: 'I dont use it enough' }, { selected: false, name: 'I don’t need it now', value: 'I dont need it now' }];
   cancellationCheckboxText: any = this.cancellationCheckboxObj;
   termPlan = "Monthly";
-  pageLoading: boolean = true;
-  btnLoader: boolean = false;
+  pageLoading = true;
+  btnLoader = false;
   bannerObj = { msg: '', show: false, type: '' };
   currentSubscriptionPlan: any = {};
   selectedApp;
@@ -37,8 +37,8 @@ export class PlanDetailsComponent {
   updateUsageData: Subscription;
   usageDetails: any = {};
   monthRange = "Jan - June";
-  isyAxisDocumentdata: boolean = true;
-  isyAxisQuerydata: boolean = true;
+  isyAxisDocumentdata = true;
+  isyAxisQuerydata = true;
   planNames: Object = plansName;
   currentPlanDetails: Array<Object> = [];
 
@@ -111,7 +111,7 @@ export class PlanDetailsComponent {
       const commentInput: any = document.getElementById("cancel_comment_text");
       const checkboxes: any = document.querySelectorAll('.checkbox-custom');
       commentInput.value = '';
-      for (let check of checkboxes) {
+      for (const check of checkboxes) {
         check.checked = false;
       }
       if (this.cancelSubscriptionModelPopRef.close) this.cancelSubscriptionModelPopRef.close();
@@ -168,9 +168,9 @@ export class PlanDetailsComponent {
   //cancel subscription api
   cancelSubscription() {
     this.btnLoader = true;
-    let checkedData = [];
+    const checkedData = [];
     const comment_data: any = document.getElementById('cancel_comment_text');
-    for (let data of this.cancellationCheckboxText) {
+    for (const data of this.cancellationCheckboxText) {
       if (data.selected) checkedData.push(data.value);
     }
     const queryParam = { streamId: this.selectedApp._id };
@@ -307,7 +307,7 @@ export class PlanDetailsComponent {
       const planName = this.currentSubscriptionPlan?.subscription?.planName;
       const totalPlans = allPlans?.plans;
       const billingUnit = this.currentSubscriptionPlan?.subscription?.billing?.unit;
-      let planData = totalPlans?.filter(plan => (billingUnit) ? (plan?.name === planName && billingUnit === plan?.billing?.unit) : (plan?.name === planName));
+      const planData = totalPlans?.filter(plan => (billingUnit) ? (plan?.name === planName && billingUnit === plan?.billing?.unit) : (plan?.name === planName));
       if (planData[0]?.featureAccess?.searchQueries?.displayOnBanner) planData[0].featureAccess.searchQueries.displayOnBanner = false;
       this.currentPlanDetails = planData;
     }

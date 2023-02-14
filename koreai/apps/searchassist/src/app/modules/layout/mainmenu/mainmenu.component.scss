@@ -4,6 +4,16 @@
 */
 
 @import 'variables/variables.scss';
+::ng-deep .krFindlyAppComponent {
+  .toShowAppHeader {
+    display: none;
+  }
+
+  &.appSelected .toShowAppHeader {
+    display: block !important;
+  }
+}
+
 app-mainmenu {
   .sidebar-fixed {
     top: 60px;

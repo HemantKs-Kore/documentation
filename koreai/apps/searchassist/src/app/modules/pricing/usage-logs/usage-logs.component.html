@@ -114,7 +114,7 @@
                             </div>
                             <div class="content-sec">{{usageLog.query}}</div>
                         </div>
-                        <div class="col-3 title pl-4">{{usageLog.queryType=='liveSearch'?'Live Search':usageLog.queryType=='fullSearch'?'Full Search':'Query Suggestions'}}</div>
+                        <div class="col-3 title pl-4">{{usageLog.queryType==='liveSearch'?'Live Search':usageLog.queryType==='fullSearch'?'Full Search':'Query Suggestions'}}</div>
                         <!-- <div class="col-2 title pl-3">{{usageLog.requestSource}}</div> -->
                         <div class="col-3 title pl-4">{{usageLog.results?'Yes':'No'}}</div>
                         <div class="col-2 title pl-4">{{usageLog.createdOn | dateFormatPipe: 'DD MMM YYYY h:mm a'}}

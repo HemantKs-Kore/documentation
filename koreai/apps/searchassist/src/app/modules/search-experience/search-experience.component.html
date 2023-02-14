@@ -57,9 +57,9 @@
                         </div>
                         <div class="right-sec">
                             <img src="assets/icons/search-experience/top-down-mini.jpg" class="w-100"
-                                *ngIf="searchObject.searchExperienceConfig.searchBarPosition == 'top'">
+                                *ngIf="searchObject.searchExperienceConfig.searchBarPosition === 'top'">
                             <img src="assets/icons/search-experience/bottum-up-mini.jpg" class="w-100"
-                                *ngIf="searchObject.searchExperienceConfig.searchBarPosition == 'bottom'">
+                                *ngIf="searchObject.searchExperienceConfig.searchBarPosition === 'bottom'">
                         </div>
                     </div>
                 </div>
@@ -73,14 +73,14 @@
                                     <div class="hover-action-edit-icon-search" (click)="selectSearchBox('inputBox');$event.stopPropagation();closeAllBoxs('all');">
                                         <img src="assets/icons/border-pencil.svg">
                                     </div>
-                                    <input type="text" [ngClass]="{'activeBox':selectSearch=='inputBox'}" class="input-search" [ngStyle]="{'background':searchObject.searchWidgetConfig.searchBarFillColor,'border-color':searchObject.searchWidgetConfig.searchBarBorderColor}" readonly>
+                                    <input type="text" [ngClass]="{'activeBox':selectSearch==='inputBox'}" class="input-search" [ngStyle]="{'background':searchObject.searchWidgetConfig.searchBarFillColor,'border-color':searchObject.searchWidgetConfig.searchBarBorderColor}" readonly>
                                 </div>
 
                                 <div class="search-icon-hover-widget">
                                     <div class="hover-action-edit-icon-search" (click)="selectSearchBox('inputIcon');$event.stopPropagation();">
                                         <img src="assets/icons/border-pencil.svg">
                                     </div>
-                                    <img [src]="searchIcon" class="search-icon" [ngClass]="{'activeBox':selectSearch=='inputIcon'}" height="15" width="15">
+                                    <img [src]="searchIcon" class="search-icon" [ngClass]="{'activeBox':selectSearch==='inputIcon'}" height="15" width="15">
                                 </div>
                                 <div class="place-holder-widget">
                                     <div class="hover-action-edit-icon-search"
@@ -89,7 +89,7 @@
                                     </div>
                                     <input #elasticInput maxlength="60" class="placeholder-custom-search"
                                         value="{{searchObject.searchWidgetConfig.searchBarPlaceholderText}}"
-                                        [ngClass]="{'activeBox':selectSearch=='placeholderText'}"
+                                        [ngClass]="{'activeBox':selectSearch==='placeholderText'}"
                                         [ngStyle]="{'color':searchObject.searchWidgetConfig.searchBarPlaceholderTextColor,'width.px': width,'background':'none'}"
                                         #data (change)="onEventLog('placeholderText',data.value);" (input)="resize()">
                                 </div>
@@ -99,7 +99,7 @@
                                     style="visibility: hidden; white-space: pre;">{{elasticInput.value}}</span>
                                 <button class="btn-customize kr-sg-button-primary read-mode btn_lg inside-input-btn"
                                     (click)="selectSearchBox('button');closeAllBoxs('all');"
-                                    [ngClass]="{'activeBox':selectSearch=='button','added-tour':tourGuide==='step4'}"
+                                    [ngClass]="{'activeBox':selectSearch==='button','added-tour':tourGuide==='step4'}"
                                     [ngStyle]="{'background':searchObject.searchWidgetConfig.buttonFillColor,'border-color':searchObject.searchWidgetConfig.buttonBorderColor,'color':searchObject.searchWidgetConfig.buttonTextColor}"
                                     [disabled]="buttonDisabled"
                                     *ngIf="(searchObject.searchExperienceConfig.searchBarPosition==='top'&&searchObject.searchWidgetConfig.buttonPlacementPosition==='inside')||searchObject.searchExperienceConfig.searchBarPosition==='bottom'">
@@ -110,7 +110,7 @@
                             </div>
                             <button class="btn-customize kr-sg-button-primary read-mode btn_lg"
                                 (click)="selectSearchBox('button');closeAllBoxs('all');"
-                                [ngClass]="{'activeBox':selectSearch=='button','added-tour':tourGuide==='step4'}"
+                                [ngClass]="{'activeBox':selectSearch==='button','added-tour':tourGuide==='step4'}"
                                 [ngStyle]="{'background':searchObject.searchWidgetConfig.buttonFillColor,'border-color':searchObject.searchWidgetConfig.buttonBorderColor,'color':searchObject.searchWidgetConfig.buttonTextColor}"
                                 [disabled]="buttonDisabled"
                                 *ngIf="searchObject.searchExperienceConfig.searchBarPosition==='top'&&searchObject.searchWidgetConfig.buttonPlacementPosition==='outside'">
@@ -247,7 +247,7 @@
                                     <div class="kr-sg-radiobutton">
                                         <input id="radio-221" name="radio" class="radio-custom" type="radio"
                                             value='outside'
-                                            [checked]="searchObject.searchWidgetConfig.buttonPlacementPosition=='outside'"
+                                            [checked]="searchObject.searchWidgetConfig.buttonPlacementPosition==='outside'"
                                             [disabled]="!(searchObject.searchWidgetConfig.searchButtonEnabled)"
                                             [(ngModel)]="searchObject.searchWidgetConfig.buttonPlacementPosition">
                                         <label for="radio-221"
@@ -257,7 +257,7 @@
                                     <div class="kr-sg-radiobutton">
                                         <input id="radio-232" name="radio" class="radio-custom" type="radio"
                                             value='inside'
-                                            [checked]="searchObject.searchWidgetConfig.buttonPlacementPosition=='inside'"
+                                            [checked]="searchObject.searchWidgetConfig.buttonPlacementPosition==='inside'"
                                             [disabled]="!(searchObject.searchWidgetConfig.searchButtonEnabled)"
                                             [(ngModel)]="searchObject.searchWidgetConfig.buttonPlacementPosition">
                                         <label for="radio-232"
@@ -471,7 +471,7 @@
                                             </div>
                                         </div>
                                         <div class="fill-colors-block"
-                                            *ngIf="searchObject.searchExperienceConfig.searchBarPosition == 'bottom'">
+                                            *ngIf="searchObject.searchExperienceConfig.searchBarPosition === 'bottom'">
                                             <div class="fill-color">
                                                 <div class="label-color">Fill Color</div>
                                                 <div class="box-color adjust-right"
@@ -514,16 +514,16 @@
 
 
                             <div class="default-status"
-                                [ngStyle]="{'padding':searchObject.searchExperienceConfig.searchBarPosition == 'bottom'?'20':0,'border-top':searchObject.searchExperienceConfig.searchBarPosition == 'bottom'?'1':'0'}">
-                                <div class="default-status-title" *ngIf="searchObject.searchExperienceConfig.searchBarPosition == 'bottom'">Default Text</div>
-                                <div class="kr-sg-radiobutton w-100" *ngIf="searchObject.searchExperienceConfig.searchBarPosition == 'bottom'">
+                                [ngStyle]="{'padding':searchObject.searchExperienceConfig.searchBarPosition === 'bottom'?'20':0,'border-top':searchObject.searchExperienceConfig.searchBarPosition === 'bottom'?'1':'0'}">
+                                <div class="default-status-title" *ngIf="searchObject.searchExperienceConfig.searchBarPosition === 'bottom'">Default Text</div>
+                                <div class="kr-sg-radiobutton w-100" *ngIf="searchObject.searchExperienceConfig.searchBarPosition === 'bottom'">
                                     <input id="radio-01" name="searchBar" class="radio-custom" type="radio" [(ngModel)]="searchObject.searchInteractionsConfig.defaultStatus" value="searchBar">
                                     <label for="radio-01" class="radio-custom-label">Search Bar</label>
                                 </div>
 
                                 <ng-container>
                                     <div class="col-12 preview-search-ex" style="pointer-events: none;">
-                                        <div class="search-widget-if-bottom-up" *ngIf="searchObject.searchExperienceConfig.searchBarPosition == 'bottom'">
+                                        <div class="search-widget-if-bottom-up" *ngIf="searchObject.searchExperienceConfig.searchBarPosition === 'bottom'">
                                             <div class="greeting-block" [ngClass]="{'d-none':searchObject.searchInteractionsConfig.welcomeMsg===''}" [ngStyle]="{'background':searchObject.searchInteractionsConfig.welcomeMsgFillColor}">
                                                 <span class="greeting-title" [ngStyle]="{'color':searchObject.searchInteractionsConfig.welcomeMsgColor}">{{searchObject.searchInteractionsConfig.welcomeMsg}}</span>
                                             </div>
@@ -545,7 +545,7 @@
                                                 </ng-container>
                                             </div>
                                         </div>
-                                        <div class="search-widget" *ngIf="searchObject.searchExperienceConfig.searchBarPosition == 'top'">
+                                        <div class="search-widget" *ngIf="searchObject.searchExperienceConfig.searchBarPosition === 'top'">
                                             <div class="d-flex search-customization-input">
                                                 <div class="kr-sg-input-search">
                                                     <input type="text" class="input-search" [ngStyle]="{'background':searchObject.searchWidgetConfig.searchBarFillColor,'border-color':searchObject.searchWidgetConfig.searchBarBorderColor}" readonly>
@@ -571,14 +571,14 @@
                                     </div>
                                 </ng-container>
                                 <div class="kr-sg-radiobutton w-100 mt-2"
-                                    *ngIf="searchObject.searchExperienceConfig.searchBarPosition == 'bottom'">
+                                    *ngIf="searchObject.searchExperienceConfig.searchBarPosition === 'bottom'">
                                     <input id="radio-211" name="avatar" class="radio-custom" type="radio"
                                         [(ngModel)]="searchObject.searchInteractionsConfig.defaultStatus"
                                         value="avatar">
                                     <label for="radio-211" class="radio-custom-label">Avatar</label>
                                 </div>
 
-                                <ng-container *ngIf="searchObject.searchExperienceConfig.searchBarPosition == 'bottom'">
+                                <ng-container *ngIf="searchObject.searchExperienceConfig.searchBarPosition === 'bottom'">
                                     <div class="avatar-with-greeting-text">
                                         <div class="greeting-message-avatar"
                                             [ngClass]="{'d-none':searchObject.searchInteractionsConfig.welcomeMsg===''}"
@@ -610,7 +610,7 @@
                                 <div class="col-7 p-0">
                                     <div class="border-with-padding">
                                         <div class="label_text"
-                                            [ngClass]="{'enabled':searchObject.searchInteractionsConfig.showSearches == 'recent', 'disabled':searchObject.searchInteractionsConfig.showSearches == 'frequent'}">
+                                            [ngClass]="{'enabled':searchObject.searchInteractionsConfig.showSearches === 'recent', 'disabled':searchObject.searchInteractionsConfig.showSearches === 'frequent'}">
                                             {{'searchexperience_show_recent_searches' | translate}}</div>
                                         <label class="kr-sg-toggle">
                                             <input type="checkbox"
@@ -625,7 +625,7 @@
                                             <div class="kr-sg-radiobutton">
                                                 <input id="radio-22" name="radio" class="radio-custom" type="radio"
                                                     value="frequent"
-                                                    [checked]="searchObject.searchInteractionsConfig.showSearches=='Frequent'"
+                                                    [checked]="searchObject.searchInteractionsConfig.showSearches==='Frequent'"
                                                     [(ngModel)]="searchObject.searchInteractionsConfig.showSearches"
                                                     [disabled]="!searchObject.searchInteractionsConfig.showSearchesEnabled">
                                                 <label for="radio-22"
@@ -635,7 +635,7 @@
                                             <div class="kr-sg-radiobutton">
                                                 <input id="radio-23" name="radio" class="radio-custom" type="radio"
                                                     value="recent"
-                                                    [checked]="searchObject.searchInteractionsConfig.showSearches=='recent'"
+                                                    [checked]="searchObject.searchInteractionsConfig.showSearches==='recent'"
                                                     [(ngModel)]="searchObject.searchInteractionsConfig.showSearches"
                                                     [disabled]="!searchObject.searchInteractionsConfig.showSearchesEnabled">
                                                 <label for="radio-23"
@@ -726,11 +726,11 @@
     </div>
     <div class="footer-sec">
         <button class="kr-sg-button-secondary btn_lg" (click)="nextTab('pre');closeAllBoxs('all');"
-            *ngIf="selectedTab!='experience'">{{'searchexperience_previous' | translate}}</button>
+            *ngIf="selectedTab!=='experience'">{{'searchexperience_previous' | translate}}</button>
         <button class="kr-sg-button-primary btn_lg" (click)="nextTab('nex');closeAllBoxs('all');"
             *ngIf="selectedTab!=='feedback'">{{'searchexperience_next' | translate}}</button>
         <button class="kr-sg-button-primary btn_lg" (click)="saveSearchExperience();closeAllBoxs('all');"
-            *ngIf="selectedTab=='feedback'" [disabled]="isSpinnerLoading"><span class="loader-spin-inside-btn ml-1" *ngIf="isSpinnerLoading"></span>{{'sa_done' | translate}}</button>
+            *ngIf="selectedTab==='feedback'" [disabled]="isSpinnerLoading"><span class="loader-spin-inside-btn ml-1" *ngIf="isSpinnerLoading"></span>{{'sa_done' | translate}}</button>
     </div>
 </div>
 
@@ -740,14 +740,14 @@
     id="guideModalPop">
     <div class="modal-header">
         <div class="title">{{'searchexperience_guide' | translate}} > <span
-                *ngIf="searchObject.searchExperienceConfig.searchBarPosition == 'bottom'">{{'searchexperience_bottom_up_experience'
+                *ngIf="searchObject.searchExperienceConfig.searchBarPosition === 'bottom'">{{'searchexperience_bottom_up_experience'
                 | translate}}</span><span
-                *ngIf="searchObject.searchExperienceConfig.searchBarPosition == 'top'">{{'searchexperience_top_down_experience'
+                *ngIf="searchObject.searchExperienceConfig.searchBarPosition === 'top'">{{'searchexperience_top_down_experience'
                 | translate}}</span></div>
         <div class="close_icon" (click)="closeGuidePopup()"><img src="assets/icons/modal-close.svg"></div>
     </div>
     <perfect-scrollbar class="perfect-scroll-modal-body">
-        <div class="modal-body" *ngIf="searchObject.searchExperienceConfig.searchBarPosition == 'bottom'">
+        <div class="modal-body" *ngIf="searchObject.searchExperienceConfig.searchBarPosition === 'bottom'">
             <div class="main-title">{{'searchexperience_hi' | translate}} {{userName}},</div>
             <div class="main-title">{{'searchexperience_it_is_recommended' | translate}}</div>
             <div class="guide-data">
@@ -848,7 +848,7 @@
         </div>
 
 
-        <div class="modal-body topdown-guide" *ngIf="searchObject.searchExperienceConfig.searchBarPosition == 'top'">
+        <div class="modal-body topdown-guide" *ngIf="searchObject.searchExperienceConfig.searchBarPosition === 'top'">
             <div class="main-title">{{'searchexperience_hi' | translate}} {{userName}},</div>
             <div class="main-title">{{'searchexperience_it_is_recommended' | translate}}</div>
             <div class="guide-data">

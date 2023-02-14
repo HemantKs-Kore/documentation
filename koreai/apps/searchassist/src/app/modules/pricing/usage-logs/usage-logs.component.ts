@@ -19,14 +19,14 @@ export class UsageLogsComponent {
   usageLogs = [];
   queryTypeArr = ['all'];
   resultsArr = ['all'];
-  showSearch: Boolean;
-  searchUsageLog: String = '';
-  searchLoading: Boolean = false;
-  searchImgSrc: String = 'assets/icons/search_gray.svg';
-  searchFocusIn: Boolean = false;
+  showSearch: boolean;
+  searchUsageLog = '';
+  searchLoading = false;
+  searchImgSrc = 'assets/icons/search_gray.svg';
+  searchFocusIn = false;
   selectedApp: any;
-  serachIndexId: String;
-  indexPipelineId: String;
+  serachIndexId: string;
+  indexPipelineId: string;
   subscription: Subscription;
   totalRecord: number;
   filterSystem: any = {
@@ -34,9 +34,9 @@ export class UsageLogsComponent {
     'requestSourceFilter': 'all',
     'resultsFilter': 'all'
   }
-  activeClose: Boolean = false;
-  loadingLogs: Boolean = false;
-  loading: Boolean = false;
+  activeClose = false;
+  loadingLogs = false;
+  loading = false;
   selectedSort = '';
   isAsc = true;
   current_plan_name: string;
@@ -141,7 +141,7 @@ export class UsageLogsComponent {
     if (!this.beforeFilterUsageLogs.length) {
       this.beforeFilterUsageLogs = JSON.parse(JSON.stringify(this.usageLogs));
     }
-    let tempUsageLogs = this.beforeFilterUsageLogs.filter((field: any) => {
+    const tempUsageLogs = this.beforeFilterUsageLogs.filter((field: any) => {
       if (source !== 'all') {
         if (headerOption === 'queryType') {
           if (field.queryType === source) {
@@ -237,7 +237,7 @@ export class UsageLogsComponent {
       jobId: dockId,
       sidx: this.serachIndexId
     }
-    let payload = {
+    const payload = {
       "store": {
         "toastSeen": true,
         "urlParams": fileName,

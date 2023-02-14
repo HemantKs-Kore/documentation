@@ -272,7 +272,7 @@ export class AppSelectionService {
       const appObserver = this.service.invoke('get.currentPlans', payload);
       appObserver.subscribe(
         (res) => {
-          let subscription = res?.subscription;
+          const subscription = res?.subscription;
           if (subscription?.endDate) {
             delete res?.subscription;
             subscription.expiryDays = this.getDiffNumberOfDays(subscription);

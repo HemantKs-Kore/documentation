@@ -14,7 +14,7 @@ import { KrModalModule } from '../../../shared/kr-modal/kr-modal.module';
 import { MatDialogModule } from '@angular/material/dialog';
 import { SharedPipesModule } from '@kore.apps/helpers/filters/shared-pipes.module';
 import { ConfirmationDialogComponent } from '@kore.apps/helpers/components/confirmation-dialog/confirmation-dialog.component';
-import { PlanUpgradeModule } from '@kore.apps/modules/pricing/shared/plan-upgrade/plan-upgrade.module';
+import { PlanUpgradeModule } from '../../../modules/pricing/shared/plan-upgrade/plan-upgrade.module';
 
 @NgModule({
   declarations: [MainMenuComponent, ConfirmationDialogComponent],

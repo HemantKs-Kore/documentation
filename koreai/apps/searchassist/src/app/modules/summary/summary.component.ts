@@ -160,7 +160,7 @@ export class SummaryComponent implements OnInit, AfterViewInit, OnDestroy {
       }
     })
     this.currentUsageSubscription = this.appSelectionService.queryConfigs.subscribe(res => {
-      let subscription_data = this.appSelectionService?.currentsubscriptionPlanDetails;
+      const subscription_data = this.appSelectionService?.currentsubscriptionPlanDetails;
       this.currentPlan = subscription_data?.subscription;
       this.initialCall('changed');
       this.onboard?.initialCall();

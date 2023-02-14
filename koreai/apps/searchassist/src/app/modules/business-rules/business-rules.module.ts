@@ -25,6 +25,8 @@ import { RangeSliderModule } from '@kore.apps/helpers/components/range-slider/ra
 import { EmptyScreenModule } from '../empty-screen/empty-screen.module';
 import { SelectTextDirective } from '@kore.apps/helpers/directives/select-text.directive';
 import { OutsideClickedDirective } from '@kore.apps/helpers/directives/outside-clicked.directive';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+
 @NgModule({
   declarations: [BusinessRulesComponent, SelectTextDirective, OutsideClickedDirective],
   imports: [
@@ -49,6 +51,7 @@ import { OutsideClickedDirective } from '@kore.apps/helpers/directives/outside-c
     NgxDaterangepickerMd.forRoot(),
     EmptyScreenModule,
     NgbModalModule,
+    MatProgressSpinnerModule,
   ],
 })
 export class BusinessRulesModule { }
