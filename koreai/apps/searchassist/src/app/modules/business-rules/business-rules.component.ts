@@ -2145,8 +2145,4 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
       }
     }
   }
-
-  isEmptyScreenLoading(isLoading) {
-    this.loadingContent = isLoading;
-  }
 }

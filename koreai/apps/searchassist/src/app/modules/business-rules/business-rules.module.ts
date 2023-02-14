@@ -24,6 +24,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { RangeSliderModule } from '@kore.apps/helpers/components/range-slider/range-slider.module';
 import { EmptyScreenModule } from '../empty-screen/empty-screen.module';
 import { SelectTextDirective } from '@kore.apps/helpers/directives/select-text.directive';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 @NgModule({
   declarations: [BusinessRulesComponent, SelectTextDirective],
@@ -49,6 +50,7 @@ import { SelectTextDirective } from '@kore.apps/helpers/directives/select-text.d
     NgxDaterangepickerMd.forRoot(),
     EmptyScreenModule,
     NgbModalModule,
+    MatProgressSpinnerModule,
   ],
 })
 export class BusinessRulesModule {}

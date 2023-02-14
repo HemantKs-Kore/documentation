@@ -96,7 +96,8 @@
             }
           ],
           "outputHashing": "all",
-          "vendorChunk": true
+          "vendorChunk": true,
+          "namedChunks": true
         },
         "development": {
           "buildOptimizer": false,
