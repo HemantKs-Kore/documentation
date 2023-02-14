@@ -8,7 +8,6 @@ import { TranslateModule } from '@ngx-translate/core';
 import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 import { ActionsModule } from '../actions/actions.module';
 import { UseronboardingJourneyModule } from '@kore.apps/helpers/components/useronboarding-journey/useronboarding-journey.module';
-import { EmptyScreenModule } from '../empty-screen/empty-screen.module';
 
 @NgModule({
   declarations: [GeneralSettingsComponent],
@@ -20,7 +19,6 @@ import { EmptyScreenModule } from '../empty-screen/empty-screen.module';
     UseronboardingJourneyModule,
     NgbTooltipModule,
     ActionsModule,
-    EmptyScreenModule,
   ],
 })
 export class GeneralSettingsModule {}
