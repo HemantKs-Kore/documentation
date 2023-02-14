@@ -7,7 +7,10 @@ import { TranslateModule } from '@ngx-translate/core';
 import { FormsModule } from '@angular/forms';
 import { KrModalModule } from '../../shared/kr-modal/kr-modal.module';
 import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
-import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
+import {
+  NgbDropdownModule,
+  NgbTooltipModule,
+} from '@ng-bootstrap/ng-bootstrap';
 import { MatDialogModule } from '@angular/material/dialog';
 import { SharedPipesModule } from '@kore.apps/helpers/filters/shared-pipes.module';
 import { EmptyScreenModule } from '../empty-screen/empty-screen.module';
@@ -25,6 +28,7 @@ import { EmptyScreenModule } from '../empty-screen/empty-screen.module';
     NgbDropdownModule,
     MatDialogModule,
     EmptyScreenModule,
+    NgbTooltipModule,
   ],
 })
 export class SettingsModule {}
