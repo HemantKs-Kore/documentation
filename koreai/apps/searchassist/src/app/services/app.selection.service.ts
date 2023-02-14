@@ -11,6 +11,7 @@ import { AuthService } from './auth.service';
 import { environment } from '../../environments/environment';
 import { LocalStoreService } from './localstore.service';
 import * as moment from 'moment';
+import { AppsService } from '@kore.apps/modules/apps/services/apps.service';
 environment;
 @Injectable({
   providedIn: 'root',
@@ -56,7 +57,8 @@ export class AppSelectionService {
     private authService: AuthService,
     private appUrls: AppUrlsService,
     public localstore: LocalStoreService,
-    private notificationService: NotificationService
+    private notificationService: NotificationService,
+    private appsService: AppsService
   ) {
     if (environment && environment.USE_SESSION_STORE) {
       this.storageType = 'sessionStorage';
@@ -402,22 +404,15 @@ export class AppSelectionService {
   }
   //get tour congfig data
   getTourConfig() {
-    this.getTourArray = {};
-    const appInfo: any = this.workflowService.selectedApp();
-    // console.log("appInfo", appInfo)
-    const quaryparms: any = {
-      streamId: appInfo?._id,
-    };
-    const appObserver = this.service.invoke('get.tourConfig', quaryparms);
-    appObserver.subscribe(
-      (res) => {
+    // this.getTourArray = {};
+
+    this.appsService.getSelectedAppById().subscribe((result) => {
+      if (result) {
+        const res = JSON.parse(JSON.stringify(result));
         this.getTourArray = res.tourConfigurations;
         this.getTourConfigData.next(res.tourConfigurations);
-      },
-      (errRes) => {
-        // console.log(errRes)
       }
-    );
+    });
   }
   //put tour config
   public updateTourConfig(component) {
@@ -471,6 +466,7 @@ export class AppSelectionService {
 
       this.service.invoke('put.tourConfig', quaryparms, payload).subscribe(
         (res) => {
+          this.appsService.updateOneInCache(res);
           this.getTourConfigData.next(this.getTourArray);
           let count = 0;
           const stepsData = this.getTourArray.onBoardingChecklist;

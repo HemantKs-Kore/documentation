@@ -1,37 +1,8 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-// import { AppsDataResolver } from './modules/apps/services/apps-data.resolver';
-
+import { AppsDataResolver } from './modules/apps/services/apps-data.resolver';
 import { AuthGuard } from './services/auth.guard';
 import { AppDataResolver } from './services/resolvers/app.data.resolve';
-
-// import { AppsListingComponent } from './components/apps-home/apps-home';
-// import { SummaryComponent } from './components/summary/summary.component';
-// import { TraitsComponent } from './components/traits/traits.component';
-// import { IndexComponent } from './components/index/index.component';
-// import { ResultRankingComponent } from './components/result-ranking/result-ranking.component';
-// import { FacetsComponent } from './components/facets/facets.component';
-// import { MetricsComponent } from './components/metrics/metrics.component';
-// import { DashboardComponent } from './components/dashboard/dashboard.component';
-// import { UserEngagementComponent } from './components/user-engagement/user-engagement.component';
-// import { SearchInsightsComponent } from './components/search-insights/search-insights.component';
-// import { ResultInsightsComponent } from './components/result-insights/result-insights.component';
-// import { BusinessRulesComponent } from './components/business-rules/business-rules.component';
-// import { SettingsComponent } from './components/settings/settings.component';
-// import { CredentialsListComponent } from './components/credentials-list/credentials-list.component';
-// import { FieldManagementComponent } from './components/field-management/field-management.component';
-// import { AppExperimentsComponent } from './components/app-experiments/app-experiments.component';
-// import { QueryPipelineResolver } from '@kore.services/resolvers/query.pipeline.resolve';
-// import { SearchInterfaceComponent } from './components/search-interface/search-interface.component';
-// import { TeamManagementComponent } from './components/team-management/team-management.component';
-// import { SearchExperienceComponent } from './components/search-experience/search-experience.component';
-// import { ActionsComponent } from './components/actions/actions.component';
-// import { PricingComponent } from './components/pricing/pricing.component';
-// import { InvoicesComponent } from './components/invoices/invoices.component';
-// import { UsageLogComponent } from './components/usage-log/usage-log.component';
-// import { GeneralSettingsComponent } from './components/general-settings/general-settings.component';
-// import { ResultTemplatesComponent } from './components/result-templates/result-templates.component';
-// import { IndexConfigurationSettingsComponent } from './components/index-configuration-settings/index-configuration-settings.component';
 
 const routes: Routes = [
   {
@@ -52,7 +23,6 @@ const routes: Routes = [
           import('./modules/summary/summary.module').then(
             (m) => m.SummaryModule
           ),
-        // resolve: [AppsDataResolver],
       },
       {
         path: 'traits',
@@ -197,7 +167,6 @@ const routes: Routes = [
           import('./modules/search-settings/search-settings.module').then(
             (m) => m.SearchSettingsModule
           ),
-        // resolve: [AppsDataResolver],
       },
       {
         path: 'sources',
@@ -251,9 +220,20 @@ const routes: Routes = [
         loadChildren: () =>
           import('./modules/apps/apps.module').then((m) => m.AppsModule),
         pathMatch: 'full',
-        // resolve: [AppsDataResolver],
+        resolve: [AppsDataResolver],
       },
-      // { path: '**', redirectTo: 'apps' },
+      // {
+      //   path: 'not-found',
+      //   loadChildren: () =>
+      //     import(
+      //       '@kore.libs/shared/src/lib/modules/not-found/not-found.module'
+      //     ).then((m) => m.NotFoundModule),
+      // },
+      // Fallbak route
+      // {
+      //   path: '**',
+      //   redirectTo: '/not-found',
+      // },
     ],
   },
 ];

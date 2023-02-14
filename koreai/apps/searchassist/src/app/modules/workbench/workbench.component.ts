@@ -27,7 +27,8 @@ import { AppSelectionService } from '@kore.apps/services/app.selection.service';
 import { InlineManualService } from '@kore.apps/services/inline-manual.service';
 import { MixpanelServiceService } from '@kore.apps/services/mixpanel-service.service';
 import { PlanUpgradeComponent } from '../pricing/shared/plan-upgrade/plan-upgrade.component';
-import { LazyLoadService } from '@kore.shared/*';
+import { LazyLoadService } from '@kore.libs/shared/src';
+import '../../../assets/js/codemirror.js';
 declare const $: any;
 @Component({
   selector: 'app-workbench',
@@ -325,8 +326,8 @@ export class WorkbenchComponent implements OnInit, OnDestroy, AfterViewInit {
     this.lazyLoadCodeMirror();
   }
 
-  lazyLoadCodeMirror(): Observable<any[]> {
-    return this.lazyLoadService.loadStyle('codemirror.min.css');
+  lazyLoadCodeMirror() {
+    this.lazyLoadService.loadStyle('codemirror.min.css');
   }
 
   loadIndexAll() {

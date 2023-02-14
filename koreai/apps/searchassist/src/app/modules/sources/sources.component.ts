@@ -456,12 +456,15 @@ export class SourcesComponent implements OnInit, AfterViewInit, OnDestroy {
   openAddContentModal() {
     this.addSourceModalPopDummyRef = this.addSourceModalPopDummy.open();
   }
+
   closeAddContentModal(isEmit?) {
     if (this.addSourceModalPopDummyRef?.close) {
       this.addSourceModalPopDummyRef.close();
       this.url_failed = false;
-      this.selectedSourceType = null;
-      if (isEmit) this.cancleEvent.emit();
+      if (isEmit) {
+        this.selectedSourceType = null;
+        this.cancleEvent.emit();
+      }
     }
   }
 

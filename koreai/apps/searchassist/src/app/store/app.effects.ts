@@ -1,22 +1,16 @@
 import { Injectable } from '@angular/core';
 import { ServiceInvokerService } from '@kore.apps/services/service-invoker.service';
+import { SearchExperienceConfigInterface } from '@kore.apps/shared/types/search-experience-config';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
-import {
-  catchError,
-  EMPTY,
-  map,
-  of,
-  switchMap,
-  tap,
-  withLatestFrom,
-} from 'rxjs';
+import { catchError, EMPTY, map, switchMap, withLatestFrom } from 'rxjs';
 import {
   setAppId,
   setIndexPipelineId,
   setQueryPipelineId,
+  setSearchExperienceConfigSuccess,
 } from './app.actions';
-import { selectSearchIndexId } from './app.selectors';
+import { selectAppIds, selectSearchIndexId } from './app.selectors';
 
 @Injectable()
 export class AppEffects {
@@ -55,6 +49,30 @@ export class AppEffects {
             map((queryPipelines: any[]) => {
               return setQueryPipelineId({
                 queryPipelineId: queryPipelines[0]?._id,
+              });
+            }),
+            catchError(() => EMPTY)
+          );
+      })
+    );
+  });
+
+  searchExperienceConfig$ = createEffect((): any => {
+    return this.actions$.pipe(
+      ofType(setQueryPipelineId),
+      withLatestFrom(this.store.select(selectAppIds)),
+      switchMap((res) => {
+        const { searchIndexId, indexPipelineId, queryPipelineId } = res[1];
+        return this.service
+          .invoke('get.searchexperience.list', {
+            searchIndexId,
+            indexPipelineId,
+            queryPipelineId,
+          })
+          .pipe(
+            map((searchExperienceConfig: SearchExperienceConfigInterface) => {
+              return setSearchExperienceConfigSuccess({
+                searchExperienceConfig,
               });
             }),
             catchError(() => EMPTY)

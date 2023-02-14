@@ -34,7 +34,8 @@ import { AuthService } from '@kore.apps/services/auth.service';
 import { KgDataService } from '@kore.apps/services/componentsServices/kg-data.service';
 import { ServiceInvokerService } from '@kore.apps/services/service-invoker.service';
 import { MixpanelServiceService } from '@kore.apps/services/mixpanel-service.service';
-import { LazyLoadService } from '@kore.shared/*';
+import { LazyLoadService } from '@kore.libs/shared/src';
+import '../../../assets/js/codemirror.js';
 declare const $: any;
 // import {MatAutocompleteSelectedEvent, MatChipInputEvent} from '@angular/material';
 

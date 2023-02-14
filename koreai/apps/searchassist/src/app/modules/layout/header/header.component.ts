@@ -12,7 +12,7 @@ import { SideBarService } from '../../../services/header.service';
 import { KRModalComponent } from '../../../shared/kr-modal/kr-modal.component';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
-import { debounceTime, map, startWith } from 'rxjs/operators';
+import { debounceTime, map, startWith, withLatestFrom } from 'rxjs/operators';
 import { SliderComponentComponent } from '../../../shared/slider-component/slider-component.component';
 import { DockStatusService } from '../../../services/dockstatusService/dock-status.service';
 import { interval, Subscription } from 'rxjs';
@@ -32,6 +32,11 @@ import { SearchSdkService } from '@kore.apps/modules/search-sdk/services/search-
 import { OnboardingComponent } from '@kore.apps/modules/onboarding/onboarding.component';
 import { Store } from '@ngrx/store';
 import { setAppId } from '@kore.apps/store/app.actions';
+import {
+  selectAppId,
+  selectEnablePreview,
+} from '@kore.apps/store/app.selectors';
+import { AppsService } from '@kore.apps/modules/apps/services/apps.service';
 
 @Component({
   selector: 'app-header',
@@ -340,6 +345,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   notifyAccountInfo: any;
   isJoinedClicked = false;
   isRouteDisabled = false;
+  enablePreview$ = this.store.select(selectEnablePreview);
   constructor(
     private authService: AuthService,
     public headerService: SideBarService,
@@ -355,7 +361,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
     private appSelectionService: AppSelectionService,
     private searchSdkService: SearchSdkService,
     private viewContainerRef: ViewContainerRef,
-    private store: Store
+    private store: Store,
+    private appsService: AppsService
   ) {
     this.userId = this.authService.getUserId();
     if (environment && environment.USE_SESSION_STORE) {
@@ -364,6 +371,9 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
   ngOnInit() {
     this.getUserInfo();
+    this.checkroute();
+    this.getAllApps();
+
     this.topicGuideShowSubscription =
       this.appSelectionService.topicGuideShow.subscribe((res) => {
         this.openUserMetaTagsSlider();
@@ -392,9 +402,9 @@ export class HeaderComponent implements OnInit, OnDestroy {
         }
       }
     );
+
     this.toShowAppHeader = this.workflowService.showAppCreationHeader();
     this.currentAppControlList = this.authService.getApplictionControls();
-    this.getAllApps();
     this.headerService.change.subscribe((data: any) => {
       if (
         this.workflowService.selectedApp() &&
@@ -1411,24 +1421,36 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
   //get all apps
   getAllApps() {
-    this.service.invoke('get.apps').subscribe((res) => {
-      this.appsnum = res;
-      this.checkroute();
+    const allAppsSub = this.store
+      .select(selectAppId)
+      .pipe(withLatestFrom(this.appsService.getApps()))
+      .subscribe(([appId, res]) => {
+        this.appsnum = res;
+        if (appId) {
+          this.recentApps = res.filter((app) => app._id != appId).slice(0, 5);
+        }
+      });
 
-      // if(this.appsnum.length==="undefined" || this.appsnum.length==0){
-      //   this.routeFlag=true;
-      // }
-      // else if(this.appsnum.length){
-      //   this.routeFlag=false;
-      // }
-      // console.log("check flag")
-      const app_id = this.workflowService?.selectedApp();
-      if (app_id) {
-        this.recentApps = res
-          .filter((app) => app._id != app_id._id)
-          .slice(0, 5);
-      }
-    });
+    this.subscription?.add(allAppsSub);
+
+    // this.service.invoke('get.apps').subscribe((res) => {
+    //   this.appsnum = res;
+    //   this.checkroute();
+
+    //   // if(this.appsnum.length==="undefined" || this.appsnum.length==0){
+    //   //   this.routeFlag=true;
+    //   // }
+    //   // else if(this.appsnum.length){
+    //   //   this.routeFlag=false;
+    //   // }
+    //   // console.log("check flag")
+    //   const app_id = this.workflowService?.selectedApp();
+    //   if (app_id) {
+    //     this.recentApps = res
+    //       .filter((app) => app._id != app_id._id)
+    //       .slice(0, 5);
+    //   }
+    // });
   }
   checkroute() {
     this.headerService.fromCallFlowExpand.subscribe((data: any) => {

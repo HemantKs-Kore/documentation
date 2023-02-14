@@ -183,20 +183,20 @@ export class AuthService {
     );
   }
 
-  public getfindlyApps() {
-    this.service.invoke('get.apps').subscribe(
-      (res) => {
-        // res = [];\
-        // console.log("latest get apps", res)
-        if (res && res.length) {
-          this.workflowService.showAppCreationHeader(false);
-        }
-        this.findlyApps.next(res);
-        this.workflowService.findlyApps(res);
-      },
-      (errRes) => {
-        this.findlyApps.next(errRes);
-      }
-    );
-  }
+  // public getfindlyApps() {
+  //   this.service.invoke('get.apps').subscribe(
+  //     (res) => {
+  //       // res = [];\
+  //       // console.log("latest get apps", res)
+  //       if (res && res.length) {
+  //         this.workflowService.showAppCreationHeader(false);
+  //       }
+  //       this.findlyApps.next(res);
+  //       this.workflowService.findlyApps(res);
+  //     },
+  //     (errRes) => {
+  //       this.findlyApps.next(errRes);
+  //     }
+  //   );
+  // }
 }

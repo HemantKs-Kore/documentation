@@ -14,9 +14,13 @@ import { UseronboardingJourneyModule } from '@kore.apps/helpers/components/usero
 import { PickerModule } from '@ctrl/ngx-emoji-mart';
 import { ColorPickerModule } from 'ngx-color-picker';
 import { FormsModule } from '@angular/forms';
+import { RangeSliderSearchExperienceComponent } from '@kore.apps/helpers/components/range-slider-search-experience/range-slider-search-experience.component';
 
 @NgModule({
-  declarations: [SearchExperienceComponent],
+  declarations: [
+    SearchExperienceComponent,
+    RangeSliderSearchExperienceComponent,
+  ],
   imports: [
     CommonModule,
     SearchExperienceRoutingModule,
