@@ -16,7 +16,8 @@ import { debounceTime, map, startWith, withLatestFrom } from 'rxjs/operators';
 import { SliderComponentComponent } from '../../../shared/slider-component/slider-component.component';
 import { DockStatusService } from '../../../services/dockstatusService/dock-status.service';
 import { interval, Subscription } from 'rxjs';
-import * as moment from 'moment';
+// import * as moment from 'moment';
+import { format } from 'date-fns';
 declare const $: any;
 import * as _ from 'underscore';
 import { AuthService } from '@kore.apps/services/auth.service';
@@ -1065,8 +1066,9 @@ export class HeaderComponent implements OnInit, OnDestroy {
             //   this.checkTrainStatus(this.dockersList);
             // }
             this.dockersList.forEach((record: any) => {
-              record.createdOn = moment(record.createdOn).format(
-                'Do MMM YYYY | h:mm A'
+              record.createdOn = format(
+                new Date(record.createdOn),
+                'do LLL yyyy | h:mm aa'
               );
               if (
                 this.training ||
