@@ -10,6 +10,7 @@ const scriptsArr = [
   'apps/searchassist/src/assets/js/bootstrap-slider.js',
   'apps/searchassist/src/assets/web-kore-sdk/libs/purejscarousel.js',
   'apps/searchassist/src/assets/js/appcues.js',
+  'node_modules/mixpanel-browser/dist/mixpanel-jslib-snippet.min.js',
 ];
 
 function minifyScript(sourcePath) {
