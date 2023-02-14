@@ -24,9 +24,9 @@ import { MatIconModule } from '@angular/material/icon';
 import { RangeSliderModule } from '@kore.apps/helpers/components/range-slider/range-slider.module';
 import { EmptyScreenModule } from '../empty-screen/empty-screen.module';
 import { SelectTextDirective } from '@kore.apps/helpers/directives/select-text.directive';
-
+import { OutsideClickedDirective } from '@kore.apps/helpers/directives/outside-clicked.directive';
 @NgModule({
-  declarations: [BusinessRulesComponent, SelectTextDirective],
+  declarations: [BusinessRulesComponent, SelectTextDirective, OutsideClickedDirective],
   imports: [
     CommonModule,
     BusinessRulesRoutingModule,

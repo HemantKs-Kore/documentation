@@ -3790,3 +3790,11 @@ app-slider-component {
     color: #0d6efd;
   }
 }
+
+button:disabled{
+  border: none !important;
+}
+button:disabled:hover{
+  background: #85B7FE !important;
+  color: #ffffff !important;
+}

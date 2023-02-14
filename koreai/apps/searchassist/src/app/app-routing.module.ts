@@ -169,6 +169,13 @@ const routes: Routes = [
           ),
       },
       {
+        path: 'answerSnippet',
+        loadChildren: () =>
+          import('./modules/answer-snippets/answer-snippets.module').then(
+            (m) => m.AnswerSnippetsModule
+          ),
+      },
+      {
         path: 'sources',
         loadChildren: () =>
           import('./modules/sources/sources.module').then(

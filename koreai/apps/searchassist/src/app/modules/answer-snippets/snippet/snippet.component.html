@@ -1,1 +1,154 @@
-<p>snippet works!</p>
+<div class="snippet-component">
+    <!-- common main Header -->
+    <div class="common_header">
+        <div class="title">{{'answer_snippets' | translate}}
+            <span class="module-topic" tooltipClass="tooltip-global-" [container]="'body'"
+                ngbTooltip='{{"sa_topic_guide" | translate}}' placement="right-center">
+                <i id="sa_index_settings_topicguide" class="si-topic-guide-1"></i> <!-- Topic Guide yet to Impiment -->
+            </span>
+        </div>
+        <div class="simulator-btn-block">
+            <button class="kr-sg-button-primary btn_lg" (click)="openCloseSlider('open')"> <span class="play-icon-span"><i class="si-play-button"></i></span>{{'workbench_simulate'|translate}}</button>
+        </div>
+    </div>
+    <!-- common main Header end-->
+
+<div class="snippet-component-body">
+        <div class="snippet-component-left">
+            <div class="snippet-com-desc">
+                {{'answer_snippet_model_highest_text'|translate}}<a class="learn-more-link ml-1" href="https://docs.kore.ai/searchassist/searchassist/overview/" target="_blank">{{'workbench_learn_more'|translate}}</a>
+            </div>
+            <div class="snippet-divider"></div>
+            <perfect-scrollbar class="snippet-left-menu-scroll">
+                <div class="scoll-data-wrapper">
+                    <div class="array-loop" cdkDropList [cdkDropListData]="snippetArray" (cdkDropListDropped)="drop($event)">
+                         <div class="snippet-tile {{snippet?.type===selectedSnippetObj.type&&'snippet-tile-active'}}" *ngFor="let snippet of snippetArray" (click)="selectSnippet(snippet?.type)" cdkDrag>
+                            <div *cdkDragPreview></div>
+                            <div class="snippet-tile-top">
+                                <div class="snippet-tile-header"><span class="draag-icon-span" cdkDragHandle><i class="si-drag-move"></i></span>{{("answer_snippet_"+snippet?.type)|translate}}<span class="si-warning ml-2" *ngIf="isWorkbenchSnippetDisabled&&snippet?.type==='extractive_model'" [ngbTooltip]="('answer_snippet_model_tooltip_text'|translate)" tooltipClass="tooltip-global-" [container]="'body'" placement="top-center"></span></div>
+                                <div class="snippet-status-type">
+                                    <span class="{{(snippet?.active)?'if-enable':'if-disable'}}">{{(snippet?.active?"botAction_enable":"botAction_disable")|translate}}</span>
+                                </div>
+                            </div>
+                            <div class="snippet-tile-bottom">
+                                <div class="snippet-tile-desc">{{("answer_snippet_"+snippet?.type+"_subtitle")|translate}}</div>
+                                <label class="kr-sg-toggle" (click)="$event?.stopPropagation()">
+                                    <input type="checkbox" [(ngModel)]="snippet.active" (change)="enableDisableSnippet(snippet)">
+                                    <div class="slider"></div>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </perfect-scrollbar>
+        </div>
+        <div class="snippet-component-right" [ngSwitch]="selectedSnippetObj.type">
+            <!---Extractive model Tab-->
+            <div class="curated-snippet-tab" *ngSwitchCase="'extractive_model'">
+                <div class="active-tab-header-block">
+                    <div class="active-tab-header">{{"answer_snippet_extractive_model"|translate}}</div>
+                    <div class="active-tab-desc">{{"answer_snippet_extractive_model_desc"|translate}}</div>
+                </div>
+                <div class="snippet-divider"></div>
+                <div class="snippet-score-block">
+                    <div class="snippet-score-header">{{"answer_snippet_similarity_score"|translate}}</div>
+                    <div class="snippet-score-desc">{{"answer_snippet_similarity_score_text"|translate}}</div>
+                    <div class="snippet-score-range" *ngIf="snippetArray.length>0">
+                        <app-range-slider class="snippet-range-slider" [customClass]='"weightsSlider"' [allData]='selectedSnippetObj?.similarity_slider' (valueEvent)="getSliderEvent($event,'similarity_score')"></app-range-slider>
+                        <div class="range-count">{{selectedSnippetObj?.similarityScore}}</div>
+                        <div class="reset-range-slider"><i class="si-re-fresh cursor-pointer" tooltipClass="tooltip-global-" [container]="'body'" ngbTooltip='{{"answer_snippet_reset" | translate}}' placement="top-center" (click)="resetToDeafult('similarity')"></i></div>
+                    </div>
+                </div>
+
+                <div class="snippet-divider"></div>
+
+                <div class="snippet-score-block">
+                    <div class="snippet-score-main">
+                        <div class="snippet-score-header">{{"app_menu_Weights"|translate}}</div>
+                        <div><i class="si-re-fresh cursor-pointer margin-right-10" tooltipClass="tooltip-global-" [container]="'body'" ngbTooltip='{{"answer_snippet_reset" | translate}}' placement="top-center" (click)="resetToDeafult('weight')"></i></div>
+                    </div>
+                    <div class="snippet-score-desc">{{"answer_snippet_assign_weight_text"|translate}}</div>
+                </div>
+                
+                <!-- table start from here -->
+                <div class="snippet-Weights-table row m-0">
+                    <div class="table_data_content col-12">
+                        <!-- table header start from here -->
+                        <div class="table_header row m-0" id="sa_table_header">
+                            <div class="col_ col-5 title d-flex align-items-center justify-content-start" *ngFor="let field of ['search_settings_field_name_caps','weights_weights_caps']">
+                                <span class="d-flex align-items-center flex-column mr-2 filter-sort">
+                                    <i class="si-chev-up icon-up"></i>
+                                    <i class="si-chev-down icon-down"></i>
+                                </span>
+                                {{field |translate}}
+                            </div>
+                        </div>
+                        <!-- table header end from here -->
+
+                        <!-- Table Records/Body -->
+                        <perfect-scrollbar class="table_body_content">
+                            <div class="table_body row m-0" *ngFor="let field of selectedSnippetObj?.searchFields;let i = index;">
+                                <div class="col-5 title text-left text-truncate">
+                                    {{field?.fieldName}}
+                                </div>
+                                <div class="col-5 title text-left p-0">
+                                    <div class="app-range-count-slider" *ngIf="snippetArray.length>0">
+                                        <app-range-slider class="snippet-range-slider" [customClass]='"weightsSlider"' [allData]='field?.slider' (valueEvent)="getSliderEvent($event,'weight_score',i)"></app-range-slider>
+                                        <div class="app-range-count">{{field?.weight}}</div>
+                                    </div>                                    
+                                </div>
+                            </div>
+                        </perfect-scrollbar>
+                    </div>
+                </div>                
+                <!-- table start from here -->
+            </div>
+            <!---Generative model Tab-->
+            <div class="curated-snippet-tab" *ngSwitchCase="'generative_model'">
+                <div class="active-tab-header-block">
+                    <div class="active-tab-header">{{"answer_snippet_generative_model"|translate}}</div>
+                    <div class="active-tab-desc">{{"answer_snippet_generative_model_desc"|translate}}</div>
+                </div>
+                
+                <div class="snippet-divider"></div>
+                <div class="snippet-score-block">
+                    <div class="snippet-score-header">{{"answer_snippet_api_key"|translate}}</div>
+                    <div class="snippet-score-desc">{{"answer_snippet_enter_api_key_text"|translate}}
+                        <a class="click-here-link" href="https://platform.openai.com/docs/introduction" target="_blank">{{"answer_snippet_here"|translate}}</a></div>
+                    <div class="api-license-key-form">
+                        <div class="kr-sg-input-text">
+                            <input [type]="isEyeOpen?'text':'password'" [placeholder]="('answer_snippet_placeholder_text'|translate)" class="input-text" [(ngModel)]="openAIObj.openAIKey" autocomplete="false">
+                            <span class="api-key-show-toggle" (click)="isEyeOpen=!isEyeOpen"><i class="{{isEyeOpen?'si-eyeshow':'si-eye'}}"></i></span>
+                        </div>
+                        <div class="api-license-key-form-btn">
+                            <button class="kr-sg-button-primary btn_lg" (click)="openCloseConsentModal('open')" [disabled]="isLoading||openAIObj.openAIKey.length===0"><span class="loader-spin-inside-btn mr-2" *ngIf="isLoading"></span>{{"sa_save"|translate}}</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--Consent share modal for OPEN AI-->
+<kr-modal modalType="center" modalClass="modal_popups_ revert-cancellation-popup" #consentShareModel>
+    <div class="modal-header">
+      <div class="title">{{"answer_snippet_consent_share_data" | translate}}</div>
+      <div class="close_icon" (click)="openCloseConsentModal('close')">
+        <img src="assets/icons/modal-close.svg">
+      </div>
+    </div>
+    <div class="modal-body">
+      <div class="desc-text-info">{{"answer_snippet_consent_share_desc" | translate}}</div>
+    </div>
+    <div class="modal-footer text-right">
+      <button class="kr-sg-button-primary btn_lg" (click)="saveOpenAIKey()" [disabled]="isLoading"><span class="loader-spin-inside-btn" *ngIf="isLoading"></span>{{"answer_snippet_accept"|translate}}</button>
+      <button class="kr-sg-button-secondary btn_lg" (click)="openCloseConsentModal('close')">{{"answer_snippet_decline" | translate}}</button>
+    </div>
+  </kr-modal>
+
+<!---Slider component here-->
+<app-slider-component id="simulateSlider">
+    <!---simulate child component-->
+    <app-simulate (closeSlider)="openCloseSlider($event)" [config]="configObj"></app-simulate>
+</app-slider-component>

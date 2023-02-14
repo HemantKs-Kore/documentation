@@ -477,6 +477,14 @@
             'app_menu_Weights' | translate
           }}</span>
         </div>
+        <div mat-button class="mat-button" [routerLink]="['/answerSnippet']" skipLocationChange
+					routerLinkActive="active" mat-button>
+					<span class="inlineIconBox leftAdjust">
+						<img src="assets/icons/sidemenu/new-icons/answer-snippet.svg" class="defaultIcon">
+					    <img src="assets/icons/sidemenu/new-icons/answer-snippet-active.svg" class="activeIcon">
+					</span>
+					<span class="linkTitle">{{"answer_snippets"|translate}}</span>
+				</div>
         <div
           mat-button
           class="mat-button"

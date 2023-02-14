@@ -2149,4 +2149,9 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
   isEmptyScreenLoading(isLoading) {
     this.loadingContent = isLoading;
   }
+
+  //click outside to close modal using event target
+  clickOusideToCloseNLPModal() {
+    this.createTag(false, false);
+  }
 }

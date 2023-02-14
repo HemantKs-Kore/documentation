@@ -51,7 +51,7 @@ export class IndexConfigurationSettingsComponent implements OnInit, OnDestroy {
     private appSelectionService: AppSelectionService,
     public dialog: MatDialog,
     public dockService: DockStatusService
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.getAvilableLanguages();
@@ -162,10 +162,10 @@ export class IndexConfigurationSettingsComponent implements OnInit, OnDestroy {
         langArr.push(element);
       }
     });
-    this.saveLanguage('', langArr);
+    this.saveLanguage('', 'add', langArr);
   }
   //add or edit Language
-  saveLanguage(dialogRef?, langArr?) {
+  saveLanguage(dialogRef?, type?, langArr?) {
     this.isAddLoading = true;
     const queryParams = {
       streamId: this.selectedApp._id,
@@ -187,10 +187,7 @@ export class IndexConfigurationSettingsComponent implements OnInit, OnDestroy {
         this.dockService.trigger(true);
         this.poling();
         this.closeModalPopup();
-        this.notificationService.notify(
-          'Language Saved Successfully',
-          'success'
-        );
+        this.notificationService.notify(`Language ${type === 'add' ? 'Saved' : 'Deleted'} Successfully`, 'success');
       },
       (errRes) => {
         if (
@@ -294,7 +291,7 @@ export class IndexConfigurationSettingsComponent implements OnInit, OnDestroy {
   deleteLanguage(dialogRef?, list?) {
     this.unCheck();
     const updateArr = this.updateLangListFun(list);
-    this.saveLanguage(dialogRef, updateArr);
+    this.saveLanguage(dialogRef, 'delete', updateArr);
   }
   clearSearch() {
     this.searchLanguages = '';

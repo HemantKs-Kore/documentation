@@ -143,7 +143,7 @@
                 {{ pipe?.name || '&nbsp;' }}
                 <!-- <div class="beta-tag" *ngIf="pipe.type==='snippet_extraction'">{{'workbench_beta' | translate}}</div> -->
               </div>
-              <div class="close_icon" (click)="removeStage(i, pipe?.name)">
+              <div class="close_icon" (click)="removeStage(i, pipe?.type)">
                 <img src="assets/icons/close_field.svg" />
               </div>
             </div>
@@ -272,6 +272,7 @@
                   type="checkbox"
                   checked
                   [(ngModel)]="selectedStage.enable"
+                  (change)="checkStageActive()"
                 />
                 <div class="slider">
                   <span class="enabled">{{
@@ -1342,7 +1343,7 @@
                     class="col-6 mb-2"
                     *ngIf="selectedStage.type === 'snippet_extraction'"
                   >
-                    <div class="label-text">Source Title</div>
+                    <div class="label-text">Source Title<sup class="field-mandatory">*</sup></div>
                     <div class="kr-sg-dropdowns" ngbDropdown>
                       <div class="dropdown dropdown-open">
                         <button
@@ -1409,7 +1410,7 @@
                     class="col-6 mb-2"
                     *ngIf="selectedStage.type === 'snippet_extraction'"
                   >
-                    <div class="label-text">Source URL</div>
+                    <div class="label-text">Source URL<sup class="field-mandatory">*</sup></div>
                     <div class="kr-sg-dropdowns" ngbDropdown>
                       <div class="dropdown dropdown-open">
                         <button
@@ -1854,7 +1855,7 @@
                 class="col-6 mb-2"
                 *ngIf="selectedStage.type === 'snippet_extraction'"
               >
-                <div class="label-text">Source Title</div>
+                <div class="label-text">Source Title<sup class="field-mandatory">*</sup></div>
                 <div class="kr-sg-dropdowns" ngbDropdown>
                   <div class="dropdown dropdown-open">
                     <button
@@ -1921,7 +1922,7 @@
                 class="col-6 mb-2"
                 *ngIf="selectedStage.type === 'snippet_extraction'"
               >
-                <div class="label-text">Source URL</div>
+                <div class="label-text">Source URL<sup class="field-mandatory">*</sup></div>
                 <div class="kr-sg-dropdowns" ngbDropdown>
                   <div class="dropdown dropdown-open">
                     <button
