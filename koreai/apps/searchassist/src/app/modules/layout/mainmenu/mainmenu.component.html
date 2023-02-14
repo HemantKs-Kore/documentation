@@ -1,5 +1,8 @@
 <!-- Sidebar -->
-<div class="sidebar-fixed position-fixed activeMenu" *ngIf="show">
+<div
+  class="sidebar-fixed position-fixed activeMenu toShowAppHeader"
+  *ngIf="show"
+>
   <ng-container
     *ngIf="
       (settingMainMenu || sourceMenu) &&

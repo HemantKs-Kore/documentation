@@ -26,7 +26,23 @@ import {
   setIndexPipelineId,
   setQueryPipelineId,
 } from '@kore.apps/store/app.actions';
-// import { IndexPipelineService } from '@kore.apps/modules/summary/services/index-pipeline.service';
+
+import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
+import { NgModule } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { TranslateModule } from '@ngx-translate/core';
+import { FormsModule } from '@angular/forms';
+import { RouterModule } from '@angular/router';
+import {
+  NgbDropdownModule,
+  NgbProgressbarModule,
+  NgbTooltipModule,
+} from '@ng-bootstrap/ng-bootstrap';
+import { KrModalModule } from '../../../shared/kr-modal/kr-modal.module';
+import { MatDialogModule } from '@angular/material/dialog';
+import { UpgradePlanModule } from '@kore.apps/helpers/components/upgrade-plan/upgrade-plan.module';
+import { SharedPipesModule } from '@kore.apps/helpers/filters/shared-pipes.module';
+
 declare const $: any;
 @Component({
   selector: 'app-mainmenu',
@@ -99,7 +115,7 @@ export class MainMenuComponent implements OnInit, OnDestroy {
     private router: Router,
     private activetedRoute: ActivatedRoute,
     private notify: NotificationService,
-    private appSelectionService: AppSelectionService,
+    public appSelectionService: AppSelectionService,
     public dockService: DockStatusService,
     public dialog: MatDialog,
     public mixpanel: MixpanelServiceService,
@@ -752,3 +768,24 @@ export class MainMenuComponent implements OnInit, OnDestroy {
       : false;
   }
 }
+
+@NgModule({
+  declarations: [MainMenuComponent, ConfirmationDialogComponent],
+  imports: [
+    CommonModule,
+    UpgradePlanModule,
+    KrModalModule,
+    PerfectScrollbarModule,
+    TranslateModule,
+    FormsModule,
+    RouterModule,
+    NgbTooltipModule,
+    NgbDropdownModule,
+    NgbProgressbarModule,
+    SharedPipesModule,
+    MatDialogModule,
+  ],
+  entryComponents: [ConfirmationDialogComponent],
+  exports: [MainMenuComponent],
+})
+export class MainMenuModule {}

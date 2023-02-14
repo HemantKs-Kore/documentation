@@ -40,7 +40,7 @@ import { SharedPipesModule } from '@kore.apps/helpers/filters/shared-pipes.modul
     CommonModule,
     AppsRoutingModule,
     TranslateModule.forChild({
-      // useDefaultLang: true,
+      useDefaultLang: true,
       // loader: {
       //   provide: TranslateLoader,
       //   useFactory: createTranslateLoader,

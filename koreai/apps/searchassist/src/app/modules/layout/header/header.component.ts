@@ -815,7 +815,11 @@ export class HeaderComponent implements OnInit, OnDestroy {
     }
 
     this.mainMenu = menu;
-    if (this.menuItems?.anlytics?.includes(menu) || menu == '/summary') {
+    if (
+      this.menuItems?.anlytics?.includes(menu) ||
+      menu == '/summary' ||
+      menu == '/'
+    ) {
       this.showMainMenu = false;
     } else {
       this.showMainMenu = true;

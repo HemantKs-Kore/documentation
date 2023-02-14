@@ -1,8 +1,8 @@
 @import 'variables/variables.scss';
 ::ng-deep.krFindlyAppComponent {
-  .toShowAppHeader {
-    display: none;
-  }
+  // .toShowAppHeader {
+  //   display: none;
+  // }
   .appContent {
     padding-right: 0;
     padding-top: 0;
@@ -77,9 +77,9 @@
     .myappname {
       display: block !important;
     }
-    .toShowAppHeader {
-      display: block !important;
-    }
+    // .toShowAppHeader {
+    //   display: block !important;
+    // }
     .appContent {
       padding-left: 245px;
       display: block;

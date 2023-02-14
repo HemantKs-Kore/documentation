@@ -29,7 +29,7 @@ import { AuthGuard } from '@kore.services/auth.guard';
 // import { SortPipe } from '@kore.helpers/sortPipe/sort-pipe';
 import { MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material/form-field';
 import { CommonModule } from '@angular/common';
-import { MainMenuModule } from './modules/layout/mainmenu/mainmenu.module';
+// import { MainMenuModule } from './modules/layout/mainmenu/mainmenu.module';
 import { NgxEchartsModule } from 'ngx-echarts';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { AppEffects } from './store/app.effects';
@@ -40,6 +40,7 @@ import {
   EntityDefinitionService,
 } from '@ngrx/data';
 import { AppsDataService } from './modules/apps/services/apps-data.service';
+import { MatDialogModule } from '@angular/material/dialog';
 // import { AddResultModule } from './modules/add-result/add-result.module';
 // import { InsightsModule } from './modules/insights/insights.module';
 
@@ -77,7 +78,8 @@ export function createTranslateLoader(http: HttpClient) {
     }),
     // NgxDaterangepickerMd.forRoot(),
     HeaderModule,
-    MainMenuModule,
+    // MainMenuModule,
+    MatDialogModule,
 
     // StoreModule.forRoot(appReducers, { metaReducers }),
     StoreModule.forRoot(appReducers),
