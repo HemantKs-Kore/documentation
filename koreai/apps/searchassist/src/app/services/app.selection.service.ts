@@ -10,7 +10,9 @@ import { AppUrlsService } from './app.urls.service';
 import { AuthService } from './auth.service';
 import { environment } from '../../environments/environment';
 import { LocalStoreService } from './localstore.service';
-import * as moment from 'moment';
+// import * as moment from 'moment';
+import { differenceInDays, parseISO } from 'date-fns';
+
 import { AppsService } from '@kore.apps/modules/apps/services/apps.service';
 environment;
 @Injectable({
@@ -298,12 +300,7 @@ export class AppSelectionService {
 
   //get number of days difference method
   getDiffNumberOfDays(item) {
-    const date = new Date();
-    const isoFormat = date.toISOString();
-    const days = Math.abs(
-      moment(isoFormat).diff(moment(item?.endDate), 'days')
-    );
-    return days;
+    return Math.abs(differenceInDays(new Date(), parseISO(item?.endDate)));
   }
 
   //get all plans in pricing
