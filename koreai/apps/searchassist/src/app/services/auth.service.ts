@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Observer, from, Subject } from 'rxjs';
-import { Observable } from 'rxjs';
+import { Subject, BehaviorSubject } from 'rxjs';
 import { ReplaySubject } from 'rxjs';
 import { MixpanelServiceService } from './mixpanel-service.service';
 import { LocalStoreService } from './localstore.service';
@@ -19,6 +18,8 @@ export class AuthService {
   private selectedAccount = null;
   public findlyApps = new Subject<any>();
   private storageType = 'localStorage';
+  private appControlListSource$ = new BehaviorSubject(null);
+  appControlList$ = this.appControlListSource$.asObservable();
 
   constructor(
     private localstore: LocalStoreService,
@@ -151,6 +152,7 @@ export class AuthService {
     subject.subscribe(
       (res: any) => {
         this.appControlList = res;
+        this.appControlListSource$.next(res);
         this.mixpanel.reset();
         const userInfo = {
           $email: res.domain,

@@ -10,6 +10,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { SharedPipesModule } from '@kore.apps/helpers/filters/shared-pipes.module';
 import { EmptyScreenModule } from '../empty-screen/empty-screen.module';
 import { FormsModule } from '@angular/forms';
+import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
   declarations: [CredentialsListComponent],
@@ -23,6 +24,7 @@ import { FormsModule } from '@angular/forms';
     MatDialogModule,
     EmptyScreenModule,
     FormsModule,
+    NgbTooltipModule,
   ],
 })
 export class CredentialsListModule {}

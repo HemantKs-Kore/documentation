@@ -428,7 +428,10 @@ export class AddFaqComponent implements OnInit, AfterViewInit, OnDestroy {
     if (input) {
       input.value = '';
     }
-    this.suggestedInput.nativeElement.value = '';
+
+    if (this.suggestedInput) {
+      this.suggestedInput.nativeElement.value = '';
+    }
   }
   checkDuplicateTags1(suggestion: string, alltTags): boolean {
     return alltTags.every((f) => f !== suggestion);

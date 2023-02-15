@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import mixpanel from 'mixpanel-browser';
+declare const mixpanel;
 import { environment } from '../../environments/environment';
 
 @Injectable({

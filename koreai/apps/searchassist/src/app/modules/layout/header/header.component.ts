@@ -374,6 +374,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
     this.getUserInfo();
     this.checkroute();
     this.getAllApps();
+    this.initControlList();
 
     this.topicGuideShowSubscription =
       this.appSelectionService.topicGuideShow.subscribe((res) => {
@@ -405,7 +406,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
     );
 
     this.toShowAppHeader = this.workflowService.showAppCreationHeader();
-    this.currentAppControlList = this.authService.getApplictionControls();
     this.headerService.change.subscribe((data: any) => {
       if (
         this.workflowService.selectedApp() &&
@@ -527,6 +527,17 @@ export class HeaderComponent implements OnInit, OnDestroy {
     //   this.extractProfiledisplayname();
     //   }
   }
+
+  initControlList() {
+    const appControlListSub = this.authService.appControlList$.subscribe(
+      (res) => {
+        this.currentAppControlList = res;
+      }
+    );
+
+    this.subscription?.add(appControlListSub);
+  }
+
   extractFirstLetter() {
     const firstLetter = this.domain.charAt(0);
     this.profile_display = firstLetter;
