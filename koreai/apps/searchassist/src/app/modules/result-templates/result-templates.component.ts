@@ -3,7 +3,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { KRModalComponent } from '../../shared/kr-modal/kr-modal.component';
 import { filter, Subscription } from 'rxjs';
 import { ConfirmationDialogComponent } from '../../helpers/components/confirmation-dialog/confirmation-dialog.component';
-import * as moment from 'moment';
+import { format } from 'date-fns';
 import { AppSelectionService } from '@kore.apps/services/app.selection.service';
 import { SideBarService } from '@kore.apps/services/header.service';
 import { InlineManualService } from '@kore.apps/services/inline-manual.service';
@@ -1030,9 +1030,8 @@ export class ResultTemplatesComponent implements OnInit, OnDestroy {
       this.service.invoke('copy.settings', quaryparms, payload).subscribe(
         (res) => {
           this.copyConfigObj.loader = false;
-          const date = moment(res.copiedOn).format(
-            'dddd, MMMM Do YYYY, h:mm:ss a'
-          );
+          const format_date = new Date(res.copiedOn);
+          const date = format(format_date, 'eeee , MMMM do yyyy, h:mm:ss aaa');
           this.copyConfigObj.message = `Configurations applied from ${this.tabData[0].name} | ${date}.`;
           this.notificationService.notify(
             ' Result copied successfully',

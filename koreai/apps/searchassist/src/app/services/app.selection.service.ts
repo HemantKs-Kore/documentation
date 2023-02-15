@@ -10,7 +10,6 @@ import { AppUrlsService } from './app.urls.service';
 import { AuthService } from './auth.service';
 import { environment } from '../../environments/environment';
 import { LocalStoreService } from './localstore.service';
-// import * as moment from 'moment';
 import { differenceInDays, parseISO } from 'date-fns';
 
 import { AppsService } from '@kore.apps/modules/apps/services/apps.service';
