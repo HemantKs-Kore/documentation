@@ -15,7 +15,7 @@ import { MixpanelServiceService } from '@kore.apps/services/mixpanel-service.ser
 import { Store } from '@ngrx/store';
 import { setAppId } from '@kore.apps/store/app.actions';
 import { AppsService } from './services/apps.service';
-import { Subscription } from 'rxjs';
+import { combineLatest, Subscription } from 'rxjs';
 import { LazyLoadService } from '@kore.libs/shared/src';
 declare const $: any;
 
@@ -475,108 +475,64 @@ export class AppsComponent implements OnInit, OnDestroy {
   //get all apps
 
   public getAllApps() {
-    const allAppsSub = this.appsService.getApps().subscribe((response) => {
-      const res = JSON.parse(JSON.stringify(response));
-      if (res && res.length) {
-        if (
-          localStorage.getItem('krPreviousState') &&
-          JSON.parse(localStorage.getItem('krPreviousState')) &&
-          JSON.parse(localStorage.getItem('krPreviousState')).route &&
-          JSON.parse(localStorage.getItem('krPreviousState')).route != '/home'
-        ) {
-          const prDetails = JSON.parse(localStorage.getItem('krPreviousState'));
-          if (prDetails && prDetails.formAccount) {
-            this.redirectHome();
+    const allAppsSub = combineLatest([
+      this.appsService.getApps(),
+      this.appsService.loaded$,
+    ]).subscribe(([response, isLoaded]) => {
+      if (isLoaded) {
+        const res = JSON.parse(JSON.stringify(response));
+        if (res && res.length) {
+          if (
+            localStorage.getItem('krPreviousState') &&
+            JSON.parse(localStorage.getItem('krPreviousState')) &&
+            JSON.parse(localStorage.getItem('krPreviousState')).route &&
+            JSON.parse(localStorage.getItem('krPreviousState')).route != '/home'
+          ) {
+            const prDetails = JSON.parse(
+              localStorage.getItem('krPreviousState')
+            );
+            if (prDetails && prDetails.formAccount) {
+              this.redirectHome();
+            }
           }
-        }
-        this.prepareApps(res);
-        this.workflowService.showAppCreationHeader(false);
-        this.selectedAppType('All');
-        this.sortApp('Created Date');
-        this.showBoarding = false;
-        this.emptyApp = false;
-      } else {
-        if (
-          localStorage.getItem('krPreviousState') &&
-          JSON.parse(localStorage.getItem('krPreviousState')) &&
-          JSON.parse(localStorage.getItem('krPreviousState')).route &&
-          JSON.parse(localStorage.getItem('krPreviousState')).route != '/home'
-        ) {
-          this.redirectHome();
+          this.prepareApps(res);
+          this.workflowService.showAppCreationHeader(false);
+          this.selectedAppType('All');
+          this.sortApp('Created Date');
+          this.showBoarding = false;
+          this.emptyApp = false;
         } else {
-          /** Issue Fix for multiple onboarding  function called */
-          // if (this.headerService.openJourneyForfirstTime) {
-          //   this.emptyApp = true;
-          //   this.showBoarding = true;
-          //   this.headerService.openJourneyForfirstTime = true;
-          //   this.openBoradingJourney();
-          // }
-          if (!this.headerService.openJourneyForfirstTime) {
-            this.emptyApp = true;
-            this.showBoarding = true;
-            this.headerService.openJourneyForfirstTime = true;
-            this.openBoradingJourney();
+          if (
+            localStorage.getItem('krPreviousState') &&
+            JSON.parse(localStorage.getItem('krPreviousState')) &&
+            JSON.parse(localStorage.getItem('krPreviousState')).route &&
+            JSON.parse(localStorage.getItem('krPreviousState')).route != '/home'
+          ) {
+            this.redirectHome();
+          } else {
+            /** Issue Fix for multiple onboarding  function called */
+            // if (this.headerService.openJourneyForfirstTime) {
+            //   this.emptyApp = true;
+            //   this.showBoarding = true;
+            //   this.headerService.openJourneyForfirstTime = true;
+            //   this.openBoradingJourney();
+            // }
+            if (!this.headerService.openJourneyForfirstTime) {
+              this.emptyApp = true;
+              this.showBoarding = true;
+              this.headerService.openJourneyForfirstTime = true;
+              this.openBoradingJourney();
+            }
           }
         }
+        this.loadingApps = false;
+        this.clearAccount();
       }
-      this.loadingApps = false;
-      this.clearAccount();
     });
 
     this.sub?.add(allAppsSub);
-    // this.service.invoke('get.apps').subscribe(
-    //   (res) => {
-    //     if (res && res.length) {
-    //       if (
-    //         localStorage.getItem('krPreviousState') &&
-    //         JSON.parse(localStorage.getItem('krPreviousState')) &&
-    //         JSON.parse(localStorage.getItem('krPreviousState')).route &&
-    //         JSON.parse(localStorage.getItem('krPreviousState')).route != '/home'
-    //       ) {
-    //         const prDetails = JSON.parse(
-    //           localStorage.getItem('krPreviousState')
-    //         );
-    //         if (prDetails && prDetails.formAccount) {
-    //           this.redirectHome();
-    //         }
-    //       }
-    //       this.prepareApps(res);
-    //       this.workflowService.showAppCreationHeader(false);
-    //       this.selectedAppType('All');
-    //       this.sortApp('Created Date');
-    //       this.showBoarding = false;
-    //       this.emptyApp = false;
-    //     } else {
-    //       if (
-    //         localStorage.getItem('krPreviousState') &&
-    //         JSON.parse(localStorage.getItem('krPreviousState')) &&
-    //         JSON.parse(localStorage.getItem('krPreviousState')).route &&
-    //         JSON.parse(localStorage.getItem('krPreviousState')).route != '/home'
-    //       ) {
-    //         this.redirectHome();
-    //       } else {
-    //         /** Issue Fix for multiple onboarding  function called */
-    //         // if (this.headerService.openJourneyForfirstTime) {
-    //         //   this.emptyApp = true;
-    //         //   this.showBoarding = true;
-    //         //   this.headerService.openJourneyForfirstTime = true;
-    //         //   this.openBoradingJourney();
-    //         // }
-    //         if (!this.headerService.openJourneyForfirstTime) {
-    //           this.emptyApp = true;
-    //           this.showBoarding = true;
-    //           this.headerService.openJourneyForfirstTime = true;
-    //           this.openBoradingJourney();
-    //         }
-    //       }
-    //     }
-    //     this.loadingApps = false;
-    //     this.clearAccount();
-    //     //this.checkForSharedApp();
-    //   },
-    //   (errRes) => {}
-    // );
   }
+
   clearAccount() {
     const prDetails = localStorage.getItem('krPreviousState')
       ? JSON.parse(localStorage.getItem('krPreviousState'))
