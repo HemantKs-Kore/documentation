@@ -51,7 +51,7 @@ export class IndexConfigurationSettingsComponent implements OnInit, OnDestroy {
     private appSelectionService: AppSelectionService,
     public dialog: MatDialog,
     public dockService: DockStatusService
-  ) { }
+  ) {}
 
   ngOnInit(): void {
     this.getAvilableLanguages();
@@ -103,7 +103,7 @@ export class IndexConfigurationSettingsComponent implements OnInit, OnDestroy {
   }
   // close pop for add and edit
   closeModalPopup() {
-    this.addLangModalPopRef.close();
+    this.addLangModalPopRef?.close();
     this.saveLanguages = false;
     this.clearCheckbox();
     this.searchLanguages = '';
@@ -187,7 +187,10 @@ export class IndexConfigurationSettingsComponent implements OnInit, OnDestroy {
         this.dockService.trigger(true);
         this.poling();
         this.closeModalPopup();
-        this.notificationService.notify(`Language ${type === 'add' ? 'Saved' : 'Deleted'} Successfully`, 'success');
+        this.notificationService.notify(
+          `Language ${type === 'add' ? 'Saved' : 'Deleted'} Successfully`,
+          'success'
+        );
       },
       (errRes) => {
         if (
