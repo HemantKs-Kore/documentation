@@ -48,7 +48,7 @@ export class AppSelectionService {
   getTourArray: any = {};
   private storageType = 'localStorage';
   public openPlanOnboardingModal = new Subject<any>();
-  public pricingPlansData: Object;
+  public pricingPlansData: object;
   constructor(
     private workflowService: WorkflowService,
     private service: ServiceInvokerService,
@@ -96,7 +96,8 @@ export class AppSelectionService {
       },
       (errRes) => {
         this.indexList = null;
-        if (errRes?.error?.errors[0]?.code === 'SubscriptionCooldownExpired') this.getCurrentSubscriptionData();
+        if (errRes?.error?.errors[0]?.code === 'SubscriptionCooldownExpired')
+          this.getCurrentSubscriptionData();
       }
     );
     appObserver.subscribe(subject);
@@ -166,7 +167,7 @@ export class AppSelectionService {
         this.redirectToLogin();
       }
       // eslint-disable-next-line no-empty
-    } catch (e) { }
+    } catch (e) {}
     return previOusState;
   }
   private redirectToLogin() {
@@ -283,7 +284,11 @@ export class AppSelectionService {
           this.currentSubscription.next(res);
         },
         (errRes) => {
-          if (errRes && errRes.error && errRes.error.errors[0].code == 'NoActiveSubscription') {
+          if (
+            errRes &&
+            errRes.error &&
+            errRes.error.errors[0].code == 'NoActiveSubscription'
+          ) {
             this.currentsubscriptionPlanDetails = undefined;
           }
         }
@@ -295,23 +300,37 @@ export class AppSelectionService {
   getDiffNumberOfDays(item) {
     const date = new Date();
     const isoFormat = date.toISOString();
-    const days = Math.abs(moment(isoFormat).diff(moment(item?.endDate), 'days'));
+    const days = Math.abs(
+      moment(isoFormat).diff(moment(item?.endDate), 'days')
+    );
     return days;
   }
 
   //get all plans in pricing
   getAllPlans() {
-    this.service.invoke('get.pricingPlans').subscribe(res => {
-      this.pricingPlansData = res;
-    }, errRes => {
-      if (localStorage.jStorage) {
-        if (errRes && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0] && errRes.error.errors[0].msg) {
-          this.notificationService.notify(errRes.error.errors[0].msg, 'error');
-        } else {
-          this.notificationService.notify('Failed ', 'error');
+    this.service.invoke('get.pricingPlans').subscribe(
+      (res) => {
+        this.pricingPlansData = res;
+      },
+      (errRes) => {
+        if (localStorage.jStorage) {
+          if (
+            errRes &&
+            errRes.error.errors &&
+            errRes.error.errors.length &&
+            errRes.error.errors[0] &&
+            errRes.error.errors[0].msg
+          ) {
+            this.notificationService.notify(
+              errRes.error.errors[0].msg,
+              'error'
+            );
+          } else {
+            this.notificationService.notify('Failed ', 'error');
+          }
         }
       }
-    });
+    );
   }
 
   //get current usage data of search and queries
@@ -323,9 +342,21 @@ export class AppSelectionService {
     const payload = { features: ['ingestDocs', 'searchQueries'] };
     this.service.invoke('post.usageData', queryParms, payload).subscribe(
       (res) => {
-        const queryPercentage = Number.isInteger(res.searchQueries.percentageUsed) ? (res.searchQueries.percentageUsed) : parseFloat(res.searchQueries.percentageUsed).toFixed(2);
-        const overagePercentage = (res?.overage?.used) / (res?.overage?.slugUnit) * 100;
-        this.currentUsageData = { queryPercentageUsed: queryPercentage, searchCount: res.searchQueries.used, searchLimit: res.searchQueries.limit, overagePercentageUsed: overagePercentage, overageSearchCount: res?.overage?.used, overageSearchLimit: res?.overage?.slugUnit };
+        const queryPercentage = Number.isInteger(
+          res.searchQueries.percentageUsed
+        )
+          ? res.searchQueries.percentageUsed
+          : parseFloat(res.searchQueries.percentageUsed).toFixed(2);
+        const overagePercentage =
+          (res?.overage?.used / res?.overage?.slugUnit) * 100;
+        this.currentUsageData = {
+          queryPercentageUsed: queryPercentage,
+          searchCount: res.searchQueries.used,
+          searchLimit: res.searchQueries.limit,
+          overagePercentageUsed: overagePercentage,
+          overageSearchCount: res?.overage?.used,
+          overageSearchLimit: res?.overage?.slugUnit,
+        };
         this.updateUsageData.next('updatedUsage');
       },
       (errRes) => {

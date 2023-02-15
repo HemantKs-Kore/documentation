@@ -1,4 +1,11 @@
-import { Component, ChangeDetectionStrategy, OnInit, ViewChild, OnDestroy, ElementRef } from '@angular/core';
+import {
+  Component,
+  ChangeDetectionStrategy,
+  OnInit,
+  ViewChild,
+  OnDestroy,
+  ElementRef,
+} from '@angular/core';
 import { KRModalComponent } from '../../../shared/kr-modal/kr-modal.component';
 import { MatDialog } from '@angular/material/dialog';
 import { EChartsOption } from 'echarts';
@@ -18,13 +25,30 @@ import { LocalStoreService } from '@kore.services/localstore.service';
   styleUrls: ['./plan-details.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class PlanDetailsComponent {
+export class PlanDetailsComponent implements OnInit, OnDestroy {
   queryGraph: EChartsOption;
   cancelSubscriptionModelPopRef: any;
   revertCancelModelPopRef: any;
-  cancellationCheckboxObj: Array<Object> = [{ selected: false, name: 'It’s too costly', value: 'Its too costly' }, { selected: false, name: 'I found another product that fulfils my needs', value: 'I found another product that fulfils my needs' }, { selected: false, name: 'I don’t use it enough', value: 'I dont use it enough' }, { selected: false, name: 'I don’t need it now', value: 'I dont need it now' }];
+  cancellationCheckboxObj: Array<object> = [
+    { selected: false, name: 'It’s too costly', value: 'Its too costly' },
+    {
+      selected: false,
+      name: 'I found another product that fulfils my needs',
+      value: 'I found another product that fulfils my needs',
+    },
+    {
+      selected: false,
+      name: 'I don’t use it enough',
+      value: 'I dont use it enough',
+    },
+    {
+      selected: false,
+      name: 'I don’t need it now',
+      value: 'I dont need it now',
+    },
+  ];
   cancellationCheckboxText: any = this.cancellationCheckboxObj;
-  termPlan = "Monthly";
+  termPlan = 'Monthly';
   pageLoading = true;
   btnLoader = false;
   bannerObj = { msg: '', show: false, type: '' };
@@ -36,42 +60,56 @@ export class PlanDetailsComponent {
   currentSubsciptionData: Subscription;
   updateUsageData: Subscription;
   usageDetails: any = {};
-  monthRange = "Jan - June";
+  monthRange = 'Jan - June';
   isyAxisDocumentdata = true;
   isyAxisQuerydata = true;
-  planNames: Object = plansName;
-  currentPlanDetails: Array<Object> = [];
+  planNames: object = plansName;
+  currentPlanDetails: Array<object> = [];
 
-  constructor(public workflowService: WorkflowService,
+  constructor(
+    public workflowService: WorkflowService,
     private service: ServiceInvokerService,
     public dialog: MatDialog,
     private notificationService: NotificationService,
     private appSelectionService: AppSelectionService,
-    public localstore: LocalStoreService) { }
+    public localstore: LocalStoreService
+  ) {}
 
-  @ViewChild('cancelSubscriptionModel') cancelSubscriptionModel: KRModalComponent;
+  @ViewChild('cancelSubscriptionModel')
+  cancelSubscriptionModel: KRModalComponent;
   @ViewChild('revertCancelModel') revertCancelModel: KRModalComponent;
   @ViewChild('plans') plans: PlanUpgradeComponent;
-  @ViewChild(DaterangepickerDirective, { static: true }) pickerDirective: DaterangepickerDirective;
+  @ViewChild(DaterangepickerDirective, { static: true })
+  pickerDirective: DaterangepickerDirective;
   @ViewChild('datetimeTrigger') datetimeTrigger: ElementRef<HTMLElement>;
 
   async ngOnInit() {
     await this.appSelectionService.getCurrentUsage();
-    this.currentSubscriptionPlan = this.appSelectionService?.currentsubscriptionPlanDetails;
-    this.currentSubsciptionData = this.appSelectionService.currentSubscription.subscribe(res => {
-      this.currentSubscriptionPlan = res;
-      this.getSubscriptionData();
-    });
-    this.updateUsageData = this.appSelectionService.updateUsageData.subscribe(res => {
-      if (res === 'updatedUsage') this.getSubscriptionData();
-    })
+    this.currentSubscriptionPlan =
+      this.appSelectionService?.currentsubscriptionPlanDetails;
+    this.currentSubsciptionData =
+      this.appSelectionService.currentSubscription.subscribe((res) => {
+        this.currentSubscriptionPlan = res;
+        this.getSubscriptionData();
+      });
+    this.updateUsageData = this.appSelectionService.updateUsageData.subscribe(
+      (res) => {
+        if (res === 'updatedUsage') this.getSubscriptionData();
+      }
+    );
     this.selectedApp = this.workflowService.selectedApp();
     this.serachIndexId = this.selectedApp.searchIndexes[0]._id;
   }
 
   //common method for error toast messages
   errorToaster(errRes, message) {
-    if (errRes && errRes.error && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0].msg) {
+    if (
+      errRes &&
+      errRes.error &&
+      errRes.error.errors &&
+      errRes.error.errors.length &&
+      errRes.error.errors[0].msg
+    ) {
       this.notificationService.notify(errRes.error.errors[0].msg, 'error');
     } else if (message) {
       this.notificationService.notify(message, 'error');
@@ -88,7 +126,12 @@ export class PlanDetailsComponent {
 
   //show or hide banner
   showBanner(obj) {
-    this.bannerObj = { ...this.bannerObj, msg: obj?.msg, type: obj?.type, show: true };
+    this.bannerObj = {
+      ...this.bannerObj,
+      msg: obj?.msg,
+      type: obj?.type,
+      show: true,
+    };
   }
 
   //clear banner
@@ -106,15 +149,15 @@ export class PlanDetailsComponent {
     this.cancellationCheckboxText = this.cancellationCheckboxObj;
     if (type === 'open') {
       this.cancelSubscriptionModelPopRef = this.cancelSubscriptionModel.open();
-    }
-    else if (type === 'close') {
-      const commentInput: any = document.getElementById("cancel_comment_text");
+    } else if (type === 'close') {
+      const commentInput: any = document.getElementById('cancel_comment_text');
       const checkboxes: any = document.querySelectorAll('.checkbox-custom');
       commentInput.value = '';
       for (const check of checkboxes) {
         check.checked = false;
       }
-      if (this.cancelSubscriptionModelPopRef.close) this.cancelSubscriptionModelPopRef.close();
+      if (this.cancelSubscriptionModelPopRef.close)
+        this.cancelSubscriptionModelPopRef.close();
     }
   }
 
@@ -122,9 +165,9 @@ export class PlanDetailsComponent {
   revertCancelModal(type) {
     if (type === 'open') {
       this.revertCancelModelPopRef = this.revertCancelModel.open();
-    }
-    else if (type === 'close') {
-      if (this.revertCancelModelPopRef.close) this.revertCancelModelPopRef.close();
+    } else if (type === 'close') {
+      if (this.revertCancelModelPopRef.close)
+        this.revertCancelModelPopRef.close();
     }
   }
 
@@ -137,32 +180,40 @@ export class PlanDetailsComponent {
       data: {
         title: 'Are you sure you want to Cancel?',
         body: 'Your change plan request from Pro to Standard will be cancelled and current plan will be retained',
-        buttons: [{ key: 'yes', label: 'Proceed', type: 'danger' }, { key: 'no', label: 'Cancel' }],
-        confirmationPopUp: true
+        buttons: [
+          { key: 'yes', label: 'Proceed', type: 'danger' },
+          { key: 'no', label: 'Cancel' },
+        ],
+        confirmationPopUp: true,
+      },
+    });
+    dialogRef.componentInstance.onSelect.subscribe((result) => {
+      if (result === 'yes') {
+        this.cancelDowngradeSubscription(dialogRef);
+      } else if (result === 'no') {
+        dialogRef.close();
       }
     });
-    dialogRef.componentInstance.onSelect
-      .subscribe(result => {
-        if (result === 'yes') {
-          this.cancelDowngradeSubscription(dialogRef);
-        } else if (result === 'no') {
-          dialogRef.close();
-        }
-      })
   }
 
   //cancel downgrade subscription
   cancelDowngradeSubscription(dialogRef?) {
     const queryParam = {
-      streamId: this.selectedApp._id
-    }
-    this.service.invoke('post.downgradeCancellation', queryParam, {}).subscribe(res => {
-      this.appSelectionService.getCurrentSubscriptionData();
-      this.notificationService.notify('Cancellation request submitted', 'success');
-      if (dialogRef) dialogRef.close();
-    }, errRes => {
-      this.errorToaster(errRes, 'failed to Cancel subscription');
-    });
+      streamId: this.selectedApp._id,
+    };
+    this.service.invoke('post.downgradeCancellation', queryParam, {}).subscribe(
+      (res) => {
+        this.appSelectionService.getCurrentSubscriptionData();
+        this.notificationService.notify(
+          'Cancellation request submitted',
+          'success'
+        );
+        if (dialogRef) dialogRef.close();
+      },
+      (errRes) => {
+        this.errorToaster(errRes, 'failed to Cancel subscription');
+      }
+    );
   }
 
   //cancel subscription api
@@ -176,28 +227,40 @@ export class PlanDetailsComponent {
     const queryParam = { streamId: this.selectedApp._id };
     const userInfo = this.localstore.getAuthInfo();
     const emailId = userInfo?.currentAccount?.userInfo?.emailId;
-    const currentPlanName = (this.currentSubscriptionPlan?.subscription?.billing?.unit && this.currentSubscriptionPlan?.subscription?.planName !== 'Enterprise') ? `${this.currentSubscriptionPlan?.subscription?.planName} Plan(${this.currentSubscriptionPlan?.subscription?.billing?.unit})` : (this.currentSubscriptionPlan?.subscription?.planName + ' Plan');
+    const currentPlanName =
+      this.currentSubscriptionPlan?.subscription?.billing?.unit &&
+      this.currentSubscriptionPlan?.subscription?.planName !== 'Enterprise'
+        ? `${this.currentSubscriptionPlan?.subscription?.planName} Plan(${this.currentSubscriptionPlan?.subscription?.billing?.unit})`
+        : this.currentSubscriptionPlan?.subscription?.planName + ' Plan';
     const payload = {
       subscriptionId: this.currentSubscriptionPlan?.subscription?._id,
       feedback: {
         reasons: checkedData,
         comment: comment_data?.value,
         email: emailId,
-        currentPlan: currentPlanName
-      }
+        currentPlan: currentPlanName,
+      },
     };
-    this.service.invoke('put.cancelSubscribtion', queryParam, payload).subscribe(res => {
-      this.appSelectionService.getCurrentSubscriptionData();
-      this.btnLoader = false;
-      this.notificationService.notify('Cancellation Request Submitted', 'success');
-      this.cancelSubscriptionModal('close');
-    }, errRes => {
-      this.btnLoader = false;
-      this.errorToaster(errRes, 'failed to Cancel subscription');
-    });
+    this.service
+      .invoke('put.cancelSubscribtion', queryParam, payload)
+      .subscribe(
+        (res) => {
+          this.appSelectionService.getCurrentSubscriptionData();
+          this.btnLoader = false;
+          this.notificationService.notify(
+            'Cancellation Request Submitted',
+            'success'
+          );
+          this.cancelSubscriptionModal('close');
+        },
+        (errRes) => {
+          this.btnLoader = false;
+          this.errorToaster(errRes, 'failed to Cancel subscription');
+        }
+      );
   }
 
-  //Grap data 
+  //Grap data
   // pricingChart() {
   //   let xAxisQueryData = [];
   //   let years = [];
@@ -284,40 +347,53 @@ export class PlanDetailsComponent {
   renewSubscription() {
     this.btnLoader = true;
     const queryParam = {
-      streamId: this.selectedApp?._id
-    }
-    this.service.invoke('get.renewSubscribtion', queryParam).subscribe(res => {
-      setTimeout(() => {
-        this.appSelectionService.getCurrentSubscriptionData();
-        if (this.bannerObj.show) this.clearBanner();
+      streamId: this.selectedApp?._id,
+    };
+    this.service.invoke('get.renewSubscribtion', queryParam).subscribe(
+      (res) => {
+        setTimeout(() => {
+          this.appSelectionService.getCurrentSubscriptionData();
+          if (this.bannerObj.show) this.clearBanner();
+          this.btnLoader = false;
+          this.revertCancelModal('close');
+        }, 2000);
+      },
+      (errRes) => {
         this.btnLoader = false;
-        this.revertCancelModal('close');
-      }, 2000)
-    }, errRes => {
-      this.btnLoader = false;
-      this.errorToaster(errRes, 'failed to renew subscription');
-    });
+        this.errorToaster(errRes, 'failed to renew subscription');
+      }
+    );
   }
 
   //update plan and used queries data
   updateUsageDetails() {
     const allPlans: any = this.appSelectionService?.pricingPlansData;
-    const currentUsageData = this.appSelectionService?.currentUsageData
+    const currentUsageData = this.appSelectionService?.currentUsageData;
     if (allPlans) {
       const planName = this.currentSubscriptionPlan?.subscription?.planName;
       const totalPlans = allPlans?.plans;
-      const billingUnit = this.currentSubscriptionPlan?.subscription?.billing?.unit;
-      const planData = totalPlans?.filter(plan => (billingUnit) ? (plan?.name === planName && billingUnit === plan?.billing?.unit) : (plan?.name === planName));
-      if (planData[0]?.featureAccess?.searchQueries?.displayOnBanner) planData[0].featureAccess.searchQueries.displayOnBanner = false;
+      const billingUnit =
+        this.currentSubscriptionPlan?.subscription?.billing?.unit;
+      const planData = totalPlans?.filter((plan) =>
+        billingUnit
+          ? plan?.name === planName && billingUnit === plan?.billing?.unit
+          : plan?.name === planName
+      );
+      if (planData[0]?.featureAccess?.searchQueries?.displayOnBanner)
+        planData[0].featureAccess.searchQueries.displayOnBanner = false;
       this.currentPlanDetails = planData;
     }
     if (currentUsageData) {
       this.usageDetails.searchQueriesLimit = currentUsageData?.searchLimit;
       this.usageDetails.searchQueriesUsed = currentUsageData?.searchCount;
-      this.usageDetails.searchPercentageUsed = currentUsageData?.queryPercentageUsed;
-      this.usageDetails.overagePercentageUsed = currentUsageData?.overagePercentageUsed;
-      this.usageDetails.overageSearchCount = currentUsageData?.overageSearchCount;
-      this.usageDetails.overageSearchLimit = currentUsageData?.overageSearchLimit;
+      this.usageDetails.searchPercentageUsed =
+        currentUsageData?.queryPercentageUsed;
+      this.usageDetails.overagePercentageUsed =
+        currentUsageData?.overagePercentageUsed;
+      this.usageDetails.overageSearchCount =
+        currentUsageData?.overageSearchCount;
+      this.usageDetails.overageSearchLimit =
+        currentUsageData?.overageSearchLimit;
     }
   }
 
@@ -333,7 +409,9 @@ export class PlanDetailsComponent {
 
   //unsubscribe all the subscriptions
   ngOnDestroy() {
-    this.currentSubsciptionData ? this.currentSubsciptionData.unsubscribe() : false;
+    this.currentSubsciptionData
+      ? this.currentSubsciptionData.unsubscribe()
+      : false;
     this.updateUsageData ? this.updateUsageData.unsubscribe() : false;
   }
 }

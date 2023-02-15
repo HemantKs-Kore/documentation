@@ -14,7 +14,7 @@ const FileSaver = require('file-saver');
   styleUrls: ['./invoices.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class InvoicesComponent {
+export class InvoicesComponent implements OnInit{
   emptyScreen = EMPTY_SCREEN.MANAGE_ORDERS_INVOICES;
   invoices = [];
   showSearch = false;

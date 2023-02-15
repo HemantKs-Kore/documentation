@@ -11,7 +11,7 @@ declare const $: any;
   styleUrls: ['./simulate.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class SimulateComponent {
+export class SimulateComponent implements OnInit{
   codeMirrorOptions: any = {
     theme: 'idea',
     mode: "application/ld+json",

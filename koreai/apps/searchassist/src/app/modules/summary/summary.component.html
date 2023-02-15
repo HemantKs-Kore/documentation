@@ -225,11 +225,11 @@
                   <span class="title">{{'overview_ACTIONS' | translate}}</span>
                 </div>
                 <div class="col-7 data-count"
-                  *ngIf="indices?.botActions?.linked_bot_name!=null&&indices?.botActions?.tasks!=0">
+                  *ngIf="indices?.botActions?.linked_bot_name!==null&&indices?.botActions?.tasks!==0">
                   {{indices?.botActions?.linked_bot_name}} | {{indices?.botActions?.tasks}} {{'overview_Tasks' |
                   translate}}</div>
                 <div class="col-7 data-count link"
-                  *ngIf="indices?.botActions?.linked_bot_name==null&&indices?.botActions?.tasks==0"
+                  *ngIf="indices?.botActions?.linked_bot_name===null&&indices?.botActions?.tasks===0"
                   (click)="redirectToActions()">
                   {{'overview_link_bot' | translate}}</div>
               </div>
@@ -307,7 +307,7 @@
             </ng-container>
             <div class="goto-sources" (click)="openExp()"><span class="goto-span pr-2"><i class="si-go-to"></i></span> {{'overview_go_to_experiments' | translate}}</div>
           </ng-container>
-          <ng-container *ngIf="!loading_skelton&&experiments.length==0">
+          <ng-container *ngIf="!loading_skelton&&experiments.length===0">
             <div class="empty-data">
               <img src="assets/images/pricing-plan/landing-page/empty-experiments.svg">
               <div class="empty-title">{{'overview_no_experiments_created_yet' | translate}}</div>

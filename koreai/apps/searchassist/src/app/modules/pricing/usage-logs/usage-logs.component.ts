@@ -14,7 +14,7 @@ import { EMPTY_SCREEN } from '../../empty-screen/empty-screen.constants';
   styleUrls: ['./usage-logs.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class UsageLogsComponent {
+export class UsageLogsComponent implements OnInit{
   emptyScreen = EMPTY_SCREEN.MANAGE_USAGE_LOGS;
   usageLogs = [];
   queryTypeArr = ['all'];
