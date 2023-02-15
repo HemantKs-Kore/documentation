@@ -16,7 +16,7 @@ export class AppsService extends EntityCollectionServiceBase<any> {
   }
 
   getApps() {
-    return this.entities$.pipe(filter((res) => !!res.length));
+    return this.entities$;
   }
 
   getSelectedAppById() {
