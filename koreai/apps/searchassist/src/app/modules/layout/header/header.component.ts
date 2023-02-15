@@ -16,7 +16,6 @@ import { debounceTime, map, startWith, withLatestFrom } from 'rxjs/operators';
 import { SliderComponentComponent } from '../../../shared/slider-component/slider-component.component';
 import { DockStatusService } from '../../../services/dockstatusService/dock-status.service';
 import { interval, Subscription } from 'rxjs';
-// import * as moment from 'moment';
 import { format } from 'date-fns';
 declare const $: any;
 import * as _ from 'underscore';
