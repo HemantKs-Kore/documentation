@@ -1588,8 +1588,4 @@ export class StructuredDataComponent implements OnInit, OnDestroy {
       this.subscription.unsubscribe();
     }
   }
-
-  isEmptyScreenLoading(isLoading) {
-    this.isLoading = isLoading;
-  }
 }
