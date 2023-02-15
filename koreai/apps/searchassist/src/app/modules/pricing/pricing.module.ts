@@ -5,7 +5,10 @@ import { SharedPipesModule } from '../../helpers/filters/shared-pipes.module';
 import { NgxEchartsModule } from 'ngx-echarts';
 import { KrModalModule } from './../../shared/kr-modal/kr-modal.module';
 import { PlanUpgradeModule } from './shared/plan-upgrade/plan-upgrade.module';
-import { NgbDropdownModule, NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
+import {
+  NgbDropdownModule,
+  NgbTooltipModule,
+} from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core';
 import { RecordPaginationModule } from '../../helpers/components/record-pagination/record-pagination.module';
 import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
@@ -14,23 +17,17 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { UseronboardingJourneyModule } from '@kore.apps/helpers/components/useronboarding-journey/useronboarding-journey.module';
 
-import * as echarts from 'echarts'
+import * as echarts from 'echarts';
 import { PlanDetailsComponent } from './plan-details/plan-details.component';
 import { UsageLogsComponent } from './usage-logs/usage-logs.component';
 import { InvoicesComponent } from './invoices/invoices.component';
 
 @NgModule({
-  declarations: [
-    PlanDetailsComponent,
-    UsageLogsComponent,
-    InvoicesComponent
-  ],
+  declarations: [PlanDetailsComponent, UsageLogsComponent, InvoicesComponent],
   imports: [
     PricingRoutingModule,
     EmptyScreenModule,
-    NgxEchartsModule.forRoot({
-      echarts: { init: echarts.init }
-    }),
+    NgxEchartsModule.forChild(),
     SharedPipesModule,
     KrModalModule,
     PlanUpgradeModule,
@@ -43,7 +40,7 @@ import { InvoicesComponent } from './invoices/invoices.component';
     FormsModule,
     ReactiveFormsModule,
     NgbModule,
-    UseronboardingJourneyModule
-  ]
+    UseronboardingJourneyModule,
+  ],
 })
-export class PricingModule { }
+export class PricingModule {}

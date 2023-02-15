@@ -5,10 +5,10 @@ import {
   ViewChild,
   OnDestroy,
   ElementRef,
+  ChangeDetectorRef,
 } from '@angular/core';
 import { KRModalComponent } from '../../../shared/kr-modal/kr-modal.component';
 import { MatDialog } from '@angular/material/dialog';
-import { EChartsOption } from 'echarts';
 import { AppSelectionService } from '@kore.services/app.selection.service';
 import { NotificationService } from '@kore.services/notification.service';
 import { ServiceInvokerService } from '@kore.services/service-invoker.service';
@@ -26,7 +26,7 @@ import { LocalStoreService } from '@kore.services/localstore.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PlanDetailsComponent implements OnInit, OnDestroy {
-  queryGraph: EChartsOption;
+  queryGraph: any;
   cancelSubscriptionModelPopRef: any;
   revertCancelModelPopRef: any;
   cancellationCheckboxObj: Array<object> = [
@@ -72,7 +72,8 @@ export class PlanDetailsComponent implements OnInit, OnDestroy {
     public dialog: MatDialog,
     private notificationService: NotificationService,
     private appSelectionService: AppSelectionService,
-    public localstore: LocalStoreService
+    public localstore: LocalStoreService,
+    private cd: ChangeDetectorRef
   ) {}
 
   @ViewChild('cancelSubscriptionModel')
@@ -90,6 +91,7 @@ export class PlanDetailsComponent implements OnInit, OnDestroy {
     this.currentSubsciptionData =
       this.appSelectionService.currentSubscription.subscribe((res) => {
         this.currentSubscriptionPlan = res;
+        this.cd.detectChanges();
         this.getSubscriptionData();
       });
     this.updateUsageData = this.appSelectionService.updateUsageData.subscribe(
@@ -121,7 +123,7 @@ export class PlanDetailsComponent implements OnInit, OnDestroy {
   //getsubscription data
   getSubscriptionData() {
     this.updateUsageDetails();
-    // this.pricingChart()
+    this.pricingChart();
   }
 
   //show or hide banner
@@ -261,87 +263,98 @@ export class PlanDetailsComponent implements OnInit, OnDestroy {
   }
 
   //Grap data
-  // pricingChart() {
-  //   let xAxisQueryData = [];
-  //   let years = [];
-  //   let yAxisQueryData = [];
-  //   let barQueColor = "#7027E5";
-  //   if (this.currentSubscriptionPlan && this.currentSubscriptionPlan.analytics && this.currentSubscriptionPlan.analytics.search) {
-  //     this.currentSubscriptionPlan.analytics.search.forEach(element => {
-  //       xAxisQueryData.push(element.month)
-  //       yAxisQueryData.push(element.total)
-  //       years.push(2023);
-  //     });
-  //   }
-  //   if (xAxisQueryData.length == 0) {
-  //     xAxisQueryData = ['Jan', 'Feb', 'Apr', 'May', 'Jun'];
-  //   }
-  //   if (Math.max(...yAxisQueryData) == 0 || yAxisQueryData.length == 0) {
-  //     this.isyAxisQuerydata = false;
-  //     barQueColor = "#EFF0F1";
-  //   } else {
-  //     this.isyAxisQuerydata = true;
-  //     barQueColor = "#7027E5";
-  //   }
-  //   xAxisQueryData.length ? this.monthRange = xAxisQueryData[0] + ' - ' + xAxisQueryData[xAxisQueryData.length - 1] : this.monthRange = "Jan - June";
-  //   this.queryGraph = {
-  //     tooltip: {
-  //       trigger: 'item',
-  //       axisPointer: {
-  //         type: 'none'
-  //       },
-  //       formatter:
-  //         `<div class="pricing-hover-tooltip">
-  //       <div class="row-data-info">
-  //         <i class="si-interuptions"></i>
-  //         <span class="count-text">{c0}</span>
-  //         <span class="title">{a0}</span>
-  //       </div>
-  //     </div>`,
-  //     },
-  //     grid: {
-  //       left: '3%',
-  //       right: '4%',
-  //       bottom: '3%',
-  //       containLabel: true
-  //     },
-  //     xAxis: [{
-  //       type: 'category',
-  //       data: xAxisQueryData,
-  //       axisLine: {
-  //         show: false,
-  //       },
-  //       axisTick: {
-  //         show: false,
-  //       },
-  //     }, {
-  //       position: 'bottom',
-  //       offset: 15,
-  //       axisLine: {
-  //         show: false,
-  //       },
-  //       axisTick: {
-  //         show: false,
-  //       },
-  //       data: years
-  //     }],
-  //     yAxis: {
-  //       type: 'value',
-  //       boundaryGap: [0, 0.01],
-  //     },
-  //     series: [
-  //       {
-  //         name: 'Queries',
-  //         type: 'bar',
-  //         data: yAxisQueryData,
-  //         barWidth: 10,
-  //         barCategoryGap: '10%',
-  //         itemStyle: { normal: { color: '#B893F2' } },
-  //         emphasis: { itemStyle: { color: "#7027E5" } },
-  //       }
-  //     ]
-  //   };
-  // }
+  pricingChart() {
+    let xAxisQueryData = [];
+    let years = [];
+    let yAxisQueryData = [];
+    let barQueColor = '#7027E5';
+    if (
+      this.currentSubscriptionPlan &&
+      this.currentSubscriptionPlan.analytics &&
+      this.currentSubscriptionPlan.analytics.search
+    ) {
+      this.currentSubscriptionPlan.analytics.search.forEach((element) => {
+        xAxisQueryData.push(element.month);
+        yAxisQueryData.push(element.total);
+        years.push(2023);
+      });
+    }
+    if (xAxisQueryData.length == 0) {
+      xAxisQueryData = ['Jan', 'Feb', 'Apr', 'May', 'Jun'];
+    }
+    if (Math.max(...yAxisQueryData) == 0 || yAxisQueryData.length == 0) {
+      this.isyAxisQuerydata = false;
+      barQueColor = '#EFF0F1';
+    } else {
+      this.isyAxisQuerydata = true;
+      barQueColor = '#7027E5';
+    }
+    xAxisQueryData.length
+      ? (this.monthRange =
+          xAxisQueryData[0] + ' - ' + xAxisQueryData[xAxisQueryData.length - 1])
+      : (this.monthRange = 'Jan - June');
+    this.queryGraph = {
+      tooltip: {
+        trigger: 'item',
+        axisPointer: {
+          type: 'none',
+        },
+        formatter: `<div class="pricing-hover-tooltip">
+        <div class="row-data-info">
+          <i class="si-interuptions"></i>
+          <span class="count-text">{c0}</span>
+          <span class="title">{a0}</span>
+        </div>
+      </div>`,
+      },
+      grid: {
+        left: '3%',
+        right: '4%',
+        bottom: '3%',
+        containLabel: true,
+      },
+      xAxis: [
+        {
+          type: 'category',
+          data: xAxisQueryData,
+          axisLine: {
+            show: false,
+          },
+          axisTick: {
+            show: false,
+          },
+        },
+        {
+          position: 'bottom',
+          offset: 15,
+          axisLine: {
+            show: false,
+          },
+          axisTick: {
+            show: false,
+          },
+          data: years,
+        },
+      ],
+      yAxis: {
+        type: 'value',
+        boundaryGap: [0, 0.01],
+      },
+      series: [
+        {
+          name: 'Queries',
+          type: 'bar',
+          data: yAxisQueryData,
+          barWidth: 10,
+          barCategoryGap: '10%',
+          itemStyle: { normal: { color: '#B893F2' } },
+          emphasis: { itemStyle: { color: '#7027E5' } },
+        },
+      ],
+    };
+
+    this.cd.detectChanges();
+  }
 
   //renew | revert cancel subscription
   renewSubscription() {

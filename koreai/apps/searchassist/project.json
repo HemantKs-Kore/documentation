@@ -59,7 +59,17 @@
           }
         ],
         "serviceWorker": true,
-        "ngswConfigPath": "apps/searchassist/ngsw-config.json"
+        "ngswConfigPath": "apps/searchassist/ngsw-config.json",
+        "allowedCommonJsDependencies": [
+          "moment",
+          "moment-timezone",
+          "codemirror",
+          "jquery",
+          "rangy",
+          "nouislider",
+          "detect-passive-events",
+          "ng5-slider"
+        ]
       },
       "configurations": {
         "production": {
