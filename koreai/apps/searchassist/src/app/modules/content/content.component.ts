@@ -355,7 +355,7 @@ export class ContentComponent implements OnInit, OnDestroy {
     public dockService: DockStatusService,
     private appSelectionService: AppSelectionService,
     public mixpanel: MixpanelServiceService
-  ) { }
+  ) {}
 
   ngOnInit(): void {
     this.selectedApp = this.workflowService.selectedApp();
@@ -375,10 +375,6 @@ export class ContentComponent implements OnInit, OnDestroy {
     this.sourcesSearchModelChanged.pipe(debounceTime(300)).subscribe(() => {
       this.getSourceList(null, this.searchSources, 'search');
     });
-  }
-
-  isEmptyScreenLoading(isLoading) {
-    this.loadingContent = isLoading;
   }
 
   scroll = (event): void => {
@@ -579,7 +575,7 @@ export class ContentComponent implements OnInit, OnDestroy {
                   ).toString().length > 1
                     ? element?.advanceSettings?.scheduleOpts?.time?.minute
                     : '0' +
-                    element?.advanceSettings?.scheduleOpts?.time?.minute;
+                      element?.advanceSettings?.scheduleOpts?.time?.minute;
               }
               element['schedule_title'] =
                 'Runs ' +
@@ -809,7 +805,7 @@ export class ContentComponent implements OnInit, OnDestroy {
       (res) => {
         // console.log(res)
       },
-      (errRes) => { }
+      (errRes) => {}
     );
   }
   getJobStatus(type) {
@@ -1123,7 +1119,7 @@ export class ContentComponent implements OnInit, OnDestroy {
             // if (element.executionStats.executionStatusMessage == 'Execution Stopped' && element.executionStats.isTimedOut) {
             if (
               element.executionStats.executionStatusMessage ==
-              'Execution Stopped' &&
+                'Execution Stopped' &&
               element.executionStats.timedOut
             ) {
               if (element.executionStats.statusLogs) {
@@ -1210,8 +1206,8 @@ export class ContentComponent implements OnInit, OnDestroy {
       this.crwalOptionLabel = source?.advanceSettings?.crawlEverything
         ? 'any'
         : source?.advanceSettings?.allowedOpt
-          ? 'allow'
-          : 'block';
+        ? 'allow'
+        : 'block';
       this.useCookies = source?.advanceSettings?.useCookies;
       this.respectRobotTxtDirectives =
         source?.advanceSettings?.respectRobotTxtDirectives;
@@ -1713,7 +1709,7 @@ export class ContentComponent implements OnInit, OnDestroy {
         }
         this.getSourceList();
       },
-      (errRes) => { }
+      (errRes) => {}
     );
   }
   filterTable(source, headerOption) {
@@ -2232,7 +2228,7 @@ export class ContentComponent implements OnInit, OnDestroy {
       if (
         this.editSource.advanceOpts.scheduleOpts.interval.intervalType &&
         this.editSource.advanceOpts.scheduleOpts.interval.intervalType !=
-        'Custom'
+          'Custom'
       ) {
         this.editSource.advanceOpts.scheduleOpts.interval.intervalValue = {};
       }
@@ -2514,7 +2510,7 @@ export class ContentComponent implements OnInit, OnDestroy {
         (res) => {
           this.numberOf = res;
         },
-        (errRes) => { }
+        (errRes) => {}
       );
     }
   }
