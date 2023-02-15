@@ -1,0 +1,93 @@
+<div class="simulate-test-block">
+    <div class="simulate-test-header-block">
+        <div class="simulate-test-header">{{"answer_snippet_simulate_test"|translate}}</div>
+        <div class="simulate-test-hide" (click)="closeSimulator()">{{"answer_snippet_simulate_hide"|translate}} <span class="chev-right-icon"><i class="si-carrotup"></i></span></div>
+    </div>
+    
+    <div class="simulate-test-search-block">
+        <div class="search-block">
+            <div class="kr-sg-input-text">
+                <img src="assets/icons/search_gray.svg" class="search-icon"/>
+                <img class="close-icon" container="body" placement="top-center" src="assets/icons/close_icon.svg" tooltipclass="ngb_tooltip_custom_class sampleJson" ngbTooltip="{{'sa_cancel'|translate}}" *ngIf="summaryViewObj.query?.length>0" (click)="summaryViewObj.query=''">
+                <input type="text" [placeholder]="('answer_snippet_enter_query'|translate)" class="input-text" [(ngModel)]="summaryViewObj.query" (keydown)="enterSimulateTest($event)">
+            </div>
+        </div>
+        <div class="search-block-btn">
+            <button class="kr-sg-button-primary btn_lg" (click)="simulateTest()" [disabled]="summaryViewObj.isLoading||summaryViewObj.query.length===0"><span class="loader-spin-inside-btn ml-1" *ngIf="summaryViewObj.isLoading"></span>{{!summaryViewObj.isLoading?("header_test"|translate):''}}</button>
+        </div>
+    </div>
+
+    <div class="simulate-test-sub-text" *ngIf="summaryViewObj.dynamicQuery?.length===0">{{"answer_snippet_simulate_sub_text"|translate}}</div>
+
+    <div class="snippet-divider"></div>
+
+    <div class="ans-sni-flow-header-block">
+        <div class="ans-sni-flow-any">{{"answer_snippet_flow_analysis"|translate}}</div>
+        <div class="view-type"  (click)="showSummaryView=!showSummaryView" [hidden]="summaryViewObj.dynamicQuery?.length===0">{{(showSummaryView?"answer_snippet_json_view":"answer_snippet_summary_view")|translate}}</div>
+    </div>
+
+    <!-- answer snippet View -->
+    <div *ngIf="showSummaryView; else jsonViewHTML">
+        <perfect-scrollbar class="user-ans-ans-block-scroll">
+            <div class="dev user-qns-block">
+                <div class="user-qns-tile-main">
+                    <div class="user-qns-tile">
+                        <div class="user-qns-header" id="user_question_id">{{"answer_snippet_user_question"|translate}}</div>
+                        <div class="user-qns-text text-title-truncate" [title]="summaryViewObj?.dynamicQuery">{{summaryViewObj?.dynamicQuery||("answer_snippet_user_question_example"|translate)}}</div>
+                    </div>
+                </div>
+
+                <div class="dummy-one" [ngClass]="{'verified-ans-border':(summaryViewObj.data&&summaryViewObj.data[0]?.isPresentedAnswer)}"></div>
+                <div class="dummy-two" [ngClass]="{'verified-ans-border':(summaryViewObj.data&&summaryViewObj.data[1]?.isPresentedAnswer)}"></div>
+               <div *ngFor="let answer of summaryViewObj.data;let i=index;">
+                <div class="user-ans-tile-main-{{i+1}}" [ngClass]="{'verified-ans-tile':answer?.isPresentedAnswer,'error-ans-tile':answer?.isNoAnswer}">
+                    
+                    <div class="user-ans-tile">
+                        <div class="user-ans-header-block">
+                            <div class="user-ans-header">{{("answer_snippet_"+answer?.snippet_type)|translate}}</div>
+                            <div class="user-time-block">
+                                <div class="user-time"><span><i class="si-timer mr-1"></i></span>{{answer?.timeTaken}}</div>
+                                <div class="user-check"><i class="{{answer?.isNoAnswer?'si-minus':'si-check'}}"></i></div>
+                            </div>
+                        </div>
+                        <div class="ans-evaluvation">
+                            <div class="ans-evaluvation-type" [id]="'ans_msg_id'+i"><span class="ans-evaluation-dot"></span><span [innerHTML]="convertMDtoHTML?.helpers?.convertMDtoHTML(answer?.message)"></span></div>
+                            <div class="if-evaluvated-score" *ngIf="answer?.score&&answer?.snippet_type!=='generative_model'">{{"answer_snippet_score"|translate}}: <b class="score-bold">{{answer?.score}}</b></div>
+                        </div>
+                        <div class="ans-evaluvation-title text-title-truncate" [title]="answer?.snippet_title" [innerHTML]="convertMDtoHTML?.helpers?.convertMDtoHTML(answer?.snippet_title)"></div>
+                        <div class="ans-evaluvation-desc {{(answer?.isNoAnswer||answer?.snippet_content?.length===0)&&'d-none'}}" *ngIf="_array?.isArray(answer?.snippet_content) else contentTemp">
+                             <div *ngFor="let snippetContent of answer?.snippet_content;let i=index;">
+                                <span>{{i+1}}. {{snippetContent}}</span>
+                             </div>
+                        </div>
+                         <ng-template #contentTemp>
+                            <div class="ans-evaluvation-desc {{(answer?.isNoAnswer||answer?.snippet_content?.length===0)&&'d-none'}}">{{answer?.snippet_content}}</div>
+                         </ng-template>
+                       
+                        <div class="ans-source" *ngIf="answer?.source">
+                            <div class="ans-source-file text-title-truncate" [title]="answer?.source"><span class="source-header mr-1">{{"workbench_source"|translate}}:</span>{{answer?.source}}</div>
+                            <div class="ans-source-link text-title-truncate" [title]="answer?.url">{{answer?.url}}</div>
+                        </div>
+                    </div>
+
+                    <div class="arrow-right" *ngIf="i===0"></div>
+                    
+                </div>
+               </div>
+            </div>
+        </perfect-scrollbar>
+    </div>
+
+    <!-- JSON view html -->
+    <ng-template #jsonViewHTML>
+        <div class="json-editor-block-scroll">
+            <div class="top-header-block">
+                <button class="kr-sg-button-secondary btn_lg" tooltipClass="tooltip-global-" [container]="'body'" ngbTooltip='{{"answer_snippet_mode" | translate}}' placement="top-center" (click)="enableDarkMode()" [disabled]="summaryViewObj.isCopyBtnShow"><span class="si-editor-icons"><i class="si-light-mode"></i></span></button>
+                <button class="kr-sg-button-secondary btn_lg" (click)="copySnippetJSON()" tooltipClass="tooltip-global-" [container]="'body'" ngbTooltip='{{"answer_snippet_copy" | translate}}' placement="top-center" [disabled]="summaryViewObj.isCopyBtnShow"><span class="si-editor-icons"><i class="si-clone-copy"></i></span></button>
+            </div>
+        <perfect-scrollbar class="user-ans-json-block-scroll">    
+            <ngx-codemirror name="jsonEditor" [options]="codeMirrorOptions" id="ngx_codemirror_add_structured_data" [(ngModel)]="summaryViewObj.jsonData"></ngx-codemirror>
+        </perfect-scrollbar>
+        </div>
+    </ng-template>
+</div>

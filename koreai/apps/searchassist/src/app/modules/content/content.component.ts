@@ -28,7 +28,6 @@ import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 import { DockStatusService } from '../../services/dockstatusService/dock-status.service';
 import { SchedulerComponent } from '../../components/scheduler/scheduler.component';
 import { EMPTY_SCREEN } from '../../modules/empty-screen/empty-screen.constants';
-import { UpgradePlanComponent } from '../../helpers/components/upgrade-plan/upgrade-plan.component';
 import { ServiceInvokerService } from '@kore.apps/services/service-invoker.service';
 import { WorkflowService } from '@kore.apps/services/workflow.service';
 import { AppSelectionService } from '@kore.apps/services/app.selection.service';
@@ -36,6 +35,7 @@ import { AuthService } from '@kore.apps/services/auth.service';
 import { InlineManualService } from '@kore.apps/services/inline-manual.service';
 import { MixpanelServiceService } from '@kore.apps/services/mixpanel-service.service';
 import { OnboardingComponent } from '../onboarding/onboarding.component';
+import { PlanUpgradeComponent } from '../pricing/shared/plan-upgrade/plan-upgrade.component';
 
 declare let require: any;
 const FileSaver = require('file-saver');
@@ -288,7 +288,7 @@ export class ContentComponent implements OnInit, OnDestroy {
   @ViewChild(SliderComponentComponent)
   sliderComponent: SliderComponentComponent;
   @ViewChild('schedular') schedular: SchedulerComponent;
-  @ViewChild('plans') plans: UpgradePlanComponent;
+  @ViewChild('plans') plans: PlanUpgradeComponent;
   @ViewChild(OnboardingComponent, { static: true })
   onBoardingComponent: OnboardingComponent;
   templateState = new Subject();
@@ -355,7 +355,7 @@ export class ContentComponent implements OnInit, OnDestroy {
     public dockService: DockStatusService,
     private appSelectionService: AppSelectionService,
     public mixpanel: MixpanelServiceService
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.selectedApp = this.workflowService.selectedApp();
@@ -579,7 +579,7 @@ export class ContentComponent implements OnInit, OnDestroy {
                   ).toString().length > 1
                     ? element?.advanceSettings?.scheduleOpts?.time?.minute
                     : '0' +
-                      element?.advanceSettings?.scheduleOpts?.time?.minute;
+                    element?.advanceSettings?.scheduleOpts?.time?.minute;
               }
               element['schedule_title'] =
                 'Runs ' +
@@ -809,7 +809,7 @@ export class ContentComponent implements OnInit, OnDestroy {
       (res) => {
         // console.log(res)
       },
-      (errRes) => {}
+      (errRes) => { }
     );
   }
   getJobStatus(type) {
@@ -1123,7 +1123,7 @@ export class ContentComponent implements OnInit, OnDestroy {
             // if (element.executionStats.executionStatusMessage == 'Execution Stopped' && element.executionStats.isTimedOut) {
             if (
               element.executionStats.executionStatusMessage ==
-                'Execution Stopped' &&
+              'Execution Stopped' &&
               element.executionStats.timedOut
             ) {
               if (element.executionStats.statusLogs) {
@@ -1210,8 +1210,8 @@ export class ContentComponent implements OnInit, OnDestroy {
       this.crwalOptionLabel = source?.advanceSettings?.crawlEverything
         ? 'any'
         : source?.advanceSettings?.allowedOpt
-        ? 'allow'
-        : 'block';
+          ? 'allow'
+          : 'block';
       this.useCookies = source?.advanceSettings?.useCookies;
       this.respectRobotTxtDirectives =
         source?.advanceSettings?.respectRobotTxtDirectives;
@@ -1713,7 +1713,7 @@ export class ContentComponent implements OnInit, OnDestroy {
         }
         this.getSourceList();
       },
-      (errRes) => {}
+      (errRes) => { }
     );
   }
   filterTable(source, headerOption) {
@@ -2232,7 +2232,7 @@ export class ContentComponent implements OnInit, OnDestroy {
       if (
         this.editSource.advanceOpts.scheduleOpts.interval.intervalType &&
         this.editSource.advanceOpts.scheduleOpts.interval.intervalType !=
-          'Custom'
+        'Custom'
       ) {
         this.editSource.advanceOpts.scheduleOpts.interval.intervalValue = {};
       }
@@ -2514,7 +2514,7 @@ export class ContentComponent implements OnInit, OnDestroy {
         (res) => {
           this.numberOf = res;
         },
-        (errRes) => {}
+        (errRes) => { }
       );
     }
   }

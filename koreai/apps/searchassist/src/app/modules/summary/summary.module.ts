@@ -11,6 +11,8 @@ import { SharedPipesModule } from '@kore.apps/helpers/filters/shared-pipes.modul
 import { QueryPipelineDataService } from './services/query-pipeline-data.service';
 import { IndexPipelineDataService } from './services/index-pipeline-data.service';
 import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
+import { PlanUpgradeModule } from '../pricing/shared/plan-upgrade/plan-upgrade.module';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 // export const indexPipelineFeatureKey = 'indexPipeline';
 // export const queryPipelineFeatureKey = 'queryPipeline';
@@ -40,6 +42,8 @@ import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
     TranslateModule.forChild(),
     SharedPipesModule,
     NgbTooltipModule,
+    PlanUpgradeModule,
+    NgbModule
   ],
 })
 export class SummaryModule {

@@ -12,6 +12,7 @@ import {
   NavigationStart,
   Router,
 } from '@angular/router';
+import { AppSelectionService } from './services/app.selection.service';
 import { LoaderService } from './shared/loader/loader.service';
 import { Store } from '@ngrx/store';
 import { LazyLoadService } from '@kore.libs/shared/src';
@@ -31,16 +32,12 @@ export class AppComponent implements OnInit {
   // sourceMenu = false;
   appSelected = false;
 
-  constructor(
-    private router: Router,
-    private loaderService: LoaderService,
-    private store: Store,
-    private lazyLoadService: LazyLoadService
-  ) {
+  constructor(private router: Router, private loaderService: LoaderService, private appSelectionService: AppSelectionService, private lazyLoadService: LazyLoadService) {
     this.onRouteEvents();
   }
 
   ngOnInit() {
+    if (Object.entries(localStorage?.jStorage).length > 2) this.appSelectionService?.getAllPlans();
     this.lazyLoadStyles();
   }
 

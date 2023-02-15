@@ -19,7 +19,6 @@ import { startWith } from 'rxjs/operators';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
 import { FormControl } from '@angular/forms';
-import { UpgradePlanComponent } from '../../helpers/components/upgrade-plan/upgrade-plan.component';
 import { NotificationService } from '@kore.apps/services/notification.service';
 import { ServiceInvokerService } from '@kore.apps/services/service-invoker.service';
 import { WorkflowService } from '@kore.apps/services/workflow.service';
@@ -27,6 +26,7 @@ import { AuthService } from '@kore.apps/services/auth.service';
 import { AppSelectionService } from '@kore.apps/services/app.selection.service';
 import { InlineManualService } from '@kore.apps/services/inline-manual.service';
 import { MixpanelServiceService } from '@kore.apps/services/mixpanel-service.service';
+import { PlanUpgradeComponent } from '../pricing/shared/plan-upgrade/plan-upgrade.component';
 import { LazyLoadService } from '@kore.libs/shared/src';
 import '../../../assets/js/codemirror.js';
 declare const $: any;
@@ -100,6 +100,7 @@ export class WorkbenchComponent implements OnInit, OnDestroy, AfterViewInit {
   ];
   newMappingObj: any = {};
   sourceType = 'all';
+  isAnswerSnippetEnabled = false;
   defaultStageTypesObj: any = {
     field_mapping: {
       name: 'Field Mapping',
@@ -296,8 +297,9 @@ export class WorkbenchComponent implements OnInit, OnDestroy, AfterViewInit {
     public inlineManual: InlineManualService,
     public mixpanel: MixpanelServiceService,
     private lazyLoadService: LazyLoadService
-  ) {}
-  @ViewChild('plans') plans: UpgradePlanComponent;
+  ) { }
+  @ViewChild('plans') plans: PlanUpgradeComponent;
+
   ngOnInit(): void {
     this.selectedApp = this.workflowService.selectedApp();
     // console.log("this.selectedApp", this.selectedApp)
@@ -430,7 +432,7 @@ export class WorkbenchComponent implements OnInit, OnDestroy, AfterViewInit {
           // this.traitsSuggesitions = allTraitskeys;
         }
       },
-      (err) => {}
+      (err) => { }
     );
   }
   drop(event: CdkDragDrop<string[]>, list) {
@@ -582,7 +584,7 @@ export class WorkbenchComponent implements OnInit, OnDestroy, AfterViewInit {
           this.newMappingObj.field_mapping.defaultValue.target_field &&
           (this.newMappingObj.field_mapping.defaultValue.value ||
             this.newMappingObj.field_mapping.defaultValue.operation ===
-              'remove' ||
+            'remove' ||
             this.newMappingObj.field_mapping.defaultValue.source_field)
         ) {
           this.addFiledmappings(this.newMappingObj.field_mapping.defaultValue);
@@ -1119,7 +1121,9 @@ export class WorkbenchComponent implements OnInit, OnDestroy, AfterViewInit {
       const quaryparms: any = {
         searchIndexID: this.serachIndexId,
         indexPipelineId: this.indexPipelineId,
+        deleteSnippetExtractionStage: false
       };
+      if (this.isAnswerSnippetEnabled) quaryparms.deleteSnippetExtractionStage = true;
       // this.tempConfigObj = config.entity_types
       this.service
         .invoke('put.indexPipeline', quaryparms, {
@@ -1127,6 +1131,7 @@ export class WorkbenchComponent implements OnInit, OnDestroy, AfterViewInit {
         })
         .subscribe(
           (res) => {
+            this.isAnswerSnippetEnabled = false;
             this.pipeline = res.stages || [];
             this.pipelineCopy = JSON.parse(JSON.stringify(res.stages));
 
@@ -1435,7 +1440,7 @@ export class WorkbenchComponent implements OnInit, OnDestroy, AfterViewInit {
       );
     } else if (type == 'entitytarget') {
       this.newMappingObj[this.selectedStage.type].defaultValue.target_field !=
-      ''
+        ''
         ? $('#infoWarning4').hide()
         : $('#infoWarning4').show();
       $('#entitytarget').css(
@@ -1530,13 +1535,13 @@ export class WorkbenchComponent implements OnInit, OnDestroy, AfterViewInit {
               }
             } else if (
               this.newMappingObj.field_mapping.defaultValue.target_field ===
-                '' ||
+              '' ||
               this.newMappingObj.field_mapping.defaultValue.value === ''
             ) {
               if (
                 this.newMappingObj.field_mapping.defaultValue.value === '' &&
                 this.newMappingObj.field_mapping.defaultValue.target_field ===
-                  ''
+                ''
               ) {
                 $('#fieldname').css('border-color', '#DD3646');
                 $('#infoWarning').css({
@@ -1588,7 +1593,7 @@ export class WorkbenchComponent implements OnInit, OnDestroy, AfterViewInit {
           }
         } else if (
           this.newMappingObj.field_mapping.defaultValue.operation ===
-            'rename' ||
+          'rename' ||
           this.newMappingObj.field_mapping.defaultValue.operation === 'copy'
         ) {
           for (
@@ -1612,18 +1617,18 @@ export class WorkbenchComponent implements OnInit, OnDestroy, AfterViewInit {
               }
             } else if (
               this.newMappingObj.field_mapping.defaultValue.source_field ===
-                '' ||
+              '' ||
               this.newMappingObj.field_mapping.defaultValue.source_field ===
-                undefined ||
+              undefined ||
               this.newMappingObj.field_mapping.defaultValue.target_field === ''
             ) {
               if (
                 (this.newMappingObj.field_mapping.defaultValue.source_field ===
                   '' ||
                   this.newMappingObj.field_mapping.defaultValue.source_field ===
-                    undefined) &&
+                  undefined) &&
                 this.newMappingObj.field_mapping.defaultValue.target_field ===
-                  ''
+                ''
               ) {
                 $('#rename_sourcefield').css('border-color', '#DD3646');
                 $('#infoWarning2').css({
@@ -1641,9 +1646,9 @@ export class WorkbenchComponent implements OnInit, OnDestroy, AfterViewInit {
                 });
               } else if (
                 this.newMappingObj.field_mapping.defaultValue.source_field ===
-                  '' ||
+                '' ||
                 this.newMappingObj.field_mapping.defaultValue.source_field ===
-                  undefined
+                undefined
               ) {
                 $('#rename_sourcefield').css('border-color', '#DD3646');
                 $('#infoWarning2').css({
@@ -2307,7 +2312,26 @@ export class WorkbenchComponent implements OnInit, OnDestroy, AfterViewInit {
       );
     }
   }
-  removeStage(i, stageType) {
+  async removeStage(i, stageType) {
+    if (stageType === 'snippet_extraction') {
+      this.getAnswerSnippets('delete', i);
+      this.isAnswerSnippetEnabled = true;
+    } else {
+      this.deleteStageModal(i);
+    }
+  }
+  checkStageActive() {
+    if (this.selectedStage?.type === 'snippet_extraction') {
+      if (!this.selectedStage?.enable) {
+        this.isAnswerSnippetEnabled = !this.isAnswerSnippetEnabled;
+        this.getAnswerSnippets('disable', 0);
+      }
+    }
+  }
+
+  //remove stage based on condition
+  deleteStageModal(i, message?) {
+    const msg = message || 'Selected stage will be deleted from workbench.';
     const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
       width: '530px',
       height: 'auto',
@@ -2316,47 +2340,96 @@ export class WorkbenchComponent implements OnInit, OnDestroy, AfterViewInit {
         title: 'Delete Stage',
         text: 'Are you sure you want to delete ?',
         newTitle: 'Are you sure you want to delete ?',
-        body: 'Selected stage will be deleted from workbench.',
-        // text: 'Do you want to discard this stage?',
-        // newTitle: 'Do you want to discard this stage?',
-        // body:'The '+stageType+' stage will be discarded as it does not contain any conditions.',
-        buttons: [
-          { key: 'yes', label: 'Delete', type: 'danger' },
-          { key: 'no', label: 'Cancel' },
-        ],
-        confirmationPopUp: true,
-      },
-    });
-
-    dialogRef.componentInstance.onSelect.subscribe((result) => {
-      if (result === 'yes') {
-        if (this.pipeline[i]._id) {
-          this.modifiedStages.deletedStages.push(this.pipeline[i]);
-        } else {
-          if (this.modifiedStages.createdStages.length) {
-            const index = this.modifiedStages.createdStages.findIndex(
-              (d) => d.type == this.pipeline[i].type
-            );
-            if (index > -1) {
-              this.modifiedStages.createdStages.splice(index, 1);
-            }
-          }
-        }
-        this.pipeline.splice(i, 1);
-        this.search_basic_fieldName = '';
-        this.basic_fieldName = '';
-        dialogRef.close();
-        this.notificationService.notify('Deleted Successfully', 'success');
-        if (this.pipeline && this.pipeline.length) {
-          this.selectStage(this.pipeline[0], 0);
-        } else {
-          this.selectedStage = null;
-        }
-      } else if (result === 'no') {
-        dialogRef.close();
-        // console.log('deleted')
+        body: msg,
+        buttons: [{ key: 'yes', label: 'Delete', type: 'danger' }, { key: 'no', label: 'Cancel' }],
+        confirmationPopUp: true
       }
     });
+
+    dialogRef.componentInstance.onSelect
+      .subscribe(result => {
+        if (result === 'yes') {
+          if (this.pipeline[i]._id) {
+            this.modifiedStages.deletedStages.push(this.pipeline[i]);
+          } else {
+            if (this.modifiedStages.createdStages.length) {
+              const index = this.modifiedStages.createdStages.findIndex((d) => d.type == this.pipeline[i].type);
+              if (index > -1) {
+                this.modifiedStages.createdStages.splice(index, 1);
+              }
+            }
+
+          }
+          this.pipeline.splice(i, 1);
+          this.search_basic_fieldName = '';
+          this.basic_fieldName = '';
+          dialogRef.close();
+          this.notificationService.notify('Deleted Successfully', 'success')
+          if (this.pipeline && this.pipeline.length) {
+            this.selectStage(this.pipeline[0], 0);
+          } else {
+            this.selectedStage = null
+          }
+        } else if (result === 'no') {
+          dialogRef.close();
+          // console.log('deleted')
+        }
+      })
+  }
+
+  //get Answer snippet Data API method  
+  getAnswerSnippets(type, index) {
+    const querypipeLineId = this.workflowService?.selectedQueryPipeline() ? this.workflowService?.selectedQueryPipeline()?._id : '';
+    const quaryparms: any = {
+      sidx: this.serachIndexId,
+      indexPipelineId: this.indexPipelineId,
+      queryPipelineId: querypipeLineId
+    };
+    this.service.invoke('get.answerSnippets', quaryparms).subscribe(
+      (res) => {
+        if (res) {
+          const data = res?.config?.filter(item => item?.type === "extractive_model");
+          if (data[0]?.active) {
+            if (type === 'delete') {
+              const message = 'Snippet Extraction Stage is being used in the Answer Snippets. Deleting it will impact the Answer Snippets.';
+              this.deleteStageModal(index, message)
+            } else if (type === 'disable') {
+              this.disableSnippetExtractionModal();
+            }
+          }
+          else {
+            if (type === 'delete') this.deleteStageModal(index);
+          }
+        }
+      },
+      (errRes) => {
+        this.errorToaster(errRes, 'Get Answer snippet API Failed');
+      }
+    );
+  }
+
+  disableSnippetExtractionModal() {
+    const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+      width: '530px',
+      height: 'auto',
+      panelClass: 'delete-popup',
+      data: {
+        title: 'Delete Stage',
+        text: 'Are you sure you want to disable ?',
+        newTitle: 'Are you sure you want to disable ?',
+        body: 'Snippet Extraction Stage is being used in the Answer Snippets. Disabling it will impact the Answer Snippets.',
+        buttons: [{ key: 'yes', label: 'Disable', type: 'danger' }, { key: 'no', label: 'Cancel' }],
+        confirmationPopUp: true
+      }
+    });
+
+    dialogRef.componentInstance.onSelect
+      .subscribe(result => {
+        if (result === 'no') {
+          this.selectedStage.enable = !this.selectedStage?.enable;
+        }
+        dialogRef.close();
+      })
   }
   addField() {
     const payload: any = {
@@ -2407,9 +2480,9 @@ export class WorkbenchComponent implements OnInit, OnDestroy, AfterViewInit {
   getFileds(offset?) {
     this.loadingFields = true;
     const quaryparms: any = {
-        searchIndexID: this.serachIndexId,
-        indexPipelineId: this.indexPipelineId,
-      },
+      searchIndexID: this.serachIndexId,
+      indexPipelineId: this.indexPipelineId,
+    },
       payload = {
         sort: {
           fieldName: 1,
@@ -2464,6 +2537,7 @@ export class WorkbenchComponent implements OnInit, OnDestroy, AfterViewInit {
       }
     );
   }
+
   deleteFieldPop(record) {
     const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
       width: '530px',
@@ -2814,8 +2888,8 @@ export class WorkbenchComponent implements OnInit, OnDestroy, AfterViewInit {
         map.operation === 'rename' || map.operation === 'copy'
           ? !map.target_field || !map.source_field
           : map.operation === 'remove'
-          ? !map.target_field
-          : !map.target_field || !map.value
+            ? !map.target_field
+            : !map.target_field || !map.value
       ) {
         return false;
       }

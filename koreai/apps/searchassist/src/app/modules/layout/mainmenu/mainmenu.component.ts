@@ -19,7 +19,7 @@ import { MixpanelServiceService } from '@kore.apps/services/mixpanel-service.ser
 import { KRModalComponent } from '@kore.apps/shared/kr-modal/kr-modal.component';
 import { SideBarService } from '@kore.apps/services/header.service';
 import { ConfirmationDialogComponent } from '@kore.apps/helpers/components/confirmation-dialog/confirmation-dialog.component';
-import { UpgradePlanComponent } from '@kore.apps/helpers/components/upgrade-plan/upgrade-plan.component';
+import { PlanUpgradeComponent } from '../../../modules/pricing/shared/plan-upgrade/plan-upgrade.component';
 import { DockStatusService } from '@kore.apps/services/dockstatusService/dock-status.service';
 import { Store } from '@ngrx/store';
 import {
@@ -40,9 +40,8 @@ import {
 } from '@ng-bootstrap/ng-bootstrap';
 import { KrModalModule } from '../../../shared/kr-modal/kr-modal.module';
 import { MatDialogModule } from '@angular/material/dialog';
-import { UpgradePlanModule } from '@kore.apps/helpers/components/upgrade-plan/upgrade-plan.module';
 import { SharedPipesModule } from '@kore.apps/helpers/filters/shared-pipes.module';
-
+import { PlanUpgradeModule } from '@kore.apps/modules/pricing/shared/plan-upgrade/plan-upgrade.module';
 declare const $: any;
 @Component({
   selector: 'app-mainmenu',
@@ -92,13 +91,13 @@ export class MainMenuComponent implements OnInit, OnDestroy {
   editIndexName = false;
   editIndexNameVal = '';
   submitted = false;
+  showUpgrade = false;
+  isRouteDisabled = false;
   public showStatusDocker = false;
   public statusDockerLoading = false;
   public dockersList: Array<any> = [];
-  showUpgrade = false;
   currentSubsciptionData: Subscription;
   updateUsageData: Subscription;
-  isRouteDisabled = false;
   componentType: any = '';
   currentSubscriptionPlan: any = {};
   @Input() show;
@@ -107,7 +106,7 @@ export class MainMenuComponent implements OnInit, OnDestroy {
   @ViewChild('addIndexFieldModalPop') addIndexFieldModalPop: KRModalComponent;
   @ViewChild('addFieldModalPop') addFieldModalPop: KRModalComponent;
   @ViewChild('statusDockerModalPop') statusDockerModalPop: KRModalComponent;
-  @ViewChild('plans') plans: UpgradePlanComponent;
+  @ViewChild('plans') plans: PlanUpgradeComponent;
   constructor(
     private service: ServiceInvokerService,
     private headerService: SideBarService,
@@ -120,7 +119,7 @@ export class MainMenuComponent implements OnInit, OnDestroy {
     public dialog: MatDialog,
     public mixpanel: MixpanelServiceService,
     private store: Store
-  ) {}
+  ) { }
   goHome() {
     this.workflowService.selectedApp(null);
     this.router.navigate(['/apps'], { skipLocationChange: true });
@@ -176,11 +175,13 @@ export class MainMenuComponent implements OnInit, OnDestroy {
     }
   }
   showNotificationBanner(type) {
-    $('.hover-documnet-show-data').css({
-      visibility: type === 'over' ? 'visible' : 'hidden',
-      opacity: type === 'over' ? 1 : 0,
-    });
-    if (type === 'over') this.appSelectionService.getCurrentUsage();
+    const upgradeBtnTarget = $('.upgrade-plan-btn');
+    if (upgradeBtnTarget.length) {
+      const element = upgradeBtnTarget[0];
+      const dimensions = element?.getClientRects();
+      $('.hover-documnet-show-data').css({ visibility: type === 'over' ? 'visible' : 'hidden', opacity: type === 'over' ? 1 : 0, top: (dimensions[0]?.y - 64) + 'px' });
+      if (type === 'over') this.appSelectionService.getCurrentUsage();
+    }
   }
   selectDefault() {
     this.newConfigObj._id = this.selectedConfig;
@@ -605,13 +606,10 @@ export class MainMenuComponent implements OnInit, OnDestroy {
   //check subscription data
   getSubscriptionData() {
     if (this.currentSubscriptionPlan?.subscription) {
-      this.showUpgrade = ['Unlimited', 'Enterprise'].includes(
-        this.currentSubscriptionPlan?.subscription?.planName
-      )
-        ? false
-        : true;
+      this.showUpgrade = (['Unlimited', 'Enterprise'].includes(this.currentSubscriptionPlan?.subscription?.planName)) ? false : true;
     }
   }
+
   // toggle sub-menu
   switchToTerminal() {
     this.closeModalPopup();
@@ -706,12 +704,10 @@ export class MainMenuComponent implements OnInit, OnDestroy {
     this.service.invoke('get.checkInExperiment', queryParms).subscribe(
       (res) => {
         const text = res.validated
-          ? `Selected ${
-              type == 'index' ? 'Index' : 'Search'
-            } Configuration will be deleted from the app.`
-          : `Selected ${
-              type == 'index' ? 'Index' : 'Search'
-            } Configuration is being used in Experiments. Deleting it stop the Experiement.`;
+          ? `Selected ${type == 'index' ? 'Index' : 'Search'
+          } Configuration will be deleted from the app.`
+          : `Selected ${type == 'index' ? 'Index' : 'Search'
+          } Configuration is being used in Experiments. Deleting it stop the Experiement.`;
         this.deleteIndexConfig(config, type, text, res.validated);
       },
       (errRes) => {
@@ -773,7 +769,6 @@ export class MainMenuComponent implements OnInit, OnDestroy {
   declarations: [MainMenuComponent, ConfirmationDialogComponent],
   imports: [
     CommonModule,
-    UpgradePlanModule,
     KrModalModule,
     PerfectScrollbarModule,
     TranslateModule,
@@ -784,8 +779,9 @@ export class MainMenuComponent implements OnInit, OnDestroy {
     NgbProgressbarModule,
     SharedPipesModule,
     MatDialogModule,
+    PlanUpgradeModule
   ],
   entryComponents: [ConfirmationDialogComponent],
   exports: [MainMenuComponent],
 })
-export class MainMenuModule {}
+export class MainMenuModule { }

@@ -612,7 +612,7 @@ export class EndPointsService {
     this.serviceList['put.indexPipeline'] = {
       endpoint:
         this.API_SERVER_URL +
-        '/findly/:searchIndexID/indexPipeline/:indexPipelineId',
+        '/findly/:searchIndexID/indexPipeline/:indexPipelineId?deleteSnippetExtractionStage=:deleteSnippetExtractionStage',
       method: 'put',
     };
     this.serviceList['post.reindex'] = {
@@ -1885,5 +1885,27 @@ export class EndPointsService {
         '/findly/stream/:streamId/indexPipeline/:indexPipelineId/queryPipeline/:queryPipelineId/searchField/:fieldId/usage',
       method: 'get',
     };
+
+    //API's for answer Snippets module
+    this.serviceList['get.answerSnippets'] = {
+      endpoint: this.API_SERVER_URL + '/findly/:sidx/indexPipeline/:indexPipelineId/queryPipeline/:queryPipelineId/snippets',
+      method: 'get'
+    }
+    this.serviceList['put.answerSnippets'] = {
+      endpoint: this.API_SERVER_URL + '/findly/:sidx/indexPipeline/:indexPipelineId/queryPipeline/:queryPipelineId/snippets',
+      method: 'put'
+    }
+    this.serviceList['get.openAIKey'] = {
+      endpoint: this.API_SERVER_URL + '/findly/stream/:streamId/integrations',
+      method: 'get'
+    }
+    this.serviceList['post.openAIKey'] = {
+      endpoint: this.API_SERVER_URL + '/findly/stream/:streamId/integrations',
+      method: 'post'
+    }
+    this.serviceList['post.simulateTest'] = {
+      endpoint: this.API_SERVER_URL + '/findly/:sidx/indexPipeline/:indexPipelineId/queryPipeline/:queryPipelineId/snippets/simulate',
+      method: 'post'
+    }
   }
 }

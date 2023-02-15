@@ -2008,7 +2008,7 @@
         'z-index': '9999'
       }"
     >
-      <div class="nlp-choose-tag" *ngIf="!nlpAnnotatorObj.isEditPage">
+      <div class="nlp-choose-tag" *ngIf="!nlpAnnotatorObj.isEditPage" appOutsideClicked (clickedOutside)="clickOusideToCloseNLPModal()">
         <div class="nlp-choose-tag-header">
           <span class="bot-tasks"
             ><img src="assets/images/bot-tasks.svg"
@@ -2277,4 +2277,5 @@
   <div class="tag-tooltip-text"></div>
 </kr-modal>
 
-<app-upgrade-plan #plans></app-upgrade-plan>
+<!--Plan upgrade component -->
+<app-plan-upgrade #plans></app-plan-upgrade>
