@@ -7,7 +7,10 @@ import { KrModalModule } from '../../shared/kr-modal/kr-modal.module';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { NgbTypeaheadModule } from '@ng-bootstrap/ng-bootstrap';
+import {
+  NgbTooltipModule,
+  NgbTypeaheadModule,
+} from '@ng-bootstrap/ng-bootstrap';
 import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
 import { MatChipsModule } from '@angular/material/chips';
 import { SharedPipesModule } from '@kore.apps/helpers/filters/shared-pipes.module';
@@ -33,6 +36,7 @@ import { Router } from '@angular/router';
     ReactiveFormsModule,
     SharedPipesModule,
     EmptyScreenModule,
+    NgbTooltipModule,
   ],
 })
 export class TeamManagementModule {}
