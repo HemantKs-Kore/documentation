@@ -68,7 +68,8 @@
           "rangy",
           "nouislider",
           "detect-passive-events",
-          "ng5-slider"
+          "ng5-slider",
+          "file-saver"
         ]
       },
       "configurations": {
