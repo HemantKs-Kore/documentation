@@ -9,6 +9,7 @@ import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
 import { NgbModule, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { WorkflowService } from '@kore.apps/services/workflow.service';
 import { ServiceInvokerService } from '@kore.apps/services/service-invoker.service';
+import { TranslateModule } from '@ngx-translate/core';
 
 @NgModule({
   declarations: [SearchSettingsComponent],
@@ -17,6 +18,7 @@ import { ServiceInvokerService } from '@kore.apps/services/service-invoker.servi
     PerfectScrollbarModule,
     SearchSettingsRoutingModule,
     NgbModule,
+    TranslateModule.forChild(),
   ],
   providers: [
     PipelineDataResolver,

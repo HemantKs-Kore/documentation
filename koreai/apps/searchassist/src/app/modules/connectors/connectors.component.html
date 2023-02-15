@@ -954,7 +954,9 @@
                         </div>
                         <input
                           type="text"
-                          placeholder="Enter Tenant ID here"
+                          placeholder="{{
+                            'connectors_enter_tenant_id' | translate
+                          }}"
                           class="input-text"
                           [type]="
                             showProtecedText.istenantIdShow
