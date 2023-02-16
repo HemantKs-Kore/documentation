@@ -5,7 +5,7 @@
   "scripts": {
     "start": "ng serve searchassist -o",
     "serve:app": "ng build searchassist --configuration=app && live-server dist/apps/searchassist",
-    "serve:qa": "run-s build:qa liveserver",
+    "serve:qa": "ng build searchassist --configuration=qa && npm run liveserver",
     "serve:prod": "run-s build liveserver",
     "liveserver": "cd dist/apps/searchassist && live-server",
     "build": "ng build searchassist",
