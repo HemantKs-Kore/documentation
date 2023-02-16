@@ -42,7 +42,7 @@ export class AppDataResolver implements Resolve<any> {
       promise1.subscribe(
         (res) => {
           observer.next(res);
-          this.authService.seedData();
+          // this.authService.seedData();
           // this.authService.getfindlyApps();
           observer.complete();
         },

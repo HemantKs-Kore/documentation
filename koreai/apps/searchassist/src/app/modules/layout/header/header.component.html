@@ -23,7 +23,7 @@
             class="headerMenuTab"
             [ngClass]="{
               active: mainMenu === '/summary',
-              'disable_btn':isRouteDisabled
+              disable_btn: isRouteDisabled
             }"
             skipLocationChange
             routerLinkActive="active"
@@ -39,14 +39,14 @@
             routerLinkActive="active"
             (click)="analyticsClick('/sources'); closeUserMetaTagsSlider()"
           >
-            <span>{{ 'header_sources' | translate }}</span>            
+            <span>{{ 'header_sources' | translate }}</span>
           </div>
           <div
             class="headerMenuTab"
             id="sourceTab"
             [ngClass]="{
               active: menuItems?.indices?.includes(mainMenu),
-              'disable_btn':isRouteDisabled
+              disable_btn: isRouteDisabled
             }"
             skipLocationChange
             routerLinkActive="active"
@@ -55,13 +55,13 @@
               closeUserMetaTagsSlider()
             "
           >
-            <span>{{ 'header_indices' | translate }}</span>            
+            <span>{{ 'header_indices' | translate }}</span>
           </div>
           <div
             class="kr-sg-dropdowns headerMenuTab"
             [ngClass]="{
               active: menuItems?.anlytics?.includes(mainMenu),
-              'disable_btn':isRouteDisabled
+              disable_btn: isRouteDisabled
             }"
           >
             <div class="dropdown dropdown-open">
@@ -152,7 +152,9 @@
         <!-- <div class="text-right nav-item trainBlock d-none">
                     <button class="kr-sg-button-primary btn_lg" [disabled]='training' (click)="train()">{{(training)?'Training...':'Train'}}</button>
                 </div> -->
-        <li class="nav-item app-dropdown {{isRouteDisabled&&'disable_btn'}}">
+        <li
+          class="nav-item app-dropdown {{ isRouteDisabled && 'disable_btn' }}"
+        >
           <div
             class="kr-sg-dropdowns new-line-btn"
             ngbDropdown
@@ -221,7 +223,7 @@
                     <button class="kr-sg-button-secondary btn_lg"> Preview</button>
                   </li> -->
 
-        <li class="nav-item test-button {{isRouteDisabled&&'disable_btn'}}">
+        <li class="nav-item test-button {{ isRouteDisabled && 'disable_btn' }}">
           <button
             placement="bottom"
             triggers="hover"
@@ -240,7 +242,7 @@
         </li>
         <!-- New Code wrt to Stop Traing -->
         <li
-          class="nav-item new-train-btn {{isRouteDisabled&&'disable_btn'}}"
+          class="nav-item new-train-btn {{ isRouteDisabled && 'disable_btn' }}"
           [ngbTooltip]="training ? 'Stop Training The App' : 'Train Your APP'"
         >
           <button
@@ -286,7 +288,11 @@
                     <div class="loader-train"></div>
                     <img src="assets/icons/train.svg" class="defaultIcon">
                 </li> -->
-        <li class="nav-item search-block show-search1 {{isRouteDisabled&&'disable_btn'}}">
+        <li
+          class="nav-item search-block show-search1 {{
+            isRouteDisabled && 'disable_btn'
+          }}"
+        >
           <div
             class="search_icon"
             [ngClass]="{ 'active-search-top': showSearch }"
@@ -346,7 +352,11 @@
             </div>
           </div>
         </li>
-        <li class="nav-item notification-block {{isRouteDisabled&&'disable_btn'}}">
+        <li
+          class="nav-item notification-block {{
+            isRouteDisabled && 'disable_btn'
+          }}"
+        >
           <div class="kr-sg-dropdowns" ngbDropdown>
             <div class="dropdown dropdown-open">
               <button
@@ -616,7 +626,7 @@
         </li>
 
         <li
-          class="nav-item help-icon {{isRouteDisabled&&'disable_btn'}}"
+          class="nav-item help-icon {{ isRouteDisabled && 'disable_btn' }}"
           [container]="'body'"
           ngbTooltip="{{ 'header_help' | translate }}"
           tooltipClass="train-icon-tooltip"
@@ -1160,13 +1170,28 @@
 
 <!-- Browse all workspace close-->
 <app-slider-component id="supportOnboarding">
-  <app-onboarding
-    [currentRouteData]="currentRouteData"
-    (openSDK)="openSDK()"
-    [displyStatusBar]="displyStatusBar"
-    (emitStatus)="emitStatus($event)"
-    (closeSlid)="closeUserMetaTagsSlider()"
-  ></app-onboarding>
+  <div
+    appIntersectionObserver
+    [intersectionDebounce]="0"
+    (visibilityChange)="onVisibilityChanged('onboarding', $event)"
+    [ngSwitch]="visibilityStatus['onboarding']"
+  >
+    <ng-container *ngSwitchCase="intersectionStatus.Visible">
+      <app-onboarding
+        [currentRouteData]="currentRouteData"
+        (openSDK)="openSDK()"
+        [displyStatusBar]="displyStatusBar"
+        (emitStatus)="emitStatus($event)"
+        (closeSlid)="closeUserMetaTagsSlider()"
+      ></app-onboarding>
+    </ng-container>
+
+    <ng-container *ngSwitchCase="intersectionStatus.Pending">
+      <ng-container>Loading...</ng-container>
+    </ng-container>
+
+    <ng-container *ngSwitchDefault> ❌ </ng-container>
+  </div>
 </app-slider-component>
 
 <div

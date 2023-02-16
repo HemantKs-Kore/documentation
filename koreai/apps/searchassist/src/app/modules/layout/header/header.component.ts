@@ -29,7 +29,7 @@ import { MixpanelServiceService } from '@kore.apps/services/mixpanel-service.ser
 import { AppUrlsService } from '@kore.apps/services/app.urls.service';
 import { environment } from '@kore.environment/environment';
 import { SearchSdkService } from '@kore.apps/modules/search-sdk/services/search-sdk.service';
-import { OnboardingComponent } from '@kore.apps/modules/onboarding/onboarding.component';
+// import { OnboardingComponent } from '@kore.apps/modules/onboarding/onboarding.component';
 import { Store } from '@ngrx/store';
 import { setAppId } from '@kore.apps/store/app.actions';
 import {
@@ -37,6 +37,7 @@ import {
   selectEnablePreview,
 } from '@kore.apps/store/app.selectors';
 import { AppsService } from '@kore.apps/modules/apps/services/apps.service';
+import { IntersectionStatus } from '@kore.libs/shared/src/lib/directives/intersection-observer/from-intersection-observer';
 
 @Component({
   selector: 'app-header',
@@ -44,6 +45,9 @@ import { AppsService } from '@kore.apps/modules/apps/services/apps.service';
   styleUrls: ['./header.component.scss'],
 })
 export class HeaderComponent implements OnInit, OnDestroy {
+  show;
+  visibilityStatus: { [key: string]: IntersectionStatus } = {};
+  intersectionStatus = IntersectionStatus;
   isSdkBundleLoaded = false;
   toShowAppHeader;
   mainMenu = '';
@@ -147,8 +151,9 @@ export class HeaderComponent implements OnInit, OnDestroy {
   @ViewChild('testButtonTooltip') testButtonTooltip: any;
   @ViewChild(SliderComponentComponent, { static: true })
   sliderComponent: SliderComponentComponent;
-  @ViewChild(OnboardingComponent, { static: true })
-  onBoardingComponent: OnboardingComponent;
+  onBoardingComponent;
+  // @ViewChild(OnboardingComponent, { static: true })
+  // onBoardingComponent: OnboardingComponent;
   @ViewChild('browseWorkspace') browseWorkspace: KRModalComponent;
   availableRouts = [
     { displayName: 'Summary', routeId: '/summary', quaryParms: {} },
@@ -2177,5 +2182,17 @@ export class HeaderComponent implements OnInit, OnDestroy {
   hideparentTooltip(event) {
     event.stopImmediatePropagation();
     event.preventDefault();
+  }
+
+  onVisibilityChanged(index: string, status: IntersectionStatus) {
+    this.visibilityStatus[index] = status;
+  }
+
+  trackByIndex(index: string) {
+    return index;
+  }
+
+  getNum() {
+    console.log('ddddd');
   }
 }
