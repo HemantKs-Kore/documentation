@@ -1178,7 +1178,15 @@
 
 <!-- Browse all workspace close-->
 <app-slider-component id="supportOnboarding">
-  <div
+  <app-onboarding
+    [currentRouteData]="currentRouteData"
+    (openSDK)="openSDK()"
+    [displyStatusBar]="displyStatusBar"
+    (emitStatus)="emitStatus($event)"
+    (closeSlid)="closeUserMetaTagsSlider()"
+  ></app-onboarding>
+
+  <!-- <div
     appIntersectionObserver
     [intersectionDebounce]="0"
     (visibilityChange)="onVisibilityChanged('onboarding', $event)"
@@ -1199,7 +1207,7 @@
     </ng-container>
 
     <ng-container *ngSwitchDefault> ❌ </ng-container>
-  </div>
+  </div> -->
 </app-slider-component>
 
 <div
