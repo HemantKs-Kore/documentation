@@ -7,6 +7,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 import { EmptyScreenModule } from '../empty-screen/empty-screen.module';
 import { SharedPipesModule } from '@kore.apps/helpers/filters/shared-pipes.module';
+import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
 
 @NgModule({
   declarations: [ResultRankingComponent],
@@ -17,6 +18,7 @@ import { SharedPipesModule } from '@kore.apps/helpers/filters/shared-pipes.modul
     NgbTooltipModule,
     EmptyScreenModule,
     SharedPipesModule,
+    PerfectScrollbarModule,
   ],
 })
 export class ResultRankingModule {}
