@@ -35,7 +35,7 @@ export class AppComponent implements OnInit {
 
   constructor(private router: Router, private loaderService: LoaderService, private appSelectionService: AppSelectionService, private lazyLoadService: LazyLoadService, private translate: TranslateService,private renderer:Renderer2) {
     this.onRouteEvents();
-    let lang = window.localStorage.getItem('appLanguage')
+    const lang = window.localStorage.getItem('appLanguage')
     if(lang){
       translate.setDefaultLang(lang);
       if(lang !== 'en'){
@@ -44,7 +44,7 @@ export class AppComponent implements OnInit {
       }
     }else{
       if(window.location.href.split("home/").length && window.location.href.split("home/")[1]){
-        let lang = window.location.href.split("home/")[1];
+        const lang = window.location.href.split("home/")[1];
         translate.setDefaultLang(lang);
         this.renderer.addClass(document.body, 'sa-lang-'+lang);
       }
