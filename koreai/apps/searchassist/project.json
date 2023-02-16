@@ -41,6 +41,11 @@
             "inject": false
           },
           {
+            "input": "apps/searchassist/src/scss/components/lang.scss",
+            "bundleName": "lang.min",
+            "inject": false
+          },
+          {
             "input": "apps/searchassist/src/scss/components/searchsdk.scss",
             "bundleName": "searchsdk.min",
             "inject": false

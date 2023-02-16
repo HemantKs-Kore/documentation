@@ -243,7 +243,11 @@
         <!-- New Code wrt to Stop Traing -->
         <li
           class="nav-item new-train-btn {{ isRouteDisabled && 'disable_btn' }}"
-          [ngbTooltip]="training ? 'Stop Training The App' : 'Train Your APP'"
+          [ngbTooltip]="
+            training
+              ? ('header_stop_traing' | translate)
+              : ('header_train_your_app' | translate)
+          "
         >
           <button
             (mouseenter)="displayStopTrain()"
@@ -269,10 +273,10 @@
             <span class="pl-1">
               {{
                 training && !showClose
-                  ? 'Train'
+                  ? ('header_train' | translate)
                   : training && showClose
-                  ? ' Stop'
-                  : 'Train'
+                  ? ('header_stop_train' | translate)
+                  : ('header_train' | translate)
               }}
             </span>
           </button>
@@ -796,7 +800,7 @@
                   class="kr-sg-button-secondary btn_lg w-100 mt-2"
                   (click)="openBrowseWorkspace(true)"
                 >
-                  Browse Workspaces
+                  {{ 'header_browse_work_space' | translate }}
                 </button>
               </div>
             </ul>
@@ -1153,7 +1157,11 @@
                     [disabled]="workspace.alreadyJoined"
                     (click)="JoinWorkspace(workspace, i)"
                   >
-                    {{ workspace.alreadyJoined ? 'Joined' : 'Join' }}
+                    {{
+                      workspace.alreadyJoined
+                        ? ('header_joined' | translate)
+                        : ('header_join' | translate)
+                    }}
                   </button>
                 </div>
               </ng-container>

@@ -72,7 +72,7 @@
         </div>
         <div class="header-sec" *ngIf="rules && rules.length && !loadingRules">
             <div class="kr-sg-input-search">                               
-                <input type="text" placeholder="Search" class="input-search" id="searchFaqs" name='faqsSearch' [(ngModel)]="searchBlock">
+                <input type="text" placeholder="{{'sa_search' | translate}}" class="input-search" id="searchFaqs" name='faqsSearch' [(ngModel)]="searchBlock">
                 <img src="assets/icons/search-gray.svg" class="search-icon">
             </div>
             <button class="kr-sg-button-secondary btn_lg" (click)="addEditRules()" *ngIf="selectedTab==='rules'">Add</button>

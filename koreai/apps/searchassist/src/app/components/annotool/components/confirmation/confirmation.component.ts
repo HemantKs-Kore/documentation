@@ -4,11 +4,16 @@ import {
   MatDialogRef,
   MAT_DIALOG_DATA,
 } from '@angular/material/dialog';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-confirmation',
+  standalone: true,
   templateUrl: './confirmation.component.html',
   styleUrls: ['./confirmation.component.scss'],
+  imports:[
+    TranslateModule
+  ]
 })
 export class ConfirmationComponent implements OnInit {
   dialogInfo: any = {};

@@ -80,7 +80,7 @@
           <input
             type="text"
             maxlength="60"
-            placeholder="Search"
+            placeholder="{{'sa_search' | translate}}"
             id="inputSearch"
             class="input-search"
             [ngClass]="{ 'pl-33': !searchfacet, 'pl-2': searchfacet }"
@@ -633,7 +633,7 @@
                           autocomplete="off"
                           type="text"
                           (keydown)="$event.stopPropagation()"
-                          placeholder="Search"
+                          placeholder="{{'sa_search' | translate}}"
                           class="seach-input"
                         />
                       </li>
@@ -946,7 +946,7 @@
                             autocomplete="off"
                             type="text"
                             (keydown)="$event.stopPropagation()"
-                            placeholder="Search"
+                            placeholder="{{'sa_search' | translate}}"
                             class="seach-input"
                           />
                         </li>

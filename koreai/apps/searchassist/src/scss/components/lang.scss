@@ -1,0 +1,189 @@
+.sa-lang-ja{
+    //Overview module 
+    .overview_container_data {
+            .cards-data{
+                .inner-content{
+                    .table-data{
+                        .data-count{
+                            white-space: nowrap;
+                        }
+                    }
+                }
+            }
+    }
+    //Content landing & FAQ landing  
+    .contentContainer,.faqsListContainer{
+             .ps-content{
+                .action-buttons{
+                    white-space: nowrap;
+                }
+             }
+    }
+    //Crawl pop up and faq Pop Ups
+    .crwal-checkbox-list{
+        .group-checkbox{
+            .kr-sg-checkbox{
+                .checkbox-custom-label{
+                    white-space: nowrap;
+                }
+            }
+        }
+    }
+    .is-auth-form-block{
+        .is-auth-form-table{
+            .is-auth-form-edit{
+                .is-auth-btn-group{
+                    .kr-sg-button-secondary{
+                        white-space: nowrap;
+                    }
+                }
+            }
+        }
+    }
+    .browse-file-tabs-container {
+        .browsebyfile {
+            .drag-label{
+                white-space: nowrap;
+            }
+        }
+    }
+    .faq-content-boxes{
+        .right-content{
+            .header-info-que{
+                .actions-sec{
+                    .kr-sg-button-primary{
+                        white-space: nowrap;   
+                    }
+                }
+            }
+        }
+    }
+    //connectors
+    .connector-cards-data{
+        .heading-with-line {
+            white-space: nowrap;
+        }
+    }
+    .workbench_main_container{
+        .form_sec {
+            .form_edit_content{
+                .stageToggle{
+                    white-space: nowrap;
+                }
+            }
+        }
+    }
+
+    //Bussiness Rules 
+    .kr-modal{
+        &.business-rules-popup{
+            .modal-dialog{
+                .modal-content{
+                    .modal-header{
+                        .title {
+                            width: 75% !important;
+                        }
+                        .toggle-switch{
+                            right: 220px;
+                        }
+                     }
+                }
+            }
+       }
+    }
+    //Search Experience
+    .search-experience-wrapper{
+        .left-sec{
+            .position-relative{
+                .border-with-padding{
+                    .slider{
+                        white-space: nowrap;
+                    }
+                }
+            }
+        }
+        .scroll-data{
+            .tab-content{
+                .interactins-content{
+                    .left-sec{
+                        .border-with-padding{
+                            .kr-sg-toggle{
+                                .slider{
+                                    white-space: nowrap;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+    //Result Template
+    .search-interface-container{
+        .header_sec{
+            .right-side-copy-configs{
+                white-space: nowrap;
+            }
+        }
+            .scroll-interface{
+                .search-interface-right-sec{
+                    .kr-sg-toggle{
+                        white-space: nowrap;
+                  }
+                } 
+            }
+    }
+    .kr-modal{
+      &.search-interface-modal{
+        .kr-sg-toggle{
+            white-space: nowrap;
+      }
+      }
+    }
+
+    .onboarding-slider-container{
+        .nav-pills{
+            &.app-checkList{
+                width: 125px;
+            }
+        }
+        .applist-header{
+           white-space: nowrap;
+        }
+    }
+
+    // Onbaording CheckList
+    .onboarding-slider-container{
+        .nav-pills{
+            li {
+                white-space: normal;
+                width:125px ;
+                    .nav-link{
+                        width: 99%;
+                }
+                .nav-link{
+                    span{
+                        white-space: nowrap;
+                        text-overflow: ellipsis;
+                        overflow: hidden;
+                    }
+                }
+            }
+        }
+    }
+
+    //Search-Seattings 
+    .search-settings-main-block{
+        .landing-page-toggle{
+        white-space: nowrap;
+        }
+    }
+   
+
+}
+
+.sa-lang-ko{
+ 
+   
+   
+}

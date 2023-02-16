@@ -44,6 +44,7 @@ import { ConfirmationComponent } from '../confirmation/confirmation.component';
 import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { SimplebarAngularModule } from 'simplebar-angular';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-pdf-annotation',
@@ -58,7 +59,9 @@ import { SimplebarAngularModule } from 'simplebar-angular';
     PdfViewerModule,
     SimplebarAngularModule,
     PerfectScrollbarModule,
+    TranslateModule
   ],
+
 })
 export class PdfAnnotationComponent implements OnInit, OnDestroy {
   @ViewChild(PdfViewerComponent)

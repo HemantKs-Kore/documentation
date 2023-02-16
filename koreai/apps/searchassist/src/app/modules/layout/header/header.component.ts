@@ -32,6 +32,7 @@ import { SearchSdkService } from '@kore.apps/modules/search-sdk/services/search-
 // import { OnboardingComponent } from '@kore.apps/modules/onboarding/onboarding.component';
 import { Store } from '@ngrx/store';
 import { setAppId } from '@kore.apps/store/app.actions';
+import { LazyLoadService } from '@kore.libs/shared/src';
 import {
   selectAppId,
   selectEnablePreview,

@@ -265,8 +265,8 @@ export class PlanDetailsComponent implements OnInit, OnDestroy {
   //Grap data
   pricingChart() {
     let xAxisQueryData = [];
-    let years = [];
-    let yAxisQueryData = [];
+    const years = [];
+    const yAxisQueryData = [];
     let barQueColor = '#7027E5';
     if (
       this.currentSubscriptionPlan &&

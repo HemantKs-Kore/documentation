@@ -7,10 +7,10 @@
   </div>
   <div class="modal-footer">
     <button (click)="tryAgain()" type="button" class="kr-sg-button-primary btn_md">
-      {{dialogInfo?.yes || 'Confirm'}}
+      {{dialogInfo?.yes || ("sa_confirm" | translate)}}
     </button>
     <button (click)="close()" type="button" class="kr-sg-button-secondary btn_md">
-      {{dialogInfo?.no || 'Cancel'}}
+      {{dialogInfo?.no || ("sa_cancel" | translate)}}
     </button>
   </div>
 
