@@ -1,6 +1,5 @@
 import { EMPTY_SCREEN } from './../../modules/empty-screen/empty-screen.constants';
 import { Component, NgZone, OnDestroy, OnInit } from '@angular/core';
-import { Moment } from 'moment';
 import { formatDistanceToNow } from 'date-fns';
 import { ConfirmationDialogComponent } from '../../helpers/components/confirmation-dialog/confirmation-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
