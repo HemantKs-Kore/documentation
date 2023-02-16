@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { KRModalComponent } from '../../shared/kr-modal/kr-modal.component';
-import { filter, Subscription } from 'rxjs';
+import { filter, Subscription, tap, withLatestFrom } from 'rxjs';
 import { ConfirmationDialogComponent } from '../../helpers/components/confirmation-dialog/confirmation-dialog.component';
 import { format } from 'date-fns';
 import { AppSelectionService } from '@kore.apps/services/app.selection.service';
@@ -12,9 +12,12 @@ import { WorkflowService } from '@kore.apps/services/workflow.service';
 import { ServiceInvokerService } from '@kore.apps/services/service-invoker.service';
 import { LocalStoreService } from '@kore.apps/services/localstore.service';
 import { Store } from '@ngrx/store';
+
 import {
   selectAppIds,
+  selectIndexPipelineId,
   selectSearchExperiance,
+  selectSearchIndexId,
 } from '@kore.apps/store/app.selectors';
 declare const $: any;
 @Component({
@@ -180,11 +183,23 @@ export class ResultTemplatesComponent implements OnInit, OnDestroy {
           this.searchIndexId = searchIndexId;
           this.indexPipelineId = indexPipelineId;
           this.queryPipelineId = queryPipelineId;
-
-          this.loadFiledsData();
         }
       );
+
+    const indexPipelineSub = this.store
+      .select(selectIndexPipelineId)
+      .pipe(
+        withLatestFrom(this.store.select(selectSearchIndexId)),
+        tap(([indexPipelineId, searchIndexId]) => {
+          this.searchIndexId = searchIndexId;
+          this.indexPipelineId = indexPipelineId;
+          this.loadFiledsData();
+        })
+      )
+      .subscribe();
+
     this.subscription?.add(idsSub);
+    this.subscription?.add(indexPipelineSub);
   }
 
   //get default data
@@ -194,7 +209,7 @@ export class ResultTemplatesComponent implements OnInit, OnDestroy {
       .pipe(filter((res) => !!res))
       .subscribe((res) => {
         this.searchExperienceConfig = res;
-        this.loadFiledsData();
+        // this.loadFiledsData();
         this.updateResultTemplateTabsAccess();
       });
 

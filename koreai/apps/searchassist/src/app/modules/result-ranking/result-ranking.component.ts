@@ -1,7 +1,6 @@
 import { EMPTY_SCREEN } from './../../modules/empty-screen/empty-screen.constants';
 import { Component, NgZone, OnDestroy, OnInit } from '@angular/core';
-import { Moment } from 'moment';
-import * as moment from 'moment';
+import { formatDistanceToNow } from 'date-fns';
 import { ConfirmationDialogComponent } from '../../helpers/components/confirmation-dialog/confirmation-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
 import { Subscription } from 'rxjs';
@@ -687,9 +686,15 @@ export class ResultRankingComponent implements OnInit, OnDestroy {
           }
           actLog.value = data.customization.value;
           actLog.addedResult = data.target.addedResult;
-          actLog.lMod = moment(data.customization.lMod).fromNow();
+          const lastModifiedDate = new Date(data.customization.lMod);
+          actLog.lMod = formatDistanceToNow(lastModifiedDate, {
+            addSuffix: true,
+          });
           if (data.logs) {
-            actLog.createdOn = moment(data.createdOn).fromNow();
+            const createdonDate = new Date(actLog.createdOn);
+            actLog.createdOn = formatDistanceToNow(lastModifiedDate, {
+              addSuffix: true,
+            });
           }
           this.customizedActionLogData.push(actLog);
         });
@@ -826,7 +831,11 @@ export class ResultRankingComponent implements OnInit, OnDestroy {
         this.customizeLog = res;
         for (let i = 0; i < this.customizeLog.length; i++) {
           const time = this.customizeLog[i].createdOn;
-          this.customizeLog[i].createdOn = moment(time).fromNow();
+          const customizeLogCreatedonDate = new Date(time);
+          this.customizeLog[i].createdOn = formatDistanceToNow(
+            customizeLogCreatedonDate,
+            { addSuffix: true }
+          );
           this.customizeLog[i]['selected'] = false;
           if (this.customizeLog[i].target.contentType == 'data') {
             if (

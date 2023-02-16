@@ -155,7 +155,6 @@ export class UseronboardingJourneyComponent implements OnInit, OnDestroy {
     } else {
       this.showSteps = true;
     }
-    this.cd.detectChanges();
 
     if (this.checklistCount != 6) {
       if (this.componentType == 'addData') {
@@ -189,6 +188,8 @@ export class UseronboardingJourneyComponent implements OnInit, OnDestroy {
     } else {
       this.showStatusIcon = true;
     }
+
+    this.cd.detectChanges();
   }
   //filter prev and next step
   filterSteps(prev, next) {

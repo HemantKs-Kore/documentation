@@ -11668,7 +11668,7 @@ a.tile-heading {
   .panel
   .content_sec {
   display: flex;
-  align-items: start;
+  align-items: flex-start;
   padding-top: 5px;
 }
 
@@ -11913,7 +11913,7 @@ a.tile-heading {
 
 .template-4-plain-list-collapse .collapse-item-list-parent .panel .content_sec {
   display: flex;
-  align-items: start;
+  align-items: flex-start;
   padding-top: 5px;
 }
 
@@ -13138,7 +13138,7 @@ a.tile-heading {
   width: 8%;
   left: 0;
   display: flex;
-  align-items: start;
+  align-items: flex-start;
   justify-content: left;
   z-index: 1;
   display: none;
