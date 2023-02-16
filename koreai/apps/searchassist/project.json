@@ -74,7 +74,8 @@
           "nouislider",
           "detect-passive-events",
           "ng5-slider",
-          "file-saver"
+          "file-saver",
+          "rxjs"
         ]
       },
       "configurations": {

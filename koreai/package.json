@@ -9,9 +9,6 @@
     "serve:prod": "run-s build liveserver",
     "liveserver": "cd dist/apps/searchassist && live-server",
     "build": "ng build searchassist",
-    "build:clouddev": "ng build searchassist --configuration=clouddev",
-    "build:app": "ng build searchassist --configuration=app",
-    "build:qa": "ng build searchassist --configuration=qa",
     "ng": "nx",
     "lint": "ng lint searchassist",
     "lintfix": "nx lint searchassist --fix",
@@ -69,6 +66,7 @@
     "codemirror": "^5.57.0",
     "d3": "^7.8.2",
     "date-fns": "^2.29.3",
+    "date-fns-tz": "^2.0.0",
     "echarts": "^5.4.1",
     "file-saver": "^2.0.5",
     "jquery": "^3.6.3",
@@ -148,5 +146,8 @@
     "typescript": "~4.8.2",
     "uglify-js": "^3.17.4",
     "webpack-bundle-analyzer": "^4.7.0"
+  },
+  "engines": {
+    "node": "^14.20 || ^16.13 || ^18.10"
   }
 }
