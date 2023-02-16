@@ -176,11 +176,10 @@ export class ActionsComponent implements OnInit, OnDestroy {
               }
             );
           } else {
-            if (this.loadingBotContent == true) {
-              this.LinkABot = null;
-              this.botLinked = false;
-              this.loader = false;
-            }
+            this.loadingBotContent = true;
+            this.LinkABot = null;
+            this.botLinked = false;
+            this.loader = false;
           }
         });
     }
