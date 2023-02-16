@@ -232,6 +232,7 @@ export class BotActionsComponent implements OnInit {
     }
   }
   ngOnInit(): void {
+    this.workflowService.loadSeedData();
     this.selectedApp = this.workflowService.selectedApp();
     // console.log(this.selectedApp);
     this.searchIndexId = this.selectedApp?.searchIndexes[0]._id;
