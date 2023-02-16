@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { KRModalComponent } from '../../shared/kr-modal/kr-modal.component';
 // import { AppHeaderComponent } from '../app-header/app-header.component';
@@ -14,6 +14,9 @@ import { InlineManualService } from '@kore.apps/services/inline-manual.service';
 import { MixpanelServiceService } from '@kore.apps/services/mixpanel-service.service';
 import { Store } from '@ngrx/store';
 import { setAppId } from '@kore.apps/store/app.actions';
+import { AppsService } from './services/apps.service';
+import { combineLatest, Subscription } from 'rxjs';
+import { LazyLoadService } from '@kore.libs/shared/src';
 declare const $: any;
 
 @Component({
@@ -22,7 +25,8 @@ declare const $: any;
   templateUrl: './apps.component.html',
   styleUrls: ['./apps.component.scss'],
 })
-export class AppsComponent implements OnInit {
+export class AppsComponent implements OnInit, OnDestroy {
+  sub: Subscription;
   emptyScreen = EMPTY_SCREEN.APP;
   authInfo: any;
   openJourney = false;
@@ -108,22 +112,17 @@ export class AppsComponent implements OnInit {
     public inlineManual: InlineManualService,
     private route: ActivatedRoute,
     public mixpanel: MixpanelServiceService,
-    private store: Store
+    private store: Store,
+    private lazyLoadService: LazyLoadService,
+    private appsService: AppsService
   ) {
     this.authInfo = localstore.getAuthInfo();
     this.userId = this.authService.getUserId();
   }
 
   ngOnInit() {
-    // this.checkForNewUser();
-    $('.krFindlyAppComponent').removeClass('appSelected');
-    //const apps = this.workflowService.findlyApps();
-    //this.prepareApps(apps);
     this.getAllApps();
-    setTimeout(() => {
-      $('#serachInputBox').focus();
-    }, 100);
-    // this.buildCarousel();
+    this.loadScripts();
   }
   //Checks whether user is new or not
   checkForNewUser() {
@@ -188,9 +187,23 @@ export class AppsComponent implements OnInit {
     this.appSelectionService.openApp(app, isDemo, isUpgrade);
     this.workflowService.selectedIndexPipelineId = '';
   }
+
+  loadScripts() {
+    this.lazyLoadService.loadScript('scripts.min.js').subscribe(() => {
+      // this.checkForNewUser();
+      $('.krFindlyAppComponent').removeClass('appSelected');
+      //const apps = this.workflowService.findlyApps();
+      //this.prepareApps(apps);
+      setTimeout(() => {
+        $('#serachInputBox').focus();
+      }, 100);
+      // this.buildCarousel();
+    });
+  }
+
   openBoradingJourney() {
     this.headerService.openJourneyForfirstTime = true;
-    this.onboardingpopupjourneyRef = this.createBoardingJourney.open();
+    this.onboardingpopupjourneyRef = this.createBoardingJourney?.open();
     this.mixpanel.postEvent('User Onboarding - Journey Presented', {});
     this.mixpanel.postEvent('Welcome video Shown', {});
   }
@@ -369,8 +382,9 @@ export class AppsComponent implements OnInit {
     this.submitted = true;
     const quaryparms: any = {};
     quaryparms.streamId = this.slectedAppId;
+
     if (this.confirmApp == 'DELETE') {
-      this.service.invoke('delete.app', quaryparms).subscribe(
+      this.appsService.delete(this.slectedAppId).subscribe(
         (res) => {
           if (res) {
             this.notificationService.notify('Deleted Successfully', 'success');
@@ -389,12 +403,13 @@ export class AppsComponent implements OnInit {
             }
           }
         },
-        (errRes) => {
+        () => {
           this.notificationService.notify('Deletion has gone wrong.', 'error');
         }
       );
     }
   }
+
   openUnlinkApp(event, appInfo) {
     this.unlinkPop = true;
     if (event) {
@@ -460,8 +475,12 @@ export class AppsComponent implements OnInit {
   //get all apps
 
   public getAllApps() {
-    this.service.invoke('get.apps').subscribe(
-      (res) => {
+    const allAppsSub = combineLatest([
+      this.appsService.getApps(),
+      this.appsService.loaded$,
+    ]).subscribe(([response, isLoaded]) => {
+      if (isLoaded) {
+        const res = JSON.parse(JSON.stringify(response));
         if (res && res.length) {
           if (
             localStorage.getItem('krPreviousState') &&
@@ -508,11 +527,12 @@ export class AppsComponent implements OnInit {
         }
         this.loadingApps = false;
         this.clearAccount();
-        //this.checkForSharedApp();
-      },
-      (errRes) => {}
-    );
+      }
+    });
+
+    this.sub?.add(allAppsSub);
   }
+
   clearAccount() {
     const prDetails = localStorage.getItem('krPreviousState')
       ? JSON.parse(localStorage.getItem('krPreviousState'))
@@ -552,9 +572,9 @@ export class AppsComponent implements OnInit {
       },
       defaultLanguage: 'en',
     };
-    this.service.invoke('create.app', {}, payload).subscribe(
-      (res) => {
-        // this.appsService.addOneToCache(res);
+
+    this.appsService.add(payload).subscribe({
+      next: (res) => {
         this.createdAppData = res;
         this.notificationService.notify(
           `${this.newApp.name} created successfully`,
@@ -566,11 +586,31 @@ export class AppsComponent implements OnInit {
           this.openCreatedApp();
         }
       },
-      (errRes) => {
+      error: (errRes) => {
         this.errorToaster(errRes, 'Error in creating app');
         this.creatingInProgress = false;
-      }
-    );
+      },
+    });
+
+    // this.service.invoke('create.app', {}, payload).subscribe(
+    //   (res) => {
+    //     // this.appsService.addOneToCache(res);
+    //     this.createdAppData = res;
+    //     this.notificationService.notify(
+    //       `${this.newApp.name} created successfully`,
+    //       'success'
+    //     );
+    //     if (this.appType == 'sampleData') {
+    //       this.createDemoApp(res?.searchIndexes[0]);
+    //     } else {
+    //       this.openCreatedApp();
+    //     }
+    //   },
+    //   (errRes) => {
+    //     this.errorToaster(errRes, 'Error in creating app');
+    //     this.creatingInProgress = false;
+    //   }
+    // );
   }
   //common method for create sample/scratch app
   openCreatedApp() {
@@ -592,7 +632,7 @@ export class AppsComponent implements OnInit {
     if (res.length > 0) {
       this.emptyApp = true;
     }
-    this.appSelectionService.getTourConfig();
+    // this.appSelectionService.getTourConfig();
   }
   // create demo app API
   createDemoApp(obj?) {
@@ -780,4 +820,8 @@ export class AppsComponent implements OnInit {
   //     }
   //   );
   // }
+
+  ngOnDestroy(): void {
+    this.sub?.unsubscribe();
+  }
 }

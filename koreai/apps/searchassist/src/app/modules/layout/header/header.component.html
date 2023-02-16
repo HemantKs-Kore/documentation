@@ -40,12 +40,6 @@
             (click)="analyticsClick('/sources'); closeUserMetaTagsSlider()"
           >
             <span>{{ 'header_sources' | translate }}</span>
-            <span routerLink="/sources" class="d-none"></span>
-            <span routerLink="/content" class="d-none"></span>
-            <span routerLink="/faqs" class="d-none"></span>
-            <span routerLink="/botActions" class="d-none"></span>
-            <span routerLink="/structuredData" class="d-none"></span>
-            <span routerLink="/connectors" class="d-none"></span>
           </div>
           <div
             class="headerMenuTab"
@@ -62,21 +56,6 @@
             "
           >
             <span>{{ 'header_indices' | translate }}</span>
-            <span routerLink="/resultTemplate" class="d-none"></span>
-            <span routerLink="/search-experience" class="d-none"></span>
-            <span routerLink="/indices" class="d-none"></span>
-            <span routerLink="/synonyms" class="d-none"></span>
-            <span routerLink="/stopWords" class="d-none"></span>
-            <span routerLink="/ml-threshold" class="d-none"></span>
-            <span routerLink="/traits" class="d-none"></span>
-            <span routerLink="/rules" class="d-none"></span>
-            <span routerLink="/index" class="d-none"></span>
-            <span routerLink="/query" class="d-none"></span>
-            <span routerLink="/attributes" class="d-none"></span>
-            <span routerLink="/weights" class="d-none"></span>
-            <span routerLink="/resultranking" class="d-none"></span>
-            <span routerLink="/facets" class="d-none"></span>
-            <span routerLink="/FieldManagementComponent" class="d-none"></span>
           </div>
           <div
             class="kr-sg-dropdowns headerMenuTab"
@@ -142,15 +121,6 @@
             "
           >
             <span>{{ 'header_manage' | translate }}</span>
-            <span routerLink="/actions" class="d-none"></span>
-            <span routerLink="/smallTalk" class="d-none"></span>
-            <span routerLink="/settings" class="d-none"></span>
-            <span routerLink="/credentials-list" class="d-none"></span>
-            <span routerLink="/team-management" class="d-none"></span>
-            <span routerLink="/pricing" class="d-none"></span>
-            <span routerLink="/usageLog" class="d-none"></span>
-            <span routerLink="/invoices" class="d-none"></span>
-            <span routerLink="/generalSettings" class="d-none"></span>
           </div>
         </div>
       </div>
@@ -182,7 +152,9 @@
         <!-- <div class="text-right nav-item trainBlock d-none">
                     <button class="kr-sg-button-primary btn_lg" [disabled]='training' (click)="train()">{{(training)?'Training...':'Train'}}</button>
                 </div> -->
-        <li class="nav-item app-dropdown">
+        <li
+          class="nav-item app-dropdown {{ isRouteDisabled && 'disable_btn' }}"
+        >
           <div
             class="kr-sg-dropdowns new-line-btn"
             ngbDropdown
@@ -251,7 +223,7 @@
                     <button class="kr-sg-button-secondary btn_lg"> Preview</button>
                   </li> -->
 
-        <li class="nav-item test-button">
+        <li class="nav-item test-button {{ isRouteDisabled && 'disable_btn' }}">
           <button
             placement="bottom"
             triggers="hover"
@@ -262,6 +234,7 @@
             class="kr-sg-button-secondary btn_lg rr-tour-test-btn"
             id="test-btn-launch-sdk"
             (click)="openOrCloseSearchSDK()"
+            [disabled]="enablePreview$ | async"
           >
             <span class="pr-1 align-middle"><i class="si-play-button"></i></span
             >{{ 'header_preview' | translate }}
@@ -269,8 +242,12 @@
         </li>
         <!-- New Code wrt to Stop Traing -->
         <li
-          class="nav-item new-train-btn"
-          [ngbTooltip]="training ? 'Stop Training The App' : 'Train Your APP'"
+          class="nav-item new-train-btn {{ isRouteDisabled && 'disable_btn' }}"
+          [ngbTooltip]="
+            training
+              ? ('header_stop_traing' | translate)
+              : ('header_train_your_app' | translate)
+          "
         >
           <button
             (mouseenter)="displayStopTrain()"
@@ -296,10 +273,10 @@
             <span class="pl-1">
               {{
                 training && !showClose
-                  ? 'Train'
+                  ? ('header_train' | translate)
                   : training && showClose
-                  ? ' Stop'
-                  : 'Train'
+                  ? ('header_stop_train' | translate)
+                  : ('header_train' | translate)
               }}
             </span>
           </button>
@@ -315,7 +292,11 @@
                     <div class="loader-train"></div>
                     <img src="assets/icons/train.svg" class="defaultIcon">
                 </li> -->
-        <li class="nav-item search-block show-search1">
+        <li
+          class="nav-item search-block show-search1 {{
+            isRouteDisabled && 'disable_btn'
+          }}"
+        >
           <div
             class="search_icon"
             [ngClass]="{ 'active-search-top': showSearch }"
@@ -375,7 +356,11 @@
             </div>
           </div>
         </li>
-        <li class="nav-item notification-block">
+        <li
+          class="nav-item notification-block {{
+            isRouteDisabled && 'disable_btn'
+          }}"
+        >
           <div class="kr-sg-dropdowns" ngbDropdown>
             <div class="dropdown dropdown-open">
               <button
@@ -645,7 +630,7 @@
         </li>
 
         <li
-          class="nav-item help-icon"
+          class="nav-item help-icon {{ isRouteDisabled && 'disable_btn' }}"
           [container]="'body'"
           ngbTooltip="{{ 'header_help' | translate }}"
           tooltipClass="train-icon-tooltip"
@@ -815,7 +800,7 @@
                   class="kr-sg-button-secondary btn_lg w-100 mt-2"
                   (click)="openBrowseWorkspace(true)"
                 >
-                  Browse Workspaces
+                  {{ 'header_browse_work_space' | translate }}
                 </button>
               </div>
             </ul>
@@ -1172,7 +1157,11 @@
                     [disabled]="workspace.alreadyJoined"
                     (click)="JoinWorkspace(workspace, i)"
                   >
-                    {{ workspace.alreadyJoined ? 'Joined' : 'Join' }}
+                    {{
+                      workspace.alreadyJoined
+                        ? ('header_joined' | translate)
+                        : ('header_join' | translate)
+                    }}
                   </button>
                 </div>
               </ng-container>
@@ -1196,6 +1185,29 @@
     (emitStatus)="emitStatus($event)"
     (closeSlid)="closeUserMetaTagsSlider()"
   ></app-onboarding>
+
+  <!-- <div
+    appIntersectionObserver
+    [intersectionDebounce]="0"
+    (visibilityChange)="onVisibilityChanged('onboarding', $event)"
+    [ngSwitch]="visibilityStatus['onboarding']"
+  >
+    <ng-container *ngSwitchCase="intersectionStatus.Visible">
+      <app-onboarding
+        [currentRouteData]="currentRouteData"
+        (openSDK)="openSDK()"
+        [displyStatusBar]="displyStatusBar"
+        (emitStatus)="emitStatus($event)"
+        (closeSlid)="closeUserMetaTagsSlider()"
+      ></app-onboarding>
+    </ng-container>
+
+    <ng-container *ngSwitchCase="intersectionStatus.Pending">
+      <ng-container>Loading...</ng-container>
+    </ng-container>
+
+    <ng-container *ngSwitchDefault> ❌ </ng-container>
+  </div> -->
 </app-slider-component>
 
 <div

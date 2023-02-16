@@ -1,115 +1,42 @@
 <!-- Sidebar -->
-<div class="sidebar-fixed position-fixed activeMenu" *ngIf="show">
+<div
+  class="sidebar-fixed position-fixed activeMenu toShowAppHeader"
+  *ngIf="show"
+>
   <ng-container
     *ngIf="
       (settingMainMenu || sourceMenu) &&
       appSelectionService?.env_dep_type !== 'installer'
     "
   >
-    <div class="upgrade_your_plan_price" *ngIf="showUpgrade">
-      <div class="product-subscription-alert">
-        <span class="px-1 close-btn" (click)="showUpgrade = !showUpgrade"
-          ><i class="si-close-red"></i
-        ></span>
-        <p
-          class="product-subscription-desc"
-          *ngIf="
-            usageDetails?.searchQueries > 80 || usageDetails?.ingestDocs > 80
-          "
-        >
-          {{ 'app_menu_utlization_80%' | translate }}
-        </p>
-        <img
-          src="assets/images/pricing-plan/plan-subscrition/product-launch.svg"
-          class="product-subscription-img"
-        />
-        <div
-          class="upgrade-plan-btn"
-          [ngClass]="{
-            danger:
-              usageDetails?.searchQueries > 80 || usageDetails?.ingestDocs > 80,
-            warning:
-              (usageDetails?.searchQueries > 50 &&
-                usageDetails?.searchQueries <= 80) ||
-              (usageDetails?.ingestDocs > 50 && usageDetails?.ingestDocs <= 80)
-          }"
-          (click)="upgrade()"
-          (mouseover)="showNotificationBanner('over')"
-          (mouseout)="showNotificationBanner('out')"
-        >
-          <i class="si-publish si-icon m-r-2"></i
-          >{{ 'app_menu_upgrade_plan' | translate }}
-        </div>
-        <div class="hover-documnet-show-data">
-          <div class="card-data- card1">
-            <div class="img-block">
-              <img src="assets/icons/pricing/query-limits.svg" />
-            </div>
-            <div class="content-sec">
-              <div class="title">{{ 'app_menu_query_limit' | translate }}</div>
-              <div class="desc-text">
-                {{ 'app_menu_percent_of_queries' | translate }}
-              </div>
-              <div class="count-data">
-                <div class="linit-k">
-                  <span>{{ usageDetails?.searchCount | valueFormat }}</span> /
-                  {{ usageDetails?.searchLimit | valueFormat }}
-                </div>
-                <div class="percentage">{{ usageDetails?.searchQueries }}%</div>
-              </div>
-            </div>
-            <ng-container>
-              <ngb-progressbar
-                height="10px"
-                [type]="
-                  usageDetails?.searchQueries > 80
-                    ? 'danger'
-                    : usageDetails?.searchQueries > 50 &&
-                      usageDetails?.searchQueries <= 80
-                    ? 'warning'
-                    : 'primary'
-                "
-                [value]="usageDetails?.searchQueries"
-                max="100"
-              ></ngb-progressbar>
-            </ng-container>
+  <div class="upgrade_your_plan_price {{(usageDetails?.queryPercentageUsed>=80)&&'upgrade_your_plan_price_with_text'}}" *ngIf="showUpgrade">
+    <div class="product-subscription-alert">
+      <div class="px-1 close-btn" (click)="showUpgrade=!showUpgrade"><i class="si-close-red"></i></div>
+      <img src="assets/images/pricing-plan/new-plan-pricing-img/order-confirmation.png" class="product-subscription-img {{(usageDetails?.queryPercentageUsed>=80)&&'product-subscription-img_with_text'}}" />
+      <p class="product-subscription-desc" *ngIf="(usageDetails?.queryPercentageUsed>=80)">{{((usageDetails?.queryPercentageUsed>=80&&usageDetails?.queryPercentageUsed<100)?'app_menu_utlization_80%':'app_menu_utlization_100%')|translate}}</p>
+      <div class="upgrade-plan-btn" [ngClass]="{'danger':(usageDetails?.queryPercentageUsed>=100),'warning':((usageDetails?.queryPercentageUsed>=80&&usageDetails?.queryPercentageUsed<100))}" (click)="upgrade()" (mouseover)="showNotificationBanner('over')" (mouseout)="showNotificationBanner('out')"><i class="si-publish si-icon m-r-2"></i>{{'app_menu_upgrade_plan' | translate}}</div>
+      <div class="hover-documnet-show-data">
+        <div class="card-data- card1">
+          <div class="img-block">
+            <img src="assets/icons/pricing/query-limits.svg">
           </div>
-          <div class="card-data- card2">
-            <div class="img-block">
-              <img src="assets/icons/pricing/document-limit.svg" />
-            </div>
-            <div class="content-sec">
-              <div class="title">{{ 'app_menu_doc_limit' | translate }}</div>
-              <div class="desc-text">
-                {{ 'app_menu_percent_ingest_doc' | translate }}
+          <div class="content-sec">
+            <div class="title">{{'app_menu_query_limit' | translate}}</div>
+            <div class="desc-text">{{'app_menu_percent_of_queries' | translate}}</div>
+            <div class="count-data">
+              <div class="linit-k">
+                <span>{{usageDetails?.searchCount | valueFormat}}</span> / {{usageDetails?.searchLimit|valueFormat}}
               </div>
-              <div class="count-data">
-                <div class="linit-k">
-                  <span>{{ usageDetails?.ingestCount | valueFormat }}</span> /
-                  {{ usageDetails?.ingestLimit | valueFormat }}
-                </div>
-                <div class="percentage">{{ usageDetails?.ingestDocs }}%</div>
-              </div>
+              <div class="percentage">{{usageDetails?.queryPercentageUsed}}% </div>
             </div>
-            <ng-container>
-              <ngb-progressbar
-                height="10px"
-                [type]="
-                  usageDetails?.ingestDocs > 80
-                    ? 'danger'
-                    : usageDetails?.ingestDocs > 50 &&
-                      usageDetails?.ingestDocs <= 80
-                    ? 'warning'
-                    : 'primary'
-                "
-                [value]="usageDetails?.ingestDocs"
-                max="100"
-              ></ngb-progressbar>
-            </ng-container>
           </div>
+          <ng-container>
+            <ngb-progressbar height="10px" [type]="usageDetails?.queryPercentageUsed>=100?'danger':(usageDetails?.queryPercentageUsed<=80)?'primary':'warning'" [value]="usageDetails?.queryPercentageUsed" max="100"></ngb-progressbar>
+          </ng-container>
         </div>
       </div>
     </div>
+  </div>
   </ng-container>
 
   <perfect-scrollbar class="perfect-scroll">
@@ -375,7 +302,7 @@
             title="{{
               configObj[selectedConfig]
                 ? configObj[selectedConfig].name === 'Default'
-                  ? 'Default Search'
+                  ? ('app_menu_Default_search' | translate)
                   : configObj[selectedConfig].name
                 : 'Loading..'
             }}"
@@ -470,7 +397,7 @@
                         [container]="'body'"
                         ngbTooltip="{{
                           config.name === 'Default'
-                            ? 'Default Search'
+                            ? ('app_menu_Default_search' | translate)
                             : config.name
                         }}"
                         >{{
@@ -553,6 +480,14 @@
             'app_menu_Weights' | translate
           }}</span>
         </div>
+        <div mat-button class="mat-button" [routerLink]="['/answerSnippet']" skipLocationChange
+					routerLinkActive="active" mat-button>
+					<span class="inlineIconBox leftAdjust">
+						<img src="assets/icons/sidemenu/new-icons/answer-snippet.svg" class="defaultIcon">
+					    <img src="assets/icons/sidemenu/new-icons/answer-snippet-active.svg" class="activeIcon">
+					</span>
+					<span class="linkTitle">{{"answer_snippets"|translate}}</span>
+				</div>
         <div
           mat-button
           class="mat-button"
@@ -819,7 +754,7 @@
     >
       <div
         mat-button
-        class="mat-button"
+        class="mat-button {{isRouteDisabled&&'disable_btn'}}"
         [ngClass]="{ disable_btn: isRouteDisabled }"
         [routerLink]="['/generalSettings']"
         skipLocationChange
@@ -845,7 +780,7 @@
       <!-- <div class="inside-menu-title">SETTINGS</div> -->
       <div
         mat-button
-        class="mat-button"
+        class="mat-button {{isRouteDisabled&&'disable_btn'}}"
         [ngClass]="{ disable_btn: isRouteDisabled }"
         [routerLink]="['/settings']"
         skipLocationChange
@@ -869,7 +804,7 @@
       </div>
       <div
         mat-button
-        class="mat-button"
+        class="mat-button {{isRouteDisabled&&'disable_btn'}}"
         [ngClass]="{ disable_btn: isRouteDisabled }"
         [routerLink]="['/credentials-list']"
         skipLocationChange
@@ -893,7 +828,7 @@
       </div>
       <div
         mat-button
-        class="mat-button"
+        class="mat-button {{isRouteDisabled&&'disable_btn'}}"
         [ngClass]="{ disable_btn: isRouteDisabled }"
         [routerLink]="['/team-management']"
         skipLocationChange
@@ -926,6 +861,7 @@
           [routerLink]="['/pricing']"
           skipLocationChange
           routerLinkActive="active"
+          [routerLinkActiveOptions]="{exact: true}"
           (click)="preview('index')"
           mat-button
         >
@@ -945,10 +881,11 @@
         </div>
         <div
           mat-button
-          class="mat-button"
-          [routerLink]="['/usageLog']"
+          class="mat-button {{isRouteDisabled&&'disable_btn'}}"
+          [routerLink]="['/pricing/usageLog']"
           skipLocationChange
           routerLinkActive="active"
+          [routerLinkActiveOptions]="{exact: true}"
           (click)="preview('index')"
           mat-button
         >
@@ -966,10 +903,11 @@
         </div>
         <div
           mat-button
-          class="mat-button"
-          [routerLink]="['/invoices']"
+          class="mat-button {{isRouteDisabled&&'disable_btn'}}"
+          [routerLink]="['/pricing/invoices']"
           skipLocationChange
           routerLinkActive="active"
+          [routerLinkActiveOptions]="{exact: true}"
           (click)="preview('index')"
           mat-button
         >
@@ -1095,7 +1033,7 @@
           [ngClass]="{ 'err-block': !newConfigObj.name.length && submitted }"
           placeholder="{{
             newConfigObj.method === 'clone'
-              ? 'Name the New Search Configuration'
+              ? ('app_menu_name_search_config' | translate)
               : 'Enter Name'
           }}"
           [(ngModel)]="newConfigObj.name"
@@ -1224,9 +1162,8 @@
         <div class="label-text">
           {{
             newIndexConfigObj.method === 'clone'
-              ? 'Index Configuration Name'
-              : 'Name of Index
-					Configuration'
+              ? ('app_menu__index_config_name' | translate)
+              : ('app_menu__name_of_index_config_name' | translate)
           }}
         </div>
         <input
@@ -1237,7 +1174,7 @@
           }"
           placeholder="{{
             newIndexConfigObj.method === 'clone'
-              ? 'Name the New Index Configuration'
+              ? ('app_menu_name_index_config' | translate)
               : 'Enter Name'
           }}"
           [(ngModel)]="newIndexConfigObj.name"
@@ -1273,4 +1210,5 @@
   </div>
 </kr-modal>
 
-<app-upgrade-plan #plans></app-upgrade-plan>
+<!--Plan upgrade component -->
+<app-plan-upgrade #plans></app-plan-upgrade>

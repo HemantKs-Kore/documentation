@@ -4,15 +4,8 @@
     Author     : Ravi Kiran Maddi
 */
 @import 'main';
-
-// @import '../../../../node_modules/@angular/material/prebuilt-themes/indigo-pink.css';
-// @import '../../../../perfect-scrollbar/css/perfect-scrollbar.css';
-// @import '../../../../node_modules/codemirror/lib/codemirror';
-// @import '../../../../node_modules/codemirror/theme/neo';
-// @import '../../../../node_modules/codemirror/lib/codemirror';
-// @import '../../../../node_modules/codemirror/addon/fold/foldgutter';
-// @import '../../../../node_modules/codemirror/addon/lint/lint';
 @import './variables/variables';
+@import '../assets/fonts/inter/inter-font.css';
 @import './bt-styleguide.scss';
 @import './variables/colors';
 @import '../assets/fonts/searchassist-icons/style.css';
@@ -3796,4 +3789,12 @@ app-slider-component {
     border: 1px solid #0d6efd;
     color: #0d6efd;
   }
+}
+
+button:disabled{
+  border: none !important;
+}
+button:disabled:hover{
+  background: #85B7FE !important;
+  color: #ffffff !important;
 }

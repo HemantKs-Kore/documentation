@@ -30,12 +30,11 @@ import { ServiceInvokerService } from '@kore.apps/services/service-invoker.servi
 import { WorkflowService } from '@kore.apps/services/workflow.service';
 import { AuthService } from '@kore.apps/services/auth.service';
 import { AppSelectionService } from '@kore.apps/services/app.selection.service';
-import { UpgradePlanComponent } from '@kore.apps/helpers/components/upgrade-plan/upgrade-plan.component';
 import { InlineManualService } from '@kore.apps/services/inline-manual.service';
 import { MixpanelServiceService } from '@kore.apps/services/mixpanel-service.service';
 import { RangySelectionService } from '@kore.apps/components/annotool/services/rangy-selection.service';
 import { PdfAnnotationComponent } from '@kore.apps/components/annotool/components/pdf-annotation/pdf-annotation.component';
-
+import { PlanUpgradeComponent } from '../pricing/shared/plan-upgrade/plan-upgrade.component';
 @Component({
   selector: 'app-sources',
   templateUrl: './sources.component.html',
@@ -342,7 +341,7 @@ export class SourcesComponent implements OnInit, AfterViewInit, OnDestroy {
     private appSelectionService: AppSelectionService,
     public dockService: DockStatusService,
     public mixpanel: MixpanelServiceService
-  ) {}
+  ) { }
   @ViewChild(SliderComponentComponent)
   sliderComponent: SliderComponentComponent;
   @ViewChild('statusModalPop') statusModalPop: KRModalComponent;
@@ -356,7 +355,7 @@ export class SourcesComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild('structuredDataStatusModalPop')
   structuredDataStatusModalPop: KRModalComponent;
   @ViewChild('crawlModalPop') crawlModalPop: KRModalComponent;
-  @ViewChild('plans') plans: UpgradePlanComponent;
+  @ViewChild('plans') plans: PlanUpgradeComponent;
   @ViewChild('schedularDataPop') schedularDataPop: KRModalComponent;
   @ViewChild('contentStatusModalPop') contentStatusModalPop: KRModalComponent;
   ngOnInit() {
@@ -1827,7 +1826,7 @@ export class SourcesComponent implements OnInit, AfterViewInit, OnDestroy {
     }
   }
   //upgrade plan
-  upgrade() {}
+  upgrade() { }
   callWebCraller(crawler, searchIndex) {
     let payload = {};
     const resourceType = this.selectedSourceType?.resourceType;
@@ -1843,7 +1842,7 @@ export class SourcesComponent implements OnInit, AfterViewInit, OnDestroy {
     // console.log(payload);
 
     this.service.invoke('create.crawler', quaryparms, payload).subscribe(
-      (res) => {},
+      (res) => { },
       (errRes) => {
         if (
           errRes &&
@@ -2595,9 +2594,9 @@ export class SourcesComponent implements OnInit, AfterViewInit, OnDestroy {
       ) {
         channelType =
           this.configurationLink.webhookUrl.split('/')[
-            this.configurationLink.webhookUrl
-              .split('/')
-              .indexOf('hookInstance') + 1
+          this.configurationLink.webhookUrl
+            .split('/')
+            .indexOf('hookInstance') + 1
           ];
       }
       const payload = {

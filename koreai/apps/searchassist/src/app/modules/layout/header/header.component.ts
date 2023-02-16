@@ -12,11 +12,11 @@ import { SideBarService } from '../../../services/header.service';
 import { KRModalComponent } from '../../../shared/kr-modal/kr-modal.component';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
-import { debounceTime, map, startWith } from 'rxjs/operators';
+import { debounceTime, map, startWith, withLatestFrom } from 'rxjs/operators';
 import { SliderComponentComponent } from '../../../shared/slider-component/slider-component.component';
 import { DockStatusService } from '../../../services/dockstatusService/dock-status.service';
 import { interval, Subscription } from 'rxjs';
-import * as moment from 'moment';
+import { format } from 'date-fns';
 declare const $: any;
 import * as _ from 'underscore';
 import { AuthService } from '@kore.apps/services/auth.service';
@@ -32,6 +32,13 @@ import { SearchSdkService } from '@kore.apps/modules/search-sdk/services/search-
 import { OnboardingComponent } from '@kore.apps/modules/onboarding/onboarding.component';
 import { Store } from '@ngrx/store';
 import { setAppId } from '@kore.apps/store/app.actions';
+import { LazyLoadService } from '@kore.libs/shared/src';
+import {
+  selectAppId,
+  selectEnablePreview,
+} from '@kore.apps/store/app.selectors';
+import { AppsService } from '@kore.apps/modules/apps/services/apps.service';
+import { IntersectionStatus } from '@kore.libs/shared/src/lib/directives/intersection-observer/from-intersection-observer';
 
 @Component({
   selector: 'app-header',
@@ -39,6 +46,9 @@ import { setAppId } from '@kore.apps/store/app.actions';
   styleUrls: ['./header.component.scss'],
 })
 export class HeaderComponent implements OnInit, OnDestroy {
+  show;
+  visibilityStatus: { [key: string]: IntersectionStatus } = {};
+  intersectionStatus = IntersectionStatus;
   isSdkBundleLoaded = false;
   toShowAppHeader;
   mainMenu = '';
@@ -133,6 +143,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   routeChanged: Subscription;
   updateHeaderMainMenuSubscription: Subscription;
   topicGuideShowSubscription: Subscription;
+  currentSubsciptionData: Subscription;
   accountIdRef = '';
   @Output() showMenu = new EventEmitter();
   @Output() settingMenu = new EventEmitter();
@@ -247,8 +258,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
     },
     { displayName: 'Team', routeId: '/team-management', quaryParms: {} },
     { displayName: 'Plan Details', routeId: '/pricing', quaryParms: {} },
-    { displayName: 'Usage Log', routeId: '/usageLog', quaryParms: {} },
-    { displayName: 'Invoices', routeId: '/invoices', quaryParms: {} },
+    { displayName: 'Usage Log', routeId: '/pricing/usageLog', quaryParms: {} },
+    { displayName: 'Invoices', routeId: '/pricing/invoices', quaryParms: {} },
     { displayName: 'Connectors', routeId: '/connectors', quaryParms: {} },
     {
       displayName: 'Results Ranking',
@@ -317,8 +328,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
       '/team-management',
       '/smallTalk',
       '/pricing',
-      '/usageLog',
-      '/invoices',
+      '/pricing/usageLog',
+      '/pricing/invoices',
       '/generalSettings',
     ],
   };
@@ -339,6 +350,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   notifyAccountInfo: any;
   isJoinedClicked = false;
   isRouteDisabled = false;
+  enablePreview$ = this.store.select(selectEnablePreview);
   constructor(
     private authService: AuthService,
     public headerService: SideBarService,
@@ -354,7 +366,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
     private appSelectionService: AppSelectionService,
     private searchSdkService: SearchSdkService,
     private viewContainerRef: ViewContainerRef,
-    private store: Store
+    private store: Store,
+    private appsService: AppsService
   ) {
     this.userId = this.authService.getUserId();
     if (environment && environment.USE_SESSION_STORE) {
@@ -363,6 +376,10 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
   ngOnInit() {
     this.getUserInfo();
+    this.checkroute();
+    this.getAllApps();
+    this.initControlList();
+
     this.topicGuideShowSubscription =
       this.appSelectionService.topicGuideShow.subscribe((res) => {
         this.openUserMetaTagsSlider();
@@ -376,20 +393,24 @@ export class HeaderComponent implements OnInit, OnDestroy {
         this.trackChecklist();
       }
     );
+    //subscribe to app current Plan Data
+    this.currentSubsciptionData =
+      this.appSelectionService.currentSubscription.subscribe((res) => {
+        this.isRouteDisabled = res?.appDisabled;
+      });
     this.routeChanged = this.appSelectionService.routeChanged.subscribe(
       (res) => {
         if (res.name != undefined) {
           this.analyticsClick(res.path, false);
-          // this.isRouteDisabled = res?.disable;
+          this.isRouteDisabled = res?.disable;
         }
         if (res?.isDemo == true) {
           this.viewCheckList();
         }
       }
     );
+
     this.toShowAppHeader = this.workflowService.showAppCreationHeader();
-    this.currentAppControlList = this.authService.getApplictionControls();
-    this.getAllApps();
     this.headerService.change.subscribe((data: any) => {
       if (
         this.workflowService.selectedApp() &&
@@ -511,6 +532,17 @@ export class HeaderComponent implements OnInit, OnDestroy {
     //   this.extractProfiledisplayname();
     //   }
   }
+
+  initControlList() {
+    const appControlListSub = this.authService.appControlList$.subscribe(
+      (res) => {
+        this.currentAppControlList = res;
+      }
+    );
+
+    this.subscription?.add(appControlListSub);
+  }
+
   extractFirstLetter() {
     const firstLetter = this.domain.charAt(0);
     this.profile_display = firstLetter;
@@ -805,7 +837,11 @@ export class HeaderComponent implements OnInit, OnDestroy {
     }
 
     this.mainMenu = menu;
-    if (this.menuItems?.anlytics?.includes(menu) || menu == '/summary') {
+    if (
+      this.menuItems?.anlytics?.includes(menu) ||
+      menu == '/summary' ||
+      menu == '/'
+    ) {
       this.showMainMenu = false;
     } else {
       this.showMainMenu = true;
@@ -1046,8 +1082,9 @@ export class HeaderComponent implements OnInit, OnDestroy {
             //   this.checkTrainStatus(this.dockersList);
             // }
             this.dockersList.forEach((record: any) => {
-              record.createdOn = moment(record.createdOn).format(
-                'Do MMM YYYY | h:mm A'
+              record.createdOn = format(
+                new Date(record.createdOn),
+                'do LLL yyyy | h:mm aa'
               );
               if (
                 this.training ||
@@ -1402,27 +1439,42 @@ export class HeaderComponent implements OnInit, OnDestroy {
     this.topicGuideShowSubscription
       ? this.topicGuideShowSubscription.unsubscribe()
       : null;
+    this.currentSubsciptionData
+      ? this.currentSubsciptionData?.unsubscribe()
+      : null;
   }
   //get all apps
   getAllApps() {
-    this.service.invoke('get.apps').subscribe((res) => {
-      this.appsnum = res;
-      this.checkroute();
+    const allAppsSub = this.store
+      .select(selectAppId)
+      .pipe(withLatestFrom(this.appsService.getApps()))
+      .subscribe(([appId, res]) => {
+        this.appsnum = res;
+        if (appId) {
+          this.recentApps = res.filter((app) => app._id != appId).slice(0, 5);
+        }
+      });
 
-      // if(this.appsnum.length==="undefined" || this.appsnum.length==0){
-      //   this.routeFlag=true;
-      // }
-      // else if(this.appsnum.length){
-      //   this.routeFlag=false;
-      // }
-      // console.log("check flag")
-      const app_id = this.workflowService?.selectedApp();
-      if (app_id) {
-        this.recentApps = res
-          .filter((app) => app._id != app_id._id)
-          .slice(0, 5);
-      }
-    });
+    this.subscription?.add(allAppsSub);
+
+    // this.service.invoke('get.apps').subscribe((res) => {
+    //   this.appsnum = res;
+    //   this.checkroute();
+
+    //   // if(this.appsnum.length==="undefined" || this.appsnum.length==0){
+    //   //   this.routeFlag=true;
+    //   // }
+    //   // else if(this.appsnum.length){
+    //   //   this.routeFlag=false;
+    //   // }
+    //   // console.log("check flag")
+    //   const app_id = this.workflowService?.selectedApp();
+    //   if (app_id) {
+    //     this.recentApps = res
+    //       .filter((app) => app._id != app_id._id)
+    //       .slice(0, 5);
+    //   }
+    // });
   }
   checkroute() {
     this.headerService.fromCallFlowExpand.subscribe((data: any) => {
@@ -1650,9 +1702,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
       name: undefined,
       status: 'pending',
     });
-    setTimeout(() => {
-      this.workflowService.mainMenuRouter$.next('');
-    }, 100);
+    this.router.navigateByUrl('/summary', { skipLocationChange: true });
     this.checkTrainingProgress();
     this.workflowService.selectedIndexPipelineId = '';
   }
@@ -2132,5 +2182,17 @@ export class HeaderComponent implements OnInit, OnDestroy {
   hideparentTooltip(event) {
     event.stopImmediatePropagation();
     event.preventDefault();
+  }
+
+  onVisibilityChanged(index: string, status: IntersectionStatus) {
+    this.visibilityStatus[index] = status;
+  }
+
+  trackByIndex(index: string) {
+    return index;
+  }
+
+  getNum() {
+    console.log('ddddd');
   }
 }

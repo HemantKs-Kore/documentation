@@ -4,6 +4,10 @@
     "file": "get-started.md"
   },
   {
+    "title": "App Setup",
+    "file": "app-setup.md"
+  },
+  {
     "title": "Performance Report",
     "file": "perf/perf-comp.md",
     "children": [
@@ -32,6 +36,10 @@
       {
         "title": "Performance Guide",
         "file": "perf/guide.md"
+      },
+      {
+        "title": "Script Bundling",
+        "file": "perf/script-bundling.md"
       }
     ]
   }

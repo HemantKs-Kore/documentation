@@ -34,7 +34,8 @@ import { AuthService } from '@kore.apps/services/auth.service';
 import { KgDataService } from '@kore.apps/services/componentsServices/kg-data.service';
 import { ServiceInvokerService } from '@kore.apps/services/service-invoker.service';
 import { MixpanelServiceService } from '@kore.apps/services/mixpanel-service.service';
-import { LazyLoadService } from '@kore.shared/*';
+import { LazyLoadService } from '@kore.libs/shared/src';
+import '../../../assets/js/codemirror.js';
 declare const $: any;
 // import {MatAutocompleteSelectedEvent, MatChipInputEvent} from '@angular/material';
 
@@ -427,7 +428,10 @@ export class AddFaqComponent implements OnInit, AfterViewInit, OnDestroy {
     if (input) {
       input.value = '';
     }
-    this.suggestedInput.nativeElement.value = '';
+
+    if (this.suggestedInput) {
+      this.suggestedInput.nativeElement.value = '';
+    }
   }
   checkDuplicateTags1(suggestion: string, alltTags): boolean {
     return alltTags.every((f) => f !== suggestion);

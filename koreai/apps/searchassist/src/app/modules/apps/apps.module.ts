@@ -9,6 +9,14 @@ import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
 import { FormsModule } from '@angular/forms';
 import { EmptyScreenModule } from '../empty-screen/empty-screen.module';
 import { SharedPipesModule } from '@kore.apps/helpers/filters/shared-pipes.module';
+// import {
+//   EntityDataService,
+//   EntityDefinitionService,
+//   EntityMetadataMap,
+// } from '@ngrx/data';
+// import { AppsDataResolver } from './services/apps-data.resolver';
+// import { AppsDataService } from './services/apps-data.service';
+// import { AppsService } from './services/apps.service';
 
 // AoT requires an exported function for factories
 // export function createTranslateLoader(http: HttpClient) {
@@ -32,7 +40,7 @@ import { SharedPipesModule } from '@kore.apps/helpers/filters/shared-pipes.modul
     CommonModule,
     AppsRoutingModule,
     TranslateModule.forChild({
-      // useDefaultLang: true,
+      useDefaultLang: true,
       // loader: {
       //   provide: TranslateLoader,
       //   useFactory: createTranslateLoader,
@@ -46,8 +54,7 @@ import { SharedPipesModule } from '@kore.apps/helpers/filters/shared-pipes.modul
     SharedPipesModule,
     EmptyScreenModule,
   ],
-  providers: [],
-  exports: [AppsComponent],
+  // providers: [AppsDataService],
 })
 export class AppsModule {
   // constructor(

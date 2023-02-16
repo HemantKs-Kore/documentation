@@ -4,12 +4,8 @@
     (settingMenu)="settingMenu($event)"
     (showSourceMenu)="showSourceMenu($event)"
   ></app-header>
-  <app-mainmenu
-    [show]="showMainMenu"
-    [settingMainMenu]="settingMainMenu"
-    [sourceMenu]="sourceMenu"
-    class="toShowAppHeader"
-  ></app-mainmenu>
+
+  <ng-container #dynamicRef></ng-container>
   <div [ngClass]="{ 'pl-0': !showMainMenu }" class="container-fluid appContent">
     <router-outlet></router-outlet>
   </div>

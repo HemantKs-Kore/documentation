@@ -10,15 +10,15 @@ import {
   NgbTypeaheadModule,
 } from '@ng-bootstrap/ng-bootstrap';
 import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
-import { SliderComponentComponent } from '../../../shared/slider-component/slider-component.component';
 import { FormsModule } from '@angular/forms';
 import { KrModalModule } from '../../../shared/kr-modal/kr-modal.module';
 import { SharedPipesModule } from '@kore.apps/helpers/filters/shared-pipes.module';
 import { AppSelectionService } from '@kore.apps/services/app.selection.service';
 import { OnboardingModule } from '@kore.apps/modules/onboarding/onboarding.module';
-
+import { SliderModule } from '@kore.apps/shared/slider-component/slider.module';
+import { IntersectionObserverDirectiveModule } from '@kore.libs/shared/src';
 @NgModule({
-  declarations: [HeaderComponent, SliderComponentComponent],
+  declarations: [HeaderComponent],
   imports: [
     CommonModule,
     TranslateModule.forChild(),
@@ -31,6 +31,8 @@ import { OnboardingModule } from '@kore.apps/modules/onboarding/onboarding.modul
     SharedPipesModule,
     OnboardingModule,
     NgbTypeaheadModule,
+    SliderModule,
+    IntersectionObserverDirectiveModule,
   ],
   providers: [AppSelectionService, NgbActiveModal],
   exports: [HeaderComponent],

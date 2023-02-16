@@ -10,6 +10,9 @@ import { AppUrlsService } from './app.urls.service';
 import { AuthService } from './auth.service';
 import { environment } from '../../environments/environment';
 import { LocalStoreService } from './localstore.service';
+import { differenceInDays, parseISO } from 'date-fns';
+
+import { AppsService } from '@kore.apps/modules/apps/services/apps.service';
 environment;
 @Injectable({
   providedIn: 'root',
@@ -45,6 +48,8 @@ export class AppSelectionService {
   res_length = 0;
   getTourArray: any = {};
   private storageType = 'localStorage';
+  public openPlanOnboardingModal = new Subject<any>();
+  public pricingPlansData: object;
   constructor(
     private workflowService: WorkflowService,
     private service: ServiceInvokerService,
@@ -53,7 +58,8 @@ export class AppSelectionService {
     private authService: AuthService,
     private appUrls: AppUrlsService,
     public localstore: LocalStoreService,
-    private notificationService: NotificationService
+    private notificationService: NotificationService,
+    private appsService: AppsService
   ) {
     if (environment && environment.USE_SESSION_STORE) {
       this.storageType = 'sessionStorage';
@@ -91,6 +97,8 @@ export class AppSelectionService {
       },
       (errRes) => {
         this.indexList = null;
+        if (errRes?.error?.errors[0]?.code === 'SubscriptionCooldownExpired')
+          this.getCurrentSubscriptionData();
       }
     );
     appObserver.subscribe(subject);
@@ -266,6 +274,12 @@ export class AppSelectionService {
       const appObserver = this.service.invoke('get.currentPlans', payload);
       appObserver.subscribe(
         (res) => {
+          const subscription = res?.subscription;
+          if (subscription?.endDate) {
+            delete res?.subscription;
+            subscription.expiryDays = this.getDiffNumberOfDays(subscription);
+            res.subscription = subscription;
+          }
           this.currentsubscriptionPlanDetails = res;
           this.getCurrentUsage();
           this.currentSubscription.next(res);
@@ -276,14 +290,45 @@ export class AppSelectionService {
             errRes.error &&
             errRes.error.errors[0].code == 'NoActiveSubscription'
           ) {
-            this.getLastActiveSubscriptionData();
             this.currentsubscriptionPlanDetails = undefined;
-            //this.errorToaster(errRes, 'failed to get current subscription data');
           }
         }
       );
     }
   }
+
+  //get number of days difference method
+  getDiffNumberOfDays(item) {
+    return Math.abs(differenceInDays(new Date(), parseISO(item?.endDate)));
+  }
+
+  //get all plans in pricing
+  getAllPlans() {
+    this.service.invoke('get.pricingPlans').subscribe(
+      (res) => {
+        this.pricingPlansData = res;
+      },
+      (errRes) => {
+        if (localStorage.jStorage) {
+          if (
+            errRes &&
+            errRes.error.errors &&
+            errRes.error.errors.length &&
+            errRes.error.errors[0] &&
+            errRes.error.errors[0].msg
+          ) {
+            this.notificationService.notify(
+              errRes.error.errors[0].msg,
+              'error'
+            );
+          } else {
+            this.notificationService.notify('Failed ', 'error');
+          }
+        }
+      }
+    );
+  }
+
   //get current usage data of search and queries
   getCurrentUsage() {
     const selectedApp = this.workflowService.selectedApp();
@@ -293,19 +338,20 @@ export class AppSelectionService {
     const payload = { features: ['ingestDocs', 'searchQueries'] };
     this.service.invoke('post.usageData', queryParms, payload).subscribe(
       (res) => {
-        const docs = Number.isInteger(res?.ingestDocs?.percentageUsed)
-          ? res.ingestDocs.percentageUsed
-          : parseFloat(res?.ingestDocs?.percentageUsed).toFixed(2);
-        const queries = Number.isInteger(res?.searchQueries?.percentageUsed)
+        const queryPercentage = Number.isInteger(
+          res.searchQueries.percentageUsed
+        )
           ? res.searchQueries.percentageUsed
-          : parseFloat(res?.searchQueries?.percentageUsed).toFixed(2);
+          : parseFloat(res.searchQueries.percentageUsed).toFixed(2);
+        const overagePercentage =
+          (res?.overage?.used / res?.overage?.slugUnit) * 100;
         this.currentUsageData = {
-          ingestCount: res?.ingestDocs?.used,
-          ingestLimit: res?.ingestDocs?.limit,
-          ingestDocs: docs,
-          searchQueries: queries,
-          searchCount: res?.searchQueries?.used,
-          searchLimit: res?.searchQueries?.limit,
+          queryPercentageUsed: queryPercentage,
+          searchCount: res.searchQueries.used,
+          searchLimit: res.searchQueries.limit,
+          overagePercentageUsed: overagePercentage,
+          overageSearchCount: res?.overage?.used,
+          overageSearchLimit: res?.overage?.slugUnit,
         };
         this.updateUsageData.next('updatedUsage');
       },
@@ -344,31 +390,7 @@ export class AppSelectionService {
       );
     }
   }
-  //get last active subscription data
-  getLastActiveSubscriptionData() {
-    const data = this.workflowService.selectedApp();
-    if (data != undefined) {
-      const payload = {
-        streamId: data._id,
-      };
-      const appObserver = this.service.invoke(
-        'get.lastActiveSubscription',
-        payload
-      );
-      appObserver.subscribe(
-        (res) => {
-          this.currentsubscriptionPlanDetails = res;
-          this.currentSubscription.next(res);
-        },
-        (errRes) => {
-          this.errorToaster(
-            errRes,
-            'failed to get last active subscription data'
-          );
-        }
-      );
-    }
-  }
+
   errorToaster(errRes, message) {
     if (
       errRes &&
@@ -409,22 +431,15 @@ export class AppSelectionService {
   }
   //get tour congfig data
   getTourConfig() {
-    this.getTourArray = {};
-    const appInfo: any = this.workflowService.selectedApp();
-    // console.log("appInfo", appInfo)
-    const quaryparms: any = {
-      streamId: appInfo?._id,
-    };
-    const appObserver = this.service.invoke('get.tourConfig', quaryparms);
-    appObserver.subscribe(
-      (res) => {
+    // this.getTourArray = {};
+
+    this.appsService.getSelectedAppById().subscribe((result) => {
+      if (result) {
+        const res = JSON.parse(JSON.stringify(result));
         this.getTourArray = res.tourConfigurations;
         this.getTourConfigData.next(res.tourConfigurations);
-      },
-      (errRes) => {
-        // console.log(errRes)
       }
-    );
+    });
   }
   //put tour config
   public updateTourConfig(component) {
@@ -478,6 +493,7 @@ export class AppSelectionService {
 
       this.service.invoke('put.tourConfig', quaryparms, payload).subscribe(
         (res) => {
+          this.appsService.updateOneInCache(res);
           this.getTourConfigData.next(this.getTourArray);
           let count = 0;
           const stepsData = this.getTourArray.onBoardingChecklist;

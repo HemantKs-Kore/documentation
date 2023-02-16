@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { fadeInOutAnimation } from '../../helpers/animations/animations';
 import { Router } from '@angular/router';
 import { SideBarService } from '@kore.apps/services/header.service';
@@ -6,6 +6,9 @@ import { WorkflowService } from '@kore.apps/services/workflow.service';
 import { ServiceInvokerService } from '@kore.apps/services/service-invoker.service';
 import { NotificationService } from '@kore.apps/services/notification.service';
 import { AuthService } from '@kore.apps/services/auth.service';
+import { Store } from '@ngrx/store';
+import { selectSearchExperiance } from '@kore.apps/store/app.selectors';
+import { filter, Subscription } from 'rxjs';
 declare const $: any;
 
 @Component({
@@ -14,7 +17,8 @@ declare const $: any;
   styleUrls: ['./actions.component.scss'],
   animations: [fadeInOutAnimation],
 })
-export class ActionsComponent implements OnInit {
+export class ActionsComponent implements OnInit, OnDestroy {
+  sub: Subscription;
   searchIndexId: any;
   selectedApp: any;
   LinkABot: any;
@@ -49,7 +53,8 @@ export class ActionsComponent implements OnInit {
     private service: ServiceInvokerService,
     private notificationService: NotificationService,
     private authService: AuthService,
-    private router: Router
+    private router: Router,
+    private store: Store
   ) {}
 
   ngOnInit(): void {
@@ -93,21 +98,15 @@ export class ActionsComponent implements OnInit {
       (this.selectedApp || {}).botActionTemplate || 'grid';
   }
   getSearchExperience() {
-    const searchIndex = this.selectedApp.searchIndexes[0]._id;
-    const quaryparms: any = {
-      searchIndexId: searchIndex,
-      indexPipelineId: this.indexPipelineId,
-      queryPipelineId: this.queryPipelineId,
-    };
-    this.service.invoke('get.searchexperience.list', quaryparms).subscribe(
-      (res) => {
+    const searchExperianceConfigSub = this.store
+      .select(selectSearchExperiance)
+      .pipe(filter((res) => !!res))
+      .subscribe((res) => {
         this.previewTopBottom =
           ((res || {}).experienceConfig || {}).searchBarPosition || 'top';
-      },
-      (errRes) => {
-        // console.log(errRes);
-      }
-    );
+      });
+
+    this.sub?.add(searchExperianceConfigSub);
   }
   openActions() {
     this.router.navigate(['/botActions'], { skipLocationChange: true });
@@ -177,11 +176,10 @@ export class ActionsComponent implements OnInit {
               }
             );
           } else {
-            if (this.loadingBotContent == true) {
-              this.LinkABot = null;
-              this.botLinked = false;
-              this.loader = false;
-            }
+            this.loadingBotContent = true;
+            this.LinkABot = null;
+            this.botLinked = false;
+            this.loader = false;
           }
         });
     }
@@ -244,6 +242,10 @@ export class ActionsComponent implements OnInit {
         this.notificationService.notify('Failed to update?', 'error');
       }
     );
+  }
+
+  ngOnDestroy() {
+    this.sub?.unsubscribe();
   }
 }
 

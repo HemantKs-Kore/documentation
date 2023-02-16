@@ -1,4 +1,11 @@
-import { Component, OnInit, ViewChild, Input, OnDestroy } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  ViewChild,
+  Input,
+  OnDestroy,
+  ChangeDetectorRef,
+} from '@angular/core';
 import { Router } from '@angular/router';
 import { KRModalComponent } from '../../../shared/kr-modal/kr-modal.component';
 import { ServiceInvokerService } from '@kore.services/service-invoker.service';
@@ -43,7 +50,8 @@ export class UseronboardingJourneyComponent implements OnInit, OnDestroy {
     private service: ServiceInvokerService,
     private notificationService: NotificationService,
     private authService: AuthService,
-    public mixpanel: MixpanelServiceService
+    public mixpanel: MixpanelServiceService,
+    private cd: ChangeDetectorRef
   ) {}
   ngOnInit(): void {
     this.initialCall();
@@ -147,6 +155,7 @@ export class UseronboardingJourneyComponent implements OnInit, OnDestroy {
     } else {
       this.showSteps = true;
     }
+
     if (this.checklistCount != 6) {
       if (this.componentType == 'addData') {
         this.showStatusIcon = this.tourData?.[0].addData ? true : false;
@@ -179,6 +188,8 @@ export class UseronboardingJourneyComponent implements OnInit, OnDestroy {
     } else {
       this.showStatusIcon = true;
     }
+
+    this.cd.detectChanges();
   }
   //filter prev and next step
   filterSteps(prev, next) {

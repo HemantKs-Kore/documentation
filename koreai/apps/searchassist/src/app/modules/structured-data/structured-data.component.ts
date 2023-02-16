@@ -12,13 +12,14 @@ import { InlineManualService } from '../../services/inline-manual.service';
 import { AppSelectionService } from './../../services/app.selection.service';
 import { PerfectScrollbarComponent } from 'ngx-perfect-scrollbar';
 import { SliderComponentComponent } from '../../shared/slider-component/slider-component.component';
-import * as moment from 'moment';
+import { format } from 'date-fns';
 import { EMPTY_SCREEN } from '../../modules/empty-screen/empty-screen.constants';
 import { AuthService } from '@kore.apps/services/auth.service';
 import { ServiceInvokerService } from '@kore.apps/services/service-invoker.service';
 import { WorkflowService } from '@kore.apps/services/workflow.service';
 import { OnboardingComponent } from '../onboarding/onboarding.component';
-import { LazyLoadService } from '@kore.shared/*';
+import { LazyLoadService } from '@kore.libs/shared/src';
+import '../../../assets/js/codemirror.js';
 
 @Component({
   selector: 'app-structured-data',
@@ -1453,9 +1454,8 @@ export class StructuredDataComponent implements OnInit, OnDestroy {
        dockStatuses added updated code in 1898 line*/
           // res.dockStatuses.forEach((record: any) => {
           res.forEach((record: any) => {
-            record.createdOn = moment(record.createdOn).format(
-              'Do MMM YYYY | h:mm A'
-            );
+            record.createdOn = format(record.createdOn, 'dd MMM yyyy');
+
             /**made code updates in line no 1905 on 03/01 added new condition for success,since SUCCESS is updated to success as per new api contract */
             /** made code updates in line no 1903 on 03/09 added new condition for record.fileInfo and record.fileInfo.fileId,since fileId is now has to be fetched from fileInfo  as per new api contract  */
             // if (record.status === 'SUCCESS' && record.fileId && !record.store.toastSeen) {
@@ -1586,9 +1586,5 @@ export class StructuredDataComponent implements OnInit, OnDestroy {
     if (this.subscription) {
       this.subscription.unsubscribe();
     }
-  }
-
-  isEmptyScreenLoading(isLoading) {
-    this.isLoading = isLoading;
   }
 }

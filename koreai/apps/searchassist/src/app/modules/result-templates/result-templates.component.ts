@@ -1,9 +1,9 @@
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { KRModalComponent } from '../../shared/kr-modal/kr-modal.component';
-import { Subscription } from 'rxjs';
+import { filter, Subscription, tap, withLatestFrom } from 'rxjs';
 import { ConfirmationDialogComponent } from '../../helpers/components/confirmation-dialog/confirmation-dialog.component';
-import * as moment from 'moment';
+import { format } from 'date-fns';
 import { AppSelectionService } from '@kore.apps/services/app.selection.service';
 import { SideBarService } from '@kore.apps/services/header.service';
 import { InlineManualService } from '@kore.apps/services/inline-manual.service';
@@ -11,6 +11,14 @@ import { NotificationService } from '@kore.apps/services/notification.service';
 import { WorkflowService } from '@kore.apps/services/workflow.service';
 import { ServiceInvokerService } from '@kore.apps/services/service-invoker.service';
 import { LocalStoreService } from '@kore.apps/services/localstore.service';
+import { Store } from '@ngrx/store';
+
+import {
+  selectAppIds,
+  selectIndexPipelineId,
+  selectSearchExperiance,
+  selectSearchIndexId,
+} from '@kore.apps/store/app.selectors';
 declare const $: any;
 @Component({
   selector: 'app-result-templates',
@@ -20,7 +28,6 @@ declare const $: any;
 export class ResultTemplatesComponent implements OnInit, OnDestroy {
   customModalRef: any;
   templateModalRef: any;
-  selectedApp: any;
   field_name: string;
   copyConfigObj: any = { loader: false, message: '' };
   serachIndexId: any;
@@ -138,7 +145,8 @@ export class ResultTemplatesComponent implements OnInit, OnDestroy {
   defaultFieldName: string;
   tabData: any;
   templateNames: any = ['list', 'carousel', 'grid'];
-
+  streamId;
+  searchIndexId;
   filterFacets: any = [
     { name: 'Left Aligned', type: 'left' },
     { name: 'Right Aligned', type: 'right' },
@@ -155,71 +163,61 @@ export class ResultTemplatesComponent implements OnInit, OnDestroy {
     public dialog: MatDialog,
     public headerService: SideBarService,
     public inlineManual: InlineManualService,
-    public localstore: LocalStoreService
+    public localstore: LocalStoreService,
+    private store: Store
   ) {}
 
   ngOnInit(): void {
     //Initializing Id's
-    this.selectedApp = this.workflowService?.selectedApp();
-    this.serachIndexId = this.selectedApp?.searchIndexes[0]?._id;
-    this.indexPipelineId = this.workflowService?.selectedIndexPipeline();
-
-    this.loadFiledsData();
+    this.initAppIds();
     this.getSearchExperience();
-    // this.subscription = this.appSelectionService.appSelectedConfigs.subscribe(res => {
-    //   this.loadFiledsData();
-    // })
-    this.subscription = this.appSelectionService.queryConfigSelected.subscribe(
-      (res) => {
-        this.indexPipelineId = this.workflowService.selectedIndexPipeline();
-        this.queryPipelineId = this.workflowService.selectedQueryPipeline()
-          ? this.workflowService.selectedQueryPipeline()._id
-          : '';
-        this.loadFiledsData();
-      }
-    );
-    // this.searchExperienceConfig = this.headerService.searchConfiguration;
-    // this.searchConfigurationSubscription =
-    //   this.headerService.savedSearchConfiguration.subscribe((res) => {
-    //     this.searchExperienceConfig = res;
-    //     this.loadFiledsData();
-    //     this.updateResultTemplateTabsAccess();
-    //   });
     this.updateResultTemplateTabsAccess();
-    /** Inline Not yet Registered */
-    //in order to fix the lint issue Unexpected constant condition, however below block of code is not executed so commenting below.
-    // if (!this.inlineManual.checkVisibility('RESULT_TEMPLATE') && false) {
-    //   this.inlineManual.openHelp('RESULT_TEMPLATE');
-    //   this.inlineManual.visited('RESULT_TEMPLATE');
-    // }
+  }
+
+  initAppIds() {
+    const idsSub = this.store
+      .select(selectAppIds)
+      .subscribe(
+        ({ streamId, searchIndexId, indexPipelineId, queryPipelineId }) => {
+          this.streamId = streamId;
+          this.searchIndexId = searchIndexId;
+          this.indexPipelineId = indexPipelineId;
+          this.queryPipelineId = queryPipelineId;
+        }
+      );
+
+    const indexPipelineSub = this.store
+      .select(selectIndexPipelineId)
+      .pipe(
+        withLatestFrom(this.store.select(selectSearchIndexId)),
+        tap(([indexPipelineId, searchIndexId]) => {
+          this.searchIndexId = searchIndexId;
+          this.indexPipelineId = indexPipelineId;
+          this.loadFiledsData();
+        })
+      )
+      .subscribe();
+
+    this.subscription?.add(idsSub);
+    this.subscription?.add(indexPipelineSub);
   }
 
   //get default data
   getSearchExperience() {
-    const searchIndex = this.selectedApp.searchIndexes[0]._id;
-    const quaryparms: any = {
-      searchIndexId: searchIndex,
-      indexPipelineId: this.indexPipelineId,
-      queryPipelineId: this.queryPipelineId,
-    };
-    this.service.invoke('get.searchexperience.list', quaryparms).subscribe(
-      (res) => {
+    const searchExperianceConfigSub = this.store
+      .select(selectSearchExperiance)
+      .pipe(filter((res) => !!res))
+      .subscribe((res) => {
         this.searchExperienceConfig = res;
-        this.loadFiledsData();
+        // this.loadFiledsData();
         this.updateResultTemplateTabsAccess();
-      },
-      (errRes) => {
-        console.log(errRes);
-      }
-    );
+      });
+
+    this.subscription?.add(searchExperianceConfigSub);
   }
 
   loadFiledsData() {
-    this.indexPipelineId = this.workflowService.selectedIndexPipeline();
     if (this.indexPipelineId) {
-      this.queryPipelineId = this.workflowService.selectedQueryPipeline()
-        ? this.workflowService.selectedQueryPipeline()._id
-        : this.selectedApp.searchIndexes[0].queryPipelineId;
       this.getFieldAutoComplete('all');
       this.getFieldAutoComplete('presentable');
       // this.getAllSettings(this.selectedTab)
@@ -240,7 +238,7 @@ export class ResultTemplatesComponent implements OnInit, OnDestroy {
       url = 'get.getFieldAutocomplete';
       const query: any = '';
       quaryparms = {
-        searchIndexID: this.serachIndexId,
+        searchIndexID: this.searchIndexId,
         indexPipelineId: this.indexPipelineId,
         query,
       };
@@ -253,7 +251,7 @@ export class ResultTemplatesComponent implements OnInit, OnDestroy {
         sortField: 'fieldName',
         orderType: 'asc', //desc,
         indexPipelineId: this.indexPipelineId,
-        streamId: this.selectedApp._id,
+        streamId: this.streamId,
         queryPipelineId: this.queryPipelineId,
         searchKey: '',
       };
@@ -482,7 +480,7 @@ export class ResultTemplatesComponent implements OnInit, OnDestroy {
   /** Call for All Setting Templates */
   getAllSettings(setting, type?) {
     const quaryparms: any = {
-      searchIndexId: this.serachIndexId,
+      searchIndexId: this.searchIndexId,
       indexPipelineId: this.indexPipelineId,
       queryPipelineId: this.queryPipelineId,
       interface: setting,
@@ -514,7 +512,7 @@ export class ResultTemplatesComponent implements OnInit, OnDestroy {
   }
   getTemplate(templateData, type) {
     const quaryparms: any = {
-      searchIndexId: this.serachIndexId,
+      searchIndexId: this.searchIndexId,
       templateId: templateData.templateId,
       indexPipelineId: this.indexPipelineId,
       queryPipelineId: this.queryPipelineId,
@@ -702,7 +700,7 @@ export class ResultTemplatesComponent implements OnInit, OnDestroy {
   //get all templates
   // getAllTemplates() {
   //   const quaryparms: any = {
-  //     searchIndexId: this.serachIndexId,
+  //     searchIndexId: this.searchIndexId,
   //     indexPipelineId: this.indexPipelineId
   //   };
   //   this.service.invoke('get.templates', quaryparms).subscribe(res => {
@@ -718,8 +716,8 @@ export class ResultTemplatesComponent implements OnInit, OnDestroy {
     this.resultListObj.groupSetting.fieldName = field.fieldName;
     this.resultListObj.groupSetting.fieldId = field._id;
     const quaryparms: any = {
-      sidx: this.serachIndexId,
-      indexPipelineId: this.workflowService.selectedIndexPipeline() || '',
+      sidx: this.searchIndexId,
+      indexPipelineId: this.indexPipelineId,
       fieldId: field._id,
     };
     this.service.invoke('get.facetValues', quaryparms).subscribe(
@@ -755,8 +753,8 @@ export class ResultTemplatesComponent implements OnInit, OnDestroy {
   //new result template based on template type
   getTemplateData(type, index?, value?) {
     const quaryparms: any = {
-      searchIndexId: this.serachIndexId,
-      indexPipelineId: this.workflowService.selectedIndexPipeline() || '',
+      searchIndexId: this.searchIndexId,
+      indexPipelineId: this.indexPipelineId,
       queryPipelineId: this.queryPipelineId,
     };
     const payload = { type: type };
@@ -828,7 +826,7 @@ export class ResultTemplatesComponent implements OnInit, OnDestroy {
   //update settings
   updateSettings(dialogRef?, type?) {
     const quaryparms: any = {
-      searchIndexId: this.serachIndexId,
+      searchIndexId: this.searchIndexId,
       settingsId: this.settingsId,
       indexPipelineId: this.indexPipelineId,
       queryPipelineId: this.queryPipelineId,
@@ -872,7 +870,7 @@ export class ResultTemplatesComponent implements OnInit, OnDestroy {
     //let validateText = this.validateFieldValues();
     if (this.validateTemplate() && checkTitle) {
       const quaryparms: any = {
-        searchIndexId: this.serachIndexId,
+        searchIndexId: this.searchIndexId,
         templateId: this.templateDataBind._id,
         indexPipelineId: this.indexPipelineId,
         queryPipelineId: this.queryPipelineId,
@@ -1023,8 +1021,8 @@ export class ResultTemplatesComponent implements OnInit, OnDestroy {
     if (type === 'open') {
       this.copyConfigObj.loader = true;
       const quaryparms: any = {
-        searchIndexId: this.serachIndexId,
-        indexPipelineId: this.workflowService.selectedIndexPipeline() || '',
+        searchIndexId: this.searchIndexId,
+        indexPipelineId: this.indexPipelineId,
         queryPipelineId: this.queryPipelineId,
         settingsId: this.resultListObj._id,
         fromInterface: tab,
@@ -1033,9 +1031,8 @@ export class ResultTemplatesComponent implements OnInit, OnDestroy {
       this.service.invoke('copy.settings', quaryparms, payload).subscribe(
         (res) => {
           this.copyConfigObj.loader = false;
-          const date = moment(res.copiedOn).format(
-            'dddd, MMMM Do YYYY, h:mm:ss a'
-          );
+          const format_date = new Date(res.copiedOn);
+          const date = format(format_date, 'eeee , MMMM do yyyy, h:mm:ss aaa');
           this.copyConfigObj.message = `Configurations applied from ${this.tabData[0].name} | ${date}.`;
           this.notificationService.notify(
             ' Result copied successfully',

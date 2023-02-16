@@ -1,12 +1,10 @@
 import { Injectable } from '@angular/core';
-import { Observer, from, Subject } from 'rxjs';
-import { Observable } from 'rxjs';
+import { Subject, BehaviorSubject } from 'rxjs';
 import { ReplaySubject } from 'rxjs';
 import { MixpanelServiceService } from './mixpanel-service.service';
 import { LocalStoreService } from './localstore.service';
 import { ServiceInvokerService } from './service-invoker.service';
 import { AppUrlsService } from './app.urls.service';
-import { WorkflowService } from './workflow.service';
 import { environment } from '../../environments/environment';
 declare let window: any;
 
@@ -19,12 +17,13 @@ export class AuthService {
   private selectedAccount = null;
   public findlyApps = new Subject<any>();
   private storageType = 'localStorage';
+  private appControlListSource$ = new BehaviorSubject(null);
+  appControlList$ = this.appControlListSource$.asObservable();
 
   constructor(
     private localstore: LocalStoreService,
     private service: ServiceInvokerService,
     private appUrls: AppUrlsService,
-    public workflowService: WorkflowService,
     public mixpanel: MixpanelServiceService
   ) {
     this.authInfo = localstore.getAuthInfo();
@@ -140,17 +139,12 @@ export class AuthService {
   public getApplictionControlsFromServer(): ReplaySubject<any> {
     const appObserver = this.service.invoke('app.controls', {}, {});
 
-    // _observer.subscribe(res => {
-    //   this.appControlList = res;
-    // }, errRes => {
-    //   this.appControlList = null;
-    // });
-
     const subject = new ReplaySubject(1);
     // subscriber 1
     subject.subscribe(
       (res: any) => {
         this.appControlList = res;
+        this.appControlListSource$.next(res);
         this.mixpanel.reset();
         const userInfo = {
           $email: res.domain,
@@ -163,40 +157,8 @@ export class AuthService {
         this.appControlList = null;
       }
     );
-    // subject.subscribe(res => {
-    //   this.appControlList = res;
-    // }, errRes => {
-    //   this.appControlList = null;
-    // });
+
     appObserver.subscribe(subject);
     return subject;
-  }
-
-  public seedData() {
-    this.service.invoke('findly.seed.data').subscribe(
-      (res) => {
-        this.workflowService.seedData(res);
-      },
-      (errRes) => {
-        this.findlyApps.next(errRes);
-      }
-    );
-  }
-
-  public getfindlyApps() {
-    this.service.invoke('get.apps').subscribe(
-      (res) => {
-        // res = [];\
-        // console.log("latest get apps", res)
-        if (res && res.length) {
-          this.workflowService.showAppCreationHeader(false);
-        }
-        this.findlyApps.next(res);
-        this.workflowService.findlyApps(res);
-      },
-      (errRes) => {
-        this.findlyApps.next(errRes);
-      }
-    );
   }
 }

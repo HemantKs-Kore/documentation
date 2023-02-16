@@ -5,12 +5,12 @@
   <perfect-scrollbar *ngIf="!noDataFound" class="summary-perfect-scroll">
     <div class="modal-body">
       <div class="kr-sg-input-search mb-10">                               
-        <input type="text" placeholder="Search" class="input-search" [formControl]="searchText">
+        <input type="text" placeholder="{{'sa_search' | translate}}" class="input-search" [formControl]="searchText">
         <img src="assets/icons/search-gray.svg" class="search-icon" (click)="searchText.reset();">
       </div>
       <div class="col-12 p-0 mb-20" *ngIf="dialogData.pdfResponse.title.length">
         <div class="title">
-          Headings
+          {{"addFaq_headings" | translate}}
         </div>
         <mat-accordion class="kr-accordian">
           <mat-expansion-panel *ngFor="let list of dialogData.pdfResponse.title | search:searchText.value;let index=index; " hideToggle>
@@ -31,7 +31,7 @@
       </div>
       <div class="col-12 p-0 mb-20" *ngIf="dialogData.pdfResponse.header.length">
         <div class="title">
-          Headers
+          {{"addFaq_headers" | translate}}
         </div>
         <mat-accordion class="kr-accordian">
           <mat-expansion-panel *ngFor="let list of dialogData.pdfResponse.header | search:searchText.value;let index=index; " hideToggle>
@@ -52,7 +52,7 @@
       </div>
       <div class="col-12 p-0 mb-20" *ngIf="dialogData.pdfResponse.footer.length">
         <div class="title">
-          Footers
+          {{"addFaq_footers" | translate}}
         </div>
         <mat-accordion class="kr-accordian">
           <mat-expansion-panel *ngFor="let list of dialogData.pdfResponse.footer | search:searchText.value;let index=index; " hideToggle>
@@ -73,7 +73,7 @@
       </div>
       <div class="col-12 p-0 mb-20" *ngIf="dialogData.pdfResponse.ignoreText.length">
         <div class="title">
-          Exclusions
+          {{"addFaq_exclusions" | translate}}
         </div>
         <mat-accordion class="kr-accordian">
           <mat-expansion-panel *ngFor="let list of dialogData.pdfResponse.ignoreText | search:searchText.value;let index=index; " hideToggle>

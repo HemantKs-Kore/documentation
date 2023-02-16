@@ -352,14 +352,14 @@
                         (click)="runExperiment(exp._id, 'stopped', $event)"
                       />
                       <img
-                        src="assets/icons/return_black.svg"
-                        class="d-none"
-                        ngbTooltip="{{ 'experiments_restart' | translate }}"
-                        *ngIf="exp.state === 'stopped'"
+                        src="assets/icons/play_black.svg"
+                        ngbTooltip="{{ 'experiments_play' | translate }}"
+                        *ngIf="exp.state === 'paused'"
                         (click)="runExperiment(exp._id, 'active', $event)"
                       />
                       <img
                         src="assets/icons/return_black.svg"
+                        class="d-none"
                         ngbTooltip="{{ 'experiments_restart' | translate }}"
                         *ngIf="exp.state === 'stopped'"
                         (click)="runExperiment(exp._id, 'active', $event)"
@@ -773,7 +773,7 @@
                     vari.queryPipelineId === query._id ? 'bold' : ''
                 }"
               >
-                {{ query.name === 'Default' ? 'Default Search' : query.name }}
+                {{ query.name === 'Default' ? ('app_menu_Default_search' | translate) : query.name }}
               </li>
             </ul>
           </div>

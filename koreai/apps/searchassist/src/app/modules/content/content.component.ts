@@ -28,7 +28,6 @@ import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 import { DockStatusService } from '../../services/dockstatusService/dock-status.service';
 import { SchedulerComponent } from '../../components/scheduler/scheduler.component';
 import { EMPTY_SCREEN } from '../../modules/empty-screen/empty-screen.constants';
-import { UpgradePlanComponent } from '../../helpers/components/upgrade-plan/upgrade-plan.component';
 import { ServiceInvokerService } from '@kore.apps/services/service-invoker.service';
 import { WorkflowService } from '@kore.apps/services/workflow.service';
 import { AppSelectionService } from '@kore.apps/services/app.selection.service';
@@ -36,6 +35,7 @@ import { AuthService } from '@kore.apps/services/auth.service';
 import { InlineManualService } from '@kore.apps/services/inline-manual.service';
 import { MixpanelServiceService } from '@kore.apps/services/mixpanel-service.service';
 import { OnboardingComponent } from '../onboarding/onboarding.component';
+import { PlanUpgradeComponent } from '../pricing/shared/plan-upgrade/plan-upgrade.component';
 
 declare let require: any;
 const FileSaver = require('file-saver');
@@ -288,7 +288,7 @@ export class ContentComponent implements OnInit, OnDestroy {
   @ViewChild(SliderComponentComponent)
   sliderComponent: SliderComponentComponent;
   @ViewChild('schedular') schedular: SchedulerComponent;
-  @ViewChild('plans') plans: UpgradePlanComponent;
+  @ViewChild('plans') plans: PlanUpgradeComponent;
   @ViewChild(OnboardingComponent, { static: true })
   onBoardingComponent: OnboardingComponent;
   templateState = new Subject();
@@ -375,10 +375,6 @@ export class ContentComponent implements OnInit, OnDestroy {
     this.sourcesSearchModelChanged.pipe(debounceTime(300)).subscribe(() => {
       this.getSourceList(null, this.searchSources, 'search');
     });
-  }
-
-  isEmptyScreenLoading(isLoading) {
-    this.loadingContent = isLoading;
   }
 
   scroll = (event): void => {

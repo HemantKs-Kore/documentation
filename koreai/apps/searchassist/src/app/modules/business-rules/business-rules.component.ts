@@ -13,7 +13,6 @@ import {
 } from '@angular/material/autocomplete';
 import { Subscription } from 'rxjs';
 import * as moment from 'moment';
-import { UpgradePlanComponent } from '../../helpers/components/upgrade-plan/upgrade-plan.component';
 import { PerfectScrollbarComponent } from 'ngx-perfect-scrollbar';
 import { DomSanitizer } from '@angular/platform-browser';
 import { EMPTY_SCREEN } from '../../modules/empty-screen/empty-screen.constants';
@@ -23,6 +22,7 @@ import { WorkflowService } from '@kore.apps/services/workflow.service';
 import { AppSelectionService } from '@kore.apps/services/app.selection.service';
 import { InlineManualService } from '@kore.apps/services/inline-manual.service';
 import { MixpanelServiceService } from '@kore.apps/services/mixpanel-service.service';
+import { PlanUpgradeComponent } from '../pricing/shared/plan-upgrade/plan-upgrade.component';
 declare const $: any;
 declare global {
   interface String {
@@ -204,7 +204,7 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
   @ViewChild('auto') matAutocomplete: MatAutocomplete;
   @ViewChild('suggestedInput') suggestedInput: ElementRef<HTMLInputElement>;
   @ViewChild('addBusinessRules') addBusinessRules: KRModalComponent;
-  @ViewChild('plans') plans: UpgradePlanComponent;
+  @ViewChild('plans') plans: PlanUpgradeComponent;
   constructor(
     public workflowService: WorkflowService,
     private service: ServiceInvokerService,
@@ -214,7 +214,7 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
     public mixpanel: MixpanelServiceService,
     private appSelectionService: AppSelectionService,
     private sanitizer: DomSanitizer
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.selectedApp = this.workflowService.selectedApp();
@@ -2055,8 +2055,8 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
     const isExist =
       this.nlpAnnotatorObj.Legends.length > 0
         ? this.nlpAnnotatorObj.Legends.some(
-            (item) => item.name === entity?.entityName
-          )
+          (item) => item.name === entity?.entityName
+        )
         : false;
     return isExist;
   }
@@ -2148,5 +2148,10 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
 
   isEmptyScreenLoading(isLoading) {
     this.loadingContent = isLoading;
+  }
+
+  //click outside to close modal using event target
+  clickOusideToCloseNLPModal() {
+    this.createTag(false, false);
   }
 }

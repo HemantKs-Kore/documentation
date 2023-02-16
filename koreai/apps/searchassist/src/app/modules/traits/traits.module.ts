@@ -10,6 +10,7 @@ import { FormsModule } from '@angular/forms';
 import { MatDialogModule } from '@angular/material/dialog';
 import { EmptyScreenModule } from '../empty-screen/empty-screen.module';
 import { TraitsFilterPipe } from './traits-filter.pipe';
+import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
   declarations: [TraitsComponent, TraitsFilterPipe],
@@ -22,6 +23,7 @@ import { TraitsFilterPipe } from './traits-filter.pipe';
     FormsModule,
     MatDialogModule,
     EmptyScreenModule,
+    NgbTooltipModule,
   ],
 })
 export class TraitsModule {}

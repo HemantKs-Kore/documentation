@@ -2,7 +2,6 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { KRModalComponent } from '../../shared/kr-modal/kr-modal.component';
 import { ActivatedRoute } from '@angular/router';
 import { ConfirmationDialogComponent } from '../../helpers/components/confirmation-dialog/confirmation-dialog.component';
-import * as moment from 'moment';
 import { MatDialog } from '@angular/material/dialog';
 import { EMPTY_SCREEN } from '../../modules/empty-screen/empty-screen.constants';
 import { WorkflowService } from '@kore.apps/services/workflow.service';
@@ -357,12 +356,6 @@ export class CredentialsListComponent implements OnInit {
         });
         console.log(this.channnelConguired);
         // Scopes code for API Scopes end //
-
-        // this.firstlistData.lastModifiedOn = moment(this.firstlistData.lastModifiedOn).format('MM/DD/YYYY - hh:mmA');
-        // var moment = require('moment/moment');
-        // if (this.channnelConguired.apps.length > 0) {
-        //   this.existingCredential = true;
-        // }
         if (res.length > 0) {
           this.loadingContent = false;
           this.loadingContent1 = true;

@@ -68,7 +68,7 @@
       >
         <input
           type="text"
-          placeholder="Search"
+          placeholder="{{'sa_search' | translate}}"
           maxlength="60"
           id="inputSearch"
           class="input-search"
@@ -317,7 +317,6 @@
         class="empty-rules-lg"
         [desc]="emptyScreen.DESC"
         [imgName]="emptyScreen.IMG_NAME"
-        (isImgLoading)="isEmptyScreenLoading($event)"
       >
         <div class="action-buttons">
           <button class="kr-sg-button-primary btn_lg" (click)="createNewRule()">
@@ -2009,7 +2008,7 @@
         'z-index': '9999'
       }"
     >
-      <div class="nlp-choose-tag" *ngIf="!nlpAnnotatorObj.isEditPage">
+      <div class="nlp-choose-tag" *ngIf="!nlpAnnotatorObj.isEditPage" appOutsideClicked (clickedOutside)="clickOusideToCloseNLPModal()">
         <div class="nlp-choose-tag-header">
           <span class="bot-tasks"
             ><img src="assets/images/bot-tasks.svg"
@@ -2031,7 +2030,7 @@
             <input
               class="input-search"
               id="inputSearch"
-              placeholder="Search"
+              placeholder="{{'sa_search' | translate}}"
               type="text"
               [(ngModel)]="nlpAnnotatorObj.searchEntity"
             />
@@ -2278,4 +2277,5 @@
   <div class="tag-tooltip-text"></div>
 </kr-modal>
 
-<app-upgrade-plan #plans></app-upgrade-plan>
+<!--Plan upgrade component -->
+<app-plan-upgrade #plans></app-plan-upgrade>

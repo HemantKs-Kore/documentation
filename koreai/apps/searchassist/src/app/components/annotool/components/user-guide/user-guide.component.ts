@@ -7,11 +7,16 @@ import {
 } from '@angular/material/dialog';
 import { ServiceInvokerService } from '@kore.apps/services/service-invoker.service';
 import { WorkflowService } from '@kore.apps/services/workflow.service';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'kr-user-guide',
+  standalone: true,
   templateUrl: './user-guide.component.html',
   styleUrls: ['./user-guide.component.scss'],
+  imports:[
+    TranslateModule
+  ]
 })
 export class UserGuideComponent implements OnInit {
   selectedApp;

@@ -28,3 +28,13 @@ export const selectAppIds = createSelector(
     return { streamId, searchIndexId, indexPipelineId, queryPipelineId };
   }
 );
+
+export const selectSearchExperiance = createSelector(
+  selectAppFeature,
+  (state: AppState) => state.searchExperienceConfig
+);
+
+export const selectEnablePreview = createSelector(
+  selectAppFeature,
+  (state: AppState) => !state.searchExperienceConfig
+);

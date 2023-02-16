@@ -1,6 +1,5 @@
 import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 import { SharedPipesModule } from './../../helpers/filters/shared-pipes.module';
-import { UpgradePlanModule } from './../../helpers/components/upgrade-plan/upgrade-plan.module';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { StructuredDataStatusModalModule } from './../../components/structured-data-status-modal/structured-data-status-modal.module';
 import { AddStructuredDataModule } from './../../components/add-structured-data/add-structured-data.module';
@@ -16,6 +15,7 @@ import { CommonModule, NgOptimizedImage } from '@angular/common';
 import { SourcesRoutingModule } from './sources-routing.module';
 import { SourcesComponent } from './sources.component';
 import { MatNativeDateModule } from '@angular/material/core';
+import { PlanUpgradeModule } from '../pricing/shared/plan-upgrade/plan-upgrade.module';
 
 @NgModule({
   declarations: [SourcesComponent],
@@ -38,9 +38,9 @@ import { MatNativeDateModule } from '@angular/material/core';
     AddFaqModule,
     AddStructuredDataModule,
     StructuredDataStatusModalModule,
-    UpgradePlanModule,
+    PlanUpgradeModule,
     SharedPipesModule,
   ],
   exports: [SourcesComponent],
 })
-export class SourcesModule {}
+export class SourcesModule { }

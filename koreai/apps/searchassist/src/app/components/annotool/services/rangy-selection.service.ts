@@ -1,7 +1,9 @@
 import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs';
 
-declare let rangy;
+import * as rangy from 'rangy';
+
+// declare let rangy;
 
 @Injectable({
   providedIn: 'root',

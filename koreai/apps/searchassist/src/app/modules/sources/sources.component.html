@@ -2259,7 +2259,7 @@
           <div class="kr-sg-input-text">
             <input
               type="text"
-              placeholder="Search"
+              placeholder="{{'sa_search' | translate}}"
               [(ngModel)]="searchAssociatedBots"
               name="searchAssociatedBots"
               class="input-text"
@@ -2997,4 +2997,5 @@
   </div>
 </kr-modal>
 
-<app-upgrade-plan #plans></app-upgrade-plan>
+<!--Plan upgrade component -->
+<app-plan-upgrade #plans></app-plan-upgrade>

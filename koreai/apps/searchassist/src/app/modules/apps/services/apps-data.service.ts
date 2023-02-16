@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { ServiceInvokerService } from '@kore.apps/services/service-invoker.service';
-// import { appsFeatureKey } from '@kore.apps/store/entity-metadata';
+import { appsFeatureKey } from '@kore.apps/store/entity-metadata';
 import { DefaultDataService, HttpUrlGenerator } from '@ngrx/data';
 import { Observable } from 'rxjs';
 
@@ -14,16 +14,16 @@ export class AppsDataService extends DefaultDataService<any> {
     httpUrlGenerator: HttpUrlGenerator,
     private service: ServiceInvokerService
   ) {
-    super('appsFeatureKey', http, httpUrlGenerator);
+    super(appsFeatureKey, http, httpUrlGenerator);
   }
 
   override getAll(): Observable<any[]> {
     return this.service.invoke('get.apps');
   }
 
-  // add(user): Observable<UserInterface> {
-  //   return this.http.post<UserInterface>(`${this.API_URL}`, user);
-  // }
+  override add(payload): Observable<any> {
+    return this.service.invoke('create.app', {}, payload);
+  }
 
   // update(user): Observable<UserInterface> {
   //   return this.http.put<UserInterface>(
@@ -32,7 +32,7 @@ export class AppsDataService extends DefaultDataService<any> {
   //   );
   // }
 
-  // delete(userId): Observable<any> {
-  //   return this.http.delete(`${this.API_URL}/${userId}`);
-  // }
+  override delete(appId): Observable<any> {
+    return this.service.invoke('delete.app', { streamId: appId });
+  }
 }

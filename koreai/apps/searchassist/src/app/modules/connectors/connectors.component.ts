@@ -1,7 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ConfirmationDialogComponent } from '../../helpers/components/confirmation-dialog/confirmation-dialog.component';
-import { UpgradePlanComponent } from '../../helpers/components/upgrade-plan/upgrade-plan.component';
 import { KRModalComponent } from '../../shared/kr-modal/kr-modal.component';
 import { SliderComponentComponent } from '../../shared/slider-component/slider-component.component';
 import { Router } from '@angular/router';
@@ -11,6 +10,7 @@ import { NotificationService } from '@kore.apps/services/notification.service';
 import { ServiceInvokerService } from '@kore.apps/services/service-invoker.service';
 import { WorkflowService } from '@kore.apps/services/workflow.service';
 import { OnboardingComponent } from '../onboarding/onboarding.component';
+import { PlanUpgradeComponent } from '../pricing/shared/plan-upgrade/plan-upgrade.component';
 declare const $: any;
 @Component({
   selector: 'app-connectors',
@@ -125,7 +125,7 @@ export class ConnectorsComponent implements OnInit {
     { name: 'Configurations', type: 'configurations' },
     { name: 'Jobs', type: 'jobs' },
   ];
-  @ViewChild('plans') plans: UpgradePlanComponent;
+  @ViewChild('plans') plans: PlanUpgradeComponent;
   @ViewChild('deleteModel') deleteModel: KRModalComponent;
   @ViewChild(OnboardingComponent, { static: true })
   onBoardingComponent: OnboardingComponent;
@@ -139,7 +139,7 @@ export class ConnectorsComponent implements OnInit {
     public dialog: MatDialog,
     private appSelectionService: AppSelectionService,
     private router: Router
-  ) {}
+  ) { }
 
   async ngOnInit() {
     this.selectedApp = this.workflowService.selectedApp();
@@ -598,12 +598,10 @@ export class ConnectorsComponent implements OnInit {
       height: 'auto',
       panelClass: 'delete-popup',
       data: {
-        newTitle: `${
-          data?.isActive ? 'Enable' : 'Disable'
-        } the connected source?`,
-        body: `This can be ${
-          data?.isActive ? 'enabled' : 'disabled'
-        } any point of time, configuration will remain intact.`,
+        newTitle: `${data?.isActive ? 'Enable' : 'Disable'
+          } the connected source?`,
+        body: `This can be ${data?.isActive ? 'enabled' : 'disabled'
+          } any point of time, configuration will remain intact.`,
         buttons: [
           { key: 'yes', label: 'Proceed', type: 'danger' },
           { key: 'no', label: 'Cancel' },
