@@ -29,7 +29,7 @@ import { MixpanelServiceService } from '@kore.apps/services/mixpanel-service.ser
 import { AppUrlsService } from '@kore.apps/services/app.urls.service';
 import { environment } from '@kore.environment/environment';
 import { SearchSdkService } from '@kore.apps/modules/search-sdk/services/search-sdk.service';
-// import { OnboardingComponent } from '@kore.apps/modules/onboarding/onboarding.component';
+import { OnboardingComponent } from '@kore.apps/modules/onboarding/onboarding.component';
 import { Store } from '@ngrx/store';
 import { setAppId } from '@kore.apps/store/app.actions';
 import { LazyLoadService } from '@kore.libs/shared/src';
@@ -152,9 +152,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
   @ViewChild('testButtonTooltip') testButtonTooltip: any;
   @ViewChild(SliderComponentComponent, { static: true })
   sliderComponent: SliderComponentComponent;
-  onBoardingComponent;
-  // @ViewChild(OnboardingComponent, { static: true })
-  // onBoardingComponent: OnboardingComponent;
+  @ViewChild(OnboardingComponent, { static: true })
+  onBoardingComponent: OnboardingComponent;
   @ViewChild('browseWorkspace') browseWorkspace: KRModalComponent;
   availableRouts = [
     { displayName: 'Summary', routeId: '/summary', quaryParms: {} },
