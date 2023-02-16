@@ -172,7 +172,7 @@
                 <div class="kr-sg-input-text">
                   <input
                     type="text"
-                    placeholder="{{'weights_field_name' | translate}}"
+                    placeholder="{{ 'weights_field_name' | translate }}"
                     class="input-text"
                     [(ngModel)]="defaultFieldName"
                     [disabled]="defaultFieldName"
@@ -524,7 +524,7 @@
               <div
                 id="imgScroll"
                 class="img-info"
-                *ngIf="searchTemplatesDisabled"
+                *ngIf="searchTemplatesDisabled && resultListObj.groupResults"
               >
                 <img
                   src="assets/icons/resultTemplate/top-down-left-aligned.png"
@@ -551,7 +551,8 @@
 >
   <div class="modal-header">
     <div class="title breadcrum">
-      {{ fieldPopupType === 'add' ? 'Add' : 'Edit' }} {{'weights_field_name' | translate}}
+      {{ fieldPopupType === 'add' ? 'Add' : 'Edit' }}
+      {{ 'weights_field_name' | translate }}
     </div>
     <div class="close_icon" (click)="closeCustomModal()">
       <img src="assets/icons/modal-close.svg" />
@@ -5373,7 +5374,7 @@
                             autocomplete="off"
                             type="text"
                             (keydown)="$event.stopPropagation()"
-                            placeholder="{{'sa_search' | translate}}"
+                            placeholder="{{ 'sa_search' | translate }}"
                             class="seach-input pl-3"
                             (keyup)="
                               searchlist(
@@ -5460,7 +5461,7 @@
                             autocomplete="off"
                             type="text"
                             (keydown)="$event.stopPropagation()"
-                            placeholder="{{'sa_search' | translate}}"
+                            placeholder="{{ 'sa_search' | translate }}"
                             class="seach-input pl-3"
                             (keyup)="
                               searchlist(
@@ -5542,7 +5543,7 @@
                             autocomplete="off"
                             type="text"
                             (keydown)="$event.stopPropagation()"
-                            placeholder="{{'sa_search' | translate}}"
+                            placeholder="{{ 'sa_search' | translate }}"
                             class="seach-input pl-3"
                             (keyup)="
                               searchlist(
@@ -5624,7 +5625,7 @@
                             autocomplete="off"
                             type="text"
                             (keydown)="$event.stopPropagation()"
-                            placeholder="{{'sa_search' | translate}}"
+                            placeholder="{{ 'sa_search' | translate }}"
                             class="seach-input pl-3"
                             (keyup)="
                               searchlist(
@@ -5790,7 +5791,7 @@
                             autocomplete="off"
                             type="text"
                             (keydown)="$event.stopPropagation()"
-                            placeholder="{{'sa_search' | translate}}"
+                            placeholder="{{ 'sa_search' | translate }}"
                             class="seach-input pl-3"
                             (keyup)="
                               searchlist(
@@ -5876,7 +5877,7 @@
                             autocomplete="off"
                             type="text"
                             (keydown)="$event.stopPropagation()"
-                            placeholder="{{'sa_search' | translate}}"
+                            placeholder="{{ 'sa_search' | translate }}"
                             class="seach-input pl-3"
                             (keyup)="
                               searchlist(
@@ -5962,7 +5963,7 @@
                             autocomplete="off"
                             type="text"
                             (keydown)="$event.stopPropagation()"
-                            placeholder="{{'sa_search' | translate}}"
+                            placeholder="{{ 'sa_search' | translate }}"
                             class="seach-input pl-3"
                             (keyup)="
                               searchlist(
@@ -6044,7 +6045,7 @@
                             autocomplete="off"
                             type="text"
                             (keydown)="$event.stopPropagation()"
-                            placeholder="{{'sa_search' | translate}}"
+                            placeholder="{{ 'sa_search' | translate }}"
                             class="seach-input pl-3"
                             (keyup)="
                               searchlist(
@@ -6130,7 +6131,7 @@
                             autocomplete="off"
                             type="text"
                             (keydown)="$event.stopPropagation()"
-                            placeholder="{{'sa_search' | translate}}"
+                            placeholder="{{ 'sa_search' | translate }}"
                             class="seach-input pl-3"
                             (keyup)="
                               searchlist(
@@ -6212,7 +6213,7 @@
                             autocomplete="off"
                             type="text"
                             (keydown)="$event.stopPropagation()"
-                            placeholder="{{'sa_search' | translate}}"
+                            placeholder="{{ 'sa_search' | translate }}"
                             class="seach-input pl-3"
                             (keyup)="
                               searchlist(
@@ -6365,7 +6366,7 @@
                               autocomplete="off"
                               type="text"
                               (keydown)="$event.stopPropagation()"
-                              placeholder="{{'sa_search' | translate}}"
+                              placeholder="{{ 'sa_search' | translate }}"
                               class="seach-input pl-3"
                               (keyup)="
                                 searchlist(
