@@ -13,7 +13,7 @@
           <div class="header-sec">
             <div class="row m-0 adjust-width">
               <div class="title col-4 p-0" role="contentinfo">
-                {{ 'Your_Applications' | translate }}
+                {{ 'home_your_applications' | translate }}
               </div>
               <div
                 class="col-8 right-sec p-0 row justify-content-end align-items-center text-right m-0"
@@ -754,7 +754,7 @@
                     <!-- Tab panes -->
                     <div class="tab-content">
                       <div class="tab-pane active" id="ecommerce">
-                        <div class="title">E-Commerce</div>
+                        <div class="title">{{"home_e_commerce" | translate}}</div>
                         <div class="desc-text-info">
                           {{
                             'home_the_ecommerce_sample_dataset_desc' | translate
@@ -1065,7 +1065,7 @@
               class="kr-sg-button-primary btn_lg"
               (click)="checkExperience()"
             >
-              Continue
+            {{"sa_continue" | translate}}
             </button>
             <button
               *ngIf="steps === 'showSearchExperience'"
@@ -1225,7 +1225,7 @@
     </div>
   </div>
   <div *ngIf="!unlinkPop" class="modal-body">
-    <div class="info-desc">{{ 'deleteToConfirm' | translate }}</div>
+    <div class="info-desc">{{ 'home_deleteToConfirm' | translate }}</div>
     <div class="kr-sg-input-text">
       <input
         type="text"
