@@ -14,10 +14,9 @@ import {
 } from '@angular/router';
 import { AppSelectionService } from './services/app.selection.service';
 import { LoaderService } from './shared/loader/loader.service';
-import { Store } from '@ngrx/store';
 import { LazyLoadService } from '@kore.libs/shared/src';
 import { MainMenuComponent } from './modules/layout/mainmenu/mainmenu.component';
-import {TranslateService} from '@ngx-translate/core';
+import { TranslateService } from '@ngx-translate/core';
 import { Renderer2 } from '@angular/core';
 @Component({
   selector: 'app-root',
@@ -29,30 +28,41 @@ export class AppComponent implements OnInit {
   isMainMenuLoaded = false;
   mainMenuRef: ComponentRef<MainMenuComponent>;
   showMainMenu = true;
-  // settingMainMenu = false;
-  // sourceMenu = false;
   appSelected = false;
 
-  constructor(private router: Router, private loaderService: LoaderService, private appSelectionService: AppSelectionService, private lazyLoadService: LazyLoadService, private translate: TranslateService,private renderer:Renderer2) {
+  constructor(
+    private router: Router,
+    private loaderService: LoaderService,
+    private appSelectionService: AppSelectionService,
+    private lazyLoadService: LazyLoadService,
+    private translate: TranslateService,
+    private renderer: Renderer2
+  ) {
     this.onRouteEvents();
-    const lang = window.localStorage.getItem('appLanguage')
-    if(lang){
-      translate.setDefaultLang(lang);
-      if(lang !== 'en'){
+    this.handleLang();
+  }
+
+  handleLang() {
+    const lang = window.localStorage.getItem('appLanguage');
+    if (lang) {
+      this.translate.setDefaultLang(lang);
+      if (lang && lang !== 'en') {
         this.lazyLoadService.loadStyle('lang.min.css').subscribe();
-        this.renderer.addClass(document.body, 'sa-lang-'+lang);
+        this.renderer.addClass(document.body, 'sa-lang-' + lang);
       }
-    }else{
-      if(window.location.href.split("home/").length && window.location.href.split("home/")[1]){
-        const lang = window.location.href.split("home/")[1];
-        translate.setDefaultLang(lang);
-        this.renderer.addClass(document.body, 'sa-lang-'+lang);
+    } else {
+      const loc = window.location.href.split('home/');
+      if (loc.length && loc[1]) {
+        const lang = loc[1];
+        this.translate.setDefaultLang(lang);
+        this.renderer.addClass(document.body, 'sa-lang-' + lang);
       }
     }
   }
 
   ngOnInit() {
-    if (Object.entries(localStorage?.jStorage).length > 2) this.appSelectionService?.getAllPlans();
+    if (Object.entries(localStorage?.jStorage).length > 2)
+      this.appSelectionService?.getAllPlans();
     this.lazyLoadStyles();
   }
 
