@@ -1,6 +1,6 @@
 #!/bin/bash -xv
 #. /usr/local/nvm/nvm.sh
-# . /var/lib/jenkins/.bash_profile
+. /var/lib/jenkins/.bash_profile
 
 ENVIRONMENT=$1
 NVM_VERSION=v14.21.1
