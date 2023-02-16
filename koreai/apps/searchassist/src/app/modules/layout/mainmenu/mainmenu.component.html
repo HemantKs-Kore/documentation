@@ -302,7 +302,7 @@
             title="{{
               configObj[selectedConfig]
                 ? configObj[selectedConfig].name === 'Default'
-                  ? 'Default Search'
+                  ? ('app_menu_Default_search' | translate)
                   : configObj[selectedConfig].name
                 : 'Loading..'
             }}"
@@ -397,7 +397,7 @@
                         [container]="'body'"
                         ngbTooltip="{{
                           config.name === 'Default'
-                            ? 'Default Search'
+                            ? ('app_menu_Default_search' | translate)
                             : config.name
                         }}"
                         >{{
@@ -1033,7 +1033,7 @@
           [ngClass]="{ 'err-block': !newConfigObj.name.length && submitted }"
           placeholder="{{
             newConfigObj.method === 'clone'
-              ? 'Name the New Search Configuration'
+              ? ('app_menu_name_search_config' | translate)
               : 'Enter Name'
           }}"
           [(ngModel)]="newConfigObj.name"
@@ -1162,9 +1162,8 @@
         <div class="label-text">
           {{
             newIndexConfigObj.method === 'clone'
-              ? 'Index Configuration Name'
-              : 'Name of Index
-					Configuration'
+              ? ('app_menu__index_config_name' | translate)
+              : ('app_menu__name_of_index_config_name' | translate)
           }}
         </div>
         <input
@@ -1175,7 +1174,7 @@
           }"
           placeholder="{{
             newIndexConfigObj.method === 'clone'
-              ? 'Name the New Index Configuration'
+              ? ('app_menu_name_index_config' | translate)
               : 'Enter Name'
           }}"
           [(ngModel)]="newIndexConfigObj.name"

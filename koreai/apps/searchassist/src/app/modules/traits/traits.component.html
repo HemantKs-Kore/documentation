@@ -34,7 +34,7 @@
             >
               <input
                 type="text"
-                placeholder="Search"
+                placeholder="{{'sa_search' | translate}}"
                 maxlength="60"
                 id="inputSearch"
                 class="input-search"
@@ -447,7 +447,7 @@
                 id="btn_edit_traits"
                 placement="top-center"
                 container="body"
-                ngbTooltip="Edit Trait Name"
+                ngbTooltip="{{'traits_edit_trait_name' | translate}}"
                 tooltipClass="ngb_tooltip_custom_class sampleJson"
                 (click)="showEditTrait(index, $event)"
               />
@@ -464,7 +464,7 @@
                 id="btn_delete_traits"
                 placement="top-center"
                 container="body"
-                ngbTooltip="Delete Trait & Utterances"
+                ngbTooltip="{{'traits_delete_trait_and_utterences' | translate}}"
                 tooltipClass="ngb_tooltip_custom_class sampleJson"
               />
             </ng-container>
