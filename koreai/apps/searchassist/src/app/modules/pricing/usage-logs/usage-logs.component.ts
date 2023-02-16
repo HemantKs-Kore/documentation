@@ -1,20 +1,25 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  OnInit,
+} from '@angular/core';
 import { WorkflowService } from '@kore.services/workflow.service';
 import { ServiceInvokerService } from '@kore.services/service-invoker.service';
 import { NotificationService } from '@kore.services/notification.service';
 import { MatDialog } from '@angular/material/dialog';
 import { AuthService } from '@kore.services/auth.service';
 import { AppSelectionService } from '@kore.services/app.selection.service';
-import * as moment from 'moment';
 import { Subscription } from 'rxjs';
 import { EMPTY_SCREEN } from '../../empty-screen/empty-screen.constants';
+import { format } from 'date-fns';
 @Component({
   selector: 'app-usage-logs',
   templateUrl: './usage-logs.component.html',
   styleUrls: ['./usage-logs.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class UsageLogsComponent implements OnInit{
+export class UsageLogsComponent implements OnInit {
   emptyScreen = EMPTY_SCREEN.MANAGE_USAGE_LOGS;
   usageLogs = [];
   queryTypeArr = ['all'];
@@ -30,10 +35,10 @@ export class UsageLogsComponent implements OnInit{
   subscription: Subscription;
   totalRecord: number;
   filterSystem: any = {
-    'queryTypeFilter': 'all',
-    'requestSourceFilter': 'all',
-    'resultsFilter': 'all'
-  }
+    queryTypeFilter: 'all',
+    requestSourceFilter: 'all',
+    resultsFilter: 'all',
+  };
   activeClose = false;
   loadingLogs = false;
   loading = false;
@@ -49,37 +54,39 @@ export class UsageLogsComponent implements OnInit{
     public authService: AuthService,
     private appSelectionService: AppSelectionService,
     private cd: ChangeDetectorRef
-  ) { }
+  ) {}
 
   ngOnInit(): void {
     this.selectedApp = this.workflowService?.selectedApp();
     this.serachIndexId = this.selectedApp?.searchIndexes[0]?._id;
     this.indexPipelineId = this.workflowService.selectedIndexPipeline();
-    const subscription_data = this.appSelectionService?.currentsubscriptionPlanDetails;
+    const subscription_data =
+      this.appSelectionService?.currentsubscriptionPlanDetails;
     this.current_plan_name = subscription_data?.subscription?.planName;
     this.loadUsageLogs();
   }
 
   toggleSearch() {
-    this.showSearch = !this.showSearch
+    this.showSearch = !this.showSearch;
     if (this.showSearch && this.searchUsageLog) this.searchUsageLog = '';
   }
 
   loadUsageLogs() {
     this.indexPipelineId = this.workflowService.selectedIndexPipeline();
     if (this.indexPipelineId) this.getUsageLogs();
-
   }
   searchUsageLogs() {
     this.searchLoading = true;
-    (this.searchUsageLog) ? this.getUsageLogs(null, this.searchUsageLog) : this.getUsageLogs();
+    this.searchUsageLog
+      ? this.getUsageLogs(null, this.searchUsageLog)
+      : this.getUsageLogs();
   }
   getUsageLogs(offset?, quary?) {
     this.loading = true;
     const quaryparms: any = {
       streamId: this.selectedApp._id,
       skip: offset || 0,
-      limit: 10
+      limit: 10,
     };
     let serviceId = 'get.allUsageLogs';
     if (quary) {
@@ -89,30 +96,40 @@ export class UsageLogsComponent implements OnInit{
     if (!this.usageLogs.length && !quary) {
       this.loadingLogs = true;
     }
-    this.service.invoke(serviceId, quaryparms).subscribe(res => {
-      this.usageLogs = res.data || [];
-      this.totalRecord = res.total;
-      this.loadingLogs = false;
-      this.searchLoading = false;
-      if (this.usageLogs.length) {
-        this.usageLogs.forEach(element => {
-          this.queryTypeArr.push(element.queryType);
-          if (element?.results !== null) this.resultsArr.push(element.results);
-        });
-        this.queryTypeArr = [...new Set(this.queryTypeArr)];
-        this.resultsArr = [...new Set(this.resultsArr)];
+    this.service.invoke(serviceId, quaryparms).subscribe(
+      (res) => {
+        this.usageLogs = res.data || [];
+        this.totalRecord = res.total;
+        this.loadingLogs = false;
+        this.searchLoading = false;
+        if (this.usageLogs.length) {
+          this.usageLogs.forEach((element) => {
+            this.queryTypeArr.push(element.queryType);
+            if (element?.results !== null)
+              this.resultsArr.push(element.results);
+          });
+          this.queryTypeArr = [...new Set(this.queryTypeArr)];
+          this.resultsArr = [...new Set(this.resultsArr)];
+        }
+        this.loading = false;
+        this.cd.detectChanges();
+      },
+      (errRes) => {
+        this.loading = false;
+        this.searchLoading = false;
+        this.errorToaster(errRes, 'Failed to get usage logs');
       }
-      this.loading = false;
-      this.cd.detectChanges();
-    }, errRes => {
-      this.loading = false;
-      this.searchLoading = false;
-      this.errorToaster(errRes, 'Failed to get usage logs');
-    });
+    );
   }
 
   errorToaster(errRes, message) {
-    if (errRes && errRes.error && errRes.error.errors && errRes.error.errors.length && errRes.error.errors[0].msg) {
+    if (
+      errRes &&
+      errRes.error &&
+      errRes.error.errors &&
+      errRes.error.errors.length &&
+      errRes.error.errors[0].msg
+    ) {
       this.notificationService.notify(errRes.error.errors[0].msg, 'error');
     } else if (message) {
       this.notificationService.notify(message, 'error');
@@ -122,7 +139,7 @@ export class UsageLogsComponent implements OnInit{
   }
 
   paginate(event) {
-    this.getUsageLogs(event.skip)
+    this.getUsageLogs(event.skip);
   }
 
   filterTable(source, headerOption) {
@@ -131,10 +148,19 @@ export class UsageLogsComponent implements OnInit{
     this.filterSystem.resultsFilter = 'all';
     this.filterUsageLogs(source, headerOption);
     switch (headerOption) {
-      case 'queryType': { this.filterSystem.queryTypeFilter = source; return; };
-      case 'requestSource': { this.filterSystem.requestSourceFilter = source; return; };
-      case 'results': { this.filterSystem.resultsFilter = source; return; };
-    };
+      case 'queryType': {
+        this.filterSystem.queryTypeFilter = source;
+        return;
+      }
+      case 'requestSource': {
+        this.filterSystem.requestSourceFilter = source;
+        return;
+      }
+      case 'results': {
+        this.filterSystem.resultsFilter = source;
+        return;
+      }
+    }
   }
 
   filterUsageLogs(source, headerOption) {
@@ -158,9 +184,7 @@ export class UsageLogsComponent implements OnInit{
             return field;
           }
         }
-
-      }
-      else {
+      } else {
         return field;
       }
     });
@@ -168,7 +192,11 @@ export class UsageLogsComponent implements OnInit{
   }
 
   getSortIconVisibility(sortingField: string, type: string) {
-    if (this.selectedSort == sortingField) return ((this.isAsc == false && type == 'down') || (this.isAsc == true && type == 'up')) ? 'display-block' : 'display-none';
+    if (this.selectedSort == sortingField)
+      return (this.isAsc == false && type == 'down') ||
+        (this.isAsc == true && type == 'up')
+        ? 'display-block'
+        : 'display-none';
   }
 
   compare(a: number | string, b: number | string, isAsc: boolean) {
@@ -178,15 +206,20 @@ export class UsageLogsComponent implements OnInit{
   sortBy(sort) {
     const data = this.usageLogs.slice();
     this.selectedSort = sort;
-    this.isAsc = (this.selectedSort !== sort) ? true : !this.isAsc;
+    this.isAsc = this.selectedSort !== sort ? true : !this.isAsc;
     const sortedData = data.sort((a, b) => {
       const isAsc = this.isAsc;
       switch (sort) {
-        case 'queryType': return this.compare(a.queryType, b.queryType, isAsc);
-        case 'requestSource': return this.compare(a.requestSource, b.requestSource, isAsc);
-        case 'results': return this.compare(a.results, b.results, isAsc);
-        case 'createdOn': return this.compare(a.createdOn, b.createdOn, isAsc);
-        default: return 0;
+        case 'queryType':
+          return this.compare(a.queryType, b.queryType, isAsc);
+        case 'requestSource':
+          return this.compare(a.requestSource, b.requestSource, isAsc);
+        case 'results':
+          return this.compare(a.results, b.results, isAsc);
+        case 'createdOn':
+          return this.compare(a.createdOn, b.createdOn, isAsc);
+        default:
+          return 0;
       }
     });
     this.usageLogs = sortedData;
@@ -197,36 +230,55 @@ export class UsageLogsComponent implements OnInit{
       streamId: this.selectedApp._id,
     };
     const payload = {
-      "fileType": "csv",
-      "timezone": Intl.DateTimeFormat().resolvedOptions().timeZone
-    }
-    this.service.invoke('post.exportUsageLog', quaryparms, payload).subscribe(res => {
-      this.notificationService.notify('Export to CSV is in progress. You can check the status in the Status Docker', 'success');
-      this.checkExportUsagelog()
-    }, errRes => {
-      this.errorToaster(errRes, 'Failed');
-    });
+      fileType: 'csv',
+      timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+    };
+    this.service.invoke('post.exportUsageLog', quaryparms, payload).subscribe(
+      (res) => {
+        this.notificationService.notify(
+          'Export to CSV is in progress. You can check the status in the Status Docker',
+          'success'
+        );
+        this.checkExportUsagelog();
+      },
+      (errRes) => {
+        this.errorToaster(errRes, 'Failed');
+      }
+    );
   }
 
   checkExportUsagelog() {
     const queryParms = {
-      searchIndexId: this.workflowService.selectedSearchIndexId
-    }
-    this.service.invoke('get.dockStatus', queryParms).subscribe(res => {
-      if (res) {
-        res.forEach((record: any) => {
-          record.createdOn = moment(record.createdOn).format("Do MMM YYYY | h:mm A");
-          if ((record.status === 'SUCCESS' || record.status === 'success') && record.fileInfo.fileId && !(record.store || {}).toastSeen) {
-            if (record.jobType === "DATA_EXPORT") {
-              this.downloadDockFile(record.fileInfo.fileId, (record.store || {}).urlParams, record.streamId, record._id);
-              return;
+      searchIndexId: this.workflowService.selectedSearchIndexId,
+    };
+    this.service.invoke('get.dockStatus', queryParms).subscribe(
+      (res) => {
+        if (res) {
+          res.forEach((record: any) => {
+            const createdOnDate = new Date(record.createdOn);
+            record.createdOn = format(createdOnDate, 'do MMM yyyy | hh:mm a');
+            if (
+              (record?.status === 'SUCCESS' || record?.status === 'success') &&
+              record?.fileInfo?.fileId &&
+              !(record?.store || {})?.toastSeen
+            ) {
+              if (record?.jobType === 'DATA_EXPORT') {
+                this.downloadDockFile(
+                  record?.fileInfo?.fileId,
+                  (record?.store || {}).urlParams,
+                  record?.streamId,
+                  record?._id
+                );
+                return;
+              }
             }
-          }
-        })
+          });
+        }
+      },
+      (errRes) => {
+        this.errorToaster(errRes, 'Failed to get Status of Docker');
       }
-    }, errRes => {
-      this.errorToaster(errRes, 'Failed to get Status of Docker');
-    });
+    );
   }
 
   downloadDockFile(fileId, fileName, streamId, dockId) {
@@ -235,25 +287,32 @@ export class UsageLogsComponent implements OnInit{
       streamId: streamId,
       dockId: dockId,
       jobId: dockId,
-      sidx: this.serachIndexId
-    }
+      sidx: this.serachIndexId,
+    };
     const payload = {
-      "store": {
-        "toastSeen": true,
-        "urlParams": fileName,
+      store: {
+        toastSeen: true,
+        urlParams: fileName,
+      },
+    };
+    this.service.invoke('attachment.file', params).subscribe(
+      (res) => {
+        const hrefURL = res.fileUrl + (fileName ? fileName : '');
+        window.open(hrefURL, '_self');
+        this.service
+          .invoke('put.dockStatus', params, payload)
+          .subscribe((res) => {});
+      },
+      (err) => {
+        console.log(err);
       }
-    }
-    this.service.invoke('attachment.file', params).subscribe(res => {
-      const hrefURL = res.fileUrl + (fileName ? fileName : '');
-      window.open(hrefURL, '_self');
-      this.service.invoke('put.dockStatus', params, payload).subscribe(res => { });
-    }, err => { console.log(err) });
+    );
   }
 
   focusinSearch(inputSearch) {
     setTimeout(() => {
       document.getElementById(inputSearch).focus();
-    }, 500)
+    }, 500);
   }
 
   focusoutSearch() {
