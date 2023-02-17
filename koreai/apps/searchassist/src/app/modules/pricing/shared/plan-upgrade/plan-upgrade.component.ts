@@ -121,7 +121,7 @@ export class PlanUpgradeComponent implements OnInit,OnDestroy{
   @ViewChild('contactUsModel') contactUsModel: KRModalComponent;
   @ViewChild('onboardingJournyModel') onboardingJournyModel: KRModalComponent;
   @ViewChild('confirmUpgradeModel') confirmUpgradeModel: KRModalComponent;
-  @Output() updateBanner = new EventEmitter<{}>();
+  @Output() updateBanner = new EventEmitter<any>();
   @Output() upgradedEvent = new EventEmitter();
   @Input() componentType: string;
   @ViewChild(PerfectScrollbarComponent)
