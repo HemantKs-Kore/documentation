@@ -356,7 +356,7 @@ export class ResultRankingComponent implements OnInit, OnDestroy {
                 const container = document.getElementsByClassName(
                   'all-result-container'
                 )[0] as HTMLBaseElement;
-                container.style.display = 'block';
+                // container.style.display = 'block';
               }
             }, 3000);
           }
