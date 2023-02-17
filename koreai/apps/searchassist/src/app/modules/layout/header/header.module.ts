@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, NgOptimizedImage } from '@angular/common';
 import { HeaderComponent } from './header.component';
 import { TranslateModule } from '@ngx-translate/core';
 import {
@@ -33,6 +33,7 @@ import { IntersectionObserverDirectiveModule } from '@kore.libs/shared/src';
     NgbTypeaheadModule,
     SliderModule,
     IntersectionObserverDirectiveModule,
+    NgOptimizedImage,
   ],
   providers: [AppSelectionService, NgbActiveModal],
   exports: [HeaderComponent],

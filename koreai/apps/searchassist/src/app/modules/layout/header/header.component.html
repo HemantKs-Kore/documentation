@@ -9,12 +9,16 @@
     <div class="container-fluid p-0">
       <div class="logoTabsContainer align-items-center">
         <img
-          src="assets/images/logos/searchassist-new-logo.svg"
+          ngSrc="assets/images/logos/searchassist-new-logo.svg"
+          width="24"
+          height="24"
           class="logoKoreIcon landing-screen"
         />
         <span class="logoKoreIcon no-landing-screen">
           <img
-            src="assets/images/logos/searchAssistIcon-small-logo.svg"
+            ngSrc="assets/images/logos/searchAssistIcon-small-logo.svg"
+            width="24"
+            height="24"
             (click)="analyticsClick('/'); closeUserMetaTagsSlider()"
           />
         </span>
@@ -134,24 +138,6 @@
             [term]="t"
           ></ngb-highlight>
         </ng-template>
-        <!-- <li class="nav-item autoSearchTools d-none">
-                    <img src="assets/icons/sidemenu/search.svg" (click)="toggleSearch(true)"
-                        [ngClass]="{'d-none': searchActive}">
-                    <div class="kr-sg-input-search" [ngClass]="{'d-none': !searchActive}">
-                        <input type="text" placeholder="{{ 'header_search' | translate }}" id="inputSearch"
-                            class="input-search" (keyup.enter)="triggerRoute(searchText)"
-                            [ngClass]="{'pl-33':!searchText}" autocomplete="off" [(ngModel)]="searchText"
-                            (mouseover)="searchImgSrc = (searchFocusIn ? 'assets/icons/search_gray.svg' :'assets/icons/search_gray_dark.svg')"
-                            (mouseout)="searchFocusIn=false;searchImgSrc = 'assets/icons/search_gray.svg'"
-                            (focus)="searchFocusIn=true;searchImgSrc = 'assets/icons/search_gray.svg'"
-                            [ngbTypeahead]="search" [resultTemplate]="rt" [inputFormatter]="formatter">
-                        <img [src]="searchImgSrc" class="search-icon" *ngIf="!searchText">
-                        <img class="close-icon" src="assets/icons/close_icon.svg" [ngClass]="{'pr-22':searchText}" (click)="focusoutSearch()">
-                    </div>
-                </li> -->
-        <!-- <div class="text-right nav-item trainBlock d-none">
-                    <button class="kr-sg-button-primary btn_lg" [disabled]='training' (click)="train()">{{(training)?'Training...':'Train'}}</button>
-                </div> -->
         <li
           class="nav-item app-dropdown {{ isRouteDisabled && 'disable_btn' }}"
         >
@@ -281,17 +267,7 @@
             </span>
           </button>
         </li>
-        <!-- New Code wrt to Stop Traing -->
-        <!-- OLD Code should be remove after testing-->
-        <!-- <li class="nav-item new-train-btn" (click)="isRouteDisabled?null:train()" ngbTooltip="{{ 'header_trainYourApp' | translate }}"  [ngClass]='{"active-train":training}'>
-                <button class="kr-sg-button-secondary btn_lg"><span class="pr-1 align-middle"><i class="si-train-multi-intent"></i></span>{{ 'header_train' | translate }}</button>
-              </li> -->
-        <!-- OLD Code should be remove after testing-->
-        <!-- <li (click)="isRouteDisabled?null:train()" class="nav-item train-btn" ngbTooltip="{{ 'header_trainYourApp' | translate }}"
-                    container='body' tooltipClass="train-icon-tooltip" [ngClass]='{"active-train":training}'>
-                    <div class="loader-train"></div>
-                    <img src="assets/icons/train.svg" class="defaultIcon">
-                </li> -->
+
         <li
           class="nav-item search-block show-search1 {{
             isRouteDisabled && 'disable_btn'
@@ -302,7 +278,9 @@
             [ngClass]="{ 'active-search-top': showSearch }"
           >
             <img
-              src="assets/icons/sidemenu/search.svg"
+              ngSrc="assets/icons/sidemenu/search.svg"
+              width="16"
+              height="16"
               (click)="isRouteDisabled ? null : focusinSearch()"
               (mouseover)="activeSearch = true"
               (mouseout)="activeSearch = false"
@@ -339,13 +317,15 @@
                 autofocus
               />
               <img
-                [src]="searchImgSrc"
+                [ngSrc]="searchImgSrc"
+                width="14"
+                height="14"
                 class="search-icon"
                 *ngIf="!searchText"
               />
               <img
                 class="close-icon"
-                src="assets/icons/close_icon.svg"
+                [ngSrc]="'assets/icons/close_icon.svg'"
                 [ngClass]="{ 'pr-22': searchText }"
                 (click)="focusoutSearch()"
                 placement="top-center"
@@ -369,14 +349,20 @@
                 ngbDropdownToggle
                 (mouseup)="notificationIconClick(); checkJObStatus(dockersList)"
               >
-                <img src="assets/icons/sidemenu/notification.svg" />
+                <img
+                  ngSrc="assets/icons/sidemenu/notification.svg"
+                  width="16"
+                  height="16"
+                />
                 <sup *ngIf="isAnyRecordFailed" class="red-notification"></sup>
                 <sup
                   *ngIf="isAnyRecordCompleted"
                   class="completed-notification"
                 ></sup>
                 <img
-                  src="assets/icons/notification-ring.svg"
+                  ngSrc="assets/icons/notification-ring.svg"
+                  width="16"
+                  height="16"
                   class="inProgress notification-icon"
                   *ngIf="isAnyRecordInprogress"
                   placement="top"
@@ -472,7 +458,12 @@
                                       tooltipClass="date-tooltip"
                                       placement="right-center"
                                       [container]="'body'"
-                                      ><img src="assets/icons/docker/clock.svg"
+                                      ><img
+                                        ngSrc="
+                                          assets/icons/docker/clock.svg
+                                        "
+                                        width="13"
+                                        height="13"
                                     /></span>
                                   </div>
                                   <div
@@ -486,7 +477,12 @@
                                       tooltipClass="date-tooltip"
                                       placement="right-center"
                                       [container]="'body'"
-                                      ><img src="assets/icons/docker/clock.svg"
+                                      ><img
+                                        ngSrc="
+                                          assets/icons/docker/clock.svg
+                                        "
+                                        width="13"
+                                        height="13"
                                     /></span>
                                   </div>
                                 </div>
@@ -494,11 +490,10 @@
                                   class="col-3 d-flex p-0 align-items-center justify-content-end"
                                 >
                                   <div class="img-block">
-                                    <!-- made code updates in line no 248,249 on 03/01 added new condition for FAILED,since FAILURE is updated to FAILED as per new api contract -->
-                                    <!-- <img src="assets/icons/docker/info.svg"
-                                                                            *ngIf="task.status === 'FAILURE'"> -->
                                     <img
-                                      src="assets/icons/docker/info.svg"
+                                      ngSrc="assets/icons/docker/info.svg"
+                                      width="16"
+                                      height="16"
                                       *ngIf="
                                         task.status === 'FAILURE' ||
                                         task.status === 'failure' ||
@@ -510,12 +505,11 @@
                                       [container]="'body'"
                                       tooltipClass="dashboard-custom-tooltips"
                                     />
-                                    <!-- made code updates in line no 255,256 on 03/01 added new condition for halted,since HALTED is updated to halted as per new api contract -->
-                                    <!-- <img src="assets/icons/docker/return.svg"
-                                                                                *ngIf="task.status === 'HALTED'"
-                                                                                (click)="recrawl(task)"> -->
+
                                     <img
                                       src="assets/icons/docker/info.svg"
+                                      width="16"
+                                      height="16"
                                       *ngIf="
                                         task.jobType === 'TRAINING' &&
                                         task.status === 'HALTED'
@@ -527,7 +521,9 @@
                                     />
 
                                     <img
-                                      src="assets/icons/docker/return.svg"
+                                      ngSrc="assets/icons/docker/return.svg"
+                                      width="16"
+                                      height="16"
                                       *ngIf="
                                         task.jobType === '!TRAINING' &&
                                         (task.status === 'HALTED' ||
@@ -535,27 +531,22 @@
                                       "
                                       (click)="recrawl(task)"
                                     />
-                                    <!-- <img src="assets/icons/docker/download.svg" *ngIf="(task.status === 'SUCCESS') && (task.jobType === 'faq')"> -->
-                                    <!-- made code updates in line no 254,255 on 03/01 added new condition for success,since SUCCESS is upadted to success as per new api contract  -->
-                                    <!-- <img src="assets/icons/docker/check.svg"
-                                                                            *ngIf="(task.status === 'SUCCESS')"> -->
+
                                     <img
-                                      src="assets/icons/docker/check.svg"
+                                      ngSrc="assets/icons/docker/check.svg"
+                                      width="14"
+                                      height="14"
                                       *ngIf="
                                         task.status === 'SUCCESS' ||
                                         task.status === 'success'
                                       "
                                     />
-                                    <!-- <img src="assets/icons/docker/external-link.svg" (click)="navigateTo(task)" *ngIf="(task.extractionSourceId && (task.jobType === 'web' || task.jobType === 'faq')) || (task.jobType === 'STRUCTURED_DATA_INGESTION')">                         -->
                                   </div>
                                   <div class="status-blcok">
-                                    <!-- updated code in line 263 on 24/02 ,added condition for running status as per api contract since in_progress is updated to running state -->
-                                    <!-- <img src="assets/icons/ringLoading.svg"
-                                                                            class="inProgress"
-                                                                            *ngIf="task.status === 'IN_PROGRESS' || task.status === 'validation' || task.status === 'QUEUED'"
-                                                                            placement="top" container='body'> -->
                                     <img
-                                      src="assets/icons/ringLoading.svg"
+                                      ngSrc="assets/icons/ringLoading.svg"
+                                      width="16"
+                                      height="16"
                                       class="inProgress"
                                       *ngIf="
                                         task.status === 'IN_PROGRESS' ||
@@ -568,13 +559,10 @@
                                       placement="top"
                                       container="body"
                                     />
-                                    <!-- <span *ngIf="(task.status === 'IN_PROGRESS' || task.status === 'validation' || task.status === 'QUEUED') && (task.percentageComplete > 0)" class="run-percentageDone">{{task.percentageComplete}}%</span> -->
-                                    <!-- updated code in line 272 on 24/02 ,added condition for running status as per api contract since in_progress is updated to running state  -->
-                                    <!-- <img src="assets/icons/docker/close.svg"
-                                                                            (click)="removeRecord(task, index)"
-                                                                            *ngIf="(task.status !== 'IN_PROGRESS' && task.status !== 'validation' && task.status !== 'QUEUED')"> -->
                                     <img
-                                      src="assets/icons/docker/close.svg"
+                                      [ngSrc]="'assets/icons/docker/close.svg'"
+                                      width="10"
+                                      height="10"
                                       (click)="removeRecord(task, index)"
                                       *ngIf="
                                         task.status !== 'IN_PROGRESS' &&
@@ -642,7 +630,7 @@
               router.url === '/**'
           }"
         >
-          <img src="assets/icons/sidemenu/help.svg" />
+          <img ngSrc="assets/icons/sidemenu/help.svg" width="16" height="16" />
         </li>
 
         <li class="nav-item workspace-data">
@@ -729,7 +717,9 @@
                   />
                   <i class="si-search search-icon"></i>
                   <img
-                    src="assets/icons/close.svg"
+                    [ngSrc]="'assets/icons/close.svg'"
+                    width="10"
+                    height="10"
                     *ngIf="field_name?.length > 0"
                     class="close-search"
                     (click)="clearRecords('field_name')"
@@ -831,13 +821,8 @@
                     <span class="alphbet" id="profiledisplaydrop">{{
                       profile_display
                     }}</span>
-                    <img
-                      class="d-none"
-                      src="https://bots.kore.ai/api/1.1/getMediaStream/profilePictures/u-51486224-6c09-5ba7-a2d1-d682de65a19a/r_64x64_profile.png?v=1.1648.191250174519573.93958993385552377.61343219061547528.7335828735257"
-                    />
                   </div>
                   <div class="info-user text-truncate">
-                    <!-- <div class="u-name text-truncate">{{currentAppControlList?.accountName}}</div> -->
                     <div class="u-name text-truncate" appEllipsisActive>
                       {{ this.loginusername }}
                     </div>
@@ -879,10 +864,14 @@
 >
   <div class="modal-body">
     <div class="close_modal" (click)="closeCreateApp()">
-      <img src="assets/icons/close.svg" />
+      <img ngSrc="assets/icons/close.svg" width="10" height="10" />
     </div>
     <div class="img-wrapper">
-      <img src="assets/icons/landing/create-app.png" />
+      <img
+        ngSrc="assets/icons/landing/create-app.png"
+        width="440"
+        height="617"
+      />
     </div>
     <div class="actions-block">
       <perfect-scrollbar>
@@ -909,7 +898,7 @@
             />
             <img
               id="infoWarning"
-              src="assets/icons/warning_escalation.svg"
+              ngSrc="assets/icons/warning_escalation.svg"
               style="display: none"
               height="12"
               width="12"
@@ -963,14 +952,26 @@
   modalClass="browse-workspace-full-popup"
 >
   <div class="bg-1">
-    <img src="assets/icons/onboarding/bg-worksapce.png" />
+    <img
+      ngSrc="assets/icons/onboarding/bg-worksapce.png"
+      width="254"
+      height="254"
+    />
   </div>
   <div class="bg-2">
-    <img src="assets/icons/onboarding/bg-workspace-1.png" />
+    <img
+      ngSrc="assets/icons/onboarding/bg-workspace-1.png"
+      width="259"
+      height="232"
+    />
   </div>
   <div class="modal-header">
     <div class="logo-data">
-      <img src="assets/images/logos/searchassist-new-logo.svg" />
+      <img
+        ngSrc="assets/images/logos/searchassist-new-logo.svg"
+        width="24"
+        height="24"
+      />
     </div>
     <div class="close-modal" (click)="closeBrowseWorkspace()">
       <i class="si-close"></i>
@@ -992,7 +993,9 @@
           />
           <i class="search-icon si-search"></i>
           <img
-            src="assets/icons/close.svg"
+            ngSrc="assets/icons/close.svg"
+            width="10"
+            height="10"
             *ngIf="workspace_search?.length > 0"
             class="close-icon"
             (click)="clearRecords('workspace_search')"
