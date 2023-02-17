@@ -103,20 +103,6 @@
           </div>
           <div class="body-sec">
             <div class="row m-0 appsListingContainer">
-              <!-- <ng-container *ngIf="false">
-                <div class="m-title col-12">
-                  {{ 'home_my_apps' | translate }}
-                </div>
-                <div class="empty-data-app" (click)="openCreateApp()">
-                  <div class="img-block">
-                    <h1>HERER</h1>
-                    <img ngSrc="assets/icons/landing/round-plus.svg" />
-                  </div>
-                  <div class="e-title">
-                    {{ 'home_create_your_first' | translate }}
-                  </div>
-                </div>
-              </ng-container> -->
               <div
                 *ngIf="emptyApp && !loadingApps"
                 class="start-scrtch-user-data"
@@ -178,7 +164,11 @@
                   <div class="content-sec">
                     <div class="delete-clone-icons" *ngIf="app.disabled">
                       <div class="disabled-icon">
-                        <img ngSrc="assets/icons/Info-red.svg" />
+                        <img
+                          ngSrc="assets/icons/Info-red.svg"
+                          width="16"
+                          height="16"
+                        />
                         <span class="tooltip_disabled">
                           <span>{{
                             'home_your_app_has_been_deactivated_info'
@@ -273,7 +263,11 @@
                     (click)="sortApp('Icon filter', 'up')"
                     *ngIf="minToMax"
                   >
-                    <img ngSrc="assets/icons/dashboard/maxFilter.svg" />
+                    <img
+                      ngSrc="assets/icons/dashboard/maxFilter.svg"
+                      width="14"
+                      height="13"
+                    />
                   </div>
                 </div>
               </div>
@@ -299,9 +293,6 @@
                   >
                     <div class="content-sec">
                       <div class="delete-clone-icons">
-                        <!-- <div class="clone-icon" tooltipClass="tooltip-global- ml-14" [container]="'body'" ngbTooltip='Duplicate' placement="bottom-left">
-                                            <img ngSrc="assets/icons/clone-blue.svg" (click)="openDeleteApp($event)">
-                                          </div> -->
                         <div
                           *ngIf="filter.createdBy === userId"
                           class="delete-icon"
@@ -327,6 +318,8 @@
                         >
                           <img
                             ngSrc="assets/icons/Unlink.svg"
+                            width="16"
+                            height="16"
                             (click)="openUnlinkApp($event, filter)"
                           />
                         </div>
@@ -335,6 +328,8 @@
                         {{ filter.name }}
                         <img
                           ngSrc="assets/icons/Info-red.svg"
+                          width="16"
+                          height="16"
                           tooltipClass="tooltip-global-"
                           *ngIf="filter.disabled"
                           ngbTooltip="Your App has been deactivated"
@@ -358,7 +353,11 @@
                       *ngIf="filter.createdBy !== userId"
                       class="shared-app-text"
                     >
-                      <img ngSrc="assets/icons/share-icon.svg" />
+                      <img
+                        ngSrc="assets/icons/share-icon.svg"
+                        width="11"
+                        height="12"
+                      />
                       <span>Shared App</span>
                     </div>
                   </div>
@@ -641,7 +640,11 @@
                 {{ 'home_welcome' | translate }}
                 {{ this.authInfo.currentAccount.userInfo.fName }}
                 {{ this.authInfo.currentAccount.userInfo.lName }}
-                <img ngSrc="assets/icons/hand-hellow.svg" />
+                <img
+                  ngSrc="assets/icons/hand-hellow.svg"
+                  width="22"
+                  height="23"
+                />
               </div>
             </div>
             <div class="on-b-progress-bar">
@@ -663,7 +666,11 @@
                 (click)="welcomeStep('sampleData')"
               >
                 <div class="icon-block">
-                  <img ngSrc="assets/icons/onboarding/sample-data.svg" />
+                  <img
+                    ngSrc="assets/icons/onboarding/sample-data.svg"
+                    width="48"
+                    height="49"
+                  />
                 </div>
                 <div class="content-data">
                   <div class="main-title">
@@ -687,7 +694,11 @@
                 (click)="welcomeStep('selfExplore'); progressBar.length = 2"
               >
                 <div class="icon-block">
-                  <img ngSrc="assets/icons/onboarding/my-self.svg" />
+                  <img
+                    ngSrc="assets/icons/onboarding/my-self.svg"
+                    width="52"
+                    height="52"
+                  />
                 </div>
                 <div class="content-data">
                   <div class="main-title">
@@ -720,7 +731,11 @@
               </div>
             </div>
             <div class="img-gif-block">
-              <img ngSrc="assets/icons/onboarding/gif-onboarding.gif" />
+              <img
+                ngSrc="assets/icons/onboarding/gif-onboarding.gif"
+                width="800"
+                height="600"
+              />
             </div>
           </div>
         </div>
@@ -737,7 +752,11 @@
                   {{ 'home_welcome' | translate }}
                   {{ this.authInfo.currentAccount.userInfo.fName }}
                   {{ this.authInfo.currentAccount.userInfo.lName }}
-                  <img ngSrc="assets/icons/hand-hellow.svg" />
+                  <img
+                    ngSrc="assets/icons/hand-hellow.svg"
+                    width="22"
+                    height="23"
+                  />
                 </div>
               </div>
               <div class="on-b-progress-bar">
@@ -1042,13 +1061,19 @@
                     <div class="tab-content">
                       <div class="tab-pane active" id="searchbar">
                         <div class="img-block">
-                          <img ngSrc="assets/icons/onboarding/searchbar.png" />
+                          <img
+                            ngSrc="assets/icons/onboarding/searchbar.png"
+                            width="679"
+                            height="377"
+                          />
                         </div>
                       </div>
                       <div class="tab-pane fade" id="virtualassistance">
                         <div class="img-block">
                           <img
                             ngSrc="assets/icons/onboarding/virtualassistance.png"
+                            width="677"
+                            height="363"
                           />
                         </div>
                       </div>
@@ -1063,6 +1088,8 @@
                   <div class="welcome-user-img">
                     <img
                       ngSrc="assets/icons/onboarding/welcome-user-app-creation.png"
+                      width="448"
+                      height="477"
                       title="welcome-user-app-creation"
                       alt="welcome-user-app-creation"
                     />
@@ -1238,7 +1265,7 @@
     <div class="video-section-block">
       <div class="video-player">
         <iframe
-          ngSrc="https://player.vimeo.com/video/751634558?h=683f1edfdb&badge=0&autopause=0&player_id=0&app_id=58479/embed?hide_owner=true&hide_share=true&hide_title=true&hideEmbedTopBar=true"
+          src="https://player.vimeo.com/video/751634558?h=683f1edfdb&badge=0&autopause=0&player_id=0&app_id=58479/embed?hide_owner=true&hide_share=true&hide_title=true&hideEmbedTopBar=true"
           frameborder="0"
           webkitallowfullscreen
           mozallowfullscreen
@@ -1305,6 +1332,8 @@
         <img
           style="padding-right: 4px; height: 12px"
           ngSrc="assets/icons/warning_escalation.svg"
+          width="14"
+          height="12"
         />{{ 'home_please_type_delete' | translate }}
       </div>
     </div>
@@ -1424,6 +1453,11 @@
 <!-- show/hide search gif -->
 <ng-container *ngIf="isShowSearchGif">
   <div class="loader-container-block">
-    <img class="normal-img" ngSrc="assets/icons/onboarding/search-gif.gif" />
+    <img
+      class="normal-img"
+      ngSrc="assets/icons/onboarding/search-gif.gif"
+      width="300"
+      height="300"
+    />
   </div>
 </ng-container>
