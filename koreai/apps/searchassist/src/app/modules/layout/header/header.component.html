@@ -12,6 +12,7 @@
           ngSrc="assets/images/logos/searchassist-new-logo.svg"
           width="24"
           height="24"
+          priority
           class="logoKoreIcon landing-screen"
         />
         <span class="logoKoreIcon no-landing-screen">
@@ -317,7 +318,7 @@
                 autofocus
               />
               <img
-                [ngSrc]="searchImgSrc"
+                [src]="searchImgSrc"
                 width="14"
                 height="14"
                 class="search-icon"
@@ -325,7 +326,9 @@
               />
               <img
                 class="close-icon"
-                [ngSrc]="'assets/icons/close_icon.svg'"
+                ngSrc="assets/icons/close_icon.svg"
+                width="10"
+                height="10"
                 [ngClass]="{ 'pr-22': searchText }"
                 (click)="focusoutSearch()"
                 placement="top-center"

@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, NgOptimizedImage } from '@angular/common';
 
 import { AppsRoutingModule } from './apps-routing.module';
 import { AppsComponent } from './apps.component';
@@ -53,6 +53,7 @@ import { SharedPipesModule } from '@kore.apps/helpers/filters/shared-pipes.modul
     FormsModule,
     SharedPipesModule,
     EmptyScreenModule,
+    NgOptimizedImage,
   ],
   // providers: [AppsDataService],
 })
