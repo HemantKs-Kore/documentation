@@ -68,6 +68,9 @@
     visibility: hidden;
   }
   &.appSelected {
+    .emptyStateContainer {
+      padding-top: 0;
+    }
     .trainBlock {
       display: block !important;
     }
