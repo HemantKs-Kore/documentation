@@ -1,67 +1,157 @@
 <div class="invoice-container">
-    <div class="mainLoadingSpinner" *ngIf="loading" >
-        <mat-spinner diameter="18" strokeWidth="2"></mat-spinner>
-        <span class="please-wait-message">{{'sa_please_wait' | translate}}</span>
+  <div class="mainLoadingSpinner" *ngIf="loading">
+    <mat-spinner diameter="18" strokeWidth="2"></mat-spinner>
+    <span class="please-wait-message">{{ 'sa_please_wait' | translate }}</span>
+  </div>
+  <div class="header-sec">
+    <div class="title">
+      {{ 'invoices_invoices' | translate }}
+      <span
+        class="module-topic"
+        tooltipClass="tooltip-global-"
+        [container]="'body'"
+        ngbTooltip="{{ 'sa_topic_guide' | translate }}"
+        placement="right-center"
+        (click)="openUserMetaTagsSlider()"
+      >
+        <i class="si-topic-guide-1"></i>
+      </span>
     </div>
-    <div class="header-sec">
-        <div class="title">{{"invoices_invoices" | translate}}
-            <span class="module-topic" tooltipClass="tooltip-global-" [container]="'body'" ngbTooltip='{{"sa_topic_guide" | translate}}' 
- placement="right-center"(click)="openUserMetaTagsSlider()">
-                <i class="si-topic-guide-1"></i>
-            </span>
-        </div>
-        <div class="d-flex align-items-center" *ngIf="invoices.length">
-            <div class="kr-sg-input-search m-0" [ngClass]="{'d-none': !showSearch}">
-                <input type="text" placeholder="{{'sa_search' | translate}}" maxlength="60" class="input-search"
-                    autocomplete="off" id="fieldSearchId" [(ngModel)]="searchInvoice" 
-                    (mouseover)="searchImgSrc = (searchFocusIn ? 'assets/icons/search_gray.svg' :'assets/icons/search_gray_dark.svg')"
-                    (mouseout)="searchFocusIn=false;searchImgSrc = 'assets/icons/search_gray.svg'"
-                    (focus)="searchFocusIn=true;searchImgSrc = 'assets/icons/search_gray.svg'">
-                <!-- <img [src]="searchImgSrc" class="search-icon" *ngIf="!searchFields"> -->
-                <img class="close-icon" src="assets/icons/close_icon.svg" [ngClass]="{'pr-22':searchInvoice}" (click)="showSearch=!showSearch;searchInvoice=''"
-                     placement="top-center" container='body' ngbTooltip="{{'sa_cancel' | translate}}"
-                    tooltipClass="ngb_tooltip_custom_class sampleJson">
-            </div>
-            <div class="seach-block" (click)="showSearch=!showSearch;">
-                <span [ngClass]="{'d-none': showSearch}"  class="mr-3" id="btn_toggle_search_structured_data" ><img src="assets/icons/search.svg" [ngClass]="{'d-none': showSearch}">{{'search' | translate}}</span>
-            </div>
-            <div class="download-icon" (click)="downloadAll()"><img src="assets/icons/usage-log/download.svg" placement="bottom" ngbTooltip="{{'invoices_download_all' | translate}}" [container]="'body'" tooltipClass="ngb_tooltip_custom_class sampleJson"></div>
-        </div>
+    <div class="d-flex align-items-center" *ngIf="invoices.length">
+      <div class="kr-sg-input-search m-0" [ngClass]="{ 'd-none': !showSearch }">
+        <input
+          type="text"
+          placeholder="{{ 'sa_search' | translate }}"
+          maxlength="60"
+          class="input-search"
+          autocomplete="off"
+          id="fieldSearchId"
+          [(ngModel)]="searchInvoice"
+          (mouseover)="
+            searchImgSrc = searchFocusIn
+              ? 'assets/icons/search_gray.svg'
+              : 'assets/icons/search_gray_dark.svg'
+          "
+          (mouseout)="
+            searchFocusIn = false; searchImgSrc = 'assets/icons/search_gray.svg'
+          "
+          (focus)="
+            searchFocusIn = true; searchImgSrc = 'assets/icons/search_gray.svg'
+          "
+        />
+        <!-- <img [src]="searchImgSrc" class="search-icon" *ngIf="!searchFields"> -->
+        <img
+          class="close-icon"
+          src="assets/icons/close_icon.svg"
+          [ngClass]="{ 'pr-22': searchInvoice }"
+          (click)="showSearch = !showSearch; searchInvoice = ''"
+          placement="top-center"
+          container="body"
+          ngbTooltip="{{ 'sa_cancel' | translate }}"
+          tooltipClass="ngb_tooltip_custom_class sampleJson"
+        />
+      </div>
+      <div class="seach-block" (click)="showSearch = !showSearch">
+        <span
+          [ngClass]="{ 'd-none': showSearch }"
+          class="mr-3"
+          id="btn_toggle_search_structured_data"
+          ><img
+            src="assets/icons/search.svg"
+            [ngClass]="{ 'd-none': showSearch }"
+          />{{ 'search' | translate }}</span
+        >
+      </div>
+      <div class="download-icon" (click)="downloadAll()">
+        <img
+          src="assets/icons/usage-log/download.svg"
+          placement="bottom"
+          ngbTooltip="{{ 'invoices_download_all' | translate }}"
+          [container]="'body'"
+          tooltipClass="ngb_tooltip_custom_class sampleJson"
+        />
+      </div>
     </div>
+  </div>
 
-    <ng-container *ngIf="!invoices.length && !loading">
-        <app-empty-screen class="empty-lg" [title]="emptyScreen.TITLE" [desc]="emptyScreen.DESC" [imgName]="emptyScreen.IMG_NAME">
-        </app-empty-screen>
-    </ng-container>
+  <ng-container *ngIf="!invoices.length && !loading">
+    <app-empty-screen
+      class="empty-lg"
+      title="{{ 'TITLE' | translate }}"
+      desc="{{ 'DESC' | translate }}"
+      imgName="search-insight.png"
+    >
+    </app-empty-screen>
+  </ng-container>
 
-    <ng-container *ngIf="invoices.length && !loading">
-        <perfect-scrollbar class="scroll-invoice-content if-pagination">
-            <div class="invoice-table-data">
-                <div class="invoice-table-header row col-12">
-                    <div class="title col-1">{{"invoices_invoices_id_caps" | translate}}</div>
-                    <div class="title col-3">{{"invoices_BILLING_period" | translate}}</div>
-                    <div class="title col-1">{{"invoices_plan_name" | translate}}</div>
-                    <div class="title col-1">{{"invoices_order_status" | translate}}</div>
-                    <div class="title col-2">{{"invoices_invoice_amount_caps" | translate}}</div>
-                    <div class="title col-1">{{"invoices_details" | translate}}</div>
-                    <div class="title col-2">{{"invoices_invoice" | translate}}</div>
-                </div>
-                <div class="invoice-table-body row col-12" *ngFor="let invoice of invoices| filter: [searchInvoice, '_id']">
-                    <div class="title col-1">{{invoice?._id}}</div>
-                    <div class="title col-3">{{invoice.billingStartDate ?(invoice.billingStartDate| dateFormatPipe: 'DD MMM YYYY'):''}} - {{invoice.billingEndDate? (invoice.billingEndDate | dateFormatPipe: 'DD MMM YYYY'):''}}</div>
-                    <div class="title col-1">{{invoice?.planName?(invoice.planName):'-'}}</div>
-                    <div class="title col-1">{{invoice?.status|titlecase}}</div>
-                    <div class="title col-2">{{invoice?.amountPaid}} {{invoice?.currencyCode}}</div>
-                    <div class="title col-1">-</div>
-                    <div class="title col-2">{{"invoices_koreinV" | translate}}{{invoice._id}}</div>
-                    <div class="actions-invoice">
-                        <div class="download-invoice"><a type="button" (click)="downloadInvoice(invoice.viewInvoice,invoice._id)"><img src="assets/icons/usage-log/download.svg"></a></div>
-                    </div>
-                </div>
-            </div>
-        </perfect-scrollbar>
-        <div class="px-4">
-            <app-record-pagination *ngIf="totalRecord && totalRecord>10" [totalRecord]='totalRecord' [limitpage]='10' (pageChanged)="paginate($event)"></app-record-pagination>
+  <ng-container *ngIf="invoices.length && !loading">
+    <perfect-scrollbar class="scroll-invoice-content if-pagination">
+      <div class="invoice-table-data">
+        <div class="invoice-table-header row col-12">
+          <div class="title col-1">
+            {{ 'invoices_invoices_id_caps' | translate }}
+          </div>
+          <div class="title col-3">
+            {{ 'invoices_BILLING_period' | translate }}
+          </div>
+          <div class="title col-1">{{ 'invoices_plan_name' | translate }}</div>
+          <div class="title col-1">
+            {{ 'invoices_order_status' | translate }}
+          </div>
+          <div class="title col-2">
+            {{ 'invoices_invoice_amount_caps' | translate }}
+          </div>
+          <div class="title col-1">{{ 'invoices_details' | translate }}</div>
+          <div class="title col-2">{{ 'invoices_invoice' | translate }}</div>
         </div>
-    </ng-container>    
+        <div
+          class="invoice-table-body row col-12"
+          *ngFor="let invoice of invoices | filter : [searchInvoice, '_id']"
+        >
+          <div class="title col-1">{{ invoice?._id }}</div>
+          <div class="title col-3">
+            {{
+              invoice.billingStartDate
+                ? (invoice.billingStartDate | dateFormatPipe : 'DD MMM YYYY')
+                : ''
+            }}
+            -
+            {{
+              invoice.billingEndDate
+                ? (invoice.billingEndDate | dateFormatPipe : 'DD MMM YYYY')
+                : ''
+            }}
+          </div>
+          <div class="title col-1">
+            {{ invoice?.planName ? invoice.planName : '-' }}
+          </div>
+          <div class="title col-1">{{ invoice?.status | titlecase }}</div>
+          <div class="title col-2">
+            {{ invoice?.amountPaid }} {{ invoice?.currencyCode }}
+          </div>
+          <div class="title col-1">-</div>
+          <div class="title col-2">
+            {{ 'invoices_koreinV' | translate }}{{ invoice._id }}
+          </div>
+          <div class="actions-invoice">
+            <div class="download-invoice">
+              <a
+                type="button"
+                (click)="downloadInvoice(invoice.viewInvoice, invoice._id)"
+                ><img src="assets/icons/usage-log/download.svg"
+              /></a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </perfect-scrollbar>
+    <div class="px-4">
+      <app-record-pagination
+        *ngIf="totalRecord && totalRecord > 10"
+        [totalRecord]="totalRecord"
+        [limitpage]="10"
+        (pageChanged)="paginate($event)"
+      ></app-record-pagination>
+    </div>
+  </ng-container>
 </div>

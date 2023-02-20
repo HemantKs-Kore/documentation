@@ -495,9 +495,9 @@
           class="empty-lg"
           [width]="170"
           [height]="170"
-          [title]="emptyScreen.TITLE"
-          [desc]="emptyScreen.DESC"
-          [imgName]="emptyScreen.IMG_NAME"
+          title="{{ 'TITLE' | translate }}"
+          desc="{{ 'DESC' | translate }}"
+          imgName="experiments.png"
         >
           <div class="action-buttons">
             <button
@@ -545,9 +545,9 @@
       [width]="130"
       [height]="130"
       *ngIf="!loadingContent && searchFields"
-      [title]="emptyScreen.TITLE_SEARCH"
-      [desc]="emptyScreen.DESC_SEARCH"
-      [imgName]="emptyScreen.IMG_NAME"
+      title="{{ 'NO_SEARCH_RESULTS_FOUND' | translate }}"
+      desc="{{ 'DESC_SEARCH' | translate }}"
+      imgName="experiments.png"
     >
     </app-empty-screen>
   </ng-template>
@@ -773,7 +773,11 @@
                     vari.queryPipelineId === query._id ? 'bold' : ''
                 }"
               >
-                {{ query.name === 'Default' ? ('app_menu_Default_search' | translate) : query.name }}
+                {{
+                  query.name === 'Default'
+                    ? ('app_menu_Default_search' | translate)
+                    : query.name
+                }}
               </li>
             </ul>
           </div>

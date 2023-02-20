@@ -17,13 +17,13 @@ import {
   MatAutocomplete,
 } from '@angular/material/autocomplete';
 import { Observable, Subscription } from 'rxjs';
-import { debounceTime, map, startWith } from 'rxjs/operators';
-import { EMPTY_SCREEN } from '../../modules/empty-screen/empty-screen.constants';
+import { debounceTime, map } from 'rxjs/operators';
 import { NotificationService } from '@kore.apps/services/notification.service';
 import { ServiceInvokerService } from '@kore.apps/services/service-invoker.service';
 import { WorkflowService } from '@kore.apps/services/workflow.service';
 import { AppSelectionService } from '@kore.apps/services/app.selection.service';
 import { AuthService } from '@kore.apps/services/auth.service';
+import { TranslationService } from '@kore.libs/shared/src';
 declare const $: any;
 @Component({
   selector: 'app-team-management',
@@ -31,7 +31,6 @@ declare const $: any;
   styleUrls: ['./team-management.component.scss'],
 })
 export class TeamManagementComponent implements OnInit, OnDestroy {
-  emptyScreen = EMPTY_SCREEN.MANAGE_TEAM;
   rolesList: any = [];
   member_roleId;
   member_ownerId;
@@ -81,8 +80,12 @@ export class TeamManagementComponent implements OnInit, OnDestroy {
     private notificationService: NotificationService,
     public dialog: MatDialog,
     private appSelectionService: AppSelectionService,
-    public authService: AuthService
-  ) {}
+    public authService: AuthService,
+    private translationService: TranslationService
+  ) {
+    // Load translations for this module
+    this.translationService.loadModuleTranslations();
+  }
   ngOnInit() {
     this.selectedApp = this.workflowService.selectedApp();
     this.serachIndexId = this.selectedApp.searchIndexes[0]._id;
