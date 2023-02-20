@@ -8,7 +8,7 @@
     "serve:qa": "ng build searchassist --configuration=qa && npm run liveserver",
     "serve:prod": "run-s build liveserver",
     "liveserver": "cd dist/apps/searchassist && live-server",
-    "build": "ng build searchassist",
+    "build": "ng build searchassist --base-href /home/",
     "ng": "nx",
     "lint": "ng lint searchassist",
     "lintfix": "nx lint searchassist --fix",
