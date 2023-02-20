@@ -1,11 +1,4 @@
 export const EMPTY_SCREEN = {
-  MANAGE_USAGE_LOGS: {
-    IMG_NAME: 'contract-message.png',
-    TITLE: 'No usage log available',
-    DESC: 'After subscribing to any of the plans offered, your invoices will appear here',
-    TITLE_SEARCH: 'No results found',
-    DESC_SEARCH: 'You have no listed Teams! Let’s change it...',
-  },
   CONTEXTUAL_RULES: {
     IMG_NAME: 'business-rules.png',
     TITLE: 'No Contextual Rules Found',

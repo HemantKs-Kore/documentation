@@ -86,9 +86,9 @@
       class="empty-lg"
       [width]="150"
       [height]="132"
-      [title]="emptyScreen.TITLE"
-      [desc]="emptyScreen.DESC"
-      [imgName]="emptyScreen.IMG_NAME"
+      title="{{ 'TITLE' | translate }}"
+      desc="{{ 'DESC' | translate }}"
+      imgName="contract-message.png"
     >
     </app-empty-screen>
   </ng-container>
@@ -288,9 +288,9 @@
             [width]="100"
             [height]="88"
             *ngIf="searchUsageLog && !loading"
-            [title]="emptyScreen.TITLE_SEARCH"
-            [desc]="emptyScreen.DESC_SEARCH"
-            [imgName]="emptyScreen.IMG_NAME"
+            title="{{ 'NO_SEARCH_RESULTS_FOUND' | translate }}"
+            desc="{{ 'DESC_SEARCH' | translate }}"
+            imgName="contract-message.png"
           >
           </app-empty-screen>
         </ng-template>
