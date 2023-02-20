@@ -13,7 +13,6 @@ import { PerfectScrollbarComponent } from 'ngx-perfect-scrollbar';
 import { nanoid } from 'nanoid';
 import { Router, ActivatedRoute } from '@angular/router';
 import { KRModalComponent } from '../../shared/kr-modal/kr-modal.component';
-import { EMPTY_SCREEN } from '../empty-screen/empty-screen.constants';
 import { NotificationService } from '@kore.apps/services/notification.service';
 import { ServiceInvokerService } from '@kore.apps/services/service-invoker.service';
 import { WorkflowService } from '@kore.apps/services/workflow.service';
@@ -21,6 +20,7 @@ import { AuthService } from '@kore.apps/services/auth.service';
 import { AppSelectionService } from '@kore.apps/services/app.selection.service';
 import { MixpanelServiceService } from '@kore.apps/services/mixpanel-service.service';
 import { ConfirmationDialogComponent } from '@kore.apps/helpers/components/confirmation-dialog/confirmation-dialog.component';
+import { TranslationService } from '@kore.libs/shared/src';
 
 declare const $: any;
 @Component({
@@ -30,7 +30,6 @@ declare const $: any;
   encapsulation: ViewEncapsulation.None,
 })
 export class TraitsComponent implements OnInit, OnDestroy {
-  emptyScreen = EMPTY_SCREEN.INDICES_TRAITS;
   @ViewChild('statusModalPop') statusModalPop: KRModalComponent;
   @ViewChild('addUtteranceModalPop') addUtteranceModalPop: KRModalComponent;
   @ViewChild('perfectScroll') perfectScroll: PerfectScrollbarComponent;
@@ -114,9 +113,12 @@ export class TraitsComponent implements OnInit, OnDestroy {
     public dialog: MatDialog,
     public authService: AuthService,
     private appSelectionService: AppSelectionService,
-    private router: Router,
-    public mixpanel: MixpanelServiceService
-  ) {}
+    public mixpanel: MixpanelServiceService,
+    private translationService: TranslationService
+  ) {
+    // Load translations for this module
+    this.translationService.loadModuleTranslations();
+  }
 
   ngOnInit(): void {
     this.selectedApp = this.workflowService.selectedApp();
