@@ -43,7 +43,7 @@ export class InvoicesComponent implements OnInit {
     private translationService: TranslationService
   ) {
     // Load translations for this module
-    this.translationService.loadModuleTranslations();
+    this.translationService.loadModuleTranslations('pricing');
   }
 
   ngOnInit(): void {
