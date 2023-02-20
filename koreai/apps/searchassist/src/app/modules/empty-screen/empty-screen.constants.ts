@@ -1,18 +1,4 @@
 export const EMPTY_SCREEN = {
-  ACTIONS: {
-    IMG_NAME: 'no-bot-actions.svg',
-    TITLE: 'Bot Actions',
-    DESC: 'Bot Actions are a list of tasks that are performed by the bots.<br /> SearchAssist allows you to link bots that can perform tasks for the search user.',
-    TITLE_SEARCH: 'No search results found',
-    DESC_SEARCH: 'We couldn’t find what you are looking for',
-  },
-  STRUCTURED_DATA: {
-    IMG_NAME: 'structured-data.png',
-    TITLE: 'You haven’t added any structured data yet!',
-    DESC: 'Structured Data can be used to index commerce content for product search use cases. SearchAssist allows you to add structured data by either importing from a JSON/CSV file or adding manually.',
-    TITLE_SEARCH: 'No search results found',
-    DESC_SEARCH: 'We couldn’t find what you are looking for',
-  },
   CONNECTORS: {
     IMG_NAME: 'connector.png',
     TITLE_SEARCH: 'No search results found',
