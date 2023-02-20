@@ -2794,7 +2794,7 @@ export class ContentComponent implements OnInit, OnDestroy {
           'Select Authentication Type',
           'Choose an option',
           'Select Field Type',
-        ].includes(id.innerHTML)
+        ].includes(id.innerHTML.trim())
           ? 0
           : 1;
       } else {
