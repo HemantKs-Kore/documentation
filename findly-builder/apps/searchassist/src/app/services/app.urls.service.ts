@@ -113,6 +113,6 @@ export class AppUrlsService {
   public redirectToLoginBotStore() {
     // let _redirectUrl=this.marketURL()+'/?showLogin=true&hideSSOButtons=true&hideResourcesPageLink=true';
     // window.location.href=_redirectUrl;
-    //this.redirectToLogin();
+    this.redirectToLogin();
   }
 }
