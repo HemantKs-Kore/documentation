@@ -1,6 +1,7 @@
 ===============================================================
 0 lint
-2 console error
+0 audit
+0 console issues
 any new feature should be lazy loaded
 api calls should not be duplicated
 ===============================================================
@@ -20,7 +21,7 @@ api calls should not be duplicated
     "node_modules/rangy/lib/rangy-selectionsaverestore.js",
     "node_modules/rangy/lib/rangy-serializer.js",
     "node_modules/rangy/lib/rangy-textrange.js"
-6.                "apps/searchassist/src/app/helpers/lib/assets/marked.min.js", removed as not used anywhere as of now.
+6.                  "apps/searchassist/src/app/helpers/lib/assets/marked.min.js", removed as not used anywhere as of now.
 7.  Styling
 
 - Global style for the app
@@ -54,3 +55,5 @@ api calls should not be duplicated
    "apps/searchassist/src/assets/web-kore-sdk/libs/purejscarousel.js"
 
    removed, moved to correct location
+
+10. createAppPop ( same create app component duplicated header, apps)

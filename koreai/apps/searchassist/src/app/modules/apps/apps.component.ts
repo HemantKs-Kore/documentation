@@ -2,7 +2,6 @@ import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { KRModalComponent } from '../../shared/kr-modal/kr-modal.component';
 // import { AppHeaderComponent } from '../app-header/app-header.component';
-import { EMPTY_SCREEN } from '../../modules/empty-screen/empty-screen.constants';
 import { LocalStoreService } from '@kore.apps/services/localstore.service';
 import { ServiceInvokerService } from '@kore.apps/services/service-invoker.service';
 import { WorkflowService } from '@kore.apps/services/workflow.service';
@@ -16,7 +15,7 @@ import { Store } from '@ngrx/store';
 import { setAppId } from '@kore.apps/store/app.actions';
 import { AppsService } from './services/apps.service';
 import { combineLatest, Subscription } from 'rxjs';
-import { LazyLoadService } from '@kore.libs/shared/src';
+import { LazyLoadService, TranslationService } from '@kore.libs/shared/src';
 declare const $: any;
 
 @Component({
@@ -27,7 +26,6 @@ declare const $: any;
 })
 export class AppsComponent implements OnInit, OnDestroy {
   sub: Subscription;
-  emptyScreen = EMPTY_SCREEN.APP;
   authInfo: any;
   openJourney = false;
   saveInProgress = false;
@@ -114,10 +112,14 @@ export class AppsComponent implements OnInit, OnDestroy {
     public mixpanel: MixpanelServiceService,
     private store: Store,
     private lazyLoadService: LazyLoadService,
-    private appsService: AppsService
+    private appsService: AppsService,
+    private translationService: TranslationService
   ) {
     this.authInfo = localstore.getAuthInfo();
     this.userId = this.authService.getUserId();
+
+    // Load translations for this module
+    this.translationService.loadModuleTranslations('apps');
   }
 
   ngOnInit() {

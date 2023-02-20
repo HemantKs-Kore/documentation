@@ -44,6 +44,14 @@
           z-index:1;
           margin-left:-20px !important;
           opacity: 1;
+          &.bottom{
+            top: 13px !important;
+            .tooltip-arrow{
+            &::before{
+            bottom: 17px;
+            }
+            }
+            }
           .tooltip-arrow{ display: flex; }
           .tooltip-arrow{ 
             &::before{

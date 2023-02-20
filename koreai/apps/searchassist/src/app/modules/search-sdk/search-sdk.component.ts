@@ -10,38 +10,18 @@ import { ServiceInvokerService } from '@kore.apps/services/service-invoker.servi
 import { LazyLoadService } from '@kore.libs/shared/src';
 import { LocalStoreService } from '@kore.services/localstore.service';
 import { Store } from '@ngrx/store';
+import { KRSearch } from '../../../assets/web-kore-sdk/minified-sdk/kore-web-sdk-umd-search.js';
+import { AuthService } from '@kore.apps/services/auth.service';
+import { InsightsModule } from '../insights/insights.module';
+import { NgIf } from '@angular/common';
+import { MatButtonModule } from '@angular/material/button';
 import { filter } from 'rxjs/operators';
 import {
   selectAppIds,
   selectSearchExperiance,
 } from '@kore.apps/store/app.selectors';
 
-// import('../../../assets/web-kore-sdk/demo/libs/kore-no-conflict-start.js');
-// import('../../../assets/web-kore-sdk/libs/uuid.min.js');
-// // import('../../../assets/web-kore-sdk/demo/libs/jquery.js');
-// import('../../../assets/web-kore-sdk/libs/d3.v4.min.js');
-// import('../../../assets/web-kore-sdk/libs/KoreGraphAdapter.js');
-// import('../../../assets/web-kore-sdk/libs/pubsub.js');
-// import('../../../assets/web-kore-sdk/demo/libs/jquery.tmpl.min.js');
-// import('../../../assets/web-kore-sdk/demo/libs/jquery-ui.min.js');
-
-// import('../../../assets/web-kore-sdk/kore-bot-sdk-client.js');
-// import('../../../assets/web-kore-sdk/demo/custom/searchTemplate.js');
-
-// import('../../../assets/web-kore-sdk/demo/custom/customTemplate.js');
-// import('../../../assets/web-kore-sdk/demo/i18n/en.js');
-// import('../../../assets/web-kore-sdk/demo/i18n/ja.js');
-// import('../../../assets/web-kore-sdk/demo/i18n/ko.js');
-// import('../../../assets/web-kore-sdk/libs/emoji.js');
-// import('../../../assets/web-kore-sdk/libs/perfect-scrollbar.js');
-// import('../../../assets/web-kore-sdk/libs/kore-pickers.js');
-// import('../../../assets/web-kore-sdk/demo/findly/findly-sdk.js');
-// import('../../../assets/web-kore-sdk/libs/purejscarousel.js');
-// import('../../../assets/web-kore-sdk/demo/findly/findly-config.js');
-// import('../../../assets/web-kore-sdk/demo/libs/kore-no-conflict-end.js');
-// import('../../../assets/web-kore-sdk/libs/lodash.min.js');
 declare const $: any;
-declare const FindlySDK: any;
 declare let self: any;
 
 @Component({
@@ -49,7 +29,7 @@ declare let self: any;
   selector: 'app-search-sdk',
   templateUrl: './search-sdk.component.html',
   styleUrls: ['./search-sdk.component.scss'],
-  imports: [],
+  imports: [MatButtonModule, InsightsModule, NgIf],
 })
 export class SearchSdkComponent implements OnInit, OnDestroy {
   searchExperienceConfig: any = {};
@@ -100,7 +80,7 @@ export class SearchSdkComponent implements OnInit, OnDestroy {
   // @ViewChild('headerComp') headerComp: AppHeaderComponent;
 
   constructor(
-    // private authService: AuthService,
+    private authService: AuthService,
     // public localstore: LocalStoreService,
     public workflowService: WorkflowService,
     // private activatedRoute: ActivatedRoute,
@@ -129,8 +109,9 @@ export class SearchSdkComponent implements OnInit, OnDestroy {
     //   this.headerService.resetSearchConfiguration.subscribe((res) => {
 
     //   });
+    this.toggleSdkPopup();
 
-    this.lazyLoadCodeScripts().subscribe(() => {
+    // this.lazyLoadCodeScripts().subscribe(() => {
       // before click
       this.distroySearch();
 
@@ -141,7 +122,7 @@ export class SearchSdkComponent implements OnInit, OnDestroy {
       this.initSearchSDK();
 
       this.openSdk();
-    });
+    // });
 
     // this.loadScripts().then(() => {
     //   // before click
@@ -153,79 +134,13 @@ export class SearchSdkComponent implements OnInit, OnDestroy {
 
     //   this.initSearchSDK();
     // });
-    this.toggleSdkPopup();
   }
 
   lazyLoadCodeScripts(): Observable<any> {
     return forkJoin([
-      this.lazyLoadService.loadScript(
-        '../../../assets/web-kore-sdk/demo/libs/moment.js'
-      ),
-      this.lazyLoadService.loadScript(
-        '../../../assets/web-kore-sdk/demo/libs/kore-no-conflict-start.js'
-      ),
-      this.lazyLoadService.loadScript(
-        '../../../assets/web-kore-sdk/libs/uuid.min.js'
-      ),
-      this.lazyLoadService.loadScript(
-        '../../../assets/web-kore-sdk/libs/d3.v4.min.js'
-      ),
-      this.lazyLoadService.loadScript(
-        '../../../assets/web-kore-sdk/libs/KoreGraphAdapter.js'
-      ),
-      this.lazyLoadService.loadScript(
-        '../../../assets/web-kore-sdk/libs/pubsub.js'
-      ),
-      this.lazyLoadService.loadScript(
-        '../../../assets/web-kore-sdk/demo/libs/jquery.tmpl.min.js'
-      ),
       // this.lazyLoadService.loadScript(
-      //   '../../../assets/web-kore-sdk/demo/libs/jquery-ui.min.js'
+      //   '../../../assets/web-kore-sdk/demo/libs/moment.js'
       // ),
-
-      this.lazyLoadService.loadScript(
-        '../../../assets/web-kore-sdk/kore-bot-sdk-client.js'
-      ),
-      this.lazyLoadService.loadScript(
-        '../../../assets/web-kore-sdk/demo/custom/searchTemplate.js'
-      ),
-
-      this.lazyLoadService.loadScript(
-        '../../../assets/web-kore-sdk/demo/custom/customTemplate.js'
-      ),
-      this.lazyLoadService.loadScript(
-        '../../../assets/web-kore-sdk/demo/i18n/en.js'
-      ),
-      this.lazyLoadService.loadScript(
-        '../../../assets/web-kore-sdk/demo/i18n/ja.js'
-      ),
-      this.lazyLoadService.loadScript(
-        '../../../assets/web-kore-sdk/demo/i18n/ko.js'
-      ),
-      this.lazyLoadService.loadScript(
-        '../../../assets/web-kore-sdk/libs/emoji.js'
-      ),
-      this.lazyLoadService.loadScript(
-        '../../../assets/web-kore-sdk/libs/perfect-scrollbar.js'
-      ),
-      this.lazyLoadService.loadScript(
-        '../../../assets/web-kore-sdk/libs/kore-pickers.js'
-      ),
-      this.lazyLoadService.loadScript(
-        '../../../assets/web-kore-sdk/demo/findly/findly-sdk.js'
-      ),
-      this.lazyLoadService.loadScript(
-        '../../../assets/web-kore-sdk/libs/purejscarousel.js'
-      ),
-      this.lazyLoadService.loadScript(
-        '../../../assets/web-kore-sdk/demo/findly/findly-config.js'
-      ),
-      // this.lazyLoadService.loadScript(
-      //   '../../../assets/web-kore-sdk/demo/libs/kore-no-conflict-end.js'
-      // ),
-      this.lazyLoadService.loadScript(
-        '../../../assets/web-kore-sdk/libs/lodash.min.js'
-      ),
     ]);
   }
 
@@ -279,12 +194,12 @@ export class SearchSdkComponent implements OnInit, OnDestroy {
 
   toggleSdkPopup() {
     this.sub = this.searchSdkService.sdkSource$.subscribe((isOpen) => {
-      this.searchSDKHeader();
       if (isOpen) {
         // open
         this.openSdk();
       } else {
         // close
+      this.searchSDKHeader();
         this.closeSdk();
       }
     });
@@ -297,34 +212,9 @@ export class SearchSdkComponent implements OnInit, OnDestroy {
   }
 
   async loadScripts() {
-    await import(
-      '../../../assets/web-kore-sdk/demo/libs/kore-no-conflict-start.js'
-    );
-    await import('../../../assets/web-kore-sdk/libs/uuid.min.js');
-    // await import('../../../assets/web-kore-sdk/demo/libs/jquery.js');
-    await import('../../../assets/web-kore-sdk/libs/d3.v4.min.js');
-    await import('../../../assets/web-kore-sdk/libs/KoreGraphAdapter.js');
-    await import('../../../assets/web-kore-sdk/libs/pubsub.js');
-    await import('../../../assets/web-kore-sdk/demo/libs/jquery.tmpl.min.js');
-    await import('../../../assets/web-kore-sdk/demo/libs/jquery-ui.min.js');
-
-    await import('../../../assets/web-kore-sdk/kore-bot-sdk-client.js');
-    await import('../../../assets/web-kore-sdk/demo/custom/searchTemplate.js');
-
-    await import('../../../assets/web-kore-sdk/demo/custom/customTemplate.js');
-    await import('../../../assets/web-kore-sdk/demo/i18n/en.js');
-    await import('../../../assets/web-kore-sdk/demo/i18n/ja.js');
-    await import('../../../assets/web-kore-sdk/demo/i18n/ko.js');
-    await import('../../../assets/web-kore-sdk/libs/emoji.js');
-    await import('../../../assets/web-kore-sdk/libs/perfect-scrollbar.js');
-    await import('../../../assets/web-kore-sdk/libs/kore-pickers.js');
-    await import('../../../assets/web-kore-sdk/demo/findly/findly-sdk.js');
-    await import('../../../assets/web-kore-sdk/libs/purejscarousel.js');
-    await import('../../../assets/web-kore-sdk/demo/findly/findly-config.js');
-    await import(
-      '../../../assets/web-kore-sdk/demo/libs/kore-no-conflict-end.js'
-    );
-    await import('../../../assets/web-kore-sdk/libs/lodash.min.js');
+    // await import(
+    //   '../../../assets/web-kore-sdk/demo/libs/kore-no-conflict-start.js'
+    // );
   }
 
   initSearchSDK() {
@@ -350,7 +240,7 @@ export class SearchSdkComponent implements OnInit, OnDestroy {
   showHideSearch(show, disabelInstanceDistroy?) {
     if (show) {
       this.$('.appContent').append(
-        '<div class="search-background-div"><div class="bgDullOpacity"></div></div>'
+        '<div class="search-background-div" style="display:block"><div class="bgDullOpacity"></div></div>'
       );
       this.$('.appContent').append(
         '<label class="kr-sg-toggle advancemode-checkbox" style="display:none;"><input type="checkbox" id="advanceModeSdk" checked><div class="slider"></div></label>'
@@ -466,6 +356,7 @@ export class SearchSdkComponent implements OnInit, OnDestroy {
     }
   }
 
+
   distroySearch() {
     if (this.searchInstance && this.searchInstance.destroy) {
       this.searchInstance.destroy();
@@ -477,74 +368,13 @@ export class SearchSdkComponent implements OnInit, OnDestroy {
   }
 
   initSearch() {
-    const botOptionsFindly: any = {};
-    botOptionsFindly.logLevel = 'debug';
-    botOptionsFindly.userIdentity = this.userInfo.emailId; // Provide users email id here
-    botOptionsFindly.client = 'botbuilder';
-    if (
-      this.workflowService.selectedApp() &&
-      (this.workflowService.selectedApp().channels || []).length &&
-      this.workflowService.selectedApp().channels[0].app
-    ) {
-      botOptionsFindly.clientId =
-        this.workflowService.selectedApp().channels[0].app.clientId;
-    }
-    if (
-      this.workflowService.selectedApp() &&
-      (this.workflowService.selectedApp().searchIndexes || []).length &&
-      this.workflowService.selectedApp().searchIndexes[0]._id
-    ) {
-      botOptionsFindly.searchIndexID =
-        this.workflowService.selectedApp().searchIndexes[0]._id;
-    }
-    // botOptionsFindly.indexPipelineId = this.workflowService.selectedIndexPipeline()||'';
-    // botOptionsFindly.queryPipelineId = this.queryPipelineId||'';
-    botOptionsFindly.botInfo = {
-      chatBot: this.workflowService.selectedApp().name,
-      taskBotId: this.workflowService.selectedApp()._id,
-    }; // bot name is case sensitive
-    botOptionsFindly.assertionFn = this.assertion;
-    botOptionsFindly.koreAPIUrl =
-      this.endpointservice.getServiceInfo('jwt.grunt.generate').endpoint;
-    // To modify the web socket url use the following option
-    botOptionsFindly.reWriteSocketURL = {
-      protocol: 'wss',
-      hostname: window.appConfig.API_SERVER_URL.replace('https://', ''),
-    };
-    // useful for connecting to non-secure urls like localhost during development (not to be used in environments)
-    if (window.appConfig.API_SERVER_URL.indexOf('http://') !== -1) {
-      botOptionsFindly.reWriteSocketURL = {
-        protocol: 'ws',
-        hostname: window.appConfig.API_SERVER_URL.replace('http://', ''),
-      };
-    }
-    const findlyConfig: any = {
-      botOptions: botOptionsFindly,
-      viaSocket: true,
-      pickersConfig: {
-        showDatePickerIcon: false, //set true to show datePicker icon
-        showDateRangePickerIcon: false, //set true to show dateRangePicker icon
-        showClockPickerIcon: false, //set true to show clockPicker icon
-        showTaskMenuPickerIcon: true, //set true to show TaskMenu Template icon
-        showradioOptionMenuPickerIcon: false, //set true to show Radio Option Template icon
-      },
-    };
-    this.findlyBusinessConfig = this;
-    findlyConfig.findlyBusinessConfig = this.findlyBusinessConfig;
+    const findlyConfig = this.setBotConfiguration();
     this.distroySearch();
     this.clearBodyClasses();
-    this.searchInstance = new FindlySDK(findlyConfig);
-    const currentSubscriptionPlan =
-      this.appSelectionService?.currentsubscriptionPlanDetails;
-    const isFreePlan =
-      currentSubscriptionPlan?.subscription?.planName === 'Free' ? true : false;
-    const searchConfig = {
-      ...this.searchExperienceConfig,
-      freePlan: isFreePlan,
-    };
-    this.searchInstance.showSearch(findlyConfig.botOptions, searchConfig, true);
+    this.searchInstance = new KRSearch(findlyConfig);
+    this.searchInstance.show(findlyConfig);
     this.resetFindlySearchSDK(this.workflowService.selectedApp());
-    this.$('body').addClass('sdk-body');
+    $('body').addClass('sdk-body');
   }
 
   assertion(options, callback) {
@@ -557,25 +387,12 @@ export class SearchSdkComponent implements OnInit, OnDestroy {
 
   resetFindlySearchSDK(searchData) {
     if (this.searchInstance && this.searchInstance.setAPIDetails) {
-      window.selectedFindlyApp = searchData;
+      window.selectedFindlyApp = {
+        _id: this.searchIndexId,
+         pipelineId: this.queryPipelineId,
+         indexpipelineId: this.indexPipelineId
+      };
       this.searchInstance.setAPIDetails();
-
-      // if (
-      //   appData &&
-      //   appData.searchIndexes &&
-      //   appData.searchIndexes.length &&
-      //   appData.searchIndexes[0]._id
-      // ) {
-      //   const searchData = {
-      //     _id: appData.searchIndexes[0]._id,
-      //     pipelineId: this.workflowService.selectedQueryPipeline()
-      //       ? this.workflowService.selectedQueryPipeline()._id
-      //       : '',
-      //     indexpipelineId: this.workflowService.selectedIndexPipeline() || '',
-      //   };
-      //   window.selectedFindlyApp = searchData;
-      //   this.searchInstance.setAPIDetails();
-      // }
     }
   }
 
@@ -598,77 +415,11 @@ export class SearchSdkComponent implements OnInit, OnDestroy {
   }
 
   initTopDownSearch() {
-    const botOptionsFindly: any = {};
-    botOptionsFindly.logLevel = 'debug';
-    botOptionsFindly.userIdentity = this.userInfo.emailId; // Provide users email id here
-    botOptionsFindly.client = 'botbuilder';
-    botOptionsFindly.botInfo = {
-      chatBot: this.workflowService.selectedApp().name,
-      taskBotId: this.workflowService.selectedApp()._id,
-    }; // bot name is case sensitive
-    if (
-      this.workflowService.selectedApp() &&
-      (this.workflowService.selectedApp().channels || []).length &&
-      this.workflowService.selectedApp().channels[0].app
-    ) {
-      botOptionsFindly.clientId =
-        this.workflowService.selectedApp().channels[0].app.clientId;
-    }
-    if (
-      this.workflowService.selectedApp() &&
-      (this.workflowService.selectedApp().searchIndexes || []).length &&
-      this.workflowService.selectedApp().searchIndexes[0]._id
-    ) {
-      botOptionsFindly.searchIndexID =
-        this.workflowService.selectedApp().searchIndexes[0]._id;
-    }
-    // botOptionsFindly.indexPipelineId = this.workflowService.selectedIndexPipeline()||'';
-    // botOptionsFindly.queryPipelineId = this.queryPipelineId||'';
-    botOptionsFindly.assertionFn = this.assertion;
-    botOptionsFindly.koreAPIUrl =
-      this.endpointservice.getServiceInfo('jwt.grunt.generate').endpoint;
-    // To modify the web socket url use the following option
-    botOptionsFindly.reWriteSocketURL = {
-      protocol: 'wss',
-      hostname: window.appConfig.API_SERVER_URL.replace('https://', ''),
-    };
-    // useful for connecting to non-secure urls like localhost during development (not to be used in environments)
-    if (window.appConfig.API_SERVER_URL.indexOf('http://') !== -1) {
-      botOptionsFindly.reWriteSocketURL = {
-        protocol: 'ws',
-        hostname: window.appConfig.API_SERVER_URL.replace('http://', ''),
-      };
-    }
-    const findlyConfig: any = {
-      botOptions: botOptionsFindly,
-      viaSocket: true,
-      pickersConfig: {
-        showDatePickerIcon: false, //set true to show datePicker icon
-        showDateRangePickerIcon: false, //set true to show dateRangePicker icon
-        showClockPickerIcon: false, //set true to show clockPicker icon
-        showTaskMenuPickerIcon: true, //set true to show TaskMenu Template icon
-        showradioOptionMenuPickerIcon: false, //set true to show Radio Option Template icon
-      },
-    };
-    this.findlyBusinessConfig = this;
-    findlyConfig.findlyBusinessConfig = this.findlyBusinessConfig;
+    const findlyConfig = this.setBotConfiguration();
     this.distroyTopDownSearch();
-
-    this.topDownSearchInstance = new FindlySDK(findlyConfig);
     this.resetFindlyTopDownSearchSDK(this.workflowService.selectedApp());
-    const currentSubscriptionPlan =
-      this.appSelectionService?.currentsubscriptionPlanDetails;
-    const isFreePlan =
-      currentSubscriptionPlan?.subscription?.planName === 'Free' ? true : false;
-    const searchConfig = {
-      ...this.searchExperienceConfig,
-      freePlan: isFreePlan,
-    };
-    this.topDownSearchInstance.initializeTopDown(
-      findlyConfig,
-      'top-down-search-background-div',
-      searchConfig
-    );
+    this.topDownSearchInstance = new KRSearch(findlyConfig);
+    this.topDownSearchInstance.show(findlyConfig);
     this.$('body').addClass('sdk-body');
   }
 
@@ -741,5 +492,144 @@ export class SearchSdkComponent implements OnInit, OnDestroy {
         this.topDownSearchInstance.setAPIDetails();
       }
     }
+  }
+  sdkBridge(parms) {  // can be converted as service for common Use
+    const _self = this;
+    // console.log(parms);
+    // this.bridgeDataInsights = !parms.data;
+    let call = false;
+    if (parms.type == 'onboardingjourney') {
+      this.searchRequestId = parms.requestId;
+      //this.appSelectionService.updateTourConfig(parms.data);
+    }
+    // if (parms.type == 'fullResult') {
+    //   this.appSelectionService.updateTourConfig('test');
+    // }
+    if (parms.type === 'show' && parms.data === true && _self.bridgeDataInsights) {
+      _self.bridgeDataInsights = false;
+      call = true;
+    } else {
+      _self.bridgeDataInsights = true;
+      call = false;
+    }
+    if (!call) {
+      if (parms.type === 'showInsightFull' && parms.data === true && _self.bridgeDataInsights) {
+        _self.bridgeDataInsights = false;
+        _self.showInsightFull = true;
+        // $('.ksa-resultsContainer').css({width:'50%'});
+      } else {
+        _self.bridgeDataInsights = true;
+        _self.showInsightFull = false;
+        $('.ksa-resultsContainer').css({ width: '100%' });
+      }
+    }
+    if (parms.type === 'addNew' && parms.data === true) {
+      _self.addNewResult = false;
+      _self.structure = parms.structure;
+    } else {
+      _self.structure = parms.structure;
+      _self.addNewResult = true;
+    }
+    if (parms.query) {
+      _self.queryText = parms.query;
+    }
+
+    if (parms.type === 'closeSearchContainer' && parms.data === false) {
+      if (parms.bottomUp) {
+        this.showHideSearch(false);
+        this.distroySearch();
+      }
+      else {
+        this.showHideTopDownSearch(false);
+      }
+    }
+
+    if (parms.type === 'refreshSearchContainer' && parms.data === false) {
+      if (parms.bottomUp) {
+        this.refreshSDK();
+      }
+    }
+  }
+  refreshSDK() {
+    this.showHideSearch(false);
+    setTimeout(() => {
+      this.showHideSearch(true);
+    }, 200);
+  }
+  closeResultBody(event) {
+    const bridgeObj = { type: 'addNew', data: false, query: null }
+    this.sdkBridge(bridgeObj);
+    if (this.searchInstance && this.searchInstance.applicationToSDK && event) {
+      this.searchInstance.applicationToSDK(event);
+    }
+    if (this.topDownSearchInstance && this.topDownSearchInstance.applicationToSDK && event) {
+      this.topDownSearchInstance.applicationToSDK(event);
+    }
+  }
+
+  setBotConfiguration(){
+    const botOptionsFindly: any = {};
+    botOptionsFindly.logLevel = 'debug';
+    botOptionsFindly.userIdentity = this.userInfo.emailId; // Provide users email id here
+    botOptionsFindly.client = 'botbuilder';
+    if (
+      this.workflowService.selectedApp() &&
+      (this.workflowService.selectedApp().channels || []).length &&
+      this.workflowService.selectedApp().channels[0].app
+    ) {
+      botOptionsFindly.clientId =
+        this.workflowService.selectedApp().channels[0].app.clientId;
+    }
+    if (
+      this.workflowService.selectedApp() &&
+      (this.workflowService.selectedApp().searchIndexes || []).length &&
+      this.workflowService.selectedApp().searchIndexes[0]._id
+    ) {
+      botOptionsFindly.searchIndexID =
+        this.workflowService.selectedApp().searchIndexes[0]._id;
+    }
+    // botOptionsFindly.indexPipelineId = this.workflowService.selectedIndexPipeline()||'';
+    botOptionsFindly.queryPipelineId = this.queryPipelineId||'';
+    botOptionsFindly.botInfo = {
+      chatBot: this.workflowService.selectedApp().name,
+      taskBotId: this.workflowService.selectedApp()._id,
+    }; // bot name is case sensitive
+    botOptionsFindly.assertionFn = this.assertion;
+    botOptionsFindly.koreAPIUrl =
+      this.endpointservice.getServiceInfo('jwt.grunt.generate').endpoint;
+    // To modify the web socket url use the following option
+    botOptionsFindly.reWriteSocketURL = {
+      protocol: 'wss',
+      hostname: window.appConfig.API_SERVER_URL.replace('https://', ''),
+    };
+    // useful for connecting to non-secure urls like localhost during development (not to be used in environments)
+    if (window.appConfig.API_SERVER_URL.indexOf('http://') !== -1) {
+      botOptionsFindly.reWriteSocketURL = {
+        protocol: 'ws',
+        hostname: window.appConfig.API_SERVER_URL.replace('http://', ''),
+      };
+    }
+    if(this.authService.getAccessToken()){
+      botOptionsFindly.accessToken = this.authService.getAccessToken();
+    }
+    botOptionsFindly.JWTUrl = this.endpointservice.getServiceInfo('jwt.grunt.generate').endpoint +"/users/sts?rnd=fle73l";
+    const findlyConfig: any = {
+      botOptions: botOptionsFindly,
+      viaSocket: true,
+      pickersConfig: {
+        showDatePickerIcon: false, //set true to show datePicker icon
+        showDateRangePickerIcon: false, //set true to show dateRangePicker icon
+        showClockPickerIcon: false, //set true to show clockPicker icon
+        showTaskMenuPickerIcon: true, //set true to show TaskMenu Template icon
+        showradioOptionMenuPickerIcon: false, //set true to show Radio Option Template icon
+      },
+      isDev:true
+    };
+    this.findlyBusinessConfig = this;
+    findlyConfig.findlyBusinessConfig = this.findlyBusinessConfig;
+    const currentSubscriptionPlan = this.appSelectionService?.currentsubscriptionPlanDetails
+    const isFreePlan = currentSubscriptionPlan?.subscription?.planName==='Free'?true:false;
+    findlyConfig.searchInterfaceConfig = {...this.searchExperienceConfig,freePlan:isFreePlan};
+    return findlyConfig;
   }
 }

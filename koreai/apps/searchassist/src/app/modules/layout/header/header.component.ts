@@ -2187,12 +2187,4 @@ export class HeaderComponent implements OnInit, OnDestroy {
   onVisibilityChanged(index: string, status: IntersectionStatus) {
     this.visibilityStatus[index] = status;
   }
-
-  trackByIndex(index: string) {
-    return index;
-  }
-
-  getNum() {
-    console.log('ddddd');
-  }
 }

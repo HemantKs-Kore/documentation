@@ -48,6 +48,8 @@
                   />
                   <img
                     [src]="searchImgSrc"
+                    width="14"
+                    height="14"
                     class="search-icon"
                     *ngIf="!searchApp"
                   />
@@ -55,7 +57,9 @@
                     class="close-icon"
                     (mouseover)="activeClose = true"
                     (mouseout)="activeClose = false"
-                    src="assets/icons/close_icon.svg"
+                    ngSrc="assets/icons/close_icon.svg"
+                    width="10"
+                    height="10"
                     [ngClass]="{ 'pr-22': searchApp }"
                     (click)="focusoutSearch()"
                     placement="top-center"
@@ -75,15 +79,21 @@
                     class="mr-3"
                     id="btn_toggle_search_structured_data"
                     ><img
-                      src="assets/icons/search.svg"
+                      ngSrc="assets/icons/search.svg"
+                      width="16"
+                      height="16"
+                      priority
                       [ngClass]="{ 'd-none': showSearch }"
                     />{{ 'search' | translate }}</span
                   >
                 </div>
                 <div class="add_feild" (click)="openCreateApp()">
-                  <img src="assets/icons/add_plus.svg" />{{
-                    'home_add_application' | translate
-                  }}
+                  <img
+                    ngSrc="assets/icons/add_plus.svg"
+                    width="12"
+                    height="12"
+                    priority
+                  />{{ 'home_add_application' | translate }}
                 </div>
                 <button (click)="openDetails()" class="d-none">
                   {{ 'home_deatils' | translate }}
@@ -93,19 +103,6 @@
           </div>
           <div class="body-sec">
             <div class="row m-0 appsListingContainer">
-              <ng-container *ngIf="false">
-                <div class="m-title col-12">
-                  {{ 'home_my_apps' | translate }}
-                </div>
-                <div class="empty-data-app" (click)="openCreateApp()">
-                  <div class="img-block">
-                    <img src="assets/icons/landing/round-plus.svg" />
-                  </div>
-                  <div class="e-title">
-                    {{ 'home_create_your_first' | translate }}
-                  </div>
-                </div>
-              </ng-container>
               <div
                 *ngIf="emptyApp && !loadingApps"
                 class="start-scrtch-user-data"
@@ -115,7 +112,11 @@
                     {{ 'home_welcome' | translate }}
                     {{ this.authInfo.currentAccount.userInfo.fName }}
                     {{ this.authInfo.currentAccount.userInfo.lName }}
-                    <img src="assets/icons/hand-hellow.svg" />
+                    <img
+                      ngSrc="assets/icons/hand-hellow.svg"
+                      width="22"
+                      height="23"
+                    />
                   </div>
                 </div>
                 <div class="title-start">
@@ -163,7 +164,11 @@
                   <div class="content-sec">
                     <div class="delete-clone-icons" *ngIf="app.disabled">
                       <div class="disabled-icon">
-                        <img src="assets/icons/Info-red.svg" />
+                        <img
+                          ngSrc="assets/icons/Info-red.svg"
+                          width="16"
+                          height="16"
+                        />
                         <span class="tooltip_disabled">
                           <span>{{
                             'home_your_app_has_been_deactivated_info'
@@ -247,14 +252,22 @@
                     (click)="sortApp('Icon filter', 'down')"
                     *ngIf="!minToMax"
                   >
-                    <img src="assets/icons/dashboard/filter.svg" />
+                    <img
+                      ngSrc="assets/icons/dashboard/filter.svg"
+                      width="14"
+                      height="13"
+                    />
                   </div>
                   <div
                     class="filter-up-down active-down"
                     (click)="sortApp('Icon filter', 'up')"
                     *ngIf="minToMax"
                   >
-                    <img src="assets/icons/dashboard/maxFilter.svg" />
+                    <img
+                      ngSrc="assets/icons/dashboard/maxFilter.svg"
+                      width="14"
+                      height="13"
+                    />
                   </div>
                 </div>
               </div>
@@ -280,9 +293,6 @@
                   >
                     <div class="content-sec">
                       <div class="delete-clone-icons">
-                        <!-- <div class="clone-icon" tooltipClass="tooltip-global- ml-14" [container]="'body'" ngbTooltip='Duplicate' placement="bottom-left">
-                                            <img src="assets/icons/clone-blue.svg" (click)="openDeleteApp($event)">
-                                          </div> -->
                         <div
                           *ngIf="filter.createdBy === userId"
                           class="delete-icon"
@@ -292,7 +302,9 @@
                           placement="bottom-left"
                         >
                           <img
-                            src="assets/icons/delete-table.svg"
+                            ngSrc="assets/icons/delete-table.svg"
+                            width="12"
+                            height="12"
                             (click)="openDeleteApp($event, filter)"
                           />
                         </div>
@@ -305,7 +317,9 @@
                           placement="bottom-left"
                         >
                           <img
-                            src="assets/icons/Unlink.svg"
+                            ngSrc="assets/icons/Unlink.svg"
+                            width="16"
+                            height="16"
                             (click)="openUnlinkApp($event, filter)"
                           />
                         </div>
@@ -313,7 +327,9 @@
                       <div class="name">
                         {{ filter.name }}
                         <img
-                          src="assets/icons/Info-red.svg"
+                          ngSrc="assets/icons/Info-red.svg"
+                          width="16"
+                          height="16"
                           tooltipClass="tooltip-global-"
                           *ngIf="filter.disabled"
                           ngbTooltip="Your App has been deactivated"
@@ -337,7 +353,11 @@
                       *ngIf="filter.createdBy !== userId"
                       class="shared-app-text"
                     >
-                      <img src="assets/icons/share-icon.svg" />
+                      <img
+                        ngSrc="assets/icons/share-icon.svg"
+                        width="11"
+                        height="12"
+                      />
                       <span>Shared App</span>
                     </div>
                   </div>
@@ -349,9 +369,9 @@
                     *ngIf="searchApp"
                     [width]="170"
                     [height]="170"
-                    [title]="emptyScreen.TITLE_SEARCH"
-                    [desc]="emptyScreen.DESC_SEARCH"
-                    [imgName]="emptyScreen.IMG_NAME"
+                    title="{{ 'NO_SEARCH_RESULTS_FOUND' | translate }}"
+                    desc="{{ 'DESC_SEARCH' | translate }}"
+                    imgName="application-dashboard.png"
                   >
                   </app-empty-screen>
                 </div>
@@ -365,9 +385,9 @@
                   <app-empty-screen
                     [width]="170"
                     [height]="170"
-                    [title]="emptyScreen.TITLE_NOAPP"
-                    [desc]="emptyScreen.DESC_NOAPP"
-                    [imgName]="emptyScreen.IMG_NAME"
+                    title="{{ 'TITLE_NOAPP' | translate }}"
+                    desc="{{ 'DESC_NOAPP' | translate }}"
+                    imgName="application-dashboard.png"
                   >
                   </app-empty-screen>
                 </ng-container>
@@ -375,9 +395,9 @@
                   <app-empty-screen
                     [width]="170"
                     [height]="170"
-                    [title]="emptyScreen.TITLE_SHARED"
-                    [desc]="emptyScreen.DESC_SHARED"
-                    [imgName]="emptyScreen.IMG_NAME"
+                    title="{{ 'TITLE_SHARED' | translate }}"
+                    desc="{{ 'DESC_SHARED' | translate }}"
+                    imgName="application-dashboard.png"
                   >
                   </app-empty-screen>
                 </ng-template>
@@ -396,13 +416,19 @@
                             href="https://docs.kore.ai/searchassist/source-management/source-management/"
                             target="_blank"
                             >{{ 'home_learn_more' | translate
-                            }}<img src="assets/icons/content/carrotright.svg" />
+                            }}<img
+                              ngSrc="assets/icons/content/carrotright.svg"
+                              width="6"
+                              height="10"
+                            />
                           </a>
                         </span>
                       </div>
                       <div class="img-block">
                         <img
-                          src="assets/icons/content/carousel-data-inte.svg"
+                          ngSrc="assets/icons/content/carousel-data-inte.svg"
+                          width="62"
+                          height="62"
                         />
                       </div>
                       <div class="content-block">
@@ -426,13 +452,19 @@
                             href="https://docs.kore.ai/searchassist/manage-index/index-management/"
                             target="_blank"
                             >{{ 'home_learn_more' | translate
-                            }}<img src="assets/icons/content/carrotright.svg" />
+                            }}<img
+                              ngSrc="assets/icons/content/carrotright.svg"
+                              width="6"
+                              height="10"
+                            />
                           </a>
                         </span>
                       </div>
                       <div class="img-block">
                         <img
-                          src="assets/icons/content/carousel-index-manag.svg"
+                          ngSrc="assets/icons/content/carousel-index-manag.svg"
+                          width="62"
+                          height="62"
                         />
                       </div>
                       <div class="content-block">
@@ -456,13 +488,19 @@
                             href="https://docs.kore.ai/searchassist/optimize-results/result-optimization/"
                             target="_blank"
                             >{{ 'home_learn_more' | translate
-                            }}<img src="assets/icons/content/carrotright.svg" />
+                            }}<img
+                              ngSrc="assets/icons/content/carrotright.svg"
+                              width="6"
+                              height="10"
+                            />
                           </a>
                         </span>
                       </div>
                       <div class="img-block">
                         <img
-                          src="assets/icons/content/carousel-result-opt.svg"
+                          ngSrc="assets/icons/content/carousel-result-opt.svg"
+                          width="62"
+                          height="62"
                         />
                       </div>
                       <div class="content-block">
@@ -486,12 +524,16 @@
                             target="_blank"
                             >{{ 'home_learn_more' | translate
                             }}<img
-                              src="assets/icons/content/carrotright.svg" /></a
+                              ngSrc="assets/icons/content/carrotright.svg"
+                              width="6"
+                              height="10" /></a
                         ></span>
                       </div>
                       <div class="img-block">
                         <img
-                          src="assets/icons/content/carousel-search-exp.svg"
+                          ngSrc="assets/icons/content/carousel-search-exp.svg"
+                          width="62"
+                          height="62"
                         />
                       </div>
                       <div class="content-block">
@@ -516,12 +558,16 @@
                             target="_blank"
                             >{{ 'home_learn_more' | translate
                             }}<img
-                              src="assets/icons/content/carrotright.svg" /></a
+                              ngSrc="assets/icons/content/carrotright.svg"
+                              width="6"
+                              height="10" /></a
                         ></span>
                       </div>
                       <div class="img-block">
                         <img
-                          src="assets/icons/content/carousel-analytics.svg"
+                          ngSrc="assets/icons/content/carousel-analytics.svg"
+                          width="62"
+                          height="62"
                         />
                       </div>
                       <div class="content-block">
@@ -545,11 +591,17 @@
                             target="_blank"
                             >{{ 'home_learn_more' | translate
                             }}<img
-                              src="assets/icons/content/carrotright.svg" /></a
+                              ngSrc="assets/icons/content/carrotright.svg"
+                              width="6"
+                              height="10" /></a
                         ></span>
                       </div>
                       <div class="img-block">
-                        <img src="assets/icons/content/carousel-exp.svg" />
+                        <img
+                          ngSrc="assets/icons/content/carousel-exp.svg"
+                          width="62"
+                          height="62"
+                        />
                       </div>
                       <div class="content-block">
                         <div class="title">
@@ -588,7 +640,11 @@
                 {{ 'home_welcome' | translate }}
                 {{ this.authInfo.currentAccount.userInfo.fName }}
                 {{ this.authInfo.currentAccount.userInfo.lName }}
-                <img src="assets/icons/hand-hellow.svg" />
+                <img
+                  ngSrc="assets/icons/hand-hellow.svg"
+                  width="22"
+                  height="23"
+                />
               </div>
             </div>
             <div class="on-b-progress-bar">
@@ -610,7 +666,11 @@
                 (click)="welcomeStep('sampleData')"
               >
                 <div class="icon-block">
-                  <img src="assets/icons/onboarding/sample-data.svg" />
+                  <img
+                    ngSrc="assets/icons/onboarding/sample-data.svg"
+                    width="48"
+                    height="49"
+                  />
                 </div>
                 <div class="content-data">
                   <div class="main-title">
@@ -634,7 +694,11 @@
                 (click)="welcomeStep('selfExplore'); progressBar.length = 2"
               >
                 <div class="icon-block">
-                  <img src="assets/icons/onboarding/my-self.svg" />
+                  <img
+                    ngSrc="assets/icons/onboarding/my-self.svg"
+                    width="52"
+                    height="52"
+                  />
                 </div>
                 <div class="content-data">
                   <div class="main-title">
@@ -667,7 +731,11 @@
               </div>
             </div>
             <div class="img-gif-block">
-              <img src="assets/icons/onboarding/gif-onboarding.gif" />
+              <img
+                ngSrc="assets/icons/onboarding/gif-onboarding.gif"
+                width="800"
+                height="600"
+              />
             </div>
           </div>
         </div>
@@ -684,7 +752,11 @@
                   {{ 'home_welcome' | translate }}
                   {{ this.authInfo.currentAccount.userInfo.fName }}
                   {{ this.authInfo.currentAccount.userInfo.lName }}
-                  <img src="assets/icons/hand-hellow.svg" />
+                  <img
+                    ngSrc="assets/icons/hand-hellow.svg"
+                    width="22"
+                    height="23"
+                  />
                 </div>
               </div>
               <div class="on-b-progress-bar">
@@ -754,7 +826,9 @@
                     <!-- Tab panes -->
                     <div class="tab-content">
                       <div class="tab-pane active" id="ecommerce">
-                        <div class="title">{{"home_e_commerce" | translate}}</div>
+                        <div class="title">
+                          {{ 'home_e_commerce' | translate }}
+                        </div>
                         <div class="desc-text-info">
                           {{
                             'home_the_ecommerce_sample_dataset_desc' | translate
@@ -987,13 +1061,19 @@
                     <div class="tab-content">
                       <div class="tab-pane active" id="searchbar">
                         <div class="img-block">
-                          <img src="assets/icons/onboarding/searchbar.png" />
+                          <img
+                            ngSrc="assets/icons/onboarding/searchbar.png"
+                            width="679"
+                            height="377"
+                          />
                         </div>
                       </div>
                       <div class="tab-pane fade" id="virtualassistance">
                         <div class="img-block">
                           <img
-                            src="assets/icons/onboarding/virtualassistance.png"
+                            ngSrc="assets/icons/onboarding/virtualassistance.png"
+                            width="677"
+                            height="363"
                           />
                         </div>
                       </div>
@@ -1007,7 +1087,9 @@
                 <div class="welcome-user-screen">
                   <div class="welcome-user-img">
                     <img
-                      src="assets/icons/onboarding/welcome-user-app-creation.png"
+                      ngSrc="assets/icons/onboarding/welcome-user-app-creation.png"
+                      width="448"
+                      height="477"
                       title="welcome-user-app-creation"
                       alt="welcome-user-app-creation"
                     />
@@ -1065,7 +1147,7 @@
               class="kr-sg-button-primary btn_lg"
               (click)="checkExperience()"
             >
-            {{"sa_continue" | translate}}
+              {{ 'sa_continue' | translate }}
             </button>
             <button
               *ngIf="steps === 'showSearchExperience'"
@@ -1089,10 +1171,14 @@
 >
   <div class="modal-body">
     <div class="close_modal" (click)="closeCreateApp()">
-      <img src="assets/icons/close.svg" />
+      <img ngSrc="assets/icons/close.svg" width="10" height="10" />
     </div>
     <div class="img-wrapper">
-      <img src="assets/icons/landing/create-app.png" />
+      <img
+        ngSrc="assets/icons/landing/create-app.png"
+        width="440"
+        height="617"
+      />
     </div>
     <div class="actions-block">
       <perfect-scrollbar>
@@ -1119,7 +1205,7 @@
             />
             <img
               id="infoWarning"
-              src="assets/icons/warning_escalation.svg"
+              ngSrc="assets/icons/warning_escalation.svg"
               style="display: none"
               height="12"
               width="12"
@@ -1204,7 +1290,7 @@
       {{ 'home_are_you_sure_you_want_to_remove_access' | translate }}
     </div>
     <div class="close_modal" (click)="closeConfirmApp()">
-      <img src="assets/icons/modal-close.svg" />
+      <img ngSrc="assets/icons/modal-close.svg" width="16" height="16" />
     </div>
   </div>
   <div *ngIf="unlinkPop" class="modal-body">
@@ -1245,7 +1331,9 @@
       >
         <img
           style="padding-right: 4px; height: 12px"
-          src="assets/icons/warning_escalation.svg"
+          ngSrc="assets/icons/warning_escalation.svg"
+          width="14"
+          height="12"
         />{{ 'home_please_type_delete' | translate }}
       </div>
     </div>
@@ -1270,31 +1358,31 @@
 </kr-modal>
 <!--Delete confirmation modal end -->
 <!--popup for Details-->
-<kr-modal
+<!-- <kr-modal
   modalType="center"
   #detailsPopUp
   modalClass="new-uses-registration-about-modal"
 >
   <div class="modal-body">
     <div class="close_modal" (click)="closeDetails()">
-      <img src="assets/icons/modal-close.svg" />
+      <img ngSrc="assets/icons/modal-close.svg" width="16" height="16" />
     </div>
     <div class="video-block">
       <div class="video-content">
         <video controls>
           <source
-            src="https://www.w3schools.com/tags/movie.mp4"
+            ngSrc="https://www.w3schools.com/tags/movie.mp4"
             type="video/mp4"
           />
           <source
-            src="https://www.w3schools.com/tags/movie.ogg"
+            ngSrc="https://www.w3schools.com/tags/movie.ogg"
             type="video/ogg"
           />
           {{ 'home_your_browser_doesnot_support_video_tag' | translate }}
         </video>
       </div>
       <div class="video-img">
-        <img src="assets/icons/video-placeholder.png" />
+        <img ngSrc="assets/icons/video-placeholder.png" />
       </div>
     </div>
     <div class="form-block-data">
@@ -1360,11 +1448,16 @@
       </perfect-scrollbar>
     </div>
   </div>
-</kr-modal>
+</kr-modal> -->
 
 <!-- show/hide search gif -->
 <ng-container *ngIf="isShowSearchGif">
   <div class="loader-container-block">
-    <img class="normal-img" src="assets/icons/onboarding/search-gif.gif" />
+    <img
+      class="normal-img"
+      ngSrc="assets/icons/onboarding/search-gif.gif"
+      width="300"
+      height="300"
+    />
   </div>
 </ng-container>

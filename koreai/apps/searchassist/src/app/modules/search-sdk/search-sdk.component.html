@@ -1,0 +1,6 @@
+<div *ngIf="!bridgeDataInsights" [ngClass]="{'sdkInsideApp': showInsightFull}">
+   <app-insights  [data] = "bridgeDataInsights" [query]="queryText" [showInsightFull] = "showInsightFull"></app-insights>
+</div> 
+<!-- <div [hidden]="addNewResult">
+   <app-add-result [addNew] = "addNewResult" [query]="query" (closeResult) = closeResult($event) [structure]="structure" [searchRequestId]="searchRequestId"></app-add-result>
+</div> -->

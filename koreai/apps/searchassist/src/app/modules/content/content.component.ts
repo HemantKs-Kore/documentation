@@ -24,10 +24,9 @@ import {
   BlockUrl,
   scheduleOpts,
 } from '../../helpers/models/Crwal-advance.model';
-import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
+import { debounceTime } from 'rxjs/operators';
 import { DockStatusService } from '../../services/dockstatusService/dock-status.service';
 import { SchedulerComponent } from '../../components/scheduler/scheduler.component';
-import { EMPTY_SCREEN } from '../../modules/empty-screen/empty-screen.constants';
 import { ServiceInvokerService } from '@kore.apps/services/service-invoker.service';
 import { WorkflowService } from '@kore.apps/services/workflow.service';
 import { AppSelectionService } from '@kore.apps/services/app.selection.service';
@@ -36,6 +35,7 @@ import { InlineManualService } from '@kore.apps/services/inline-manual.service';
 import { MixpanelServiceService } from '@kore.apps/services/mixpanel-service.service';
 import { OnboardingComponent } from '../onboarding/onboarding.component';
 import { PlanUpgradeComponent } from '../pricing/shared/plan-upgrade/plan-upgrade.component';
+import { TranslationService } from '@kore.libs/shared/src';
 
 declare let require: any;
 const FileSaver = require('file-saver');
@@ -46,7 +46,6 @@ const FileSaver = require('file-saver');
   animations: [fadeInOutAnimation],
 })
 export class ContentComponent implements OnInit, OnDestroy {
-  emptyScreen = EMPTY_SCREEN.CONTENT;
   isPageLoader = false;
   loadingSliderContent = false;
   showSearch;
@@ -354,8 +353,12 @@ export class ContentComponent implements OnInit, OnDestroy {
     public inlineManual: InlineManualService,
     public dockService: DockStatusService,
     private appSelectionService: AppSelectionService,
-    public mixpanel: MixpanelServiceService
-  ) {}
+    public mixpanel: MixpanelServiceService,
+    private translationService: TranslationService
+  ) {
+    // Load translations for this module
+    this.translationService.loadModuleTranslations('content');
+  }
 
   ngOnInit(): void {
     this.selectedApp = this.workflowService.selectedApp();
