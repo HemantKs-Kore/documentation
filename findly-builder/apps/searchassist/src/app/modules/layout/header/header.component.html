@@ -42,7 +42,7 @@
             [ngClass]="{ active: menuItems?.sources?.includes(mainMenu) }"
             skipLocationChange
             routerLinkActive="active"
-            (click)="analyticsClick('/sources'); closeUserMetaTagsSlider()"
+            (click)="analyticsClick('/content'); closeUserMetaTagsSlider()"
           >
             <span>{{ 'header_sources' | translate }}</span>
           </div>
