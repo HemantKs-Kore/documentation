@@ -220,7 +220,7 @@ export class FaqsComponent implements OnInit, AfterViewInit, OnDestroy {
     private translationService: TranslationService
   ) {
     window.alert = function () {};
-    this.translationService.loadModuleTranslations('faqs');
+    this.translationService.loadModuleTranslations();
   }
 
   ngOnInit() {
