@@ -13,11 +13,4 @@ export const EMPTY_SCREEN = {
     TITLE_SEARCH: 'No results found',
     DESC_SEARCH: 'To adjusting your search to find what you’re looking for.',
   },
-  RESULT_RANKING: {
-    IMG_NAME: 'result-ranking.png',
-    TITLE: 'You haven’t added any queries yet!',
-    DESC: 'Results Ranking is an interactive and visual way to tune results. SearchAssist allows you to preview and customize the search results as per the business needs',
-    TITLE_SEARCH: 'No search results found',
-    DESC_SEARCH: 'We couldn’t find what you are looking for',
-  },
 };

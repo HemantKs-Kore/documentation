@@ -1,4 +1,3 @@
-import { EMPTY_SCREEN } from './../../modules/empty-screen/empty-screen.constants';
 import { Component, NgZone, OnDestroy, OnInit } from '@angular/core';
 import { formatDistanceToNow } from 'date-fns';
 import { ConfirmationDialogComponent } from '../../helpers/components/confirmation-dialog/confirmation-dialog.component';
@@ -10,6 +9,7 @@ import { NotificationService } from '@kore.apps/services/notification.service';
 import { AppSelectionService } from '@kore.apps/services/app.selection.service';
 import { InlineManualService } from '@kore.apps/services/inline-manual.service';
 import { SideBarService } from '@kore.apps/services/header.service';
+import { TranslationService } from '@kore.libs/shared/src';
 declare const $: any;
 
 @Component({
@@ -18,7 +18,6 @@ declare const $: any;
   styleUrls: ['./result-ranking.component.scss'],
 })
 export class ResultRankingComponent implements OnInit, OnDestroy {
-  emptyScreen = EMPTY_SCREEN.RESULT_RANKING;
   actionLogData: any;
   time;
   iconIndex;
@@ -68,8 +67,12 @@ export class ResultRankingComponent implements OnInit, OnDestroy {
     private appSelectionService: AppSelectionService,
     public inlineManual: InlineManualService,
     private headerService: SideBarService,
-    private zone: NgZone
-  ) {}
+    private zone: NgZone,
+    private translationService: TranslationService
+  ) {
+    // Load translations for this module
+    this.translationService.loadModuleTranslations('result-ranking');
+  }
   sdk_evenBind() {
     // $(document).off('click', '.kore-search-container-close-icon').on('click', '.kore-search-container-close-icon', () => {
     //   this.getcustomizeList(20, 0);
