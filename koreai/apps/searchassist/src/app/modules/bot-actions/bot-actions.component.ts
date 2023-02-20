@@ -6,15 +6,14 @@ import { KRModalComponent } from '../../shared/kr-modal/kr-modal.component';
 import { NgbPanelChangeEvent } from '@ng-bootstrap/ng-bootstrap';
 import { PerfectScrollbarComponent } from 'ngx-perfect-scrollbar';
 import { SliderComponentComponent } from '../../shared/slider-component/slider-component.component';
-import { EMPTY_SCREEN } from '../../modules/empty-screen/empty-screen.constants';
 import { WorkflowService } from '@kore.apps/services/workflow.service';
 import { ServiceInvokerService } from '@kore.apps/services/service-invoker.service';
 import { NotificationService } from '@kore.apps/services/notification.service';
 import { AuthService } from '@kore.apps/services/auth.service';
 import { AppSelectionService } from '@kore.apps/services/app.selection.service';
 import { InlineManualService } from '@kore.apps/services/inline-manual.service';
-import { environment } from '@kore.environment/environment';
 import { OnboardingComponent } from '../onboarding/onboarding.component';
+import { TranslationService } from '@kore.libs/shared/src';
 declare const $: any;
 @Component({
   selector: 'app-bot-actions',
@@ -22,7 +21,6 @@ declare const $: any;
   styleUrls: ['./bot-actions.component.scss'],
 })
 export class BotActionsComponent implements OnInit {
-  emptyScreen = EMPTY_SCREEN.ACTIONS;
   enableBtnDisable = false;
   disableBtnDisable = false;
   loadingContent = true;
@@ -108,8 +106,12 @@ export class BotActionsComponent implements OnInit {
     private appSelectionService: AppSelectionService,
     private router: Router,
     public inlineManual: InlineManualService,
-    public dialog: MatDialog
-  ) {}
+    public dialog: MatDialog,
+    private translationService: TranslationService
+  ) {
+    // Load translations for this module
+    this.translationService.loadModuleTranslations();
+  }
   checkUncheckTasks(task) {
     const selectedElements = $('.selectEachTaskInput:checkbox:checked');
     const allElements = $('.selectEachTaskInput');
