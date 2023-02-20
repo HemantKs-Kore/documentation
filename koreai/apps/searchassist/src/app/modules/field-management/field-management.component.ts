@@ -1,4 +1,3 @@
-import { EMPTY_SCREEN } from '../../modules/empty-screen/empty-screen.constants';
 import {
   Component,
   ElementRef,
@@ -10,7 +9,6 @@ import {
 import { MatDialog } from '@angular/material/dialog';
 import { ConfirmationDialogComponent } from '../../helpers/components/confirmation-dialog/confirmation-dialog.component';
 import { KRModalComponent } from '../../shared/kr-modal/kr-modal.component';
-import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import * as _ from 'underscore';
 import { of, interval, Subject, Subscription } from 'rxjs';
 import { startWith } from 'rxjs/operators';
@@ -25,6 +23,7 @@ import { AuthService } from '@kore.apps/services/auth.service';
 import { AppSelectionService } from '@kore.apps/services/app.selection.service';
 import { InlineManualService } from '@kore.apps/services/inline-manual.service';
 import { MixpanelServiceService } from '@kore.apps/services/mixpanel-service.service';
+import { TranslationService } from '@kore.libs/shared/src';
 
 declare const $: any;
 @Component({
@@ -35,7 +34,6 @@ declare const $: any;
 export class FieldManagementComponent
   implements OnInit, AfterViewInit, OnDestroy
 {
-  emptyScreen = EMPTY_SCREEN.INDICES_FIELD;
   showSearch = false;
   selectedApp;
   serachIndexId;
@@ -120,8 +118,11 @@ export class FieldManagementComponent
     public inlineManual: InlineManualService,
     private router: Router,
     public mixpanel: MixpanelServiceService,
-    private sanitizer: DomSanitizer
-  ) {}
+    private sanitizer: DomSanitizer,
+    private translationService: TranslationService
+  ) {
+    this.translationService.loadModuleTranslations('field-management');
+  }
 
   ngOnInit(): void {
     this.selectedApp = this.workflowService?.selectedApp();
