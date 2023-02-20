@@ -25,7 +25,6 @@ export class ParentBridgeService {
         if (e.data && e.data.action) {
           const data: any = e.data;
           this.parentEvent.next(data);
-          console.log('TOpic Guide ---', data);
           if (data?.payload?.url && data?.action == 'videoModal') {
             this.mixpanel?.postEvent('Topic - Play Topic Video', {
               'Video File URL': data?.payload?.url,
