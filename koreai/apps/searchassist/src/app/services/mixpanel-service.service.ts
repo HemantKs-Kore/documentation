@@ -34,7 +34,7 @@ excludedMailDomains = [ 'mailinator.com' , 'yopmail.com' , 'abc.com' , 'xyz.com'
 constructor() { 
 } /** */
 checkForEmailDomains = function(email) {
-  var valid = true;
+  let valid = true;
   this.excludedMailDomains.forEach(function (domain){
       if(email.includes(domain)){
           valid =  false; 
@@ -159,14 +159,14 @@ oneTimeProperties = (payload , userInfo) => {
   // const http: any = HttpClient;
     try {
         if (mixpanel && userInfo.email && window.appConfig.USAGE_ANALYTICS && window.appConfig.USAGE_ANALYTICS.ENABLE && window.appConfig.USAGE_ANALYTICS.MIX_PANEL && window.appConfig.USAGE_ANALYTICS.MIX_PANEL.ENABLE && window.appConfig.USAGE_ANALYTICS.MIX_PANEL.MIX_PANEL_TOKEN) {
-            let data = JSON.stringify([
+            const data = JSON.stringify([
                 {
                     "$token": window.appConfig.USAGE_ANALYTICS.MIX_PANEL.MIX_PANEL_TOKEN,
                     "$distinct_id": userInfo.email,
                     "$set_once": payload
                 }
             ]);
-            let settings = {
+            const settings = {
                 "async": true,
                 "crossDomain": true,
                 "url": "https://api.mixpanel.com/engage#profile-set-once",
@@ -201,12 +201,12 @@ oneTimeProperties = (payload , userInfo) => {
       // const service: any = ServiceInvokerService;
       // const http: any = HttpClient;
       try {
-          let PLGScoreAddition = this.PLGScoresevents[event];
+          const PLGScoreAddition = this.PLGScoresevents[event];
           if (!PLGScoreAddition) {
               return;
           }
           if (this.email && mixpanelEnv.hasOwnProperty('MIXPANEL_KEY') && mixpanelEnv['MIXPANEL_KEY']) {
-              var settings = {
+              const settings = {
                   "async": true,
                   "crossDomain": true,
                   "url": "https://api.mixpanel.com/engage#profile-numerical-add",
