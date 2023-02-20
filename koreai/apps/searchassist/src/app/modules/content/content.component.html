@@ -30,9 +30,9 @@
     <perfect-scrollbar class="scoll-empty-screen">
       <app-empty-screen
         class="empty-lg"
-        [title]="emptyScreen.TITLE"
-        [desc]="emptyScreen.DESC"
-        [imgName]="emptyScreen.IMG_NAME"
+        title="{{ 'TITLE' | translate }}"
+        desc="{{ 'DESC' | translate }}"
+        imgName="no-content.png"
       >
         <div class="action-buttons">
           <button
@@ -589,9 +589,9 @@
               class="empty-sm"
               [width]="100"
               [height]="100"
-              [title]="emptyScreen.TITLE_SEARCH"
-              [desc]="emptyScreen.DESC_SEARCH"
-              [imgName]="emptyScreen.IMG_NAME"
+              title="{{ 'NO_SEARCH_RESULTS_FOUND' | translate }}"
+              desc="{{ 'DESC_SEARCH' | translate }}"
+              imgName="no-content.png"
             >
             </app-empty-screen>
           </ng-template>
@@ -790,9 +790,9 @@
               [width]="100"
               [height]="100"
               *ngIf="searchSources"
-              [title]="emptyScreen.TITLE_SEARCH"
-              [desc]="emptyScreen.DESC_SEARCH"
-              [imgName]="emptyScreen.IMG_NAME"
+              title="{{ 'NO_SEARCH_RESULTS_FOUND' | translate }}"
+              desc="{{ 'DESC_SEARCH' | translate }}"
+              imgName="no-content.png"
             >
             </app-empty-screen>
           </ng-template>
@@ -2852,9 +2852,9 @@
                 !pagingData.length &&
                 !isPageDelete
               "
-              [title]="emptyScreen.TITLE_SEARCH"
-              [desc]="emptyScreen.DESC_SEARCH"
-              [imgName]="emptyScreen.IMG_NAME"
+              title="{{ 'NO_SEARCH_RESULTS_FOUND' | translate }}"
+              desc="{{ 'DESC_SEARCH' | translate }}"
+              imgName="no-content.png"
             >
             </app-empty-screen>
 
@@ -2862,9 +2862,9 @@
               class="empty-sm"
               [width]="100"
               [height]="100"
-              [title]="emptyScreen.TITLE_PAGES"
-              [desc]="emptyScreen.DESC_PAGES"
-              [imgName]="emptyScreen.IMG_NAME"
+              title="{{ 'TITLE_PAGES' | translate }}"
+              desc="{{ 'DESC_PAGES' | translate }}"
+              imgName="no-content.png"
               *ngIf="
                 !isSearchLoading &&
                 !pagingData.length &&

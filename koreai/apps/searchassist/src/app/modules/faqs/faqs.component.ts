@@ -1,10 +1,8 @@
 import {
   Component,
   OnInit,
-  Input,
   ViewChild,
   OnDestroy,
-  ChangeDetectionStrategy,
   ChangeDetectorRef,
   Inject,
   AfterViewInit,
@@ -13,8 +11,8 @@ import { fadeInOutAnimation } from '../../helpers/animations/animations';
 import { SliderComponentComponent } from '../../shared/slider-component/slider-component.component';
 import { Router } from '@angular/router';
 import * as _ from 'underscore';
-import { from, interval, Subject, Subscription } from 'rxjs';
-import { startWith, elementAt, filter, pluck } from 'rxjs/operators';
+import { interval, Subject, Subscription } from 'rxjs';
+import { startWith } from 'rxjs/operators';
 import { ConfirmationDialogComponent } from '../../helpers/components/confirmation-dialog/confirmation-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
 import { KRModalComponent } from '../../shared/kr-modal/kr-modal.component';
@@ -32,7 +30,6 @@ import {
 declare const $: any;
 import * as moment from 'moment';
 import { SideBarService } from './../../services/header.service';
-import { EMPTY_SCREEN } from '../../modules/empty-screen/empty-screen.constants';
 import { PdfAnnotationComponent } from '@kore.apps/components/annotool/components/pdf-annotation/pdf-annotation.component';
 import { WorkflowService } from '@kore.apps/services/workflow.service';
 import { ServiceInvokerService } from '@kore.apps/services/service-invoker.service';
@@ -42,6 +39,7 @@ import { AppSelectionService } from '@kore.apps/services/app.selection.service';
 import { MixpanelServiceService } from '@kore.apps/services/mixpanel-service.service';
 import { InlineManualService } from '@kore.apps/services/inline-manual.service';
 import { OnboardingComponent } from '../onboarding/onboarding.component';
+import { TranslationService } from '@kore.libs/shared/src';
 
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
@@ -55,7 +53,6 @@ import { OnboardingComponent } from '../onboarding/onboarding.component';
   ],
 })
 export class FaqsComponent implements OnInit, AfterViewInit, OnDestroy {
-  emptyScreen = EMPTY_SCREEN.FAQ;
   loadingSliderContent = false;
   serachIndexId;
   currentView = 'list';
@@ -219,9 +216,11 @@ export class FaqsComponent implements OnInit, AfterViewInit, OnDestroy {
     private appSelectionService: AppSelectionService,
     public mixpanel: MixpanelServiceService,
     @Inject('instance1') private faqServiceAlt: FaqsService,
-    @Inject('instance2') private faqServiceFollow: FaqsService
+    @Inject('instance2') private faqServiceFollow: FaqsService,
+    private translationService: TranslationService
   ) {
     window.alert = function () {};
+    this.translationService.loadModuleTranslations('faqs');
   }
 
   ngOnInit() {

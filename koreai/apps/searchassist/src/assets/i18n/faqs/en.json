@@ -1,0 +1,9 @@
+{
+  "TITLE": "You haven’t added any FAQs yet!",
+  "DESC": "FAQs is a form of source documents that contain solutions for the frequently asked questions. SearchAssist allows you to add FAQs in multiple ways to assist search users with their queries.",
+  "TITLE_NO_SOURCES": "No FAQ sources are available",
+  "DESC_NO_SOURCES": "FQA Sources added will be shown here",
+  "DESC_SEARCH": "We couldn’t find the FAQ sources you are looking for",
+  "TITLE_SEARCH_SOURCES": "No search results found",
+  "DESC_SEARCH_SOURCES": "We couldn’t find the FAQ you are looking for"
+}
