@@ -72,9 +72,9 @@
       class="empty-lg"
       [width]="117"
       [height]="142"
-      [title]="emptyScreen.TITLE_SEARCH"
-      [desc]="emptyScreen.DESC_SEARCH"
-      [imgName]="emptyScreen.IMG_NAME"
+      title="{{ 'NO_SEARCH_RESULTS_FOUND' | translate }}"
+      desc="{{ 'DESC_SEARCH' | translate }}"
+      imgName="connector.png"
     >
     </app-empty-screen>
   </ng-container>
@@ -451,7 +451,9 @@
                             </div>
                             <input
                               type="text"
-                              placeholder="{{'connectors_Enter_Host_URL_here' | translate}}"
+                              placeholder="{{
+                                'connectors_Enter_Host_URL_here' | translate
+                              }}"
                               class="input-text"
                               [(ngModel)]="configurationObj.hostUrl"
                               [ngClass]="{
@@ -516,7 +518,9 @@
                             </div>
                             <input
                               type="text"
-                              placeholder="{{'connectors_Enter_Host_URL_here' | translate}}"
+                              placeholder="{{
+                                'connectors_Enter_Host_URL_here' | translate
+                              }}"
                               class="input-text"
                               [(ngModel)]="configurationObj.hostDomainName"
                               [ngClass]="{
@@ -557,7 +561,9 @@
                                     ? 'text'
                                     : 'password'
                                 "
-                                placeholder="{{'connectors_enter_password_here' | translate}}"
+                                placeholder="{{
+                                  'connectors_enter_password_here' | translate
+                                }}"
                                 class="input-text"
                                 [(ngModel)]="configurationObj.password"
                                 [ngClass]="{
@@ -1117,9 +1123,9 @@
                             <app-empty-screen
                               [width]="117"
                               [height]="142"
-                              [title]="emptyScreen.TITLE_SEARCH_CONTENT"
-                              [desc]="emptyScreen.DESC_SEARCH_CONTENT"
-                              [imgName]="emptyScreen.IMG_NAME"
+                              title="{{ 'TITLE_SEARCH_CONTENT' | translate }}"
+                              desc="{{ 'DESC_SEARCH_CONTENT' | translate }}"
+                              imgName="connector.png"
                             >
                             </app-empty-screen>
                           </div>

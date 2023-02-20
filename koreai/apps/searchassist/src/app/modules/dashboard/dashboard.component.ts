@@ -10,12 +10,14 @@ import { Router } from '@angular/router';
 import { Moment } from 'moment';
 import * as moment from 'moment-timezone';
 import { DaterangepickerDirective } from 'ngx-daterangepicker-material';
-import { Subscription } from 'rxjs';
+import { filter, Subscription } from 'rxjs';
 import { WorkflowService } from '@kore.apps/services/workflow.service';
 import { ServiceInvokerService } from '@kore.apps/services/service-invoker.service';
 import { AppSelectionService } from '@kore.apps/services/app.selection.service';
 import { NotificationService } from '@kore.apps/services/notification.service';
 import { SideBarService } from '@kore.apps/services/header.service';
+import { Store } from '@ngrx/store';
+import { selectSearchExperiance } from '@kore.apps/store/app.selectors';
 
 declare const $: any;
 @Component({
@@ -112,7 +114,8 @@ export class DashboardComponent implements OnInit, OnDestroy {
     private router: Router,
     public headerService: SideBarService,
     private appSelectionService: AppSelectionService,
-    private notificationService: NotificationService
+    private notificationService: NotificationService,
+    private store: Store
   ) {}
   indexConfigs: any = []; //added on 17/01
 
@@ -121,6 +124,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
     //this.indexConfigs = this.appSelectionService.appSelectedConfigs;
     this.serachIndexId = this.selectedApp?.searchIndexes[0]?._id;
     this.getIndexPipeline();
+    this.getSearchExperience();
     //this.appselection();
 
     /*added 96 to 107 on 17/01 */
@@ -146,7 +150,17 @@ export class DashboardComponent implements OnInit, OnDestroy {
       this.appSelectionService.appSelectedConfigs.subscribe((res) => {
         this.indexPipelineId = this.workflowService.selectedIndexPipeline();
       });
-    this.searchExperienceConfig = this.headerService.searchConfiguration;
+  }
+
+  getSearchExperience() {
+    const searchExperianceConfigSub = this.store
+      .select(selectSearchExperiance)
+      .pipe(filter((res) => !!res))
+      .subscribe((res) => {
+        this.searchExperienceConfig = res;
+      });
+
+    this.appSubscription?.add(searchExperianceConfigSub);
   }
 
   getIndexPipeline() {

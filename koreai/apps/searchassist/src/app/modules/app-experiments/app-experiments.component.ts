@@ -6,20 +6,19 @@ import * as moment from 'moment';
 declare const $: any;
 import { ConfirmationDialogComponent } from '../../helpers/components/confirmation-dialog/confirmation-dialog.component';
 import { Subscription } from 'rxjs';
-import { EMPTY_SCREEN } from '../../modules/empty-screen/empty-screen.constants';
 import { WorkflowService } from '@kore.apps/services/workflow.service';
 import { AppSelectionService } from '@kore.apps/services/app.selection.service';
 import { InlineManualService } from '@kore.apps/services/inline-manual.service';
 import { ServiceInvokerService } from '@kore.apps/services/service-invoker.service';
 import { NotificationService } from '@kore.apps/services/notification.service';
 import { MixpanelServiceService } from '@kore.apps/services/mixpanel-service.service';
+import { TranslationService } from '@kore.libs/shared/src';
 @Component({
   selector: 'app-app-experiments',
   templateUrl: './app-experiments.component.html',
   styleUrls: ['./app-experiments.component.scss'],
 })
 export class AppExperimentsComponent implements OnInit, OnDestroy {
-  emptyScreen = EMPTY_SCREEN.ANALYTICS;
   addExperimentsRef: any;
   selectedApp: any;
   serachIndexId: any;
@@ -105,8 +104,12 @@ export class AppExperimentsComponent implements OnInit, OnDestroy {
     public dialog: MatDialog,
     private appSelectionService: AppSelectionService,
     public inlineManual: InlineManualService,
-    public mixpanel: MixpanelServiceService
-  ) {}
+    public mixpanel: MixpanelServiceService,
+    private translationService: TranslationService
+  ) {
+    // Load translations for this module
+    this.translationService.loadModuleTranslations();
+  }
   async ngOnInit() {
     this.selectedApp = this.workflowService.selectedApp();
     this.serachIndexId = this.selectedApp?.searchIndexes[0]._id;

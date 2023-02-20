@@ -157,11 +157,11 @@
     >
       <app-empty-screen
         class="empty-lg"
-        [title]="emptyScreen.TITLE"
-        [desc]="emptyScreen.DESC"
+        title="{{ 'TITLE' | translate }}"
+        desc="{{ 'DESC' | translate }}"
         [width]="204"
         [height]="74"
-        [imgName]="emptyScreen.IMG_NAME"
+        imgName="sammy-steps.png"
       >
         <div class="action-buttons">
           <button
@@ -1343,7 +1343,9 @@
                     class="col-6 mb-2"
                     *ngIf="selectedStage.type === 'snippet_extraction'"
                   >
-                    <div class="label-text">Source Title<sup class="field-mandatory">*</sup></div>
+                    <div class="label-text">
+                      Source Title<sup class="field-mandatory">*</sup>
+                    </div>
                     <div class="kr-sg-dropdowns" ngbDropdown>
                       <div class="dropdown dropdown-open">
                         <button
@@ -1410,7 +1412,9 @@
                     class="col-6 mb-2"
                     *ngIf="selectedStage.type === 'snippet_extraction'"
                   >
-                    <div class="label-text">Source URL<sup class="field-mandatory">*</sup></div>
+                    <div class="label-text">
+                      Source URL<sup class="field-mandatory">*</sup>
+                    </div>
                     <div class="kr-sg-dropdowns" ngbDropdown>
                       <div class="dropdown dropdown-open">
                         <button
@@ -1855,7 +1859,9 @@
                 class="col-6 mb-2"
                 *ngIf="selectedStage.type === 'snippet_extraction'"
               >
-                <div class="label-text">Source Title<sup class="field-mandatory">*</sup></div>
+                <div class="label-text">
+                  Source Title<sup class="field-mandatory">*</sup>
+                </div>
                 <div class="kr-sg-dropdowns" ngbDropdown>
                   <div class="dropdown dropdown-open">
                     <button
@@ -1922,7 +1928,9 @@
                 class="col-6 mb-2"
                 *ngIf="selectedStage.type === 'snippet_extraction'"
               >
-                <div class="label-text">Source URL<sup class="field-mandatory">*</sup></div>
+                <div class="label-text">
+                  Source URL<sup class="field-mandatory">*</sup>
+                </div>
                 <div class="kr-sg-dropdowns" ngbDropdown>
                   <div class="dropdown dropdown-open">
                     <button
@@ -2810,7 +2818,6 @@
     </div>
   </ng-container>
 </kr-modal>
-
 
 <!--Plan upgrade component -->
 <app-plan-upgrade #plans></app-plan-upgrade>
