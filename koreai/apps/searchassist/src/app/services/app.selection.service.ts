@@ -168,7 +168,7 @@ export class AppSelectionService {
         this.redirectToLogin();
       }
       // eslint-disable-next-line no-empty
-    } catch (e) {}
+    } catch (e) { }
     return previOusState;
   }
   private redirectToLogin() {
@@ -299,7 +299,7 @@ export class AppSelectionService {
 
   //get number of days difference method
   getDiffNumberOfDays(item) {
-    return Math.abs(differenceInDays(new Date(), parseISO(item?.endDate)));
+    return Math.abs(differenceInDays(parseISO(item?.startDate), parseISO(item?.endDate)));
   }
 
   //get all plans in pricing
@@ -539,5 +539,12 @@ export class AppSelectionService {
         }
       );
     });
+  }
+
+  //validate input text has tags
+  validateInputTags(text) {
+    const isMatch = text?.match(/([\<])([^\>]{1,})*([\>])/i);
+    if (isMatch !== null) this.notificationService.notify('Tags are not allowed', 'error');
+    return (isMatch === null) ? true : false;
   }
 }

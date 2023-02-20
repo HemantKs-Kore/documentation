@@ -238,10 +238,12 @@ export class SnippetComponent implements OnInit, OnDestroy {
   //open or close consentShareModel popup
   openCloseConsentModal(type) {
     if (type === 'open') {
-      if (this.openAIObj.isOpenAIFirst) {
-        this.consentShareModelPopRef = this.consentShareModel.open();
-      } else {
-        this.saveOpenAIKey();
+      if (this.appSelectionService.validateInputTags(this.openAIObj.openAIKey)) {
+        if (this.openAIObj.isOpenAIFirst) {
+          this.consentShareModelPopRef = this.consentShareModel.open();
+        } else {
+          this.saveOpenAIKey();
+        }
       }
     } else if (type === 'close') {
       this.isLoading = false;
