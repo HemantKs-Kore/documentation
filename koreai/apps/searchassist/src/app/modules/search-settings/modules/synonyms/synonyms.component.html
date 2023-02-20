@@ -549,9 +549,9 @@
           <ng-template #noSynonyms>
             <app-empty-screen
               *ngIf="synonymSearch"
-              [title]="emptyScreen.TITLE_SEARCH"
-              [desc]="emptyScreen.DESC_SEARCH"
-              [imgName]="emptyScreen.IMG_NAME"
+              title="{{ 'NO_SEARCH_RESULTS_FOUND' | translate }}"
+              desc="{{ 'DESC_SEARCH' | translate }}"
+              imgName="synonyms.png"
               [width]="150"
               [height]="150"
             >
@@ -564,9 +564,9 @@
 
   <ng-template #noSynonymRecords>
     <app-empty-screen
-      [title]="emptyScreen.TITLE"
-      [desc]="emptyScreen.DESC"
-      [imgName]="emptyScreen.IMG_NAME"
+      title="{{ 'TITLE' | translate }}"
+      desc="{{ 'DESC' | translate }}"
+      imgName="synonyms.png"
       [width]="150"
       [height]="150"
     >
