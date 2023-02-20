@@ -153,21 +153,19 @@ export class ActionsComponent implements OnInit, OnDestroy {
                   this.associatedBots.push(element);
                 }
                 if (this.streamId == element._id) {
-                  if (this.loadingBotContent1 == true) {
-                    this.LinkABot = element._id;
-                    this.loadingBotContent = true;
-                    this.botLinked = true;
+                  this.loadingBotContent1 = true;
+                  this.LinkABot = element._id;
+                  this.loadingBotContent = true;
+                  this.botLinked = true;
 
-                    // this.linkedBotID = element._id
-                    // if(this.linkedBotID == element._id){
-                    // }
-                  }
+                  // this.linkedBotID = element._id
+                  // if(this.linkedBotID == element._id){
+                  // }
                 } else if (this.streamId == null) {
-                  if (this.loadingBotContent == true) {
-                    this.LinkABot != element._id;
-                    this.botLinked = false;
-                    this.loader = false;
-                  }
+                  this.loadingBotContent = true;
+                  this.LinkABot != element._id;
+                  this.botLinked = false;
+                  this.loader = false;
                 }
               },
               (errRes) => {
