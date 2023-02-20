@@ -13,11 +13,6 @@ export const EMPTY_SCREEN = {
     TITLE_SEARCH: 'No results found',
     DESC_SEARCH: 'To adjusting your search to find what you’re looking for.',
   },
-  INDICES_WORKBENCH: {
-    IMG_NAME: 'sammy-steps.png',
-    TITLE: 'No Stages Added!',
-    DESC: 'Transform the incoming data into optimized documents using Index Pipeline Stages.',
-  },
   RESULT_RANKING: {
     IMG_NAME: 'result-ranking.png',
     TITLE: 'You haven’t added any queries yet!',
