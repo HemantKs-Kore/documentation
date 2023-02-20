@@ -3,14 +3,13 @@ import { MatDialog } from '@angular/material/dialog';
 import { ConfirmationDialogComponent } from '../../helpers/components/confirmation-dialog/confirmation-dialog.component';
 import { KRModalComponent } from '../../shared/kr-modal/kr-modal.component';
 import { SliderComponentComponent } from '../../shared/slider-component/slider-component.component';
-import { Router } from '@angular/router';
-import { EMPTY_SCREEN } from '../../modules/empty-screen/empty-screen.constants';
 import { AppSelectionService } from '@kore.apps/services/app.selection.service';
 import { NotificationService } from '@kore.apps/services/notification.service';
 import { ServiceInvokerService } from '@kore.apps/services/service-invoker.service';
 import { WorkflowService } from '@kore.apps/services/workflow.service';
 import { OnboardingComponent } from '../onboarding/onboarding.component';
 import { PlanUpgradeComponent } from '../pricing/shared/plan-upgrade/plan-upgrade.component';
+import { TranslationService } from '@kore.libs/shared/src';
 declare const $: any;
 @Component({
   selector: 'app-connectors',
@@ -18,7 +17,6 @@ declare const $: any;
   styleUrls: ['./connectors.component.scss'],
 })
 export class ConnectorsComponent implements OnInit {
-  emptyScreen = EMPTY_SCREEN.CONNECTORS;
   Connectors = [
     {
       connector_name: 'Confluence (Server)',
@@ -138,8 +136,10 @@ export class ConnectorsComponent implements OnInit {
     private workflowService: WorkflowService,
     public dialog: MatDialog,
     private appSelectionService: AppSelectionService,
-    private router: Router
-  ) { }
+    private translationService: TranslationService
+  ) {
+    this.translationService.loadModuleTranslations();
+  }
 
   async ngOnInit() {
     this.selectedApp = this.workflowService.selectedApp();
@@ -598,10 +598,12 @@ export class ConnectorsComponent implements OnInit {
       height: 'auto',
       panelClass: 'delete-popup',
       data: {
-        newTitle: `${data?.isActive ? 'Enable' : 'Disable'
-          } the connected source?`,
-        body: `This can be ${data?.isActive ? 'enabled' : 'disabled'
-          } any point of time, configuration will remain intact.`,
+        newTitle: `${
+          data?.isActive ? 'Enable' : 'Disable'
+        } the connected source?`,
+        body: `This can be ${
+          data?.isActive ? 'enabled' : 'disabled'
+        } any point of time, configuration will remain intact.`,
         buttons: [
           { key: 'yes', label: 'Proceed', type: 'danger' },
           { key: 'no', label: 'Cancel' },

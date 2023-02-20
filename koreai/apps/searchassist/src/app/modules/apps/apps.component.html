@@ -369,9 +369,9 @@
                     *ngIf="searchApp"
                     [width]="170"
                     [height]="170"
-                    [title]="emptyScreen.TITLE_SEARCH"
-                    [desc]="emptyScreen.DESC_SEARCH"
-                    [imgName]="emptyScreen.IMG_NAME"
+                    title="{{ 'NO_SEARCH_RESULTS_FOUND' | translate }}"
+                    desc="{{ 'DESC_SEARCH' | translate }}"
+                    imgName="application-dashboard.png"
                   >
                   </app-empty-screen>
                 </div>
@@ -385,9 +385,9 @@
                   <app-empty-screen
                     [width]="170"
                     [height]="170"
-                    [title]="emptyScreen.TITLE_NOAPP"
-                    [desc]="emptyScreen.DESC_NOAPP"
-                    [imgName]="emptyScreen.IMG_NAME"
+                    title="{{ 'TITLE_NOAPP' | translate }}"
+                    desc="{{ 'DESC_NOAPP' | translate }}"
+                    imgName="application-dashboard.png"
                   >
                   </app-empty-screen>
                 </ng-container>
@@ -395,9 +395,9 @@
                   <app-empty-screen
                     [width]="170"
                     [height]="170"
-                    [title]="emptyScreen.TITLE_SHARED"
-                    [desc]="emptyScreen.DESC_SHARED"
-                    [imgName]="emptyScreen.IMG_NAME"
+                    title="{{ 'TITLE_SHARED' | translate }}"
+                    desc="{{ 'DESC_SHARED' | translate }}"
+                    imgName="application-dashboard.png"
                   >
                   </app-empty-screen>
                 </ng-template>

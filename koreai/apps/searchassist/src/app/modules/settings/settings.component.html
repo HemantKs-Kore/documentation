@@ -174,9 +174,9 @@
         class="empty-lg"
         [width]="150"
         [height]="150"
-        [title]="emptyScreen.TITLE_SEARCH_CHANNELS"
-        [desc]="emptyScreen.DESC_SEARCH_CHANNELS"
-        [imgName]="emptyScreen.IMG_NAME"
+        title="{{ 'NO_SEARCH_RESULTS_FOUND' | translate }}"
+        desc="{{ 'DESC_SEARCH_CHANNELS' | translate }}"
+        imgName="no-content.png"
       >
       </app-empty-screen>
     </ng-template>

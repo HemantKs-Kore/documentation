@@ -4,7 +4,6 @@ import { CommonModule } from '@angular/common';
 import { TeamManagementRoutingModule } from './team-management-routing.module';
 import { TeamManagementComponent } from './team-management.component';
 import { KrModalModule } from '../../shared/kr-modal/kr-modal.module';
-import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {
@@ -14,10 +13,8 @@ import {
 import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
 import { MatChipsModule } from '@angular/material/chips';
 import { SharedPipesModule } from '@kore.apps/helpers/filters/shared-pipes.module';
-import { HttpClient } from '@angular/common/http';
 import { EmptyScreenModule } from '../empty-screen/empty-screen.module';
-import { createTranslateLoader } from '@kore.shared/*';
-import { Router } from '@angular/router';
+import { TranslateModule } from '@ngx-translate/core';
 
 @NgModule({
   declarations: [TeamManagementComponent],

@@ -29,6 +29,7 @@ import { EmptyScreenModule } from '../empty-screen/empty-screen.module';
     MatDialogModule,
     EmptyScreenModule,
     NgbTooltipModule,
+    TranslateModule.forChild(),
   ],
 })
 export class SettingsModule {}

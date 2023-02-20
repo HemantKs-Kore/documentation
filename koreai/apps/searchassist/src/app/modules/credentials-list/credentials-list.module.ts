@@ -25,6 +25,7 @@ import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
     EmptyScreenModule,
     FormsModule,
     NgbTooltipModule,
+    TranslateModule.forChild(),
   ],
 })
 export class CredentialsListModule {}

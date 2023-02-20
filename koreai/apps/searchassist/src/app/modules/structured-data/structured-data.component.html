@@ -476,9 +476,9 @@
       <app-empty-screen
         class="empty-lg"
         *ngIf="noItems && !searchText && !appliedAdvancedSearch?.rules?.length"
-        [title]="emptyScreen.TITLE"
-        [desc]="emptyScreen.DESC"
-        [imgName]="emptyScreen.IMG_NAME"
+        title="{{ 'TITLE' | translate }}"
+        desc="{{ 'DESC' | translate }}"
+        imgName="structured-data.png"
       >
         <div class="action-buttons">
           <button
@@ -502,9 +502,9 @@
         [width]="120"
         [height]="120"
         *ngIf="noItems && (searchText || appliedAdvancedSearch?.rules?.length)"
-        [title]="emptyScreen.TITLE_SEARCH"
-        [desc]="emptyScreen.DESC_SEARCH"
-        [imgName]="emptyScreen.IMG_NAME"
+        title="{{ 'NO_SEARCH_RESULTS_FOUND' | translate }}"
+        desc="{{ 'DESC_SEARCH' | translate }}"
+        imgName="structured-data.png"
       >
       </app-empty-screen>
 

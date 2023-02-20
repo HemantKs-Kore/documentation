@@ -11,8 +11,8 @@ import { MatDialog } from '@angular/material/dialog';
 import { AuthService } from '@kore.services/auth.service';
 import { AppSelectionService } from '@kore.services/app.selection.service';
 import { Subscription } from 'rxjs';
-import { EMPTY_SCREEN } from '../../empty-screen/empty-screen.constants';
 import { format } from 'date-fns';
+import { TranslationService } from '@kore.libs/shared/src';
 @Component({
   selector: 'app-usage-logs',
   templateUrl: './usage-logs.component.html',
@@ -20,7 +20,6 @@ import { format } from 'date-fns';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class UsageLogsComponent implements OnInit {
-  emptyScreen = EMPTY_SCREEN.MANAGE_USAGE_LOGS;
   usageLogs = [];
   queryTypeArr = ['all'];
   resultsArr = ['all'];
@@ -53,8 +52,12 @@ export class UsageLogsComponent implements OnInit {
     public dialog: MatDialog,
     public authService: AuthService,
     private appSelectionService: AppSelectionService,
-    private cd: ChangeDetectorRef
-  ) {}
+    private cd: ChangeDetectorRef,
+    private translationService: TranslationService
+  ) {
+    // Load translations for this module
+    this.translationService.loadModuleTranslations('usage-log');
+  }
 
   ngOnInit(): void {
     this.selectedApp = this.workflowService?.selectedApp();
