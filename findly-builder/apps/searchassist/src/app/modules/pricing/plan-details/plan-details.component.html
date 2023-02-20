@@ -325,9 +325,9 @@
                     class="plan-progress-bar-count"
                     *ngIf="usageDetails?.searchQueriesLimit"
                   >
-                    {{ usageDetails?.searchQueriesUsed }}
+                    {{ usageDetails?.searchQueriesUsed | valueFormat }}
                     <span class="total-count"
-                      >/ {{ usageDetails?.searchQueriesLimit }}</span
+                      >/ {{ usageDetails?.searchQueriesLimit | valueFormat }}</span
                     >
                   </div>
                 </div>
@@ -387,9 +387,9 @@
                     class="plan-progress-bar-count"
                     *ngIf="usageDetails?.overageSearchLimit"
                   >
-                    {{ usageDetails?.overageSearchCount }}
+                    {{ usageDetails?.overageSearchCount | valueFormat}}
                     <span class="total-count"
-                      >/ {{ usageDetails?.overageSearchLimit }}</span
+                      >/ {{ usageDetails?.overageSearchLimit | valueFormat }}</span
                     >
                   </div>
                 </div>
