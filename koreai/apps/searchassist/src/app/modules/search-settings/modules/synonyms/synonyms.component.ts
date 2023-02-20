@@ -1,4 +1,3 @@
-import { EMPTY_SCREEN } from './../../../empty-screen/empty-screen.constants';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ENTER, COMMA } from '@angular/cdk/keycodes';
 import { MatChipInputEvent } from '@angular/material/chips';
@@ -15,6 +14,7 @@ import { InlineManualService } from '@kore.apps/services/inline-manual.service';
 import { Store } from '@ngrx/store';
 import { ConfirmationDialogComponent } from '@kore.apps/helpers/components/confirmation-dialog/confirmation-dialog.component';
 import { selectAppIds } from '@kore.apps/store/app.selectors';
+import { TranslationService } from '@kore.libs/shared/src';
 declare const $: any;
 
 @Component({
@@ -23,7 +23,6 @@ declare const $: any;
   styleUrls: ['./synonyms.component.scss'],
 })
 export class SynonymsComponent implements OnInit, OnDestroy {
-  emptyScreen = EMPTY_SCREEN.INDICES_SYNONYMS;
   loadImageText = false;
   loadingContent1: boolean;
   selectedApp: any = {};
@@ -104,14 +103,14 @@ export class SynonymsComponent implements OnInit, OnDestroy {
     public workflowService: WorkflowService,
     private service: ServiceInvokerService,
     private notificationService: NotificationService,
-    private authService: AuthService,
-    private router: Router,
     public dialog: MatDialog,
     private appSelectionService: AppSelectionService,
     public inlineManual: InlineManualService,
-    private store: Store
+    private store: Store,
+    private translationService: TranslationService
   ) {
     this.synonymObj = new SynonymClass();
+    this.translationService.loadModuleTranslations('synonyms');
   }
 
   ngOnInit() {

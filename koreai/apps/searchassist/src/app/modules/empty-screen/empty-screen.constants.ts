@@ -13,13 +13,6 @@ export const EMPTY_SCREEN = {
     TITLE_SEARCH: 'No results found',
     DESC_SEARCH: 'To adjusting your search to find what you’re looking for.',
   },
-  INDICES_SYNONYMS: {
-    IMG_NAME: 'synonyms.png',
-    TITLE: 'You have not added any synonyms yet!',
-    DESC: 'Synonyms are a set of equivalent words that are considered to expand search queries to improve findability. SearchAssist allows you to define synonym & one-way synonym.',
-    TITLE_SEARCH: 'No search results found',
-    DESC_SEARCH: 'We couldn’t find what you are looking for',
-  },
   INDICES_WORKBENCH: {
     IMG_NAME: 'sammy-steps.png',
     TITLE: 'No Stages Added!',
