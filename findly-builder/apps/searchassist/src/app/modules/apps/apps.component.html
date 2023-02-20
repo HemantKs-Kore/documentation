@@ -360,6 +360,32 @@
                       />
                       <span>Shared App</span>
                     </div>
+                    <div
+                      class="plan-type-icon"
+                      [ngbTooltip]="filter?.tooltipPlanText"
+                      container="body"
+                      placement="bottom"
+                      tooltipClass="test-icon-tooltip"
+                    >
+                      <span
+                        class="si-trail icon-trail"
+                        *ngIf="(filter?.planName | lowercase) === 'free'"
+                      ></span>
+                      <img
+                        src="assets/images/pricing-plan/new-plan-pricing-img/{{
+                          (filter?.planName | lowercase)
+                            ? 'standard'
+                            : 'enterprise'
+                        }}-plan-icon.svg"
+                        alt="standard plan"
+                        class="plan-type-img"
+                        *ngIf="
+                          ['standard', 'enterprise', 'custom'].includes(
+                            filter?.planName | lowercase
+                          )
+                        "
+                      />
+                    </div>
                   </div>
                 </div>
               </ng-container>

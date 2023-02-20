@@ -638,6 +638,24 @@
             padding-left: 7px;
           }
         }
+        .plan-type-icon {
+          position: absolute;
+          bottom: 12px;
+          left: 15px;
+          .plan-type-img,
+          .icon-trail {
+            padding: 3px;
+            line-height: 12px;
+            background: #fff;
+            border: 1px solid #ffffff;
+            border-radius: 10px;
+            &:hover {
+              background: #f7f9fa;
+              border: 1px solid #e3e4e6;
+              border-radius: 10px;
+            }
+          }
+        }
       }
     }
 
