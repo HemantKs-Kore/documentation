@@ -37,9 +37,9 @@
     <perfect-scrollbar class="empty-scroll">
       <app-empty-screen
         class="empty-lg"
-        [title]="emptyScreen.TITLE"
-        [desc]="emptyScreen.DESC"
-        [imgName]="emptyScreen.IMG_NAME"
+        title="{{ 'TITLE' | translate }}"
+        desc="{{ 'DESC' | translate }}"
+        imgName="no-bot-actions.svg"
         (isImgLoading)="isEmptyScreenLoading($event)"
       >
         <div class="action-buttons">
@@ -451,9 +451,9 @@
             class="empty-sm"
             [width]="100"
             [height]="100"
-            [title]="emptyScreen.TITLE_SEARCH"
-            [desc]="emptyScreen.DESC_SEARCH"
-            [imgName]="emptyScreen.IMG_NAME"
+            title="{{ 'NO_SEARCH_RESULTS_FOUND' | translate }}"
+            desc="{{ 'DESC_SEARCH' | translate }}"
+            imgName="no-bot-actions.svg"
           >
           </app-empty-screen>
         </ng-template>
@@ -482,7 +482,7 @@
         <div class="kr-sg-input-text">
           <input
             type="text"
-            placeholder="{{'sa_search' | translate}}"
+            placeholder="{{ 'sa_search' | translate }}"
             maxlength="60"
             [(ngModel)]="searchAssociatedBots"
             name="searchAssociatedBots"
@@ -574,9 +574,9 @@
               class="empty-bot"
               [width]="100"
               [height]="100"
-              [title]="emptyScreen.TITLE_SEARCH"
-              [desc]="emptyScreen.DESC_SEARCH"
-              [imgName]="emptyScreen.IMG_NAME"
+              title="{{ 'NO_SEARCH_RESULTS_FOUND' | translate }}"
+              desc="{{ 'DESC_SEARCH' | translate }}"
+              imgName="no-bot-actions.svg"
             >
             </app-empty-screen>
           </ng-template>

@@ -13,12 +13,10 @@ import { AppSelectionService } from './../../services/app.selection.service';
 import { PerfectScrollbarComponent } from 'ngx-perfect-scrollbar';
 import { SliderComponentComponent } from '../../shared/slider-component/slider-component.component';
 import { format } from 'date-fns';
-import { EMPTY_SCREEN } from '../../modules/empty-screen/empty-screen.constants';
-import { AuthService } from '@kore.apps/services/auth.service';
 import { ServiceInvokerService } from '@kore.apps/services/service-invoker.service';
 import { WorkflowService } from '@kore.apps/services/workflow.service';
 import { OnboardingComponent } from '../onboarding/onboarding.component';
-import { LazyLoadService } from '@kore.libs/shared/src';
+import { LazyLoadService, TranslationService } from '@kore.libs/shared/src';
 import '../../../assets/js/codemirror.js';
 
 @Component({
@@ -27,7 +25,6 @@ import '../../../assets/js/codemirror.js';
   styleUrls: ['./structured-data.component.scss'],
 })
 export class StructuredDataComponent implements OnInit, OnDestroy {
-  emptyScreen = EMPTY_SCREEN.STRUCTURED_DATA;
   addStructuredDataModalPopRef: any;
   selectedSourceType: any;
   isLoading1: boolean;
@@ -147,15 +144,17 @@ export class StructuredDataComponent implements OnInit, OnDestroy {
     public workflowService: WorkflowService,
     private service: ServiceInvokerService,
     private notificationService: NotificationService,
-    private authService: AuthService,
     private modalService: NgbModal,
     public headerService: SideBarService,
     private router: Router,
     public dialog: MatDialog,
     public inlineManual: InlineManualService,
     private appSelectionService: AppSelectionService,
-    private lazyLoadService: LazyLoadService
-  ) {}
+    private lazyLoadService: LazyLoadService,
+    private translationService: TranslationService
+  ) {
+    this.translationService.loadModuleTranslations();
+  }
 
   ngOnInit(): void {
     this.selectedApp = this.workflowService.selectedApp();

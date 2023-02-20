@@ -38,12 +38,12 @@ export class AppUrlsService {
   }
   public redirectToLogin() {
     const redirectUrl = this.getLoginRedirectURL();
-    window.location.href = redirectUrl;
+    //window.location.href = redirectUrl;
   }
 
   public redirectToLoginBotStore() {
     // let _redirectUrl=this.marketURL()+'/?showLogin=true&hideSSOButtons=true&hideResourcesPageLink=true';
     // window.location.href=_redirectUrl;
-    this.redirectToLogin();
+    //this.redirectToLogin();
   }
 }

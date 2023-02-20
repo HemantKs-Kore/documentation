@@ -7,7 +7,7 @@
 install plugins recommanded by vscode (Findly/koreai/.vscode/extensions.json), and follow the suggestions
 any new feature should be lazy loaded ( as of now all screens are lazy loaded )
 api calls should not be duplicated ( refer apps.component, no further apps call once its fetched )
-any static constants should be internatinalized and lazy loaded ( refer apps.component)
+any static constants should be internatinalized and lazy loaded ( refer apps.component, or empty-screen content translation)
 use global style as much as possible, override in component if required
 images should be lazy loaded ( refer apps.component )
 ==============================================================================================================
@@ -27,7 +27,7 @@ images should be lazy loaded ( refer apps.component )
     "node_modules/rangy/lib/rangy-selectionsaverestore.js",
     "node_modules/rangy/lib/rangy-serializer.js",
     "node_modules/rangy/lib/rangy-textrange.js"
-6.                        "apps/searchassist/src/app/helpers/lib/assets/marked.min.js", removed as not used anywhere as of now.
+6.                         "apps/searchassist/src/app/helpers/lib/assets/marked.min.js", removed as not used anywhere as of now.
 7.  Styling
 
 - Global style for the app

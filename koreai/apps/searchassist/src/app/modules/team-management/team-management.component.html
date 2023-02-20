@@ -242,9 +242,9 @@
               class="empty-sm"
               [width]="120"
               [height]="108"
-              [title]="emptyScreen.TITLE_SEARCH"
-              [desc]="emptyScreen.DESC_SEARCH"
-              [imgName]="emptyScreen.IMG_NAME"
+              title="{{ 'NO_SEARCH_RESULTS_FOUND' | translate }}"
+              desc="{{ 'DESC_SEARCH' | translate }}"
+              imgName="team.png"
             >
             </app-empty-screen>
           </ng-template>
