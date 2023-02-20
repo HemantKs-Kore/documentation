@@ -1,13 +1,4 @@
 export const EMPTY_SCREEN = {
-  APP: {
-    IMG_NAME: 'application-dashboard.png',
-    TITLE_SHARED: 'You have no shared apps yet!',
-    DESC_SHARED: 'Apps shared with you to collaborate will be shown here',
-    TITLE_NOAPP: 'You have no apps yet!',
-    DESC_NOAPP: 'Apps created by you will be shown here',
-    TITLE_SEARCH: 'No search results found',
-    DESC_SEARCH: 'We couldn’t find the app you are looking for',
-  },
   CONTENT: {
     IMG_NAME: 'no-content.png',
     TITLE: 'You haven’t added any content data yet!',
