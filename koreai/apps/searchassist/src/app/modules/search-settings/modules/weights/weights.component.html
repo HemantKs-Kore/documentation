@@ -137,7 +137,7 @@
                 <app-range-slider
                   id="sa_weights_slider{{ i }}"
                   [customClass]="'weightsSlider'"
-                  [tooltipPosition]="i==0?'bottom':'top'" 
+                  [tooltipPosition]="i === 0 ? 'bottom' : 'top'"
                   [allData]="weightModal.sliderObj"
                   (valueEvent)="valueEvent($event, weightModal)"
                 ></app-range-slider>
