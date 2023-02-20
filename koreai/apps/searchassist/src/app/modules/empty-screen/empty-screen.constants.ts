@@ -13,11 +13,6 @@ export const EMPTY_SCREEN = {
     TITLE_SEARCH: 'No results found',
     DESC_SEARCH: 'To adjusting your search to find what you’re looking for.',
   },
-  INDICES_FIELD: {
-    IMG_NAME: 'field.png',
-    TITLE_SEARCH_FIELD: 'No search results found',
-    DESC_SEARCH_FIELD: 'We couldn’t find the index fields you are looking for',
-  },
   INDICES_TRAITS: {
     IMG_NAME: 'traits.png',
     TITLE: 'You haven’t added any traits yet!',
