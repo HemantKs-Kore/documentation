@@ -1,13 +1,13 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { KRModalComponent } from '../../shared/kr-modal/kr-modal.component';
 import { ConfirmationDialogComponent } from '../../helpers/components/confirmation-dialog/confirmation-dialog.component';
-import { EMPTY_SCREEN } from '../../modules/empty-screen/empty-screen.constants';
 import { WorkflowService } from '@kore.apps/services/workflow.service';
 import { MatDialog } from '@angular/material/dialog';
 import { ServiceInvokerService } from '@kore.apps/services/service-invoker.service';
 import { AppSelectionService } from '@kore.apps/services/app.selection.service';
 import { AuthService } from '@kore.apps/services/auth.service';
 import { NotificationService } from '@kore.apps/services/notification.service';
+import { TranslationService } from '@kore.libs/shared/src';
 declare const $: any;
 @Component({
   selector: 'app-settings',
@@ -15,7 +15,6 @@ declare const $: any;
   styleUrls: ['./settings.component.scss'],
 })
 export class SettingsComponent implements OnInit {
-  emptyScreen = EMPTY_SCREEN.MANAGE;
   slider = 0;
   refId = '';
   botID = '';
@@ -84,8 +83,12 @@ export class SettingsComponent implements OnInit {
     private service: ServiceInvokerService,
     public dialog: MatDialog,
     private notificationService: NotificationService,
-    public authService: AuthService
-  ) {}
+    public authService: AuthService,
+    private translationService: TranslationService
+  ) {
+    // Load translations for this module
+    this.translationService.loadModuleTranslations();
+  }
 
   ngOnInit(): void {
     this.selectedApp = this.workflowService?.selectedApp();

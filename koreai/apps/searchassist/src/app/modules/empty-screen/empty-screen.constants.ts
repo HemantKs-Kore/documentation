@@ -1,23 +1,4 @@
 export const EMPTY_SCREEN = {
-  CONNECTORS: {
-    IMG_NAME: 'connector.png',
-    TITLE_SEARCH: 'No search results found',
-    DESC_SEARCH: 'We couldn’t find the connector you are looking for',
-    TITLE_SEARCH_CONTENT: 'No search results found',
-    DESC_SEARCH_CONTENT: 'We couldn’t find the content you are looking for',
-  },
-  ANALYTICS: {
-    IMG_NAME: 'experiments.png',
-    TITLE: 'You haven’t added any experiments yet!',
-    DESC: 'Experiments is the best way to test multiple search configuration variants and pick the best one that fulfills business needs. SearchAssist allows you to create experiments with two or more variants to continuously improve search relevance and user experience.',
-    TITLE_SEARCH: 'No search results found',
-    DESC_SEARCH: 'We couldn’t find the experiment you are looking for',
-  },
-  MANAGE: {
-    IMG_NAME: 'no-content.png',
-    TITLE_SEARCH_CHANNELS: 'No search results found',
-    DESC_SEARCH_CHANNELS: 'We couldn’t find the channel you are looking for',
-  },
   MANAGE_CREDENTIALS: {
     IMG_NAME: 'credentials.png',
     TITLE: 'You haven’t configured any credentials yet!',
