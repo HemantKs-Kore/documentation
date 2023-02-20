@@ -1,14 +1,4 @@
 export const EMPTY_SCREEN = {
-  MANAGE_TEAM: {
-    IMG_NAME: 'team.png',
-    TITLE_SEARCH: 'No results found',
-    DESC_SEARCH: 'You have no listed Teams! Let’s change it...',
-  },
-  MANAGE_ORDERS_INVOICES: {
-    IMG_NAME: 'search-insight.png',
-    TITLE: 'No invoice log available',
-    DESC: 'After subscribing to any of the plans offered, your invoices will appear here',
-  },
   MANAGE_USAGE_LOGS: {
     IMG_NAME: 'contract-message.png',
     TITLE: 'No usage log available',
