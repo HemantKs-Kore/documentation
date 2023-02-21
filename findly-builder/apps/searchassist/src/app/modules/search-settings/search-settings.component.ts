@@ -22,16 +22,16 @@ export class SearchSettingsComponent implements OnInit, OnDestroy {
   pipeline: any = [];
   selectedComponent = 'weights';
   componentsArray: any[] = [
-    { key: 'Weights', value: 'weights' },
-    { key: 'Presentable', value: 'presentable' },
-    { key: 'Highlighting', value: 'highlighting' },
-    { key: 'Spell Correction', value: 'spell_correction' },
-    { key: 'Search Relevance', value: 'search_relevance' },
-    { key: 'Synonyms', value: 'synonyms' },
-    { key: 'Stop Words', value: 'stop_words' },
-    { key: 'Bot Actions', value: 'bot_actions' },
-    { key: 'Small Talk', value: 'small_talk' },
-    { key: 'Custom Configurations', value: 'custom_configurations' },
+    { key: 'weights_Weights', value: 'weights' },
+    { key: 'search_settings_Presentable', value: 'presentable' },
+    { key: 'search_settings_highlighting', value: 'highlighting' },
+    { key: 'search_settings_spell_correction', value: 'spell_correction' },
+    { key: 'search_settings_search_relevance_title', value: 'search_relevance' },
+    { key: 'synonyms_Synonymns', value: 'synonyms' },
+    { key: 'stopWords_stop_words', value: 'stop_words' },
+    { key: 'botAction_bot_actions', value: 'bot_actions' },
+    { key: 'genaralSettings_small_talk', value: 'small_talk' },
+    { key: 'search_settings_custom_configurations', value: 'custom_configurations' },
   ];
   constructor(
     public workflowService: WorkflowService,

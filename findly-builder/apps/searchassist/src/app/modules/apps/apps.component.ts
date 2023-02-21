@@ -80,8 +80,8 @@ export class AppsComponent implements OnInit, OnDestroy {
     name: '',
     description: '',
   };
-  appTypes = ['All', 'My', 'Shared'];
-  sortBy = ['Created Date', 'Alphabetical Order'];
+  appTypes = ['home_apps_all', 'home_apps_my', 'home_apps_shared'];
+  sortBy = ['home_created_date', 'home_alphabetical_order'];
   userId: any;
   recentApps: any;
   currentPage = 1;
@@ -212,7 +212,7 @@ export class AppsComponent implements OnInit, OnDestroy {
   openBoradingJourney() {
     this.headerService.openJourneyForfirstTime = true;
     this.onboardingpopupjourneyRef = this.createBoardingJourney?.open();
-    this.mixpanel.postEvent('User Onboarding - Journey Presented', {});
+    //this.mixpanel.postEvent('User Onboarding - Journey Presented', {});
     this.mixpanel.postEvent('Welcome video Shown', {});
   }
   closeBoradingJourney() {
@@ -221,7 +221,7 @@ export class AppsComponent implements OnInit, OnDestroy {
       this.onboardingpopupjourneyRef.close
     ) {
       this.onboardingpopupjourneyRef.close();
-      this.mixpanel.postEvent('User Onboarding - Journey Cancelled', {});
+      //this.mixpanel.postEvent('User Onboarding - Journey Cancelled', {});
       this.mixpanel.postEvent('Welcome video Played', {});
       this.mixpanel.postEvent('Explore App page', {});
     }
@@ -288,7 +288,7 @@ export class AppsComponent implements OnInit, OnDestroy {
       this.mixpanel.postEvent('Explore App Search experience selected', {});
     } else if (this.steps == 'displayApp' && this.newApp.name) {
       this.appCreationAtOnboarding();
-      this.mixpanel.postEvent('Explore App named', {});
+      //this.mixpanel.postEvent('Explore App named', {});
     } else {
       this.validateAppname = true;
     }
@@ -324,7 +324,7 @@ export class AppsComponent implements OnInit, OnDestroy {
   }
   appCreationAtOnboarding() {
     if (this.appType == 'selfExplore' && this.newApp.name) {
-      this.mixpanel.postEvent('Explore App Named', {});
+      //this.mixpanel.postEvent('Explore App Named', {});
       this.validateSource();
     } else if (
       this.appType == 'sampleData' &&
@@ -510,8 +510,8 @@ export class AppsComponent implements OnInit, OnDestroy {
           }
           this.prepareApps(res);
           this.workflowService.showAppCreationHeader(false);
-          this.selectedAppType('All');
-          this.sortApp('Created Date');
+          this.selectedAppType('home_apps_all');
+          this.sortApp('home_created_date');
           this.showBoarding = false;
           this.emptyApp = false;
         } else {
@@ -598,6 +598,7 @@ export class AppsComponent implements OnInit, OnDestroy {
         } else {
           this.openCreatedApp();
         }
+        this.mixpanel.postEvent('Explore App named', {});
       },
       error: (errRes) => {
         this.errorToaster(errRes, 'Error in creating app');
@@ -771,13 +772,13 @@ export class AppsComponent implements OnInit, OnDestroy {
   selectedAppType(type) {
     this.app_type = type;
     this.filteredApps = [];
-    if (type === 'All') {
+    if (type === 'home_apps_all') {
       this.filteredApps = this.apps;
-    } else if (type === 'My') {
+    } else if (type === 'home_apps_my') {
       this.filteredApps = this.apps.filter(
         (item) => item.createdBy === this.userId
       );
-    } else if (type === 'Shared') {
+    } else if (type === 'home_apps_shared') {
       this.filteredApps = this.apps.filter(
         (item) => item.createdBy != this.userId
       );
@@ -789,13 +790,13 @@ export class AppsComponent implements OnInit, OnDestroy {
       this.sort_type = type;
     }
     this.order = !this.order;
-    if (type == 'Created Date') {
+    if (type == 'home_created_date') {
       this.filteredApps = this.filteredApps.sort((a, b) => {
         const D2: any = new Date(b.lastModifiedOn);
         const D1: any = new Date(a.lastModifiedOn);
         return D2 - D1;
       });
-    } else if (type == 'Alphabetical Order') {
+    } else if (type == 'home_alphabetical_order') {
       this.filteredApps = this.filteredApps.sort((a, b) =>
         a.name.localeCompare(b.name)
       );

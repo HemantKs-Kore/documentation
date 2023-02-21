@@ -25,8 +25,11 @@ export class AppEffects {
           })
           .pipe(
             map((indexPipelines: any[]) => {
+              const defaultPipeline = indexPipelines.find(
+                (item) => item.default
+              );
               return setIndexPipelineId({
-                indexPipelineId: indexPipelines[0]?._id,
+                indexPipelineId: defaultPipeline?._id,
               });
             }),
             catchError(() => EMPTY)

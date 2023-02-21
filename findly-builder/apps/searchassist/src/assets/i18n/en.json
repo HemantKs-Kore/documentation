@@ -2683,7 +2683,6 @@
   "connectors_type": "Sync Type",
 
   "faqSource_faqs": "FAQs",
-  "faqSource_extract_faqs": "Extract FAQs",
   "faqSource_import_faqs": "Import FAQs",
   "faqSource_add_manually": "Add Manually",
   "faqSource_export_to_json": "Export to JSON",

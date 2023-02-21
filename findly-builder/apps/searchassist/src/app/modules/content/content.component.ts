@@ -397,7 +397,9 @@ export class ContentComponent implements OnInit, OnDestroy {
       ? this.plans?.openSelectedPopup('free_upgrade')
       : (this.showSourceAddition = type);
     if (type === 'contentWeb') {
-      this.mixpanel.postEvent('Enter Crawl web domain', {});
+      this.mixpanel.postEvent('Enter Crawl web domain', {
+        'Crawl web CTA spurce': 'Sources',
+      });
     } else if (type === 'contentDoc') {
       this.mixpanel.postEvent('Enter Upload Content File', {});
     }

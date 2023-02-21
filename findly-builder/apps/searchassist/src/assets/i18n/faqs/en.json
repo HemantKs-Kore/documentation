@@ -5,5 +5,7 @@
   "DESC_NO_SOURCES": "FQA Sources added will be shown here",
   "DESC_SEARCH": "We couldn’t find the FAQ sources you are looking for",
   "TITLE_SEARCH_SOURCES": "No search results found",
-  "DESC_SEARCH_SOURCES": "We couldn’t find the FAQ you are looking for"
+  "DESC_SEARCH_SOURCES": "We couldn’t find the FAQ you are looking for",
+  "EXCLUDE": "Exclude",
+  "faqSource_extract_faqs": "Extract FAQs"
 }
