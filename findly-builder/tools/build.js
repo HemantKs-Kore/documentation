@@ -11,6 +11,15 @@ const scriptsArr = [
   'node_modules/mixpanel-browser/dist/mixpanel-jslib-snippet.min.js',
 ];
 
+const rangyArr = [
+  'node_modules/rangy/lib/rangy-core.js',
+  'node_modules/rangy/lib/rangy-classapplier.js',
+  'node_modules/rangy/lib/rangy-highlighter.js',
+  'node_modules/rangy/lib/rangy-selectionsaverestore.js',
+  'node_modules/rangy/lib/rangy-serializer.js',
+  'node_modules/rangy/lib/rangy-textrange.js',
+];
+
 function minifyScript(sourcePath) {
   if (
     shell.exec(
@@ -32,3 +41,4 @@ function bundleScripts(scriptArr, bundleName) {
 }
 
 bundleScripts(scriptsArr, 'scripts');
+bundleScripts(rangyArr, 'rangy');
