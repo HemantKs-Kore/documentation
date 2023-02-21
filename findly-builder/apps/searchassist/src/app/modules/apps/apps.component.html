@@ -84,7 +84,7 @@
                       height="16"
                       priority
                       [ngClass]="{ 'd-none': showSearch }"
-                    />{{ 'search' | translate }}</span
+                    />{{ 'sa_search' | translate }}</span
                   >
                 </div>
                 <div class="add_feild" (click)="openCreateApp()">
@@ -224,7 +224,7 @@
                       (click)="selectedAppType(app)"
                       [class.active-tab-name]="app === app_type"
                     >
-                      {{ app }} {{ 'home_apps' | translate }}
+                      {{ app | translate}}
                     </div>
                   </div>
                 </div>
@@ -236,13 +236,11 @@
                         class="dropdown-toggle dropdown-input pl-3 pr-5"
                         data-toggle="dropdown"
                       >
-                        {{ sort_type }}
+                        {{ sort_type | translate }}
                       </button>
                       <ul class="dropdown-menu content-menu">
                         <li *ngFor="let sort of sortBy" (click)="sortApp(sort)">
-                          <a [class.selected]="sort === sort_type">{{
-                            sort
-                          }}</a>
+                          <a [class.selected]="sort === sort_type">{{ sort | translate}}</a>
                         </li>
                       </ul>
                     </div>

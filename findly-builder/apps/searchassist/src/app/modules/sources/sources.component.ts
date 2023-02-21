@@ -150,11 +150,11 @@ export class SourcesComponent implements OnInit, AfterViewInit, OnDestroy {
     'https://banner2.cleanpng.com/20180331/vww/kisspng-computer-icons-document-memo-5ac0480f061158.0556390715225507990249.jpg';
   availableSources: any = [
     {
-      title: 'Add Content from Webpages, Files, and Other Sources',
+      title: 'contentSource_add_content_web',
       sources: [
         {
-          name: 'Crawl Web Domain',
-          description: 'Extract and index web pages',
+          name: 'contentSource_craw_web_domain',
+          description: 'contentSource_extract_and_index_web_pages',
           icon: 'assets/icons/content/webdomain.svg',
           id: 'contentWeb',
           sourceType: 'content',
@@ -163,8 +163,8 @@ export class SourcesComponent implements OnInit, AfterViewInit, OnDestroy {
           height: 47,
         },
         {
-          name: 'Upload File',
-          description: 'Index file content',
+          name: 'contentSource_upload_file',
+          description: 'contentSource_index_file_content',
           icon: 'assets/icons/content/fileupload.svg',
           id: 'contentDoc',
           sourceType: 'content',
@@ -183,11 +183,11 @@ export class SourcesComponent implements OnInit, AfterViewInit, OnDestroy {
       ],
     },
     {
-      title: 'Extract FAQs from Webpages and Files, or Add Manually',
+      title: 'contentSource_extract_faq_from_web',
       sources: [
         {
-          name: 'Extract FAQs ',
-          description: 'Extract FAQs from web pages and documents',
+          name: 'faqSource_extract_faqs',
+          description: 'contentSource_extract_faqs_from_web_docs',
           icon: 'assets/icons/content/extractfaq.svg',
           id: 'faqWeb',
           sourceType: 'faq',
@@ -196,8 +196,8 @@ export class SourcesComponent implements OnInit, AfterViewInit, OnDestroy {
           height: 47,
         },
         {
-          name: 'Import FAQs',
-          description: 'Import FAQs from CSV, JSON',
+          name: 'faqSource_import_faqs',
+          description: 'contentSource_import_fAq_from_csv_json',
           icon: 'assets/icons/content/importfaq.svg',
           id: 'faqDoc',
           sourceType: 'faq',
@@ -206,8 +206,8 @@ export class SourcesComponent implements OnInit, AfterViewInit, OnDestroy {
           height: 36,
         },
         {
-          name: 'Add FAQs Manually',
-          description: 'Manually Input FAQs',
+          name: 'faqSource_add_faqs_manually',
+          description: 'contentSource_manually_input_faqs',
           icon: 'assets/icons/content/addfaq.svg',
           id: 'manual',
           sourceType: 'faq',
@@ -218,21 +218,21 @@ export class SourcesComponent implements OnInit, AfterViewInit, OnDestroy {
       ],
     },
     {
-      title: 'Add Structured Data by uploading a file or adding manually',
+      title: 'contentSource_add_structured_data',
       sources: [
         {
-          name: 'Import Structured Data',
-          description: 'Import from JSON or CSV',
+          name: 'structuredData_structuredDataImport',
+          description: 'contentSource_import_from_csv_json',
           icon: 'assets/icons/content/database-Import.svg',
           id: 'contentStucturedDataImport',
           sourceType: 'data',
           resourceType: 'structuredData',
-          width: 50,
-          height: 50,
+            width: 50,
+            height: 50,
         },
         {
-          name: 'Add Structured Data',
-          description: 'Add Structured Data manually',
+          name: 'contentSource_add_structure_data',
+          description: 'contentSource_add_structure_data_manually',
           icon: 'assets/icons/content/database-add.svg',
           id: 'contentStucturedDataAdd',
           sourceType: 'data',
@@ -243,11 +243,11 @@ export class SourcesComponent implements OnInit, AfterViewInit, OnDestroy {
       ],
     },
     {
-      title: 'Connect & add actions from Virtual Assistant',
+      title: 'contentSource_connect_&_add',
       sources: [
         {
-          name: 'Link Virtual Assistant',
-          description: 'Add Bot Actions',
+          name: 'contentSource_link_virtual_assistance',
+          description: 'contentSource_add_bot_actions',
           icon: 'assets/icons/content/linkvirtual.svg',
           id: 'botActions',
           sourceType: 'action',
@@ -258,11 +258,11 @@ export class SourcesComponent implements OnInit, AfterViewInit, OnDestroy {
       ],
     },
     {
-      title: 'Connecting sources and Add searchable distinct entities',
+      title: 'contentSource_connecting_sources_',
       sources: [
         {
-          name: 'Link Searchable Sources',
-          description: 'Shared content across organisation',
+          name: 'contentSource_link_searchable_sources',
+          description: 'contentSource_shared_content_accross_org',
           icon: 'assets/icons/content/View.svg',
           id: 'connectorsId',
           sourceType: 'connectors',

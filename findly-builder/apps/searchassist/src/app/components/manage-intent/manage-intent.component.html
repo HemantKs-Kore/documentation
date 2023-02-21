@@ -25,7 +25,7 @@
           <div class="header-sec d-flex justify-content-between align-items-center">
             <div class="title">FAQs & Tasks</div>
             <div class="kr-sg-input-search">                               
-              <input type="text" placeholder="Search" class="input-search" (input)="searchTerm$.next($event.target.value)" name="searchTerm" [(ngModel)]="searchTerm">
+              <input type="text" placeholder="{{'sa_search' | translate}}" class="input-search" (input)="searchTerm$.next($event.target.value)" name="searchTerm" [(ngModel)]="searchTerm">
               <img src="assets/images/search-gray.svg" class="search-icon">
             </div>
           </div>  
