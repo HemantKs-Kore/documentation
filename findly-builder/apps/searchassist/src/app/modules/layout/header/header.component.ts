@@ -10,9 +10,15 @@ import {
 } from '@angular/core';
 import { SideBarService } from '../../../services/header.service';
 import { KRModalComponent } from '../../../shared/kr-modal/kr-modal.component';
-import { Router } from '@angular/router';
+import { NavigationEnd, Router } from '@angular/router';
 import { Observable } from 'rxjs';
-import { debounceTime, map, startWith, withLatestFrom } from 'rxjs/operators';
+import {
+  debounceTime,
+  filter,
+  map,
+  startWith,
+  withLatestFrom,
+} from 'rxjs/operators';
 import { SliderComponentComponent } from '../../../shared/slider-component/slider-component.component';
 import { DockStatusService } from '../../../services/dockstatusService/dock-status.service';
 import { interval, Subscription } from 'rxjs';
@@ -47,6 +53,7 @@ import { IntersectionStatus } from '@kore.libs/shared/src/lib/directives/interse
 })
 export class HeaderComponent implements OnInit, OnDestroy {
   show;
+  sub: Subscription;
   visibilityStatus: { [key: string]: IntersectionStatus } = {};
   intersectionStatus = IntersectionStatus;
   isSdkBundleLoaded = false;
@@ -379,6 +386,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
     this.checkroute();
     this.getAllApps();
     this.initControlList();
+    this.onRouteEvents();
 
     this.topicGuideShowSubscription =
       this.appSelectionService.topicGuideShow.subscribe((res) => {
@@ -401,7 +409,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
     this.routeChanged = this.appSelectionService.routeChanged.subscribe(
       (res) => {
         if (res.name != undefined) {
-          this.analyticsClick(res.path, false);
+          // this.analyticsClick(res.path, false);
           this.isRouteDisabled = res?.disable;
         }
         if (res?.isDemo == true) {
@@ -531,6 +539,20 @@ export class HeaderComponent implements OnInit, OnDestroy {
     //   else{
     //   this.extractProfiledisplayname();
     //   }
+  }
+
+  onRouteEvents() {
+    this.sub = this.router.events
+      .pipe(filter((event) => !!(event instanceof NavigationEnd)))
+      .subscribe((event: any) => {
+        this.analyticsClick(event.url);
+      });
+  }
+
+  goToRoute(menu, skipRouterLink = false) {
+    if (!skipRouterLink) {
+      this.router.navigate([menu], { skipLocationChange: true });
+    }
   }
 
   initControlList() {
@@ -822,17 +844,16 @@ export class HeaderComponent implements OnInit, OnDestroy {
     }
   }
   metricsOption(menu) {
-    this.analyticsClick(menu, true);
-    this.router.navigate([menu], { skipLocationChange: true });
+    this.analyticsClick(menu);
+    this.goToRoute(menu);
   }
 
   openRoute(path) {
     this.router.navigate([path], { skipLocationChange: true });
   }
 
-  analyticsClick(menu, skipRouterLink?) {
+  analyticsClick(menu) {
     if (!menu) {
-      // this.router.navigateByUrl('/', { skipLocationChange: true });
       return;
     }
 
@@ -860,10 +881,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
           this.pollingSubscriber.unsubscribe();
         }
       }
-    }
-    //this.resetPreviousState(menu)
-    if (!skipRouterLink) {
-      this.router.navigate([menu], { skipLocationChange: true });
     }
 
     this.showMenu.emit(this.showMainMenu);
@@ -920,7 +937,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
             skipLocationChange: true,
             queryParams,
           });
-          this.analyticsClick(slectedRoute[0].routeId, true);
+          this.goToRoute(slectedRoute[0].routeId, true);
         }
       }, 100);
     } else if (routObj && routObj.routeId) {
@@ -1411,7 +1428,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
         window.open(hrefURL, '_self');
         this.service
           .invoke('put.dockStatus', params, payload)
-          .subscribe((res) => { });
+          .subscribe((res) => {});
       },
       (err) => {
         console.log(err);
@@ -1442,6 +1459,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
     this.currentSubsciptionData
       ? this.currentSubsciptionData?.unsubscribe()
       : null;
+
+    this.sub?.unsubscribe();
   }
   //get all apps
   getAllApps() {
@@ -1493,13 +1512,13 @@ export class HeaderComponent implements OnInit, OnDestroy {
           term === ''
             ? []
             : this.availableRouts
-              .filter(
-                (v) =>
-                  (v.displayName || '')
-                    .toLowerCase()
-                    .indexOf(term.toLowerCase()) > -1
-              )
-              .slice(0, 10)
+                .filter(
+                  (v) =>
+                    (v.displayName || '')
+                      .toLowerCase()
+                      .indexOf(term.toLowerCase()) > -1
+                )
+                .slice(0, 10)
         )
       );
     this.formatter = (x: { displayName: string }) => x.displayName || '';
@@ -1514,17 +1533,17 @@ export class HeaderComponent implements OnInit, OnDestroy {
       localStorage.krPreviousState &&
       JSON.parse(localStorage.krPreviousState)
     ) {
-      if (this.appsnum.length === 'undefined' || this.appsnum.length == 0) {
-        this.analyticsClick(
-          JSON.parse(localStorage.krPreviousState).route,
-          true
-        );
-      } else {
-        this.analyticsClick(
-          JSON.parse(localStorage.krPreviousState).route,
-          false
-        );
-      }
+      // if (this.appsnum.length === 'undefined' || this.appsnum.length == 0) {
+      //   this.analyticsClick(
+      //     JSON.parse(localStorage.krPreviousState).route,
+      //     true
+      //   );
+      // } else {
+      //   this.analyticsClick(
+      //     JSON.parse(localStorage.krPreviousState).route,
+      //     false
+      //   );
+      // }
     }
 
     this.updateHeaderMainMenuSubscription =
@@ -1554,11 +1573,11 @@ export class HeaderComponent implements OnInit, OnDestroy {
       : {};
     this.associatedAccounts = window[this.storageType].getItem('jStorage')
       ? JSON.parse(window[this.storageType].getItem('jStorage')).currentAccount
-        .associatedAccounts
+          .associatedAccounts
       : {};
     this.domain = window[this.storageType].getItem('jStorage')
       ? JSON.parse(window[this.storageType].getItem('jStorage')).currentAccount
-        .domain
+          .domain
       : '';
     if (this.selectAccountDetails == null) {
       for (
@@ -1645,7 +1664,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
         index > -1 && array.length > 0
           ? (array[index]['color'] = '#AA336A')
           : (document.getElementById('selected_profile').style.backgroundColor =
-            '#AA336A');
+              '#AA336A');
       }
     }
     // to find in series2
@@ -1654,7 +1673,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
         index > -1 && array.length > 0
           ? (array[index]['color'] = '#006400')
           : (document.getElementById('selected_profile').style.backgroundColor =
-            '#006400');
+              '#006400');
       }
     }
     // to find in series3
@@ -1663,7 +1682,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
         index > -1 && array.length > 0
           ? (array[index]['color'] = '#C71585')
           : (document.getElementById('selected_profile').style.backgroundColor =
-            '#C71585');
+              '#C71585');
       }
     }
     // to find in series4
@@ -1672,7 +1691,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
         index > -1 && array.length > 0
           ? (array[index]['color'] = '#6A5ACD')
           : (document.getElementById('selected_profile').style.backgroundColor =
-            '#6A5ACD');
+              '#6A5ACD');
       }
     }
     // to find in series5
@@ -1681,7 +1700,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
         index > -1 && array.length > 0
           ? (array[index]['color'] = '#B22222')
           : (document.getElementById('selected_profile').style.backgroundColor =
-            '#B22222');
+              '#B22222');
       }
     }
   }
@@ -1703,7 +1722,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
     this.router.navigateByUrl('/summary', { skipLocationChange: true });
     this.checkTrainingProgress();
     this.workflowService.selectedIndexPipelineId = '';
-    if (app?.planName === 'Free') this.appSelectionService?.openPlanOnboardingModal?.next(null);
+    if (app?.planName === 'Free')
+      this.appSelectionService?.openPlanOnboardingModal?.next(null);
   }
   //check training in progress
   checkTrainingProgress() {
@@ -1926,7 +1946,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
     };
     if (payload.ids.length) {
       this.service.invoke('read.dockStatus', queryParms, payload).subscribe(
-        (res) => { },
+        (res) => {},
         (errRes) => {
           this.statusDockerLoading = false;
           this.errorToaster(errRes, 'Failed to update read Status of Docker.');

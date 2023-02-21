@@ -193,6 +193,7 @@ export class AppsComponent implements OnInit, OnDestroy {
     const isDemo = this.appType == 'sampleData' ? true : false;
     this.appSelectionService.openApp(app, isDemo, isUpgrade);
     this.workflowService.selectedIndexPipelineId = '';
+    this.router.navigateByUrl('summary', { skipLocationChange: true });
   }
 
   loadScripts() {
