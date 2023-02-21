@@ -25,7 +25,11 @@
                          <div class="snippet-tile {{snippet?.type===selectedSnippetObj.type&&'snippet-tile-active'}}" *ngFor="let snippet of snippetArray" (click)="selectSnippet(snippet?.type)" cdkDrag>
                             <div *cdkDragPreview></div>
                             <div class="snippet-tile-top">
-                                <div class="snippet-tile-header"><span class="draag-icon-span" cdkDragHandle><i class="si-drag-move"></i></span>{{("answer_snippet_"+snippet?.type)|translate}}<span class="si-warning ml-2" *ngIf="isWorkbenchSnippetDisabled&&snippet?.type==='extractive_model'" [ngbTooltip]="('answer_snippet_model_tooltip_text'|translate)" tooltipClass="tooltip-global-" [container]="'body'" placement="top-center"></span></div>
+                                <div class="snippet-tile-header"><span class="draag-icon-span" cdkDragHandle><i class="si-drag-move"></i></span>{{("answer_snippet_"+snippet?.type)|translate}}<span class="si-warning ml-2" *ngIf="isWorkbenchSnippetDisabled&&snippet?.type==='extractive_model'" #snippetDisabled="ngbTooltip" placement="bottom" tooltipClass="tooltip-global-" triggers="manual" [ngbTooltip]="customToolTip" (mouseenter)="snippetDisabled.open()"></span></div>
+                                <ng-template #customToolTip> 
+                                    <div class="tooltip-custom cursor-default">{{"answer_snippet_model_tooltip_text" | translate}}</div>
+                                    <div class="upgrade-plan custom-tooltip-workbench" (click)="gotoWorkBench();snippetDisabled?.close()"><span class="si-go-to mr-1"></span>{{"answer_snippet_goto_workbench"|translate}}</div>
+                                </ng-template>
                                 <div class="snippet-status-type">
                                     <span class="{{(snippet?.active)?'if-enable':'if-disable'}}">{{(snippet?.active?"botAction_enable":"botAction_disable")|translate}}</span>
                                 </div>
@@ -93,7 +97,7 @@
                                 </div>
                                 <div class="col-5 title text-left p-0">
                                     <div class="app-range-count-slider" *ngIf="snippetArray.length>0">
-                                        <app-range-slider class="snippet-range-slider" [customClass]='"weightsSlider"' [allData]='field?.slider' (valueEvent)="getSliderEvent($event,'weight_score',i)"></app-range-slider>
+                                        <app-range-slider class="snippet-range-slider" [customClass]='"weightsSlider"' [tooltipPosition]="i==0?'bottom':'top'" [allData]='field?.slider' (valueEvent)="getSliderEvent($event,'weight_score',i)"></app-range-slider>
                                         <div class="app-range-count">{{field?.weight}}</div>
                                     </div>                                    
                                 </div>

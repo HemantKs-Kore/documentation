@@ -251,6 +251,12 @@ export class SnippetComponent implements OnInit, OnDestroy {
     }
   }
 
+  //goto workbench page
+  gotoWorkBench() {
+    this.appSelectionService?.routeChanged?.next({ name: 'pathchanged', path: '/index' });
+  }
+
+
   //Unmount / clear all subscriptions
   ngOnDestroy() {
     this.queryDataSubscription ? this.queryDataSubscription?.unsubscribe : null;
