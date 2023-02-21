@@ -145,12 +145,33 @@ export class AuthService {
       (res: any) => {
         this.appControlList = res;
         this.appControlListSource$.next(res);
+        // this.mixpanel.reset();
+        // const userInfo = {
+        //   $email: res.domain,
+        // };
+        // if (res && res.domain) {
+        //   this.mixpanel.setUserInfo(res.domain, userInfo);
+        // }
+        let infoObject;
+        if (res && res.associatedAccounts.length) {
+          const details = res.associatedAccounts[0];
+          infoObject = {
+            $email: details.emailId,
+            $name: details.userFullName,
+            email: details.emailId,
+            Name: details.userFullName,
+          };
+        }
+        if (!infoObject) {
+          infoObject = {
+            $email: res.domain,
+            email: res.domain,
+          };
+        }
         this.mixpanel.reset();
-        const userInfo = {
-          $email: res.domain,
-        };
-        if (res && res.domain) {
-          this.mixpanel.setUserInfo(res.domain, userInfo);
+        const userInfo = infoObject;
+        if (infoObject.email) {
+          this.mixpanel.setUserInfo(userInfo.email, userInfo);
         }
       },
       (errRes) => {

@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
+import { LazyScriptResolver } from '@kore.libs/shared/src';
 import { AppsDataResolver } from './modules/apps/services/apps-data.resolver';
 import { AuthGuard } from './services/auth.guard';
 import { AppDataResolver } from './services/resolvers/app.data.resolve';
@@ -188,6 +189,7 @@ const routes: Routes = [
           import('./modules/content/content.module').then(
             (m) => m.ContentModule
           ),
+        resolve: [LazyScriptResolver],
       },
       {
         path: 'faqs',
@@ -249,4 +251,4 @@ const routes: Routes = [
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule],
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {}

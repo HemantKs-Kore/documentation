@@ -61,6 +61,11 @@
             "input": "apps/searchassist/src/assets/js/scripts.min.js",
             "bundleName": "scripts.min",
             "inject": false
+          },
+          {
+            "input": "apps/searchassist/src/assets/js/rangy.min.js",
+            "bundleName": "rangy.min",
+            "inject": false
           }
         ],
         "serviceWorker": true,
