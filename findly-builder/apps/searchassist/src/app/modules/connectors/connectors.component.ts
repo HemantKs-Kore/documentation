@@ -20,7 +20,7 @@ export class ConnectorsComponent implements OnInit {
   Connectors = [
     {
       connector_name: 'Confluence (Server)',
-      description: 'Please complete configuration',
+      description: 'connectors_please_compleate_configuration',
       type: 'confluenceServer',
       image: 'assets/icons/connectors/confluence.png',
       url: 'https://admin.atlassian.com/',
@@ -29,7 +29,7 @@ export class ConnectorsComponent implements OnInit {
     },
     {
       connector_name: 'Confluence (Cloud)',
-      description: 'Please complete configuration',
+      description: 'connectors_please_compleate_configuration',
       type: 'confluenceCloud',
       image: 'assets/icons/connectors/confluence.png',
       url: 'https://admin.atlassian.com/',
@@ -38,7 +38,7 @@ export class ConnectorsComponent implements OnInit {
     },
     {
       connector_name: 'Service Now',
-      description: 'Please complete configuration',
+      description: 'connectors_please_compleate_configuration',
       type: 'serviceNow',
       image: 'assets/icons/connectors/servicenow.png',
       url: 'https://www.servicenow.com/',
@@ -47,7 +47,7 @@ export class ConnectorsComponent implements OnInit {
     },
     {
       connector_name: 'Zendesk',
-      description: 'Please complete configuration',
+      description: 'connectors_please_compleate_configuration',
       type: 'zendesk',
       image: 'assets/icons/connectors/zendesk.png',
       url: 'https://www.zendesk.com/',
@@ -56,12 +56,21 @@ export class ConnectorsComponent implements OnInit {
     },
     {
       connector_name: 'SharePoint',
-      description: 'Please complete configuration',
+      description: 'connectors_please_compleate_configuration',
       type: 'sharepointOnline',
       image: 'assets/icons/connectors/sharepoint.png',
       url: 'https://microsoft.sharepoint.com/',
       doc_url: 'https://learn.microsoft.com/en-us/sharepoint/dev/',
       tag: 'Empowering teamwork',
+    },
+    {
+      connector_name: "Google Drive",
+      description: "connectors_please_compleate_configuration",
+      type: "googleDrive",
+      image: "assets/icons/connectors/drive-google.png",
+      url: "https://drive.google.com/drive/my-drive",
+      doc_url: "https://developers.google.com/drive",
+      tag: "keep everything. Share anything."
     },
   ];
   componentType = 'Connectors';
@@ -487,6 +496,9 @@ export class ConnectorsComponent implements OnInit {
           return true;
         }
       }
+      else if (['googleDrive'].includes(this.selectedConnector.type)){
+         return true
+      }
     } else {
       this.validation = true;
       this.notificationService.notify('Enter the Required Fields', 'error');
@@ -517,7 +529,7 @@ export class ConnectorsComponent implements OnInit {
     if (this.selectedConnector.type === 'sharepointOnline') {
       payload.authDetails.tenantId = this.configurationObj.tenantId;
     }
-    if (['zendesk', 'sharepointOnline'].includes(this.selectedConnector.type)) {
+    if (['zendesk', 'sharepointOnline','googleDrive'].includes(this.selectedConnector.type)) {
       delete payload.configuration.hostDomainName;
     }
     this.service.invoke('post.connector', quaryparms, payload).subscribe(
@@ -554,7 +566,7 @@ export class ConnectorsComponent implements OnInit {
           if (res) {
             this.isloadingBtn = false;
             if (
-              ['confluenceCloud', 'zendesk', 'sharepointOnline'].includes(
+              ['confluenceCloud', 'zendesk', 'sharepointOnline','googleDrive'].includes(
                 data?.type
               )
             ) {
@@ -653,8 +665,11 @@ export class ConnectorsComponent implements OnInit {
     if (this.selectedConnector.type === 'sharepointOnline') {
       payload.authDetails.tenantId = this.configurationObj.tenantId;
     }
-    if (['zendesk', 'sharepointOnline'].includes(this.selectedConnector.type)) {
-      delete payload.configuration.hostDomainName;
+    if (['zendesk','sharepointOnline','googleDrive'].includes(this.selectedConnector.type)) {
+      delete  payload.configuration.hostDomainName
+    }
+    if (['zendesk','sharepointOnline','googleDrive'].includes(this.selectedConnector.type)) {
+      delete payload.configuration.hostDomainName;   
     }
     this.service.invoke('put.connector', quaryparms, payload).subscribe(
       (res) => {

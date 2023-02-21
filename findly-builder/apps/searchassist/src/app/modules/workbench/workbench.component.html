@@ -2547,7 +2547,9 @@
                     : simulteObj.sourceType === 'zendesk'
                     ? 'Share Point'
                     : simulteObj.sourceType === 'sharepointOnline'
-                  : 'choose_an_option'
+                    ?'Google Drive'
+                    :simulteObj.sourceType =='googleDrive'
+                    : 'choose_an_option'
                 ) | translate
               }}
             </button>

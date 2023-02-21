@@ -175,7 +175,7 @@
                             {{ avaiable?.connector_name }}
                           </div>
                           <div class="desc-text text-truncate">
-                            {{ avaiable?.description }}
+                            {{ avaiable?.description| translate}}
                           </div>
                         </div>
                       </div>
@@ -441,9 +441,7 @@
                           </div>
                           <div
                             class="kr-sg-input-text mb-3"
-                            *ngIf="
-                              selectedConnector.type !== 'sharepointOnline'
-                            "
+                            *ngIf="!['sharepointOnline','googleDrive'].includes(this.selectedConnector.type)"
                           >
                             <div class="label-text">
                               {{ 'connectors_hostURL' | translate
@@ -463,9 +461,7 @@
                           </div>
                           <div
                             class="kr-sg-input-text mb-3"
-                            *ngIf="
-                              selectedConnector.type === 'sharepointOnline'
-                            "
+                            *ngIf="['sharepointOnline'].includes(this.selectedConnector.type)"
                           >
                             <div class="label-text">
                               {{ 'connectors_tenant_id' | translate
@@ -506,11 +502,7 @@
                           </div>
                           <div
                             class="kr-sg-input-text mb-3"
-                            *ngIf="
-                              selectedConnector.type !== 'serviceNow' &&
-                              selectedConnector.type !== 'zendesk' &&
-                              selectedConnector.type !== 'sharepointOnline'
-                            "
+                            *ngIf="!['serviceNow','zendesk','sharepointOnline','googleDrive'].includes(this.selectedConnector.type)"
                           >
                             <div class="label-text">
                               {{ 'connectors_host_domain_name' | translate
@@ -530,7 +522,7 @@
                             />
                           </div>
                           <ng-container
-                            *ngIf="selectedConnector.type === 'serviceNow'"
+                            *ngIf="['serviceNow'].includes(this.selectedConnector.type)"
                           >
                             <div class="kr-sg-input-text mb-3">
                               <div class="label-text">
@@ -907,7 +899,7 @@
                       </div>
                       <div
                         class="kr-sg-input-text mb-3"
-                        *ngIf="selectedConnector.type !== 'sharepointOnline'"
+                        *ngIf="!['sharepointOnline','googleDrive'].includes(this.selectedConnector.type)"
                       >
                         <div class="label-text">
                           {{ 'connectors_hostURL' | translate
@@ -927,11 +919,7 @@
                       </div>
                       <div
                         class="kr-sg-input-text mb-3"
-                        *ngIf="
-                          selectedConnector.type !== 'serviceNow' &&
-                          selectedConnector.type !== 'zendesk' &&
-                          selectedConnector.type !== 'sharepointOnline'
-                        "
+                        *ngIf="!['serviceNow','zendesk','sharepointOnline','googleDrive'].includes(this.selectedConnector.type)"
                       >
                         <div class="label-text">
                           {{ 'connectors_host_domain_name' | translate
@@ -952,7 +940,7 @@
                       </div>
                       <div
                         class="kr-sg-input-text mb-3"
-                        *ngIf="selectedConnector.type === 'sharepointOnline'"
+                        *ngIf="['sharepointOnline'].includes(this.selectedConnector.type)"
                       >
                         <div class="label-text">
                           {{ 'connectors_tenant_id' | translate
@@ -992,7 +980,7 @@
                         ></i>
                       </div>
                       <ng-container
-                        *ngIf="selectedConnector.type === 'serviceNow'"
+                        *ngIf="['serviceNow'].includes(this.selectedConnector.type)"
                       >
                         <div class="kr-sg-input-text mb-3">
                           <div class="label-text">
