@@ -282,6 +282,7 @@ export class WorkbenchComponent implements OnInit, OnDestroy, AfterViewInit {
     'confluenceServer',
     'zendesk',
     'sharepointOnline',
+    'googleDrive'
   ];
   readonly separatorKeysCodes: number[] = [ENTER, COMMA];
   entityName: string;
@@ -2228,6 +2229,7 @@ export class WorkbenchComponent implements OnInit, OnDestroy, AfterViewInit {
           'confluenceServer',
           'zendesk',
           'sharepointOnline',
+          'googleDrive'
         ].includes(this.sourceType)
       ) {
         payload.connectorType = this.sourceType;

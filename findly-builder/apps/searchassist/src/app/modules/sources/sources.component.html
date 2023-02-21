@@ -27,7 +27,7 @@
           class="crawlContent row"
           *ngFor="let sourceCatagory of availableSources"
         >
-          <div class="main-title col-12 p-0">{{ sourceCatagory.title }}</div>
+          <div class="main-title col-12 p-0">{{ sourceCatagory.title | translate }}</div>
           <div
             class="card-data"
             (click)="selectSource(source)"
@@ -42,13 +42,13 @@
             </div>
             <div class="titles-sec">
               <div class="p-title text-truncate" title="{{ source.name }}">
-                {{ source.name }}
+                {{ source.name | translate }}
               </div>
               <div
                 class="s-title text-truncate"
                 title="{{ source.description }}"
               >
-                {{ source.description }}
+                {{ source.description | translate}}
               </div>
             </div>
           </div>
