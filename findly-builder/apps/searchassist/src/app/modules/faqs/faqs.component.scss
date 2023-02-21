@@ -1,5 +1,9 @@
 @import 'variables/variables.scss';
 
+.accordion-content {
+  border-bottom: 1px solid #e4e5e7 !important;
+}
+
 .mainLoadingSpinner {
   position: absolute;
   top: 45%;
