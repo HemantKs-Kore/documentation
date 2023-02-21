@@ -760,7 +760,7 @@ export class AppsComponent implements OnInit, OnDestroy {
   }
   callStream() {
     this.service.invoke('get.credential').subscribe(
-      (res) => {},
+      (res) => { },
       (errRes) => {
         this.errorToaster(errRes, 'Error in creating app');
       }
@@ -839,11 +839,7 @@ export class AppsComponent implements OnInit, OnDestroy {
   }
   //get plan text based on tooltip
   getTooltipText(item) {
-    const date = new Date();
-    const isoFormat = date.toISOString();
-    const days = Math.abs(
-      moment(isoFormat).diff(moment(item?.endDate), 'days')
-    );
+    const days = this.appSelectionService?.getDiffNumberOfDays(item);
     const text =
       item?.planName?.toLowerCase() === 'free'
         ? `FREE TRAIL: ${days} Days Remaining`

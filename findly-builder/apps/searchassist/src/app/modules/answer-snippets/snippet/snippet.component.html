@@ -97,7 +97,7 @@
                                 </div>
                                 <div class="col-5 title text-left p-0">
                                     <div class="app-range-count-slider" *ngIf="snippetArray.length>0">
-                                        <app-range-slider class="snippet-range-slider" [customClass]='"weightsSlider"' [allData]='field?.slider' (valueEvent)="getSliderEvent($event,'weight_score',i)"></app-range-slider>
+                                        <app-range-slider class="snippet-range-slider" [customClass]='"weightsSlider"' [tooltipPosition]="i==0?'bottom':'top'" [allData]='field?.slider' (valueEvent)="getSliderEvent($event,'weight_score',i)"></app-range-slider>
                                         <div class="app-range-count">{{field?.weight}}</div>
                                     </div>                                    
                                 </div>
