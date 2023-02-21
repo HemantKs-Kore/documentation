@@ -212,7 +212,7 @@ export class AppsComponent implements OnInit, OnDestroy {
   openBoradingJourney() {
     this.headerService.openJourneyForfirstTime = true;
     this.onboardingpopupjourneyRef = this.createBoardingJourney?.open();
-    this.mixpanel.postEvent('User Onboarding - Journey Presented', {});
+    //this.mixpanel.postEvent('User Onboarding - Journey Presented', {});
     this.mixpanel.postEvent('Welcome video Shown', {});
   }
   closeBoradingJourney() {
@@ -221,7 +221,7 @@ export class AppsComponent implements OnInit, OnDestroy {
       this.onboardingpopupjourneyRef.close
     ) {
       this.onboardingpopupjourneyRef.close();
-      this.mixpanel.postEvent('User Onboarding - Journey Cancelled', {});
+      //this.mixpanel.postEvent('User Onboarding - Journey Cancelled', {});
       this.mixpanel.postEvent('Welcome video Played', {});
       this.mixpanel.postEvent('Explore App page', {});
     }
@@ -288,7 +288,7 @@ export class AppsComponent implements OnInit, OnDestroy {
       this.mixpanel.postEvent('Explore App Search experience selected', {});
     } else if (this.steps == 'displayApp' && this.newApp.name) {
       this.appCreationAtOnboarding();
-      this.mixpanel.postEvent('Explore App named', {});
+      //this.mixpanel.postEvent('Explore App named', {});
     } else {
       this.validateAppname = true;
     }
@@ -324,7 +324,7 @@ export class AppsComponent implements OnInit, OnDestroy {
   }
   appCreationAtOnboarding() {
     if (this.appType == 'selfExplore' && this.newApp.name) {
-      this.mixpanel.postEvent('Explore App Named', {});
+      //this.mixpanel.postEvent('Explore App Named', {});
       this.validateSource();
     } else if (
       this.appType == 'sampleData' &&
@@ -598,6 +598,7 @@ export class AppsComponent implements OnInit, OnDestroy {
         } else {
           this.openCreatedApp();
         }
+        this.mixpanel.postEvent('Explore App named', {});
       },
       error: (errRes) => {
         this.errorToaster(errRes, 'Error in creating app');
