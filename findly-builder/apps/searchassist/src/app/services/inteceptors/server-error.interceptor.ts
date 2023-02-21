@@ -38,7 +38,9 @@ export class ServerErrorInterceptor implements HttpInterceptor {
       // }
     }
 
-    errMsg && this.notificationService.notify(errMsg, 'error');
+    if (errMsg && !error['error']['errors']?.length) {
+      this.notificationService.notify(errMsg, 'error');
+    }
     return throwError(() => error);
   }
 

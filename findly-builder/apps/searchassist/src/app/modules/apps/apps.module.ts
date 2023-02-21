@@ -9,6 +9,7 @@ import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
 import { FormsModule } from '@angular/forms';
 import { EmptyScreenModule } from '../empty-screen/empty-screen.module';
 import { SharedPipesModule } from '@kore.apps/helpers/filters/shared-pipes.module';
+import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 // import {
 //   EntityDataService,
 //   EntityDefinitionService,
@@ -46,6 +47,7 @@ import { SharedPipesModule } from '@kore.apps/helpers/filters/shared-pipes.modul
     SharedPipesModule,
     EmptyScreenModule,
     NgOptimizedImage,
+    NgbTooltipModule,
   ],
   // providers: [AppsDataService],
 })

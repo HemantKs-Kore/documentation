@@ -16,6 +16,7 @@ import { setAppId } from '@kore.apps/store/app.actions';
 import { AppsService } from './services/apps.service';
 import { combineLatest, Subscription } from 'rxjs';
 import { LazyLoadService, TranslationService } from '@kore.libs/shared/src';
+import * as moment from 'moment';
 declare const $: any;
 
 @Component({
@@ -174,7 +175,11 @@ export class AppsComponent implements OnInit, OnDestroy {
       const aDate: any = new Date(a.lastModifiedOn);
       return bDate - aDate;
     });
-    this.apps = apps;
+    const appsList = apps?.map((item) => {
+      const Text = this.getTooltipText(item);
+      return { ...item, tooltipPlanText: Text };
+    });
+    this.apps = appsList;
   }
   openApp(app, isUpgrade?) {
     this.store.dispatch(
@@ -188,6 +193,7 @@ export class AppsComponent implements OnInit, OnDestroy {
     const isDemo = this.appType == 'sampleData' ? true : false;
     this.appSelectionService.openApp(app, isDemo, isUpgrade);
     this.workflowService.selectedIndexPipelineId = '';
+    this.router.navigateByUrl('summary', { skipLocationChange: true });
   }
 
   loadScripts() {
@@ -349,6 +355,11 @@ export class AppsComponent implements OnInit, OnDestroy {
     this.showBoarding = false;
     this.newApp = { name: '', description: '' };
     if (this.createAppPopRef?.close) this.createAppPopRef.close();
+    if (
+      Object.entries(this.createdAppData).length > 0 &&
+      this.createdAppData?.planName === 'Free'
+    )
+      this.appSelectionService?.openPlanOnboardingModal?.next(null);
   }
   openCreateApp() {
     this.createAppPopRef = this.createAppPop.open();
@@ -825,5 +836,18 @@ export class AppsComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.sub?.unsubscribe();
+  }
+  //get plan text based on tooltip
+  getTooltipText(item) {
+    const date = new Date();
+    const isoFormat = date.toISOString();
+    const days = Math.abs(
+      moment(isoFormat).diff(moment(item?.endDate), 'days')
+    );
+    const text =
+      item?.planName?.toLowerCase() === 'free'
+        ? `FREE TRAIL: ${days} Days Remaining`
+        : `${item?.planName?.toUpperCase()} PLAN: Renews in ${days} Days`;
+    return text;
   }
 }

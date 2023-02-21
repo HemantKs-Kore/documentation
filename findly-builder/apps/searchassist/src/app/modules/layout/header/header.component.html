@@ -20,7 +20,7 @@
             ngSrc="assets/images/logos/searchAssistIcon-small-logo.svg"
             width="24"
             height="24"
-            (click)="analyticsClick('/'); closeUserMetaTagsSlider()"
+            (click)="goToRoute('/'); closeUserMetaTagsSlider()"
           />
         </span>
         <div class="headerTabsContainer">
@@ -32,7 +32,7 @@
             }"
             skipLocationChange
             routerLinkActive="active"
-            (click)="analyticsClick('/summary'); closeUserMetaTagsSlider()"
+            (click)="goToRoute('/summary'); closeUserMetaTagsSlider()"
           >
             <span>{{ 'header_overview' | translate }}</span>
             <span routerLink="/summary" class="d-none"></span>
@@ -42,7 +42,7 @@
             [ngClass]="{ active: menuItems?.sources?.includes(mainMenu) }"
             skipLocationChange
             routerLinkActive="active"
-            (click)="analyticsClick('/sources'); closeUserMetaTagsSlider()"
+            (click)="goToRoute('/content'); closeUserMetaTagsSlider()"
           >
             <span>{{ 'header_sources' | translate }}</span>
           </div>
@@ -56,8 +56,7 @@
             skipLocationChange
             routerLinkActive="active"
             (click)="
-              analyticsClick('/FieldManagementComponent');
-              closeUserMetaTagsSlider()
+              goToRoute('/FieldManagementComponent'); closeUserMetaTagsSlider()
             "
           >
             <span>{{ 'header_indices' | translate }}</span>
@@ -81,33 +80,33 @@
               <ul class="dropdown-menu content-menu content-width">
                 <li
                   class="experment-link"
-                  (click)="analyticsClick('/experiments')"
+                  (click)="goToRoute('/experiments')"
                   id="experimentsTab"
                   [ngClass]="{ active: mainMenu === '/experiments' }"
                 >
                   <a>{{ 'header_experiments' | translate }}</a>
                 </li>
                 <li
-                  (click)="analyticsClick('/dashboard')"
+                  (click)="goToRoute('/dashboard')"
                   id="dashboardTab"
                   [ngClass]="{ active: mainMenu === '/dashboard' }"
                 >
                   <a>{{ 'header_dashboard' | translate }}</a>
                 </li>
                 <li
-                  (click)="analyticsClick('/userEngagement')"
+                  (click)="goToRoute('/userEngagement')"
                   [ngClass]="{ active: mainMenu === '/userEngagement' }"
                 >
                   <a>{{ 'header_userEngagement' | translate }}</a>
                 </li>
                 <li
-                  (click)="analyticsClick('/searchInsights')"
+                  (click)="goToRoute('/searchInsights')"
                   [ngClass]="{ active: mainMenu === '/searchInsights' }"
                 >
                   <a>{{ 'header_searchInsights' | translate }}</a>
                 </li>
                 <li
-                  (click)="analyticsClick('/resultInsights')"
+                  (click)="goToRoute('/resultInsights')"
                   [ngClass]="{ active: mainMenu === '/resultInsights' }"
                 >
                   <a>{{ 'header_resultInsights' | translate }}</a>
@@ -121,9 +120,7 @@
             [ngClass]="{ active: menuItems?.manage?.includes(mainMenu) }"
             skipLocationChange
             routerLinkActive="active"
-            (click)="
-              analyticsClick('/generalSettings'); closeUserMetaTagsSlider()
-            "
+            (click)="goToRoute('/generalSettings'); closeUserMetaTagsSlider()"
           >
             <span>{{ 'header_manage' | translate }}</span>
           </div>
