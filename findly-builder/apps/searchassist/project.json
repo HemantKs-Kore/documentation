@@ -68,7 +68,7 @@
             "inject": false
           }
         ],
-        "serviceWorker": true,
+        "serviceWorker": false,
         "ngswConfigPath": "apps/searchassist/ngsw-config.json",
         "allowedCommonJsDependencies": [
           "moment",
