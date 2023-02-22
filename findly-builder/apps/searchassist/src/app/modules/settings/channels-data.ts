@@ -1,7 +1,7 @@
 export const channels = [
   {
     id: 'rtm',
-    name: 'Web/Mobile Client',
+    name: 'settings_web_mobile_client',
     enable: false,
     status: 'Not Setup',
     hide: false,
@@ -11,7 +11,7 @@ export const channels = [
   },
   {
     id: 'ivrLocal',
-    name: 'Webhook',
+    name: 'botAction_webhook_url',
     enable: false,
     status: 'Not Setup',
     hide: false,

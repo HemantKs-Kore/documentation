@@ -20,7 +20,7 @@
             *ngFor="let config of indexConfigs"
           >
             <a>{{
-              config.name === 'Default' ? 'DefaultIndex' : config.name
+              config.name === 'Default' ? ('app_menu_Default_Index' | translate) : config.name
             }}</a>
           </li>
         </perfect-scrollbar>

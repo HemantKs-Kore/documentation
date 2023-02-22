@@ -60,7 +60,7 @@
           class="week time"
           (click)="getDateRange(7)"
           [ngClass]="{ selected: defaultSelectedDay === 7 }"
-          >{{ 'user_engagement_7_days' | translate }}
+          >{{ 'result_insights_7_days' | translate }}
         </span>
         <span
           class="custom time"
@@ -265,7 +265,7 @@
                     ngbTooltip="{{ highValue - lowValue }} hrs"
                   ></ng5-slider>
                   <span class="span24">{{
-                    'user_engagement_24' | translate
+                    'user_engagement_24hrs' | translate
                   }}</span>
                 </div>
                 <div class="legend-sec col-6 p-0">

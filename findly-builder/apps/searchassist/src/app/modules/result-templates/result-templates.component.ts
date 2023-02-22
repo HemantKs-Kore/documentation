@@ -123,9 +123,9 @@ export class ResultTemplatesComponent implements OnInit, OnDestroy {
   selectedTemplateName: string;
   postback = '';
   tabList: any = [
-    { id: 'liveSearch', name: 'Live Search' },
-    { id: 'conversationalSearch', name: 'Conversational Search' },
-    { id: 'fullSearch', name: 'Full Page Result' },
+    { id: 'liveSearch', name: 'resultTemplate_liveSearch' },
+    { id: 'conversationalSearch', name: 'resultTemplate_conversationalSearch' },
+    { id: 'fullSearch', name: 'resultTemplate_fullPageResult' },
   ];
   resultListObj: any = {
     facetsSetting: {

@@ -261,7 +261,7 @@
                                             [disabled]="!(searchObject.searchWidgetConfig.searchButtonEnabled)"
                                             [(ngModel)]="searchObject.searchWidgetConfig.buttonPlacementPosition">
                                         <label for="radio-232"
-                                            class="radio-custom-label">{{'searchexperience.inside_search_box' |
+                                            class="radio-custom-label">{{'searchexperience_inside_search_box' |
                                             translate}}</label>
                                     </div>
                                 </div>
@@ -392,7 +392,7 @@
                         <div class="left-sec col-12 p-0">
                             <div class="greeting-message border-with-padding border-0 pb-0 pt-0">
                                 <div class="kr-sg-input-text-area w-auto">
-                                    <div class="label-text">{{'searchexperience.customize_launch' | translate}}</div>
+                                    <div class="label-text">{{'searchexperience_customize_launch' | translate}}</div>
                                     <textarea class="input-text" maxlength="150" #box (keyup)="0"
                                         [(ngModel)]="searchObject.searchInteractionsConfig.welcomeMsg"
                                         [ngStyle]="{'color':searchObject.searchInteractionsConfig.welcomeMsgColor}"
@@ -655,7 +655,7 @@
                                         </label>
                                     </div>
                                     <div class="border-with-padding" *ngFor="let data of suggestions">
-                                        <div class="label_text">{{data.name}}</div>
+                                        <div class="label_text">{{data.name | translate}}</div>
                                         <div class="range-slider">
                                             <app-range-slider-search-experience [customClass]='"querySlider"' [allData]='data.sliderObj' (valueEvent)="valueEvent(data.name,$event)"></app-range-slider-search-experience>
                                         </div>
@@ -793,8 +793,8 @@
                     <div class="desc-text">{{'searchexperience_reduces_users_time' | translate}}</div>
                     <div class="info-text">{{'searchexperience_here' | translate}}<span>
                             {{'searchexperience_Query_suggestions' | translate}}</span> {{'sa_are' |
-                        translate}} <span>{{'searchexperience.set_to_two' | translate}}</span> {{'searchexperience_and'
-                        | translate}} <span>{{'searchexperience.live_search' | translate}}</span>
+                        translate}} <span>{{'searchexperience_set_to_two' | translate}}</span> {{'searchexperience_and'
+                        | translate}} <span>{{'searchexperience_live_search' | translate}}</span>
                         {{'searchexperience_is' | translate}} <span>{{'searchexperience_set_to_zero' |
                             translate}}</span></div>
                 </div>
@@ -808,9 +808,9 @@
                 <div class="left-content">
                     <div class="title"><span class="hilightedcolor">{{'searchexperience_live_search' |
                             translate}}</span></div>
-                    <div class="desc-text">{{'searchexperience.enhances_users' | translate}}</div>
+                    <div class="desc-text">{{'searchexperience_enhances_users' | translate}}</div>
                     <div class="info-text">{{'searchexperience_here' | translate}}
-                        <span>{{'searchexperience_Query_suggestions' | translate}}</span> {{'searchexperience.are' |
+                        <span>{{'searchexperience_Query_suggestions' | translate}}</span> {{'searchexperience_are' |
                         translate}} <span>{{'searchexperience_set_to_zero' | translate}}</span>
                     </div>
                 </div>
@@ -912,7 +912,7 @@
                             translate}}</span></div>
                     <div class="desc-text">{{'searchexperience_enhances_users' | translate}}</div>
                     <div class="info-text">{{'searchexperience_here' | translate}}
-                        <span>{{'Query_suggestions' | translate}}</span> {{'searchexperience.are' |
+                        <span>{{'Query_suggestions' | translate}}</span> {{'searchexperience_are' |
                         translate}} <span>{{'searchexperience_set_to_zero' | translate}}</span>
                     </div>
                 </div>
@@ -936,7 +936,7 @@
                     <div class="info-text">{{'searchexperience_here' | translate}}
                         <span>{{'searchexperience_Query_suggestions' | translate}}</span> {{'searchexperience_and' |
                         translate}} <span>{{'ssearchexperience_liv_search' | translate}}</span>,
-                        {{'searchexperience.both_enabled' | translate}} <span>{{'searchexperience_set_to_three' |
+                        {{'searchexperience_both_enabled' | translate}} <span>{{'searchexperience_set_to_three' |
                             translate}}</span> {{'searchexperience_and' | translate}}
                         <span>{{'searchexperience_five_respectively' | translate}}</span>
                     </div>

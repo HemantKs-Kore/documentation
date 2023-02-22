@@ -62,7 +62,7 @@
             ngbDropdownMenu
           >
             <li (click)="sourceFilter.close(); filterRecord('all')">
-              <span class="list-name">All</span>
+              <span class="list-name">{{'sa_all'}}</span>
             </li>
             <li
               *ngFor="let filArr of filterArray"

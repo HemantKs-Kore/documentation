@@ -160,7 +160,7 @@
               <div class="img-block cursor-pointer">
                 <img src="{{ channel.icon }}" height="140" />
               </div>
-              <div class="main-title">{{ channel.name }}</div>
+              <div class="main-title">{{ channel.name | translate }}</div>
               <div class="configuration" *ngIf="channel.enable && !delChannel">
                 {{ 'settings_configured' | translate }}
               </div>
@@ -1151,7 +1151,7 @@
             *ngIf="slider !== 3"
             [disabled]="(!credntial.name || !credntial.awt) && slider === 2"
           >
-            {{ 'settings.continue' | translate }}
+            {{ 'settings_continue' | translate }}
           </button>
           <button
             class="kr-sg-button-secondary btn_lg mr-2"
@@ -1255,7 +1255,7 @@
             'settings_push_notifications_enabled' | translate
           }}</span
           ><span class="disabled">{{
-            'settings.push_notifications_enabled' | translate
+            'settings_push_notifications_enabled' | translate
           }}</span>
         </div>
       </label>

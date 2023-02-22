@@ -137,7 +137,7 @@
         <div class="col-12 p-0" *ngIf="validationRules && validationRules.rules && validationRules.rules.length">
           <ng-container *ngFor="let simpleRule of validationRules.rules; index as parentIndex">
               <div class="kr-sg-input-text rule-name-input">
-                <div class="label-text">Rule Name</div>
+                <div class="label-text">{{'businessRules_rule_name' | translate}}</div>
                   <input autocomplete="off" type="text" placeholder="Enter Rule Name" class="input-text" [(ngModel)]='name.na'>
               </div>
               <div class="validation-setting-rules" >
@@ -153,7 +153,7 @@
   </perfect-scrollbar> 
   <div class="modal-footer">
       <button class="kr-sg-button-primary btn_lg" *ngIf="isAdd" (click)="saveRules()">Add</button>
-      <button class="kr-sg-button-primary btn_lg" *ngIf="isEdit" (click)="editRules()">Edit</button>
+      <button class="kr-sg-button-primary btn_lg" *ngIf="isEdit" (click)="editRules()">{{'sa_edit' | translate}}</button>
       <button class="kr-sg-button-secondary btn_lg" (click)='closeAddRulesModal()'>Cancel</button>
   </div>
 </kr-modal>

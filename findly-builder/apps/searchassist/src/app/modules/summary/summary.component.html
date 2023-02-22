@@ -253,7 +253,7 @@
       <div class="col-6 cards-data row m-0">
           <div class="col-12 inner-content mb-20 right-sec-cards h-auto" *ngIf="appSelectionService?.env_dep_type!=='installer'">
             <div class="current-sub-plan d-flex align-items-center"  *ngIf="currentPlan?.planName">
-              <div class="title-heading">{{'plan.current_subscription_plan' | translate}}</div>
+              <div class="title-heading">{{'plan_current_subscription_plan' | translate}}</div>
               <div class="free-trial-btn"><span class="trail-icon" *ngIf="currentPlan">
                 <i class="si-trail" *ngIf="(currentPlan?.planName|lowercase)==='free'"></i>
               <img src="assets/images/pricing-plan/new-plan-pricing-img/{{((currentPlan?.planName|lowercase)==='standard')?'standard':'enterprise'}}-plan-icon.svg" class="mb-1" *ngIf="(currentPlan?.planName|lowercase)!=='free'"/>
@@ -264,7 +264,7 @@
             <ng-container *ngIf="!loading_skelton">
               <div class="upgrade-btn {{['enterprise','custom','unlimited'].includes(currentPlan?.planName|lowercase)&&'d-none'}}" (click)="redirectToPricing()"><span class="update-sapn pr-2"><i class="si-publish"></i></span>{{"connectors_upgrade"|translate}}</div>
               <div class="free-status-title">
-                <div class="started-on">{{'plan.started_on' | translate}} : <span>{{(currentPlan?.createdAt|dateFormatPipe:'D MMMM YYYY')}}</span></div>
+                <div class="started-on">{{'plan_started_on' | translate}} : <span>{{(currentPlan?.createdAt|dateFormatPipe:'D MMMM YYYY')}}</span></div>
                 <div class="plan-remaining {{!['free'].includes(currentPlan?.planName|lowercase)&&'d-none'}}"><span>{{currentPlan?.expiryDays}}</span> {{"overview_days_remaining"|translate}}</div>
               </div>
               <div class="queries-documents">

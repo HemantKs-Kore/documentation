@@ -397,7 +397,7 @@
               >
                 <span
                   class="action_link-icon"
-                  ngbTooltip="{{ 'fields.edit' | translate }}"
+                  ngbTooltip="{{ 'fields_edit' | translate }}"
                   [container]="'body'"
                   placement="{{ i === 0 ? 'bottom' : 'top' }}"
                   (click)="addEditFiled(field)"
@@ -467,7 +467,7 @@
                 >
                   <input
                     type="text"
-                    placeholder="{{ 'fields.enter_field_name' | translate }}"
+                    placeholder="{{ 'fields_enter_field_name' | translate }}"
                     maxlength="60"
                     class="input-search dropdown-toggle dropdown-input"
                     [ngClass]="{
@@ -665,9 +665,9 @@
           "
         >
           <div class="tost-text">
-            {{ 'fields.the_field_type_has_been_changed_from' | translate }}
+            {{ 'fields_the_field_type_has_been_changed_from' | translate }}
             {{ newFieldObj.previousFieldDataType | translate }}
-            {{ 'fields.to' | translate }}
+            {{ 'fields_to' | translate }}
             {{ newFieldObj.fieldDataType | translate }}.
             <span
               class="pr-1"
@@ -726,12 +726,12 @@
                 [(ngModel)]="newFieldObj.isMultiValued"
               />
               <label for="checkbox_grpfd" class="checkbox-custom-label">{{
-                'fields.multi_valued' | translate
+                'fields_multi_valued' | translate
               }}</label
               ><span
                 placement="bottom"
                 ngbTooltip="{{
-                  'fields.document_might_contain_multiple' | translate
+                  'fields_document_might_contain_multiple' | translate
                 }}"
                 [container]="'body'"
                 tooltipClass="dashboard-custom-tooltips"
@@ -747,12 +747,12 @@
                 [(ngModel)]="newFieldObj.isRequired"
               />
               <label for="checkbox_grpf" class="checkbox-custom-label">{{
-                'fields.required' | translate
+                'fields_required' | translate
               }}</label
               ><span
                 placement="bottom"
                 ngbTooltip="{{
-                  'fields.documents_that_do_not_contain_value' | translate
+                  'fields_documents_that_do_not_contain_value' | translate
                 }}"
                 [container]="'body'"
                 tooltipClass="dashboard-custom-tooltips"
@@ -769,12 +769,12 @@
                 (change)="newFieldObj.isIndexed = newFieldObj.isStored"
               />
               <label for="checkbox_grpd" class="checkbox-custom-label">{{
-                'fields.stored' | translate
+                'fields_stored' | translate
               }}</label
               ><span
                 placement="bottom"
                 ngbTooltip="{{
-                  'fields.value_of_the_field_can_be_fetched_by_the_search_queries'
+                  'fields_value_of_the_field_can_be_fetched_by_the_search_queries'
                     | translate
                 }}"
                 [container]="'body'"
@@ -794,12 +794,12 @@
                 "
               />
               <label for="checkbox_grpe" class="checkbox-custom-label">{{
-                'fields.indexed' | translate
+                'fields_indexed' | translate
               }}</label
               ><span
                 placement="bottom"
                 ngbTooltip="{{
-                  'fields.value_of_the_field_can_be_used_in_search_queries'
+                  'fields_value_of_the_field_can_be_used_in_search_queries'
                     | translate
                 }}"
                 [container]="'body'"
@@ -811,11 +811,11 @@
           </div>
           <div class="kr-sg-input-text col-10 p-0 d-none">
             <div class="label-text">
-              {{ 'fields.defalult_value_optional' | translate }}
+              {{ 'fields_defalult_value_optional' | translate }}
             </div>
             <input
               type="text"
-              placeholder="{{ 'fields.add_value_here' | translate }}"
+              placeholder="{{ 'fields_add_value_here' | translate }}"
               class="input-text"
               [(ngModel)]="newFieldObj.defaultValue"
               maxlength="60"
@@ -829,7 +829,7 @@
               <img src="assets/icons/info-blue.svg" />
             </div>
             <div class="tost-text">
-              {{ 'fields.indexed_property_has_been_set_to_false' | translate }}
+              {{ 'fields_indexed_property_has_been_set_to_false' | translate }}
               {{
                 indexedWarningMessage
                   ? indexedWarningMessage + '.'
@@ -848,9 +848,9 @@
               <img src="assets/icons/info-blue.svg" />
             </div>
             <div class="tost-text">
-              {{ 'fields.the_field_type_has_been_changed_from' | translate }}
+              {{ 'fields_the_field_type_has_been_changed_from' | translate }}
               {{ newFieldObj.previousFieldDataType | translate }}
-              {{ 'fields.to' | translate }}
+              {{ 'fields_to' | translate }}
               {{ newFieldObj.fieldDataType | translate }}.
               {{
                 indexedWarningMessage
