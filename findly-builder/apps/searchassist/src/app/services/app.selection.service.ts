@@ -169,7 +169,7 @@ export class AppSelectionService {
         this.redirectToLogin();
       }
       // eslint-disable-next-line no-empty
-    } catch (e) {}
+    } catch (e) { }
     return previOusState;
   }
   private redirectToLogin() {
@@ -300,8 +300,9 @@ export class AppSelectionService {
 
   //get number of days difference method
   getDiffNumberOfDays(item) {
+    const startDate = item?.startDate || item?.createdOn;
     return Math.abs(
-      differenceInDays(parseISO(item?.startDate), parseISO(item?.endDate))
+      differenceInDays(parseISO(startDate), parseISO(item?.endDate))
     );
   }
 

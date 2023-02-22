@@ -3108,6 +3108,18 @@
       }
     }
   }
+   // onboarding-Journy-Model start from here
+   &.onboarding-Journy-Model{
+    z-index: 99999;
+    .modal-dialog {
+        max-width: 100% !important;
+        width: 700px;
+        height: 450px;
+        text-align: left;
+        background: #FFFFFF;
+        border-radius: 8px;
+    }
+}
 }
 
 .above-modal-drop-class {

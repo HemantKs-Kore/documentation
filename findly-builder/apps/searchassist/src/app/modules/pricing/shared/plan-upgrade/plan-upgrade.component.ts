@@ -32,7 +32,7 @@ declare const $: any;
   templateUrl: './plan-upgrade.component.html',
   styleUrls: ['./plan-upgrade.component.scss'],
 })
-export class PlanUpgradeComponent implements OnInit,OnDestroy{
+export class PlanUpgradeComponent implements OnInit, OnDestroy {
   addOverageModalPopRef: any;
   choosePlanModalPopRef: any;
   paymentGatewayModelPopRef: any;
@@ -112,7 +112,7 @@ export class PlanUpgradeComponent implements OnInit,OnDestroy{
     private router: Router,
     private notificationService: NotificationService,
     public localstore: LocalStoreService
-  ) {}
+  ) { }
 
   @ViewChild('addOverageModel') addOverageModel: KRModalComponent;
   @ViewChild('changePlanModel') changePlanModel: KRModalComponent;
@@ -426,7 +426,7 @@ export class PlanUpgradeComponent implements OnInit,OnDestroy{
         this.enterpriseForm.currentPlan =
           this.selectedPlan?.planName +
           ' Plan: ' +
-          (this.selectedPlan?.billingUnit && this.selectedPlan?.billingUnit);
+          (this.selectedPlan?.billingUnit || '');
       }
       this.contactusModelPopRef = this.contactUsModel.open();
     } else if (type === 'close') {

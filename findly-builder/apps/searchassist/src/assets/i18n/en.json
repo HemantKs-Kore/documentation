@@ -3872,5 +3872,9 @@
   "app_menu_name_search_config": "Name the New Search Configuration",
   "app_menu__config_name": "Configuration Name",
   "app_menu__index_config_name": "Configuration Name",
-  "app_menu__name_of_index_config_name": "Name of Index Configuration"
+  "app_menu__name_of_index_config_name": "Name of Index Configuration",
+  
+  "answer_snippet_goto_workbench":"Go to Workbench",
+  "plans_overages_opt_out":"Opting out of overages may affect the search results when your standard plan’s query limits are exhausted. Overages will continue to apply till the end of the current billing cycle."
+
 }

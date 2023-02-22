@@ -282,7 +282,7 @@ export class WorkbenchComponent implements OnInit, OnDestroy, AfterViewInit {
     'confluenceServer',
     'zendesk',
     'sharepointOnline',
-    'googleDrive'
+    'googleDrive',
   ];
   readonly separatorKeysCodes: number[] = [ENTER, COMMA];
   entityName: string;
@@ -2229,7 +2229,7 @@ export class WorkbenchComponent implements OnInit, OnDestroy, AfterViewInit {
           'confluenceServer',
           'zendesk',
           'sharepointOnline',
-          'googleDrive'
+          'googleDrive',
         ].includes(this.sourceType)
       ) {
         payload.connectorType = this.sourceType;
@@ -2501,10 +2501,12 @@ export class WorkbenchComponent implements OnInit, OnDestroy, AfterViewInit {
           fieldName: 1,
         },
       };
+    offset ? (quaryparms.offset = offset) : null;
     const serviceId = 'post.allField';
     // let serviceId ='get.allField';
     this.service.invoke(serviceId, quaryparms, payload).subscribe(
       (res) => {
+        // this.fields = res.fields || [];
         if (res.hasMore) {
           //this.fields.push(res.fields);
           res.fields.forEach((element) => {
