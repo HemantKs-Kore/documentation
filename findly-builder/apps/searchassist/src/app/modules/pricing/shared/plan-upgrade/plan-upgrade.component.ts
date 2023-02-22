@@ -1,14 +1,12 @@
 import {
   Component,
-  ChangeDetectionStrategy,
   OnInit,
   ViewChild,
   Output,
   EventEmitter,
   Input,
-  OnDestroy,
+  OnDestroy
 } from '@angular/core';
-import { Router } from '@angular/router';
 import { ServiceInvokerService } from '@kore.services/service-invoker.service';
 import { ConstantsService } from '@kore.services/constants.service';
 import { NotificationService } from '@kore.services/notification.service';
@@ -31,6 +29,7 @@ declare const $: any;
   selector: 'app-plan-upgrade',
   templateUrl: './plan-upgrade.component.html',
   styleUrls: ['./plan-upgrade.component.scss'],
+
 })
 export class PlanUpgradeComponent implements OnInit, OnDestroy {
   addOverageModalPopRef: any;
@@ -70,7 +69,7 @@ export class PlanUpgradeComponent implements OnInit, OnDestroy {
   invoiceOrderId: any;
   featuresExceededUsage: any = [];
   upgradePlanData: any = {};
-  selectedPaymentPage = 'payment_confirm';
+  selectedPaymentPage: string = 'payment_confirm';
   showLoader: boolean;
   payementResponse: any = {
     hostedPage: {
@@ -109,10 +108,9 @@ export class PlanUpgradeComponent implements OnInit, OnDestroy {
     public workflowService: WorkflowService,
     private authService: AuthService,
     public sanitizer: DomSanitizer,
-    private router: Router,
     private notificationService: NotificationService,
     public localstore: LocalStoreService
-  ) {}
+  ) { }
 
   @ViewChild('addOverageModel') addOverageModel: KRModalComponent;
   @ViewChild('changePlanModel') changePlanModel: KRModalComponent;
@@ -639,12 +637,6 @@ export class PlanUpgradeComponent implements OnInit, OnDestroy {
     this.closeSelectedPopup('free_upgrade');
     this.openSelectedPopup('choose_plan');
   }
-
-  //redirect to plans page in plan Onboarding modal
-  // redirectToPlansPage(){
-  //   this.closeSelectedPopup('onboardingJourny');
-  //   this.router.navigate(['/pricing'], { skipLocationChange: true });
-  // }
 
   //clear all subscriptions in below lifecycle
   ngOnDestroy() {

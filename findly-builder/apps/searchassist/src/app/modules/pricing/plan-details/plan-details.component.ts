@@ -1,11 +1,9 @@
 import {
   Component,
-  ChangeDetectionStrategy,
   OnInit,
   ViewChild,
   OnDestroy,
-  ElementRef,
-  ChangeDetectorRef,
+  ElementRef
 } from '@angular/core';
 import { KRModalComponent } from '../../../shared/kr-modal/kr-modal.component';
 import { MatDialog } from '@angular/material/dialog';
@@ -22,8 +20,7 @@ import { LocalStoreService } from '@kore.services/localstore.service';
 @Component({
   selector: 'app-plan-details',
   templateUrl: './plan-details.component.html',
-  styleUrls: ['./plan-details.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  styleUrls: ['./plan-details.component.scss']
 })
 export class PlanDetailsComponent implements OnInit, OnDestroy {
   queryGraph: any;
@@ -72,9 +69,8 @@ export class PlanDetailsComponent implements OnInit, OnDestroy {
     public dialog: MatDialog,
     private notificationService: NotificationService,
     private appSelectionService: AppSelectionService,
-    public localstore: LocalStoreService,
-    private cd: ChangeDetectorRef
-  ) {}
+    public localstore: LocalStoreService
+  ) { }
 
   @ViewChild('cancelSubscriptionModel')
   cancelSubscriptionModel: KRModalComponent;
@@ -85,13 +81,12 @@ export class PlanDetailsComponent implements OnInit, OnDestroy {
   @ViewChild('datetimeTrigger') datetimeTrigger: ElementRef<HTMLElement>;
 
   async ngOnInit() {
-    await this.appSelectionService.getCurrentUsage();
+    await this.appSelectionService.getCurrentSubscriptionData();
     this.currentSubscriptionPlan =
       this.appSelectionService?.currentsubscriptionPlanDetails;
     this.currentSubsciptionData =
       this.appSelectionService.currentSubscription.subscribe((res) => {
         this.currentSubscriptionPlan = res;
-        this.cd.detectChanges();
         this.getSubscriptionData();
       });
     this.updateUsageData = this.appSelectionService.updateUsageData.subscribe(
@@ -231,7 +226,7 @@ export class PlanDetailsComponent implements OnInit, OnDestroy {
     const emailId = userInfo?.currentAccount?.userInfo?.emailId;
     const currentPlanName =
       this.currentSubscriptionPlan?.subscription?.billing?.unit &&
-      this.currentSubscriptionPlan?.subscription?.planName !== 'Enterprise'
+        this.currentSubscriptionPlan?.subscription?.planName !== 'Enterprise'
         ? `${this.currentSubscriptionPlan?.subscription?.planName} Plan(${this.currentSubscriptionPlan?.subscription?.billing?.unit})`
         : this.currentSubscriptionPlan?.subscription?.planName + ' Plan';
     const payload = {
@@ -291,7 +286,7 @@ export class PlanDetailsComponent implements OnInit, OnDestroy {
     }
     xAxisQueryData.length
       ? (this.monthRange =
-          xAxisQueryData[0] + ' - ' + xAxisQueryData[xAxisQueryData.length - 1])
+        xAxisQueryData[0] + ' - ' + xAxisQueryData[xAxisQueryData.length - 1])
       : (this.monthRange = 'Jan - June');
     this.queryGraph = {
       tooltip: {
@@ -352,8 +347,6 @@ export class PlanDetailsComponent implements OnInit, OnDestroy {
         },
       ],
     };
-
-    this.cd.detectChanges();
   }
 
   //renew | revert cancel subscription

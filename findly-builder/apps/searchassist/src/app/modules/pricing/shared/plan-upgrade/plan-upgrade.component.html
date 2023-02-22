@@ -98,14 +98,11 @@
                       plan?.name === selectedPlan?.planName &&
                       selectedPlan?.billing?.unit === plan?.billing?.unit
                   }"
-                  *ngIf="
-                    (plan?.name | lowercase) === planNames.standard &&
-                    termPlan === 'month'
-                  "
+                  *ngIf="(plan?.name | lowercase) === planNames.standard"
                   (click)="
-                    plan?.name === selectedPlan?.planName
+                    (plan?.name === selectedPlan?.planName&&selectedPlan?.billing?.unit === plan?.billing?.unit)
                       ? null
-                      : selectedPlan?.planName === 'Enterprise'
+                      : (selectedPlan?.planName === 'Enterprise'||selectedPlan?.billing?.unit==='year')
                       ? contactusModel('open', plan)
                       : [
                           openSelectedPopup('payment_gateway'),
@@ -114,29 +111,14 @@
                   "
                 >
                   {{
-                    (plan?.name === selectedPlan?.planName
+                    ((plan?.name === selectedPlan?.planName&&selectedPlan?.billing?.unit === plan?.billing?.unit)
                       ? 'invoices_current_plan'
-                      : selectedPlan?.planName === 'Enterprise'
+                      : (selectedPlan?.planName === 'Enterprise'||selectedPlan?.billing?.unit==='year')
                       ? 'plan_talk_to_us'
                       : 'plan_choose_plan'
                     ) | translate
                   }}
-                </button>
-                <button
-                  class="btn"
-                  [ngClass]="{
-                    'current-paln':
-                      plan?.name === selectedPlan?.planName &&
-                      selectedPlan?.billing?.unit === plan?.billing?.unit
-                  }"
-                  *ngIf="
-                    (plan?.name | lowercase) === planNames.standard &&
-                    termPlan === 'year'
-                  "
-                  (click)="contactusModel('open', plan)"
-                >
-                  {{ 'plan_talk_to_us' | translate }}
-                </button>
+                </button>               
                 <button
                   class="btn"
                   [ngClass]="{
@@ -563,7 +545,7 @@
                   (click)="typeOfPlan(type); choosePlanType(type)"
                   [ngClass]="{
                     'order-option-selected': type === termPlan,
-                    disabled: type === 'year'
+                    disabled: type === selectedPlan?.billing?.unit
                   }"
                 >
                   {{ 'plan_' + type | translate }}

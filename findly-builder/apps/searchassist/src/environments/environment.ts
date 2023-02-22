@@ -13,7 +13,7 @@ export const environment = {
     ENABLE: true,
     APPCUES_KEY: '112004',
   },
-  // API_SERVER_URL: 'http://192.168.10.101:5000'
+  // API_SERVER_URL: 'https://93ee-49-249-160-22.in.ngrok.io',
   topicGuideBaseUrl:
     'https://koredotcom.github.io/koredotai-docs/searchassist/topic-guide/',
   // API_SERVER_URL: 'http://192.168.10.101:5000'
