@@ -212,7 +212,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
     },
     { displayName: 'Experiments', routeId: '/experiments', quaryParms: {} },
     { displayName: 'Actions', routeId: '/botActions', quaryParms: {} },
-    { displayName: 'Workbench', routeId: '/index', quaryParms: {} },
+    { displayName: 'Workbench', routeId: '/workbench', quaryParms: {} },
     {
       displayName: 'Indices',
       routeId: '/FieldManagementComponent',
@@ -920,9 +920,15 @@ export class HeaderComponent implements OnInit, OnDestroy {
       return;
     }
     this.showSearch = !this.showSearch;
+    // setTimeout(() => {
+    //   document.getElementById('globalSearch').focus();
+    // }, 200);
     setTimeout(() => {
-      document.getElementById('globalSearch').focus();
-    }, 100);
+      const searchElement = document.getElementById('globalSearch');
+      if (searchElement) {
+        searchElement.focus();
+      }
+    }, 200);
   }
   focusoutSearch() {
     this.searchText = '';
