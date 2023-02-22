@@ -50,10 +50,10 @@
                             <div class="table_body row m-0" *ngFor="let fields of tablefieldvalues;let i = index" >
                         
                                 <div class="col-5 title text-left text-truncate" title="">
-                                    {{fields_fieldName}}
+                                    {{fields.fieldName}}
                                 </div>
                                 <div class="col-5 title text-left p-0">
-                                    {{'sa_'+fields_fieldDataType | translate}}
+                                    {{'sa_'+fields.fieldDataType | translate}}
                                 </div>
                                 <div class="col-2 p-0 text-left">
                                     <div class="action_links">
