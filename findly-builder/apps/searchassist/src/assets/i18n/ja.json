@@ -1721,6 +1721,7 @@
     "plan_no_of_documents_and_queries_per_month":"1か月あたりのドキュメント数とクエリ数",
     "plan_proceed":"続行",
     "plan_cancel":"キャンセル",
+    "plan_cancel_payment":"Cancel Payment",
     "plan_end_of_billing_cycle":"サブスクリプションは、請求サイクル終了まで有効です",
     "plan_post_billing_cycle":"請求サイクル終了後、アプリはエンドユーザーに応答しなくなります",
     "plan_reason_you_want_cancel":"キャンセルしたい理由は何ですか？",
@@ -3467,17 +3468,6 @@
     "11thNov sample":"11Oct  Not Added-- JA -------------------------------------------------------------------------------------------------------------",
     
 
-    "app_menu_Default_search":"Default Search",
-    "app_menu_name_index_config":"Name the New Index Configuration",
-    "app_menu_name_search_config":"Name the New Search Configuration",
-    "app_menu__config_name":"Configuration Name",
-    "app_menu__index_config_name":"Configuration Name",
-    "app_menu__name_of_index_config_name":"Name of Index Configuration",
-    "app_menu_utlization_100%":"You have reached your query limit, please upgrade to enjoy uninterrupted services",
-    "app_menu_upgrade_plan":"Upgrade Plan",
-    "app_menu_Clone ":"Clone",
-
-
 
   "index_Settings": "インデックス設定",
   "index_Settings_index_languages": "インデックス言語",
@@ -3843,6 +3833,15 @@
 
   "contentSource_crawl_later":"Crawl Later",
 
+  "app_menu_Default_search":"Default Search",
+  "app_menu_name_index_config":"Name the New Index Configuration",
+  "app_menu_name_search_config":"Name the New Search Configuration",
+  "app_menu__config_name":"Configuration Name",
+  "app_menu__index_config_name":"Configuration Name",
+  "app_menu__name_of_index_config_name":"Name of Index Configuration",
+  "app_menu_utlization_100%":"You have reached your query limit, please upgrade to enjoy uninterrupted services",
+  "app_menu_upgrade_plan":"Upgrade Plan",
+  "app_menu_Clone ":"Clone",
 
 
   "searchexperience_live_search_results":"ライブ検索結果"

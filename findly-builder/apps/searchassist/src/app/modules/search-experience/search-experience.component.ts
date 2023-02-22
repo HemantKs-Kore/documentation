@@ -422,7 +422,7 @@ export class SearchExperienceComponent implements OnInit, OnDestroy {
     if (type == 'bottom') {
       this.suggestions.push(
         {
-          name: 'Query Suggestions',
+          name: 'searchexperience_query_suggestions',
           sliderObj: new RangeSlider(
             0,
             3,
@@ -433,7 +433,7 @@ export class SearchExperienceComponent implements OnInit, OnDestroy {
           ),
         },
         {
-          name: 'Live Search Results',
+          name: 'searchexperience_live_search_results',
           sliderObj: new RangeSlider(
             0,
             5,
@@ -461,7 +461,7 @@ export class SearchExperienceComponent implements OnInit, OnDestroy {
     } else {
       this.suggestions.push(
         {
-          name: 'Query Suggestions',
+          name: 'searchexperience_query_suggestions',
           sliderObj: new RangeSlider(
             0,
             5,
@@ -472,7 +472,7 @@ export class SearchExperienceComponent implements OnInit, OnDestroy {
           ),
         },
         {
-          name: 'Live Search Results',
+          name: 'searchexperience_live_search_results',
           sliderObj: new RangeSlider(
             0,
             10,
@@ -506,7 +506,7 @@ export class SearchExperienceComponent implements OnInit, OnDestroy {
   }
   //app-range slider method
   valueEvent(type, val) {
-    if (type == 'Query Suggestions') {
+    if (type == 'searchexperience_query_suggestions') {
       this.searchObject.searchInteractionsConfig.querySuggestionsLimit = val;
       this.suggestions[0].sliderObj.default = val;
     } else {

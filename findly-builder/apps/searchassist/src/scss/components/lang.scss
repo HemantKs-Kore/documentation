@@ -170,12 +170,43 @@
                 }
             }
         }
+        .version{
+            width: 70px !important;
+        }
     }
 
     //Search-Seattings 
-    .search-settings-main-block{
+    .search-settings-right{
         .landing-page-toggle{
         white-space: nowrap;
+        padding: 0 20px 25px 14px !important;
+        .slider .no{
+            .no {
+                margin-left: -62px !important;
+            }
+        }
+        }
+        .search-interface-right-sec{
+            .slider{
+                white-space: nowrap;
+            }
+        }
+        .highlighting-toggle{
+            white-space: nowrap;
+            padding: 0 20px 25px 14px !important;
+        }
+        .slider{
+            white-space: nowrap;
+            .no {
+                margin-left: -62px !important;
+            }
+        }
+    }
+
+
+    .simulate-test-block{
+        .search-block-btn{
+            white-space: nowrap;
         }
     }
    
