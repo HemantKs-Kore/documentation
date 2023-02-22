@@ -43,7 +43,7 @@
       <i
         class="si-help info-icon"
         placement="right"
-        [ngbTooltip]="'businessRules.contextual_rules_allow' | translate"
+        [ngbTooltip]="'businessRules_contextual_rules_allow' | translate"
         [container]="'body'"
         tooltipClass="metrics_tooltips m-0"
       ></i>
@@ -399,13 +399,13 @@
                 <span class="tags-input mr-1 mb-1 contextCategory">
                   <span class="small-text"
                     >{{
-                      'businessRules.' + rule.contextType | translate
+                      'businessRules_' + rule.contextType | translate
                     }}
                     :</span
                   >
                   <span container="body">{{
                     rule.contextType !== 'userContext'
-                      ? ('businessRules.' + rule.contextCategory | translate)
+                      ? ('businessRules_' + rule.contextCategory | translate)
                       : rule.contextCategory
                   }}</span>
                 </span>
@@ -480,13 +480,13 @@
                     >{{ outcome.scale }}x</span
                   >
                   {{
-                    'businessRules.action' + outcome.outcomeType | translate
+                    'businessRules_action' + outcome.outcomeType | translate
                   }}Result
                 </span>
               </div>
               <div class="d-inline-flex align-items-start">
                 <span class="outer-name mr-1 mb-1">{{
-                  'businessRules.' + outcome.outcomeOperator | translate
+                  'businessRules_' + outcome.outcomeOperator | translate
                 }}</span>
                 <span class="tags-input mr-1 mb-1 outcome-tags-input"
                   >{{ outcome.fieldName }}:
@@ -549,7 +549,7 @@
               <span
                 class="edit-icon"
                 (click)="editRule(ruleObj)"
-                ngbTooltip="Edit"
+                ngbTooltip="{{'sa_edit' | translate}}"
                 [container]="'body'"
                 tooltipClass="tooltip-global-"
                 placement="top-center"
@@ -559,7 +559,7 @@
               <span
                 class="delete-icon"
                 (click)="deleteRulePop(ruleObj, ruleIndex)"
-                ngbTooltip="Delete"
+                ngbTooltip="{{'sa_delete' | translate}}"
                 [container]="'body'"
                 tooltipClass="tooltip-global-"
                 placement="top-center"
@@ -602,7 +602,7 @@
     <div class="title font-weight-bold">
       {{
         (addEditRuleObj._id
-          ? 'businessRules.edit_rule'
+          ? 'businessRules_edit_rule'
           : 'businessRules_add_rule'
         ) | translate
       }}
@@ -631,7 +631,7 @@
         </div>
         <input
           type="text"
-          placeholder="Rule Name"
+          placeholder="{{'businessRules_rule_name' | translate}}"
           class="input-text"
           maxlength="60"
           [(ngModel)]="addEditRuleObj.ruleName"
@@ -694,7 +694,7 @@
                               (click)="currentEditInex = null"
                             >
                               {{
-                                'businessRules.' + ruleObj.contextType
+                                'businessRules_' + ruleObj.contextType
                                   | translate
                               }}
                             </button>
@@ -728,7 +728,7 @@
                                       }"
                                       appEllipsisActive
                                       >{{
-                                        'businessRules.' + contextType
+                                        'businessRules_' + contextType
                                           | translate
                                       }}</a
                                     >
@@ -761,7 +761,7 @@
                               ngbDropdownToggle
                             >
                               {{
-                                'businessRules.' + ruleObj.contextCategory
+                                'businessRules_' + ruleObj.contextCategory
                                   | translate
                               }}
                             </button>
@@ -798,7 +798,7 @@
                                       }"
                                       appEllipsisActive
                                       >{{
-                                        'businessRules.' + contextCategory
+                                        'businessRules_' + contextCategory
                                           | translate
                                       }}</a
                                     >
@@ -835,7 +835,7 @@
                             >
                               {{
                                 (ruleObj.dataType
-                                  ? 'businessRules.' + ruleObj.dataType
+                                  ? 'businessRules_' + ruleObj.dataType
                                   : 'choose_an_option'
                                 ) | translate
                               }}
@@ -873,7 +873,7 @@
                                       }"
                                     >
                                       {{
-                                        'businessRules.' + dataType | translate
+                                        'businessRules_' + dataType | translate
                                       }}</a
                                     >
                                   </li>
@@ -897,7 +897,7 @@
                             >
                               {{
                                 (ruleObj.operator
-                                  ? 'businessRules.' + ruleObj.operator
+                                  ? 'businessRules_' + ruleObj.operator
                                   : 'choose_an_option'
                                 ) | translate
                               }}
@@ -940,7 +940,7 @@
                                         }"
                                         appEllipsisActive
                                         >{{
-                                          'businessRules.' + operator
+                                          'businessRules_' + operator
                                             | translate
                                         }}</a
                                       >
@@ -1308,7 +1308,7 @@
                     contenteditable="true"
                     class="input-editable"
                     id="contentText"
-                    data-ph="Start typing here..."
+                    data-ph="{{'home_start_typing_here' | translate}}"
                     (mouseup)="getDialogDiemensions($event)"
                     [textContent]="entityObj.sentence"
                     (input)="entityObj.sentence = $event.target.textContent"
@@ -1536,7 +1536,7 @@
               </div>
             </div>
             <div class="sub-text text-truncate">
-              {{ 'businessRules.condition_desc_outcome' | translate }}
+              {{ 'businessRules_condition_desc_outcome' | translate }}
             </div>
           </div>
 
@@ -1577,7 +1577,7 @@
                               ngbDropdownToggle
                             >
                               {{
-                                'businessRules.' + outcomeObj.outcomeType
+                                'businessRules_' + outcomeObj.outcomeType
                                   | translate
                               }}
                             </button>
@@ -1610,7 +1610,7 @@
                                           outcomeObj.outcomeType === outcomeType
                                       }"
                                       >{{
-                                        'businessRules.' + outcomeType
+                                        'businessRules_' + outcomeType
                                           | translate
                                       }}</a
                                     >
@@ -1671,7 +1671,7 @@
                               {{
                                 outcomeObj.fieldName
                                   ? outcomeObj.fieldName
-                                  : 'Choose field'
+                                  : ('sa_choose_field' | translate)
                               }}
                             </button>
                             <ul
@@ -1734,7 +1734,7 @@
                             >
                               {{
                                 outcomeObj.fieldDataType
-                                  ? ('businessRules.' + outcomeObj.fieldDataType
+                                  ? ('businessRules_' + outcomeObj.fieldDataType
                                     | translate)
                                   : 'String'
                               }}
@@ -1760,7 +1760,7 @@
                               ngbDropdownToggle
                             >
                               {{
-                                'businessRules.' + outcomeObj.outcomeOperator
+                                'businessRules_' + outcomeObj.outcomeOperator
                                   | translate
                               }}
                             </button>
@@ -1798,7 +1798,7 @@
                                       }"
                                       appEllipsisActive
                                       >{{
-                                        'businessRules.' + operator | translate
+                                        'businessRules_' + operator | translate
                                       }}</a
                                     >
                                   </li>
@@ -1824,7 +1824,7 @@
                               ngbDropdownToggle
                             >
                               {{
-                                'businessRules.' + outcomeObj.outcomeValueType
+                                'businessRules_' + outcomeObj.outcomeValueType
                                   | translate
                               }}
                             </button>
@@ -1981,15 +1981,15 @@
                       outcomeArrayforAddEdit.length - 1 !== index
                     "
                   >
-                    {{ 'businessRules.and' | translate }}
+                    {{ 'businessRules_and' | translate }}
                   </div>
                 </ng-container>
                 <!-- End repeat -->
                 <div class="add-condition-btn" (click)="addNewOutcome()">
                   <i class="si-add-plus-green"></i>
                   <span
-                    >{{ 'businessRules.add' | translate }}
-                    {{ 'businessRules.outcome_caps_small' | translate }}</span
+                    >{{ 'businessRules_add' | translate }}
+                    {{ 'businessRules_outcome_caps_small' | translate }}</span
                   >
                 </div>
               </div>
@@ -2106,13 +2106,13 @@
           <span class="bot-tasks"
             ><img src="assets/images/bot-tasks.svg"
           /></span>
-          {{ nlpAnnotatorObj.entities.isEditable ? 'Edit' : 'Create' }}
+          {{ nlpAnnotatorObj.entities.isEditable ? ('sa_edit' | translate') : 'Create' }}
           {{ 'businessRules_tag' | translate }}
         </div>
         <div class="nlp-choose-tag-sub-header">
           <div class="back-to-list" (click)="chooseEntity('remove')">
             <span><img src="assets/images/back-arrow.svg" /></span>
-            {{ 'businessRules.back' | translate }}
+            {{ 'businessRules_back' | translate }}
           </div>
           <div class="create-nlp-tag">
             <span class="choose-tag"
@@ -2178,7 +2178,7 @@
             *ngIf="nlpAnnotatorObj.entities.entityType === 'index_field'"
           >
             <div class="label-text">
-              {{ 'businessRules.map_field' | translate }}
+              {{ 'businessRules_map_field' | translate }}
             </div>
             <div class="dropdown dropdown-open">
               <button

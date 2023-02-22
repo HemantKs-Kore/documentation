@@ -1675,6 +1675,7 @@
     "plan_no_of_documents_and_queries_per_month":"월별 문서 및 쿼리 수",
     "plan_proceed":"계속",
     "plan_cancel":"취소",
+    "plan_cancel_payment":"Cancel Payment",
     "plan_end_of_billing_cycle":"구독은 청구 주기가 끝날 때까지 유효합니다.",
     "plan_post_billing_cycle":"청구 주기 이후 앱은 더이상 최종 사용자에게 응답을 제공하지 않습니다.",
     "plan_reason_you_want_cancel":"취소하려는 이유는 무엇입니까?",
@@ -3526,19 +3527,6 @@
 
 
 
-
-    "app_menu_Default_search":"Default Search",
-    "app_menu_name_index_config":"Name the New Index Configuration",
-    "app_menu_name_search_config":"Name the New Search Configuration",
-    "app_menu__config_name":"Configuration Name",
-    "app_menu__index_config_name":"Configuration Name",
-    "app_menu__name_of_index_config_name":"Name of Index Configuration",
-    "app_menu_utlization_100%":"You have reached your query limit, please upgrade to enjoy uninterrupted services",
-    "app_menu_upgrade_plan":"Upgrade Plan",
-    "app_menu_Clone ":"Clone",
-
-
-
     "index_Settings": "인덱스 설정",
     "index_Settings_index_languages": "인덱스 언어",
     "index_Settings_multilangual_support_desc": "다국어 지원은 영어를 구사하지 못하거나 다른 언어로의 대화가가 더 편한 사람들에게 고객 지원 경험을 제공합니다.",
@@ -3881,7 +3869,30 @@
     "plan_we_will_send_you_an_email_info": "추가 정보가 필요한 경우 이메일을 보내드립니다. 이 창을 기다리거나 닫고 작업을 계속할 수 있습니다.",
     "plan_contact_number": "연락처",
     "plan_talk_to_us": "문의",
-    "plan_submit": "제출"
+    "plan_submit": "제출",
+
+    "app_menu_Default_search":"Default Search",
+    "app_menu_name_index_config":"Name the New Index Configuration",
+    "app_menu_name_search_config":"Name the New Search Configuration",
+    "app_menu__config_name":"Configuration Name",
+    "app_menu__index_config_name":"Configuration Name",
+    "app_menu__name_of_index_config_name":"Name of Index Configuration",
+    "app_menu_utlization_100%":"You have reached your query limit, please upgrade to enjoy uninterrupted services",
+    "app_menu_upgrade_plan":"Upgrade Plan",
+    "app_menu_Clone ":"Clone",
+
+
+    "searchexperience_live_search_results":"실시간 검색 결과"
+
+
+
+
+
+
+
+
+
+
 
 
 }

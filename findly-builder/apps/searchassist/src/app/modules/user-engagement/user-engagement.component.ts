@@ -18,6 +18,7 @@ import { WorkflowService } from '@kore.apps/services/workflow.service';
 import { ServiceInvokerService } from '@kore.apps/services/service-invoker.service';
 import { NotificationService } from '@kore.apps/services/notification.service';
 import { AppSelectionService } from '@kore.apps/services/app.selection.service';
+import { TranslateModule } from '@ngx-translate/core';
 declare const $: any;
 @Component({
   selector: 'app-user-engagement',
