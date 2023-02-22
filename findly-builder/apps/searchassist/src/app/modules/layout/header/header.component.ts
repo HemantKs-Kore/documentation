@@ -212,7 +212,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
     },
     { displayName: 'Experiments', routeId: '/experiments', quaryParms: {} },
     { displayName: 'Actions', routeId: '/botActions', quaryParms: {} },
-    { displayName: 'Workbench', routeId: '/index', quaryParms: {} },
+    { displayName: 'Workbench', routeId: '/workbench', quaryParms: {} },
     {
       displayName: 'Indices',
       routeId: '/FieldManagementComponent',
@@ -675,7 +675,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
     //       }
     //       this.router.navigate([''], { skipLocationChange: true })
     // this.getAllOtherWorkspaces(account['accountId'])
-    this.redirectHome();
+    // this.redirectHome();
     window.location.reload();
   }
 
@@ -828,14 +828,14 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
 
   redirectHome() {
-    let prDetails;
-    if (localStorage.getItem('krPreviousState')) {
-      prDetails = JSON.parse(localStorage.getItem('krPreviousState'));
-    }
-    if (prDetails) {
-      prDetails.route = '/';
-      localStorage.setItem('krPreviousState', JSON.stringify(prDetails));
-    }
+    // let prDetails;
+    // if (localStorage.getItem('krPreviousState')) {
+    //   prDetails = JSON.parse(localStorage.getItem('krPreviousState'));
+    // }
+    // if (prDetails) {
+    //   prDetails.route = '/';
+    //   localStorage.setItem('krPreviousState', JSON.stringify(prDetails));
+    // }
     this.router.navigate(['/'], { skipLocationChange: true });
   }
   loadHeader() {
@@ -920,9 +920,15 @@ export class HeaderComponent implements OnInit, OnDestroy {
       return;
     }
     this.showSearch = !this.showSearch;
+    // setTimeout(() => {
+    //   document.getElementById('globalSearch').focus();
+    // }, 200);
     setTimeout(() => {
-      document.getElementById('globalSearch').focus();
-    }, 100);
+      const searchElement = document.getElementById('globalSearch');
+      if (searchElement) {
+        searchElement.focus();
+      }
+    }, 200);
   }
   focusoutSearch() {
     this.searchText = '';
