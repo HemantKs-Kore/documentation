@@ -675,7 +675,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
     //       }
     //       this.router.navigate([''], { skipLocationChange: true })
     // this.getAllOtherWorkspaces(account['accountId'])
-    // this.redirectHome();
+    this.redirectHome();
     window.location.reload();
   }
 
@@ -828,14 +828,14 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
 
   redirectHome() {
-    // let prDetails;
-    // if (localStorage.getItem('krPreviousState')) {
-    //   prDetails = JSON.parse(localStorage.getItem('krPreviousState'));
-    // }
-    // if (prDetails) {
-    //   prDetails.route = '/';
-    //   localStorage.setItem('krPreviousState', JSON.stringify(prDetails));
-    // }
+    let prDetails;
+    if (localStorage.getItem('krPreviousState')) {
+      prDetails = JSON.parse(localStorage.getItem('krPreviousState'));
+    }
+    if (prDetails) {
+      prDetails.route = '/';
+      localStorage.setItem('krPreviousState', JSON.stringify(prDetails));
+    }
     this.router.navigate(['/'], { skipLocationChange: true });
   }
   loadHeader() {
