@@ -551,7 +551,7 @@
 >
   <div class="modal-header">
     <div class="title breadcrum">
-      {{ fieldPopupType === 'add' ? 'Add' : ('sa_edit' | translate) }}
+      {{ fieldPopupType === 'add' ?  ('sa_add' | translate) : ('sa_edit' | translate) }}
       {{ 'weights_field_name' | translate }}
     </div>
     <div class="close_icon" (click)="closeCustomModal()">

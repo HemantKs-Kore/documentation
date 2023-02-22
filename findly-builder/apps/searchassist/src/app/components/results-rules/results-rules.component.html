@@ -153,7 +153,7 @@
   </perfect-scrollbar> 
   <div class="modal-footer">
       <button class="kr-sg-button-primary btn_lg" *ngIf="isAdd" (click)="saveRules()">Add</button>
-      <button class="kr-sg-button-primary btn_lg" *ngIf="isEdit" (click)="editRules()">Edit</button>
+      <button class="kr-sg-button-primary btn_lg" *ngIf="isEdit" (click)="editRules()">{{'sa_edit' | translate}}</button>
       <button class="kr-sg-button-secondary btn_lg" (click)='closeAddRulesModal()'>Cancel</button>
   </div>
 </kr-modal>

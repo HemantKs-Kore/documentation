@@ -274,7 +274,7 @@
                       <div class="title-query"><img src="assets/icons/overview/question.svg">{{'overview_query_limit' | translate}}
                       </div>
                       <div class="count-type d-flex align-items-center" *ngIf="usageDetails?.searchLimit">
-                        <div class="range-count"><span>{{usageDetails?.searchCount}}</span><span class="range-count-out">{{"overview_Out_of"|translate}}</span><span>{{usageDetails?.searchLimit}}</span></div>
+                        <div class="range-count"><span>{{usageDetails?.searchCount}}</span><span class="range-count-out">{{"overview_Out_of"|translate}}</span><span>{{usageDetails?.searchLimit| valueFormat}}</span></div>
                         <div class="range-percent">
                           {{usageDetails?.queryPercentageUsed}}%
                         </div>

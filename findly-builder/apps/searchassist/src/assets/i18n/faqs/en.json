@@ -6,5 +6,6 @@
   "DESC_SEARCH": "We couldn’t find the FAQ sources you are looking for",
   "TITLE_SEARCH_SOURCES": "No search results found",
   "DESC_SEARCH_SOURCES": "We couldn’t find the FAQ you are looking for",
-  "EXCLUDE": "Exclude"
+  "EXCLUDE": "Exclude",
+  "faqSource_extract_faqs": "Extract FAQs"
 }

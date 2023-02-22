@@ -14,7 +14,7 @@
       <div class="px-1 close-btn" (click)="showUpgrade=!showUpgrade"><i class="si-close-red"></i></div>
       <img src="assets/images/pricing-plan/new-plan-pricing-img/order-confirmation.png" class="product-subscription-img {{(usageDetails?.queryPercentageUsed>=80)&&'product-subscription-img_with_text'}}" />
       <p class="product-subscription-desc" *ngIf="(usageDetails?.queryPercentageUsed>=80)">{{((usageDetails?.queryPercentageUsed>=80&&usageDetails?.queryPercentageUsed<100)?'app_menu_utlization_80%':'app_menu_utlization_100%')|translate}}</p>
-      <div class="upgrade-plan-btn" [ngClass]="{'danger':(usageDetails?.queryPercentageUsed>=100),'warning':((usageDetails?.queryPercentageUsed>=80&&usageDetails?.queryPercentageUsed<100))}" (click)="upgrade()" (mouseover)="showNotificationBanner('over')" (mouseout)="showNotificationBanner('out')"><i class="si-publish si-icon m-r-2"></i>{{'app_menu_upgrade_plan' | translate}}</div>
+      <div class="upgrade-plan-btn" [ngClass]="{'danger':(usageDetails?.queryPercentageUsed>80),'warning':((usageDetails?.queryPercentageUsed>50&&usageDetails?.queryPercentageUsed<=80))}" (click)="upgrade()" (mouseover)="showNotificationBanner('over')" (mouseout)="showNotificationBanner('out')"><i class="si-publish si-icon m-r-2"></i>{{'app_menu_upgrade_plan' | translate}}</div>
       <div class="hover-documnet-show-data">
         <div class="card-data- card1">
           <div class="img-block">
@@ -31,7 +31,7 @@
             </div>
           </div>
           <ng-container>
-            <ngb-progressbar height="10px" [type]="usageDetails?.queryPercentageUsed>=100?'danger':(usageDetails?.queryPercentageUsed<=80)?'primary':'warning'" [value]="usageDetails?.queryPercentageUsed" max="100"></ngb-progressbar>
+            <ngb-progressbar height="10px" [type]="usageDetails?.queryPercentageUsed>80?'danger':(usageDetails?.queryPercentageUsed>50&&usageDetails?.queryPercentageUsed<=80)?'warning':'primary'" [value]="usageDetails?.queryPercentageUsed" max="100"></ngb-progressbar>
           </ng-container>
         </div>
       </div>

@@ -61,7 +61,7 @@
                              </div>
                         </div>
                          <ng-template #contentTemp>
-                            <div class="ans-evaluvation-desc {{(answer?.isNoAnswer||answer?.snippet_content?.length===0)&&'d-none'}}">{{answer?.snippet_content}}</div>
+                            <div class="ans-evaluvation-desc {{(answer?.isNoAnswer||answer?.snippet_content?.length===0)&&'d-none'}}" [innerHTML]="convertMDtoHTML?.helpers?.convertMDtoHTML(answer?.snippet_content)"></div>
                          </ng-template>
                        
                         <div class="ans-source" *ngIf="answer?.source">
