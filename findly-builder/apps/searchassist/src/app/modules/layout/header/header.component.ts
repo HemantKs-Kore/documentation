@@ -75,6 +75,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   countTrainAction = 0;
   workspace_search: any;
   profile_display: any;
+  default_profile_color: string;
   associate_profile_display: any;
   selected_profile_display: any;
   alphabetSeries1: any = ['A', 'B', 'C', 'D', 'E'];
@@ -605,6 +606,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
       if (displayname.charAt(0) === this.alphabetSeries1[i]) {
         document.getElementById('profiledisplay').style.backgroundColor =
           '#AA336A';
+        this.default_profile_color = '#AA336A';
         document.getElementById('profiledisplay1').style.backgroundColor =
           '#AA336A';
         document.getElementById('profiledisplaydrop').style.backgroundColor =
@@ -616,6 +618,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
       if (displayname.charAt(0) === this.alphabetSeries2[i]) {
         document.getElementById('profiledisplay').style.backgroundColor =
           '#006400';
+        this.default_profile_color = '#006400';
         document.getElementById('profiledisplay1').style.backgroundColor =
           '#006400';
         document.getElementById('profiledisplaydrop').style.backgroundColor =
@@ -627,6 +630,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
       if (displayname.charAt(0) === this.alphabetSeries3[i]) {
         document.getElementById('profiledisplay').style.backgroundColor =
           '#C71585';
+        this.default_profile_color = '#C71585';
         document.getElementById('profiledisplay1').style.backgroundColor =
           '#C71585';
         document.getElementById('profiledisplaydrop').style.backgroundColor =
@@ -638,6 +642,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
       if (displayname.charAt(0) === this.alphabetSeries4[i]) {
         document.getElementById('profiledisplay').style.backgroundColor =
           '#6A5ACD';
+        this.default_profile_color = '#6A5ACD';
         document.getElementById('profiledisplay1').style.backgroundColor =
           '#6A5ACD';
         document.getElementById('profiledisplaydrop').style.backgroundColor =
@@ -649,6 +654,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
       if (displayname.charAt(0) === this.alphabetSeries5[i]) {
         document.getElementById('profiledisplay').style.backgroundColor =
           '#B22222';
+        this.default_profile_color = '#B22222';
         document.getElementById('profiledisplay1').style.backgroundColor =
           '#B22222';
         document.getElementById('profiledisplaydrop').style.backgroundColor =
