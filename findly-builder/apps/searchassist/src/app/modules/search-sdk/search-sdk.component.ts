@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-this-alias */
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 import { forkJoin, Observable, Subscription } from 'rxjs';
 import { SearchSdkService } from './services/search-sdk.service';
 import { SideBarService } from '@kore.apps/services/header.service';
@@ -96,7 +96,8 @@ export class SearchSdkComponent implements OnInit, OnDestroy {
     private searchSdkService: SearchSdkService,
     public localstore: LocalStoreService,
     private lazyLoadService: LazyLoadService,
-    private store: Store
+    private store: Store,
+    private cdr: ChangeDetectorRef
   ) {}
 
   ngOnInit(): void {
@@ -112,16 +113,16 @@ export class SearchSdkComponent implements OnInit, OnDestroy {
     this.toggleSdkPopup();
 
     // this.lazyLoadCodeScripts().subscribe(() => {
-      // before click
-      this.distroySearch();
+    // before click
+    this.distroySearch();
 
-      // after load
-      this.showHideSearch(false);
-      this.showHideTopDownSearch(false);
+    // after load
+    this.showHideSearch(false);
+    this.showHideTopDownSearch(false);
 
-      this.initSearchSDK();
+    this.initSearchSDK();
 
-      this.openSdk();
+    this.openSdk();
     // });
 
     // this.loadScripts().then(() => {
@@ -199,7 +200,7 @@ export class SearchSdkComponent implements OnInit, OnDestroy {
         this.openSdk();
       } else {
         // close
-      this.searchSDKHeader();
+        this.searchSDKHeader();
         this.closeSdk();
       }
     });
@@ -261,7 +262,12 @@ export class SearchSdkComponent implements OnInit, OnDestroy {
       this.$('#test-btn-launch-sdk').addClass('active');
       this.$('#open-chat-window-no-clicks').css({ display: 'block' });
       this.headerService.isSDKOpen = true;
+      this.cdr.detach();
     } else {
+      this.cdr.reattach();
+      setTimeout(() => {
+        this.cdr.detectChanges();
+      });
       this.$('.search-background-div').remove();
       this.$('.advancemode-checkbox').remove();
       this.$('.start-search-icon-div').removeClass('active');
@@ -288,7 +294,12 @@ export class SearchSdkComponent implements OnInit, OnDestroy {
       this.$('#test-btn-launch-sdk').addClass('active');
       this.$('#open-chat-window-no-clicks').css({ display: 'block' });
       this.headerService.isSDKOpen = true;
+      this.cdr.detach();
     } else {
+      this.cdr.reattach();
+      setTimeout(() => {
+        this.cdr.detectChanges();
+      });
       this.$('.search-background-div').css('display', 'none');
       this.$('body').removeClass('sdk-body');
       if (this.$('#show-all-results-container').length) {
@@ -356,7 +367,6 @@ export class SearchSdkComponent implements OnInit, OnDestroy {
     }
   }
 
-
   distroySearch() {
     if (this.searchInstance && this.searchInstance.destroy) {
       this.searchInstance.destroy();
@@ -389,8 +399,8 @@ export class SearchSdkComponent implements OnInit, OnDestroy {
     if (this.searchInstance && this.searchInstance.setAPIDetails) {
       window.selectedFindlyApp = {
         _id: this.searchIndexId,
-         pipelineId: this.queryPipelineId,
-         indexpipelineId: this.indexPipelineId
+        pipelineId: this.queryPipelineId,
+        indexpipelineId: this.indexPipelineId,
       };
       this.searchInstance.setAPIDetails();
     }
@@ -493,7 +503,8 @@ export class SearchSdkComponent implements OnInit, OnDestroy {
       }
     }
   }
-  sdkBridge(parms) {  // can be converted as service for common Use
+  sdkBridge(parms) {
+    // can be converted as service for common Use
     const _self = this;
     // console.log(parms);
     // this.bridgeDataInsights = !parms.data;
@@ -505,7 +516,11 @@ export class SearchSdkComponent implements OnInit, OnDestroy {
     // if (parms.type == 'fullResult') {
     //   this.appSelectionService.updateTourConfig('test');
     // }
-    if (parms.type === 'show' && parms.data === true && _self.bridgeDataInsights) {
+    if (
+      parms.type === 'show' &&
+      parms.data === true &&
+      _self.bridgeDataInsights
+    ) {
       _self.bridgeDataInsights = false;
       call = true;
     } else {
@@ -513,7 +528,11 @@ export class SearchSdkComponent implements OnInit, OnDestroy {
       call = false;
     }
     if (!call) {
-      if (parms.type === 'showInsightFull' && parms.data === true && _self.bridgeDataInsights) {
+      if (
+        parms.type === 'showInsightFull' &&
+        parms.data === true &&
+        _self.bridgeDataInsights
+      ) {
         _self.bridgeDataInsights = false;
         _self.showInsightFull = true;
         // $('.ksa-resultsContainer').css({width:'50%'});
@@ -538,8 +557,7 @@ export class SearchSdkComponent implements OnInit, OnDestroy {
       if (parms.bottomUp) {
         this.showHideSearch(false);
         this.distroySearch();
-      }
-      else {
+      } else {
         this.showHideTopDownSearch(false);
       }
     }
@@ -557,17 +575,21 @@ export class SearchSdkComponent implements OnInit, OnDestroy {
     }, 200);
   }
   closeResultBody(event) {
-    const bridgeObj = { type: 'addNew', data: false, query: null }
+    const bridgeObj = { type: 'addNew', data: false, query: null };
     this.sdkBridge(bridgeObj);
     if (this.searchInstance && this.searchInstance.applicationToSDK && event) {
       this.searchInstance.applicationToSDK(event);
     }
-    if (this.topDownSearchInstance && this.topDownSearchInstance.applicationToSDK && event) {
+    if (
+      this.topDownSearchInstance &&
+      this.topDownSearchInstance.applicationToSDK &&
+      event
+    ) {
       this.topDownSearchInstance.applicationToSDK(event);
     }
   }
 
-  setBotConfiguration(){
+  setBotConfiguration() {
     const botOptionsFindly: any = {};
     botOptionsFindly.logLevel = 'debug';
     botOptionsFindly.userIdentity = this.userInfo.emailId; // Provide users email id here
@@ -589,7 +611,7 @@ export class SearchSdkComponent implements OnInit, OnDestroy {
         this.workflowService.selectedApp().searchIndexes[0]._id;
     }
     // botOptionsFindly.indexPipelineId = this.workflowService.selectedIndexPipeline()||'';
-    botOptionsFindly.queryPipelineId = this.queryPipelineId||'';
+    botOptionsFindly.queryPipelineId = this.queryPipelineId || '';
     botOptionsFindly.botInfo = {
       chatBot: this.workflowService.selectedApp().name,
       taskBotId: this.workflowService.selectedApp()._id,
@@ -609,10 +631,12 @@ export class SearchSdkComponent implements OnInit, OnDestroy {
         hostname: window.appConfig.API_SERVER_URL.replace('http://', ''),
       };
     }
-    if(this.authService.getAccessToken()){
+    if (this.authService.getAccessToken()) {
       botOptionsFindly.accessToken = this.authService.getAccessToken();
     }
-    botOptionsFindly.JWTUrl = this.endpointservice.getServiceInfo('jwt.grunt.generate').endpoint +"/users/sts?rnd=fle73l";
+    botOptionsFindly.JWTUrl =
+      this.endpointservice.getServiceInfo('jwt.grunt.generate').endpoint +
+      '/users/sts?rnd=fle73l';
     const findlyConfig: any = {
       botOptions: botOptionsFindly,
       viaSocket: true,
@@ -623,13 +647,18 @@ export class SearchSdkComponent implements OnInit, OnDestroy {
         showTaskMenuPickerIcon: true, //set true to show TaskMenu Template icon
         showradioOptionMenuPickerIcon: false, //set true to show Radio Option Template icon
       },
-      isDev:true
+      isDev: true,
     };
     this.findlyBusinessConfig = this;
     findlyConfig.findlyBusinessConfig = this.findlyBusinessConfig;
-    const currentSubscriptionPlan = this.appSelectionService?.currentsubscriptionPlanDetails
-    const isFreePlan = currentSubscriptionPlan?.subscription?.planName==='Free'?true:false;
-    findlyConfig.searchInterfaceConfig = {...this.searchExperienceConfig,freePlan:isFreePlan};
+    const currentSubscriptionPlan =
+      this.appSelectionService?.currentsubscriptionPlanDetails;
+    const isFreePlan =
+      currentSubscriptionPlan?.subscription?.planName === 'Free' ? true : false;
+    findlyConfig.searchInterfaceConfig = {
+      ...this.searchExperienceConfig,
+      freePlan: isFreePlan,
+    };
     return findlyConfig;
   }
 }
