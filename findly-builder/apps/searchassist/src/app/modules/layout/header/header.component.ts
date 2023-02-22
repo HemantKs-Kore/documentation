@@ -60,7 +60,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   isSdkBundleLoaded = false;
   toShowAppHeader;
   mainMenu = '';
-  showMainMenu = true;
+  showMainMenu = false;
   showClose = false;
   currentRouteData: any = '';
   displyStatusBar = true;
@@ -405,9 +405,10 @@ export class HeaderComponent implements OnInit, OnDestroy {
         this.trackChecklist();
       }
     );
-    this.planOnboardingModalSubscription = this.appSelectionService.openPlanOnboardingModal.subscribe(res => {
-      this.openPlanOnboadingModal();
-    })
+    this.planOnboardingModalSubscription =
+      this.appSelectionService.openPlanOnboardingModal.subscribe((res) => {
+        this.openPlanOnboadingModal();
+      });
     //subscribe to app current Plan Data
     this.currentSubsciptionData =
       this.appSelectionService.currentSubscription.subscribe((res) => {
@@ -1435,7 +1436,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
         window.open(hrefURL, '_self');
         this.service
           .invoke('put.dockStatus', params, payload)
-          .subscribe((res) => { });
+          .subscribe((res) => {});
       },
       (err) => {
         console.log(err);
@@ -1519,13 +1520,13 @@ export class HeaderComponent implements OnInit, OnDestroy {
           term === ''
             ? []
             : this.availableRouts
-              .filter(
-                (v) =>
-                  (v.displayName || '')
-                    .toLowerCase()
-                    .indexOf(term.toLowerCase()) > -1
-              )
-              .slice(0, 10)
+                .filter(
+                  (v) =>
+                    (v.displayName || '')
+                      .toLowerCase()
+                      .indexOf(term.toLowerCase()) > -1
+                )
+                .slice(0, 10)
         )
       );
     this.formatter = (x: { displayName: string }) => x.displayName || '';
@@ -1580,11 +1581,11 @@ export class HeaderComponent implements OnInit, OnDestroy {
       : {};
     this.associatedAccounts = window[this.storageType].getItem('jStorage')
       ? JSON.parse(window[this.storageType].getItem('jStorage')).currentAccount
-        .associatedAccounts
+          .associatedAccounts
       : {};
     this.domain = window[this.storageType].getItem('jStorage')
       ? JSON.parse(window[this.storageType].getItem('jStorage')).currentAccount
-        .domain
+          .domain
       : '';
     if (this.selectAccountDetails == null) {
       for (
@@ -1671,7 +1672,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
         index > -1 && array.length > 0
           ? (array[index]['color'] = '#AA336A')
           : (document.getElementById('selected_profile').style.backgroundColor =
-            '#AA336A');
+              '#AA336A');
       }
     }
     // to find in series2
@@ -1680,7 +1681,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
         index > -1 && array.length > 0
           ? (array[index]['color'] = '#006400')
           : (document.getElementById('selected_profile').style.backgroundColor =
-            '#006400');
+              '#006400');
       }
     }
     // to find in series3
@@ -1689,7 +1690,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
         index > -1 && array.length > 0
           ? (array[index]['color'] = '#C71585')
           : (document.getElementById('selected_profile').style.backgroundColor =
-            '#C71585');
+              '#C71585');
       }
     }
     // to find in series4
@@ -1698,7 +1699,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
         index > -1 && array.length > 0
           ? (array[index]['color'] = '#6A5ACD')
           : (document.getElementById('selected_profile').style.backgroundColor =
-            '#6A5ACD');
+              '#6A5ACD');
       }
     }
     // to find in series5
@@ -1707,7 +1708,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
         index > -1 && array.length > 0
           ? (array[index]['color'] = '#B22222')
           : (document.getElementById('selected_profile').style.backgroundColor =
-            '#B22222');
+              '#B22222');
       }
     }
   }
@@ -1953,7 +1954,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
     };
     if (payload.ids.length) {
       this.service.invoke('read.dockStatus', queryParms, payload).subscribe(
-        (res) => { },
+        (res) => {},
         (errRes) => {
           this.statusDockerLoading = false;
           this.errorToaster(errRes, 'Failed to update read Status of Docker.');
