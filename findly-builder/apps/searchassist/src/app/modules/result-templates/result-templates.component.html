@@ -59,7 +59,7 @@
                   tab.id === 'conversationalSearch' && searchTemplatesDisabled
                 "
               >
-                {{ tab.name }}
+                {{ tab.name | translate}}
               </button>
             </div>
             <div class="apply-config-text" *ngIf="copyConfigObj.loader">
@@ -116,7 +116,7 @@
             "
             placement="right"
           >
-            {{ tab.name }}
+            {{ tab.name  | translate}}
           </div>
         </ng-container>
       </div>
@@ -551,7 +551,7 @@
 >
   <div class="modal-header">
     <div class="title breadcrum">
-      {{ fieldPopupType === 'add' ? 'Add' : 'Edit' }}
+      {{ fieldPopupType === 'add' ?  ('sa_add' | translate) : ('sa_edit' | translate) }}
       {{ 'weights_field_name' | translate }}
     </div>
     <div class="close_icon" (click)="closeCustomModal()">
@@ -667,7 +667,7 @@
     <div class="title breadcrum">
       {{ 'resultTemplate_customize' | translate }}
       <img src="assets/icons/search-interface/carrot_right.svg" />
-      <span>{{ selectedGroupName }} | {{ selectedTemplateName }}</span>
+      <span>{{ selectedGroupName }} | {{ selectedTemplateName | translate }}</span>
     </div>
     <div class="close_icon" (click)="closeTemplateModal()">
       <img src="assets/icons/modal-close.svg" />
@@ -5160,7 +5160,7 @@
                 *ngIf="['l10'].includes(templateDataBind.layout.layoutType)"
               >
                 <div class="label-text mb-1">
-                  {{ 'resultTemplate.icon' | translate }}
+                  {{ 'resultTemplate_icon' | translate }}
                 </div>
                 <div
                   class="col-12 row ml-0 mr-0 mb-3 p-0 align-items-center right-side-sec"
@@ -5234,7 +5234,7 @@
                 "
               >
                 <div class="label-text mb-1">
-                  {{ 'resultTemplate.heading' | translate }}
+                  {{ 'resultTemplate_heading' | translate }}
                 </div>
                 <div
                   class="col-12 row ml-0 mr-0 mb-3 p-0 align-items-center right-side-sec"
@@ -5334,7 +5334,7 @@
                 "
               >
                 <div class="label-text mb-1">
-                  {{ 'resultTemplate.description' | translate }}
+                  {{ 'resultTemplate_description' | translate }}
                 </div>
                 <div
                   class="col-12 row ml-0 mr-0 mb-3 p-0 align-items-center right-side-sec"
@@ -5425,7 +5425,7 @@
                 "
               >
                 <div class="label-text mb-1">
-                  {{ 'resultTemplate.image' | translate }}
+                  {{ 'resultTemplate_image' | translate }}
                 </div>
                 <div
                   class="col-12 row ml-0 mr-0 mb-3 p-0 align-items-center right-side-sec"
@@ -6010,7 +6010,7 @@
                 *ngIf="['l10'].includes(templateDataBind.layout.layoutType)"
               >
                 <div class="label-text mb-1">
-                  {{ 'resultTemplate.text_field1' | translate }}
+                  {{ 'resultTemplate_text_field1' | translate }}
                 </div>
                 <div
                   class="col-12 row ml-0 mr-0 mb-3 p-0 align-items-center right-side-sec"
@@ -6096,7 +6096,7 @@
                 *ngIf="['l10'].includes(templateDataBind.layout.layoutType)"
               >
                 <div class="label-text mb-1">
-                  {{ 'resultTemplate.text_field2' | translate }}
+                  {{ 'resultTemplate_text_field2' | translate }}
                 </div>
                 <div
                   class="col-12 row ml-0 mr-0 mb-3 p-0 align-items-center right-side-sec"
@@ -6182,7 +6182,7 @@
                 *ngIf="['l10'].includes(templateDataBind.layout.layoutType)"
               >
                 <div class="label-text mb-1">
-                  {{ 'resultTemplate.chips' | translate }}
+                  {{ 'resultTemplate_chips' | translate }}
                 </div>
                 <div
                   class="col-12 row ml-0 mr-0 mb-3 p-0 align-items-center right-side-sec"

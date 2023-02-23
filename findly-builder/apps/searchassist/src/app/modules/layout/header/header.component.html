@@ -651,6 +651,8 @@
                   class="alphabet-name"
                   [ngStyle]="{
                     'background-color': selectAccountDetails?.color
+                      ? selectAccountDetails?.color
+                      : default_profile_color
                   }"
                   id="profiledisplay"
                 >
@@ -1248,3 +1250,6 @@
     </div>
   </div>
 </div>
+
+<!-- upgrade/compare plan  modal -->
+<app-plan-upgrade #plans></app-plan-upgrade>

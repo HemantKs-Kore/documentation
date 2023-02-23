@@ -469,7 +469,7 @@
                   id="btn_edit_facet_tab"
                   class="action_icon"
                   [container]="'body'"
-                  ngbTooltip="Edit"
+                  ngbTooltip="{{'sa_edit' | translate}}"
                   (click)="createNewFacet(facet)"
                   src="assets/images/edit-pencil.svg"
                 />
@@ -523,10 +523,10 @@
       <div class="title">
         {{
           showConfiguredFacet
-            ? ('facets.configure_facets' | translate)
+            ? ('facets_configure_facets' | translate)
             : enable_Edit_Facet
-            ? ('facets.edit_facet' | translate)
-            : ('facets.add_facet' | translate)
+            ? ('facets_edit_facet' | translate)
+            : ('facets_add_facet' | translate)
         }}
       </div>
     </ng-container>
@@ -618,7 +618,7 @@
                       {{
                         currentFacetObj.fieldName
                           ? currentFacetObj.fieldName
-                          : 'Choose field'
+                          : ('sa_choose_field' | translate)
                       }}
                     </button>
                     <ul
@@ -675,7 +675,7 @@
                 </div>
                 <input
                   type="text"
-                  placeholder="Enter name"
+                  placeholder="{{'facets_enter_name' | translate}}"
                   class="input-text"
                   [(ngModel)]="currentFacetObj.name"
                   [class.err-block]="
@@ -717,7 +717,7 @@
                             >
                               {{
                                 currentFacetObj?.sortConfig?.sortBy === ''
-                                  ? 'Select'
+                                  ? ('home_select' | translate)
                                   : (currentFacetObj.sortConfig.sortBy
                                     | titlecase)
                               }}
@@ -931,7 +931,7 @@
                         {{
                           currentFacetObj.fieldName
                             ? currentFacetObj.fieldName
-                            : 'Choose field'
+                            : ('sa_choose_field' | translate)
                         }}
                       </button>
                       <ul
@@ -1235,7 +1235,7 @@
                   {{
                     currentFacetObj.fieldName
                       ? currentFacetObj.fieldName
-                      : 'Choose field'
+                      : ('sa_choose_field' | translate)
                   }}
                 </button>
                 <ul
@@ -1392,7 +1392,7 @@
       (click)="saveFacet()"
       [disabled]="disableSaveBtn && showConfiguredFacet"
     >
-      {{ showConfiguredFacet || enable_Edit_Facet ? 'Save' : 'Add' }}
+      {{ showConfiguredFacet || enable_Edit_Facet ? ('sa_save' | translate) : ('sa_add' | translate) }}
     </button>
     <button
       type="button"

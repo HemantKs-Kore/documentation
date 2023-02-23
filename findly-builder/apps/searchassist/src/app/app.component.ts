@@ -27,7 +27,7 @@ export class AppComponent implements OnInit {
   @ViewChild('dynamicRef', { read: ViewContainerRef }) dynamicRef;
   isMainMenuLoaded = false;
   mainMenuRef: ComponentRef<MainMenuComponent>;
-  showMainMenu = true;
+  showMainMenu = false;
   appSelected = false;
 
   constructor(
@@ -74,16 +74,20 @@ export class AppComponent implements OnInit {
     this.router.events.subscribe((event: any) => {
       switch (true) {
         case event instanceof NavigationStart: {
+          this.loaderService.show();
+          break;
+        }
+
+        case event instanceof NavigationEnd: {
           if (event.url !== '/') {
             this.appSelected = true;
           } else {
             this.appSelected = false;
           }
-          this.loaderService.show();
+
+          this.loaderService.hide();
           break;
         }
-
-        case event instanceof NavigationEnd:
         case event instanceof NavigationCancel:
         case event instanceof NavigationError: {
           this.loaderService.hide();

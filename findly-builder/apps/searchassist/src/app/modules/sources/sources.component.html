@@ -27,7 +27,9 @@
           class="crawlContent row"
           *ngFor="let sourceCatagory of availableSources"
         >
-          <div class="main-title col-12 p-0">{{ sourceCatagory.title | translate }}</div>
+          <div class="main-title col-12 p-0">
+            {{ sourceCatagory.title | translate }}
+          </div>
           <div
             class="card-data"
             (click)="selectSource(source)"
@@ -48,7 +50,7 @@
                 class="s-title text-truncate"
                 title="{{ source.description }}"
               >
-                {{ source.description | translate}}
+                {{ source.description | translate }}
               </div>
             </div>
           </div>
@@ -105,7 +107,7 @@
   <ng-container *ngIf="selectedSourceType">
     <form #sourceCreation="ngForm">
       <div class="modal-header">
-        <div class="title">{{ selectedSourceType.name }}</div>
+        <div class="title">{{ selectedSourceType.name | translate }}</div>
         <div class="close_icon">
           <img
             (click)="cancleSourceAddition()"
@@ -2259,7 +2261,7 @@
           <div class="kr-sg-input-text">
             <input
               type="text"
-              placeholder="{{'sa_search' | translate}}"
+              placeholder="{{ 'sa_search' | translate }}"
               [(ngModel)]="searchAssociatedBots"
               name="searchAssociatedBots"
               class="input-text"
@@ -2726,7 +2728,7 @@
   <div class="status-modal-popup">
     <div class="modal_content" *ngIf="selectedSourceType">
       <div class="modal-header">
-        {{ selectedSourceType?.name }}
+        {{ selectedSourceType?.name | translate }}
         <img src="assets/images/close.svg" (click)="closeStatusModal()" />
       </div>
       <div class="modal-body">

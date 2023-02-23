@@ -14,9 +14,7 @@ const routes: Routes = [
   {
     path: '',
     canActivate: [AuthGuard],
-    resolve: {
-      appData: AppDataResolver,
-    },
+    resolve: [AppDataResolver, AppsDataResolver],
     children: [
       {
         path: 'summary',
@@ -229,7 +227,6 @@ const routes: Routes = [
         loadChildren: () =>
           import('./modules/apps/apps.module').then((m) => m.AppsModule),
         pathMatch: 'full',
-        resolve: [AppsDataResolver],
       },
       // {
       //   path: 'not-found',

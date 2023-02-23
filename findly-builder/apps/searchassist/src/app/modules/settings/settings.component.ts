@@ -55,7 +55,7 @@ export class SettingsComponent implements OnInit {
   channels = [
     {
       id: 'rtm',
-      name: 'Web/Mobile Client',
+      name: 'settings_web_mobile_client',
       enable: false,
       status: 'Not Setup',
       hide: false,

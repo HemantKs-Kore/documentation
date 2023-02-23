@@ -819,7 +819,7 @@
                   {{ 'plan_note' | translate }}:
                 </div>
                 <div class="note-desc">
-                  {{ 'plan_opt_in_overages_text' | translate }}
+                  {{ (overagesObject.isOpted?"plans_overages_opt_out":"plan_opt_in_overages_text")|translate }}
                 </div>
               </div>
               <div

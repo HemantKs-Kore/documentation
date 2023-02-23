@@ -21,9 +21,9 @@ import { PerfectScrollbarComponent } from 'ngx-perfect-scrollbar';
 import { LocalStoreService } from '@kore.services/localstore.service';
 import * as FileSaver from 'file-saver';
 import { Subscription } from 'rxjs';
-import * as moment from 'moment';
 import { plansName } from '../../plan-names.constants';
 import { KRModalComponent } from '@kore.apps/shared/kr-modal/kr-modal.component';
+import { format } from 'date-fns';
 
 declare const $: any;
 
@@ -32,7 +32,7 @@ declare const $: any;
   templateUrl: './plan-upgrade.component.html',
   styleUrls: ['./plan-upgrade.component.scss'],
 })
-export class PlanUpgradeComponent implements OnInit,OnDestroy{
+export class PlanUpgradeComponent implements OnInit, OnDestroy {
   addOverageModalPopRef: any;
   choosePlanModalPopRef: any;
   paymentGatewayModelPopRef: any;
@@ -426,7 +426,7 @@ export class PlanUpgradeComponent implements OnInit,OnDestroy{
         this.enterpriseForm.currentPlan =
           this.selectedPlan?.planName +
           ' Plan: ' +
-          (this.selectedPlan?.billingUnit && this.selectedPlan?.billingUnit);
+          (this.selectedPlan?.billingUnit || '');
       }
       this.contactusModelPopRef = this.contactUsModel.open();
     } else if (type === 'close') {
@@ -497,8 +497,9 @@ export class PlanUpgradeComponent implements OnInit,OnDestroy{
         this.closeSelectedPopup('choose_plan');
         this.notificationService.notify('Plan Changed successfully', 'success');
         this.appSelectionService.getCurrentSubscriptionData();
-        const endDate = moment(this.selectedPlan.endDate).format(
-          'Do MMMM YYYY'
+        const endDate = format(
+          new Date(this.selectedPlan.endDate),
+          'do mm yyyy'
         );
         const obj = {
           msg: `Your plan will be changed from Standard to Free by the end of the billing cycle i.e. ${endDate}.`,
