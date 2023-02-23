@@ -180,6 +180,7 @@ const routes: Routes = [
           import('./modules/sources/sources.module').then(
             (m) => m.SourcesModule
           ),
+        resolve: [LazyScriptResolver],
       },
       {
         path: 'content',
@@ -187,7 +188,6 @@ const routes: Routes = [
           import('./modules/content/content.module').then(
             (m) => m.ContentModule
           ),
-        resolve: [LazyScriptResolver],
       },
       {
         path: 'faqs',
