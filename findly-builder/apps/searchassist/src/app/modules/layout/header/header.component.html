@@ -651,6 +651,8 @@
                   class="alphabet-name"
                   [ngStyle]="{
                     'background-color': selectAccountDetails?.color
+                      ? selectAccountDetails?.color
+                      : default_profile_color
                   }"
                   id="profiledisplay"
                 >
