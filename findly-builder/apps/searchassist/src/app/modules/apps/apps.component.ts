@@ -16,7 +16,6 @@ import { setAppId } from '@kore.apps/store/app.actions';
 import { AppsService } from './services/apps.service';
 import { combineLatest, Subscription } from 'rxjs';
 import { LazyLoadService, TranslationService } from '@kore.libs/shared/src';
-import * as moment from 'moment';
 declare const $: any;
 
 @Component({
