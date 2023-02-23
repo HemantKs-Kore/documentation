@@ -161,6 +161,7 @@ export class SourcesComponent implements OnInit, AfterViewInit, OnDestroy {
           resourceType: 'web',
           width: 47,
           height: 47,
+          eager: true,
         },
         {
           name: 'contentSource_upload_file',
@@ -171,6 +172,7 @@ export class SourcesComponent implements OnInit, AfterViewInit, OnDestroy {
           resourceType: 'file',
           width: 45,
           height: 41,
+          eager: true,
         },
         // {
         //   name: 'Others',
@@ -194,6 +196,7 @@ export class SourcesComponent implements OnInit, AfterViewInit, OnDestroy {
           resourceType: '',
           width: 47,
           height: 47,
+          eager: true,
         },
         {
           name: 'faqSource_import_faqs',
@@ -204,6 +207,7 @@ export class SourcesComponent implements OnInit, AfterViewInit, OnDestroy {
           resourceType: 'importfaq',
           width: 45,
           height: 36,
+          eager: true,
         },
         {
           name: 'faqSource_add_faqs_manually',
@@ -214,6 +218,7 @@ export class SourcesComponent implements OnInit, AfterViewInit, OnDestroy {
           resourceType: 'manual',
           width: 36,
           height: 45,
+          eager: true,
         },
       ],
     },
@@ -227,8 +232,8 @@ export class SourcesComponent implements OnInit, AfterViewInit, OnDestroy {
           id: 'contentStucturedDataImport',
           sourceType: 'data',
           resourceType: 'structuredData',
-            width: 50,
-            height: 50,
+          width: 50,
+          height: 50,
         },
         {
           name: 'contentSource_add_structure_data',
@@ -341,7 +346,7 @@ export class SourcesComponent implements OnInit, AfterViewInit, OnDestroy {
     private appSelectionService: AppSelectionService,
     public dockService: DockStatusService,
     public mixpanel: MixpanelServiceService
-  ) { }
+  ) {}
   @ViewChild(SliderComponentComponent)
   sliderComponent: SliderComponentComponent;
   @ViewChild('statusModalPop') statusModalPop: KRModalComponent;
@@ -1826,7 +1831,7 @@ export class SourcesComponent implements OnInit, AfterViewInit, OnDestroy {
     }
   }
   //upgrade plan
-  upgrade() { }
+  upgrade() {}
   callWebCraller(crawler, searchIndex) {
     let payload = {};
     const resourceType = this.selectedSourceType?.resourceType;
@@ -1842,7 +1847,7 @@ export class SourcesComponent implements OnInit, AfterViewInit, OnDestroy {
     // console.log(payload);
 
     this.service.invoke('create.crawler', quaryparms, payload).subscribe(
-      (res) => { },
+      (res) => {},
       (errRes) => {
         if (
           errRes &&
@@ -2594,9 +2599,9 @@ export class SourcesComponent implements OnInit, AfterViewInit, OnDestroy {
       ) {
         channelType =
           this.configurationLink.webhookUrl.split('/')[
-          this.configurationLink.webhookUrl
-            .split('/')
-            .indexOf('hookInstance') + 1
+            this.configurationLink.webhookUrl
+              .split('/')
+              .indexOf('hookInstance') + 1
           ];
       }
       const payload = {
