@@ -183,9 +183,8 @@ export class AppsComponent implements OnInit, OnDestroy {
   }
   openApp(app, isUpgrade?) {
     this.store.dispatch(
-      setAppId({ appId: app._id, searchIndexId: app.searchIndexes[0]._id })
+      setAppId({ appId: app?._id, searchIndexId: app?.searchIndexes[0]?._id })
     );
-    // $('#test-btn-launch-sdk').attr('disabled', 'disabled').button('refresh');
     this.appSelectionService.tourConfigCancel.next({
       name: undefined,
       status: 'pending',
@@ -193,7 +192,7 @@ export class AppsComponent implements OnInit, OnDestroy {
     const isDemo = this.appType == 'sampleData' ? true : false;
     this.appSelectionService.openApp(app, isDemo, isUpgrade);
     this.workflowService.selectedIndexPipelineId = '';
-    this.router.navigateByUrl('summary', { skipLocationChange: true });
+    this.router.navigateByUrl(isUpgrade ? 'pricing' : 'summary', { skipLocationChange: true });
   }
 
   loadScripts() {

@@ -39,7 +39,7 @@
           </div>
           <div
             class="headerMenuTab"
-            [ngClass]="{ active: menuItems?.sources?.includes(mainMenu) }"
+            [ngClass]="{ active: menuItems?.sources?.includes(mainMenu),'disable_btn':isRouteDisabled }"
             skipLocationChange
             routerLinkActive="active"
             (click)="goToRoute('/content'); closeUserMetaTagsSlider()"
@@ -202,10 +202,7 @@
               </ul>
             </div>
           </div>
-        </li>
-        <!-- <li class="nav-item test-button">
-                    <button class="kr-sg-button-secondary btn_lg"> Preview</button>
-                  </li> -->
+        </li>        
 
         <li class="nav-item test-button {{ isRouteDisabled && 'disable_btn' }}">
           <button

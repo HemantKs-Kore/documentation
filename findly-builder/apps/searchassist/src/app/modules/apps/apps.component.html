@@ -16,13 +16,12 @@
                 {{ 'home_your_applications' | translate }}
               </div>
               <div
-                class="col-8 right-sec p-0 row justify-content-end align-items-center text-right m-0"
-              >
+                class="col-8 right-sec p-0 row justify-content-end
+                align-items-center text-right m-0">
                 <div
                   class="kr-sg-input-search m-0"
                   role="searchbox"
-                  [ngClass]="{ 'd-none': !showSearch }"
-                >
+                  [ngClass]="{ 'd-none': !showSearch }">
                   <input
                     type="text"
                     placeholder="{{ 'sa_search' | translate }}"
@@ -33,30 +32,30 @@
                     [(ngModel)]="searchApp"
                     maxlength="60"
                     (mouseover)="
-                      searchImgSrc = searchFocusIn
-                        ? 'assets/icons/search_gray.svg'
-                        : 'assets/icons/search_gray_dark.svg'
+                    searchImgSrc= searchFocusIn
+                    ? 'assets/icons/search_gray.svg'
+                    : 'assets/icons/search_gray_dark.svg'
                     "
                     (mouseout)="
-                      searchFocusIn = false;
-                      searchImgSrc = 'assets/icons/search_gray.svg'
+                    searchFocusIn= false;
+                    searchImgSrc= 'assets/icons/search_gray.svg'
                     "
                     (focus)="
-                      searchFocusIn = true;
-                      searchImgSrc = 'assets/icons/search_gray.svg'
+                    searchFocusIn= true;
+                    searchImgSrc= 'assets/icons/search_gray.svg'
                     "
-                  />
+                    />
                   <img
                     [src]="searchImgSrc"
                     width="14"
                     height="14"
                     class="search-icon"
                     *ngIf="!searchApp"
-                  />
+                    />
                   <img
                     class="close-icon"
-                    (mouseover)="activeClose = true"
-                    (mouseout)="activeClose = false"
+                    (mouseover)="activeClose= true"
+                    (mouseout)="activeClose= false"
                     ngSrc="assets/icons/close_icon.svg"
                     width="10"
                     height="10"
@@ -66,26 +65,23 @@
                     container="body"
                     ngbTooltip="{{ 'sa_cancel' | translate }}"
                     tooltipClass="ngb_tooltip_custom_class sampleJson"
-                  />
+                    />
                 </div>
                 <div
                   class="seach-block"
                   (click)="
-                    showSearch = !showSearch; focusinSearch('inputSearch')
-                  "
-                >
+                  showSearch= !showSearch; focusinSearch('inputSearch')
+                  ">
                   <span
                     [ngClass]="{ 'd-none': showSearch }"
                     class="mr-3"
-                    id="btn_toggle_search_structured_data"
-                    ><img
+                    id="btn_toggle_search_structured_data"><img
                       ngSrc="assets/icons/search.svg"
                       width="16"
                       height="16"
                       priority
                       [ngClass]="{ 'd-none': showSearch }"
-                    />{{ 'sa_search' | translate }}</span
-                  >
+                      />{{ 'sa_search' | translate }}</span>
                 </div>
                 <div class="add_feild" (click)="openCreateApp()">
                   <img
@@ -93,7 +89,7 @@
                     width="12"
                     height="12"
                     priority
-                  />{{ 'home_add_application' | translate }}
+                    />{{ 'home_add_application' | translate }}
                 </div>
                 <button (click)="openDetails()" class="d-none">
                   {{ 'home_deatils' | translate }}
@@ -105,8 +101,7 @@
             <div class="row m-0 appsListingContainer">
               <div
                 *ngIf="emptyApp && !loadingApps"
-                class="start-scrtch-user-data"
-              >
+                class="start-scrtch-user-data">
                 <div class="user-details">
                   <div class="user-name">
                     {{ 'home_welcome' | translate }}
@@ -116,7 +111,7 @@
                       ngSrc="assets/icons/hand-hellow.svg"
                       width="22"
                       height="23"
-                    />
+                      />
                   </div>
                 </div>
                 <div class="title-start">
@@ -132,7 +127,7 @@
                     </div>
                     <div class="text-desc">
                       {{
-                        'home_create_a_new_search_app_from_scratch' | translate
+                      'home_create_a_new_search_app_from_scratch' | translate
                       }}
                     </div>
                   </div>
@@ -140,70 +135,49 @@
               </div>
 
               <ng-container
-                *ngIf="(recentApps | filter : [searchApp, 'name']).length"
-              >
+                *ngIf="(recentApps | filter : [searchApp, 'name']).length">
                 <div
                   *ngIf="!emptyApp && !loadingApps"
-                  class="m-title col-12 m-10"
-                >
+                  class="m-title col-12 m-10">
                   {{ 'home_recently_visited' | translate }}
                 </div>
               </ng-container>
               <div
                 class="cards-content"
-                (click)="app.disabled ? null : openApp(app)"
+                (click)="app?.disabled ? null : openApp(app)"
                 *ngFor="let app of recentApps | filter : [searchApp, 'name']"
-                [ngClass]="{ 'd-none': !apps.length && !loadingApps }"
-              >
+                [ngClass]="{ 'd-none': !apps.length && !loadingApps }">
+                <ng-template #tipContent>
+                  <div class="tooltip-custom">{{"home_your_app_has_been_deactivated_info"
+                    | translate}}</div>
+                  <div class="upgrade-plan" (click)="openApp(app,true)">Upgrade
+                    Plan</div>
+                </ng-template>
                 <div
                   class="box"
                   [ngStyle]="
-                    app.disabled && { opacity: '0.4', cursor: 'default' }
+                  app?.disabled && { opacity: '0.4', cursor: 'default' }
                   "
-                >
+                  #appCoolPeriod="ngbTooltip" triggers="manual"
+                  [ngbTooltip]="tipContent"
+                  (mouseenter)="app?.disabled&&appCoolPeriod.open()">
                   <div class="content-sec">
-                    <div class="delete-clone-icons" *ngIf="app.disabled">
-                      <div class="disabled-icon">
-                        <img
-                          ngSrc="assets/icons/Info-red.svg"
-                          width="16"
-                          height="16"
-                        />
-                        <span class="tooltip_disabled">
-                          <span>{{
-                            'home_your_app_has_been_deactivated_info'
-                              | translate
-                          }}</span>
-                          <span
-                            class="upgrade_plan"
-                            (click)="openApp(app, true)"
-                            >{{ 'home_upgarde_plan' | translate }}</span
-                          >
-                          <span
-                            class="delete_record"
-                            (click)="openApp(app, false)"
-                            >{{ 'home_delete_records' | translate }}</span
-                          >
-                        </span>
-                      </div>
-                    </div>
+
                     <div class="name">
-                      <span>{{ app.name }}</span>
+                      <span>{{ app?.name }}</span>
                     </div>
                     <div
                       class="info-text"
-                      *ngIf="app.description !== ''"
-                      title="{{ app.description }}"
-                    >
-                      {{ app.description }}
+                      *ngIf="app?.description !== ''"
+                      title="{{ app?.description }}">
+                      {{ app?.description }}
                     </div>
                   </div>
                   <div
                     class="user-name text-truncate"
-                    *ngIf="app.createdBy !== userId"
-                    ngbTooltip="{{ app.userDetails.fullName }}"
-                  >
-                    {{ app.userDetails.fullName }}
+                    *ngIf="app?.createdBy !== userId"
+                    ngbTooltip="{{ app?.userDetails?.fullName }}">
+                    {{ app?.userDetails?.fullName }}
                   </div>
                 </div>
               </div>
@@ -211,19 +185,17 @@
               <div
                 class="row m-0 col-12 filters-dropdown"
                 [ngClass]="
-                  (recentApps | filter : [searchApp, 'name']).length
-                    ? 'mt-20'
-                    : 'mt-n30'
-                "
-              >
+                (recentApps | filter : [searchApp, 'name']).length
+                ? 'mt-20'
+                : 'mt-n30'
+                ">
                 <div class="col-6 d-flex align-items-center p-0 left">
                   <div class="tabs-sec">
                     <div
                       class="tab-name"
                       *ngFor="let app of appTypes"
                       (click)="selectedAppType(app)"
-                      [class.active-tab-name]="app === app_type"
-                    >
+                      [class.active-tab-name]="app === app_type">
                       {{ app | translate}}
                     </div>
                   </div>
@@ -234,13 +206,13 @@
                     <div class="dropdown dropdown-open">
                       <button
                         class="dropdown-toggle dropdown-input pl-3 pr-5"
-                        data-toggle="dropdown"
-                      >
+                        data-toggle="dropdown">
                         {{ sort_type | translate }}
                       </button>
                       <ul class="dropdown-menu content-menu">
                         <li *ngFor="let sort of sortBy" (click)="sortApp(sort)">
-                          <a [class.selected]="sort === sort_type">{{ sort | translate}}</a>
+                          <a [class.selected]="sort === sort_type">{{ sort |
+                            translate}}</a>
                         </li>
                       </ul>
                     </div>
@@ -248,114 +220,101 @@
                   <div
                     class="filter-up-down"
                     (click)="sortApp('Icon filter', 'down')"
-                    *ngIf="!minToMax"
-                  >
+                    *ngIf="!minToMax">
                     <img
                       ngSrc="assets/icons/dashboard/filter.svg"
                       width="14"
                       height="13"
-                    />
+                      />
                   </div>
                   <div
                     class="filter-up-down active-down"
                     (click)="sortApp('Icon filter', 'up')"
-                    *ngIf="minToMax"
-                  >
+                    *ngIf="minToMax">
                     <img
                       ngSrc="assets/icons/dashboard/maxFilter.svg"
                       width="14"
                       height="13"
-                    />
+                      />
                   </div>
                 </div>
               </div>
 
               <ng-container
                 *ngIf="
-                  (filteredApps | filter : [searchApp, 'name']).length;
-                  else noAppFound
-                "
-              >
+                (filteredApps | filter : [searchApp, 'name']).length;
+                else noAppFound
+                ">
                 <div
                   class="cards-content"
                   *ngFor="
-                    let filter of filteredApps | filter : [searchApp, 'name']
+                  let filter of filteredApps | filter : [searchApp, 'name']
                   "
-                  (click)="filter.disabled ? null : openApp(filter)"
-                >
+                  (click)="filter?.disabled ? null : openApp(filter)">
+                  <ng-template #filterContent>
+                    <div class="tooltip-custom">{{"home_your_app_has_been_deactivated_info"
+                      | translate}}</div>
+                    <div class="upgrade-plan" (click)="openApp(filter,true)">Upgrade
+                      Plan</div>
+                  </ng-template>
                   <div
                     class="box"
                     [ngStyle]="
-                      filter.disabled && { opacity: '0.4', cursor: 'default' }
+                    filter?.disabled && { opacity: '0.4', cursor: 'default' }
                     "
-                  >
+                    #filterCoolPeriod="ngbTooltip" triggers="manual"
+                    [ngbTooltip]="filterContent"
+                    (mouseenter)="filter?.disabled&&filterCoolPeriod.open()">
                     <div class="content-sec">
                       <div class="delete-clone-icons">
                         <div
-                          *ngIf="filter.createdBy === userId"
-                          class="delete-icon"
-                          tooltipClass="tooltip-global- ml-14"
-                          [container]="'body'"
-                          ngbTooltip="{{ 'sa_delete' | translate }}"
-                          placement="bottom-left"
-                        >
+                          *ngIf="filter?.createdBy === userId"
+                          class="delete-icon">
                           <img
                             ngSrc="assets/icons/delete-table.svg"
                             width="12"
                             height="12"
                             (click)="openDeleteApp($event, filter)"
-                          />
+                            />
                         </div>
                         <div
-                          *ngIf="filter.createdBy !== userId"
+                          *ngIf="filter?.createdBy !== userId"
                           class="delete-icon"
                           tooltipClass="tooltip-global- ml-14"
                           [container]="'body'"
                           ngbTooltip="{{ 'home_remove_access' | translate }}"
-                          placement="bottom-left"
-                        >
+                          placement="bottom-left">
                           <img
                             ngSrc="assets/icons/Unlink.svg"
                             width="16"
                             height="16"
                             (click)="openUnlinkApp($event, filter)"
-                          />
+                            />
                         </div>
                       </div>
                       <div class="name">
-                        {{ filter.name }}
-                        <img
-                          ngSrc="assets/icons/Info-red.svg"
-                          width="16"
-                          height="16"
-                          tooltipClass="tooltip-global-"
-                          *ngIf="filter.disabled"
-                          ngbTooltip="Your App has been deactivated"
-                        />
+                        {{ filter?.name }}
                       </div>
                       <div
                         class="info-text"
-                        *ngIf="filter.description !== ''"
-                        title="{{ filter.description }}"
-                      >
-                        {{ filter.description }}
+                        *ngIf="filter?.description !== ''"
+                        title="{{ filter?.description }}">
+                        {{ filter?.description }}
                       </div>
                     </div>
                     <div
                       class="user-name text-truncate"
-                      ngbTooltip="{{ filter?.userDetails?.fullName }}"
-                    >
+                      ngbTooltip="{{ filter?.userDetails?.fullName }}">
                       {{ filter?.userDetails?.fullName }}
                     </div>
                     <div
-                      *ngIf="filter.createdBy !== userId"
-                      class="shared-app-text"
-                    >
+                      *ngIf="filter?.createdBy !== userId"
+                      class="shared-app-text">
                       <img
                         ngSrc="assets/icons/share-icon.svg"
                         width="11"
                         height="12"
-                      />
+                        />
                       <span>Shared App</span>
                     </div>
                     <div
@@ -363,26 +322,24 @@
                       [ngbTooltip]="filter?.tooltipPlanText"
                       container="body"
                       placement="bottom"
-                      tooltipClass="test-icon-tooltip"
-                    >
+                      tooltipClass="test-icon-tooltip">
                       <span
                         class="si-trail icon-trail"
-                        *ngIf="(filter?.planName | lowercase) === 'free'"
-                      ></span>
+                        *ngIf="(filter?.planName | lowercase) === 'free'"></span>
                       <img
                         src="assets/images/pricing-plan/new-plan-pricing-img/{{
-                          (filter?.planName | lowercase)
-                            ? 'standard'
-                            : 'enterprise'
+                        (filter?.planName | lowercase)
+                        ? 'standard'
+                        : 'enterprise'
                         }}-plan-icon.svg"
                         alt="standard plan"
                         class="plan-type-img"
                         *ngIf="
-                          ['standard', 'enterprise', 'custom'].includes(
-                            filter?.planName | lowercase
-                          )
+                        ['standard', 'enterprise', 'custom'].includes(
+                        filter?.planName | lowercase
+                        )
                         "
-                      />
+                        />
                     </div>
                   </div>
                 </div>
@@ -395,24 +352,21 @@
                     [height]="170"
                     title="{{ 'NO_SEARCH_RESULTS_FOUND' | translate }}"
                     desc="{{ 'DESC_SEARCH' | translate }}"
-                    imgName="application-dashboard.png"
-                  >
+                    imgName="application-dashboard.png">
                   </app-empty-screen>
                 </div>
               </ng-template>
 
               <div
                 *ngIf="!filteredApps.length && !searchApp"
-                class="empty_filter"
-              >
+                class="empty_filter">
                 <ng-container *ngIf="app_type === 'My'; else noSharedApp">
                   <app-empty-screen
                     [width]="170"
                     [height]="170"
                     title="{{ 'TITLE_NOAPP' | translate }}"
                     desc="{{ 'DESC_NOAPP' | translate }}"
-                    imgName="application-dashboard.png"
-                  >
+                    imgName="application-dashboard.png">
                   </app-empty-screen>
                 </ng-container>
                 <ng-template #noSharedApp>
@@ -421,8 +375,7 @@
                     [height]="170"
                     title="{{ 'TITLE_SHARED' | translate }}"
                     desc="{{ 'DESC_SHARED' | translate }}"
-                    imgName="application-dashboard.png"
-                  >
+                    imgName="application-dashboard.png">
                   </app-empty-screen>
                 </ng-template>
               </div>
@@ -438,13 +391,12 @@
                         <span class="link">
                           <a
                             href="https://docs.kore.ai/searchassist/source-management/source-management/"
-                            target="_blank"
-                            >{{ 'home_learn_more' | translate
+                            target="_blank">{{ 'home_learn_more' | translate
                             }}<img
                               ngSrc="assets/icons/content/carrotright.svg"
                               width="6"
                               height="10"
-                            />
+                              />
                           </a>
                         </span>
                       </div>
@@ -453,7 +405,7 @@
                           ngSrc="assets/icons/content/carousel-data-inte.svg"
                           width="62"
                           height="62"
-                        />
+                          />
                       </div>
                       <div class="content-block">
                         <div class="title">
@@ -461,8 +413,8 @@
                         </div>
                         <div class="desc_text">
                           {{
-                            'home_data_is_fetched_from_variours_sources_desc'
-                              | translate
+                          'home_data_is_fetched_from_variours_sources_desc'
+                          | translate
                           }}
                         </div>
                       </div>
@@ -474,13 +426,12 @@
                         <span class="link">
                           <a
                             href="https://docs.kore.ai/searchassist/manage-index/index-management/"
-                            target="_blank"
-                            >{{ 'home_learn_more' | translate
+                            target="_blank">{{ 'home_learn_more' | translate
                             }}<img
                               ngSrc="assets/icons/content/carrotright.svg"
                               width="6"
                               height="10"
-                            />
+                              />
                           </a>
                         </span>
                       </div>
@@ -489,7 +440,7 @@
                           ngSrc="assets/icons/content/carousel-index-manag.svg"
                           width="62"
                           height="62"
-                        />
+                          />
                       </div>
                       <div class="content-block">
                         <div class="title">
@@ -497,8 +448,8 @@
                         </div>
                         <div class="desc_text">
                           {{
-                            'home_documents_and_fields_are_manipulated_to_customise_results_desc'
-                              | translate
+                          'home_documents_and_fields_are_manipulated_to_customise_results_desc'
+                          | translate
                           }}
                         </div>
                       </div>
@@ -510,13 +461,12 @@
                         <span class="link">
                           <a
                             href="https://docs.kore.ai/searchassist/optimize-results/result-optimization/"
-                            target="_blank"
-                            >{{ 'home_learn_more' | translate
+                            target="_blank">{{ 'home_learn_more' | translate
                             }}<img
                               ngSrc="assets/icons/content/carrotright.svg"
                               width="6"
                               height="10"
-                            />
+                              />
                           </a>
                         </span>
                       </div>
@@ -525,7 +475,7 @@
                           ngSrc="assets/icons/content/carousel-result-opt.svg"
                           width="62"
                           height="62"
-                        />
+                          />
                       </div>
                       <div class="content-block">
                         <div class="title">
@@ -533,7 +483,7 @@
                         </div>
                         <div class="desc_text">
                           {{
-                            'home_resuts_are_tuned_based_on_desc' | translate
+                          'home_resuts_are_tuned_based_on_desc' | translate
                           }}
                         </div>
                       </div>
@@ -545,20 +495,18 @@
                         <span class="link">
                           <a
                             href="https://docs.kore.ai/searchassist/search-experience/design-search-experience/"
-                            target="_blank"
-                            >{{ 'home_learn_more' | translate
+                            target="_blank">{{ 'home_learn_more' | translate
                             }}<img
                               ngSrc="assets/icons/content/carrotright.svg"
                               width="6"
-                              height="10" /></a
-                        ></span>
+                              height="10" /></a></span>
                       </div>
                       <div class="img-block">
                         <img
                           ngSrc="assets/icons/content/carousel-search-exp.svg"
                           width="62"
                           height="62"
-                        />
+                          />
                       </div>
                       <div class="content-block">
                         <div class="title">
@@ -566,8 +514,8 @@
                         </div>
                         <div class="desc_text">
                           {{
-                            'home_search_experience_is_enchanced_by_defining_presenation_desc'
-                              | translate
+                          'home_search_experience_is_enchanced_by_defining_presenation_desc'
+                          | translate
                           }}
                         </div>
                       </div>
@@ -579,20 +527,18 @@
                         <span class="link">
                           <a
                             href="https://docs.kore.ai/searchassist/analytics/analytics/"
-                            target="_blank"
-                            >{{ 'home_learn_more' | translate
+                            target="_blank">{{ 'home_learn_more' | translate
                             }}<img
                               ngSrc="assets/icons/content/carrotright.svg"
                               width="6"
-                              height="10" /></a
-                        ></span>
+                              height="10" /></a></span>
                       </div>
                       <div class="img-block">
                         <img
                           ngSrc="assets/icons/content/carousel-analytics.svg"
                           width="62"
                           height="62"
-                        />
+                          />
                       </div>
                       <div class="content-block">
                         <div class="title">
@@ -600,7 +546,7 @@
                         </div>
                         <div class="desc_text">
                           {{
-                            'home_search_experience_isenchaced_desc' | translate
+                          'home_search_experience_isenchaced_desc' | translate
                           }}
                         </div>
                       </div>
@@ -609,23 +555,20 @@
                   <div class="coursel-cards-data col-4">
                     <div class="inner-c-data experiments">
                       <div class="learn-more-">
-                        <span class="link"
-                          ><a
+                        <span class="link"><a
                             href="https://docs.kore.ai/searchassist/analytics/experiment/"
-                            target="_blank"
-                            >{{ 'home_learn_more' | translate
+                            target="_blank">{{ 'home_learn_more' | translate
                             }}<img
                               ngSrc="assets/icons/content/carrotright.svg"
                               width="6"
-                              height="10" /></a
-                        ></span>
+                              height="10" /></a></span>
                       </div>
                       <div class="img-block">
                         <img
                           ngSrc="assets/icons/content/carousel-exp.svg"
                           width="62"
                           height="62"
-                        />
+                          />
                       </div>
                       <div class="content-block">
                         <div class="title">
@@ -633,8 +576,8 @@
                         </div>
                         <div class="desc_text">
                           {{
-                            'home_multiple_index_and_search_configuration_desc'
-                              | translate
+                          'home_multiple_index_and_search_configuration_desc'
+                          | translate
                           }}
                         </div>
                       </div>
@@ -668,15 +611,14 @@
                   ngSrc="assets/icons/hand-hellow.svg"
                   width="22"
                   height="23"
-                />
+                  />
               </div>
             </div>
             <div class="on-b-progress-bar">
               <div
-                *ngFor="let bar of progressBar; let i = index"
+                *ngFor="let bar of progressBar; let i= index"
                 class="not-active-bar"
-                [ngClass]="{ 'active-bar': i === 0 }"
-              ></div>
+                [ngClass]="{ 'active-bar': i === 0 }"></div>
             </div>
             <!-- <button style="width: 50px;height:15px" (click)="openAppLoadingScreen()"></button> -->
             <div class="title-start">
@@ -687,14 +629,13 @@
                 class="explore-card sample-data"
                 (mouseenter)="progressBarFun(4, 1)"
                 (mouseleave)="progressBarFun(0, 0)"
-                (click)="welcomeStep('sampleData')"
-              >
+                (click)="welcomeStep('sampleData')">
                 <div class="icon-block">
                   <img
                     ngSrc="assets/icons/onboarding/sample-data.svg"
                     width="48"
                     height="49"
-                  />
+                    />
                 </div>
                 <div class="content-data">
                   <div class="main-title">
@@ -702,8 +643,8 @@
                   </div>
                   <div class="desc-text">
                     {{
-                      'home_explore_search_assist_using_sample_data_desc'
-                        | translate
+                    'home_explore_search_assist_using_sample_data_desc'
+                    | translate
                     }}
                   </div>
                 </div>
@@ -715,14 +656,13 @@
                 class="explore-card my-self"
                 (mouseenter)="progressBarFun(2, 1)"
                 (mouseleave)="progressBarFun(0, 0)"
-                (click)="welcomeStep('selfExplore'); progressBar.length = 2"
-              >
+                (click)="welcomeStep('selfExplore'); progressBar.length= 2">
                 <div class="icon-block">
                   <img
                     ngSrc="assets/icons/onboarding/my-self.svg"
                     width="52"
                     height="52"
-                  />
+                    />
                 </div>
                 <div class="content-data">
                   <div class="main-title">
@@ -730,8 +670,8 @@
                   </div>
                   <div class="desc-text">
                     {{
-                      'home_start_by_craeting_a_new_app_from_scratch_by_adding_your_info'
-                        | translate
+                    'home_start_by_craeting_a_new_app_from_scratch_by_adding_your_info'
+                    | translate
                     }}
                   </div>
                 </div>
@@ -746,8 +686,8 @@
               <div class="indicator-title"></div>
               <div class="title">
                 {{
-                  'home_few_clicks_away_from_creating_your_searchexperence'
-                    | translate
+                'home_few_clicks_away_from_creating_your_searchexperence'
+                | translate
                 }}
               </div>
               <div class="desc-text">
@@ -759,7 +699,7 @@
                 ngSrc="assets/icons/onboarding/gif-onboarding.gif"
                 width="800"
                 height="600"
-              />
+                />
             </div>
           </div>
         </div>
@@ -780,15 +720,14 @@
                     ngSrc="assets/icons/hand-hellow.svg"
                     width="22"
                     height="23"
-                  />
+                    />
                 </div>
               </div>
               <div class="on-b-progress-bar">
                 <div
-                  *ngFor="let bar of progressBar; let i = index"
+                  *ngFor="let bar of progressBar; let i= index"
                   class="not-active-bar"
-                  [ngClass]="{ 'active-bar': i < stepBar }"
-                ></div>
+                  [ngClass]="{ 'active-bar': i <stepBar }"></div>
                 <!-- <div class="not-active-bar active-bar"></div>
                   <div class="not-active-bar" [ngClass]="{'active-bar': displayApp}"></div> -->
               </div>
@@ -815,36 +754,28 @@
                           id="#e-commerece"
                           data-toggle="pill"
                           (click)="selectDemoType('e-commerce')"
-                          href="#ecommerce"
-                          >{{ 'home_e_commerece' | translate }}
+                          href="#ecommerce">{{ 'home_e_commerece' | translate }}
                           <i
                             *ngIf="demoType === 'e-commerce'"
-                            class="si-check"
-                          ></i
-                        ></a>
+                            class="si-check"></i></a>
                       </li>
                       <li class="nav-item">
                         <a
                           class="nav-link"
                           data-toggle="pill"
                           (click)="selectDemoType('knowledge-search')"
-                          href="#ks"
-                          >{{ 'home_knowledge_search' | translate }}
+                          href="#ks">{{ 'home_knowledge_search' | translate }}
                           <i
                             *ngIf="demoType === 'knowledge-search'"
-                            class="si-check"
-                          ></i
-                        ></a>
+                            class="si-check"></i></a>
                       </li>
                       <li class="nav-item d-none">
                         <a
                           class="nav-link"
                           data-toggle="pill"
                           (change)="selectDemoType('website-search')"
-                          href="#ws"
-                          >{{ 'home_website_search' | translate }}
-                          <i class="si-check"></i
-                        ></a>
+                          href="#ws">{{ 'home_website_search' | translate }}
+                          <i class="si-check"></i></a>
                       </li>
                     </ul>
                     <!-- Tab panes -->
@@ -855,24 +786,24 @@
                         </div>
                         <div class="desc-text-info">
                           {{
-                            'home_the_ecommerce_sample_dataset_desc' | translate
+                          'home_the_ecommerce_sample_dataset_desc' | translate
                           }}
                         </div>
                         <div class="ul-heading">
                           {{
-                            'home_whats_included_in_the_sample_app' | translate
+                          'home_whats_included_in_the_sample_app' | translate
                           }}
                         </div>
                         <ul>
                           <li>
                             {{
-                              'home_structured_dataset_with_fileds_like_name_desc'
-                                | translate
+                            'home_structured_dataset_with_fileds_like_name_desc'
+                            | translate
                             }}
                           </li>
                           <li>
                             {{
-                              'home_result_card_are_tailored_desc' | translate
+                            'home_result_card_are_tailored_desc' | translate
                             }}
                           </li>
                           <li>{{ 'home_bussiness_rules_to' | translate }}</li>
@@ -888,25 +819,25 @@
                             <li>{{ 'home_top_rated_perfumes' | translate }}</li>
                             <li>
                               {{
-                                'home_looking_for_pink_hue_lipsticks'
-                                  | translate
+                              'home_looking_for_pink_hue_lipsticks'
+                              | translate
                               }}
                             </li>
                             <li>
                               {{
-                                'home_i_am_lokking_for_best_selling' | translate
+                              'home_i_am_lokking_for_best_selling' | translate
                               }}
                             </li>
                             <li>
                               {{
-                                'home_perfumes_with_rating_more_than_4'
-                                  | translate
+                              'home_perfumes_with_rating_more_than_4'
+                              | translate
                               }}
                             </li>
                             <li>
                               {{
-                                'home_display_essi_lipticks_below_$8'
-                                  | translate
+                              'home_display_essi_lipticks_below_$8'
+                              | translate
                               }}
                             </li>
                           </ul>
@@ -918,30 +849,30 @@
                         </div>
                         <div class="desc-text-info">
                           {{
-                            'home_the_knowledge_use_case_contains_info'
-                              | translate
+                          'home_the_knowledge_use_case_contains_info'
+                          | translate
                           }}
                         </div>
                         <div class="ul-heading">
                           {{
-                            'home_whats_included_in_the_sample_app' | translate
+                          'home_whats_included_in_the_sample_app' | translate
                           }}
                         </div>
                         <ul>
                           <li>
                             {{
-                              'home_unstructured_dataset_like_web_pages_info'
-                                | translate
+                            'home_unstructured_dataset_like_web_pages_info'
+                            | translate
                             }}
                           </li>
                           <li>
                             {{
-                              'home_result_template_tailored_desc' | translate
+                            'home_result_template_tailored_desc' | translate
                             }}
                           </li>
                           <li>
                             {{
-                              'home_bussiness_rules_to_peronalise' | translate
+                            'home_bussiness_rules_to_peronalise' | translate
                             }}
                           </li>
                         </ul>
@@ -952,7 +883,7 @@
                           <ul>
                             <li>
                               {{
-                                'home_confluence_pages_created_desc' | translate
+                              'home_confluence_pages_created_desc' | translate
                               }}
                             </li>
                             <li>
@@ -970,13 +901,13 @@
                         </div>
                         <div class="desc-text-info">
                           {{
-                            'home_the_website_search_usecase_is_info'
-                              | translate
+                          'home_the_website_search_usecase_is_info'
+                          | translate
                           }}
                         </div>
                         <div class="ul-heading">
                           {{
-                            'home_whats_included_in_the_sample_app' | translate
+                          'home_whats_included_in_the_sample_app' | translate
                           }}
                         </div>
                         <ul>
@@ -1001,26 +932,26 @@
                           <ul>
                             <li>
                               {{
-                                'home_how_do_i_apply_for_personal_loan'
-                                  | translate
+                              'home_how_do_i_apply_for_personal_loan'
+                              | translate
                               }}
                             </li>
                             <li>
                               {{
-                                'home_what_are_the_benifits_on_mintlet_card'
-                                  | translate
+                              'home_what_are_the_benifits_on_mintlet_card'
+                              | translate
                               }}
                             </li>
                             <li>
                               {{
-                                'home_i_want_to_pay_my_credit_card_bill'
-                                  | translate
+                              'home_i_want_to_pay_my_credit_card_bill'
+                              | translate
                               }}
                             </li>
                             <li>
                               {{
-                                'home_what_are_the_benifits_on_my_travel_card'
-                                  | translate
+                              'home_what_are_the_benifits_on_my_travel_card'
+                              | translate
                               }}
                             </li>
                           </ul>
@@ -1036,46 +967,40 @@
                       <li
                         id="#topExperience"
                         class="nav-item"
-                        (click)="selectSearchExperianceType('top')"
-                      >
+                        (click)="selectSearchExperianceType('top')">
                         <a
                           class="nav-link active"
                           data-toggle="pill"
-                          href="#searchbar"
-                        >
+                          href="#searchbar">
                           <span class="title">{{
                             'home_search_bar' | translate
-                          }}</span>
+                            }}</span>
                           <i
                             *ngIf="SearchExperianceType === 'top'"
-                            class="si-check"
-                          ></i>
+                            class="si-check"></i>
                           <div class="text-desc">
                             {{
-                              'home_a_tradiational_search_bar_desc' | translate
+                            'home_a_tradiational_search_bar_desc' | translate
                             }}
                           </div>
                         </a>
                       </li>
                       <li
                         class="nav-item"
-                        (click)="selectSearchExperianceType('bottom')"
-                      >
+                        (click)="selectSearchExperianceType('bottom')">
                         <a
                           class="nav-link"
                           data-toggle="pill"
-                          href="#virtualassistance"
-                        >
+                          href="#virtualassistance">
                           <span class="title">{{
                             'home_virtual_assistant' | translate
-                          }}</span>
+                            }}</span>
                           <i
                             *ngIf="SearchExperianceType === 'bottom'"
-                            class="si-check"
-                          ></i>
+                            class="si-check"></i>
                           <div class="text-desc">
                             {{
-                              'home_a_unique_search_experience_desc' | translate
+                            'home_a_unique_search_experience_desc' | translate
                             }}
                           </div>
                         </a>
@@ -1089,7 +1014,7 @@
                             ngSrc="assets/icons/onboarding/searchbar.png"
                             width="679"
                             height="377"
-                          />
+                            />
                         </div>
                       </div>
                       <div class="tab-pane fade" id="virtualassistance">
@@ -1098,7 +1023,7 @@
                             ngSrc="assets/icons/onboarding/virtualassistance.png"
                             width="677"
                             height="363"
-                          />
+                            />
                         </div>
                       </div>
                     </div>
@@ -1116,7 +1041,7 @@
                       height="477"
                       title="welcome-user-app-creation"
                       alt="welcome-user-app-creation"
-                    />
+                      />
                   </div>
                   <div class="welcome-user-form">
                     <div class="create-app-data">
@@ -1129,11 +1054,11 @@
                           type="text"
                           [(ngModel)]="newApp.name"
                           placeholder="{{
-                            'home_enter_the_app_name' | translate
+                          'home_enter_the_app_name' | translate
                           }}"
                           class="input-text"
                           [ngClass]="{ error: validateAppname }"
-                        />
+                          />
                         <div class="error-msg" *ngIf="validateAppname">
                           {{ 'home_enter_the_app_name' | translate }}
                         </div>
@@ -1147,11 +1072,10 @@
                           style="padding-top: 8px"
                           [(ngModel)]="newApp.description"
                           placeholder="{{
-                            'home_enter_app_description' | translate
+                          'home_enter_app_description' | translate
                           }}"
                           autocomplete="off"
-                          name="appDesc"
-                        ></textarea>
+                          name="appDesc"></textarea>
                       </div>
                     </div>
                   </div>
@@ -1162,22 +1086,19 @@
           <div class="footer-btns-data" *ngIf="steps">
             <button
               class="kr-sg-button-secondary btn_lg back_button"
-              (click)="back()"
-            >
-            {{"sa_back" | translate}}
+              (click)="back()">
+              {{"sa_back" | translate}}
             </button>
             <button
               *ngIf="steps !== 'showSearchExperience'"
               class="kr-sg-button-primary btn_lg"
-              (click)="checkExperience()"
-            >
+              (click)="checkExperience()">
               {{ 'sa_continue' | translate }}
             </button>
             <button
               *ngIf="steps === 'showSearchExperience'"
               class="kr-sg-button-primary btn_lg"
-              (click)="checkExperience()"
-            >
+              (click)="checkExperience()">
               {{ 'home_get_started' | translate }}
             </button>
           </div>
@@ -1191,8 +1112,7 @@
 <kr-modal
   modalType="default"
   #createAppPop
-  modalClass="creating-new-app-modal app-homes-component-page"
->
+  modalClass="creating-new-app-modal app-homes-component-page">
   <div class="modal-body">
     <div class="close_modal" (click)="closeCreateApp()">
       <img ngSrc="assets/icons/close.svg" width="10" height="10" />
@@ -1202,7 +1122,7 @@
         ngSrc="assets/icons/landing/create-app.png"
         width="440"
         height="617"
-      />
+        />
     </div>
     <div class="actions-block">
       <perfect-scrollbar>
@@ -1226,14 +1146,14 @@
               id="enterAppName"
               (blur)="inputChanged('enterName')"
               (change)="inputChanged('enterName')"
-            />
+              />
             <img
               id="infoWarning"
               ngSrc="assets/icons/warning_escalation.svg"
               style="display: none"
               height="12"
               width="12"
-            />
+              />
           </div>
           <div class="kr-sg-input-text">
             <div class="label-text">{{ 'home_description' | translate }}</div>
@@ -1244,7 +1164,7 @@
               autocomplete="off"
               [(ngModel)]="newApp.description"
               name="appDesc"
-            />
+              />
           </div>
           <!-- <div class="kr-sg-dropdowns w-100">
             <div class="label-text">Language</div>
@@ -1260,8 +1180,7 @@
               type="button"
               class="kr-sg-button-primary btn_lg"
               data-dismiss="modal"
-              (click)="validateSource()"
-            >
+              (click)="validateSource()">
               {{ 'home_get_started' | translate }}
             </button>
           </div>
@@ -1278,8 +1197,7 @@
 <kr-modal
   modalType="center"
   #createBoardingJourney
-  modalClass="modal_popups_ onboardingJourney-landing-popup"
->
+  modalClass="modal_popups_ onboardingJourney-landing-popup">
   <div class="video-info-section-data">
     <div class="modal-header p-0">
       <div class="close_icon" (click)="closeBoradingJourney()">
@@ -1293,8 +1211,7 @@
           frameborder="0"
           webkitallowfullscreen
           mozallowfullscreen
-          allowfullscreen
-        ></iframe>
+          allowfullscreen></iframe>
       </div>
       <div class="video-header">
         {{ 'home_welcome_to_search_assist' | translate }}
@@ -1325,8 +1242,7 @@
     <div class="btns-sec">
       <button
         class="kr-sg-button-secondary btn_lg mr-2"
-        (click)="closeConfirmApp()"
-      >
+        (click)="closeConfirmApp()">
         Cancel
       </button>
       <button class="kr-sg-button-primary btn_lg" (click)="unlinkApp()">
@@ -1343,22 +1259,21 @@
         [(ngModel)]="confirmApp"
         class="input-text"
         [ngClass]="{
-          'err-block':
-            (!confirmApp && submitted) || (confirmApp !== 'DELETE' && submitted)
+        'err-block':
+        (!confirmApp && submitted) || (confirmApp !== 'DELETE' && submitted)
         }"
-      />
+        />
       <div
         class="error-msg"
         *ngIf="
-          (!confirmApp && submitted) || (confirmApp !== 'DELETE' && submitted)
-        "
-      >
+        (!confirmApp && submitted) || (confirmApp !== 'DELETE' && submitted)
+        ">
         <img
           style="padding-right: 4px; height: 12px"
           ngSrc="assets/icons/warning_escalation.svg"
           width="14"
           height="12"
-        />{{ 'home_please_type_delete' | translate }}
+          />{{ 'home_please_type_delete' | translate }}
       </div>
     </div>
     <div class="info-desc">
@@ -1370,8 +1285,7 @@
     <div class="btns-sec">
       <button
         class="kr-sg-button-secondary btn_lg mr-2"
-        (click)="closeConfirmApp()"
-      >
+        (click)="closeConfirmApp()">
         {{ 'sa_cancel' | translate }}
       </button>
       <button class="kr-sg-button-primary btn_lg" (click)="deleteApp()">
@@ -1473,7 +1387,6 @@
     </div>
   </div>
 </kr-modal> -->
-
 <!-- show/hide search gif -->
 <ng-container *ngIf="isShowSearchGif">
   <div class="loader-container-block">
@@ -1482,6 +1395,6 @@
       ngSrc="assets/icons/onboarding/search-gif.gif"
       width="300"
       height="300"
-    />
+      />
   </div>
 </ng-container>

@@ -751,7 +751,6 @@
       <div
         mat-button
         class="mat-button {{isRouteDisabled&&'disable_btn'}}"
-        [ngClass]="{ disable_btn: isRouteDisabled }"
         [routerLink]="['/generalSettings']"
         skipLocationChange
         routerLinkActive="active"
@@ -768,7 +767,7 @@
             class="activeIcon"
           />
         </span>
-        <span class="linkTitle" [ngClass]="{ disable_btn: isRouteDisabled }">{{
+        <span class="linkTitle">{{
           'app_menu_General_Settings' | translate
         }}</span>
       </div>
@@ -777,7 +776,6 @@
       <div
         mat-button
         class="mat-button {{isRouteDisabled&&'disable_btn'}}"
-        [ngClass]="{ disable_btn: isRouteDisabled }"
         [routerLink]="['/settings']"
         skipLocationChange
         routerLinkActive="active"
@@ -794,14 +792,13 @@
             class="activeIcon"
           />
         </span>
-        <span class="linkTitle" [ngClass]="{ disable_btn: isRouteDisabled }">{{
+        <span class="linkTitle">{{
           'app_menu_Channels' | translate
         }}</span>
       </div>
       <div
         mat-button
         class="mat-button {{isRouteDisabled&&'disable_btn'}}"
-        [ngClass]="{ disable_btn: isRouteDisabled }"
         [routerLink]="['/credentials-list']"
         skipLocationChange
         routerLinkActive="active"
@@ -818,14 +815,13 @@
             class="activeIcon"
           />
         </span>
-        <span class="linkTitle" [ngClass]="{ disable_btn: isRouteDisabled }">{{
+        <span class="linkTitle">{{
           'app_menu_Credentials' | translate
         }}</span>
       </div>
       <div
         mat-button
         class="mat-button {{isRouteDisabled&&'disable_btn'}}"
-        [ngClass]="{ disable_btn: isRouteDisabled }"
         [routerLink]="['/team-management']"
         skipLocationChange
         routerLinkActive="active"
@@ -842,7 +838,7 @@
             class="activeIcon"
           />
         </span>
-        <span class="linkTitle" [ngClass]="{ disable_btn: isRouteDisabled }"
+        <span class="linkTitle"
           >{{ 'app_menu_Team' | translate }}
         </span>
       </div>
