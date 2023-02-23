@@ -14,9 +14,7 @@ const routes: Routes = [
   {
     path: '',
     canActivate: [AuthGuard],
-    resolve: {
-      appData: AppDataResolver,
-    },
+    resolve: [AppDataResolver, AppsDataResolver],
     children: [
       {
         path: 'summary',
@@ -182,6 +180,7 @@ const routes: Routes = [
           import('./modules/sources/sources.module').then(
             (m) => m.SourcesModule
           ),
+        resolve: [LazyScriptResolver],
       },
       {
         path: 'content',
@@ -189,7 +188,6 @@ const routes: Routes = [
           import('./modules/content/content.module').then(
             (m) => m.ContentModule
           ),
-        resolve: [LazyScriptResolver],
       },
       {
         path: 'faqs',
@@ -229,7 +227,6 @@ const routes: Routes = [
         loadChildren: () =>
           import('./modules/apps/apps.module').then((m) => m.AppsModule),
         pathMatch: 'full',
-        resolve: [AppsDataResolver],
       },
       // {
       //   path: 'not-found',

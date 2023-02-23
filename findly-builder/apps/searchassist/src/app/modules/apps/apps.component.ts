@@ -16,7 +16,6 @@ import { setAppId } from '@kore.apps/store/app.actions';
 import { AppsService } from './services/apps.service';
 import { combineLatest, Subscription } from 'rxjs';
 import { LazyLoadService, TranslationService } from '@kore.libs/shared/src';
-import * as moment from 'moment';
 declare const $: any;
 
 @Component({
@@ -658,6 +657,7 @@ export class AppsComponent implements OnInit, OnDestroy {
       };
       this.service.invoke('post.createDemoApp', {}, payload).subscribe(
         (res) => {
+          this.appsService.getByKey(payload.streamId);
           if (res) {
             this.isShowSearchGif = true;
             this.polling();
@@ -760,7 +760,7 @@ export class AppsComponent implements OnInit, OnDestroy {
   }
   callStream() {
     this.service.invoke('get.credential').subscribe(
-      (res) => { },
+      (res) => {},
       (errRes) => {
         this.errorToaster(errRes, 'Error in creating app');
       }

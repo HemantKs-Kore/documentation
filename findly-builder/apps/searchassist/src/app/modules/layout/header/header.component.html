@@ -9,9 +9,9 @@
     <div class="container-fluid p-0">
       <div class="logoTabsContainer align-items-center">
         <img
-          ngSrc="assets/images/logos/searchassist-new-logo.svg"
-          width="24"
-          height="24"
+          ngSrc="assets/images/logos/sa-logo.svg"
+          width="173"
+          height="40"
           priority
           class="logoKoreIcon landing-screen"
         />
@@ -42,7 +42,7 @@
             [ngClass]="{ active: menuItems?.sources?.includes(mainMenu),'disable_btn':isRouteDisabled }"
             skipLocationChange
             routerLinkActive="active"
-            (click)="goToRoute('/content'); closeUserMetaTagsSlider()"
+            (click)="goToRoute('/sources'); closeUserMetaTagsSlider()"
           >
             <span>{{ 'header_sources' | translate }}</span>
           </div>
@@ -967,9 +967,10 @@
   <div class="modal-header">
     <div class="logo-data">
       <img
-        ngSrc="assets/images/logos/searchassist-new-logo.svg"
-        width="24"
-        height="24"
+        ngSrc="assets/images/logos/sa-logo.svg"
+        width="173"
+        height="40"
+        priority
       />
     </div>
     <div class="close-modal" (click)="closeBrowseWorkspace()">
