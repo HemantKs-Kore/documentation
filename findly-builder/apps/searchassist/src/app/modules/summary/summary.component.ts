@@ -146,7 +146,7 @@ export class SummaryComponent implements OnInit, AfterViewInit, OnDestroy {
     private router: Router,
     public inlineManual: InlineManualService,
     public appSelectionService: AppSelectionService
-  ) { }
+  ) {}
 
   async ngOnInit() {
     this.currentPlan = {};
@@ -154,23 +154,29 @@ export class SummaryComponent implements OnInit, AfterViewInit, OnDestroy {
     this.initialCall();
     await this.appSelectionService.getCurrentUsage();
     this.usageDetails = this.appSelectionService?.currentUsageData;
-    this.updateUsageData = this.appSelectionService.updateUsageData.subscribe(res => {
-      if (res == 'updatedUsage') {
-        this.usageDetails = this.appSelectionService?.currentUsageData;
+    this.updateUsageData = this.appSelectionService.updateUsageData.subscribe(
+      (res) => {
+        if (res == 'updatedUsage') {
+          this.usageDetails = this.appSelectionService?.currentUsageData;
+        }
       }
-    })
-    this.currentUsageSubscription = this.appSelectionService.queryConfigs.subscribe(res => {
-      const subscription_data = this.appSelectionService?.currentsubscriptionPlanDetails;
-      this.currentPlan = subscription_data?.subscription;
-      this.initialCall('changed');
-      this.onboard?.initialCall();
-      this.appSelectionService.getTourConfig();
-      this.getAllOverview();
-    })
-    this.currentPlanSubscription = this.appSelectionService.currentSubscription.subscribe(res => {
-      const subscription_data = this.appSelectionService?.currentsubscriptionPlanDetails;
-      this.currentPlan = subscription_data.subscription;
-    })
+    );
+    this.currentUsageSubscription =
+      this.appSelectionService.queryConfigs.subscribe((res) => {
+        const subscription_data =
+          this.appSelectionService?.currentsubscriptionPlanDetails;
+        this.currentPlan = subscription_data?.subscription;
+        this.initialCall('changed');
+        this.onboard?.initialCall();
+        this.appSelectionService.getTourConfig();
+        this.getAllOverview();
+      });
+    this.currentPlanSubscription =
+      this.appSelectionService.currentSubscription.subscribe((res) => {
+        const subscription_data =
+          this.appSelectionService?.currentsubscriptionPlanDetails;
+        this.currentPlan = subscription_data.subscription;
+      });
   }
   ngAfterViewInit() {
     if (!this.inlineManual?.checkVisibility('APP_WALKTHROUGH')) {
@@ -348,14 +354,14 @@ export class SummaryComponent implements OnInit, AfterViewInit, OnDestroy {
         this.indices = res.indices[0];
         this.show_indices =
           this.indices.botActions.tasks > 0 ||
-            this.indices?.connectors?.sources > 0 ||
-            this.indices.files > 0 ||
-            this.indices.structuredDataCount > 0 ||
-            this.indices.web.domains > 0 ||
-            this.indices.web.numOfDocs > 0 ||
-            this.indices.faqs.in_review > 0 ||
-            this.indices.faqs.draft > 0 ||
-            this.indices.faqs.approved > 0
+          this.indices?.connectors?.sources > 0 ||
+          this.indices.files > 0 ||
+          this.indices.structuredDataCount > 0 ||
+          this.indices.web.domains > 0 ||
+          this.indices.web.numOfDocs > 0 ||
+          this.indices.faqs.in_review > 0 ||
+          this.indices.faqs.draft > 0 ||
+          this.indices.faqs.approved > 0
             ? true
             : false;
         if (status == undefined) {
@@ -421,10 +427,12 @@ export class SummaryComponent implements OnInit, AfterViewInit, OnDestroy {
     $('#dashboardTab').trigger('click');
   }
   openSource() {
-    this.appSelectionService.routeChanged.next({
-      name: 'pathchanged',
-      path: '/sources',
-    });
+    this.router.navigate(['sources'], { skipLocationChange: true });
+    //this.router.navigateByUrl('sources', { skipLocationChange: true });
+    // this.appSelectionService.routeChanged.next({
+    //   name: 'pathchanged',
+    //   path: '/sources',
+    // });
   }
   redirectToPricing() {
     // this.router.navigateByUrl('/pricing');
