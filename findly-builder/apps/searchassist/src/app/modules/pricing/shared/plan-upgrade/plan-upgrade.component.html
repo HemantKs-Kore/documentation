@@ -33,12 +33,14 @@
             <div class="plan-type-block">
               <div class="plan-img">
                 <img
-                  src="assets/images/pricing-plan/new-plan-pricing-img/pricing-plan-{{
+                  ngSrc="assets/images/pricing-plan/new-plan-pricing-img/pricing-plan-{{
                     plan?.name | lowercase
                   }}.svg"
                   alt="pricing-plan-{{ plan?.name | lowercase }}"
                   title="pricing-plan-{{ plan?.name | lowercase }}"
                   class="plan-type-img"
+                  width="80"
+                  height="80"
                 />
               </div>
               <div class="plan-details">
@@ -464,7 +466,7 @@
       }}
     </div>
     <div class="close_icon" (click)="closeSelectedPopup('payment_gateway')">
-      <img src="assets/icons/modal-close.svg" />
+      <img ngSrc="assets/icons/modal-close.svg" width="16" height="16" />
     </div>
   </div>
   <perfect-scrollbar class="scoll-iframe-load-payment">
@@ -514,8 +516,10 @@
           <div class="col-6">
             <div class="order-img">
               <img
-                src="assets/images/pricing-plan/new-plan-pricing-img/order-confirmation.png"
+                ngSrc="assets/images/pricing-plan/new-plan-pricing-img/order-confirmation.png"
                 class="order-stage-img"
+                width="456"
+                height="304"
               />
             </div>
           </div>
@@ -663,9 +667,7 @@
                 {{ 'plan_payment_failed2' | translate }}
               </div>
               <div class="payment-status-desc">
-                {{
-                  orderConfirmData?.overage?.ingestDocs?.limit | valueFormat
-                }}
+                {{ orderConfirmData?.overage?.ingestDocs?.limit | valueFormat }}
                 {{ 'plan_documents_added_and' | translate }}
                 {{
                   orderConfirmData?.overage?.searchQueries?.limit | valueFormat
@@ -775,7 +777,7 @@
       }}
     </div>
     <div class="close_icon" (click)="overageModal('close')">
-      <img src="assets/icons/modal-close.svg" />
+      <img ngSrc="assets/icons/modal-close.svg" width="16" height="16" />
     </div>
   </div>
   <perfect-scrollbar>
@@ -784,7 +786,9 @@
         <div class="col-5">
           <div class="order-img">
             <img
-              src="assets/images/pricing-plan/new-plan-pricing-img/overage-opt-out.png"
+              ngSrc="assets/images/pricing-plan/new-plan-pricing-img/overage-opt-out.png"
+              width="400"
+              height="400"
               class="order-stage-img"
             />
           </div>
@@ -819,7 +823,12 @@
                   {{ 'plan_note' | translate }}:
                 </div>
                 <div class="note-desc">
-                  {{ (overagesObject.isOpted?"plans_overages_opt_out":"plan_opt_in_overages_text")|translate }}
+                  {{
+                    (overagesObject.isOpted
+                      ? 'plans_overages_opt_out'
+                      : 'plan_opt_in_overages_text'
+                    ) | translate
+                  }}
                 </div>
               </div>
               <div
@@ -1086,7 +1095,7 @@
       {{ 'plan_are_you_sure_you_want_to_continue' | translate }}
     </div>
     <div class="close_icon" (click)="closeConfirmUpgradeModal('close')">
-      <img src="assets/icons/modal-close.svg" />
+      <img ngSrc="assets/icons/modal-close.svg" width="16" height="16" />
     </div>
   </div>
   <!-- <div class="modal-body">
@@ -1118,7 +1127,9 @@
 >
   <div class="user-avthar-power">
     <img
-      src="assets/images\pricing-plan\full-power-plan/fully-upgrade-plan-power.svg"
+      ngSrc="assets/images\pricing-plan\full-power-plan/fully-upgrade-plan-power.svg"
+      width="193"
+      height="193"
     />
   </div>
   <div class="modalbody p-0">
@@ -1127,7 +1138,9 @@
     </div>
     <div class="bg-svg">
       <img
-        src="assets/images/pricing-plan/full-power-plan/fully-upgrade-plan-bg.svg"
+        ngSrc="assets/images/pricing-plan/full-power-plan/fully-upgrade-plan-bg.svg"
+        width="377"
+        height="172"
       />
     </div>
     <div class="upgrade-now-plan">
@@ -1182,12 +1195,16 @@
       <div class="left-content-block">
         <div class="brand-logo">
           <img
-            src="assets/images/pricing-plan/new-plan-pricing-img/search-assist-app-logo.svg"
+            ngSrc="assets/images/pricing-plan/new-plan-pricing-img/search-assist-app-logo.svg"
+            width="56"
+            height="56"
           />
         </div>
         <div class="brand-header-logo">
           <img
-            src="assets/images/pricing-plan/new-plan-pricing-img/search-assist-logo-text.svg"
+            ngSrc="assets/images/pricing-plan/new-plan-pricing-img/search-assist-logo-text.svg"
+            width="157"
+            height="20"
           />
         </div>
         <div class="brand-trial-plan">
@@ -1214,9 +1231,11 @@
     </div>
     <div class="right-section">
       <img
-        src="assets/images/pricing-plan/new-plan-pricing-img/onbording-landng-page-banner.svg"
+        ngSrc="assets/images/pricing-plan/new-plan-pricing-img/onbording-landng-page-banner.svg"
         alt="onboarding journy banner"
         class="onboarding-journy-banner"
+        width="411"
+        height="450"
       />
     </div>
   </div>

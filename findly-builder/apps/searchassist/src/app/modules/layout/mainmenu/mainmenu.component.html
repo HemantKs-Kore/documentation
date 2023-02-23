@@ -9,34 +9,92 @@
       appSelectionService?.env_dep_type !== 'installer'
     "
   >
-  <div class="upgrade_your_plan_price {{(usageDetails?.queryPercentageUsed>=80)&&'upgrade_your_plan_price_with_text'}}" *ngIf="showUpgrade">
-    <div class="product-subscription-alert">
-      <div class="px-1 close-btn" (click)="showUpgrade=!showUpgrade"><i class="si-close-red"></i></div>
-      <img src="assets/images/pricing-plan/new-plan-pricing-img/order-confirmation.png" class="product-subscription-img {{(usageDetails?.queryPercentageUsed>=80)&&'product-subscription-img_with_text'}}" />
-      <p class="product-subscription-desc" *ngIf="(usageDetails?.queryPercentageUsed>=80)">{{((usageDetails?.queryPercentageUsed>=80&&usageDetails?.queryPercentageUsed<100)?'app_menu_utlization_80%':'app_menu_utlization_100%')|translate}}</p>
-      <div class="upgrade-plan-btn" [ngClass]="{'danger':(usageDetails?.queryPercentageUsed>80),'warning':((usageDetails?.queryPercentageUsed>50&&usageDetails?.queryPercentageUsed<=80))}" (click)="upgrade()" (mouseover)="showNotificationBanner('over')" (mouseout)="showNotificationBanner('out')"><i class="si-publish si-icon m-r-2"></i>{{'app_menu_upgrade_plan' | translate}}</div>
-      <div class="hover-documnet-show-data">
-        <div class="card-data- card1">
-          <div class="img-block">
-            <img src="assets/icons/pricing/query-limits.svg">
-          </div>
-          <div class="content-sec">
-            <div class="title">{{'app_menu_query_limit' | translate}}</div>
-            <div class="desc-text">{{'app_menu_percent_of_queries' | translate}}</div>
-            <div class="count-data">
-              <div class="linit-k">
-                <span>{{usageDetails?.searchCount | valueFormat}}</span> / {{usageDetails?.searchLimit|valueFormat}}
-              </div>
-              <div class="percentage">{{usageDetails?.queryPercentageUsed}}% </div>
+    <div
+      class="upgrade_your_plan_price {{
+        usageDetails?.queryPercentageUsed >= 80 &&
+          'upgrade_your_plan_price_with_text'
+      }}"
+      *ngIf="showUpgrade"
+    >
+      <div class="product-subscription-alert">
+        <div class="px-1 close-btn" (click)="showUpgrade = !showUpgrade">
+          <i class="si-close-red"></i>
+        </div>
+        <img
+          ngSrc="assets/images/pricing-plan/new-plan-pricing-img/order-confirmation.png"
+          class="product-subscription-img {{
+            usageDetails?.queryPercentageUsed >= 80 &&
+              'product-subscription-img_with_text'
+          }}"
+          width="456"
+          height="304"
+        />
+        <p
+          class="product-subscription-desc"
+          *ngIf="usageDetails?.queryPercentageUsed >= 80"
+        >
+          {{
+            (usageDetails?.queryPercentageUsed >= 80 &&
+            usageDetails?.queryPercentageUsed < 100
+              ? 'app_menu_utlization_80%'
+              : 'app_menu_utlization_100%'
+            ) | translate
+          }}
+        </p>
+        <div
+          class="upgrade-plan-btn"
+          [ngClass]="{
+            danger: usageDetails?.queryPercentageUsed > 80,
+            warning:
+              usageDetails?.queryPercentageUsed > 50 &&
+              usageDetails?.queryPercentageUsed <= 80
+          }"
+          (click)="upgrade()"
+          (mouseover)="showNotificationBanner('over')"
+          (mouseout)="showNotificationBanner('out')"
+        >
+          <i class="si-publish si-icon m-r-2"></i
+          >{{ 'app_menu_upgrade_plan' | translate }}
+        </div>
+        <div class="hover-documnet-show-data">
+          <div class="card-data- card1">
+            <div class="img-block">
+              <img src="assets/icons/pricing/query-limits.svg" />
             </div>
+            <div class="content-sec">
+              <div class="title">{{ 'app_menu_query_limit' | translate }}</div>
+              <div class="desc-text">
+                {{ 'app_menu_percent_of_queries' | translate }}
+              </div>
+              <div class="count-data">
+                <div class="linit-k">
+                  <span>{{ usageDetails?.searchCount | valueFormat }}</span> /
+                  {{ usageDetails?.searchLimit | valueFormat }}
+                </div>
+                <div class="percentage">
+                  {{ usageDetails?.queryPercentageUsed }}%
+                </div>
+              </div>
+            </div>
+            <ng-container>
+              <ngb-progressbar
+                height="10px"
+                [type]="
+                  usageDetails?.queryPercentageUsed > 80
+                    ? 'danger'
+                    : usageDetails?.queryPercentageUsed > 50 &&
+                      usageDetails?.queryPercentageUsed <= 80
+                    ? 'warning'
+                    : 'primary'
+                "
+                [value]="usageDetails?.queryPercentageUsed"
+                max="100"
+              ></ngb-progressbar>
+            </ng-container>
           </div>
-          <ng-container>
-            <ngb-progressbar height="10px" [type]="usageDetails?.queryPercentageUsed>80?'danger':(usageDetails?.queryPercentageUsed>50&&usageDetails?.queryPercentageUsed<=80)?'warning':'primary'" [value]="usageDetails?.queryPercentageUsed" max="100"></ngb-progressbar>
-          </ng-container>
         </div>
       </div>
     </div>
-  </div>
   </ng-container>
 
   <perfect-scrollbar class="perfect-scroll">
@@ -87,7 +145,7 @@
                     *ngIf="config.default"
                     class="star"
                     [container]="'body'"
-                    ngbTooltip="{{'app_menu_Default_Index' | translate}}"
+                    ngbTooltip="{{ 'app_menu_Default_Index' | translate }}"
                     placement="top-center"
                   />
                   <img
@@ -129,7 +187,7 @@
                       }}"
                       >{{
                         config.name === 'Default'
-                          ?('app_menu_Default_Index' | translate)
+                          ? ('app_menu_Default_Index' | translate)
                           : config.name
                       }}</span
                     >
@@ -143,7 +201,7 @@
                         openIndexModalPopup('clone', config);
                         selectIndexConfigDrop.close()
                       "
-                      ngbTooltip="{{'sa_clone' | translate}}"
+                      ngbTooltip="{{ 'sa_clone' | translate }}"
                       placement="top-center"
                       [container]="'body'"
                     >
@@ -308,7 +366,7 @@
             {{
               configObj[selectedConfig]
                 ? configObj[selectedConfig].name === 'Default'
-                  ?  ('app_menu_Default_search' | translate)
+                  ? ('app_menu_Default_search' | translate)
                   : configObj[selectedConfig].name
                 : 'Loading..'
             }}
@@ -413,7 +471,7 @@
                           openModalPopup('clone', config);
                           selectSearchConfigDrop.close()
                         "
-                        ngbTooltip="{{'sa_clone' | translate}}"
+                        ngbTooltip="{{ 'sa_clone' | translate }}"
                         placement="top-center"
                         [container]="'body'"
                       >
@@ -476,14 +534,26 @@
             'app_menu_Weights' | translate
           }}</span>
         </div>
-        <div mat-button class="mat-button" [routerLink]="['/answerSnippet']" skipLocationChange
-					routerLinkActive="active" mat-button>
-					<span class="inlineIconBox leftAdjust">
-						<img src="assets/icons/sidemenu/new-icons/answer-snippet.svg" class="defaultIcon">
-					    <img src="assets/icons/sidemenu/new-icons/answer-snippet-active.svg" class="activeIcon">
-					</span>
-					<span class="linkTitle">{{"answer_snippets"|translate}}</span>
-				</div>
+        <div
+          mat-button
+          class="mat-button"
+          [routerLink]="['/answerSnippet']"
+          skipLocationChange
+          routerLinkActive="active"
+          mat-button
+        >
+          <span class="inlineIconBox leftAdjust">
+            <img
+              src="assets/icons/sidemenu/new-icons/answer-snippet.svg"
+              class="defaultIcon"
+            />
+            <img
+              src="assets/icons/sidemenu/new-icons/answer-snippet-active.svg"
+              class="activeIcon"
+            />
+          </span>
+          <span class="linkTitle">{{ 'answer_snippets' | translate }}</span>
+        </div>
         <div
           mat-button
           class="mat-button"
@@ -750,7 +820,7 @@
     >
       <div
         mat-button
-        class="mat-button {{isRouteDisabled&&'disable_btn'}}"
+        class="mat-button {{ isRouteDisabled && 'disable_btn' }}"
         [ngClass]="{ disable_btn: isRouteDisabled }"
         [routerLink]="['/generalSettings']"
         skipLocationChange
@@ -776,7 +846,7 @@
       <!-- <div class="inside-menu-title">SETTINGS</div> -->
       <div
         mat-button
-        class="mat-button {{isRouteDisabled&&'disable_btn'}}"
+        class="mat-button {{ isRouteDisabled && 'disable_btn' }}"
         [ngClass]="{ disable_btn: isRouteDisabled }"
         [routerLink]="['/settings']"
         skipLocationChange
@@ -800,7 +870,7 @@
       </div>
       <div
         mat-button
-        class="mat-button {{isRouteDisabled&&'disable_btn'}}"
+        class="mat-button {{ isRouteDisabled && 'disable_btn' }}"
         [ngClass]="{ disable_btn: isRouteDisabled }"
         [routerLink]="['/credentials-list']"
         skipLocationChange
@@ -824,7 +894,7 @@
       </div>
       <div
         mat-button
-        class="mat-button {{isRouteDisabled&&'disable_btn'}}"
+        class="mat-button {{ isRouteDisabled && 'disable_btn' }}"
         [ngClass]="{ disable_btn: isRouteDisabled }"
         [routerLink]="['/team-management']"
         skipLocationChange
@@ -857,7 +927,7 @@
           [routerLink]="['/pricing']"
           skipLocationChange
           routerLinkActive="active"
-          [routerLinkActiveOptions]="{exact: true}"
+          [routerLinkActiveOptions]="{ exact: true }"
           (click)="preview('index')"
           mat-button
         >
@@ -877,11 +947,11 @@
         </div>
         <div
           mat-button
-          class="mat-button {{isRouteDisabled&&'disable_btn'}}"
+          class="mat-button {{ isRouteDisabled && 'disable_btn' }}"
           [routerLink]="['/pricing/usageLog']"
           skipLocationChange
           routerLinkActive="active"
-          [routerLinkActiveOptions]="{exact: true}"
+          [routerLinkActiveOptions]="{ exact: true }"
           (click)="preview('index')"
           mat-button
         >
@@ -899,11 +969,11 @@
         </div>
         <div
           mat-button
-          class="mat-button {{isRouteDisabled&&'disable_btn'}}"
+          class="mat-button {{ isRouteDisabled && 'disable_btn' }}"
           [routerLink]="['/pricing/invoices']"
           skipLocationChange
           routerLinkActive="active"
-          [routerLinkActiveOptions]="{exact: true}"
+          [routerLinkActiveOptions]="{ exact: true }"
           (click)="preview('index')"
           mat-button
         >
@@ -933,11 +1003,11 @@
 >
   <div class="modal-header">
     <div class="title">
-      {{ newConfigObj.method === 'default' ? 'New' : ('sa_clone' | translate)}} Search
-      Configuration
+      {{ newConfigObj.method === 'default' ? 'New' : ('sa_clone' | translate) }}
+      Search Configuration
     </div>
     <div class="close_icon" (click)="closeModalPopup()">
-      <img src="assets/icons/modal-close.svg" />
+      <img ngSrc="assets/icons/modal-close.svg" width="16" height="16" />
     </div>
   </div>
   <perfect-scrollbar class="perfect-scroll-modal-body">
@@ -1052,7 +1122,11 @@
       class="kr-sg-button-primary btn_lg float-right"
       (click)="createConfig()"
     >
-      {{ newConfigObj.method === 'clone' ? ('sa_clone' | translate) : ('sa_add' | translate) }}
+      {{
+        newConfigObj.method === 'clone'
+          ? ('sa_clone' | translate)
+          : ('sa_add' | translate)
+      }}
     </button>
     <!-- [disabled]="!newConfigObj.name" -->
     <button
@@ -1072,11 +1146,15 @@
 >
   <div class="modal-header">
     <div class="title">
-      {{ newIndexConfigObj.method === 'default' ? 'New' : ('sa_clone' | translate) }} Index
-      Configuration
+      {{
+        newIndexConfigObj.method === 'default'
+          ? 'New'
+          : ('sa_clone' | translate)
+      }}
+      Index Configuration
     </div>
     <div class="close_icon" (click)="closeIndexModalPopup()">
-      <img src="assets/icons/modal-close.svg" />
+      <img ngSrc="assets/icons/modal-close.svg" width="16" height="16" />
     </div>
   </div>
   <perfect-scrollbar class="perfect-scroll-modal-body">
@@ -1193,7 +1271,11 @@
       class="kr-sg-button-primary btn_lg float-right"
       (click)="createIndexConfig()"
     >
-      {{ newIndexConfigObj.method === 'clone' ? ('sa_clone' | translate) : ('sa_add' | translate) }}
+      {{
+        newIndexConfigObj.method === 'clone'
+          ? ('sa_clone' | translate)
+          : ('sa_add' | translate)
+      }}
     </button>
     <!-- [disabled]="!newIndexConfigObj.name" -->
     <button

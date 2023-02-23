@@ -224,7 +224,7 @@
                       (click)="selectedAppType(app)"
                       [class.active-tab-name]="app === app_type"
                     >
-                      {{ app | translate}}
+                      {{ app | translate }}
                     </div>
                   </div>
                 </div>
@@ -240,7 +240,9 @@
                       </button>
                       <ul class="dropdown-menu content-menu">
                         <li *ngFor="let sort of sortBy" (click)="sortApp(sort)">
-                          <a [class.selected]="sort === sort_type">{{ sort | translate}}</a>
+                          <a [class.selected]="sort === sort_type">{{
+                            sort | translate
+                          }}</a>
                         </li>
                       </ul>
                     </div>
@@ -1164,7 +1166,7 @@
               class="kr-sg-button-secondary btn_lg back_button"
               (click)="back()"
             >
-            {{"sa_back" | translate}}
+              {{ 'sa_back' | translate }}
             </button>
             <button
               *ngIf="steps !== 'showSearchExperience'"
