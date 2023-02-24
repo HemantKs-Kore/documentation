@@ -178,7 +178,11 @@ export class MainMenuComponent implements OnInit, OnDestroy {
     if (upgradeBtnTarget.length) {
       const element = upgradeBtnTarget[0];
       const dimensions = element?.getClientRects();
-      $('.hover-documnet-show-data').css({ visibility: type === 'over' ? 'visible' : 'hidden', opacity: type === 'over' ? 1 : 0, top: (dimensions[0]?.y - 64) + 'px' });
+      $('.hover-documnet-show-data').css({
+        visibility: type === 'over' ? 'visible' : 'hidden',
+        opacity: type === 'over' ? 1 : 0,
+        top: dimensions[0]?.y - 64 + 'px',
+      });
       if (type === 'over') this.appSelectionService.getCurrentUsage();
     }
   }
@@ -552,6 +556,7 @@ export class MainMenuComponent implements OnInit, OnDestroy {
     }
   }
   async ngOnInit() {
+    this.initPlanOnboadingModal();
     this.selectedApp = this.workflowService.selectedApp();
     this.currentSubscriptionPlan =
       this.appSelectionService?.currentsubscriptionPlanDetails;
@@ -596,10 +601,29 @@ export class MainMenuComponent implements OnInit, OnDestroy {
       }
     );
   }
+
+  initPlanOnboadingModal() {
+    const planOnboardingModalSubscription =
+      this.appSelectionService.openPlanOnboardingModal.subscribe((res) => {
+        this.openPlanOnboadingModal();
+      });
+
+    this.subscription?.add(planOnboardingModalSubscription);
+  }
+
+  //open landing page onboarding journy popup from plan-upgrade component
+  openPlanOnboadingModal() {
+    this.plans?.openSelectedPopup('onboardingJourny');
+  }
+
   //check subscription data
   getSubscriptionData() {
     if (this.currentSubscriptionPlan?.subscription) {
-      this.showUpgrade = (['Unlimited', 'Enterprise'].includes(this.currentSubscriptionPlan?.subscription?.planName)) ? false : true;
+      this.showUpgrade = ['Unlimited', 'Enterprise'].includes(
+        this.currentSubscriptionPlan?.subscription?.planName
+      )
+        ? false
+        : true;
     }
   }
 
@@ -772,7 +796,7 @@ export class MainMenuComponent implements OnInit, OnDestroy {
     SharedPipesModule,
     MatDialogModule,
     PlanUpgradeModule,
-    NgOptimizedImage
+    NgOptimizedImage,
   ],
   entryComponents: [ConfirmationDialogComponent],
   exports: [MainMenuComponent],

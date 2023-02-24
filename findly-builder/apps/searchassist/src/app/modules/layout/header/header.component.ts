@@ -45,7 +45,6 @@ import {
 } from '@kore.apps/store/app.selectors';
 import { AppsService } from '@kore.apps/modules/apps/services/apps.service';
 import { IntersectionStatus } from '@kore.libs/shared/src/lib/directives/intersection-observer/from-intersection-observer';
-import { PlanUpgradeComponent } from '@kore.apps/modules/pricing/shared/plan-upgrade/plan-upgrade.component';
 
 @Component({
   selector: 'app-header',
@@ -152,7 +151,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
   routeChanged: Subscription;
   updateHeaderMainMenuSubscription: Subscription;
   topicGuideShowSubscription: Subscription;
-  planOnboardingModalSubscription: Subscription;
   currentSubsciptionData: Subscription;
   accountIdRef = '';
   @Output() showMenu = new EventEmitter();
@@ -165,7 +163,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
   @ViewChild(OnboardingComponent, { static: true })
   onBoardingComponent: OnboardingComponent;
   @ViewChild('browseWorkspace') browseWorkspace: KRModalComponent;
-  @ViewChild('plans') plans: PlanUpgradeComponent;
 
   availableRouts = [
     { displayName: 'Summary', routeId: '/summary', quaryParms: {} },
@@ -406,10 +403,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
         this.trackChecklist();
       }
     );
-    this.planOnboardingModalSubscription =
-      this.appSelectionService.openPlanOnboardingModal.subscribe((res) => {
-        this.openPlanOnboadingModal();
-      });
+
     //subscribe to app current Plan Data
     this.currentSubsciptionData =
       this.appSelectionService.currentSubscription.subscribe((res) => {
@@ -2225,10 +2219,5 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   onVisibilityChanged(index: string, status: IntersectionStatus) {
     this.visibilityStatus[index] = status;
-  }
-
-  //open landing page onboarding journy popup from plan-upgrade component
-  openPlanOnboadingModal() {
-    this.plans?.openSelectedPopup('onboardingJourny');
   }
 }
