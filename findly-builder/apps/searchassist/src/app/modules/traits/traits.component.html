@@ -258,7 +258,7 @@
                   id="btn_edit_traits"
                   placement="top-center"
                   container="body"
-                  ngbTooltip="{{'sa_edit' | translate}}"
+                  ngbTooltip="{{ 'sa_edit' | translate }}"
                   tooltipClass="ngb_tooltip_custom_class sampleJson"
                 />
                 <img
@@ -582,7 +582,7 @@
               *ngIf="utterance"
               src="assets/icons/check_green.svg"
               [ngClass]="{ 'pr-22': utterance }"
-              (click)="editUtter($event, utterance, i)"
+              (click)="editUtter($event, utteranceModel, i)"
               placement="top-center"
               container="body"
               ngbTooltip="{{ 'sa_save' | translate }}"
@@ -616,9 +616,9 @@
               src="assets/icons/edit-pencil.svg"
               placement="top-center"
               container="body"
-              ngbTooltip="{{'sa_edit' | translate}}"
+              ngbTooltip="{{ 'sa_edit' | translate }}"
               tooltipClass="ngb_tooltip_custom_class sampleJson"
-              (click)="showEditUtteranceInput = i; tempUtterance = utterance"
+              (click)="showEditUtteranceInput = i; utteranceModel = utterance"
             />
             <img
               src="assets/icons/delete-table.svg"
