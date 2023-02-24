@@ -154,9 +154,7 @@
                     <button
                       class="kr-sg-button-ghost btn_md"
                       (click)="selectModal('choose_plan')"
-                      *ngIf="currentSubscriptionPlan?.subscription?.changesScheduledFor
-                      ===
-                      'none'">
+                      *ngIf="['none','upgrade'].includes(currentSubscriptionPlan?.subscription?.changesScheduledFor)">
                       <span class="upgrade-plan-span"><i class="si-publish"></i></span>
                       {{
                       ((currentSubscriptionPlan?.subscription?.planName

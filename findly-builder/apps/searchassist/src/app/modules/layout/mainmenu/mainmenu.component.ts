@@ -29,7 +29,7 @@ import {
 
 import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, NgOptimizedImage } from '@angular/common';
 import { TranslateModule } from '@ngx-translate/core';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
@@ -771,7 +771,8 @@ export class MainMenuComponent implements OnInit, OnDestroy {
     NgbProgressbarModule,
     SharedPipesModule,
     MatDialogModule,
-    PlanUpgradeModule
+    PlanUpgradeModule,
+    NgOptimizedImage
   ],
   entryComponents: [ConfirmationDialogComponent],
   exports: [MainMenuComponent],
