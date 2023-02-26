@@ -1528,4 +1528,21 @@
     top: 34px;
     left: -37vw;
   }
+
+  .filters-dropdown-wrapper {
+    overflow-x: auto;
+
+    .content-menu a {
+      line-height: 38px;
+    }
+  }
+
+  .filters-dropdown-wrapper::-webkit-scrollbar {
+    display: none; /* Safari and Chrome */
+  }
+
+  .filters-dropdown {
+    flex-wrap: nowrap;
+    white-space: nowrap;
+  }
 }
