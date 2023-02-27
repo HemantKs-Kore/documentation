@@ -5,7 +5,7 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { SimplebarAngularModule } from 'simplebar-angular';
+// import { SimplebarAngularModule } from 'simplebar-angular';
 
 import { AnnotoolRoutingModule } from './annotool-routing.module';
 import { AnnotoolComponent } from './annotool.component';
@@ -39,7 +39,7 @@ import { SearchPipe } from './helpers/search.pipe';
     MatExpansionModule,
     NgbModule,
     MatProgressSpinnerModule,
-    SimplebarAngularModule,
+    // SimplebarAngularModule,
     AnnotoolRoutingModule,
     ReactiveFormsModule,
     PdfAnnotationComponent,
