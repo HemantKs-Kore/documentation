@@ -15,7 +15,7 @@ import {
   PdfViewerModule,
 } from 'ng2-pdf-viewer';
 import * as $ from 'jquery';
-import SimpleBar from 'simplebar/dist/simplebar-core.esm';
+// import SimpleBar from 'simplebar/dist/simplebar-core.esm';
 import { Platform } from '@angular/cdk/platform';
 
 import {
@@ -43,7 +43,7 @@ import { SummaryModalComponent } from '../summary-modal/summary-modal.component'
 import { ConfirmationComponent } from '../confirmation/confirmation.component';
 import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
-import { SimplebarAngularModule } from 'simplebar-angular';
+// import { SimplebarAngularModule } from 'simplebar-angular';
 import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
@@ -57,27 +57,26 @@ import { TranslateModule } from '@ngx-translate/core';
     NgbDropdownModule,
     MatProgressBarModule,
     PdfViewerModule,
-    SimplebarAngularModule,
+    // SimplebarAngularModule,
     PerfectScrollbarModule,
-    TranslateModule
+    TranslateModule,
   ],
-
 })
 export class PdfAnnotationComponent implements OnInit, OnDestroy {
   @ViewChild(PdfViewerComponent)
   private pdfComponent: PdfViewerComponent;
   @ViewChild('perfectScroll') perfectScroll: PerfectScrollbarComponent;
-  options = {
-    autoHide: true,
-    scrollbarMinSize: 100,
-    classNames: {
-      content: 'simplebar-content',
-      scrollContent: 'simplebar-scroll-content',
-      scrollbar: 'simplebar-scrollbar',
-      track: 'simplebar-track',
-    },
-    direction: 'rtl',
-  };
+  // options = {
+  //   autoHide: true,
+  //   scrollbarMinSize: 100,
+  //   classNames: {
+  //     content: 'simplebar-content',
+  //     scrollContent: 'simplebar-scroll-content',
+  //     scrollbar: 'simplebar-scrollbar',
+  //     track: 'simplebar-track',
+  //   },
+  //   direction: 'rtl',
+  // };
   pdfConfig = {
     rotate: 0,
     zoom: 1.03,
@@ -159,8 +158,8 @@ export class PdfAnnotationComponent implements OnInit, OnDestroy {
     this.formUpdatation();
     this.createThemeForm();
     this.applyTheme(this.form.value); // Make sure apply default colors
-    const simpleBar = new SimpleBar(document.getElementById('simpleBar'));
-    simpleBar.getScrollElement().addEventListener('scroll', this.onScrollEvent);
+    // const simpleBar = new SimpleBar(document.getElementById('simpleBar'));
+    // simpleBar.getScrollElement().addEventListener('scroll', this.onScrollEvent);
   }
 
   ngOnDestroy() {
