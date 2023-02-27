@@ -3880,5 +3880,12 @@
   "answer_snippet_goto_workbench": "Go to Workbench",
   "plans_overages_opt_out": "Opting out of overages may affect the search results when your standard plan’s query limits are exhausted. Overages will continue to apply till the end of the current billing cycle.",
   "plans_retry_payment": "Retry Payment",
-  "sa_clone": "Clone"
+  "sa_clone": "Clone",
+
+  "plans_search_queries_text": "Search Queries Used",
+  "plans_search_queries_avg": "Avg.",
+  "plans_search_queries_month": "Mo",
+  "plans_overages_text": "Overages",
+  "plans_legend": "LEGEND"
+
 }

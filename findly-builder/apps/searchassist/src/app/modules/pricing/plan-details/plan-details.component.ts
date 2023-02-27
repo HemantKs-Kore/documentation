@@ -63,6 +63,31 @@ export class PlanDetailsComponent implements OnInit, OnDestroy {
   planNames: object = plansName;
   currentPlanDetails: Array<object> = [];
 
+  usageMetricsData = [
+    {
+      "startDate": "2023-01-01",
+      "endDate": "2023-01-30",
+      "total": 8000,
+      "queriesCount": 8000,
+      "overageQueriesCount": 0
+    },
+    {
+      "startDate": "2023-01-31",
+      "endDate": "2023-03-02",
+      "total": 13000,
+      "queriesCount": 10000,
+      "queriesCounsumptionEndDate": "2023-02-26T14:00:00",
+      "overageQueriesCount": 3000
+    },
+    {
+      "startDate": "2023-03-03",
+      "endDate": "2023-04-02",
+      "total": 10000,
+      "queriesCount": 10000,
+      "overageQueriesCount": 0
+    }
+  ]
+
   constructor(
     public workflowService: WorkflowService,
     private service: ServiceInvokerService,

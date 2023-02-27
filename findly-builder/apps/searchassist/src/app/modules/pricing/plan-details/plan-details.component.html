@@ -412,14 +412,22 @@
                   placement="top"
                   (click)="refreshAnalytics()"></span>
               </div>
-              <div class="tile-chart">
-                <div class="title">
-                  {{ 'plan_query_usage_analytics' | translate }}
-                </div>
+              <div class="tile-chart">                
                 <div
                   echarts
                   [options]="queryGraph"
                   style="height: 320px; opacity: 4"></div>
+              </div>
+              <div class="row chart-footer">
+                 <div class="legend-text">{{"plans_legend"|translate}}</div>
+                 <div class="search-queries-color"></div>
+                 <div class="search-queries-text">{{"plans_search_queries_text"|translate}}</div>
+                 <div class="search-queries-avg">{{"plans_search_queries_avg"|translate}}</div>
+                 <div class="search-queries-count">3021 / {{"plans_search_queries_month"|translate}}</div>
+                 <div class="overages-color"></div>
+                 <div class="search-queries-text">{{"plans_overages_text"|translate}}</div>
+                 <div class="search-queries-avg">{{"plans_search_queries_avg"|translate}}</div>
+                 <div class="search-queries-count">3021 / {{"plans_search_queries_month"|translate}}</div>
               </div>
             </div>
           </div>
