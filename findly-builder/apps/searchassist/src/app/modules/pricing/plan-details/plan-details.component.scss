@@ -500,9 +500,49 @@
             }
 
             .tile-right {
+                .tile-chart-legends-block{
+                    border: 1px solid #E5E8EC;
+                    .tile-chart{
+                        position: relative;
+                        padding: 20px 20px 0px 20px;
+                        .no-data-found-block{
+                            position: absolute;
+                            height: 100%;
+                            width: 94%;
+                            top: 0;
+                            display: flex;
+                            align-items: center;
+                            justify-content: center;
+                            background: rgba(239, 240, 241, 0.5);
+                            margin-bottom: 10px;
+                            padding-bottom: 10px;
+                        }
+                    }
+                    .chart-footer{
+                        display: flex;
+                        background: #F8F9FA;
+                        align-items: center;
+                        padding: 10px 10px 10px 30px;
+                        gap: 12px;
+                        margin: 10px 20px 15px 20px;
+                        .legend-type{
+                            display: flex;
+                            align-items: center;
+                            gap: 12px;
+                            &.left-border{
+                                border-left: 1px solid #E4E5E7;
+                                padding-left: 20px;
+                            }
+                            &.right-border{
+                                border-right: 1px solid #E4E5E7;
+                                padding-right: 20px;
+                            }
+                        }
+                    }
+                }
                 .tile-chart {
                     background: #FFFFFF;
-                    border: 1px solid #E5E8EC;
+                    // border: 1px solid #E5E8EC;
                     box-sizing: border-box;
                     border-radius: 6px;
                     height: auto;
