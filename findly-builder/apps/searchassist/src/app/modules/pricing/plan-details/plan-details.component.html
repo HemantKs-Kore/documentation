@@ -412,22 +412,33 @@
                   placement="top"
                   (click)="refreshAnalytics()"></span>
               </div>
-              <div class="tile-chart">                
-                <div
-                  echarts
-                  [options]="queryGraph"
-                  style="height: 320px; opacity: 4"></div>
-              </div>
-              <div class="row chart-footer">
-                 <div class="legend-text">{{"plans_legend"|translate}}</div>
-                 <div class="search-queries-color"></div>
-                 <div class="search-queries-text">{{"plans_search_queries_text"|translate}}</div>
-                 <div class="search-queries-avg">{{"plans_search_queries_avg"|translate}}</div>
-                 <div class="search-queries-count">3021 / {{"plans_search_queries_month"|translate}}</div>
-                 <div class="overages-color"></div>
-                 <div class="search-queries-text">{{"plans_overages_text"|translate}}</div>
-                 <div class="search-queries-avg">{{"plans_search_queries_avg"|translate}}</div>
-                 <div class="search-queries-count">3021 / {{"plans_search_queries_month"|translate}}</div>
+              <div class="tile-chart-legends-block">
+                <div class="tile-chart">                
+                  <div
+                    echarts
+                    [options]="queryGraph"
+                    style="height: 320px; opacity: 4"></div>
+                    <div class="no-data-found-block">
+                      New Billing Cycle Renews on 15 Jul 2023
+                    </div>
+                </div>
+                <div class="chart-footer">
+                  <div class="legend-text">{{"plans_legend"|translate}}</div>
+                  <div class="legend-type left-border">
+                    <div class="search-queries-color"></div>
+                    <div class="search-queries-text">{{"plans_search_queries_text"|translate}}</div>
+                  </div>
+                  <div class="legend-type right-border">
+                    <div class="search-queries-avg">{{"plans_search_queries_avg"|translate}}</div>
+                    <div class="search-queries-count">3021 / {{"plans_search_queries_month"|translate}}</div>
+                  </div>
+                  <div class="legend-type">
+                    <div class="overages-color"></div>
+                    <div class="search-queries-text">{{"plans_overages_text"|translate}}</div>
+                  </div>
+                  <div class="search-queries-avg">{{"plans_search_queries_avg"|translate}}</div>
+                  <div class="search-queries-count">3021 / {{"plans_search_queries_month"|translate}}</div>
+               </div>
               </div>
             </div>
           </div>
