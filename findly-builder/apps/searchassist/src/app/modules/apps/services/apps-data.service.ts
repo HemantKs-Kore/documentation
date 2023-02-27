@@ -3,7 +3,6 @@ import { Injectable } from '@angular/core';
 import { ServiceInvokerService } from '@kore.apps/services/service-invoker.service';
 import { appsFeatureKey } from '@kore.apps/store/entity-metadata';
 import { DefaultDataService, HttpUrlGenerator } from '@ngrx/data';
-import { HttpOptions } from '@ngrx/data/src/dataservices/interfaces';
 import { Observable } from 'rxjs';
 
 @Injectable()

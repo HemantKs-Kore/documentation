@@ -22,35 +22,38 @@
     }"
   >
     <div class="h-100 position-relative addNewSource">
-      <div class="source_content_boxes" *ngIf="!selectedSourceType">
+      <div class="source_content_boxes mx-4" *ngIf="!selectedSourceType">
         <div
-          class="crawlContent row"
+          class="crawlContent row mb-4"
           *ngFor="let sourceCatagory of availableSources"
         >
-          <div class="main-title col-12 p-0">
+          <div class="main-title col-12 mb-3">
             {{ sourceCatagory.title | translate }}
           </div>
           <div
-            class="card-data"
+            class="col-lg-6 col-xl-4 mb-3"
             (click)="selectSource(source)"
             *ngFor="let source of sourceCatagory.sources"
           >
-            <div class="img-block">
-              <img
-                [ngSrc]="source.icon"
-                [width]="source.width"
-                [height]="source.height"
-              />
-            </div>
-            <div class="titles-sec">
-              <div class="p-title text-truncate" title="{{ source.name }}">
-                {{ source.name | translate }}
+            <div class="card-data">
+              <div class="img-block">
+                <img
+                  [ngSrc]="source.icon"
+                  [width]="source.width"
+                  [height]="source.height"
+                  [loading]="source.eager ? 'eager' : 'lazy'"
+                />
               </div>
-              <div
-                class="s-title text-truncate"
-                title="{{ source.description }}"
-              >
-                {{ source.description | translate }}
+              <div class="titles-sec">
+                <div class="p-title text-truncate" title="{{ source.name }}">
+                  {{ source.name | translate }}
+                </div>
+                <div
+                  class="s-title text-truncate"
+                  title="{{ source.description }}"
+                >
+                  {{ source.description | translate }}
+                </div>
               </div>
             </div>
           </div>

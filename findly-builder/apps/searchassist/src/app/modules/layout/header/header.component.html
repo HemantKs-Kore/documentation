@@ -9,9 +9,9 @@
     <div class="container-fluid p-0">
       <div class="logoTabsContainer align-items-center">
         <img
-          ngSrc="assets/images/logos/searchassist-new-logo.svg"
-          width="24"
-          height="24"
+          ngSrc="assets/images/logos/sa-logo.svg"
+          width="173"
+          height="40"
           priority
           class="logoKoreIcon landing-screen"
         />
@@ -720,7 +720,7 @@
                   <i class="si-search search-icon"></i>
                   <img
                     [ngSrc]="'assets/icons/close.svg'"
-                    width="10"
+                    width="11"
                     height="10"
                     *ngIf="field_name?.length > 0"
                     class="close-search"
@@ -866,7 +866,7 @@
 >
   <div class="modal-body">
     <div class="close_modal" (click)="closeCreateApp()">
-      <img ngSrc="assets/icons/close.svg" width="10" height="10" />
+      <img ngSrc="assets/icons/close.svg" width="11" height="10" />
     </div>
     <div class="img-wrapper">
       <img
@@ -903,7 +903,7 @@
               ngSrc="assets/icons/warning_escalation.svg"
               style="display: none"
               height="12"
-              width="12"
+              width="14"
             />
           </div>
           <div class="kr-sg-input-text">
@@ -970,9 +970,10 @@
   <div class="modal-header">
     <div class="logo-data">
       <img
-        ngSrc="assets/images/logos/searchassist-new-logo.svg"
-        width="24"
-        height="24"
+        ngSrc="assets/images/logos/sa-logo.svg"
+        width="173"
+        height="40"
+        priority
       />
     </div>
     <div class="close-modal" (click)="closeBrowseWorkspace()">
@@ -996,7 +997,7 @@
           <i class="search-icon si-search"></i>
           <img
             ngSrc="assets/icons/close.svg"
-            width="10"
+            width="11"
             height="10"
             *ngIf="workspace_search?.length > 0"
             class="close-icon"
@@ -1250,6 +1251,3 @@
     </div>
   </div>
 </div>
-
-<!-- upgrade/compare plan  modal -->
-<app-plan-upgrade #plans></app-plan-upgrade>

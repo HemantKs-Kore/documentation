@@ -11,97 +11,99 @@
             {{ 'WelcometoFindly' | translate }}
           </div>
           <div class="header-sec">
-            <div class="row m-0 adjust-width">
-              <div class="title col-4 p-0" role="contentinfo">
-                {{ 'home_your_applications' | translate }}
-              </div>
-              <div
-                class="col-8 right-sec p-0 row justify-content-end align-items-center text-right m-0"
-              >
-                <div
-                  class="kr-sg-input-search m-0"
-                  role="searchbox"
-                  [ngClass]="{ 'd-none': !showSearch }"
-                >
-                  <input
-                    type="text"
-                    placeholder="{{ 'sa_search' | translate }}"
-                    id="inputSearch"
-                    class="input-search"
-                    [ngClass]="{ 'pl-33': !searchApp, 'pl-2': searchApp }"
-                    autocomplete="off"
-                    [(ngModel)]="searchApp"
-                    maxlength="60"
-                    (mouseover)="
-                      searchImgSrc = searchFocusIn
-                        ? 'assets/icons/search_gray.svg'
-                        : 'assets/icons/search_gray_dark.svg'
-                    "
-                    (mouseout)="
-                      searchFocusIn = false;
-                      searchImgSrc = 'assets/icons/search_gray.svg'
-                    "
-                    (focus)="
-                      searchFocusIn = true;
-                      searchImgSrc = 'assets/icons/search_gray.svg'
-                    "
-                  />
-                  <img
-                    [src]="searchImgSrc"
-                    width="14"
-                    height="14"
-                    class="search-icon"
-                    *ngIf="!searchApp"
-                  />
-                  <img
-                    class="close-icon"
-                    (mouseover)="activeClose = true"
-                    (mouseout)="activeClose = false"
-                    ngSrc="assets/icons/close_icon.svg"
-                    width="10"
-                    height="10"
-                    [ngClass]="{ 'pr-22': searchApp }"
-                    (click)="focusoutSearch()"
-                    placement="top-center"
-                    container="body"
-                    ngbTooltip="{{ 'sa_cancel' | translate }}"
-                    tooltipClass="ngb_tooltip_custom_class sampleJson"
-                  />
+            <div class="container-lg">
+              <div class="row m-0 adjust-width">
+                <div class="title col-5 p-0" role="contentinfo">
+                  {{ 'home_your_applications' | translate }}
                 </div>
                 <div
-                  class="seach-block"
-                  (click)="
-                    showSearch = !showSearch; focusinSearch('inputSearch')
-                  "
+                  class="col-7 right-sec p-0 row justify-content-end align-items-center text-right m-0"
                 >
-                  <span
-                    [ngClass]="{ 'd-none': showSearch }"
-                    class="mr-3"
-                    id="btn_toggle_search_structured_data"
-                    ><img
-                      ngSrc="assets/icons/search.svg"
-                      width="16"
-                      height="16"
-                      priority
-                      [ngClass]="{ 'd-none': showSearch }"
-                    />{{ 'sa_search' | translate }}</span
+                  <div
+                    class="kr-sg-input-search m-0"
+                    role="searchbox"
+                    [ngClass]="{ 'd-none': !showSearch }"
                   >
+                    <input
+                      type="text"
+                      placeholder="{{ 'sa_search' | translate }}"
+                      id="inputSearch"
+                      class="input-search"
+                      [ngClass]="{ 'pl-33': !searchApp, 'pl-2': searchApp }"
+                      autocomplete="off"
+                      [(ngModel)]="searchApp"
+                      maxlength="60"
+                      (mouseover)="
+                        searchImgSrc = searchFocusIn
+                          ? 'assets/icons/search_gray.svg'
+                          : 'assets/icons/search_gray_dark.svg'
+                      "
+                      (mouseout)="
+                        searchFocusIn = false;
+                        searchImgSrc = 'assets/icons/search_gray.svg'
+                      "
+                      (focus)="
+                        searchFocusIn = true;
+                        searchImgSrc = 'assets/icons/search_gray.svg'
+                      "
+                    />
+                    <img
+                      [src]="searchImgSrc"
+                      width="14"
+                      height="14"
+                      class="search-icon"
+                      *ngIf="!searchApp"
+                    />
+                    <img
+                      class="close-icon"
+                      (mouseover)="activeClose = true"
+                      (mouseout)="activeClose = false"
+                      ngSrc="assets/icons/close_icon.svg"
+                      width="10"
+                      height="10"
+                      [ngClass]="{ 'pr-22': searchApp }"
+                      (click)="focusoutSearch()"
+                      placement="top-center"
+                      container="body"
+                      ngbTooltip="{{ 'sa_cancel' | translate }}"
+                      tooltipClass="ngb_tooltip_custom_class sampleJson"
+                    />
+                  </div>
+                  <div
+                    class="seach-block"
+                    (click)="
+                      showSearch = !showSearch; focusinSearch('inputSearch')
+                    "
+                  >
+                    <span
+                      [ngClass]="{ 'd-none': showSearch }"
+                      class="mr-sm-3"
+                      id="btn_toggle_search_structured_data"
+                      ><img
+                        ngSrc="assets/icons/search.svg"
+                        width="16"
+                        height="16"
+                        priority
+                        [ngClass]="{ 'd-none': showSearch }"
+                      />{{ 'sa_search' | translate }}</span
+                    >
+                  </div>
+                  <div class="add_feild" (click)="openCreateApp()">
+                    <img
+                      ngSrc="assets/icons/add_plus.svg"
+                      width="12"
+                      height="12"
+                      priority
+                    />{{ 'home_add_application' | translate }}
+                  </div>
+                  <button (click)="openDetails()" class="d-none">
+                    {{ 'home_deatils' | translate }}
+                  </button>
                 </div>
-                <div class="add_feild" (click)="openCreateApp()">
-                  <img
-                    ngSrc="assets/icons/add_plus.svg"
-                    width="12"
-                    height="12"
-                    priority
-                  />{{ 'home_add_application' | translate }}
-                </div>
-                <button (click)="openDetails()" class="d-none">
-                  {{ 'home_deatils' | translate }}
-                </button>
               </div>
             </div>
           </div>
-          <div class="body-sec">
+          <div class="body-sec container-lg">
             <div class="row m-0 appsListingContainer">
               <div
                 *ngIf="emptyApp && !loadingApps"
@@ -150,7 +152,7 @@
                 </div>
               </ng-container>
               <div
-                class="cards-content"
+                class="cards-content col-sm-6 col-md-4 col-lg-3"
                 (click)="app.disabled ? null : openApp(app)"
                 *ngFor="let app of recentApps | filter : [searchApp, 'name']"
                 [ngClass]="{ 'd-none': !apps.length && !loadingApps }"
@@ -208,64 +210,71 @@
                 </div>
               </div>
 
-              <div
-                class="row m-0 col-12 filters-dropdown"
-                [ngClass]="
-                  (recentApps | filter : [searchApp, 'name']).length
-                    ? 'mt-20'
-                    : 'mt-n30'
-                "
-              >
-                <div class="col-6 d-flex align-items-center p-0 left">
-                  <div class="tabs-sec">
-                    <div
-                      class="tab-name"
-                      *ngFor="let app of appTypes"
-                      (click)="selectedAppType(app)"
-                      [class.active-tab-name]="app === app_type"
-                    >
-                      {{ app | translate}}
-                    </div>
-                  </div>
-                </div>
-                <div class="col-6 right">
-                  <div class="sort-by">{{ 'home_sort_by' | translate }}</div>
-                  <div class="kr-sg-dropdowns w-auto">
-                    <div class="dropdown dropdown-open">
-                      <button
-                        class="dropdown-toggle dropdown-input pl-3 pr-5"
-                        data-toggle="dropdown"
+              <div class="container-fluid filters-dropdown-wrapper">
+                <div
+                  class="row m-0 px-0 filters-dropdown"
+                  [ngClass]="
+                    (recentApps | filter : [searchApp, 'name']).length
+                      ? 'mt-20'
+                      : 'mt-n30'
+                  "
+                >
+                  <div class="col-sm-6 d-flex align-items-center p-0 left">
+                    <div class="tabs-sec">
+                      <div
+                        class="tab-name"
+                        *ngFor="let app of appTypes"
+                        (click)="selectedAppType(app)"
+                        [class.active-tab-name]="app === app_type"
                       >
-                        {{ sort_type | translate }}
-                      </button>
-                      <ul class="dropdown-menu content-menu">
-                        <li *ngFor="let sort of sortBy" (click)="sortApp(sort)">
-                          <a [class.selected]="sort === sort_type">{{ sort | translate}}</a>
-                        </li>
-                      </ul>
+                        {{ app | translate }}
+                      </div>
                     </div>
                   </div>
-                  <div
-                    class="filter-up-down"
-                    (click)="sortApp('Icon filter', 'down')"
-                    *ngIf="!minToMax"
-                  >
-                    <img
-                      ngSrc="assets/icons/dashboard/filter.svg"
-                      width="14"
-                      height="13"
-                    />
-                  </div>
-                  <div
-                    class="filter-up-down active-down"
-                    (click)="sortApp('Icon filter', 'up')"
-                    *ngIf="minToMax"
-                  >
-                    <img
-                      ngSrc="assets/icons/dashboard/maxFilter.svg"
-                      width="14"
-                      height="13"
-                    />
+                  <div class="col-sm-6 right">
+                    <div class="sort-by">{{ 'home_sort_by' | translate }}</div>
+                    <div class="kr-sg-dropdowns w-auto">
+                      <div class="dropdown dropdown-open">
+                        <button
+                          class="dropdown-toggle dropdown-input pl-3 pr-5"
+                          data-toggle="dropdown"
+                        >
+                          {{ sort_type | translate }}
+                        </button>
+                        <ul class="dropdown-menu content-menu">
+                          <li
+                            *ngFor="let sort of sortBy"
+                            (click)="sortApp(sort)"
+                          >
+                            <a [class.selected]="sort === sort_type">{{
+                              sort | translate
+                            }}</a>
+                          </li>
+                        </ul>
+                      </div>
+                    </div>
+                    <div
+                      class="filter-up-down"
+                      (click)="sortApp('Icon filter', 'down')"
+                      *ngIf="!minToMax"
+                    >
+                      <img
+                        ngSrc="assets/icons/dashboard/filter.svg"
+                        width="14"
+                        height="13"
+                      />
+                    </div>
+                    <div
+                      class="filter-up-down active-down"
+                      (click)="sortApp('Icon filter', 'up')"
+                      *ngIf="minToMax"
+                    >
+                      <img
+                        ngSrc="assets/icons/dashboard/maxFilter.svg"
+                        width="14"
+                        height="13"
+                      />
+                    </div>
                   </div>
                 </div>
               </div>
@@ -277,7 +286,7 @@
                 "
               >
                 <div
-                  class="cards-content"
+                  class="cards-content col-sm-6 col-md-4 col-lg-3"
                   *ngFor="
                     let filter of filteredApps | filter : [searchApp, 'name']
                   "
@@ -432,7 +441,9 @@
                   {{ 'home_explore' | translate }}
                 </div>
                 <div class="row row-carousels">
-                  <div class="coursel-cards-data col-4">
+                  <div
+                    class="coursel-cards-data coursel-cards-data col-md-6 col-xl-4"
+                  >
                     <div class="inner-c-data data-integration">
                       <div class="learn-more-">
                         <span class="link">
@@ -468,7 +479,9 @@
                       </div>
                     </div>
                   </div>
-                  <div class="coursel-cards-data col-4">
+                  <div
+                    class="coursel-cards-data coursel-cards-data col-md-6 col-xl-4"
+                  >
                     <div class="inner-c-data index-management">
                       <div class="learn-more-">
                         <span class="link">
@@ -504,7 +517,9 @@
                       </div>
                     </div>
                   </div>
-                  <div class="coursel-cards-data col-4">
+                  <div
+                    class="coursel-cards-data coursel-cards-data col-md-6 col-xl-4"
+                  >
                     <div class="inner-c-data result-optimization">
                       <div class="learn-more-">
                         <span class="link">
@@ -539,7 +554,9 @@
                       </div>
                     </div>
                   </div>
-                  <div class="coursel-cards-data col-4">
+                  <div
+                    class="coursel-cards-data coursel-cards-data col-md-6 col-xl-4"
+                  >
                     <div class="inner-c-data search-experience">
                       <div class="learn-more-">
                         <span class="link">
@@ -573,7 +590,9 @@
                       </div>
                     </div>
                   </div>
-                  <div class="coursel-cards-data col-4">
+                  <div
+                    class="coursel-cards-data coursel-cards-data col-md-6 col-xl-4"
+                  >
                     <div class="inner-c-data analytics">
                       <div class="learn-more-">
                         <span class="link">
@@ -606,7 +625,9 @@
                       </div>
                     </div>
                   </div>
-                  <div class="coursel-cards-data col-4">
+                  <div
+                    class="coursel-cards-data coursel-cards-data col-md-6 col-xl-4"
+                  >
                     <div class="inner-c-data experiments">
                       <div class="learn-more-">
                         <span class="link"
@@ -1164,7 +1185,7 @@
               class="kr-sg-button-secondary btn_lg back_button"
               (click)="back()"
             >
-            {{"sa_back" | translate}}
+              {{ 'sa_back' | translate }}
             </button>
             <button
               *ngIf="steps !== 'showSearchExperience'"
@@ -1190,12 +1211,13 @@
 
 <kr-modal
   modalType="default"
+  modalSize="lg"
   #createAppPop
   modalClass="creating-new-app-modal app-homes-component-page"
 >
   <div class="modal-body">
     <div class="close_modal" (click)="closeCreateApp()">
-      <img ngSrc="assets/icons/close.svg" width="10" height="10" />
+      <img ngSrc="assets/icons/close.svg" width="11" height="10" />
     </div>
     <div class="img-wrapper">
       <img
@@ -1232,7 +1254,7 @@
               ngSrc="assets/icons/warning_escalation.svg"
               style="display: none"
               height="12"
-              width="12"
+              width="14"
             />
           </div>
           <div class="kr-sg-input-text">
@@ -1356,8 +1378,8 @@
         <img
           style="padding-right: 4px; height: 12px"
           ngSrc="assets/icons/warning_escalation.svg"
-          width="14"
-          height="12"
+          width="12"
+          height="14"
         />{{ 'home_please_type_delete' | translate }}
       </div>
     </div>

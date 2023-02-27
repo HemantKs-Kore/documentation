@@ -13,6 +13,8 @@ import { SharedPipesModule } from '@kore.apps/helpers/filters/shared-pipes.modul
 import { EmptyScreenModule } from '../empty-screen/empty-screen.module';
 import { FormsModule } from '@angular/forms';
 import { IndexFieldsComfirmationDialogComponent } from '@kore.apps/helpers/components/index-fields-comfirmation-dialog/index-fields-comfirmation-dialog.component';
+import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
+import { RecordPaginationModule } from '@kore.apps/helpers/components/record-pagination/record-pagination.module';
 
 @NgModule({
   declarations: [
@@ -29,6 +31,8 @@ import { IndexFieldsComfirmationDialogComponent } from '@kore.apps/helpers/compo
     EmptyScreenModule,
     FormsModule,
     NgbTooltipModule,
+    PerfectScrollbarModule,
+    RecordPaginationModule,
   ],
 })
 export class FieldManagementModule {}

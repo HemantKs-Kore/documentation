@@ -67,7 +67,7 @@
 }
 
 .contentContainer {
-  padding-left: 65px;
+  // padding-left: 65px;
   // padding-top: 30px;
   height: calc(100vh - 65px);
   background: #fff;
@@ -77,9 +77,9 @@
     height: calc(100vh - 60px) !important;
   }
 
-  perfect-scrollbar {
-    padding-right: 15px;
-  }
+  // perfect-scrollbar {
+  //   padding-right: 15px;
+  // }
 
   .header-title {
     position: absolute;
@@ -257,7 +257,7 @@
 
     .source_content_boxes {
       .crawlContent {
-        margin: 0 0 26px 0;
+        // margin: 0 0 26px 0;
 
         .main-title {
           font-weight: 600;
@@ -271,12 +271,12 @@
           border: 1px solid #bdc1c6;
           box-sizing: border-box;
           border-radius: 6px;
-          width: 313px;
+          // width: 313px;
           height: 94px;
           padding: 20px;
           display: flex;
           align-items: center;
-          margin: 20px 20px 0px 0;
+          // margin: 20px 20px 0px 0;
           cursor: pointer;
 
           .img-block {

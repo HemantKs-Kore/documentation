@@ -1,7 +1,12 @@
-import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  OnDestroy,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { KRModalComponent } from '../../shared/kr-modal/kr-modal.component';
-// import { AppHeaderComponent } from '../app-header/app-header.component';
 import { LocalStoreService } from '@kore.apps/services/localstore.service';
 import { ServiceInvokerService } from '@kore.apps/services/service-invoker.service';
 import { WorkflowService } from '@kore.apps/services/workflow.service';
@@ -24,7 +29,7 @@ declare const $: any;
   templateUrl: './apps.component.html',
   styleUrls: ['./apps.component.scss'],
 })
-export class AppsComponent implements OnInit, OnDestroy {
+export class AppsComponent implements OnInit, AfterViewInit, OnDestroy {
   sub: Subscription;
   authInfo: any;
   openJourney = false;
@@ -97,7 +102,6 @@ export class AppsComponent implements OnInit, OnDestroy {
   @ViewChild('createBoardingJourney') createBoardingJourney: KRModalComponent;
   @ViewChild('confirmatiomAppPop') confirmatiomAppPop: KRModalComponent;
   @ViewChild('detailsPopUp') detailsPopUp: KRModalComponent;
-  // @ViewChild('headerComp') headerComp: AppHeaderComponent;
   constructor(
     public localstore: LocalStoreService,
     private service: ServiceInvokerService,
@@ -123,9 +127,13 @@ export class AppsComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.getAllApps();
     this.loadScripts();
   }
+
+  ngAfterViewInit(): void {
+    this.getAllApps();
+  }
+
   //Checks whether user is new or not
   checkForNewUser() {
     let accountId: any;
@@ -537,7 +545,9 @@ export class AppsComponent implements OnInit, OnDestroy {
             }
           }
         }
-        this.loadingApps = false;
+        setTimeout(() => {
+          this.loadingApps = false;
+        });
         this.clearAccount();
       }
     });

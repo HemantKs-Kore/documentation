@@ -17,7 +17,6 @@ import { AppSelectionService } from '@kore.apps/services/app.selection.service';
 import { OnboardingModule } from '@kore.apps/modules/onboarding/onboarding.module';
 import { SliderModule } from '@kore.apps/shared/slider-component/slider.module';
 import { IntersectionObserverDirectiveModule } from '@kore.libs/shared/src';
-import { PlanUpgradeModule } from '@kore.apps/modules/pricing/shared/plan-upgrade/plan-upgrade.module';
 @NgModule({
   declarations: [HeaderComponent],
   imports: [
@@ -35,9 +34,8 @@ import { PlanUpgradeModule } from '@kore.apps/modules/pricing/shared/plan-upgrad
     SliderModule,
     IntersectionObserverDirectiveModule,
     NgOptimizedImage,
-    PlanUpgradeModule
   ],
   providers: [AppSelectionService, NgbActiveModal],
   exports: [HeaderComponent],
 })
-export class HeaderModule { }
+export class HeaderModule {}

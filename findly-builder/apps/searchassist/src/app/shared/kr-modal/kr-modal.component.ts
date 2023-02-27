@@ -20,6 +20,7 @@ import * as _ from 'underscore';
 })
 export class KRModalComponent implements OnInit, AfterViewInit {
   @Input() modalType: string;
+  @Input() modalSize: string;
   @Input() modalClass: string;
   @Input() hasFooter: boolean;
   modalTypes = {
@@ -52,6 +53,7 @@ export class KRModalComponent implements OnInit, AfterViewInit {
       windowClass: 'kr-modal',
       backdrop: 'static',
       keyboard: false,
+      size: this.modalSize,
     };
     if (this.modalClass) {
       config.windowClass = config.windowClass + ' ' + this.modalClass;
