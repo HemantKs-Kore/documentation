@@ -12,7 +12,7 @@ import { NotificationService } from '../../services/notification.service';
 import { Router } from '@angular/router';
 declare const $: any;
 import * as _ from 'underscore';
-import * as moment from 'moment';
+// import * as moment from 'moment';
 import { ConfirmationDialogComponent } from '../../helpers/components/confirmation-dialog/confirmation-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
 import { Subject } from 'rxjs';
@@ -31,6 +31,7 @@ import { ServiceInvokerService } from '@kore.apps/services/service-invoker.servi
 import { WorkflowService } from '@kore.apps/services/workflow.service';
 import { AppSelectionService } from '@kore.apps/services/app.selection.service';
 import { AuthService } from '@kore.apps/services/auth.service';
+import { formatDistanceToNow, format } from 'date-fns';
 import { InlineManualService } from '@kore.apps/services/inline-manual.service';
 import { MixpanelServiceService } from '@kore.apps/services/mixpanel-service.service';
 import { OnboardingComponent } from '../onboarding/onboarding.component';
@@ -638,10 +639,16 @@ export class ContentComponent implements OnInit, OnDestroy {
                 element?.advanceSettings?.scheduleOpts?.interval?.intervalValue
                   ?.endsOn
               ) {
-                date = moment(
-                  element.advanceSettings.scheduleOpts.interval.intervalValue
-                    .endsOn.endDate
-                ).format('Do MMMM YYYY');
+                // date = moment(
+                //   element.advanceSettings.scheduleOpts.interval.intervalValue
+                //     .endsOn.endDate
+                // ).format('Do MMMM YYYY');
+                date = format(
+                  new Date(
+                    element.advanceSettings.scheduleOpts.interval.intervalValue.endsOn.endDate
+                  ),
+                  'Do MMMM yyyy'
+                );
               }
               if (date != 'Invalid date') {
                 element['schedule_title'] =
@@ -666,9 +673,13 @@ export class ContentComponent implements OnInit, OnDestroy {
             }
           }
           if (element.jobInfo.createdOn && element.jobInfo.createdOn != '--') {
-            element['schedule_createdOn'] = moment(
-              element.jobInfo.createdOn
-            ).fromNow();
+            // element['schedule_createdOn'] = moment(
+            //   element.jobInfo.createdOn
+            // ).fromNow();
+            element['schedule_createdOn'] = formatDistanceToNow(
+              new Date(element.jobInfo.createdOn),
+              { addSuffix: true }
+            );
           }
           if (element.jobInfo.executionStats) {
             element['schedule_duration'] = element.jobInfo.executionStats
@@ -747,8 +758,8 @@ export class ContentComponent implements OnInit, OnDestroy {
           }
         } else {
           if (
-            (searchValue === undefined && res.sources.length == 0) ||
-            (searchValue.length <= 0 && res.sources.length == 0)
+            (searchValue === undefined && res?.sources?.length == 0) ||
+            (searchValue?.length <= 0 && res?.sources?.length == 0)
           ) {
             this.loadingContent1 = true;
             this.loadingData = true;
@@ -1112,7 +1123,11 @@ export class ContentComponent implements OnInit, OnDestroy {
               element.executionStats.duration
             );
             // console.log("element.executionStats.duration", element.executionStats.duration)
-            element.createdOn = moment(element.createdOn).fromNow();
+            //element.createdOn = moment(element.createdOn).fromNow();
+            const date = new Date(element.createdOn);
+            element.createdOn = formatDistanceToNow(date, {
+              addSuffix: true,
+            });
             if (element.executionStats.statusLogs) {
               element.executionStats.statusLogs.forEach((status_log) => {
                 if (status_log?.timeTaken) {
@@ -1937,65 +1952,65 @@ export class ContentComponent implements OnInit, OnDestroy {
     );
     // this.getFileds(event.skip, this.searchFields)
   }
-  transform(date: string): any {
-    const _date = new Date(date);
-    if (_date.toString() === 'Invalid Date') {
-      return '-';
-    } else {
-      return moment(_date).format('DD MMM YYYY');
-    }
-  }
-  pushValues(res, index) {
-    const array = [];
-    array.push(
-      this.transform(res[index].createdOn),
-      res[index].desc,
-      res[index].name,
-      res[index].recentStatus,
-      res[index].type
-    );
+  // transform(date: string): any {
+  //   const _date = new Date(date);
+  //   if (_date.toString() === 'Invalid Date') {
+  //     return '-';
+  //   } else {
+  //     return moment(_date).format('DD MMM YYYY');
+  //   }
+  // }
+  // pushValues(res, index) {
+  //   const array = [];
+  //   array.push(
+  //     this.transform(res[index].createdOn),
+  //     res[index].desc,
+  //     res[index].name,
+  //     res[index].recentStatus,
+  //     res[index].type
+  //   );
 
-    return array;
-  }
-  applyFilter(valToSearch) {
-    if (valToSearch === this.selectedFilter) {
-      this.getSourceList();
-      this.selectedFilter = '';
-      this.searchSources = '';
-      return;
-    }
-    if (valToSearch) {
-      this.resources = [...this.filterResourcesBack];
-      let tableData = [];
-      // console.log(this.resources)
+  //   return array;
+  // }
+  // applyFilter(valToSearch) {
+  //   if (valToSearch === this.selectedFilter) {
+  //     this.getSourceList();
+  //     this.selectedFilter = '';
+  //     this.searchSources = '';
+  //     return;
+  //   }
+  //   if (valToSearch) {
+  //     this.resources = [...this.filterResourcesBack];
+  //     let tableData = [];
+  //     // console.log(this.resources)
 
-      for (let i = 0; i < this.resources.length; i++) {
-        // console.log(Object.keys(requireddata[i]))
-        const requireddata = this.pushValues(this.resources, i);
-        const obj: string[] = requireddata;
-        // tslint:disable-next-line:prefer-for-of
-        for (let j = 0; j < obj.length; j++) {
-          if (obj[j]) {
-            if (obj[j].includes(valToSearch)) {
-              tableData.push(this.resources[i]);
-            }
-          }
-        }
-      }
-      tableData = [...new Set(tableData)];
-      if (tableData.length) {
-        this.resources = tableData;
-        this.sectionShow = true;
-      } else {
-        this.sectionShow = false;
-      }
-      // console.log(tableData);
-    } else {
-      this.resources = [...this.filterResourcesBack];
-      this.searchSources = '';
-      this.sectionShow = true;
-    }
-  }
+  //     for (let i = 0; i < this.resources.length; i++) {
+  //       // console.log(Object.keys(requireddata[i]))
+  //       const requireddata = this.pushValues(this.resources, i);
+  //       const obj: string[] = requireddata;
+  //       // tslint:disable-next-line:prefer-for-of
+  //       for (let j = 0; j < obj.length; j++) {
+  //         if (obj[j]) {
+  //           if (obj[j].includes(valToSearch)) {
+  //             tableData.push(this.resources[i]);
+  //           }
+  //         }
+  //       }
+  //     }
+  //     tableData = [...new Set(tableData)];
+  //     if (tableData.length) {
+  //       this.resources = tableData;
+  //       this.sectionShow = true;
+  //     } else {
+  //       this.sectionShow = false;
+  //     }
+  //     // console.log(tableData);
+  //   } else {
+  //     this.resources = [...this.filterResourcesBack];
+  //     this.searchSources = '';
+  //     this.sectionShow = true;
+  //   }
+  // }
   openDocumentModal() {
     this.statusModalDocumentRef = this.statusModalDocument.open();
   }

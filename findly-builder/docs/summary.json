@@ -8,22 +8,20 @@
     "file": "app-setup.md"
   },
   {
-    "title": "Performance Report",
-    "file": "perf/perf-comp.md",
-    "children": [
-      {
-        "title": "Perf Report Now",
-        "file": "perf/perf-report-now.md"
-      },
-      {
-        "title": "Perf Report App",
-        "file": "perf/perf-report-app.md"
-      }
-    ]
+    "title": "E2E",
+    "file": "e2e.md"
+  },
+  {
+    "title": "I18N",
+    "file": "i18n.md"
+  },
+  {
+    "title": "Build & Deploy",
+    "file": "build-and-deploy.md"
   },
   {
     "title": "Performance",
-    "file": "performance.md",
+    "file": "perf/performance.md",
     "children": [
       {
         "title": "Best Practices",
@@ -40,6 +38,24 @@
       {
         "title": "Script Bundling",
         "file": "perf/script-bundling.md"
+      },
+      {
+        "title": "Lazy Load Images",
+        "file": "perf/image-lazy-load.md"
+      }
+    ]
+  },
+  {
+    "title": "Performance Report",
+    "file": "perf/perf-comp.md",
+    "children": [
+      {
+        "title": "Perf Report Now",
+        "file": "perf/perf-report-now.md"
+      },
+      {
+        "title": "Perf Report App",
+        "file": "perf/perf-report-app.md"
       }
     ]
   }

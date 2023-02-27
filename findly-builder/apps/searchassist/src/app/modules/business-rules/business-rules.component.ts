@@ -12,7 +12,7 @@ import {
   MatAutocompleteSelectedEvent,
 } from '@angular/material/autocomplete';
 import { Subscription } from 'rxjs';
-import * as moment from 'moment';
+// import * as moment from 'moment';
 import { PerfectScrollbarComponent } from 'ngx-perfect-scrollbar';
 import { DomSanitizer } from '@angular/platform-browser';
 import { EMPTY_SCREEN } from '../../modules/empty-screen/empty-screen.constants';
@@ -214,7 +214,7 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
     public mixpanel: MixpanelServiceService,
     private appSelectionService: AppSelectionService,
     private sanitizer: DomSanitizer
-  ) { }
+  ) {}
 
   ngOnInit(): void {
     this.selectedApp = this.workflowService.selectedApp();
@@ -434,17 +434,20 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
     }
     if (ruleObj && ruleObj.operator === 'between') {
       if (event.startDate && event.endDate) {
-        moment.utc();
+        //moment.utc();
         const date = [];
-        const startDate = moment.utc(event.startDate).format();
-        const endDate = moment.utc(event.endDate).format();
+        // const startDate = moment.utc(event.startDate).format();
+        const startDate = event?.startDate?.toUTCString();
+        //const endDate = moment.utc(event.endDate).format();
+        const endDate = event?.endDate.toUTCString();
         date.push(startDate);
         date.push(endDate);
         ruleObj.value.push(date);
       }
     } else {
       if (event.startDate) {
-        const date = moment.utc(event.startDate).format();
+        //const date = moment.utc(event.startDate).format();
+        const date = event.startDate?.toUTCString();
         ruleObj.value.push(date);
       }
     }
@@ -2055,8 +2058,8 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
     const isExist =
       this.nlpAnnotatorObj.Legends.length > 0
         ? this.nlpAnnotatorObj.Legends.some(
-          (item) => item.name === entity?.entityName
-        )
+            (item) => item.name === entity?.entityName
+          )
         : false;
     return isExist;
   }

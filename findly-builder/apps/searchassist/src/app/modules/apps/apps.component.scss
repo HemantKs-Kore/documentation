@@ -185,7 +185,7 @@
 
     .adjust-width {
       padding: 9px 10px;
-      width: 1100px;
+      // width: 1100px;
       margin: 0 auto !important;
       min-height: 52px;
       align-items: center;
@@ -247,7 +247,7 @@
         font-style: normal;
         font-weight: 500;
         font-size: 12px;
-        margin-left: 30px;
+        // margin-left: 30px;
 
         img {
           margin-right: 7px;
@@ -340,7 +340,7 @@
   }
 
   .body-sec {
-    width: 1100px;
+    // width: 1100px;
     margin: 0 auto;
 
     .appsListingContainer {
@@ -456,7 +456,7 @@
 
     .cards-content {
       padding: 10px;
-      max-width: 275px;
+      // max-width: 275px;
       position: relative;
 
       .tooltip-custom{
@@ -481,7 +481,7 @@
         padding: 15px 10px;
         z-index: 0;
         position: relative;
-        display: table;
+        // display: table;
         cursor: pointer;
         transition: 0.2s all ease-in;
         background: #ffffff;
@@ -489,8 +489,8 @@
         box-sizing: border-box;
         box-shadow: 0px 4px 8px rgba(32, 33, 36, 0.08);
         border-radius: 6px;
-        width: 255px;
-        max-width: 255px;
+        // width: 255px;
+        // max-width: 255px;
 
         .flag {
           position: absolute;
@@ -540,7 +540,7 @@
         }
 
         .content-sec {
-          display: table-cell;
+          // display: table-cell;
           vertical-align: top;
           padding: 0 5px 16px;
           position: relative;
@@ -1542,4 +1542,29 @@
           }
   }
 }
+}
+@media screen and (max-width: 768px) {
+  .findly-dashboard .kr-sg-input-search {
+    width: 88vw !important;
+    position: absolute !important;
+    top: 34px;
+    left: -37vw;
+  }
+
+  .filters-dropdown-wrapper {
+    overflow-x: auto;
+
+    .content-menu a {
+      line-height: 38px;
+    }
+  }
+
+  .filters-dropdown-wrapper::-webkit-scrollbar {
+    display: none; /* Safari and Chrome */
+  }
+
+  .filters-dropdown {
+    flex-wrap: nowrap;
+    white-space: nowrap;
+  }
 }

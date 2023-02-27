@@ -28,7 +28,8 @@ import {
 // import { DockStatusService } from '../../services/dockstatusService/dock-status.service';
 
 declare const $: any;
-import * as moment from 'moment';
+// import * as moment from 'moment';
+import { formatDistanceToNow, format } from 'date-fns';
 import { SideBarService } from './../../services/header.service';
 import { PdfAnnotationComponent } from '@kore.apps/components/annotool/components/pdf-annotation/pdf-annotation.component';
 import { WorkflowService } from '@kore.apps/services/workflow.service';
@@ -761,7 +762,11 @@ export class FaqsComponent implements OnInit, AfterViewInit, OnDestroy {
     };
     this.service.invoke('add.comment', quaryparms, payload).subscribe(
       (res) => {
-        res.createdOn = moment(res.createdOn).fromNow();
+        // res.createdOn = moment(res.createdOn).fromNow();
+        const date = new Date(res.createdOn);
+        res.createdOn = formatDistanceToNow(date, {
+          addSuffix: true,
+        });
         if (res.userDetails && res.userDetails.fullName) {
           res.initial = res.userDetails.fullName.slice(0, 1);
         }
@@ -800,7 +805,11 @@ export class FaqsComponent implements OnInit, AfterViewInit, OnDestroy {
               element.initial = element.userDetails.fullName.slice(0, 1);
             }
             // element.color = this.getRandomRolor();
-            element.createdOn = moment(element.createdOn).fromNow();
+            //element.createdOn = moment(element.createdOn).fromNow();
+            const date = new Date(element.createdOn);
+            element.createdOn = formatDistanceToNow(date, {
+              addSuffix: true,
+            });
           });
         }
         this.faqComments = res || [];
@@ -1194,9 +1203,13 @@ export class FaqsComponent implements OnInit, AfterViewInit, OnDestroy {
               element.advanceSettings.scheduleOpts.time.timezone;
           }
           if (element.jobInfo.createdOn) {
-            element['schedule_createdOn'] = moment(
-              element.jobInfo.createdOn
-            ).fromNow();
+            // element['schedule_createdOn'] = moment(
+            //   element.jobInfo.createdOn
+            // ).fromNow();
+            const date = new Date(element.jobInfo.createdOn);
+            element['schedule_createdOn'] = formatDistanceToNow(date, {
+              addSuffix: true,
+            });
             this.duriationDays = element['schedule_createdOn'];
           }
           if (element.jobInfo.executionStats) {
@@ -2265,9 +2278,14 @@ export class FaqsComponent implements OnInit, AfterViewInit, OnDestroy {
        dockStatuses added updated code in 1898 line*/
           // res.dockStatuses.forEach((record: any) => {
           res.forEach((record: any) => {
-            record.createdOn = moment(record.createdOn).format(
-              'Do MMM YYYY | h:mm A'
+            // record.createdOn = moment(record.createdOn).format(
+            //   'Do MMM YYYY | h:mm A'
+            // );
+            record.createdOn = format(
+              new Date(record.createdOn),
+              'do MMM yyyy | h:mm a'
             );
+
             /**made code updates in line no 1905 on 03/01 added new condition for success,since SUCCESS is updated to success as per new api contract */
             /** made code updates in line no 1903 on 03/09 added new condition for record.fileInfo and record.fileInfo.fileId,since fileId is now has to be fetched from fileInfo  as per new api contract  */
             // if (record.status === 'SUCCESS' && record.fileId && !record.store.toastSeen) {
@@ -2275,7 +2293,7 @@ export class FaqsComponent implements OnInit, AfterViewInit, OnDestroy {
               (record.status === 'SUCCESS' || record.status === 'success') &&
               record.fileInfo &&
               record.fileInfo.fileId &&
-              !record.store.toastSeen
+              !record?.store?.toastSeen
             ) {
               /**added condition for jobType in 1906,since we are no longer recieving action in jobs api response,using the jobType for condition check as per new api contract 10/03 */
               // if (record.action === 'EXPORT') {

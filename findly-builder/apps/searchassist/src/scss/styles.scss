@@ -12,7 +12,7 @@
 
 html {
   overflow: hidden;
-  min-width: 900px;
+  // min-width: 900px;
   overflow-x: auto;
   overflow-y: hidden;
   -webkit-font-smoothing: antialiased;
@@ -358,15 +358,16 @@ body::-webkit-scrollbar {
   }
 }
 
-@media (max-width: 1200px) {
-  html,
-  body.mat-typography {
-    overflow-y: hidden !important;
-    overflow-x: auto !important;
-    min-width: 1200px !important;
-    width: 100% !important;
-  }
-}
+// @media (max-width: 1200px) {
+//   html,
+//   body.mat-typography {
+//     overflow-y: hidden !important;
+//     overflow-x: auto !important;
+//     min-width: 1200px !important;
+//     width: 100% !important;
+//   }
+// }
+
 @media (max-width: 600px) {
   perfect-scrollbar {
     overflow: auto !important;
