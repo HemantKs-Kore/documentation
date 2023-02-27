@@ -66,13 +66,13 @@ export class PlanDetailsComponent implements OnInit, OnDestroy {
   usageMetricsData = [
     {
       "startDate": "2023-01-01",
-      "endDate": "2023-01-30",
+      "endDate": "2023-02-01",
       "total": 8000,
       "queriesCount": 8000,
       "overageQueriesCount": 0
     },
     {
-      "startDate": "2023-01-31",
+      "startDate": "2023-02-01",
       "endDate": "2023-03-02",
       "total": 13000,
       "queriesCount": 10000,
@@ -84,6 +84,27 @@ export class PlanDetailsComponent implements OnInit, OnDestroy {
       "endDate": "2023-04-02",
       "total": 10000,
       "queriesCount": 10000,
+      "overageQueriesCount": 0
+    },
+    {
+      "startDate": "2023-03-03",
+      "endDate": "2023-04-02",
+      "total": 0,
+      "queriesCount": 0,
+      "overageQueriesCount": 0
+    },
+    {
+      "startDate": "2023-05-03",
+      "endDate": "2023-06-02",
+      "total": 0,
+      "queriesCount": 0,
+      "overageQueriesCount": 0
+    },
+    {
+      "startDate": "2023-07-03",
+      "endDate": "2023-08-02",
+      "total": 0,
+      "queriesCount": 0,
       "overageQueriesCount": 0
     }
   ]
@@ -284,59 +305,50 @@ export class PlanDetailsComponent implements OnInit, OnDestroy {
 
   //Grap data
   pricingChart() {
-    let xAxisQueryData = [];
-    const years = [];
-    const yAxisQueryData = [];
-    let barQueColor = '#7027E5';
-    if (
-      this.currentSubscriptionPlan &&
-      this.currentSubscriptionPlan.analytics &&
-      this.currentSubscriptionPlan.analytics.search
-    ) {
-      this.currentSubscriptionPlan.analytics.search.forEach((element) => {
-        xAxisQueryData.push(element.month);
-        yAxisQueryData.push(element.total);
-        years.push(2023);
-      });
+    let month = [], year = [], queriesData = [], overagesData = [];
+    const months = { "01": "Jan", "02": "Feb", "03": "Mar", "04": "Apr", "05": "May", "06": "Jun", "07": "Jul", "08": "Aug", "09": "Sep", "10": "Oct", "11": "Nov", "12": "Dec" };
+    for (let item of this.usageMetricsData) {
+      let startDate = item?.startDate?.split('-');
+      let endDate = item?.endDate?.split('-');
+      const monthRange = months[startDate[1]] + '-' + months[endDate[1]];
+      year.push(startDate[0]);
+      month.push(monthRange);
+      const monthTo = startDate[2] + ' ' + months[startDate[1]] + ' to ' + endDate[2] + ' ' + months[endDate[1]]
+      queriesData.push({ value: item?.queriesCount, total: item?.total, search: item?.queriesCount, overage: item?.overageQueriesCount, type: "Queries", month: monthTo });
+      overagesData.push({ value: item?.overageQueriesCount, total: item?.total, search: item?.queriesCount, overage: item?.overageQueriesCount, type: "Queries", month: monthTo });
     }
-    if (xAxisQueryData.length == 0) {
-      xAxisQueryData = ['Jan', 'Feb', 'Apr', 'May', 'Jun'];
-    }
-    if (Math.max(...yAxisQueryData) == 0 || yAxisQueryData.length == 0) {
-      this.isyAxisQuerydata = false;
-      barQueColor = '#EFF0F1';
-    } else {
-      this.isyAxisQuerydata = true;
-      barQueColor = '#7027E5';
-    }
-    xAxisQueryData.length
-      ? (this.monthRange =
-        xAxisQueryData[0] + ' - ' + xAxisQueryData[xAxisQueryData.length - 1])
-      : (this.monthRange = 'Jan - June');
     this.queryGraph = {
       tooltip: {
         trigger: 'item',
         axisPointer: {
-          type: 'none',
+          type: 'none'
         },
-        formatter: `<div class="pricing-hover-tooltip">
+        formatter: (param) => {
+          return `<div class="pricing-hover-tooltip">
         <div class="row-data-info">
           <i class="si-interuptions"></i>
-          <span class="count-text">{c0}</span>
-          <span class="title">{a0}</span>
+          <span class="count-text">${param?.data?.total} ${param?.data?.type}</span>
         </div>
-      </div>`,
+        <div class="row-data-info">
+          <span class="info-text">${param?.data?.search} Queries</span>
+          <span class="info-text">${param?.data?.overage} Overages</span>
+        </div>
+        <div class="row-data-info">
+          <span class="info-text">${param?.data?.month}</span>
+        </div>
+      </div>`
+        }
       },
       grid: {
         left: '3%',
         right: '4%',
         bottom: '3%',
-        containLabel: true,
+        containLabel: true
       },
       xAxis: [
         {
           type: 'category',
-          data: xAxisQueryData,
+          data: month,
           axisLine: {
             show: false,
           },
@@ -353,25 +365,35 @@ export class PlanDetailsComponent implements OnInit, OnDestroy {
           axisTick: {
             show: false,
           },
-          data: years,
-        },
+          data: year,
+        }
       ],
-      yAxis: {
-        type: 'value',
-        boundaryGap: [0, 0.01],
-      },
+      yAxis: [
+        {
+          type: 'value'
+        }
+      ],
       series: [
         {
           name: 'Queries',
           type: 'bar',
-          data: yAxisQueryData,
+          stack: 'Ad',
+          data: queriesData,
           barWidth: 10,
-          barCategoryGap: '10%',
           itemStyle: { normal: { color: '#B893F2' } },
-          emphasis: { itemStyle: { color: '#7027E5' } },
+          emphasis: { itemStyle: { color: '#7027E5' } }
         },
-      ],
-    };
+        {
+          name: 'Overages',
+          type: 'bar',
+          stack: 'Ad',
+          itemStyle: { normal: { color: '#FF784B' } },
+          emphasis: { itemStyle: { color: '#FF784B' } },
+          data: overagesData,
+          barWidth: 10
+        }
+      ]
+    }
   }
 
   //renew | revert cancel subscription
