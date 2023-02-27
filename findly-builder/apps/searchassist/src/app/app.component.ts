@@ -40,6 +40,9 @@ export class AppComponent implements OnInit {
   ) {
     this.onRouteEvents();
     this.handleLang();
+    // window.onbeforeunload = function onunload(event) {
+    //   return alert('stop');
+    // };
   }
 
   handleLang() {
