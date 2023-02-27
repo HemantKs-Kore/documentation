@@ -14,6 +14,7 @@ import { EmptyScreenModule } from '../empty-screen/empty-screen.module';
 import { FormsModule } from '@angular/forms';
 import { IndexFieldsComfirmationDialogComponent } from '@kore.apps/helpers/components/index-fields-comfirmation-dialog/index-fields-comfirmation-dialog.component';
 import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
+import { RecordPaginationModule } from '@kore.apps/helpers/components/record-pagination/record-pagination.module';
 
 @NgModule({
   declarations: [
@@ -31,6 +32,7 @@ import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
     FormsModule,
     NgbTooltipModule,
     PerfectScrollbarModule,
+    RecordPaginationModule,
   ],
 })
 export class FieldManagementModule {}
