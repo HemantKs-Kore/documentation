@@ -2981,7 +2981,7 @@ export class WorkbenchComponent implements OnInit, OnDestroy, AfterViewInit {
       this.showNewStageType = false;
       this.modifiedStages.createdStages.push(this.pipeline[0]);
       this.mixpanel.postEvent('Workbench Stage added', {
-        'Stage Type': obj.type,
+        'Stage Type': obj.name,
       });
     }
     this.selectedStage.type = this.defaultStageTypes[i].type;

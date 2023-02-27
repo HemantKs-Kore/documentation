@@ -15,6 +15,11 @@ $excludeColor: var(--excludeColor);
   display: flex;
   align-items: center;
 }
+
+.pdf-scroll {
+  height: calc(100vh - 127px);
+}
+
 .right-nav {
   position: fixed;
   cursor: pointer;
@@ -47,6 +52,7 @@ $excludeColor: var(--excludeColor);
       justify-content: space-between;
       .left-sec-pdf {
         width: calc(100% - 390px);
+        height: calc(100vh - 62px);
         background: #fff;
         padding: 20px 30px !important;
         .header-sec {
@@ -72,7 +78,7 @@ $excludeColor: var(--excludeColor);
         }
       }
       .right-sec-pdf {
-        height: 100% !important;
+        height: calc(100vh - 62px);
         width: 380px;
         background: #fff;
         .right-sec-scroll {

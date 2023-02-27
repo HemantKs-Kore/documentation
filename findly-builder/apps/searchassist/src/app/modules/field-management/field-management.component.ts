@@ -547,6 +547,14 @@ export class FieldManagementComponent
               fieldConfig +
               (fieldConfig ? ', ' : '') +
               (payload.fields[0].isIndexed ? 'Indexed' : '');
+            fieldConfig =
+              fieldConfig +
+              (fieldConfig ? ', ' : '') +
+              (payload.fields[0].isAutosuggest ? 'isAutosuggest' : '');
+            fieldConfig =
+              fieldConfig +
+              (fieldConfig ? ', ' : '') +
+              (payload.fields[0].isSearchable ? 'isSearchable' : '');
             this.mixpanel.postEvent('Add Field complete', {
               'Field Type': this.newFieldObj.fieldDataType,
               'Field config': fieldConfig,
