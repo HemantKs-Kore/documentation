@@ -57,34 +57,33 @@ export class PlanDetailsComponent implements OnInit, OnDestroy {
   currentSubsciptionData: Subscription;
   updateUsageData: Subscription;
   usageDetails: any = {};
-  monthRange = 'Jan - June';
-  isyAxisDocumentdata = true;
-  isyAxisQuerydata = true;
   planNames: object = plansName;
   currentPlanDetails: Array<object> = [];
+  isNoUsageMetricsData: boolean = false;
+  avgQueryData: any = { queries: 0, overages: 0 };
 
   usageMetricsData = [
     {
       "startDate": "2023-01-01",
       "endDate": "2023-02-01",
       "total": 8000,
-      "queriesCount": 8000,
-      "overageQueriesCount": 0
+      "queriesCount": 4000,
+      "overageQueriesCount": 4000
     },
     {
       "startDate": "2023-02-01",
       "endDate": "2023-03-02",
       "total": 13000,
-      "queriesCount": 10000,
+      "queriesCount": 13000,
       "queriesCounsumptionEndDate": "2023-02-26T14:00:00",
-      "overageQueriesCount": 3000
+      "overageQueriesCount": 0
     },
     {
       "startDate": "2023-03-03",
       "endDate": "2023-04-02",
       "total": 10000,
-      "queriesCount": 10000,
-      "overageQueriesCount": 0
+      "queriesCount": 8000,
+      "overageQueriesCount": 2000
     },
     {
       "startDate": "2023-03-03",
@@ -96,8 +95,8 @@ export class PlanDetailsComponent implements OnInit, OnDestroy {
     {
       "startDate": "2023-05-03",
       "endDate": "2023-06-02",
-      "total": 0,
-      "queriesCount": 0,
+      "total": 4000,
+      "queriesCount": 4000,
       "overageQueriesCount": 0
     },
     {
@@ -306,6 +305,7 @@ export class PlanDetailsComponent implements OnInit, OnDestroy {
   //Grap data
   pricingChart() {
     let month = [], year = [], queriesData = [], overagesData = [];
+    const monthsFull = { "01": "January", "02": "February", "03": "March", "04": "April", "05": "May", "06": "June", "07": "July", "08": "August", "09": "September", "10": "October", "11": "November", "12": "December" };
     const months = { "01": "Jan", "02": "Feb", "03": "Mar", "04": "Apr", "05": "May", "06": "Jun", "07": "Jul", "08": "Aug", "09": "Sep", "10": "Oct", "11": "Nov", "12": "Dec" };
     for (let item of this.usageMetricsData) {
       let startDate = item?.startDate?.split('-');
@@ -313,10 +313,15 @@ export class PlanDetailsComponent implements OnInit, OnDestroy {
       const monthRange = months[startDate[1]] + '-' + months[endDate[1]];
       year.push(startDate[0]);
       month.push(monthRange);
-      const monthTo = startDate[2] + ' ' + months[startDate[1]] + ' to ' + endDate[2] + ' ' + months[endDate[1]]
-      queriesData.push({ value: item?.queriesCount, total: item?.total, search: item?.queriesCount, overage: item?.overageQueriesCount, type: "Queries", month: monthTo });
-      overagesData.push({ value: item?.overageQueriesCount, total: item?.total, search: item?.queriesCount, overage: item?.overageQueriesCount, type: "Queries", month: monthTo });
+      const monthTo = startDate[2] + ' ' + monthsFull[startDate[1]] + ' to ' + endDate[2] + ' ' + monthsFull[endDate[1]];
+      const queriesCountFormat = this.numberFormat(item?.queriesCount);
+      const overagesCountFormat = this.numberFormat(item?.overageQueriesCount);
+      queriesData.push({ value: item?.queriesCount, total: item?.total, search: queriesCountFormat, overage: overagesCountFormat, type: "Queries", month: monthTo });
+      overagesData.push({ value: item?.overageQueriesCount, total: item?.total, search: queriesCountFormat, overage: overagesCountFormat, type: "Queries", month: monthTo });
     }
+    this.avgQueryData.queries = (queriesData.reduce((acc, obj) => (acc + obj?.value), 0) / queriesData.length).toFixed(0);
+    this.avgQueryData.overage = (overagesData.reduce((acc, obj) => (acc + obj?.value), 0) / overagesData.length).toFixed(0);
+    this.isNoUsageMetricsData = this.usageMetricsData.every(item => item.total === 0);
     this.queryGraph = {
       tooltip: {
         trigger: 'item',
@@ -330,8 +335,8 @@ export class PlanDetailsComponent implements OnInit, OnDestroy {
           <span class="count-text">${param?.data?.total} ${param?.data?.type}</span>
         </div>
         <div class="row-data-info">
-          <span class="info-text">${param?.data?.search} Queries</span>
-          <span class="info-text">${param?.data?.overage} Overages</span>
+          <span class="info-text"><span class="queries-bar"></span> ${param?.data?.search} Queries</span>
+          <span class="info-text"><span class="overages-bar"></span> ${param?.data?.overage} Overages</span>
         </div>
         <div class="row-data-info">
           <span class="info-text">${param?.data?.month}</span>
@@ -370,7 +375,12 @@ export class PlanDetailsComponent implements OnInit, OnDestroy {
       ],
       yAxis: [
         {
-          type: 'value'
+          type: 'value',
+          axisLabel: {
+            formatter: (value) => {
+              return `${this.numberFormat(value)}`
+            }
+          }
         }
       ],
       series: [
@@ -394,6 +404,16 @@ export class PlanDetailsComponent implements OnInit, OnDestroy {
         }
       ]
     }
+  }
+
+  //convert to number format
+  numberFormat(num) {
+    const suffixes = ['K', 'M', 'G', 'T', 'P', 'E'];
+    if (num < 1000) {
+      return num;
+    }
+    const exp = Math.floor(Math.log(num) / Math.log(1000));
+    return (num / Math.pow(1000, exp)) + suffixes[exp - 1];
   }
 
   //renew | revert cancel subscription

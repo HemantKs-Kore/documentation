@@ -3882,10 +3882,11 @@
   "plans_retry_payment": "Retry Payment",
   "sa_clone": "Clone",
 
-  "plans_search_queries_text": "Search Queries Used",
+  "plans_search_queries_text": "Search Queries",
   "plans_search_queries_avg": "Avg.",
   "plans_search_queries_month": "Mo",
   "plans_overages_text": "Overages",
-  "plans_legend": "LEGEND"
+  "plans_legend": "LEGEND",
+  "plans_usage_no_data": "No Data Available Yet"
 
 }
