@@ -7,8 +7,7 @@ import { MixpanelServiceService } from './mixpanel-service.service';
 })
 export class ParentBridgeService {
   public parentEvent = new Subject<any>();
-  public mixpanel: MixpanelServiceService;
-  constructor() {
+  constructor(private mixpanel: MixpanelServiceService) {
     this.registerEventsFromParent();
   }
   private windowElement: any;
