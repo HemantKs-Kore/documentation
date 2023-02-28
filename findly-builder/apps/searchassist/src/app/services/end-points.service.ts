@@ -1502,11 +1502,11 @@ export class EndPointsService {
         '/findly/streams/:streamId/subscription/usageLog/export',
       method: 'post',
     };
-    this.serviceList['put.buyOverage'] = {
+    this.serviceList['post.buyOverage'] = {
       endpoint:
         this.API_SERVER_URL +
-        '/findly/streams/:streamId/subscription/:subscriptionId/overage',
-      method: 'put',
+        '/findly/streams/:streamId/overage',
+      method: 'post',
     };
     this.serviceList['put.cancelSubscribtion'] = {
       endpoint:

@@ -992,7 +992,7 @@
       <button
         class="kr-sg-button-primary btn_lg"
         (click)="submitEnterpriseRequest()"
-        [disabled]="btnLoader">
+        [disabled]="btnLoader||(enterpriseForm.country.length===0||enterpriseForm.name.length===0||enterpriseForm.email.length===0)">
         <span class="loader-spin-inside-btn" *ngIf="btnLoader"></span>{{
         'plan_submit_request' | translate }}
       </button>

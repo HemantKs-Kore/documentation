@@ -22,6 +22,7 @@ import { Subscription } from 'rxjs';
 import { plansName } from '../../plan-names.constants';
 import { KRModalComponent } from '@kore.apps/shared/kr-modal/kr-modal.component';
 import { format } from 'date-fns';
+import { InlineManualService } from '@kore.apps/services/inline-manual.service';
 
 declare const $: any;
 
@@ -109,7 +110,8 @@ export class PlanUpgradeComponent implements OnInit, OnDestroy {
     private authService: AuthService,
     public sanitizer: DomSanitizer,
     private notificationService: NotificationService,
-    public localstore: LocalStoreService
+    public localstore: LocalStoreService,
+    public inlineManual: InlineManualService
   ) { }
 
   @ViewChild('addOverageModel') addOverageModel: KRModalComponent;
@@ -291,6 +293,7 @@ export class PlanUpgradeComponent implements OnInit, OnDestroy {
     } else if (type === 'onboardingJourny') {
       if (this.onboardingJournyModelPopRef?.close)
         this.onboardingJournyModelPopRef.close();
+      this.inlineManual?.loadAppscue();
     }
   }
 

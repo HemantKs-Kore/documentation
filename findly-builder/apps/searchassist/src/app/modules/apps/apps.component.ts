@@ -417,13 +417,11 @@ export class AppsComponent implements OnInit, AfterViewInit, OnDestroy {
             if (!this.apps.length) {
               this.emptyApp = true;
               this.showBoarding = true;
-
-              // this.appsService.clearCache();
             }
           }
         },
-        () => {
-          this.notificationService.notify('Deletion has gone wrong.', 'error');
+        (errRes) => {
+          this.errorToaster(errRes?.error, 'Deletion has gone wrong');
         }
       );
     }
@@ -770,7 +768,7 @@ export class AppsComponent implements OnInit, AfterViewInit, OnDestroy {
   }
   callStream() {
     this.service.invoke('get.credential').subscribe(
-      (res) => {},
+      (res) => { },
       (errRes) => {
         this.errorToaster(errRes, 'Error in creating app');
       }
