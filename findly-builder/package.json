@@ -5,10 +5,10 @@
   "scripts": {
     "start": "ng serve searchassist -o",
     "serve:app": "ng build searchassist --configuration=app && live-server dist/apps/searchassist",
-    "serve:qa": "ng build searchassist --configuration=qa && npm run liveserver",
+    "serve:qa": "ng build searchassist --configuration=qa && npm run uncss && npm run liveserver",
     "serve:prod": "run-s build liveserver",
     "liveserver": "cd dist/apps/searchassist && live-server",
-    "build": "ng build searchassist --base-href /home/",
+    "build": "ng build searchassist --base-href /home/ && npm run uncss",
     "ng": "nx",
     "lint": "ng lint searchassist",
     "lintfix": "nx lint searchassist --fix",
@@ -30,7 +30,8 @@
     "deploy": "ngh --dir=dist --message=\"deploy\"",
     "audit": "npm audit --omit=dev",
     "buildjs": "node ./tools/build.js",
-    "update-angular": "ng update @angular/cli @angular/core"
+    "update-angular": "ng update @angular/cli @angular/core",
+    "purgecss": "purgecss --config tools/purgecss.config.js"
   },
   "private": true,
   "dependencies": {
