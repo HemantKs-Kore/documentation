@@ -23,7 +23,23 @@
             (click)="goToRoute('/'); closeUserMetaTagsSlider()"
           />
         </span>
-        <div class="headerTabsContainer">
+        <button
+          class="navbar-toggler btn"
+          type="button"
+          data-toggle="collapse"
+          data-target="#navbarToggler"
+          aria-controls="navbarToggler"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div
+          class="headerTabsContainer collapse navbar-collapse"
+          id="navbarToggler"
+          #navbarToggler
+        >
           <div
             class="headerMenuTab"
             [ngClass]="{
@@ -220,8 +236,12 @@
             (click)="openOrCloseSearchSDK()"
             [disabled]="enablePreview$ | async"
           >
-            <span class="pr-1 align-middle"><i class="si-play-button"></i></span
-            >{{ 'header_preview' | translate }}
+            <span class="pr-1 align-middle">
+              <i class="si-play-button"></i>
+              <span class="ml-1 d-none d-xl-inline-block">{{
+                'header_preview' | translate
+              }}</span>
+            </span>
           </button>
         </li>
         <!-- New Code wrt to Stop Traing -->
@@ -254,7 +274,7 @@
                 <i class="si-close icon-close"></i>
               </span>
             </span>
-            <span class="pl-1">
+            <span class="pl-1 d-none d-xl-inline-block">
               {{
                 training && !showClose
                   ? ('header_train' | translate)
