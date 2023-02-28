@@ -21,21 +21,18 @@ for (let f of files) {
 
 console.log('Run PurgeCSS...');
 
-exec(
-  `purgecss -css ${sourceDir}/*.css --content ${sourceDir}/index.html ${sourceDir}/*.js -o ${sourceDir}/`,
-  function (error, stdout, stderr) {
-    console.log('PurgeCSS done');
-    console.log();
+exec(`npm run purgecss`, function (error, stdout, stderr) {
+  console.log('PurgeCSS done');
+  console.log();
 
-    for (let d of data) {
-      // get new file size
-      const newSize = getFilesizeInKiloBytes(sourceDir + '/' + d.file) + 'kb';
-      d.newSize = newSize;
-    }
-
-    console.table(data);
+  for (let d of data) {
+    // get new file size
+    const newSize = getFilesizeInKiloBytes(sourceDir + '/' + d.file) + 'kb';
+    d.newSize = newSize;
   }
-);
+
+  console.table(data);
+});
 
 function getFilesizeInKiloBytes(filename) {
   var stats = fs.statSync(filename);
