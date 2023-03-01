@@ -553,7 +553,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
       .pipe(filter((event) => !!(event instanceof NavigationEnd)))
       .subscribe((event: any) => {
         this.renderer?.removeClass(this.navbarTogglerRef.nativeElement, 'show');
-        console.log(this.navbarTogglerRef, 'HERERE');
         this.analyticsClick(event.url);
       });
   }
