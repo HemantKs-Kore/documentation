@@ -150,9 +150,7 @@
               "replace": "apps/searchassist/src/environments/environment.ts",
               "with": "apps/searchassist/src/environments/environment.app.ts"
             }
-          ],
-          "sourceMap": true,
-          "namedChunks": true
+          ]
         },
         "qa": {
           "fileReplacements": [
