@@ -14,7 +14,7 @@ import { SharedPipesModule } from '@kore.apps/helpers/filters/shared-pipes.modul
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatChipsModule } from '@angular/material/chips';
-import { MatIconModule } from '@angular/material/icon';
+// import { MatIconModule } from '@angular/material/icon';
 import { FindlySharedModule } from '../findly-shared/findly-shared.module';
 import { EmptyScreenModule } from '../empty-screen/empty-screen.module';
 import { DragDropModule } from '@angular/cdk/drag-drop';
@@ -41,7 +41,7 @@ import { PlanUpgradeModule } from '../pricing/shared/plan-upgrade/plan-upgrade.m
     MatFormFieldModule,
     MatAutocompleteModule,
     MatChipsModule,
-    MatIconModule,
+    // MatIconModule,
     ReactiveFormsModule,
     FindlySharedModule,
     EmptyScreenModule,
@@ -53,4 +53,4 @@ import { PlanUpgradeModule } from '../pricing/shared/plan-upgrade/plan-upgrade.m
     MatDialogModule,
   ],
 })
-export class WorkbenchModule { }
+export class WorkbenchModule {}

@@ -7,7 +7,7 @@ import { SynonymsComponent } from './synonyms.component';
 import { FindlySharedModule } from '../../../findly-shared/findly-shared.module';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatIconModule } from '@angular/material/icon';
+// import { MatIconModule } from '@angular/material/icon';
 
 @NgModule({
   declarations: [SynonymsComponent],
@@ -17,7 +17,7 @@ import { MatIconModule } from '@angular/material/icon';
     FindlySharedModule,
     MatChipsModule,
     MatFormFieldModule,
-    MatIconModule,
+    // MatIconModule,
     EmptyScreenModule,
   ],
 })

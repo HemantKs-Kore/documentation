@@ -1,4 +1,4 @@
-import { MatIconModule } from '@angular/material/icon';
+// import { MatIconModule } from '@angular/material/icon';
 import { FormsModule } from '@angular/forms';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -15,7 +15,7 @@ import { CommonModule } from '@angular/common';
     MatFormFieldModule,
     MatChipsModule,
     FormsModule,
-    MatIconModule
+    // MatIconModule,
   ],
   exports: [AddAlternateQuestionComponent],
 })

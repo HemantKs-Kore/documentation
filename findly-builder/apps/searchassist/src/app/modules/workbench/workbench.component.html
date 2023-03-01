@@ -541,9 +541,7 @@
                       (removed)="remove(contain, i)"
                     >
                       <span class="mat-val">{{ contain }}</span>
-                      <mat-icon matChipRemove
-                        ><img src="assets/icons/Workbench/close-mat.svg"
-                      /></mat-icon>
+                      <img src="assets/images/close.svg" class="remove-icon" />
                     </mat-chip-row>
                     <input
                       type="text"
@@ -1627,9 +1625,10 @@
                             ><span class="mat-val" *ngIf="entity">{{
                               entity | translate
                             }}</span>
-                            <mat-icon matChipRemove
-                              ><img src="assets/images/close.svg"
-                            /></mat-icon>
+                            <img
+                              src="assets/images/close.svg"
+                              class="remove-icon"
+                            />
                           </mat-chip-row>
                           <input
                             placeholder="{{
@@ -1674,9 +1673,10 @@
                             ><span class="mat-val" *ngIf="entity">{{
                               entity
                             }}</span>
-                            <mat-icon matChipRemove
-                              ><img src="assets/images/close.svg"
-                            /></mat-icon>
+                            <img
+                              src="assets/images/close.svg"
+                              class="remove-icon"
+                            />
                           </mat-chip-row>
                           <input
                             placeholder="{{
@@ -2157,9 +2157,10 @@
                         ><span class="mat-val" *ngIf="entity">{{
                           entity | translate
                         }}</span>
-                        <mat-icon matChipRemove
-                          ><img src="assets/images/close.svg"
-                        /></mat-icon>
+                        <img
+                          src="assets/images/close.svg"
+                          class="remove-icon"
+                        />
                       </mat-chip-row>
                       <input
                         id="addentity"
@@ -2238,9 +2239,10 @@
                         ><span class="mat-val" *ngIf="entity">{{
                           entity
                         }}</span>
-                        <mat-icon matChipRemove
-                          ><img src="assets/images/close.svg"
-                        /></mat-icon>
+                        <img
+                          src="assets/images/close.svg"
+                          class="remove-icon"
+                        />
                       </mat-chip-row>
                       <input
                         placeholder="{{
@@ -2547,9 +2549,9 @@
                     : simulteObj.sourceType === 'zendesk'
                     ? 'Share Point'
                     : simulteObj.sourceType === 'sharepointOnline'
-                    ?'Google Drive'
-                    :simulteObj.sourceType ==='googleDrive'
-                    : 'choose_an_option'
+                    ? 'Google Drive'
+                    : simulteObj.sourceType === 'googleDrive'
+                  : 'choose_an_option'
                 ) | translate
               }}
             </button>
