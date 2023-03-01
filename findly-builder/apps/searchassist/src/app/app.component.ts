@@ -18,6 +18,10 @@ import { LazyLoadService } from '@kore.libs/shared/src';
 import { MainMenuComponent } from './modules/layout/mainmenu/mainmenu.component';
 import { TranslateService } from '@ngx-translate/core';
 import { Renderer2 } from '@angular/core';
+import { BreakpointObserver, BreakpointState } from '@angular/cdk/layout';
+
+const SMALL_WIDTH_BREAKPOINT = 1200;
+
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -25,6 +29,7 @@ import { Renderer2 } from '@angular/core';
 })
 export class AppComponent implements OnInit {
   @ViewChild('dynamicRef', { read: ViewContainerRef }) dynamicRef;
+  smMainMenuOpened = false;
   isMainMenuLoaded = false;
   mainMenuRef: ComponentRef<MainMenuComponent>;
   showMainMenu = false;
@@ -36,13 +41,27 @@ export class AppComponent implements OnInit {
     private appSelectionService: AppSelectionService,
     private lazyLoadService: LazyLoadService,
     private translate: TranslateService,
-    private renderer: Renderer2
+    private renderer: Renderer2,
+    private breakpointObserver: BreakpointObserver
   ) {
     this.onRouteEvents();
     this.handleLang();
+    this.observeScreen();
     // window.onbeforeunload = function onunload(event) {
     //   return alert('stop');
     // };
+  }
+
+  observeScreen() {
+    this.breakpointObserver
+      .observe([`(max-width: ${SMALL_WIDTH_BREAKPOINT}px)`])
+      .subscribe((state: BreakpointState) => {
+        console.log(state, 'HERRERE');
+
+        if (!state.matches) {
+          this.smMainMenuOpened = false;
+        }
+      });
   }
 
   handleLang() {
@@ -118,6 +137,9 @@ export class AppComponent implements OnInit {
             this.mainMenuRef =
               this.dynamicRef.createComponent(MainMenuComponent);
             this.updateMenuProps(menuType, event);
+            this.mainMenuRef.instance.toggleMainMenu.subscribe(() => {
+              this.smMainMenuOpened = false;
+            });
           }
         }
       );
@@ -136,5 +158,9 @@ export class AppComponent implements OnInit {
   }
   settingMenu(event) {
     this.loadMainMenu('settingMainMenu', event);
+  }
+
+  openSmMainMenu() {
+    this.smMainMenuOpened = true;
   }
 }

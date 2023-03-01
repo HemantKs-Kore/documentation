@@ -3,6 +3,7 @@
   class="sidebar-fixed position-fixed activeMenu toShowAppHeader"
   *ngIf="show"
 >
+  <i class="si-close main-menu-icon" (click)="toggleMainMenu.emit()"></i>
   <ng-container
     *ngIf="
       (settingMainMenu || sourceMenu) &&

@@ -6,6 +6,8 @@ import {
   Input,
   ViewChild,
   OnDestroy,
+  EventEmitter,
+  Output,
 } from '@angular/core';
 import { ActivatedRoute, Routes, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
@@ -50,6 +52,7 @@ declare const $: any;
   encapsulation: ViewEncapsulation.None,
 })
 export class MainMenuComponent implements OnInit, OnDestroy {
+  @Output() toggleMainMenu = new EventEmitter<void>();
   selected = '';
   trainingMenu = false;
   addFieldModalPopRef: any;
