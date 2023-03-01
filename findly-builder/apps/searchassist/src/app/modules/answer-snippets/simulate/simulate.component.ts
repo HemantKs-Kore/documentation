@@ -11,7 +11,7 @@ declare const $: any;
   styleUrls: ['./simulate.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class SimulateComponent implements OnInit{
+export class SimulateComponent implements OnInit {
   codeMirrorOptions: any = {
     theme: 'idea',
     mode: "application/ld+json",
@@ -43,7 +43,7 @@ export class SimulateComponent implements OnInit{
 
   //click enter using keydown event
   enterSimulateTest(event) {
-    if (event?.keyCode === 13) this.simulateTest();
+    if (event?.keyCode === 13 && this.summaryViewObj.query.length > 0) this.simulateTest();
   }
 
   //simulateTest click button event

@@ -364,8 +364,12 @@ export class AppsComponent implements OnInit, AfterViewInit, OnDestroy {
     if (
       Object.entries(this.createdAppData).length > 0 &&
       this.createdAppData?.planName === 'Free'
-    )
+    ) {
       this.appSelectionService?.openPlanOnboardingModal?.next(null);
+    } else if (Object.entries(this.createdAppData).length > 0) {
+      this.inlineManual?.loadAppscue();
+    }
+
   }
   openCreateApp() {
     this.createAppPopRef = this.createAppPop.open();
@@ -422,6 +426,7 @@ export class AppsComponent implements OnInit, AfterViewInit, OnDestroy {
         },
         (errRes) => {
           this.errorToaster(errRes?.error, 'Deletion has gone wrong');
+          this.appsService.getAll();
         }
       );
     }
