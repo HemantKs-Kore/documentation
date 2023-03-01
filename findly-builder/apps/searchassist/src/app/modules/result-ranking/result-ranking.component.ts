@@ -2,7 +2,7 @@ import { Component, NgZone, OnDestroy, OnInit } from '@angular/core';
 import { formatDistanceToNow } from 'date-fns';
 import { ConfirmationDialogComponent } from '../../helpers/components/confirmation-dialog/confirmation-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
-import { Subscription } from 'rxjs';
+import { Subscription, filter } from 'rxjs';
 import { WorkflowService } from '@kore.apps/services/workflow.service';
 import { ServiceInvokerService } from '@kore.apps/services/service-invoker.service';
 import { NotificationService } from '@kore.apps/services/notification.service';
@@ -10,6 +10,13 @@ import { AppSelectionService } from '@kore.apps/services/app.selection.service';
 import { InlineManualService } from '@kore.apps/services/inline-manual.service';
 import { SideBarService } from '@kore.apps/services/header.service';
 import { TranslationService } from '@kore.libs/shared/src';
+import {
+  selectAppIds,
+  selectIndexPipelineId,
+  selectSearchExperiance,
+  selectSearchIndexId,
+} from '@kore.apps/store/app.selectors';
+import { Store } from '@ngrx/store';
 declare const $: any;
 
 @Component({
@@ -59,6 +66,7 @@ export class ResultRankingComponent implements OnInit, OnDestroy {
   loadImageText = false;
   loadingContent1: boolean;
   customizedActionLogData = [];
+  searchExperienceConfig: any = {};
   constructor(
     public workflowService: WorkflowService,
     private service: ServiceInvokerService,
@@ -68,7 +76,8 @@ export class ResultRankingComponent implements OnInit, OnDestroy {
     public inlineManual: InlineManualService,
     private headerService: SideBarService,
     private zone: NgZone,
-    private translationService: TranslationService
+    private translationService: TranslationService,
+    private store: Store
   ) {
     // Load translations for this module
     this.translationService.loadModuleTranslations('result-ranking');
@@ -103,6 +112,7 @@ export class ResultRankingComponent implements OnInit, OnDestroy {
   }
   ngOnInit(): void {
     this.sdk_evenBind();
+    this.getSearchExperience();
     this.selectedApp = this.workflowService?.selectedApp();
     this.serachIndexId = this.selectedApp?.searchIndexes[0]?._id;
     this.loadCustomRankingList();
@@ -111,6 +121,17 @@ export class ResultRankingComponent implements OnInit, OnDestroy {
         this.loadCustomRankingList();
       }
     );
+  }
+  //get default data
+  getSearchExperience() {
+    const searchExperianceConfigSub = this.store
+      .select(selectSearchExperiance)
+      .pipe(filter((res) => !!res))
+      .subscribe((res) => {
+        this.searchExperienceConfig = res;
+      });
+
+    this.subscription?.add(searchExperianceConfigSub);
   }
   isEmptyScreenLoading(isLoading) {
     if (!isLoading) {
@@ -334,13 +355,12 @@ export class ResultRankingComponent implements OnInit, OnDestroy {
       testButtun.click();
       // console.log(this.headerService.searchConfiguration);
       if (
-        this.headerService.searchConfiguration.experienceConfig
-          .searchBarPosition == 'top'
+        this.searchExperienceConfig.experienceConfig.searchBarPosition == 'top'
       ) {
         setTimeout(() => {
           if (
-            this.headerService.searchConfiguration.experienceConfig
-              .searchBarPosition == 'top'
+            this.searchExperienceConfig.experienceConfig.searchBarPosition ==
+            'top'
           ) {
             const link = document.getElementById('search') as HTMLDataElement;
             link.value = this.selectedRecord.searchQuery;
@@ -349,7 +369,7 @@ export class ResultRankingComponent implements OnInit, OnDestroy {
             link.click();
             setTimeout(() => {
               if (
-                this.headerService.searchConfiguration.experienceConfig
+                this.searchExperienceConfig.experienceConfig
                   .searchBarPosition == 'top'
               ) {
                 const containerClass = document.getElementsByClassName(

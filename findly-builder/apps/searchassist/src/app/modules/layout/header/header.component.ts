@@ -7,6 +7,8 @@ import {
   ViewChild,
   OnDestroy,
   ViewContainerRef,
+  ElementRef,
+  Renderer2,
 } from '@angular/core';
 import { SideBarService } from '../../../services/header.service';
 import { KRModalComponent } from '../../../shared/kr-modal/kr-modal.component';
@@ -52,6 +54,7 @@ import { IntersectionStatus } from '@kore.libs/shared/src/lib/directives/interse
   styleUrls: ['./header.component.scss'],
 })
 export class HeaderComponent implements OnInit, OnDestroy {
+  @ViewChild('navbarToggler') navbarTogglerRef: ElementRef;
   show;
   sub: Subscription;
   visibilityStatus: { [key: string]: IntersectionStatus } = {};
@@ -376,7 +379,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
     private searchSdkService: SearchSdkService,
     private viewContainerRef: ViewContainerRef,
     private store: Store,
-    private appsService: AppsService
+    private appsService: AppsService,
+    private renderer: Renderer2
   ) {
     this.userId = this.authService.getUserId();
     if (environment && environment.USE_SESSION_STORE) {
@@ -548,6 +552,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
     this.sub = this.router.events
       .pipe(filter((event) => !!(event instanceof NavigationEnd)))
       .subscribe((event: any) => {
+        this.renderer?.removeClass(this.navbarTogglerRef.nativeElement, 'show');
         this.analyticsClick(event.url);
       });
   }

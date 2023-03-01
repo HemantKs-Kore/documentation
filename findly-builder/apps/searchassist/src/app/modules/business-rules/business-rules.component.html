@@ -68,7 +68,7 @@
       >
         <input
           type="text"
-          placeholder="{{'sa_search' | translate}}"
+          placeholder="{{ 'sa_search' | translate }}"
           maxlength="60"
           id="inputSearch"
           class="input-search"
@@ -91,7 +91,7 @@
         />
         <img [src]="searchImgSrc" class="search-icon" *ngIf="!searchRules" />
         <img
-          class="close-icon"
+          class="remove-icon"
           src="assets/icons/close_icon.svg"
           [ngClass]="{
             'pr-22': searchRules,
@@ -549,7 +549,7 @@
               <span
                 class="edit-icon"
                 (click)="editRule(ruleObj)"
-                ngbTooltip="{{'sa_edit' | translate}}"
+                ngbTooltip="{{ 'sa_edit' | translate }}"
                 [container]="'body'"
                 tooltipClass="tooltip-global-"
                 placement="top-center"
@@ -559,7 +559,7 @@
               <span
                 class="delete-icon"
                 (click)="deleteRulePop(ruleObj, ruleIndex)"
-                ngbTooltip="{{'sa_delete' | translate}}"
+                ngbTooltip="{{ 'sa_delete' | translate }}"
                 [container]="'body'"
                 tooltipClass="tooltip-global-"
                 placement="top-center"
@@ -631,7 +631,7 @@
         </div>
         <input
           type="text"
-          placeholder="{{'businessRules_rule_name' | translate}}"
+          placeholder="{{ 'businessRules_rule_name' | translate }}"
           class="input-text"
           maxlength="60"
           [(ngModel)]="addEditRuleObj.ruleName"
@@ -997,9 +997,10 @@
                                       *ngIf="value"
                                       >{{ value }}</span
                                     >
-                                    <mat-icon matChipRemove
-                                      ><img src="assets/images/close.svg"
-                                    /></mat-icon>
+                                    <img
+                                      src="assets/images/close.svg"
+                                      class="remove-icon"
+                                    />
                                   </mat-chip-row>
                                   <span class="px-1">{{
                                     'businessRules_or_caps' | translate
@@ -1054,9 +1055,10 @@
                                     >
                                       <span>{{ value }}</span>
                                     </span>
-                                    <mat-icon matChipRemove
-                                      ><img src="assets/images/close.svg"
-                                    /></mat-icon>
+                                    <img
+                                      src="assets/images/close.svg"
+                                      class="remove-icon"
+                                    />
                                   </mat-chip-row>
                                   <span class="px-1">{{
                                     'businessRules_or_caps' | translate
@@ -1119,9 +1121,10 @@
                                         value | dateFormatPipe : 'DD MMM YYYY'
                                       }}</span
                                     >
-                                    <mat-icon matChipRemove
-                                      ><img src="assets/images/close.svg"
-                                    /></mat-icon>
+                                    <img
+                                      src="assets/images/close.svg"
+                                      class="remove-icon"
+                                    />
                                   </mat-chip-row>
                                   <span class="px-1">{{
                                     'businessRules_or_caps' | translate
@@ -1305,7 +1308,7 @@
                     contenteditable="true"
                     class="input-editable"
                     id="contentText"
-                    data-ph="{{'home_start_typing_here' | translate}}"
+                    data-ph="{{ 'home_start_typing_here' | translate }}"
                     (mouseup)="getDialogDiemensions($event)"
                     [textContent]="entityObj.sentence"
                     (input)="entityObj.sentence = $event.target.textContent"
@@ -1498,6 +1501,7 @@
                         <span class="nlp-preview-action-span"
                           ><img
                             src="assets/images/close.svg"
+                            class="remove-icon"
                             class="warning-icon"
                         /></span>
                         {{ 'sa_cancel' | translate }}
@@ -1905,9 +1909,10 @@
                                   ngbTooltip="{{ value }}"
                                   >{{ value }}</span
                                 >
-                                <mat-icon matChipRemove
-                                  ><img src="assets/images/close.svg"
-                                /></mat-icon>
+                                <img
+                                  src="assets/images/close.svg"
+                                  class="remove-icon"
+                                />
                               </mat-chip-row>
                               <span class="px-1">{{
                                 'businessRules_or_caps' | translate
@@ -2016,7 +2021,7 @@
             ><img src="assets/images/bot-tasks.svg"
           /></span>
           {{ 'businessRules_choose_tag' | translate }}
-          <i class="si-close close-icon" (click)="createTag(false, false)"></i>
+          <i class="si-close remove-icon" (click)="createTag(false, false)"></i>
         </div>
         <div class="nlp-add-tag">
           <button

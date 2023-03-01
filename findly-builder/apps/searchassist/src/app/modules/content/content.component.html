@@ -84,10 +84,10 @@
             <input
               type="text"
               maxlength="60"
-              placeholder="{{'sa_search' | translate}}"
+              placeholder="{{ 'sa_search' | translate }}"
               class="input-search"
               name="searchSources"
-              placeholder="{{'sa_search' | translate}}"
+              placeholder="{{ 'sa_search' | translate }}"
               [ngClass]="{ 'pl-2': searchSources }"
               id="searchContentSources"
               [(ngModel)]="searchSources"
@@ -388,7 +388,7 @@
 
               <div class="col_ col-2">
                 <span>{{
-                  source?.recentStatus === 'configured'
+                  source?.recentStatus === 'configured' && !source?.numPages
                     ? '--'
                     : source?.numPages
                 }}</span>
