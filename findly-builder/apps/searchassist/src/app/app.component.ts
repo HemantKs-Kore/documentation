@@ -1,6 +1,7 @@
 import {
   Component,
   ComponentRef,
+  OnDestroy,
   OnInit,
   ViewChild,
   ViewContainerRef,
@@ -19,6 +20,7 @@ import { MainMenuComponent } from './modules/layout/mainmenu/mainmenu.component'
 import { TranslateService } from '@ngx-translate/core';
 import { Renderer2 } from '@angular/core';
 import { BreakpointObserver, BreakpointState } from '@angular/cdk/layout';
+import { Subscription } from 'rxjs';
 
 const SMALL_WIDTH_BREAKPOINT = 1200;
 
@@ -27,13 +29,14 @@ const SMALL_WIDTH_BREAKPOINT = 1200;
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
 })
-export class AppComponent implements OnInit {
+export class AppComponent implements OnInit, OnDestroy {
   @ViewChild('dynamicRef', { read: ViewContainerRef }) dynamicRef;
   smMainMenuOpened = false;
   isMainMenuLoaded = false;
   mainMenuRef: ComponentRef<MainMenuComponent>;
   showMainMenu = false;
   appSelected = false;
+  sub: Subscription;
 
   constructor(
     private router: Router,
@@ -53,11 +56,9 @@ export class AppComponent implements OnInit {
   }
 
   observeScreen() {
-    this.breakpointObserver
+    this.sub = this.breakpointObserver
       .observe([`(max-width: ${SMALL_WIDTH_BREAKPOINT}px)`])
       .subscribe((state: BreakpointState) => {
-        console.log(state, 'HERRERE');
-
         if (!state.matches) {
           this.smMainMenuOpened = false;
         }
@@ -69,7 +70,7 @@ export class AppComponent implements OnInit {
     if (lang) {
       this.translate.setDefaultLang(lang);
       if (lang && lang !== 'en') {
-        this.lazyLoadService.loadStyle('lang.min.css').subscribe();
+        this.lazyLoadService.loadStyle('lang.min.css');
         this.renderer.addClass(document.body, 'sa-lang-' + lang);
       }
     } else {
@@ -93,7 +94,7 @@ export class AppComponent implements OnInit {
   }
 
   onRouteEvents() {
-    this.router.events.subscribe((event: any) => {
+    const routerEventSub = this.router.events.subscribe((event: any) => {
       switch (true) {
         case event instanceof NavigationStart: {
           this.loaderService.show();
@@ -121,6 +122,8 @@ export class AppComponent implements OnInit {
         }
       }
     });
+
+    this.sub?.add(routerEventSub);
   }
 
   updateMenuProps(menuType, event) {
@@ -138,9 +141,12 @@ export class AppComponent implements OnInit {
             this.mainMenuRef =
               this.dynamicRef.createComponent(MainMenuComponent);
             this.updateMenuProps(menuType, event);
-            this.mainMenuRef.instance.toggleMainMenu.subscribe(() => {
-              this.smMainMenuOpened = false;
-            });
+            const menuToggleSub =
+              this.mainMenuRef.instance.toggleMainMenu.subscribe(() => {
+                this.smMainMenuOpened = false;
+              });
+
+            this.sub?.add(menuToggleSub);
           }
         }
       );
@@ -163,5 +169,9 @@ export class AppComponent implements OnInit {
 
   openSmMainMenu() {
     this.smMainMenuOpened = true;
+  }
+
+  ngOnDestroy(): void {
+    this.sub?.unsubscribe();
   }
 }
