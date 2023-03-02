@@ -1,4 +1,5 @@
 @import 'variables/variables.scss';
+@import 'components/icon';
 ::ng-deep.krFindlyAppComponent {
   // .toShowAppHeader {
   //   display: none;
@@ -145,6 +146,13 @@
     // }
   }
 }
+
+.main-menu-icon {
+  z-index: 10;
+  position: fixed;
+  top: 60px;
+  display: none;
+}
 // app-content{
 // &.container-fluid{
 // 	@extend %noPadding;
@@ -183,5 +191,15 @@
         }
       }
     }
+  }
+}
+
+@media (max-width: 1200px) {
+  ::ng-deep .krFindlyAppComponent.appSelected .appContent {
+    padding-left: 0;
+  }
+
+  .main-menu-icon {
+    display: block;
   }
 }
