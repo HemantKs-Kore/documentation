@@ -103,6 +103,7 @@ export class AppComponent implements OnInit {
         case event instanceof NavigationEnd: {
           if (event.url !== '/') {
             this.appSelected = true;
+            this.smMainMenuOpened = false;
           } else {
             this.appSelected = false;
           }
