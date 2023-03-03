@@ -1546,3 +1546,15 @@
     white-space: nowrap;
   }
 }
+
+@media screen and (max-width: 440px) {
+  .findly-dashboard .header-sec .title {
+    font-size: 12px;
+  }
+}
+
+@media screen and (max-width: 400px) {
+  .findly-dashboard .kr-sg-input-search {
+    display: block !important;
+  }
+}

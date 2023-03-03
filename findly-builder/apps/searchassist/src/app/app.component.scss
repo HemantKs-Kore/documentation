@@ -208,7 +208,7 @@
   }
 }
 
-@media (max-width: 500px) {
+@media screen and (max-width: 500px) {
   ::ng-deep .krFindlyAppComponent.appSelected {
     .app-dropdown,
     .show-search1 {
@@ -217,7 +217,13 @@
   }
 }
 
-@media (max-width: 400px) {
+@media screen and (max-width: 400px) {
+  ::ng-deep .krFindlyAppComponent {
+    .seach-block {
+      display: none !important;
+    }
+  }
+
   ::ng-deep .krFindlyAppComponent.appSelected {
     .notification-block,
     .help-icon {
