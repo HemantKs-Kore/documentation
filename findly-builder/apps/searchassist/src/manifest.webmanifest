@@ -1,7 +1,7 @@
 {
-  "name": "searchassist",
-  "short_name": "searchassist",
-  "theme_color": "#1976d2",
+  "name": "Search Assist",
+  "short_name": "SA",
+  "theme_color": "#007bff",
   "background_color": "#fafafa",
   "display": "standalone",
   "scope": "./",
