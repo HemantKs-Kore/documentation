@@ -1,5 +1,10 @@
 @import 'variables/variables.scss';
 
+#inputSearch:focus + .search-icon,
+#inputSearch:hover + .search-icon {
+  color: #9aa0a6;
+}
+
 .emptyStateContainer {
   padding-top: 60px;
   margin-left: 0;
@@ -249,11 +254,10 @@
         font-size: 12px;
         // margin-left: 30px;
 
-        img {
-          margin-right: 7px;
+        i {
+          font-size: 1.1rem;
+          vertical-align: sub;
           cursor: pointer;
-          position: relative;
-          top: -1px;
         }
       }
 
@@ -265,12 +269,6 @@
         line-height: 14px;
         margin-left: 30px;
         cursor: pointer;
-
-        img {
-          margin-right: 7px;
-          position: relative;
-          top: -1px;
-        }
       }
     }
 
@@ -293,8 +291,8 @@
 
       .search-icon {
         left: 10px;
-        width: 16px;
-        height: 16px;
+        top: 8px;
+        font-size: 1.2rem;
       }
     }
 

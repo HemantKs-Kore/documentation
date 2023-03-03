@@ -33,27 +33,15 @@
                       autocomplete="off"
                       [(ngModel)]="searchApp"
                       maxlength="60"
-                      (mouseover)="
-                        searchImgSrc = searchFocusIn
-                          ? 'assets/icons/search_gray.svg'
-                          : 'assets/icons/search_gray_dark.svg'
-                      "
-                      (mouseout)="
-                        searchFocusIn = false;
-                        searchImgSrc = 'assets/icons/search_gray.svg'
-                      "
-                      (focus)="
-                        searchFocusIn = true;
-                        searchImgSrc = 'assets/icons/search_gray.svg'
-                      "
                     />
-                    <img
+                    <i class="si-search search-icon" *ngIf="!searchApp"></i>
+                    <!-- <img
                       [src]="searchImgSrc"
                       width="14"
                       height="14"
                       class="search-icon"
                       *ngIf="!searchApp"
-                    />
+                    /> -->
                     <img
                       class="close-icon"
                       (mouseover)="activeClose = true"
@@ -79,22 +67,17 @@
                       [ngClass]="{ 'd-none': showSearch }"
                       class="mr-sm-3"
                       id="btn_toggle_search_structured_data"
-                      ><img
-                        ngSrc="assets/icons/search.svg"
-                        width="16"
-                        height="16"
-                        priority
+                    >
+                      <i
+                        class="si-search mr-2"
                         [ngClass]="{ 'd-none': showSearch }"
-                      />{{ 'sa_search' | translate }}</span
+                      ></i
+                      >{{ 'sa_search' | translate }}</span
                     >
                   </div>
                   <div class="add_feild" (click)="openCreateApp()">
-                    <img
-                      ngSrc="assets/icons/add_plus.svg"
-                      width="12"
-                      height="12"
-                      priority
-                    />{{ 'home_add_application' | translate }}
+                    <i class="si-add-plus mr-2"></i
+                    >{{ 'home_add_application' | translate }}
                   </div>
                   <button (click)="openDetails()" class="d-none">
                     {{ 'home_deatils' | translate }}
