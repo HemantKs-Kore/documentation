@@ -212,7 +212,16 @@
   ::ng-deep .krFindlyAppComponent.appSelected {
     .app-dropdown,
     .show-search1 {
-      display: none;
+      display: none !important;
+    }
+  }
+}
+
+@media (max-width: 400px) {
+  ::ng-deep .krFindlyAppComponent.appSelected {
+    .notification-block,
+    .help-icon {
+      display: none !important;
     }
   }
 }
