@@ -64,12 +64,18 @@
     pointer-events: none;
   }
   .notification-block {
-    visibility: hidden;
+    display: none !important;
   }
+
   .show-search1 {
-    visibility: hidden;
+    display: none;
   }
+
   &.appSelected {
+    .show-search1 {
+      display: block;
+    }
+
     .emptyStateContainer {
       padding-top: 0;
     }
@@ -101,7 +107,7 @@
       display: block !important;
     }
     .app-dropdown {
-      display: block !important;
+      display: block;
     }
     .test-button {
       display: block !important;
@@ -116,11 +122,9 @@
       display: inline-block !important;
     }
     .notification-block {
-      visibility: visible !important;
+      display: inline-block !important;
     }
-    .show-search1 {
-      visibility: visible !important;
-    }
+
     // .findlyHeader {
     //     .navbar-nav {
     //         .nav-item.workspace-data {
@@ -201,5 +205,14 @@
 
   .main-menu-icon {
     display: block;
+  }
+}
+
+@media (max-width: 500px) {
+  ::ng-deep .krFindlyAppComponent.appSelected {
+    .app-dropdown,
+    .show-search1 {
+      display: none;
+    }
   }
 }
