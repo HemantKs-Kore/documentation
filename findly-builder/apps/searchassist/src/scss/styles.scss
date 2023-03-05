@@ -5,10 +5,12 @@
 */
 @import 'main';
 @import './variables/variables';
-@import '../assets/fonts/inter/inter-font.css';
-@import './bt-styleguide.scss';
 @import './variables/colors';
+@import '../assets/fonts/inter/inter-font.css';
 @import '../assets/fonts/searchassist-icons/style.css';
+
+@import './base/global';
+@import './bt-styleguide.scss';
 
 html {
   overflow: hidden;
