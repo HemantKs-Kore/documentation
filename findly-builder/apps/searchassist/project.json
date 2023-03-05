@@ -115,6 +115,10 @@
             {
               "replace": "apps/searchassist/src/environments/environment.ts",
               "with": "apps/searchassist/src/environments/environment.prod.ts"
+            },
+            {
+              "replace": "apps/searchassist/src/build-specifics/index.ts",
+              "with": "apps/searchassist/src/build-specifics/index.prod.ts"
             }
           ],
           "outputHashing": "all",
