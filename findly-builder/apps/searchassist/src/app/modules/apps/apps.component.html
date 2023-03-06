@@ -42,8 +42,8 @@
                       class="search-icon"
                       *ngIf="!searchApp"
                     /> -->
-                    <img
-                      class="close-icon"
+                    <i
+                      class="si-close close-icon"
                       (mouseover)="activeClose = true"
                       (mouseout)="activeClose = false"
                       ngSrc="assets/icons/close_icon.svg"
@@ -55,7 +55,7 @@
                       container="body"
                       ngbTooltip="{{ 'sa_cancel' | translate }}"
                       tooltipClass="ngb_tooltip_custom_class sampleJson"
-                    />
+                    ></i>
                   </div>
                   <div
                     class="seach-block"
@@ -430,7 +430,7 @@
                             href="https://docs.kore.ai/searchassist/source-management/source-management/"
                             target="_blank"
                             >{{ 'home_learn_more' | translate }}
-                            <i class="si-carrotup"></i>
+                            <i class="si-carrotup ml-1"></i>
                           </a>
                         </span>
                       </div>
@@ -464,7 +464,7 @@
                             href="https://docs.kore.ai/searchassist/manage-index/index-management/"
                             target="_blank"
                             >{{ 'home_learn_more' | translate
-                            }}<i class="si-carrotup"></i>
+                            }}<i class="si-carrotup ml-1"></i>
                           </a>
                         </span>
                       </div>
@@ -498,7 +498,7 @@
                             href="https://docs.kore.ai/searchassist/optimize-results/result-optimization/"
                             target="_blank"
                             >{{ 'home_learn_more' | translate
-                            }}<i class="si-carrotup"></i>
+                            }}<i class="si-carrotup ml-1"></i>
                           </a>
                         </span>
                       </div>
@@ -531,7 +531,7 @@
                             href="https://docs.kore.ai/searchassist/search-experience/design-search-experience/"
                             target="_blank"
                             >{{ 'home_learn_more' | translate
-                            }}<i class="si-carrotup"></i></a
+                            }}<i class="si-carrotup ml-1"></i></a
                         ></span>
                       </div>
                       <div class="img-block">
@@ -564,7 +564,7 @@
                             href="https://docs.kore.ai/searchassist/analytics/analytics/"
                             target="_blank"
                             >{{ 'home_learn_more' | translate
-                            }}<i class="si-carrotup"></i></a
+                            }}<i class="si-carrotup ml-1"></i></a
                         ></span>
                       </div>
                       <div class="img-block">
@@ -596,7 +596,7 @@
                             href="https://docs.kore.ai/searchassist/analytics/experiment/"
                             target="_blank"
                             >{{ 'home_learn_more' | translate
-                            }}<i class="si-carrotup"></i></a
+                            }}<i class="si-carrotup ml-1"></i></a
                         ></span>
                       </div>
                       <div class="img-block">
@@ -1175,7 +1175,8 @@
 >
   <div class="modal-body">
     <div class="close_modal" (click)="closeCreateApp()">
-      <img ngSrc="assets/icons/close.svg" width="11" height="10" />
+      <i class="si-close"></i>
+      <!-- <img ngSrc="assets/icons/close.svg" width="11" height="10" /> -->
     </div>
     <div class="img-wrapper d-none d-sm-block">
       <img
@@ -1296,7 +1297,7 @@
       {{ 'home_are_you_sure_you_want_to_remove_access' | translate }}
     </div>
     <div class="close_modal" (click)="closeConfirmApp()">
-      <img ngSrc="assets/icons/modal-close.svg" width="16" height="16" />
+      <i class="si-close"></i>
     </div>
   </div>
   <div *ngIf="unlinkPop" class="modal-body">

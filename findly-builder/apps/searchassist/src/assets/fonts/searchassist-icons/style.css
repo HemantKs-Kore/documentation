@@ -1,10 +1,10 @@
 @font-face {
   font-family: 'searchassist-icons';
-  src:  url('fonts/searchassist-icons.eot?tjnfly');
-  src:  url('fonts/searchassist-icons.eot?tjnfly#iefix') format('embedded-opentype'),
-    url('fonts/searchassist-icons.ttf?tjnfly') format('truetype'),
-    url('fonts/searchassist-icons.woff?tjnfly') format('woff'),
-    url('fonts/searchassist-icons.svg?tjnfly#searchassist-icons') format('svg');
+  src:  url('fonts/searchassist-icons.eot?58aima');
+  src:  url('fonts/searchassist-icons.eot?58aima#iefix') format('embedded-opentype'),
+    url('fonts/searchassist-icons.ttf?58aima') format('truetype'),
+    url('fonts/searchassist-icons.woff?58aima') format('woff'),
+    url('fonts/searchassist-icons.svg?58aima#searchassist-icons') format('svg');
   font-weight: normal;
   font-style: normal;
   font-display: block;
@@ -104,7 +104,6 @@
 }
 .si-bot:before {
   content: "\e966";
-  color: #fff;
 }
 .si-sort-down:before {
   content: "\e967";
@@ -117,7 +116,6 @@
 }
 .si-topic-guide-1:before {
   content: "\e912";
-  color: #5f6368;
 }
 .si-topic-guide:before {
   content: "\e962";
@@ -161,7 +159,6 @@
 }
 .si-play-large:before {
   content: "\e959";
-  color: #fff;
 }
 .si-star-filled:before {
   content: "\e95a";
@@ -175,7 +172,6 @@
 }
 .si-richtext:before {
   content: "\e955";
-  color: #fff;
 }
 .si-carousal:before {
   content: "\e956";
@@ -464,7 +460,6 @@
 }
 .si-delete:before {
   content: "\e90b";
-  color: #fff;
 }
 .si-eye:before {
   content: "\e90c";
@@ -488,7 +483,6 @@
 }
 .si-settings:before {
   content: "\e913";
-  color: #fff;
 }
 .si-check:before {
   content: "\e909";
@@ -512,7 +506,6 @@
 }
 .si-home:before {
   content: "\e902";
-  color: #fff;
 }
 .si-list:before {
   content: "\e903";
