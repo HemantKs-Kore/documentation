@@ -4,6 +4,7 @@
 */
 
 @import 'variables/variables.scss';
+@import 'components/icon';
 ::ng-deep .krFindlyAppComponent {
   .toShowAppHeader {
     display: none;
@@ -373,12 +374,12 @@ app-mainmenu {
         border-radius: 4px;        
       }
     }
-    .disable_btn{
-			pointer-events: none;
-			color:#BDC1C6 !important;
-			cursor:default !important;
-			opacity: 0.5;
-		}	
+    .disable_btn {
+      pointer-events: none;
+      color: #bdc1c6 !important;
+      cursor: default !important;
+      opacity: 0.5;
+    }
     .inside-config-tab-left-menus {
       padding: 20px !important;
       .inside-menu-title {
@@ -739,4 +740,25 @@ app-mainmenu {
 
 .kr-sg-dropdowns .dropdown-open .dropdown-input.err-block::before {
   right: 20px;
+}
+
+.main-menu-icon {
+  display: none;
+}
+
+@media (max-width: 1200px) {
+  .main-menu-icon {
+    z-index: 101;
+    display: block;
+    position: fixed;
+  }
+
+  .sidebar-fixed.activeMenu {
+    transform: translateX(-100%);
+  }
+
+  .sm-main-menu .sidebar-fixed.activeMenu {
+    transform: translateX(0);
+    z-index: 100;
+  }
 }

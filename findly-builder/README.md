@@ -72,16 +72,20 @@ npm run perf:report
 - Documentation
 - PWA
 
-## Resources
-
-Lazy load modules
-
-https://www.wittyprogramming.dev/articles/lazy-load-component-angular-without-routing/
-
-## Budget
-
-https://googlechrome.github.io/lighthouse/scorecalc/
-
 ## Bundling Scripts
 
 Don't forget to update `tools/build.js` if want to add new 3rd part script, and run `npm run buildjs` it's required only when new script added.
+
+## Resources
+
+1. Lazy load modules
+
+https://www.wittyprogramming.dev/articles/lazy-load-component-angular-without-routing/
+
+2. Why font icon over svg icon
+
+https://betterprogramming.pub/inline-svg-or-icon-fonts-which-one-to-use-77c0daf1c527#:~:text=Both%20icon%20fonts%20and%20inline,look%20crisper%20on%20retina%20displays.
+
+3. Budget
+
+https://googlechrome.github.io/lighthouse/scorecalc/

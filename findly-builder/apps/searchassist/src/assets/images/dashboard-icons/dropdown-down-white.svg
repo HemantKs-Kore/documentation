@@ -1,12 +1,1 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<svg width="12px" height="8px" viewBox="0 0 12 8" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-    <!-- Generator: Sketch 53.2 (72643) - https://sketchapp.com -->
-    <title>dropdown-down-white</title>
-    <desc>Created with Sketch.</desc>
-    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-        <g id="dropdown-down-white" transform="translate(-2.000000, -4.000000)" fill-rule="nonzero">
-            <polygon id="Path" fill-opacity="0" fill="#D8D8D8" points="0 0 16 0 16 16 0 16"></polygon>
-            <path d="M8,11.417 C8.203,11.417 8.379,11.342 8.527,11.194 L13.777,5.944 C13.926,5.796 14,5.62 14,5.417 C14,5.214 13.926,5.037 13.777,4.889 C13.629,4.741 13.453,4.667 13.25,4.667 L2.75,4.667 C2.547,4.667 2.371,4.741 2.223,4.889 C2.074,5.038 2,5.214 2,5.417 C2,5.62 2.074,5.796 2.223,5.944 L7.473,11.194 C7.621,11.342 7.797,11.417 8,11.417 Z" id="Path" fill="#FFFFFF"></path>
-        </g>
-    </g>
-</svg>
+<svg width="12" height="8" xmlns="http://www.w3.org/2000/svg"><g fill="none"><path d="M-2-4h16v16H-2z"/><path d="M6 7.417a.722.722 0 0 0 .527-.223l5.25-5.25A.718.718 0 0 0 12 1.417a.72.72 0 0 0-.223-.528.72.72 0 0 0-.527-.222H.75a.72.72 0 0 0-.527.222.721.721 0 0 0-.223.528c0 .203.074.379.223.527l5.25 5.25A.722.722 0 0 0 6 7.417Z" fill="#FFF"/></g></svg>

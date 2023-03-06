@@ -647,7 +647,7 @@
               router.url === '/**'
           }"
         >
-          <img ngSrc="assets/icons/sidemenu/help.svg" width="16" height="16" />
+          <i class="si-help"></i>
         </li>
 
         <li class="nav-item workspace-data">
@@ -890,6 +890,7 @@
         ngSrc="assets/icons/landing/create-app.png"
         width="440"
         height="617"
+        fetchpriority="low"
       />
     </div>
     <div class="actions-block">
@@ -991,6 +992,7 @@
         width="173"
         height="40"
         priority
+        fetchpriority="high"
       />
     </div>
     <div class="close-modal" (click)="closeBrowseWorkspace()">

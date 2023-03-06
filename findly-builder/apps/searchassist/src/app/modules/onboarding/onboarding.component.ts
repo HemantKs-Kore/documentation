@@ -25,7 +25,7 @@ export class OnboardingComponent implements OnInit {
   tourConfigData: any = [];
   onBoardingModalPopRef: any;
   element: any;
-  appVersion: any;
+  appVersion$: any;
   checklistCount: number;
   tourData: any;
   statusSlider = true;
@@ -1153,16 +1153,7 @@ export class OnboardingComponent implements OnInit {
     // }
   }
   getVersion() {
-    this.service.invoke('get.version').subscribe(
-      (res) => {
-        if (res) {
-          this.appVersion = res.APP_VERSION;
-        }
-      },
-      (errRes) => {
-        //this.notificationService.notify('Something has gone wrong.', 'error');
-      }
-    );
+    this.appVersion$ = this.service.invoke('get.version');
   }
 
   goToLink(url: string) {

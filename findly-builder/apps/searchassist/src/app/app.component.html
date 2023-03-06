@@ -1,4 +1,10 @@
-<div class="krFindlyAppComponent" [class.appSelected]="appSelected">
+<div
+  class="krFindlyAppComponent"
+  [class]="{
+    'sm-main-menu': smMainMenuOpened,
+    appSelected: appSelected
+  }"
+>
   <app-header
     (showMenu)="showMenu($event)"
     (settingMenu)="settingMenu($event)"
@@ -7,6 +13,11 @@
 
   <ng-container #dynamicRef></ng-container>
   <div [ngClass]="{ 'pl-0': !showMainMenu }" class="container-fluid appContent">
+    <i
+      *ngIf="appSelected && showMainMenu"
+      class="si-carrotup main-menu-icon"
+      (click)="openSmMainMenu()"
+    ></i>
     <router-outlet></router-outlet>
   </div>
   <!-- <div

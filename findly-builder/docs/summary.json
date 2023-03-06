@@ -44,6 +44,10 @@
         "file": "perf/image-lazy-load.md"
       },
       {
+        "title": "Image Compression",
+        "file": "perf/image-compress.md"
+      },
+      {
         "title": "Perf step by step",
         "file": "perf/perf-step-by-step.md"
       }

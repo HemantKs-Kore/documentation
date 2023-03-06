@@ -45,7 +45,7 @@
         <span> {{ 'onboarding_app_checklist' | translate }}</span>
       </a>
     </li>
-    <li class="version">V{{ appVersion }}</li>
+    <li class="version">V{{ (appVersion$ | async)?.APP_VERSION }}</li>
   </ul>
   <!-- Tab panes -->
   <div class="tab-content">
@@ -91,7 +91,7 @@
             >
               <div class="dummy-border-left"></div>
               <div class="img-block">
-                <img src="{{ data.icon }}" />
+                <img ngSrc="{{ data.icon }}" width="40" height="40" />
               </div>
               <div class="content-block">
                 <div class="title">{{ data.title }}</div>

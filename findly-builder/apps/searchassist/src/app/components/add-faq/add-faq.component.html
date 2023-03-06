@@ -1485,10 +1485,10 @@
                   <span class="tags-data" *ngFor="let keyword of alternateQuestion?.keywords">#{{keyword.keyword}}&nbsp;</span>
               </div> -->
               <div class="col-2 action-btns pr-1">
-                <img
-                  src="assets/icons/delete-table.svg"
+                <i
+                  class="si-delete1"
                   (click)="delAltQues(alternateQuestion, alterIndex, $event)"
-                />
+                ></i>
               </div>
             </div>
             <div *ngIf="editAltQuestionIndex === alterIndex" class="lh-50">
