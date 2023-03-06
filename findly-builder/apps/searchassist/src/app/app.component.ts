@@ -127,15 +127,17 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   updateMenuProps(menuType, event) {
-    this.mainMenuRef.instance[menuType] = event;
+    if (this.mainMenuRef) {
+      this.mainMenuRef.instance[menuType] = event;
+    }
   }
 
   loadMainMenu(menuType, event) {
     if (!this.isMainMenuLoaded) {
+      this.isMainMenuLoaded = true;
+
       import('./modules/layout/mainmenu/mainmenu.component').then(
         ({ MainMenuComponent }) => {
-          this.isMainMenuLoaded = true;
-
           if (this.dynamicRef) {
             this.dynamicRef.clear();
             this.mainMenuRef =
