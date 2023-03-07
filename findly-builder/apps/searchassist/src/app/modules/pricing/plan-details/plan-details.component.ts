@@ -19,6 +19,7 @@ import { DaterangepickerDirective } from 'ngx-daterangepicker-material';
 import { PlanUpgradeComponent } from '../shared/plan-upgrade/plan-upgrade.component';
 import { plansName } from '../plan-names.constants';
 import { LocalStoreService } from '@kore.services/localstore.service';
+import { MixpanelServiceService } from '@kore.apps/services/mixpanel-service.service';
 @Component({
   selector: 'app-plan-details',
   templateUrl: './plan-details.component.html',
@@ -73,8 +74,9 @@ export class PlanDetailsComponent implements OnInit, OnDestroy {
     private notificationService: NotificationService,
     private appSelectionService: AppSelectionService,
     public localstore: LocalStoreService,
-    private cd: ChangeDetectorRef
-  ) {}
+    private cd: ChangeDetectorRef,
+    public mixpanel: MixpanelServiceService,
+  ) { }
 
   @ViewChild('cancelSubscriptionModel')
   cancelSubscriptionModel: KRModalComponent;
@@ -144,6 +146,7 @@ export class PlanDetailsComponent implements OnInit, OnDestroy {
   //select upgrade component methods
   selectModal(type) {
     this.plans?.openSelectedPopup(type);
+    this.mixpanel.postEvent('Enter upgrade plan', {});
   }
 
   //Open | Close subscription modal
@@ -231,7 +234,7 @@ export class PlanDetailsComponent implements OnInit, OnDestroy {
     const emailId = userInfo?.currentAccount?.userInfo?.emailId;
     const currentPlanName =
       this.currentSubscriptionPlan?.subscription?.billing?.unit &&
-      this.currentSubscriptionPlan?.subscription?.planName !== 'Enterprise'
+        this.currentSubscriptionPlan?.subscription?.planName !== 'Enterprise'
         ? `${this.currentSubscriptionPlan?.subscription?.planName} Plan(${this.currentSubscriptionPlan?.subscription?.billing?.unit})`
         : this.currentSubscriptionPlan?.subscription?.planName + ' Plan';
     const payload = {
@@ -291,7 +294,7 @@ export class PlanDetailsComponent implements OnInit, OnDestroy {
     }
     xAxisQueryData.length
       ? (this.monthRange =
-          xAxisQueryData[0] + ' - ' + xAxisQueryData[xAxisQueryData.length - 1])
+        xAxisQueryData[0] + ' - ' + xAxisQueryData[xAxisQueryData.length - 1])
       : (this.monthRange = 'Jan - June');
     this.queryGraph = {
       tooltip: {

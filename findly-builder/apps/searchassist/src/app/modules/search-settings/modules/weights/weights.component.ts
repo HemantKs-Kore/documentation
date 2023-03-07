@@ -75,7 +75,7 @@ export class WeightsComponent implements OnInit, OnDestroy {
     public mixpanel: MixpanelServiceService,
     private route: ActivatedRoute,
     private store: Store
-  ) {}
+  ) { }
   selectedApp: any = {};
   serachIndexId;
   queryPipelineId;
@@ -367,6 +367,7 @@ export class WeightsComponent implements OnInit, OnDestroy {
               'success'
             );
             this.getWeights();
+            this.mixpanel.postEvent('Save Weights', {});
           } else if (type == 'edit') {
             this.weightsList[index] = this.getWeightsPayload(weight);
             //this.getWeights();

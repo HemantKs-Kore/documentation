@@ -24,6 +24,7 @@ import { Subscription } from 'rxjs';
 import { plansName } from '../../plan-names.constants';
 import { KRModalComponent } from '@kore.apps/shared/kr-modal/kr-modal.component';
 import { format } from 'date-fns';
+import { MixpanelServiceService } from '@kore.apps/services/mixpanel-service.service';
 
 declare const $: any;
 
@@ -111,8 +112,9 @@ export class PlanUpgradeComponent implements OnInit, OnDestroy {
     public sanitizer: DomSanitizer,
     private router: Router,
     private notificationService: NotificationService,
-    public localstore: LocalStoreService
-  ) {}
+    public localstore: LocalStoreService,
+    public mixpanel: MixpanelServiceService
+  ) { }
 
   @ViewChild('addOverageModel') addOverageModel: KRModalComponent;
   @ViewChild('changePlanModel') changePlanModel: KRModalComponent;
@@ -262,6 +264,7 @@ export class PlanUpgradeComponent implements OnInit, OnDestroy {
       }
     } else if (type === 'payment_gateway') {
       this.paymentGatewayModelPopRef = this.paymentGatewayModel.open();
+      this.mixpanel.postEvent('Plan Chosen', { 'Plan Type': 'Standard plan' });
     } else if (type === 'add_overage') {
       this.overageModal('open');
     } else if (type === 'free_upgrade') {
@@ -359,6 +362,8 @@ export class PlanUpgradeComponent implements OnInit, OnDestroy {
         this.btnLoader = false;
         this.selectedPaymentPage = 'payment_iframe';
         this.poling();
+        const plan_duration = this.termPlan === 'month' ? 'Monthly' : 'Yearly';
+        this.mixpanel.postEvent('Plan Standard Proceed', { 'Plan Type': 'Standard plan', 'Plan Duration': plan_duration });
       },
       (errRes) => {
         this.btnLoader = false;
@@ -429,6 +434,7 @@ export class PlanUpgradeComponent implements OnInit, OnDestroy {
           (this.selectedPlan?.billingUnit || '');
       }
       this.contactusModelPopRef = this.contactUsModel.open();
+      this.mixpanel.postEvent('Plan Chosen', { 'Plan Type': 'Enterprise plan' });
     } else if (type === 'close') {
       this.enterpriseForm = {
         name: '',
