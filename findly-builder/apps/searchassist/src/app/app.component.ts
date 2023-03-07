@@ -1,6 +1,7 @@
 import {
   Component,
   ComponentRef,
+  OnDestroy,
   OnInit,
   ViewChild,
   ViewContainerRef,
@@ -18,31 +19,90 @@ import { LazyLoadService } from '@kore.libs/shared/src';
 import { MainMenuComponent } from './modules/layout/mainmenu/mainmenu.component';
 import { TranslateService } from '@ngx-translate/core';
 import { Renderer2 } from '@angular/core';
+import { fromEvent, Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
+import { ConfirmationDialogComponent } from './helpers/components/confirmation-dialog/confirmation-dialog.component';
+import { MatDialog } from '@angular/material/dialog';
+import { LocalStoreService } from '@kore.apps/services/localstore.service';
+import { AppUrlsService } from './services/app.urls.service';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
 })
-export class AppComponent implements OnInit {
+export class AppComponent implements OnInit, OnDestroy {
   @ViewChild('dynamicRef', { read: ViewContainerRef }) dynamicRef;
   isMainMenuLoaded = false;
   mainMenuRef: ComponentRef<MainMenuComponent>;
   showMainMenu = false;
   appSelected = false;
-
+  private unsubscriber: Subject<void> = new Subject<void>();
   constructor(
     private router: Router,
     private loaderService: LoaderService,
     private appSelectionService: AppSelectionService,
     private lazyLoadService: LazyLoadService,
     private translate: TranslateService,
-    private renderer: Renderer2
+    private renderer: Renderer2,
+    public dialog: MatDialog,
+    private localStoreDetails: LocalStoreService,
+    private appUrlsService: AppUrlsService
   ) {
     this.onRouteEvents();
     this.handleLang();
     // window.onbeforeunload = function onunload(event) {
-    //   return alert('stop');
+    //   event.preventDefault();
+    //   event.returnValue = '';
     // };
+
+    // history.pushState(null, '');
+    // fromEvent(window, 'popstate')
+    //   .pipe(takeUntil(this.unsubscriber))
+    //   .subscribe((event) => {
+    //     event.preventDefault();
+    //     event.returnValue = false;
+    //     history.pushState(null, '');
+    //     const currentRoute = this.router.routerState.snapshot.url;
+    //     this.confirmation(event, currentRoute);
+    //   });
+  }
+  confirmation(event, currentRoute) {
+    setTimeout(() => {
+      this.router.navigate([currentRoute], { skipLocationChange: true });
+    }, 0);
+    let body = 'This will navigate screen to home Page ';
+    if (currentRoute === '/') {
+      body = 'This will logout and navigate to Login';
+    }
+    const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+      width: '530px',
+      height: 'auto',
+      panelClass: 'delete-popup',
+      data: {
+        newTitle: 'Are you sure you want to leave this page ',
+        body: body,
+        buttons: [
+          { key: 'yes', label: 'Proceed' },
+          { key: 'no', label: 'Cancel', secondaryBtn: true },
+        ],
+        confirmationPopUp: true,
+      },
+    });
+    dialogRef.componentInstance.onSelect.subscribe((result) => {
+      if (result === 'yes') {
+        dialogRef.close();
+        if (currentRoute === '/') {
+          //this.router.navigate([''], { skipLocationChange: true });
+          this.localStoreDetails.removeAuthInfo();
+          this.appUrlsService.redirectToLogin();
+        } else {
+          this.router.navigate([''], { skipLocationChange: true });
+        }
+      } else if (result === 'no') {
+        dialogRef.close();
+        console.log('Stop here');
+      }
+    });
   }
 
   handleLang() {
@@ -136,5 +196,9 @@ export class AppComponent implements OnInit {
   }
   settingMenu(event) {
     this.loadMainMenu('settingMainMenu', event);
+  }
+  ngOnDestroy(): void {
+    this.unsubscriber.next();
+    this.unsubscriber.complete();
   }
 }
