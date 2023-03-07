@@ -196,10 +196,12 @@ export class SearchSdkComponent implements OnInit, OnDestroy {
   toggleSdkPopup() {
     this.sub = this.searchSdkService.sdkSource$.subscribe((isOpen) => {
       if (isOpen) {
+        this.cdr.detach();
         // open
         this.openSdk();
       } else {
         // close
+        this.cdr.reattach();
         this.searchSDKHeader();
         this.closeSdk();
       }
