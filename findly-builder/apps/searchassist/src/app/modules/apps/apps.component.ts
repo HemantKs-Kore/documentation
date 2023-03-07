@@ -424,6 +424,7 @@ export class AppsComponent implements OnInit, AfterViewInit, OnDestroy {
           }
         },
         () => {
+          this.appsService.undo();
           this.notificationService.notify('Deletion has gone wrong.', 'error');
         }
       );

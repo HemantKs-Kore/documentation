@@ -1475,7 +1475,7 @@ export class WorkbenchComponent implements OnInit, OnDestroy, AfterViewInit {
     //     this.selectedStage.config.mappings.push(this.newMappingObj[this.selectedStage.type].defaultValue)
     //   }
     // }
-    if (this.selectedStage.condition.mappings && this.selectedStage.name) {
+    if (this.selectedStage?.condition?.mappings && this.selectedStage?.name) {
       if (Object.keys(this.newMappingObj).length == 0) {
         if (save === true) {
           this.saveConfig();

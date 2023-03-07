@@ -25,6 +25,11 @@ import { ConfirmationDialogComponent } from './helpers/components/confirmation-d
 import { MatDialog } from '@angular/material/dialog';
 import { LocalStoreService } from '@kore.apps/services/localstore.service';
 import { AppUrlsService } from './services/app.urls.service';
+import { BreakpointObserver, BreakpointState } from '@angular/cdk/layout';
+import { Subscription } from 'rxjs';
+
+const SMALL_WIDTH_BREAKPOINT = 1200;
+
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -32,11 +37,13 @@ import { AppUrlsService } from './services/app.urls.service';
 })
 export class AppComponent implements OnInit, OnDestroy {
   @ViewChild('dynamicRef', { read: ViewContainerRef }) dynamicRef;
+  smMainMenuOpened = false;
   isMainMenuLoaded = false;
   mainMenuRef: ComponentRef<MainMenuComponent>;
   showMainMenu = false;
   appSelected = false;
   private unsubscriber: Subject<void> = new Subject<void>();
+  sub: Subscription;
   constructor(
     private router: Router,
     private loaderService: LoaderService,
@@ -46,10 +53,12 @@ export class AppComponent implements OnInit, OnDestroy {
     private renderer: Renderer2,
     public dialog: MatDialog,
     private localStoreDetails: LocalStoreService,
-    private appUrlsService: AppUrlsService
+    private appUrlsService: AppUrlsService,
+    private breakpointObserver: BreakpointObserver
   ) {
     this.onRouteEvents();
     this.handleLang();
+    this.observeScreen();
     // window.onbeforeunload = function onunload(event) {
     //   event.preventDefault();
     //   event.returnValue = '';
@@ -105,12 +114,22 @@ export class AppComponent implements OnInit, OnDestroy {
     });
   }
 
+  observeScreen() {
+    this.sub = this.breakpointObserver
+      .observe([`(max-width: ${SMALL_WIDTH_BREAKPOINT}px)`])
+      .subscribe((state: BreakpointState) => {
+        if (!state.matches) {
+          this.smMainMenuOpened = false;
+        }
+      });
+  }
+
   handleLang() {
     const lang = window.localStorage.getItem('appLanguage');
     if (lang) {
       this.translate.setDefaultLang(lang);
       if (lang && lang !== 'en') {
-        this.lazyLoadService.loadStyle('lang.min.css').subscribe();
+        this.lazyLoadService.loadStyle('lang.min.css');
         this.renderer.addClass(document.body, 'sa-lang-' + lang);
       }
     } else {
@@ -134,7 +153,7 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   onRouteEvents() {
-    this.router.events.subscribe((event: any) => {
+    const routerEventSub = this.router.events.subscribe((event: any) => {
       switch (true) {
         case event instanceof NavigationStart: {
           this.loaderService.show();
@@ -144,6 +163,7 @@ export class AppComponent implements OnInit, OnDestroy {
         case event instanceof NavigationEnd: {
           if (event.url !== '/') {
             this.appSelected = true;
+            this.smMainMenuOpened = false;
           } else {
             this.appSelected = false;
           }
@@ -161,23 +181,33 @@ export class AppComponent implements OnInit, OnDestroy {
         }
       }
     });
+
+    this.sub?.add(routerEventSub);
   }
 
   updateMenuProps(menuType, event) {
-    this.mainMenuRef.instance[menuType] = event;
+    if (this.mainMenuRef) {
+      this.mainMenuRef.instance[menuType] = event;
+    }
   }
 
   loadMainMenu(menuType, event) {
     if (!this.isMainMenuLoaded) {
+      this.isMainMenuLoaded = true;
+
       import('./modules/layout/mainmenu/mainmenu.component').then(
         ({ MainMenuComponent }) => {
-          this.isMainMenuLoaded = true;
-
           if (this.dynamicRef) {
             this.dynamicRef.clear();
             this.mainMenuRef =
               this.dynamicRef.createComponent(MainMenuComponent);
             this.updateMenuProps(menuType, event);
+            const menuToggleSub =
+              this.mainMenuRef.instance.toggleMainMenu.subscribe(() => {
+                this.smMainMenuOpened = false;
+              });
+
+            this.sub?.add(menuToggleSub);
           }
         }
       );
@@ -197,7 +227,12 @@ export class AppComponent implements OnInit, OnDestroy {
   settingMenu(event) {
     this.loadMainMenu('settingMainMenu', event);
   }
+  openSmMainMenu() {
+    this.smMainMenuOpened = true;
+  }
+
   ngOnDestroy(): void {
+    this.sub?.unsubscribe();
     this.unsubscriber.next();
     this.unsubscriber.complete();
   }

@@ -146,28 +146,24 @@
             <span class="loadingLogo">Loading...</span>
           </div>
         </div>
-        <!-- LOADER END -->
-        <!-- PDF VIEWER STARTS HERE -->
-        <div
-          class="pdf-container"
-          (mouseleave)="mouseLeavePDF($event)"
-          (mouseup)="textLayerMouseup($event)"
-        >
+        <perfect-scrollbar class="pdf-scroll">
+          <!-- LOADER END -->
+          <!-- PDF VIEWER STARTS HERE -->
           <div
-            [ngClass]="
-              pdfForm.get('ignorePages').value === true
-                ? 'disable-selection'
-                : ''
-            "
+            class="pdf-container"
+            (mouseleave)="mouseLeavePDF($event)"
+            (mouseup)="textLayerMouseup($event)"
           >
-            <ngx-simplebar
-              [options]="options"
-              class="ngx-simplebar"
-              id="simpleBar"
+            <div
+              [ngClass]="
+                pdfForm.get('ignorePages').value === true
+                  ? 'disable-selection'
+                  : ''
+              "
             >
               <!-- <perfect-scrollbar #perfectScroll class="pdf-perfect-scroll" (psScrollY)="onScrollEvent($event)"
-              (psXReachEnd)="onScrollEvent($event)" (psYReachEnd)="onScrollEvent($event)"
-              (psXReachStart)="onScrollEvent($event)" (psYReachStart)="onScrollEvent($event)"> -->
+            (psXReachEnd)="onScrollEvent($event)" (psYReachEnd)="onScrollEvent($event)"
+            (psXReachStart)="onScrollEvent($event)" (psYReachStart)="onScrollEvent($event)"> -->
               <!-- <div (mouseup)="textLayerMouseup($event); NATIVE> -->
               <pdf-viewer
                 id="pdf-report-id"
@@ -193,134 +189,140 @@
               >
               </pdf-viewer>
               <!-- </perfect-scrollbar> -->
-            </ngx-simplebar>
-          </div>
-          <div
-            *ngIf="hostRectangle"
-            class="indicator options-indicator"
-            [style.left.px]="hostRectangle.left"
-            [style.top.px]="hostRectangle.top"
-            [style.width.px]="hostRectangle.width"
-            [style.height.px]="hostRectangle.height || 0"
-          >
-            <div class="indicator__cta">
-              <div
-                class="buttons-grp"
-                (mousedown)="$event.preventDefault()"
-                (mouseup)="$event.stopPropagation()"
-              >
-                <button
-                  class="kr-sg-button-secondary heading_text headingColor"
-                  (click)="optionSelection('heading-highlight', '1', $event)"
-                >
-                  Heading
-                </button>
-                <button
-                  class="kr-sg-button-secondary header headerColor"
-                  (click)="optionSelection('header-highlight', '2', $event)"
-                >
-                  Header
-                </button>
-                <button
-                  class="kr-sg-button-secondary footer footerColor"
-                  (click)="optionSelection('footer-highlight', '3', $event)"
-                >
-                  {{ 'addFaq_annotation_automation_footer' | translate }}
-                </button>
-                <button
-                  class="kr-sg-button-secondary ignore-text excludeColor"
-                  (click)="optionSelection('exclude-highlight', '4', $event)"
-                >
-                  {{ 'EXCLUDE' | translate }}
-                </button>
-              </div>
             </div>
-          </div>
-          <div
-            class="indicator remove-indicator"
-            (clickOutside)="overRectange = null"
-            *ngIf="overRectange"
-            [style.left.px]="overRectange.left"
-            [style.top.px]="overRectange.top"
-            [style.width.px]="overRectange.width"
-            [style.height.px]="overRectange.height || 0"
-          >
-            <div class="indicator__cta">
-              <div
-                class="remove-annotation"
-                (click)="removeAnnotationFlag = true; $event.stopPropagation()"
-                *ngIf="!removeAnnotationFlag"
-              >
-                Remove Annotation
-              </div>
-              <div class="remove-actions" *ngIf="removeAnnotationFlag">
-                <div class="action-btns">
+            <div
+              *ngIf="hostRectangle"
+              class="indicator options-indicator"
+              [style.left.px]="hostRectangle.left"
+              [style.top.px]="hostRectangle.top"
+              [style.width.px]="hostRectangle.width"
+              [style.height.px]="hostRectangle.height || 0"
+            >
+              <div class="indicator__cta">
+                <div
+                  class="buttons-grp"
+                  (mousedown)="$event.preventDefault()"
+                  (mouseup)="$event.stopPropagation()"
+                >
                   <button
-                    class="kr-sg-button-primary mr-10"
-                    (click)="confirmText()"
+                    class="kr-sg-button-secondary heading_text headingColor"
+                    (click)="optionSelection('heading-highlight', '1', $event)"
                   >
-                    {{ 'sa_confirm' | translate }}
+                    Heading
                   </button>
-                  <button class="kr-sg-button-secondary" (click)="cancelText()">
-                    Cancel
+                  <button
+                    class="kr-sg-button-secondary header headerColor"
+                    (click)="optionSelection('header-highlight', '2', $event)"
+                  >
+                    Header
+                  </button>
+                  <button
+                    class="kr-sg-button-secondary footer footerColor"
+                    (click)="optionSelection('footer-highlight', '3', $event)"
+                  >
+                    {{ 'addFaq_annotation_automation_footer' | translate }}
+                  </button>
+                  <button
+                    class="kr-sg-button-secondary ignore-text excludeColor"
+                    (click)="optionSelection('exclude-highlight', '4', $event)"
+                  >
+                    {{ 'EXCLUDE' | translate }}
                   </button>
                 </div>
               </div>
             </div>
-          </div>
-          <!-- <div class="indicator-container remove-indicator" *ngIf="overRectange" [style.left.px]="overRectange.left"
-            [style.top.px]="overRectange.top" (clickOutside)="overRectange =null;">
-            Remove Annotation
-          </div> -->
-        </div>
-        <!-- PDF VIEWER STARTS END -->
-        <!-- PAGE NAVIGATION START -->
-        <div
-          class="row pagination-bottom m-0"
-          *ngIf="pdfConfig.currentPage && pdfConfig.totalPages"
-        >
-          <div class="col-md-12 pagination p-0">
-            <button
-              title="Previous page"
-              class="kr-sg-button-secondary"
-              (click)="prevPage()"
-              [disabled]="pdfConfig.currentPage === 1"
-            >
-              <img src="assets/icons/arrow-back.svg" alt="ellipsisGray" />
-            </button>
             <div
-              class="pages padding-5"
-              *ngIf="!togglePage"
-              (click)="focusInput()"
-              title="Click to search page"
+              class="indicator remove-indicator"
+              (clickOutside)="overRectange = null"
+              *ngIf="overRectange"
+              [style.left.px]="overRectange.left"
+              [style.top.px]="overRectange.top"
+              [style.width.px]="overRectange.width"
+              [style.height.px]="overRectange.height || 0"
             >
-              {{ pdfConfig.currentPage || 0 }} / {{ pdfConfig.totalPages || 0 }}
+              <div class="indicator__cta">
+                <div
+                  class="remove-annotation"
+                  (click)="
+                    removeAnnotationFlag = true; $event.stopPropagation()
+                  "
+                  *ngIf="!removeAnnotationFlag"
+                >
+                  Remove Annotation
+                </div>
+                <div class="remove-actions" *ngIf="removeAnnotationFlag">
+                  <div class="action-btns">
+                    <button
+                      class="kr-sg-button-primary mr-10"
+                      (click)="confirmText()"
+                    >
+                      {{ 'sa_confirm' | translate }}
+                    </button>
+                    <button
+                      class="kr-sg-button-secondary"
+                      (click)="cancelText()"
+                    >
+                      Cancel
+                    </button>
+                  </div>
+                </div>
+              </div>
             </div>
-            <div class="pages" *ngIf="togglePage">
-              <input
-                type="text"
-                id="pageInput"
-                [ngClass]="pageNumberValid === true ? 'border-red' : ''"
-                class="search-page-input"
-                #pageInput
-                [value]="pdfConfig.currentPage"
-                (keyup.enter)="searchPage($event)"
-                (keypress)="numberOnly($event)"
-                (focusout)="searchPage($event)"
-                required
-              />
-            </div>
-            <button
-              title="Next page"
-              class="kr-sg-button-secondary"
-              (click)="nextPage()"
-              [disabled]="pdfConfig.currentPage === pdfConfig.totalPages"
-            >
-              <img src="assets/icons/arrow-next.svg" alt="ellipsisGray" />
-            </button>
+            <!-- <div class="indicator-container remove-indicator" *ngIf="overRectange" [style.left.px]="overRectange.left"
+          [style.top.px]="overRectange.top" (clickOutside)="overRectange =null;">
+          Remove Annotation
+        </div> -->
           </div>
-        </div>
-        <!-- PAGE NAVIGATION END -->
+          <!-- PDF VIEWER STARTS END -->
+          <!-- PAGE NAVIGATION START -->
+          <div
+            class="row pagination-bottom mr-3"
+            *ngIf="pdfConfig.currentPage && pdfConfig.totalPages"
+          >
+            <div class="col-md-12 pagination p-0">
+              <button
+                title="Previous page"
+                class="kr-sg-button-secondary"
+                (click)="prevPage()"
+                [disabled]="pdfConfig.currentPage === 1"
+              >
+                <img src="assets/icons/arrow-back.svg" alt="ellipsisGray" />
+              </button>
+              <div
+                class="pages padding-5"
+                *ngIf="!togglePage"
+                (click)="focusInput()"
+                title="Click to search page"
+              >
+                {{ pdfConfig.currentPage || 0 }} /
+                {{ pdfConfig.totalPages || 0 }}
+              </div>
+              <div class="pages" *ngIf="togglePage">
+                <input
+                  type="text"
+                  id="pageInput"
+                  [ngClass]="pageNumberValid === true ? 'border-red' : ''"
+                  class="search-page-input"
+                  #pageInput
+                  [value]="pdfConfig.currentPage"
+                  (keyup.enter)="searchPage($event)"
+                  (keypress)="numberOnly($event)"
+                  (focusout)="searchPage($event)"
+                  required
+                />
+              </div>
+              <button
+                title="Next page"
+                class="kr-sg-button-secondary"
+                (click)="nextPage()"
+                [disabled]="pdfConfig.currentPage === pdfConfig.totalPages"
+              >
+                <img src="assets/icons/arrow-next.svg" alt="ellipsisGray" />
+              </button>
+            </div>
+          </div>
+          <!-- PAGE NAVIGATION END -->
+        </perfect-scrollbar>
       </div>
       <div class="right-sec-pdf p-0">
         <perfect-scrollbar class="right-sec-scroll">

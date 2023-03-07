@@ -21,3 +21,7 @@ Step 2: change `src` to `ngSrc` and provide apropriate width and height to it, t
 // After
 <img ngSrc="assets/icons/modal-close.svg" width="16" height="16" />
 ```
+
+## Resources:
+
+https://www.angularjswiki.com/angular/use-ngoptimizedimage-to-improve-image-loading-performance-in-angular/

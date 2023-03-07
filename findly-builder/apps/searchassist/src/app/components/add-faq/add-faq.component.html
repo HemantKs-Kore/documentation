@@ -263,7 +263,7 @@
                       </div>
                       <div
                         class="edit-response"
-                        ngbTooltip="{{'sa_edit' | translate}}"
+                        ngbTooltip="{{ 'sa_edit' | translate }}"
                         (click)="currentEditIndex = index"
                       >
                         <img src="assets/icons/edit-blue.svg" />{{
@@ -795,10 +795,10 @@
                                                     *ngIf="value"
                                                     >{{ value }}</span
                                                   >
-                                                  <mat-icon matChipRemove
-                                                    ><img
-                                                      src="assets/images/close.svg"
-                                                  /></mat-icon>
+                                                  <img
+                                                    src="assets/images/close.svg"
+                                                    class="remove-icon"
+                                                  />
                                                 </mat-chip-row>
                                                 <span class="and">
                                                   {{
@@ -859,10 +859,10 @@
                                                   >
                                                     <span>{{ value }}</span>
                                                   </span>
-                                                  <mat-icon matChipRemove
-                                                    ><img
-                                                      src="assets/images/close.svg"
-                                                  /></mat-icon>
+                                                  <img
+                                                    src="assets/images/close.svg"
+                                                    class="remove-icon"
+                                                  />
                                                 </mat-chip-row>
                                                 <span>{{
                                                   'addFaq_or_caps' | translate
@@ -901,10 +901,10 @@
                                                           : 'DD MMM YYYY'
                                                     }}</span
                                                   >
-                                                  <mat-icon matChipRemove
-                                                    ><img
-                                                      src="assets/images/close.svg"
-                                                  /></mat-icon>
+                                                  <img
+                                                    src="assets/images/close.svg"
+                                                    class="remove-icon"
+                                                  />
                                                 </mat-chip-row>
                                                 <span>{{
                                                   'addFaq_or_caps' | translate
@@ -957,10 +957,10 @@
                                                       </span>
                                                     </span>
                                                   </span>
-                                                  <mat-icon matChipRemove
-                                                    ><img
-                                                      src="assets/images/close.svg"
-                                                  /></mat-icon>
+                                                  <img
+                                                    src="assets/images/close.svg"
+                                                    class="remove-icon"
+                                                  />
                                                 </mat-chip-row>
                                                 <span>{{
                                                   'addFaq_or_caps' | translate
@@ -1485,10 +1485,10 @@
                   <span class="tags-data" *ngFor="let keyword of alternateQuestion?.keywords">#{{keyword.keyword}}&nbsp;</span>
               </div> -->
               <div class="col-2 action-btns pr-1">
-                <img
-                  src="assets/icons/delete-table.svg"
+                <i
+                  class="si-delete1"
                   (click)="delAltQues(alternateQuestion, alterIndex, $event)"
-                />
+                ></i>
               </div>
             </div>
             <div *ngIf="editAltQuestionIndex === alterIndex" class="lh-50">

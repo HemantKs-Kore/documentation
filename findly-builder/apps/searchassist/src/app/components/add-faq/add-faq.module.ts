@@ -2,7 +2,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { AddAlternateQuestionModule } from './../faqs/add-alternate-question/add-alternate-question.module';
 import { SharedPipesModule } from './../../helpers/filters/shared-pipes.module';
 import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
-import { MatIconModule } from '@angular/material/icon';
+// import { MatIconModule } from '@angular/material/icon';
 import { CodemirrorModule } from '@ctrl/ngx-codemirror';
 import { TranslateModule } from '@ngx-translate/core';
 import { MatChipsModule } from '@angular/material/chips';
@@ -25,7 +25,7 @@ import { NgxDaterangepickerMd } from 'ngx-daterangepicker-material';
     TranslateModule,
     CodemirrorModule,
     FormsModule,
-    MatIconModule,
+    // MatIconModule,
     NgxDaterangepickerMd.forRoot(),
     NgbTooltipModule,
     SharedPipesModule,

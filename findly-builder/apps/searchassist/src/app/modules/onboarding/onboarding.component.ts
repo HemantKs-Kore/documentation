@@ -25,7 +25,7 @@ export class OnboardingComponent implements OnInit {
   tourConfigData: any = [];
   onBoardingModalPopRef: any;
   element: any;
-  appVersion: any;
+  appVersion$: any;
   checklistCount: number;
   tourData: any;
   statusSlider = true;
@@ -901,10 +901,10 @@ export class OnboardingComponent implements OnInit {
     // if(this.topicGuideObj.enableIframe){
     //   return
     // }
-    this.currentRouteData = this.currentRouteData.replace('/', '');
-    if (this.currentRouteData == '') {
+    this.currentRouteData = this.currentRouteData?.replace('/', '');
+    if (['', 'apps'].includes(this.currentRouteData)) {
       this.currentRouteData = this.router.url;
-      this.currentRouteData = this.currentRouteData.replace('/', '');
+      this.currentRouteData = this.currentRouteData?.replace('/', '');
     }
     this.triggerChildFaq(this.currentRouteData);
     //let index = this.faqData.findIndex(el => el.key == this.currentRouteData)
@@ -1153,16 +1153,7 @@ export class OnboardingComponent implements OnInit {
     // }
   }
   getVersion() {
-    this.service.invoke('get.version').subscribe(
-      (res) => {
-        if (res) {
-          this.appVersion = res.APP_VERSION;
-        }
-      },
-      (errRes) => {
-        //this.notificationService.notify('Something has gone wrong.', 'error');
-      }
-    );
+    this.appVersion$ = this.service.invoke('get.version');
   }
 
   goToLink(url: string) {

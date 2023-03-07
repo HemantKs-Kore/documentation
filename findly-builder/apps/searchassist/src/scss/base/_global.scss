@@ -1,0 +1,12 @@
+.cv-auto {
+  content-visibility: auto;
+  contain-intrinsic-size: 1px 5000px;
+}
+
+.cv-hidden {
+  content-visibility: hidden;
+}
+
+.cv-visible {
+  content-visibility: visible;
+}

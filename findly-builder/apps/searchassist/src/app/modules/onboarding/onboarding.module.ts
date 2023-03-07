@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, NgOptimizedImage } from '@angular/common';
 import { OnboardingComponent } from '../onboarding/onboarding.component';
 import { FormsModule } from '@angular/forms';
 import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
@@ -18,6 +18,7 @@ import { SharedPipesModule } from '@kore.apps/helpers/filters/shared-pipes.modul
     TranslateModule.forChild(),
     SafePipe,
     SharedPipesModule,
+    NgOptimizedImage,
   ],
   providers: [SafePipe],
   exports: [OnboardingComponent],

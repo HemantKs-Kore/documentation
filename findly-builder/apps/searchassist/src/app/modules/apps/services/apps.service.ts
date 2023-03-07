@@ -4,6 +4,7 @@ import { appsFeatureKey } from '@kore.apps/store/entity-metadata';
 import {
   EntityCollectionServiceBase,
   EntityCollectionServiceElementsFactory,
+  EntityOp,
 } from '@ngrx/data';
 import { filter, map, withLatestFrom } from 'rxjs';
 
@@ -47,6 +48,10 @@ export class AppsService extends EntityCollectionServiceBase<any> {
         return app?.searchIndexes[0]._id;
       })
     );
+  }
+
+  undo() {
+    this.createAndDispatch(EntityOp.UNDO_ONE);
   }
 
   // Add All your business logic here

@@ -5,10 +5,12 @@
 */
 @import 'main';
 @import './variables/variables';
-@import '../assets/fonts/inter/inter-font.css';
-@import './bt-styleguide.scss';
 @import './variables/colors';
+@import '../assets/fonts/inter/inter-font.css';
 @import '../assets/fonts/searchassist-icons/style.css';
+
+@import './base/global';
+@import './bt-styleguide.scss';
 
 html {
   overflow: hidden;
@@ -1779,13 +1781,13 @@ div.divBlockEmptylastChild:first-child {
   }
 }
 // simple bar scroll styles
-ngx-simplebar {
-  .simplebar-scrollbar {
-    &::before {
-      background-color: #aaa;
-    }
-  }
-}
+// ngx-simplebar {
+//   .simplebar-scrollbar {
+//     &::before {
+//       background-color: #aaa;
+//     }
+//   }
+// }
 .custom_date_picker_sec {
   margin-right: 10px;
   .md-drppicker {
@@ -3815,4 +3817,9 @@ button:disabled {
 button:disabled:hover {
   background: #85b7fe !important;
   color: #ffffff !important;
+}
+
+app-pdf-annotation {
+  display: block;
+  overflow: hidden;
 }

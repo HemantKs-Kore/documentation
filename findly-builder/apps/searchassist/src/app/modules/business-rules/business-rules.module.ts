@@ -20,7 +20,7 @@ import { SharedPipesModule } from '@kore.apps/helpers/filters/shared-pipes.modul
 import { MatChipsModule } from '@angular/material/chips';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatIconModule } from '@angular/material/icon';
+// import { MatIconModule } from '@angular/material/icon';
 import { RangeSliderModule } from '@kore.apps/helpers/components/range-slider/range-slider.module';
 import { EmptyScreenModule } from '../empty-screen/empty-screen.module';
 import { SelectTextDirective } from '@kore.apps/helpers/directives/select-text.directive';
@@ -28,7 +28,11 @@ import { OutsideClickedDirective } from '@kore.apps/helpers/directives/outside-c
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 @NgModule({
-  declarations: [BusinessRulesComponent, SelectTextDirective, OutsideClickedDirective],
+  declarations: [
+    BusinessRulesComponent,
+    SelectTextDirective,
+    OutsideClickedDirective,
+  ],
   imports: [
     CommonModule,
     BusinessRulesRoutingModule,
@@ -43,7 +47,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
     MatDialogModule,
     MatAutocompleteModule,
     MatFormFieldModule,
-    MatIconModule,
+    // MatIconModule,
     NgbDropdownModule,
     RangeSliderModule,
     NgxDaterangepickerMd,
@@ -54,4 +58,4 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
     MatProgressSpinnerModule,
   ],
 })
-export class BusinessRulesModule { }
+export class BusinessRulesModule {}

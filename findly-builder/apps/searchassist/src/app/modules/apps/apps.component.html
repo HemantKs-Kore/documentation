@@ -33,29 +33,17 @@
                       autocomplete="off"
                       [(ngModel)]="searchApp"
                       maxlength="60"
-                      (mouseover)="
-                        searchImgSrc = searchFocusIn
-                          ? 'assets/icons/search_gray.svg'
-                          : 'assets/icons/search_gray_dark.svg'
-                      "
-                      (mouseout)="
-                        searchFocusIn = false;
-                        searchImgSrc = 'assets/icons/search_gray.svg'
-                      "
-                      (focus)="
-                        searchFocusIn = true;
-                        searchImgSrc = 'assets/icons/search_gray.svg'
-                      "
                     />
-                    <img
+                    <i class="si-search search-icon" *ngIf="!searchApp"></i>
+                    <!-- <img
                       [src]="searchImgSrc"
                       width="14"
                       height="14"
                       class="search-icon"
                       *ngIf="!searchApp"
-                    />
-                    <img
-                      class="close-icon"
+                    /> -->
+                    <i
+                      class="si-close close-icon"
                       (mouseover)="activeClose = true"
                       (mouseout)="activeClose = false"
                       ngSrc="assets/icons/close_icon.svg"
@@ -67,7 +55,7 @@
                       container="body"
                       ngbTooltip="{{ 'sa_cancel' | translate }}"
                       tooltipClass="ngb_tooltip_custom_class sampleJson"
-                    />
+                    ></i>
                   </div>
                   <div
                     class="seach-block"
@@ -79,22 +67,17 @@
                       [ngClass]="{ 'd-none': showSearch }"
                       class="mr-sm-3"
                       id="btn_toggle_search_structured_data"
-                      ><img
-                        ngSrc="assets/icons/search.svg"
-                        width="16"
-                        height="16"
-                        priority
+                    >
+                      <i
+                        class="si-search mr-2"
                         [ngClass]="{ 'd-none': showSearch }"
-                      />{{ 'sa_search' | translate }}</span
+                      ></i
+                      >{{ 'sa_search' | translate }}</span
                     >
                   </div>
                   <div class="add_feild" (click)="openCreateApp()">
-                    <img
-                      ngSrc="assets/icons/add_plus.svg"
-                      width="12"
-                      height="12"
-                      priority
-                    />{{ 'home_add_application' | translate }}
+                    <i class="si-add-plus mr-2"></i
+                    >{{ 'home_add_application' | translate }}
                   </div>
                   <button (click)="openDetails()" class="d-none">
                     {{ 'home_deatils' | translate }}
@@ -258,11 +241,7 @@
                       (click)="sortApp('Icon filter', 'down')"
                       *ngIf="!minToMax"
                     >
-                      <img
-                        ngSrc="assets/icons/dashboard/filter.svg"
-                        width="14"
-                        height="13"
-                      />
+                      <i class="si-sort"></i>
                     </div>
                     <div
                       class="filter-up-down active-down"
@@ -286,7 +265,7 @@
                 "
               >
                 <div
-                  class="cards-content col-sm-6 col-md-4 col-lg-3"
+                  class="cards-content col-sm-6 col-md-4 col-lg-3 cv-auto"
                   *ngFor="
                     let filter of filteredApps | filter : [searchApp, 'name']
                   "
@@ -442,7 +421,7 @@
                 </div>
                 <div class="row row-carousels">
                   <div
-                    class="coursel-cards-data coursel-cards-data col-md-6 col-xl-4"
+                    class="coursel-cards-data coursel-cards-data col-md-6 col-xl-4 cv-auto"
                   >
                     <div class="inner-c-data data-integration">
                       <div class="learn-more-">
@@ -450,12 +429,8 @@
                           <a
                             href="https://docs.kore.ai/searchassist/source-management/source-management/"
                             target="_blank"
-                            >{{ 'home_learn_more' | translate
-                            }}<img
-                              ngSrc="assets/icons/content/carrotright.svg"
-                              width="6"
-                              height="10"
-                            />
+                            >{{ 'home_learn_more' | translate }}
+                            <i class="si-carrotup ml-1"></i>
                           </a>
                         </span>
                       </div>
@@ -480,7 +455,7 @@
                     </div>
                   </div>
                   <div
-                    class="coursel-cards-data coursel-cards-data col-md-6 col-xl-4"
+                    class="coursel-cards-data coursel-cards-data col-md-6 col-xl-4 cv-auto"
                   >
                     <div class="inner-c-data index-management">
                       <div class="learn-more-">
@@ -489,11 +464,7 @@
                             href="https://docs.kore.ai/searchassist/manage-index/index-management/"
                             target="_blank"
                             >{{ 'home_learn_more' | translate
-                            }}<img
-                              ngSrc="assets/icons/content/carrotright.svg"
-                              width="6"
-                              height="10"
-                            />
+                            }}<i class="si-carrotup ml-1"></i>
                           </a>
                         </span>
                       </div>
@@ -518,7 +489,7 @@
                     </div>
                   </div>
                   <div
-                    class="coursel-cards-data coursel-cards-data col-md-6 col-xl-4"
+                    class="coursel-cards-data coursel-cards-data col-md-6 col-xl-4 cv-auto"
                   >
                     <div class="inner-c-data result-optimization">
                       <div class="learn-more-">
@@ -527,11 +498,7 @@
                             href="https://docs.kore.ai/searchassist/optimize-results/result-optimization/"
                             target="_blank"
                             >{{ 'home_learn_more' | translate
-                            }}<img
-                              ngSrc="assets/icons/content/carrotright.svg"
-                              width="6"
-                              height="10"
-                            />
+                            }}<i class="si-carrotup ml-1"></i>
                           </a>
                         </span>
                       </div>
@@ -555,7 +522,7 @@
                     </div>
                   </div>
                   <div
-                    class="coursel-cards-data coursel-cards-data col-md-6 col-xl-4"
+                    class="coursel-cards-data coursel-cards-data col-md-6 col-xl-4 cv-auto"
                   >
                     <div class="inner-c-data search-experience">
                       <div class="learn-more-">
@@ -564,10 +531,7 @@
                             href="https://docs.kore.ai/searchassist/search-experience/design-search-experience/"
                             target="_blank"
                             >{{ 'home_learn_more' | translate
-                            }}<img
-                              ngSrc="assets/icons/content/carrotright.svg"
-                              width="6"
-                              height="10" /></a
+                            }}<i class="si-carrotup ml-1"></i></a
                         ></span>
                       </div>
                       <div class="img-block">
@@ -591,7 +555,7 @@
                     </div>
                   </div>
                   <div
-                    class="coursel-cards-data coursel-cards-data col-md-6 col-xl-4"
+                    class="coursel-cards-data coursel-cards-data col-md-6 col-xl-4 cv-auto"
                   >
                     <div class="inner-c-data analytics">
                       <div class="learn-more-">
@@ -600,10 +564,7 @@
                             href="https://docs.kore.ai/searchassist/analytics/analytics/"
                             target="_blank"
                             >{{ 'home_learn_more' | translate
-                            }}<img
-                              ngSrc="assets/icons/content/carrotright.svg"
-                              width="6"
-                              height="10" /></a
+                            }}<i class="si-carrotup ml-1"></i></a
                         ></span>
                       </div>
                       <div class="img-block">
@@ -626,7 +587,7 @@
                     </div>
                   </div>
                   <div
-                    class="coursel-cards-data coursel-cards-data col-md-6 col-xl-4"
+                    class="coursel-cards-data coursel-cards-data col-md-6 col-xl-4 cv-auto"
                   >
                     <div class="inner-c-data experiments">
                       <div class="learn-more-">
@@ -635,10 +596,7 @@
                             href="https://docs.kore.ai/searchassist/analytics/experiment/"
                             target="_blank"
                             >{{ 'home_learn_more' | translate
-                            }}<img
-                              ngSrc="assets/icons/content/carrotright.svg"
-                              width="6"
-                              height="10" /></a
+                            }}<i class="si-carrotup ml-1"></i></a
                         ></span>
                       </div>
                       <div class="img-block">
@@ -1217,13 +1175,16 @@
 >
   <div class="modal-body">
     <div class="close_modal" (click)="closeCreateApp()">
-      <img ngSrc="assets/icons/close.svg" width="11" height="10" />
+      <i class="si-close"></i>
+      <!-- <img ngSrc="assets/icons/close.svg" width="11" height="10" /> -->
     </div>
-    <div class="img-wrapper">
+    <div class="img-wrapper d-none d-sm-block">
       <img
         ngSrc="assets/icons/landing/create-app.png"
         width="440"
         height="617"
+        priority
+        fetchpriority="low"
       />
     </div>
     <div class="actions-block">
@@ -1336,7 +1297,7 @@
       {{ 'home_are_you_sure_you_want_to_remove_access' | translate }}
     </div>
     <div class="close_modal" (click)="closeConfirmApp()">
-      <img ngSrc="assets/icons/modal-close.svg" width="16" height="16" />
+      <i class="si-close"></i>
     </div>
   </div>
   <div *ngIf="unlinkPop" class="modal-body">
