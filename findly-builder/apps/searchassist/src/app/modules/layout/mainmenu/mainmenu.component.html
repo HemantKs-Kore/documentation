@@ -548,6 +548,99 @@
                 'app_menu_Results_Ranking' | translate
                 }}</span>
             </div>
+          </div>
+        </div>
+        <div
+          mat-button
+          class="mat-button"
+          [routerLink]="['/search-settings']"
+          skipLocationChange
+          routerLinkActive="active"
+          (click)="preview('searchSettings','search_settings')"
+          mat-button
+        >
+          <span class="inlineIconBox leftAdjust">
+            <img
+              src="assets/icons/sidemenu/new-icons/Settings.svg"
+              class="defaultIcon"
+            />
+            <img
+              src="assets/icons/sidemenu/new-icons/Settings-active.svg"
+              class="activeIcon"
+            />
+          </span>
+          <span class="linkTitle">{{
+            'search_settings_title' | translate
+          }}</span>
+          <span class="linkTitle d-none">{{
+            'app_menu_Weights' | translate
+          }}</span>
+        </div>
+        <div
+          mat-button
+          class="mat-button"
+          [routerLink]="['/answerSnippet']"
+          skipLocationChange
+          routerLinkActive="active"
+          mat-button
+        >
+          <span class="inlineIconBox leftAdjust">
+            <img
+              src="assets/icons/sidemenu/new-icons/answer-snippet.svg"
+              class="defaultIcon"
+            />
+            <img
+              src="assets/icons/sidemenu/new-icons/answer-snippet-active.svg"
+              class="activeIcon"
+            />
+          </span>
+          <span class="linkTitle">{{ 'answer_snippets' | translate }}</span>
+        </div>
+        <div
+          mat-button
+          class="mat-button"
+          [routerLink]="['/resultranking']"
+          skipLocationChange
+          routerLinkActive="active"
+          (click)="preview('resultranking')"
+          mat-button
+        >
+          <span class="inlineIconBox leftAdjust">
+            <img
+              src="assets/icons/sidemenu/new-icons/results.svg"
+              class="defaultIcon"
+            />
+            <img
+              src="assets/icons/sidemenu/new-icons/results-active.svg"
+              class="activeIcon"
+            />
+          </span>
+          <span class="linkTitle">{{
+            'app_menu_Results_Ranking' | translate
+          }}</span>
+        </div>
+
+        <div
+          mat-button
+          class="mat-button"
+          [routerLink]="['/facets']"
+          skipLocationChange
+          routerLinkActive="active"
+          (click)="preview('synonyms')"
+          mat-button
+        >
+          <span class="inlineIconBox">
+            <img
+              src="assets/icons/sidemenu/new-icons/facets.svg"
+              class="defaultIcon"
+            />
+            <img
+              src="assets/icons/sidemenu/new-icons/facets-active.svg"
+              class="activeIcon"
+            />
+          </span>
+          <span class="linkTitle">{{ 'app_menu_Facets' | translate }}</span>
+        </div>
 
             <div
               mat-button
@@ -867,75 +960,77 @@
             </span>
           </div>
 
-          <div *ngIf="appSelectionService?.env_dep_type !== 'installer'">
-            <div class="inside-menu-title mt-3">
-              {{ 'app_menu_BILLING_&_USAGE' | translate }}
-            </div>
-            <div
-              mat-button
-              class="mat-button"
-              [routerLink]="['/pricing']"
-              skipLocationChange
-              routerLinkActive="active"
-              [routerLinkActiveOptions]="{ exact: true }"
-              (click)="preview('index')"
-              mat-button>
-              <span class="inlineIconBox leftAdjust">
-                <img
-                  src="assets/icons/sidemenu/new-icons/plandetails.svg"
-                  class="defaultIcon"
-                  />
-                <img
-                  src="assets/icons/sidemenu/new-icons/plandetails-active.svg"
-                  class="activeIcon"
-                  />
-              </span>
-              <span class="linkTitle">{{ 'app_menu_plan_details' | translate }}
-              </span>
-            </div>
-            <div
-              mat-button
-              class="mat-button {{ isRouteDisabled && 'disable_btn' }}"
-              [routerLink]="['/pricing/usageLog']"
-              skipLocationChange
-              routerLinkActive="active"
-              [routerLinkActiveOptions]="{ exact: true }"
-              (click)="preview('index')"
-              mat-button>
-              <span class="inlineIconBox">
-                <img
-                  src="assets/icons/sidemenu/new-icons/usagelog.svg"
-                  class="defaultIcon"
-                  />
-                <img
-                  src="assets/icons/sidemenu/new-icons/usagelog-active.svg"
-                  class="activeIcon"
-                  />
-              </span>
-              <span class="linkTitle">{{ 'app_menu_Usage_Log' | translate }}</span>
-            </div>
-            <div
-              mat-button
-              class="mat-button {{ isRouteDisabled && 'disable_btn' }}"
-              [routerLink]="['/pricing/invoices']"
-              skipLocationChange
-              routerLinkActive="active"
-              [routerLinkActiveOptions]="{ exact: true }"
-              (click)="preview('index')"
-              mat-button>
-              <span class="inlineIconBox">
-                <img
-                  src="assets/icons/sidemenu/new-icons/invoice.svg"
-                  class="defaultIcon"
-                  />
-                <img
-                  src="assets/icons/sidemenu/new-icons/invoice-active.svg"
-                  class="activeIcon"
-                  />
-              </span>
-              <span class="linkTitle">{{ 'invoices_invoices' | translate }}</span>
-            </div>
-          </div>
+      <div *ngIf="appSelectionService?.env_dep_type !== 'installer'">
+        <div class="inside-menu-title mt-3">
+          {{ 'app_menu_BILLING_&_USAGE' | translate }}
+        </div>
+        <div
+          mat-button
+          class="mat-button"
+          [routerLink]="['/pricing']"
+          skipLocationChange
+          routerLinkActive="active"
+          [routerLinkActiveOptions]="{ exact: true }"
+          (click)="preview('index','pricing')"
+          mat-button
+        >
+          <span class="inlineIconBox leftAdjust">
+            <img
+              src="assets/icons/sidemenu/new-icons/plandetails.svg"
+              class="defaultIcon"
+            />
+            <img
+              src="assets/icons/sidemenu/new-icons/plandetails-active.svg"
+              class="activeIcon"
+            />
+          </span>
+          <span class="linkTitle"
+            >{{ 'app_menu_plan_details' | translate }}
+          </span>
+        </div>
+        <div
+          mat-button
+          class="mat-button {{ isRouteDisabled && 'disable_btn' }}"
+          [routerLink]="['/pricing/usageLog']"
+          skipLocationChange
+          routerLinkActive="active"
+          [routerLinkActiveOptions]="{ exact: true }"
+          (click)="preview('index')"
+          mat-button
+        >
+          <span class="inlineIconBox">
+            <img
+              src="assets/icons/sidemenu/new-icons/usagelog.svg"
+              class="defaultIcon"
+            />
+            <img
+              src="assets/icons/sidemenu/new-icons/usagelog-active.svg"
+              class="activeIcon"
+            />
+          </span>
+          <span class="linkTitle">{{ 'app_menu_Usage_Log' | translate }}</span>
+        </div>
+        <div
+          mat-button
+          class="mat-button {{ isRouteDisabled && 'disable_btn' }}"
+          [routerLink]="['/pricing/invoices']"
+          skipLocationChange
+          routerLinkActive="active"
+          [routerLinkActiveOptions]="{ exact: true }"
+          (click)="preview('index')"
+          mat-button
+        >
+          <span class="inlineIconBox">
+            <img
+              src="assets/icons/sidemenu/new-icons/invoice.svg"
+              class="defaultIcon"
+            />
+            <img
+              src="assets/icons/sidemenu/new-icons/invoice-active.svg"
+              class="activeIcon"
+            />
+          </span>
+          <span class="linkTitle">{{ 'invoices_invoices' | translate }}</span>
         </div>
       </perfect-scrollbar>
     </div>

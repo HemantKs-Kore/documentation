@@ -291,7 +291,8 @@ export class AppsComponent implements OnInit, AfterViewInit, OnDestroy {
     } else if (this.steps == 'showSearchExperience') {
       this.steps = 'displayApp';
       this.progressBarFun(4, 4);
-      this.mixpanel.postEvent('Explore App Search experience selected', {});
+      const experienceType = this.SearchExperianceType === 'top' ? 'Search bar' : 'Virtual assistant';
+      this.mixpanel.postEvent('Explore App Search experience selected', { "Explore search experience selected": experienceType })
     } else if (this.steps == 'displayApp' && this.newApp.name) {
       this.appCreationAtOnboarding();
       //this.mixpanel.postEvent('Explore App named', {});

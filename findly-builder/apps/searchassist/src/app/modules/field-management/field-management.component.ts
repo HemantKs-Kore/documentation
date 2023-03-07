@@ -32,8 +32,7 @@ declare const $: any;
   styleUrls: ['./field-management.component.scss'],
 })
 export class FieldManagementComponent
-  implements OnInit, AfterViewInit, OnDestroy
-{
+  implements OnInit, AfterViewInit, OnDestroy {
   showSearch = false;
   selectedApp;
   serachIndexId;
@@ -136,7 +135,7 @@ export class FieldManagementComponent
     );
     // });
   }
-  ngAfterViewInit() {}
+  ngAfterViewInit() { }
   applyDisableClass(fieldName) {
     return {
       'disable-delete':
@@ -309,7 +308,7 @@ export class FieldManagementComponent
         type === 'pop-up'
           ? (popupData = `This will impact `)
           : (popupData =
-              'Searchable property has been set to false this will impact ');
+            'Searchable property has been set to false this will impact ');
         this.byPassSecurity(resultArr, popupData, type);
       },
       (errRes) => {
@@ -332,7 +331,7 @@ export class FieldManagementComponent
     type == 'pop-up'
       ? (this.editresultTest = this.sanitizer.bypassSecurityTrustHtml(data))
       : (this.searchableCheckboxMsg =
-          this.sanitizer.bypassSecurityTrustHtml(data));
+        this.sanitizer.bypassSecurityTrustHtml(data));
   }
   replaceLast(find, replace, string) {
     const lastIndex = string.lastIndexOf(find);
@@ -550,11 +549,11 @@ export class FieldManagementComponent
             fieldConfig =
               fieldConfig +
               (fieldConfig ? ', ' : '') +
-              (payload.fields[0].isAutosuggest ? 'isAutosuggest' : '');
+              (payload.fields[0].isAutosuggest ? 'Autosuggest' : '');
             fieldConfig =
               fieldConfig +
               (fieldConfig ? ', ' : '') +
-              (payload.fields[0].isSearchable ? 'isSearchable' : '');
+              (payload.fields[0].isSearchable ? 'Searchable' : '');
             this.mixpanel.postEvent('Add Field complete', {
               'Field Type': this.newFieldObj.fieldDataType,
               'Field config': fieldConfig,
@@ -581,9 +580,9 @@ export class FieldManagementComponent
   }
   getAllFields() {
     const quaryparms: any = {
-        searchIndexID: this.serachIndexId,
-        indexPipelineId: this.indexPipelineId,
-      },
+      searchIndexID: this.serachIndexId,
+      indexPipelineId: this.indexPipelineId,
+    },
       payload = {
         sort: {
           fieldName: 1,

@@ -17,6 +17,7 @@ import { DaterangepickerDirective } from 'ngx-daterangepicker-material';
 import { PlanUpgradeComponent } from '../shared/plan-upgrade/plan-upgrade.component';
 import { plansName } from '../plan-names.constants';
 import { LocalStoreService } from '@kore.services/localstore.service';
+import { MixpanelServiceService } from '@kore.apps/services/mixpanel-service.service';
 @Component({
   selector: 'app-plan-details',
   templateUrl: './plan-details.component.html',
@@ -114,7 +115,8 @@ export class PlanDetailsComponent implements OnInit, OnDestroy {
     public dialog: MatDialog,
     private notificationService: NotificationService,
     private appSelectionService: AppSelectionService,
-    public localstore: LocalStoreService
+    public localstore: LocalStoreService,
+    public mixpanel: MixpanelServiceService,
   ) { }
 
   @ViewChild('cancelSubscriptionModel')
@@ -184,6 +186,7 @@ export class PlanDetailsComponent implements OnInit, OnDestroy {
   //select upgrade component methods
   selectModal(type) {
     this.plans?.openSelectedPopup(type);
+    this.mixpanel.postEvent('Enter upgrade plan', {});
   }
 
   //Open | Close subscription modal

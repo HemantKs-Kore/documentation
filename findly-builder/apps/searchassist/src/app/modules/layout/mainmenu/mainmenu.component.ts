@@ -126,7 +126,7 @@ export class MainMenuComponent implements OnInit, OnDestroy {
     this.workflowService.selectedApp(null);
     this.router.navigate(['/apps'], { skipLocationChange: true });
   }
-  preview(selection) {
+  preview(selection, route?) {
     const toogleObj = {
       title: selection,
     };
@@ -146,6 +146,10 @@ export class MainMenuComponent implements OnInit, OnDestroy {
       selection == 'workbench'
     ) {
       this.appSelectionService.updateTourConfig('indexing');
+    }
+    if (['pricing', 'search_settings'].includes(route)) {
+      const eventName = route === 'search_settings' ? 'Enter Weights' : 'Enter Plan Details';
+      this.mixpanel.postEvent(eventName, {});
     }
   }
   //upgrade plan
