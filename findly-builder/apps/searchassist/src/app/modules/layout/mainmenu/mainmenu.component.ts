@@ -122,12 +122,12 @@ export class MainMenuComponent implements OnInit, OnDestroy {
     public dialog: MatDialog,
     public mixpanel: MixpanelServiceService,
     private store: Store
-  ) {}
+  ) { }
   goHome() {
     this.workflowService.selectedApp(null);
     this.router.navigate(['/apps'], { skipLocationChange: true });
   }
-  preview(selection) {
+  preview(selection, route?) {
     const toogleObj = {
       title: selection,
     };
@@ -147,6 +147,10 @@ export class MainMenuComponent implements OnInit, OnDestroy {
       selection == 'workbench'
     ) {
       this.appSelectionService.updateTourConfig('indexing');
+    }
+    if (['pricing', 'search_settings'].includes(route)) {
+      const eventName = route === 'search_settings' ? 'Enter Weights' : 'Enter Plan Details';
+      this.mixpanel.postEvent(eventName, {});
     }
   }
   //upgrade plan
@@ -731,12 +735,10 @@ export class MainMenuComponent implements OnInit, OnDestroy {
     this.service.invoke('get.checkInExperiment', queryParms).subscribe(
       (res) => {
         const text = res.validated
-          ? `Selected ${
-              type == 'index' ? 'Index' : 'Search'
-            } Configuration will be deleted from the app.`
-          : `Selected ${
-              type == 'index' ? 'Index' : 'Search'
-            } Configuration is being used in Experiments. Deleting it stop the Experiement.`;
+          ? `Selected ${type == 'index' ? 'Index' : 'Search'
+          } Configuration will be deleted from the app.`
+          : `Selected ${type == 'index' ? 'Index' : 'Search'
+          } Configuration is being used in Experiments. Deleting it stop the Experiement.`;
         this.deleteIndexConfig(config, type, text, res.validated);
       },
       (errRes) => {
@@ -814,4 +816,4 @@ export class MainMenuComponent implements OnInit, OnDestroy {
   entryComponents: [ConfirmationDialogComponent],
   exports: [MainMenuComponent],
 })
-export class MainMenuModule {}
+export class MainMenuModule { }

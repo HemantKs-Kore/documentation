@@ -346,7 +346,7 @@ export class SourcesComponent implements OnInit, AfterViewInit, OnDestroy {
     private appSelectionService: AppSelectionService,
     public dockService: DockStatusService,
     public mixpanel: MixpanelServiceService
-  ) {}
+  ) { }
   @ViewChild(SliderComponentComponent)
   sliderComponent: SliderComponentComponent;
   @ViewChild('statusModalPop') statusModalPop: KRModalComponent;
@@ -442,14 +442,15 @@ export class SourcesComponent implements OnInit, AfterViewInit, OnDestroy {
       this.perfectScroll.directiveRef.update();
       this.perfectScroll.directiveRef.scrollToTop();
     }, 500);
-    if (this.router?.url === '/content') {
-      this.mixpanel.postEvent('Enter Crawl web domain', {
-        'Crawl web CTA spurce': 'Sources',
-      });
-    } else if (this.router?.url === '/sources') {
-      this.mixpanel.postEvent('Enter Crawl web domain', {
-        'Crawl web CTA spurce': 'Setup guide',
-      });
+    if (this.selectedSourceType?.sourceType === 'content' && this.selectedSourceType?.resourceType === 'file') {
+      const currentRoute = this.router?.routerState?.snapshot?.url;
+      const isExecute = ['/content', '/sources'].includes(currentRoute) ? true : false;
+      if (isExecute) {
+        const eventName = currentRoute === '/content' ? 'Content' : 'Setup guide';
+        this.mixpanel.postEvent('Enter Upload Content File', {
+          'Extract file CTA': eventName
+        });
+      }
     }
   }
   closeAddSourceModal() {
@@ -629,7 +630,7 @@ export class SourcesComponent implements OnInit, AfterViewInit, OnDestroy {
               ) {
                 if (
                   this.selectedSourceType.sourceType === 'content' &&
-                  queuedJobs[0].status === 'success'
+                  queuedJobs[0].status?.toLowerCase() === 'success'
                 ) {
                   this.mixpanel.postEvent(
                     'Content Crawl web domain success',
@@ -638,13 +639,13 @@ export class SourcesComponent implements OnInit, AfterViewInit, OnDestroy {
                 } else if (
                   this.selectedSourceType.sourceType === 'faq' &&
                   this.selectedSourceType.resourceType === '' &&
-                  queuedJobs[0].status === 'success'
+                  queuedJobs[0].status?.toLowerCase() === 'success'
                 ) {
                   this.mixpanel.postEvent('FAQ Web extract success', {});
                 }
                 if (
                   this.selectedSourceType.sourceType === 'content' &&
-                  queuedJobs[0].status === 'failed'
+                  queuedJobs[0].status?.toLowerCase() === 'failed'
                 ) {
                   this.mixpanel.postEvent(
                     'Content Crawl web domain failed',
@@ -1554,7 +1555,7 @@ export class SourcesComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   proceedSource() {
-    if (this.selectedSourceType.resourceType === 'file') {
+    if (this.selectedSourceType.resourceType === 'file' && this.selectedSourceType.sourceType === 'content') {
       this.mixpanel.postEvent('Content File extraction started', {});
     } else if (
       this.selectedSourceType.sourceType === 'faq' &&
@@ -1762,7 +1763,7 @@ export class SourcesComponent implements OnInit, AfterViewInit, OnDestroy {
               this.mixpanel.postEvent('FAQ-created', {});
               this.poling(res._id, 'scheduler');
             }
-            if (this.selectedSourceType?.resourceType === 'file') {
+            if (this.selectedSourceType?.resourceType === 'file' && this.selectedSourceType.sourceType === 'content') {
               this.mixpanel.postEvent('Content File extraction success', {});
             }
             if (
@@ -1831,7 +1832,7 @@ export class SourcesComponent implements OnInit, AfterViewInit, OnDestroy {
     }
   }
   //upgrade plan
-  upgrade() {}
+  upgrade() { }
   callWebCraller(crawler, searchIndex) {
     let payload = {};
     const resourceType = this.selectedSourceType?.resourceType;
@@ -1847,7 +1848,7 @@ export class SourcesComponent implements OnInit, AfterViewInit, OnDestroy {
     // console.log(payload);
 
     this.service.invoke('create.crawler', quaryparms, payload).subscribe(
-      (res) => {},
+      (res) => { },
       (errRes) => {
         if (
           errRes &&
@@ -2599,9 +2600,9 @@ export class SourcesComponent implements OnInit, AfterViewInit, OnDestroy {
       ) {
         channelType =
           this.configurationLink.webhookUrl.split('/')[
-            this.configurationLink.webhookUrl
-              .split('/')
-              .indexOf('hookInstance') + 1
+          this.configurationLink.webhookUrl
+            .split('/')
+            .indexOf('hookInstance') + 1
           ];
       }
       const payload = {
