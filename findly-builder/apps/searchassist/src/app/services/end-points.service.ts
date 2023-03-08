@@ -1540,6 +1540,12 @@ export class EndPointsService {
         '/findly/streams/:streamId/subscription/cancel/downgrade',
       method: 'post',
     };
+    this.serviceList['post.usageMetrics'] = {
+      endpoint:
+        this.API_SERVER_URL +
+        '/findly/streams/:streamId/subscription/usage/metrics',
+      method: 'post',
+    };
     // Filters API
     this.serviceList['post.filters'] = {
       //endpoint: this.API_SERVER_URL + '/findly/:searchIndexID/queryPipeline/:queryPipelineId/facets/?offset=:offset&limit=:limit',

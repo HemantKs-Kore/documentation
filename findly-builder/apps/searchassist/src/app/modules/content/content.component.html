@@ -307,7 +307,7 @@
                         ? 'Stopped'
                         : status.toLowerCase() === 'scheduled'
                         ? 'Configured'
-                        : 'In-progress'
+                        : status.toLowerCase() === 'partial_success'?'Partial Success':'In-progress'
                     }}</span>
                     <img
                       [ngClass]="{ hide: filterSystem.statusFilter !== status }"
@@ -407,6 +407,34 @@
                   <div class="media-right">
                     <div class="media-name">
                       {{ 'contentSource_successful' | translate }}
+                      <div
+                        class="media-up-time-stamp"
+                        *ngIf="source.schedule_createdOn"
+                      >
+                        {{ source.schedule_createdOn
+                        }}<span class="pl-1"
+                          ><img
+                            src="assets/icons/content/latest-content-icons/gray-time-change-logs.svg"
+                          />{{ source.schedule_duration }}</span
+                        >
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Status==='partial_success' -->
+                <div
+                  class="media-block media-success"
+                  *ngIf="source.recentStatus === 'partial_success'"
+                >
+                  <div class="media-logo">
+                    <img
+                      src="assets/icons/content/latest-content-icons/green-check-circle.svg"
+                    />
+                  </div>
+                  <div class="media-right">
+                    <div class="media-name">
+                      {{ 'contentSource_partial_success' | translate }}
                       <div
                         class="media-up-time-stamp"
                         *ngIf="source.schedule_createdOn"
@@ -532,7 +560,7 @@
                   class="actions-links"
                   *ngIf="
                     source.extractionType === 'web' &&
-                    ['Success', 'Stopped'].includes(
+                    ['Success', 'Stopped', 'Partial Success'].includes(
                       statusObj[source.recentStatus]?.name
                     ) &&
                     source.isURLValid
@@ -733,7 +761,7 @@
                         (source.extractionType === 'web' &&
                           statusObj[source.recentStatus]?.name !==
                             'In Progress' &&
-                          ['success'].includes(source.recentStatus)) ||
+                          ['success','partial_success'].includes(source.recentStatus)) ||
                         (source.recentStatus === 'failed' &&
                           source?.validations?.url?.validated) ||
                         source.recentStatus === 'halted'
@@ -962,7 +990,7 @@
                     class="btn btn-out-primary"
                     type="button"
                     *ngIf="
-                      ['Success', 'Stopped'].includes(
+                      ['Success', 'Stopped','Partial Success'].includes(
                         statusObj[selectedSource?.recentStatus]?.name
                       ) && selectedSource?.isURLValid
                     "
@@ -2614,7 +2642,7 @@
                             class="recall-btn"
                             (click)="reCrwalingWeb('pages', selectedPage, null)"
                             *ngIf="
-                              ['Success', 'Stopped'].includes(
+                              ['Success', 'Stopped','Partial Success'].includes(
                                 statusObj[selectedSource?.recentStatus]?.name
                               ) && selectedSource?.isURLValid
                             "
@@ -2950,37 +2978,37 @@
                                 >
                                   <img
                                     *ngIf="
-                                      statlog.stageName === 'failed' &&
-                                      statlog.stageStatus === 'failed'
+                                      statlog?.stageName === 'failed' &&
+                                      statlog?.stageStatus === 'failed'
                                     "
                                     src="assets/icons/content/failed-circle.svg"
                                   />
                                   <img
                                     *ngIf="
-                                      statlog.stageName !== 'failed' &&
-                                      statlog.stageStatus === 'failed'
+                                      statlog?.stageName !== 'failed' &&
+                                      statlog?.stageStatus === 'failed'
                                     "
                                     src="assets/icons/content/ex-stopped.svg"
                                   />
                                   <img
                                     *ngIf="
-                                      statlog.stageStatus !== 'failed' &&
-                                      statlog.stageStatus !== 'running'
+                                      statlog?.stageStatus !== 'failed' &&
+                                      statlog?.stageStatus !== 'running'
                                     "
                                     src="{{
                                       stateExecutionStageNameObj[
-                                        statlog.stageName
-                                      ].icon[statlog.stageStatus].icon
+                                        statlog?.stageName
+                                      ]?.icon[statlog?.stageStatus]?.icon
                                     }}"
                                     [ngStyle]="{
                                       height:
-                                        statlog.stageStatus === 'halted'
+                                        statlog?.stageStatus === 'halted'
                                           ? '15px'
                                           : '15px'
                                     }"
                                   />
                                   <img
-                                    *ngIf="statlog.stageStatus === 'running'"
+                                    *ngIf="statlog?.stageStatus === 'running'"
                                     class="inProgress"
                                     src="assets/icons/ringLoading.svg"
                                     [ngStyle]="{

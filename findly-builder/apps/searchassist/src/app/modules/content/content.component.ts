@@ -113,6 +113,7 @@ export class ContentComponent implements OnInit, OnDestroy {
     FAILED: { name: 'Failed', color: 'red' },
     successfull: { name: 'Successfull', color: 'green' },
     SUCCESSFULL: { name: 'Successfull', color: 'green' },
+    partial_success: { name: 'Partial Success', color: 'green' },
     success: { name: 'Success', color: 'green' },
     SUCCESS: { name: 'Success', color: 'green' },
     queued: { name: 'In-Queue', color: 'blue' },
@@ -128,7 +129,7 @@ export class ContentComponent implements OnInit, OnDestroy {
     configured: { name: 'Validated', color: 'blue' },
     CONFIGURED: { name: 'Validated', color: 'blue' },
     inProgress: { name: 'In Progress', color: 'blue' },
-    INPROGRESS: { name: 'In Progress', color: 'blue' },
+    INPROGRESS: { name: 'In Progress', color: 'blue' }
   };
   executionObj: any = {
     'Execution Successful': {
@@ -151,9 +152,14 @@ export class ContentComponent implements OnInit, OnDestroy {
       tooltip: '',
       icon: 'assets/icons/content/ex-stat_inprogress.svg',
     },
+    'Execution Partially Successful': {
+      tooltip: '',
+      icon: 'assets/icons/content/success.svg',
+    },
   };
   stateExecutionstageStatusObj: any = {
     success: { icon: 'assets/icons/content/success.svg' },
+    partial_success: { icon: 'assets/icons/content/success.svg' },
     failed: { icon: 'assets/icons/content/failed.svg' },
     stopped: { icon: 'assets/icons/content/stopped.svg' },
     running: { icon: 'assets/icons/content/ex-stat_inprogress.svg' },
@@ -163,6 +169,7 @@ export class ContentComponent implements OnInit, OnDestroy {
   };
   finalStateExecutionstageStatusObj: any = {
     success: { icon: 'assets/icons/content/succes-circle.svg' },
+    partial_success: { icon: 'assets/icons/content/succes-circle.svg' },
     failed: { icon: 'assets/icons/content/failed-circle.svg' },
     running: { icon: 'assets/icons/content/ex-stat_inprogress.svg' },
     halted: { icon: 'assets/icons/content/stopped.svg' },
@@ -581,7 +588,7 @@ export class ContentComponent implements OnInit, OnDestroy {
                   ).toString().length > 1
                     ? element?.advanceSettings?.scheduleOpts?.time?.minute
                     : '0' +
-                      element?.advanceSettings?.scheduleOpts?.time?.minute;
+                    element?.advanceSettings?.scheduleOpts?.time?.minute;
               }
               element['schedule_title'] =
                 'Runs ' +
@@ -821,7 +828,7 @@ export class ContentComponent implements OnInit, OnDestroy {
       (res) => {
         // console.log(res)
       },
-      (errRes) => {}
+      (errRes) => { }
     );
   }
   getJobStatus(type) {
@@ -1139,7 +1146,7 @@ export class ContentComponent implements OnInit, OnDestroy {
             // if (element.executionStats.executionStatusMessage == 'Execution Stopped' && element.executionStats.isTimedOut) {
             if (
               element.executionStats.executionStatusMessage ==
-                'Execution Stopped' &&
+              'Execution Stopped' &&
               element.executionStats.timedOut
             ) {
               if (element.executionStats.statusLogs) {
@@ -1226,8 +1233,8 @@ export class ContentComponent implements OnInit, OnDestroy {
       this.crwalOptionLabel = source?.advanceSettings?.crawlEverything
         ? 'any'
         : source?.advanceSettings?.allowedOpt
-        ? 'allow'
-        : 'block';
+          ? 'allow'
+          : 'block';
       this.useCookies = source?.advanceSettings?.useCookies;
       this.respectRobotTxtDirectives =
         source?.advanceSettings?.respectRobotTxtDirectives;
@@ -1729,7 +1736,7 @@ export class ContentComponent implements OnInit, OnDestroy {
         }
         this.getSourceList();
       },
-      (errRes) => {}
+      (errRes) => { }
     );
   }
   filterTable(source, headerOption) {
@@ -2248,7 +2255,7 @@ export class ContentComponent implements OnInit, OnDestroy {
       if (
         this.editSource.advanceOpts.scheduleOpts.interval.intervalType &&
         this.editSource.advanceOpts.scheduleOpts.interval.intervalType !=
-          'Custom'
+        'Custom'
       ) {
         this.editSource.advanceOpts.scheduleOpts.interval.intervalValue = {};
       }
@@ -2530,7 +2537,7 @@ export class ContentComponent implements OnInit, OnDestroy {
         (res) => {
           this.numberOf = res;
         },
-        (errRes) => {}
+        (errRes) => { }
       );
     }
   }

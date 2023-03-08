@@ -3889,6 +3889,8 @@
   "plans_legend": "LEGEND",
   "plans_usage_no_data": "No Data Available Yet",
 
-  "usageLog_liveSearch": "Live Search"
+  "usageLog_liveSearch": "Live Search",
+
+  "contentSource_partial_success":"Partial Success"
 
 }

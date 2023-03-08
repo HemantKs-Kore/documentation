@@ -117,6 +117,7 @@ export class ConnectorsComponent implements OnInit {
   validation = false;
   currentRouteData: any = '';
   contentInputSearch = '';
+  jobStatusList: Array<any> = [{ name: 'Success', status: 'SUCCESS' }, { name: 'In Progress', status: 'INPROGRESS' }, { name: 'Partial Success', status: 'PARTIAL_SUCCESS' }];
   addConnectorSteps: any = [
     { name: 'instructions', isCompleted: true, display: 'Introduction' },
     {
@@ -372,7 +373,14 @@ export class ConnectorsComponent implements OnInit {
       this.appSelectionService
         .connectorSyncJobStatus(this.searchIndexId, this.connectorId)
         .then((res: any) => {
-          this.overViewData.jobs = res;
+          let Data = [];
+          if (res?.length > 0) {
+            Data = res?.map(item => {
+              const status_name = this.jobStatusList.filter(job => job.status === item?.status);
+              return { ...item, status_name: status_name[0].name }
+            })
+          }
+          this.overViewData.jobs = Data;
           if (res && res[0]?.status !== 'INPROGRESS') {
             this.isSyncLoading = false;
           } else if (res && res[0]?.status === 'INPROGRESS') {
@@ -496,8 +504,8 @@ export class ConnectorsComponent implements OnInit {
           return true;
         }
       }
-      else if (['googleDrive'].includes(this.selectedConnector.type)){
-         return true
+      else if (['googleDrive'].includes(this.selectedConnector.type)) {
+        return true
       }
     } else {
       this.validation = true;
@@ -529,7 +537,7 @@ export class ConnectorsComponent implements OnInit {
     if (this.selectedConnector.type === 'sharepointOnline') {
       payload.authDetails.tenantId = this.configurationObj.tenantId;
     }
-    if (['zendesk', 'sharepointOnline','googleDrive'].includes(this.selectedConnector.type)) {
+    if (['zendesk', 'sharepointOnline', 'googleDrive'].includes(this.selectedConnector.type)) {
       delete payload.configuration.hostDomainName;
     }
     this.service.invoke('post.connector', quaryparms, payload).subscribe(
@@ -566,7 +574,7 @@ export class ConnectorsComponent implements OnInit {
           if (res) {
             this.isloadingBtn = false;
             if (
-              ['confluenceCloud', 'zendesk', 'sharepointOnline','googleDrive'].includes(
+              ['confluenceCloud', 'zendesk', 'sharepointOnline', 'googleDrive'].includes(
                 data?.type
               )
             ) {
@@ -610,12 +618,10 @@ export class ConnectorsComponent implements OnInit {
       height: 'auto',
       panelClass: 'delete-popup',
       data: {
-        newTitle: `${
-          data?.isActive ? 'Enable' : 'Disable'
-        } the connected source?`,
-        body: `This can be ${
-          data?.isActive ? 'enabled' : 'disabled'
-        } any point of time, configuration will remain intact.`,
+        newTitle: `${data?.isActive ? 'Enable' : 'Disable'
+          } the connected source?`,
+        body: `This can be ${data?.isActive ? 'enabled' : 'disabled'
+          } any point of time, configuration will remain intact.`,
         buttons: [
           { key: 'yes', label: 'Proceed', type: 'danger' },
           { key: 'no', label: 'Cancel' },
@@ -665,11 +671,11 @@ export class ConnectorsComponent implements OnInit {
     if (this.selectedConnector.type === 'sharepointOnline') {
       payload.authDetails.tenantId = this.configurationObj.tenantId;
     }
-    if (['zendesk','sharepointOnline','googleDrive'].includes(this.selectedConnector.type)) {
-      delete  payload.configuration.hostDomainName
+    if (['zendesk', 'sharepointOnline', 'googleDrive'].includes(this.selectedConnector.type)) {
+      delete payload.configuration.hostDomainName
     }
-    if (['zendesk','sharepointOnline','googleDrive'].includes(this.selectedConnector.type)) {
-      delete payload.configuration.hostDomainName;   
+    if (['zendesk', 'sharepointOnline', 'googleDrive'].includes(this.selectedConnector.type)) {
+      delete payload.configuration.hostDomainName;
     }
     this.service.invoke('put.connector', quaryparms, payload).subscribe(
       (res) => {

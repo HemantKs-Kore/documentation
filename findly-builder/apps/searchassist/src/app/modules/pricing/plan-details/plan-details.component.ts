@@ -134,7 +134,7 @@ export class PlanDetailsComponent implements OnInit, OnDestroy {
     this.currentSubsciptionData =
       this.appSelectionService.currentSubscription.subscribe((res) => {
         this.currentSubscriptionPlan = res;
-        this.getSubscriptionData();
+        // this.getSubscriptionData();
       });
     this.updateUsageData = this.appSelectionService.updateUsageData.subscribe(
       (res) => {
@@ -162,8 +162,32 @@ export class PlanDetailsComponent implements OnInit, OnDestroy {
     }
   }
 
+  //get usage metrics data from API
+  getUsageMetricsData() {
+    const queryParam = {
+      streamId: this.selectedApp._id,
+    };
+    const payload = {
+      "type": "PricingActiveSubscription",
+      "group": "date",
+      "filters": {
+        "from": "2022-01-30T10:10:41.659Z",
+        "to": "2023-08-28T10:10:41.660Z"
+      }
+    };
+    this.service.invoke('post.usageMetrics', queryParam, payload).subscribe(
+      (res) => {
+        console.log("res", res);
+      },
+      (errRes) => {
+        this.errorToaster(errRes, 'failed to get usage metrics data');
+      }
+    );
+  }
+
   //getsubscription data
   getSubscriptionData() {
+    this.getUsageMetricsData();
     this.updateUsageDetails();
     this.pricingChart();
   }
