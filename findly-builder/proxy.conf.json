@@ -1,5 +1,5 @@
 {
-  "/*": {
+  "searchassistapi/*": {
     "target": "https://searchassist-qa.kore123.ai",
     "secure": false,
     "changeOrigin": true,
