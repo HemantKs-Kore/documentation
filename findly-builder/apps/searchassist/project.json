@@ -121,7 +121,8 @@
               "with": "apps/searchassist/src/build-specifics/index.prod.ts"
             }
           ],
-          "outputHashing": "all"
+          "outputHashing": "all",
+          "vendorChunk": true
         },
         "development": {
           "buildOptimizer": false,
