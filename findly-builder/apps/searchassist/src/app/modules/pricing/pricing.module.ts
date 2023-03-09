@@ -16,6 +16,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { UseronboardingJourneyModule } from '@kore.apps/helpers/components/useronboarding-journey/useronboarding-journey.module';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 import * as echarts from 'echarts';
 import { PlanDetailsComponent } from './plan-details/plan-details.component';
@@ -41,6 +42,7 @@ import { InvoicesComponent } from './invoices/invoices.component';
     ReactiveFormsModule,
     NgbModule,
     UseronboardingJourneyModule,
+    MatProgressSpinnerModule
   ],
 })
-export class PricingModule {}
+export class PricingModule { }

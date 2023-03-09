@@ -1,5 +1,5 @@
 <!---loading spinner-->
-<div class="mainLoadingSpinner" *ngIf="pageLoading">
+<div class="mainLoadingSpinner" *ngIf="isUsageMetricsLoading">
   <mat-spinner diameter="18" strokeWidth="2"></mat-spinner>
   <span class="please-wait-message">{{ 'sa_please_wait' | translate }}</span>
 </div>
@@ -412,7 +412,7 @@
                   placement="top"
                   (click)="refreshAnalytics()"></span>
               </div>
-              <div class="tile-chart-legends-block">
+              <div class="tile-chart-legends-block" *ngIf="!isUsageMetricsLoading">
                 <div class="tile-chart">                
                   <div
                     echarts
@@ -421,7 +421,7 @@
                     <div class="no-data-found-block" *ngIf="isNoUsageMetricsData">
                       <span class="si-warning mr-1"></span>{{"plans_usage_no_data"|translate}}
                     </div>
-                </div>
+                  </div>
                 <div class="chart-footer">
                   <div class="legend-text">{{"plans_legend"|translate}}</div>
                   <div class="legend-type left-border">
@@ -432,12 +432,14 @@
                     <div class="search-queries-avg"><span class="si-graph-filter"></span>{{"plans_search_queries_avg"|translate}}</div>
                     <div class="search-queries-count">{{avgQueryData.queries}} / {{"plans_search_queries_month"|translate}}</div>
                   </div>
-                  <div class="legend-type">
-                    <div class="overages-color"></div>
-                    <div class="search-queries-text">{{"plans_overages_text"|translate}}</div>
-                  </div>
-                  <div class="search-queries-avg"><span class="si-graph-filter"></span>{{"plans_search_queries_avg"|translate}}</div>
-                  <div class="search-queries-count">{{avgQueryData.overage}} / {{"plans_search_queries_month"|translate}}</div>
+                  <ng-container *ngIf="avgQueryData.overage>0">
+                    <div class="legend-type">
+                      <div class="overages-color"></div>
+                      <div class="search-queries-text">{{"plans_overages_text"|translate}}</div>
+                    </div>
+                    <div class="search-queries-avg"><span class="si-graph-filter"></span>{{"plans_search_queries_avg"|translate}}</div>
+                    <div class="search-queries-count">{{avgQueryData.overage}} / {{"plans_search_queries_month"|translate}}</div>
+                  </ng-container>
                </div>
               </div>
             </div>

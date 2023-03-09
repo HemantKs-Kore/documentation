@@ -1107,15 +1107,13 @@
                       <button
                         type="button"
                         class="btn"
-                        aria-expanded="true"
-                        data-toggle="collapse"
-                        data-target="#newCrawlingTab"
+                        (click)="isCrawlAccordianExpand=!isCrawlAccordianExpand"
                       >
-                        <i class="si-carrotup"></i>
+                      <img src="assets/icons/{{isCrawlAccordianExpand?'carrot-down-comp.svg':'carrot-up-comp.svg'}}" />
                       </button>
                     </div>
                   </div>
-                  <div id="newCrawlingTab" class="new-crawling-collapse">
+                  <div id="newCrawlingTab" class="new-crawling-collapse {{isCrawlAccordianExpand&&'collapse'}}">
                     <div class="crawl-option-ddl">
                       <div class="kr-sg-dropdowns mar-bot-12">
                         <div class="label-text">

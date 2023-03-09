@@ -274,6 +274,7 @@ export class ContentComponent implements OnInit, OnDestroy {
   addStructuredDataModalPopRef: any;
   selectedSourceType: any;
   isStructuredDataAdd = false;
+  isCrawlAccordianExpand = false;
   sortedObject = {
     type: 'fieldName',
     position: 'up',
@@ -854,7 +855,6 @@ export class ContentComponent implements OnInit, OnDestroy {
                 source.executionStats.percentageDone &&
                 source.executionStats.percentageDone == 100
               ) {
-                // this.getJobDetails(source._id)
                 this.getSourceList();
               }
             }
@@ -2063,6 +2063,7 @@ export class ContentComponent implements OnInit, OnDestroy {
     }
   }
   openStatusModal() {
+    this.isCrawlAccordianExpand = false;
     this.statusModalPopRef = this.statusModalPop.open();
     this.editTitleFlag = false;
     setTimeout(() => {
