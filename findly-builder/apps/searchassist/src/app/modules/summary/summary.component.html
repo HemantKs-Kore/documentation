@@ -517,23 +517,23 @@
                     </div>
                     <div
                       class="count-type d-flex align-items-center"
-                      *ngIf="usageDetails?.searchLimit"
+                      *ngIf="usageDetails?.searchCount"
                     >
                       <div class="range-count">
                         <span>{{ usageDetails?.searchCount }}</span
-                        ><span class="range-count-out">{{
+                        ><span class="range-count-out" *ngIf="usageDetails?.searchLimit">{{
                           'overview_Out_of' | translate
                         }}</span
-                        ><span>{{
+                        ><span *ngIf="usageDetails?.searchLimit">{{
                           usageDetails?.searchLimit | valueFormat
                         }}</span>
                       </div>
-                      <div class="range-percent">
+                      <div class="range-percent" *ngIf="usageDetails?.queryPercentageUsed">
                         {{ usageDetails?.queryPercentageUsed }}%
                       </div>
                     </div>
                   </div>
-                  <div style="margin-top: 6px">
+                  <div style="margin-top: 6px" *ngIf="usageDetails?.searchLimit">
                     <ngb-progressbar
                       height="6px"
                       [type]="
@@ -545,7 +545,7 @@
                           : 'primary'
                       "
                       [value]="usageDetails?.queryPercentageUsed"
-                      max="100"
+                      [max]="usageDetails?.searchLimit"
                     ></ngb-progressbar>
                   </div>
                 </div>

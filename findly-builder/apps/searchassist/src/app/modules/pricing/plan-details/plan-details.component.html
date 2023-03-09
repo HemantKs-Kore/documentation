@@ -290,13 +290,13 @@
                   </div>
                   <div
                     class="plan-progress-bar-count"
-                    *ngIf="usageDetails?.searchQueriesLimit">
+                    *ngIf="usageDetails?.searchQueriesUsed">
                     {{ usageDetails?.searchQueriesUsed | valueFormat }}
-                    <span class="total-count">/ {{
+                    <span class="total-count" *ngIf="usageDetails?.searchQueriesLimit">/ {{
                       usageDetails?.searchQueriesLimit | valueFormat }}</span>
                   </div>
                 </div>
-                <div class="plan-progress-bar">
+                  <div class="plan-progress-bar" *ngIf="usageDetails?.searchQueriesLimit">
                   <ngb-progressbar
                     class="mt-3"
                     height="6px"
