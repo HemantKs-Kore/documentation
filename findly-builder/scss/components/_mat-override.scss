@@ -13,3 +13,11 @@
 ngb-modal-window .mat-mdc-progress-bar {
   text-align: left;
 }
+
+.mat-mdc-standard-chip .mdc-evolution-chip__icon--trailing {
+  font-size: 10px !important;
+
+  &:hover {
+    opacity: 0.8 !important;
+  }
+}

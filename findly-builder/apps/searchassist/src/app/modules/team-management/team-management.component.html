@@ -291,7 +291,9 @@
                   [color]="member.invalid ? 'warn' : ''"
                 >
                   <span class="">{{ member.value }}</span>
-                  <img src="assets/images/close.svg" class="remove-icon" />
+                  <button matChipRemove>
+                    <i class="si-close"></i>
+                  </button>
                 </mat-chip-row>
                 <input
                   type="text"
