@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "license": "MIT",
   "scripts": {
-    "start": "ng serve searchassist -o",
+    "start": "ng serve searchassist -o --proxy-config ./proxy.conf.json",
     "serve:app": "ng build searchassist --configuration=app && live-server dist/apps/searchassist",
     "serve:qa": "ng build searchassist --configuration=qa && npm run uncss && npm run liveserver",
     "serve:prod": "run-s build liveserver",
