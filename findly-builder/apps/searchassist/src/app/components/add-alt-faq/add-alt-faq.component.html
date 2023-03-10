@@ -38,7 +38,9 @@
         (removed)="removeAltTag(tag)"
       >
         <div class="mat-value">{{ tag.tag }}</div>
-        <img src="assets/images/close.svg" class="remove-icon" />
+        <button matChipRemove>
+          <i class="si-close"></i>
+        </button>
       </mat-chip-row>
       <input
         placeholder="Type & enter"
