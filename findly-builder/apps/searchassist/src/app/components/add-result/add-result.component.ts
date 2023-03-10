@@ -8,7 +8,6 @@ import {
 } from '@angular/core';
 import { combineLatest, Subscription } from 'rxjs';
 import { SideBarService } from './../../services/header.service';
-// import { WorkflowService } from '@kore.apps/services/workflow.service';
 import { ServiceInvokerService } from '@kore.apps/services/service-invoker.service';
 import { NotificationService } from '@kore.apps/services/notification.service';
 import { AppSelectionService } from '@kore.apps/services/app.selection.service';
@@ -52,7 +51,6 @@ export class AddResultComponent implements OnInit, OnDestroy {
   @Input() searchRequestId;
   @Output() closeResult = new EventEmitter();
   constructor(
-    // public workflowService: WorkflowService,
     public notificationService: NotificationService,
     private appSelectionService: AppSelectionService,
     private service: ServiceInvokerService,
@@ -93,24 +91,14 @@ export class AddResultComponent implements OnInit, OnDestroy {
       this.serachIndexId = searchIndexId;
       this.indexPipelineId = indexPipelineId;
     });
+
+    this.subscription?.add(indexPipelineSub);
   }
   results() {
-    // this.indexPipelineId = this.indexPipelineId;
-    // this.queryPipelineId = this.workflowService.selectedQueryPipeline()
-    //   ? this.workflowService.selectedQueryPipeline()._id
-    //   : this.selectedApp.searchIndexes[0].queryPipelineId;
     if (this.queryPipelineId) {
-      // this.appDetails();
-      // if (this.indexPipelineId) {
       this.getFieldAutoComplete();
-      // }
     }
   }
-  // appDetails() {
-  //   this.selectedApp = this.workflowService.selectedApp();
-  //   this.serachIndexId = this.selectedApp.searchIndexes[0]._id;
-  //   this.queryPipelineId = this.workflowService.selectedQueryPipeline()._id;
-  // }
 
   getFieldAutoComplete() {
     const query: any = '';
