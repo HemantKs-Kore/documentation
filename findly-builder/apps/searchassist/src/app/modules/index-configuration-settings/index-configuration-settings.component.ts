@@ -11,6 +11,8 @@ import { ServiceInvokerService } from '@kore.apps/services/service-invoker.servi
 import { NotificationService } from '@kore.apps/services/notification.service';
 import { AppSelectionService } from '@kore.apps/services/app.selection.service';
 import { WorkflowService } from '@kore.apps/services/workflow.service';
+import { selectAppIds } from '@kore.apps/store/app.selectors';
+import { Store } from '@ngrx/store';
 
 declare const $: any;
 @Component({
@@ -21,10 +23,9 @@ declare const $: any;
 export class IndexConfigurationSettingsComponent implements OnInit, OnDestroy {
   addLangModalPopRef: any;
   indexPipelineId;
-  queryPipelineId;
   searchLanguages: any = '';
   selectedApp;
-  serachIndexId;
+  searchIndexId;
   seedData;
   saveLanguages = false;
   isAddLoading = false;
@@ -41,6 +42,7 @@ export class IndexConfigurationSettingsComponent implements OnInit, OnDestroy {
   public pollingSubscriber: any;
   docStatusObject: any = {};
   isTrainStatusInprogress = false;
+  sub: Subscription;
   @ViewChild('addLangModalPop') addLangModalPop: KRModalComponent;
   @ViewChild('perfectScroll') perfectScroll: PerfectScrollbarComponent;
 
@@ -50,30 +52,34 @@ export class IndexConfigurationSettingsComponent implements OnInit, OnDestroy {
     private notificationService: NotificationService,
     private appSelectionService: AppSelectionService,
     public dialog: MatDialog,
-    public dockService: DockStatusService
+    public dockService: DockStatusService,
+    private store: Store
   ) {}
 
   ngOnInit(): void {
+    this.initAppIds();
     this.getAvilableLanguages();
-    this.selectedApp = this.workflowService?.selectedApp();
-    this.serachIndexId = this.selectedApp?.searchIndexes[0]?._id;
-    this.indexPipelineId = this.workflowService?.selectedIndexPipeline();
-    this.queryPipelineId = this.workflowService?.selectedQueryPipeline()
-      ? this.workflowService.selectedQueryPipeline()?._id
-      : '';
+
     this.supportedLanguages = this.workflowService?.supportedLanguages?.values;
     this.configurationsSubscription =
       this.appSelectionService.queryConfigSelected.subscribe((res) => {
-        this.indexPipelineId = this.workflowService.selectedIndexPipeline();
-        this.queryPipelineId = this.workflowService.selectedQueryPipeline()
-          ? this.workflowService.selectedQueryPipeline()._id
-          : '';
         this.supportedLanguages =
           this.workflowService?.supportedLanguages?.values;
       });
 
     this.poling();
   }
+
+  initAppIds() {
+    const idsSub = this.store
+      .select(selectAppIds)
+      .subscribe(({ searchIndexId, indexPipelineId }) => {
+        this.searchIndexId = searchIndexId;
+        this.indexPipelineId = indexPipelineId;
+      });
+    this.sub?.add(idsSub);
+  }
+
   // toaster message
   errorToaster(errRes, message) {
     if (
@@ -304,7 +310,7 @@ export class IndexConfigurationSettingsComponent implements OnInit, OnDestroy {
       'x-timezone-offset': '-330',
     };
     const quaryparms: any = {
-      searchIndexId: this.serachIndexId,
+      searchIndexId: this.searchIndexId,
       offset: 0,
       limit: 100,
     };
@@ -338,7 +344,7 @@ export class IndexConfigurationSettingsComponent implements OnInit, OnDestroy {
       this.pollingSubscriber.unsubscribe();
     }
     const queryParms = {
-      searchIndexId: this.workflowService.selectedSearchIndexId,
+      searchIndexId: this.searchIndexId,
     };
     this.pollingSubscriber = interval(10000)
       .pipe(startWith(0))
@@ -369,6 +375,7 @@ export class IndexConfigurationSettingsComponent implements OnInit, OnDestroy {
     this.appSelectionService.topicGuideShow.next(null);
   }
   ngOnDestroy() {
+    this.sub?.unsubscribe();
     this.configurationsSubscription
       ? this.configurationsSubscription.unsubscribe()
       : false;
