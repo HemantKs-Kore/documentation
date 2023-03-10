@@ -51,3 +51,8 @@ export const setSearchExperienceConfigSuccess = createAction(
     searchExperienceConfig: SearchExperienceConfigInterface;
   }>()
 );
+
+export const setQueryPipelines = createAction(
+  AppActionTypes.SET_QUERY_PIPELINES,
+  props<{ queryPipelines: any[] }>()
+);

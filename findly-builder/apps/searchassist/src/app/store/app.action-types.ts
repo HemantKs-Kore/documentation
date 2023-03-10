@@ -7,4 +7,5 @@ export enum AppActionTypes {
   REMOVE_INDEX_PIPELINE = '[Indices Component] Remove index pipeline',
   SET_QUERY_PIPELINE_ID = '[Apps Component] Set query pipeline id',
   SET_SEARCH_EXPERIENCE_CONFIG = '[Apps Component] Set search experience config',
+  SET_QUERY_PIPELINES = '[Apps Component] Set query pipelines',
 }

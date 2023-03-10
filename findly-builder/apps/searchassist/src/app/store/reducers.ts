@@ -9,6 +9,7 @@ import {
   setIndexPipelineId,
   setIndexPipelines,
   setQueryPipelineId,
+  setQueryPipelines,
   setSearchExperienceConfigSuccess,
   updateIndexPipeline,
 } from './app.actions';
@@ -21,6 +22,7 @@ export interface AppState {
   indexPipelines: any[];
   queryPipelineId: string;
   searchExperienceConfig: SearchExperienceConfigInterface;
+  queryPipelines: any[];
 }
 
 const appInitialState: AppState = {
@@ -30,6 +32,7 @@ const appInitialState: AppState = {
   indexPipelines: [],
   queryPipelineId: null,
   searchExperienceConfig: null,
+  queryPipelines: [],
 };
 
 export const rootReducer = createReducer(
@@ -81,6 +84,9 @@ export const rootReducer = createReducer(
   }),
   on(setSearchExperienceConfigSuccess, (state, { searchExperienceConfig }) => {
     return { ...state, searchExperienceConfig };
+  }),
+  on(setQueryPipelines, (state, { queryPipelines }) => {
+    return { ...state, queryPipelines };
   })
 );
 

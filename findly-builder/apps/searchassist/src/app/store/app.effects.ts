@@ -9,6 +9,7 @@ import {
   setIndexPipelineId,
   setIndexPipelines,
   setQueryPipelineId,
+  setQueryPipelines,
   setSearchExperienceConfigSuccess,
 } from './app.actions';
 import { selectAppIds, selectSearchIndexId } from './app.selectors';
@@ -53,6 +54,9 @@ export class AppEffects {
             indexPipelineId,
           })
           .pipe(
+            tap((queryPipelines: any[]) =>
+              this.store.dispatch(setQueryPipelines({ queryPipelines }))
+            ),
             map((queryPipelines: any[]) => {
               return setQueryPipelineId({
                 queryPipelineId: queryPipelines[0]?._id,

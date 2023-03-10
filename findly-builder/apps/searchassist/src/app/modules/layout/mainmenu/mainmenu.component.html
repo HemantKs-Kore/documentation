@@ -347,23 +347,8 @@
           {{ 'app_menu_Search_Configuration' | translate }}
         </div>
         <div class="search-config-elipse-block pr-0">
-          <div
-            class="title text-truncate"
-            title="{{
-              configObj[selectedConfig]
-                ? configObj[selectedConfig].name === 'Default'
-                  ? ('app_menu_Default_search' | translate)
-                  : configObj[selectedConfig].name
-                : 'Loading..'
-            }}"
-          >
-            {{
-              configObj[selectedConfig]
-                ? configObj[selectedConfig].name === 'Default'
-                  ? ('app_menu_Default_search' | translate)
-                  : configObj[selectedConfig].name
-                : 'Loading..'
-            }}
+          <div class="title text-truncate" title="{{ selectedConfig?.name }}">
+            {{ selectedConfig?.name }}
           </div>
           <div
             class="kr-sg-dropdowns kr_sg_dropdowns"

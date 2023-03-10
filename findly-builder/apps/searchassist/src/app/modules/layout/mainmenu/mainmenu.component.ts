@@ -47,7 +47,10 @@ import { KrModalModule } from '../../../shared/kr-modal/kr-modal.module';
 import { MatDialogModule } from '@angular/material/dialog';
 import { SharedPipesModule } from '@kore.apps/helpers/filters/shared-pipes.module';
 import { PlanUpgradeModule } from '@kore.apps/modules/pricing/shared/plan-upgrade/plan-upgrade.module';
-import { selectIndexPipelines } from '@kore.apps/store/app.selectors';
+import {
+  selectIndexPipelines,
+  selectQueryPipelines,
+} from '@kore.apps/store/app.selectors';
 declare const $: any;
 @Component({
   selector: 'app-mainmenu',
@@ -590,7 +593,8 @@ export class MainMenuComponent implements OnInit, OnDestroy {
         this.getSubscriptionData();
       });
 
-    this.initPipelines();
+    this.initIndexPipeLines();
+    this.initQueryPipeLines();
     // this.appSelectionService.appSelectedConfigs.subscribe((res) => {
     //   this.indexConfigs = res;
     //   this.indexConfigs.forEach((element) => {
@@ -599,21 +603,21 @@ export class MainMenuComponent implements OnInit, OnDestroy {
     //   if (res.length > 0)
     //     this.selectedIndexConfig = this.workflowService.selectedIndexPipeline();
     // });
-    this.subscription = this.appSelectionService.queryConfigs.subscribe(
-      (res) => {
-        this.queryConfigs = res;
-        res.forEach((element) => {
-          this.configObj[element._id] = element;
-        });
-        this.selectedConfig = this.workflowService.selectedQueryPipeline()._id;
-        setTimeout(() => {
-          this.selectedApp = this.workflowService.selectedApp();
-          if (this.selectedApp?.searchIndexes?.length) {
-            this.searchIndexId = this.selectedApp?.searchIndexes[0]._id;
-          }
-        }, 1000);
-      }
-    );
+    // this.subscription = this.appSelectionService.queryConfigs.subscribe(
+    //   (res) => {
+    //     this.queryConfigs = res;
+    //     res.forEach((element) => {
+    //       this.configObj[element._id] = element;
+    //     });
+    //     this.selectedConfig = this.workflowService.selectedQueryPipeline()._id;
+    //     setTimeout(() => {
+    //       this.selectedApp = this.workflowService.selectedApp();
+    //       if (this.selectedApp?.searchIndexes?.length) {
+    //         this.searchIndexId = this.selectedApp?.searchIndexes[0]._id;
+    //       }
+    //     }, 1000);
+    //   }
+    // );
     if (this.selectedApp?.searchIndexes?.length) {
       this.searchIndexId = this.selectedApp.searchIndexes[0]._id;
     }
@@ -632,8 +636,7 @@ export class MainMenuComponent implements OnInit, OnDestroy {
       }
     );
   }
-
-  initPipelines() {
+  initIndexPipeLines() {
     this.subscription = this.store
       .select(selectIndexPipelines)
       .subscribe((res) => {
@@ -647,6 +650,36 @@ export class MainMenuComponent implements OnInit, OnDestroy {
             (item) => item.default
           );
         }
+      });
+  }
+
+  initQueryPipeLines() {
+    this.subscription = this.store
+      .select(selectQueryPipelines)
+      .subscribe((res) => {
+        this.queryConfigs = JSON.parse(JSON.stringify(res));
+        // res.forEach((element) => {
+        //   this.configObj[element._id] = element;
+        // });
+        this.selectedConfig = this.queryConfigs.find((item) => item.default);
+
+        // setTimeout(() => {
+        //   this.selectedApp = this.workflowService.selectedApp();
+        //   if (this.selectedApp?.searchIndexes?.length) {
+        //     this.searchIndexId = this.selectedApp?.searchIndexes[0]._id;
+        //   }
+        // }, 1000);
+
+        // this.indexConfigs = JSON.parse(JSON.stringify(res));
+        // this.indexConfigs.forEach((element) => {
+        //   this.indexConfigObj[element._id] = element;
+        // });
+
+        // if (res.length > 0) {
+        //   this.selectedIndexConfig = this.indexConfigs.find(
+        //     (item) => item.default
+        //   );
+        // }
       });
   }
 
