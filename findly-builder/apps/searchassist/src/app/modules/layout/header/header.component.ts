@@ -13,12 +13,13 @@ import {
 import { SideBarService } from '../../../services/header.service';
 import { KRModalComponent } from '../../../shared/kr-modal/kr-modal.component';
 import { NavigationEnd, Router } from '@angular/router';
-import { Observable } from 'rxjs';
+import { combineLatest, Observable } from 'rxjs';
 import {
   debounceTime,
   filter,
   map,
   startWith,
+  tap,
   withLatestFrom,
 } from 'rxjs/operators';
 import { SliderComponentComponent } from '../../../shared/slider-component/slider-component.component';
@@ -44,6 +45,9 @@ import { LazyLoadService } from '@kore.libs/shared/src';
 import {
   selectAppId,
   selectEnablePreview,
+  selectIndexPipelineId,
+  selectQueryPipelineId,
+  selectSearchIndexId,
 } from '@kore.apps/store/app.selectors';
 import { AppsService } from '@kore.apps/modules/apps/services/apps.service';
 import { IntersectionStatus } from '@kore.libs/shared/src/lib/directives/intersection-observer/from-intersection-observer';
@@ -388,6 +392,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
     }
   }
   ngOnInit() {
+    this.initAppIds();
     this.getUserInfo();
     this.checkroute();
     this.getAllApps();
@@ -546,6 +551,32 @@ export class HeaderComponent implements OnInit, OnDestroy {
     //   else{
     //   this.extractProfiledisplayname();
     //   }
+  }
+
+  initAppIds() {
+    // const indexPipelineSub = combineLatest([
+    //   this.store.select(selectIndexPipelineId),
+    //   this.store.select(selectSearchIndexId),
+    //   this.store.select(selectQueryPipelineId),
+    // ]).subscribe(([indexPipelineId, searchIndexId, queryPipelineId]) => {
+    //   console.log('HERERE', indexPipelineId, searchIndexId, queryPipelineId);
+    // });
+    const indexPipelineSub = this.store
+      .select(selectQueryPipelineId)
+      .pipe(
+        withLatestFrom(
+          this.store.select(selectIndexPipelineId),
+          this.store.select(selectSearchIndexId)
+        ),
+        tap(([queryPipelineId, indexPipelineId, searchIndexId]) => {
+          this.queryPipelineId = queryPipelineId;
+          this.serachIndexId = searchIndexId;
+          this.indexPipelineId = indexPipelineId;
+        })
+      )
+      .subscribe();
+
+    this.subscription?.add(indexPipelineSub);
   }
 
   onRouteEvents() {
@@ -843,19 +874,19 @@ export class HeaderComponent implements OnInit, OnDestroy {
     }
     this.router.navigate(['/'], { skipLocationChange: true });
   }
-  loadHeader() {
-    this.indexPipelineId = this.workflowService.selectedIndexPipeline();
-    if (this.indexPipelineId) {
-      this.queryPipelineId = this.workflowService.selectedQueryPipeline()
-        ? this.workflowService.selectedQueryPipeline()._id
-        : this.selectedApp.searchIndexes[0].queryPipelineId;
-      if (this.queryPipelineId) {
-        // this.getcustomizeList(20,0);
-        this.selectedApp = this.workflowService.selectedApp();
-        this.serachIndexId = this.selectedApp.searchIndexes[0]._id;
-      }
-    }
-  }
+  // loadHeader() {
+  //   this.indexPipelineId = this.indexPipelineId;
+  //   if (this.indexPipelineId) {
+  //     this.queryPipelineId = this.workflowService.selectedQueryPipeline()
+  //       ? this.workflowService.selectedQueryPipeline()._id
+  //       : this.selectedApp.searchIndexes[0].queryPipelineId;
+  //     if (this.queryPipelineId) {
+  //       // this.getcustomizeList(20,0);
+  //       this.selectedApp = this.workflowService.selectedApp();
+  //       this.serachIndexId = this.selectedApp.searchIndexes[0]._id;
+  //     }
+  //   }
+  // }
   metricsOption(menu) {
     this.analyticsClick(menu);
     this.goToRoute(menu);
@@ -988,7 +1019,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
         selectedApp.searchIndexes.length
       ) {
         const payload = {
-          indexPipelineId: this.workflowService.selectedIndexPipeline(),
+          indexPipelineId: this.indexPipelineId,
         };
         const quaryparms = {
           searchIndexId: selectedApp.searchIndexes[0]._id,
@@ -1037,7 +1068,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
       jobId: this.dockersList[0]._id,
     };
     const payload = {
-      indexPipelineId: this.workflowService?.selectedIndexPipeline(),
+      indexPipelineId: this.indexPipelineId,
     };
     this.service.invoke('stopTrain.app', quaryparms, payload).subscribe(
       (res) => {
@@ -1093,8 +1124,13 @@ export class HeaderComponent implements OnInit, OnDestroy {
       this.pollingSubscriber.unsubscribe();
     }
     const queryParms = {
-      searchIndexId: this.workflowService.selectedSearchIndexId,
+      searchIndexId: this.serachIndexId,
     };
+
+    if (!this.serachIndexId) {
+      return;
+    }
+
     this.pollingSubscriber = interval(10000)
       .pipe(startWith(0))
       .subscribe(() => {
@@ -1342,7 +1378,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
     if (task._id) {
       // this.statusDockerLoading = true;
       const queryParms = {
-        searchIndexId: this.workflowService.selectedSearchIndexId,
+        searchIndexId: this.serachIndexId,
         id: task._id,
         statusType: task.statusType,
       };
@@ -1365,7 +1401,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   clearAllRecords() {
     const queryParms = {
-      searchIndexId: this.workflowService.selectedSearchIndexId,
+      searchIndexId: this.serachIndexId,
     };
     this.service.invoke('delete.clearAllDocs', queryParms).subscribe(
       (res) => {
@@ -1383,7 +1419,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   recrawl(record) {
     const quaryparms: any = {
-      searchIndexId: this.workflowService.selectedSearchIndexId,
+      searchIndexId: this.serachIndexId,
       sourceId: record.extractionSourceId,
       sourceType: record.statusType,
     };
@@ -1571,17 +1607,17 @@ export class HeaderComponent implements OnInit, OnDestroy {
           this.mainMenu = res;
         }
       });
-    this.selectedApp = this.workflowService.selectedApp();
-    this.serachIndexId = this.selectedApp?.searchIndexes[0]?._id;
-    this.loadHeader();
-    this.indexSubscription =
-      this.appSelectionService.appSelectedConfigs.subscribe((res) => {
-        this.subscription = this.appSelectionService.queryConfigs.subscribe(
-          (res) => {
-            this.loadHeader();
-          }
-        );
-      });
+    // this.selectedApp = this.workflowService.selectedApp();
+    // this.serachIndexId = this.selectedApp?.searchIndexes[0]?._id;
+    // this.loadHeader();
+    // this.indexSubscription =
+    //   this.appSelectionService.appSelectedConfigs.subscribe((res) => {
+    //     this.subscription = this.appSelectionService.queryConfigs.subscribe(
+    //       (res) => {
+    //         this.loadHeader();
+    //       }
+    //     );
+    //   });
     this.workflowService.mainMenuRouter$.subscribe((route) => {
       this.mainMenu = route;
     });
@@ -1747,7 +1783,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   //check training in progress
   checkTrainingProgress() {
     const queryParms = {
-      searchIndexId: this.workflowService.selectedSearchIndexId,
+      searchIndexId: this.serachIndexId,
     };
     // const appId = JSON.parse(localStorage.krPreviousState);
     this.service.invoke('get.dockStatus', queryParms).subscribe(
@@ -1854,7 +1890,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   openOrCloseSearchSDK() {
     this.handleSearchSdk();
 
-    this.loadHeader();
+    // this.loadHeader();
     if (this.queryPipelineId) {
       this.headerService.openSearchSDK(true);
       //this.loadHeader();
@@ -1865,7 +1901,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
         'Fetching queryPipeline ID...',
         'warning'
       );
-      this.loadHeader();
+      // this.loadHeader();
       setTimeout(() => {
         if (this.queryPipelineId) {
           this.openSDKwithQuery();
@@ -1883,12 +1919,12 @@ export class HeaderComponent implements OnInit, OnDestroy {
   getcustomizeList(limit?, skip?) {
     limit ? limit : 20;
     skip ? skip : 0;
-    this.selectedApp = this.workflowService.selectedApp();
-    this.serachIndexId = this.selectedApp.searchIndexes[0]._id;
+    // this.selectedApp = this.workflowService.selectedApp();
+    // this.serachIndexId = this.selectedApp.searchIndexes[0]._id;
     const quaryparms: any = {
       searchIndexId: this.serachIndexId,
       queryPipelineId: this.queryPipelineId,
-      indexPipelineId: this.workflowService.selectedIndexPipeline() || '',
+      indexPipelineId: this.indexPipelineId || '',
       limit: limit,
       skip: skip,
     };
@@ -1956,7 +1992,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   makeNotificationsRead() {
     const queryParms = {
-      searchIndexId: this.workflowService.selectedSearchIndexId,
+      searchIndexId: this.serachIndexId,
     };
     const payload = {
       ids: this.unReadDocs.map((doc) => {
