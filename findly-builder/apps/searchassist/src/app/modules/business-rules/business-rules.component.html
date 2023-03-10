@@ -997,10 +997,9 @@
                                       *ngIf="value"
                                       >{{ value }}</span
                                     >
-                                    <img
-                                      src="assets/images/close.svg"
-                                      class="remove-icon"
-                                    />
+                                    <button matChipRemove>
+                                      <i class="si-close"></i>
+                                    </button>
                                   </mat-chip-row>
                                   <span class="px-1">{{
                                     'businessRules_or_caps' | translate
@@ -1055,10 +1054,9 @@
                                     >
                                       <span>{{ value }}</span>
                                     </span>
-                                    <img
-                                      src="assets/images/close.svg"
-                                      class="remove-icon"
-                                    />
+                                    <button matChipRemove>
+                                      <i class="si-close"></i>
+                                    </button>
                                   </mat-chip-row>
                                   <span class="px-1">{{
                                     'businessRules_or_caps' | translate
@@ -1121,10 +1119,9 @@
                                         value | dateFormatPipe : 'DD MMM YYYY'
                                       }}</span
                                     >
-                                    <img
-                                      src="assets/images/close.svg"
-                                      class="remove-icon"
-                                    />
+                                    <button matChipRemove>
+                                      <i class="si-close"></i>
+                                    </button>
                                   </mat-chip-row>
                                   <span class="px-1">{{
                                     'businessRules_or_caps' | translate
@@ -1909,10 +1906,9 @@
                                   ngbTooltip="{{ value }}"
                                   >{{ value }}</span
                                 >
-                                <img
-                                  src="assets/images/close.svg"
-                                  class="remove-icon"
-                                />
+                                <button matChipRemove>
+                                  <i class="si-close"></i>
+                                </button>
                               </mat-chip-row>
                               <span class="px-1">{{
                                 'businessRules_or_caps' | translate
