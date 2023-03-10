@@ -24,6 +24,8 @@ import { AppSelectionService } from '@kore.apps/services/app.selection.service';
 import { InlineManualService } from '@kore.apps/services/inline-manual.service';
 import { MixpanelServiceService } from '@kore.apps/services/mixpanel-service.service';
 import { TranslationService } from '@kore.libs/shared/src';
+import { Store } from '@ngrx/store';
+import { selectAppIds } from '@kore.apps/store/app.selectors';
 
 declare const $: any;
 @Component({
@@ -32,10 +34,13 @@ declare const $: any;
   styleUrls: ['./field-management.component.scss'],
 })
 export class FieldManagementComponent
-  implements OnInit, AfterViewInit, OnDestroy {
+  implements OnInit, AfterViewInit, OnDestroy
+{
+  sub: Subscription;
+  queryPipelineId;
   showSearch = false;
   selectedApp;
-  serachIndexId;
+  searchIndexId;
   indexPipelineId;
   fields: any = [];
   skip = 0;
@@ -118,24 +123,30 @@ export class FieldManagementComponent
     private router: Router,
     public mixpanel: MixpanelServiceService,
     private sanitizer: DomSanitizer,
-    private translationService: TranslationService
+    private translationService: TranslationService,
+    private store: Store
   ) {
     this.translationService.loadModuleTranslations('field-management');
   }
 
   ngOnInit(): void {
-    this.selectedApp = this.workflowService?.selectedApp();
-    this.serachIndexId = this.selectedApp?.searchIndexes[0]?._id;
-    this.indexPipelineId = this.workflowService?.selectedIndexPipeline();
-    this.loadFileds();
-    this.subscription = this.appSelectionService.appSelectedConfigs.subscribe(
-      (res) => {
-        this.loadFileds();
-      }
-    );
-    // });
+    this.initAppIds();
   }
-  ngAfterViewInit() { }
+
+  initAppIds() {
+    const idsSub = this.store
+      .select(selectAppIds)
+      .subscribe(({ searchIndexId, indexPipelineId, queryPipelineId }) => {
+        this.searchIndexId = searchIndexId;
+        this.indexPipelineId = indexPipelineId;
+        this.queryPipelineId = queryPipelineId;
+
+        this.loadFileds();
+      });
+    this.sub?.add(idsSub);
+  }
+
+  ngAfterViewInit() {}
   applyDisableClass(fieldName) {
     return {
       'disable-delete':
@@ -145,11 +156,8 @@ export class FieldManagementComponent
     };
   }
   loadFileds() {
-    this.indexPipelineId = this.workflowService.selectedIndexPipeline();
-    if (this.indexPipelineId) {
-      this.getDyanmicFilterData();
-      this.getFileds();
-    }
+    this.getDyanmicFilterData();
+    this.getFileds();
   }
   toggleSearch() {
     if (this.showSearch && this.searchFields) {
@@ -220,9 +228,9 @@ export class FieldManagementComponent
     }
     this.fetchingFieldUsage = true;
     const quaryparms: any = {
-      searchIndexID: this.serachIndexId,
+      searchIndexID: this.searchIndexId,
       indexPipelineId: this.indexPipelineId,
-      queryPipelineId: this.workflowService.selectedQueryPipeline()._id,
+      queryPipelineId: this.queryPipelineId,
       fieldId: record._id,
     };
     this.service.invoke('get.getFieldUsage', quaryparms).subscribe(
@@ -308,7 +316,7 @@ export class FieldManagementComponent
         type === 'pop-up'
           ? (popupData = `This will impact `)
           : (popupData =
-            'Searchable property has been set to false this will impact ');
+              'Searchable property has been set to false this will impact ');
         this.byPassSecurity(resultArr, popupData, type);
       },
       (errRes) => {
@@ -331,7 +339,7 @@ export class FieldManagementComponent
     type == 'pop-up'
       ? (this.editresultTest = this.sanitizer.bypassSecurityTrustHtml(data))
       : (this.searchableCheckboxMsg =
-        this.sanitizer.bypassSecurityTrustHtml(data));
+          this.sanitizer.bypassSecurityTrustHtml(data));
   }
   replaceLast(find, replace, string) {
     const lastIndex = string.lastIndexOf(find);
@@ -351,9 +359,9 @@ export class FieldManagementComponent
     }
     this.fetchingFieldUsage = true;
     const quaryparms: any = {
-      searchIndexID: this.serachIndexId,
+      searchIndexID: this.searchIndexId,
       indexPipelineId: this.indexPipelineId,
-      queryPipelineId: this.workflowService.selectedQueryPipeline()._id,
+      queryPipelineId: this.queryPipelineId,
       fieldId: record._id,
     };
     const isDisableDeleteBtn = false;
@@ -515,7 +523,7 @@ export class FieldManagementComponent
         fields: [],
       };
       const quaryparms: any = {
-        searchIndexID: this.serachIndexId,
+        searchIndexID: this.searchIndexId,
         indexPipelineId: this.indexPipelineId,
         fieldId: this.newFieldObj._id,
       };
@@ -580,9 +588,9 @@ export class FieldManagementComponent
   }
   getAllFields() {
     const quaryparms: any = {
-      searchIndexID: this.serachIndexId,
-      indexPipelineId: this.indexPipelineId,
-    },
+        searchIndexID: this.searchIndexId,
+        indexPipelineId: this.indexPipelineId,
+      },
       payload = {
         sort: {
           fieldName: 1,
@@ -611,7 +619,7 @@ export class FieldManagementComponent
     request?
   ) {
     const quaryparms: any = {
-      searchIndexID: this.serachIndexId,
+      searchIndexID: this.searchIndexId,
       indexPipelineId: this.indexPipelineId,
       offset: this.skip || 0,
       limit: 10,
@@ -672,7 +680,7 @@ export class FieldManagementComponent
 
   deleteIndField(record, dialogRef) {
     const quaryparms: any = {
-      searchIndexID: this.serachIndexId,
+      searchIndexID: this.searchIndexId,
       indexPipelineId: this.indexPipelineId,
       fieldId: record._id,
     };
@@ -863,9 +871,9 @@ export class FieldManagementComponent
     }
 
     const quaryparms: any = {
-      searchIndexID: this.serachIndexId,
-      indexPipelineId: this.workflowService.selectedIndexPipeline() || '',
-      queryPipelineId: this.workflowService.selectedQueryPipeline()._id,
+      searchIndexID: this.searchIndexId,
+      indexPipelineId: this.indexPipelineId || '',
+      queryPipelineId: this.queryPipelineId,
       offset: 0,
       limit: 10,
     };
@@ -935,9 +943,9 @@ export class FieldManagementComponent
   }
   sortField(type?, navigate?, value?) {
     const quaryparms: any = {
-      searchIndexID: this.serachIndexId,
-      indexPipelineId: this.workflowService.selectedIndexPipeline() || '',
-      queryPipelineId: this.workflowService.selectedQueryPipeline()._id,
+      searchIndexID: this.searchIndexId,
+      indexPipelineId: this.indexPipelineId || '',
+      queryPipelineId: this.queryPipelineId,
       offset: 0,
       limit: 10,
     };
@@ -987,11 +995,11 @@ export class FieldManagementComponent
   }
   getDyanmicFilterData(search?) {
     const quaryparms: any = {
-      searchIndexId: this.serachIndexId,
+      searchIndexId: this.searchIndexId,
     };
     const request: any = {
       moduleName: 'fields',
-      indexPipelineId: this.workflowService.selectedIndexPipeline() || '',
+      indexPipelineId: this.indexPipelineId || '',
     };
 
     request.fieldDataType = this.filterSystem.typefilter;
@@ -1028,8 +1036,8 @@ export class FieldManagementComponent
       query = '';
     }
     const quaryparms: any = {
-      searchIndexID: this.serachIndexId,
-      indexPipelineId: this.workflowService.selectedIndexPipeline() || '',
+      searchIndexID: this.searchIndexId,
+      indexPipelineId: this.indexPipelineId || '',
       query,
     };
     this.service.invoke('get.getFieldAutocomplete', quaryparms).subscribe(
@@ -1069,6 +1077,7 @@ export class FieldManagementComponent
     // this.getFileds(event.skip, this.searchFields)
   }
   ngOnDestroy() {
+    this.sub?.unsubscribe();
     if (this.subscription) {
       this.subscription.unsubscribe();
     }
