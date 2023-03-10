@@ -34,23 +34,6 @@ export class SmallTalkComponent implements OnInit, OnDestroy {
     private store: Store
   ) {}
   ngOnInit(): void {
-    // this.selectedApp = this.workflowService?.selectedApp();
-    // this.searchIndexId = this.selectedApp?.searchIndexes[0]?._id;
-    // this.indexPipelineId = this.workflowService?.selectedIndexPipeline();
-    // this.queryPipelineId = this.workflowService?.selectedQueryPipeline()
-    //   ? this.workflowService.selectedQueryPipeline()._id
-    //   : '';
-    // if (this.searchIndexId && this.queryPipelineId && this.queryPipelineId) {
-    //   this.getQuerypipeline();
-    // }
-    // this.querySubscription =
-    //   this.appSelectionService.queryConfigSelected.subscribe((res) => {
-    //     this.indexPipelineId = this.workflowService.selectedIndexPipeline();
-    //     this.queryPipelineId = this.workflowService.selectedQueryPipeline()
-    //       ? this.workflowService.selectedQueryPipeline()._id
-    //       : '';
-    //     this.getQuerypipeline();
-    //   });
     this.initAppIds();
   }
   initAppIds() {
