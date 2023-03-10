@@ -35,40 +35,4 @@ export class QueryPipelineDataService extends DefaultDataService<any> {
     tik.subscribe((res) => console.log('PAPA', res));
     return tik;
   }
-
-  // override getAll(): Observable<any[]> {
-  //   // const payload = {
-  //   //   searchIndexId: this.workflowService.selectedSearchIndex(),
-  //   //   indexPipelineId: this.workflowService.selectedIndexPipeline() || '',
-  //   // };
-  //   // const appObserver = this.service.invoke('get.queryPipelines', payload);
-
-  //   const tik = this.appsService.getSearchIndexId().pipe(
-  //     withLatestFrom(this.indexPipelineService.getIndexPipelineId()),
-  //     switchMap(([searchIndexId, indexPipelineId]) => {
-  //       return this.service.invoke('get.queryPipelines', {
-  //         searchIndexId,
-  //         indexPipelineId,
-  //       });
-  //     })
-  //   );
-
-  //   tik.subscribe((res) => console.log('PAPA', res));
-  //   return tik;
-  // }
-
-  // add(user): Observable<UserInterface> {
-  //   return this.http.post<UserInterface>(`${this.API_URL}`, user);
-  // }
-
-  // update(user): Observable<UserInterface> {
-  //   return this.http.put<UserInterface>(
-  //     `${this.API_URL}/${user.id}`,
-  //     user.changes,
-  //   );
-  // }
-
-  // delete(userId): Observable<any> {
-  //   return this.http.delete(`${this.API_URL}/${userId}`);
-  // }
 }

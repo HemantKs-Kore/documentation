@@ -129,17 +129,7 @@ export class TraitsComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.initAppIds();
-    // this.selectedApp = this.workflowService.selectedApp();
-    // this.serachIndexId = this.selectedApp.searchIndexes[0]._id;
-    // this.queryPipelineId = this.selectedApp.searchIndexes[0].queryPipelineId;
     this.groupConfigs = JSON.parse(JSON.stringify(this.defaultGroupConfigs));
-    // this.indexPipelineId = this.workflowService.selectedIndexPipeline();
-    // this.loadFileds();
-    // this.subscription = this.appSelectionService.appSelectedConfigs.subscribe(
-    //   (res) => {
-    //     this.loadFileds();
-    //   }
-    // );
   }
 
   initAppIds() {
