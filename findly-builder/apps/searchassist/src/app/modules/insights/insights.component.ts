@@ -1,8 +1,11 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, OnDestroy } from '@angular/core';
 // import { EChartOption } from 'echarts';
 import { WorkflowService } from '@kore.services/workflow.service';
 import { ServiceInvokerService } from '@kore.services/service-invoker.service';
 import { NotificationService } from '@kore.services/notification.service';
+import { Subscription } from 'rxjs';
+import { Store } from '@ngrx/store';
+import { selectAppIds } from '@kore.apps/store/app.selectors';
 declare const $: any;
 
 @Component({
@@ -10,10 +13,12 @@ declare const $: any;
   templateUrl: './insights.component.html',
   styleUrls: ['./insights.component.scss'],
 })
-export class InsightsComponent implements OnInit {
+export class InsightsComponent implements OnInit, OnDestroy {
   @Input() data: any;
   @Input() query: any;
   @Input() showInsightFull: any;
+  indexPipelineId;
+  sub: Subscription;
   queryPipelineId;
   show = false;
   actionLog_id = 0;
@@ -26,7 +31,7 @@ export class InsightsComponent implements OnInit {
   actionLogData: any = [];
   actionLogDatBack: any;
   selectedApp: any = {};
-  serachIndexId;
+  searchIndexId;
   analystic: any = {};
   chartOption: any;
   staticChartOption: any = {
@@ -76,14 +81,15 @@ export class InsightsComponent implements OnInit {
   constructor(
     public workflowService: WorkflowService,
     private service: ServiceInvokerService,
-    private notificationService: NotificationService
+    private notificationService: NotificationService,
+    private store: Store
   ) {}
   getQueryLevelAnalytics() {
     // if(window.koreWidgetSDKInstance.vars.searchObject.searchText){
     //    this.query = window.koreWidgetSDKInstance.vars.searchObject.searchText;
     // }
     //this.query = "Open bank account"
-    this.getAppDetails();
+    // this.getAppDetails();
     const date = new Date();
     const _month_old_date = new Date(Date.now() - 30 * 864e5);
     const sdate = new Date(Date.now());
@@ -96,7 +102,7 @@ export class InsightsComponent implements OnInit {
       '-' +
       _month_old_date.getDate();
     const quaryparms: any = {
-      searchIndexId: this.serachIndexId,
+      searchIndexId: this.searchIndexId,
       startDate: _month_old_date.toJSON(), // startDate,  //"2020-10-10",
       endDate: sdate.toJSON(), //endDate,  //"2020-11-10"//endDate,
     };
@@ -138,23 +144,28 @@ export class InsightsComponent implements OnInit {
       );
   }
   ngOnInit(): void {
-    this.getAppDetails();
+    this.initAppIds();
+    // this.getAppDetails();
     this.customInit();
-    //setTimeout(()=>{
-    //this.selectedApp = this.workflowService.selectedApp();
-    //this.serachIndexId = this.selectedApp.searchIndexes[0]._id;
     this.getQueryLevelAnalytics();
     //},5000)
     //this.getcustomizeList();
   }
-  getAppDetails() {
-    this.selectedApp = this.workflowService.selectedApp();
-    this.serachIndexId = this.selectedApp.searchIndexes[0]._id;
-    //this.queryPipelineId = this.selectedApp.searchIndexes[0].queryPipelineId;
-    this.queryPipelineId = this.workflowService.selectedQueryPipeline()
-      ? this.workflowService.selectedQueryPipeline()._id
-      : this.selectedApp.searchIndexes[0].queryPipelineId;
+
+  initAppIds() {
+    const idsSub = this.store
+      .select(selectAppIds)
+      .subscribe(
+        ({ streamId, searchIndexId, indexPipelineId, queryPipelineId }) => {
+          // this.streamId = streamId;
+          this.searchIndexId = searchIndexId;
+          this.indexPipelineId = indexPipelineId;
+          this.queryPipelineId = queryPipelineId;
+        }
+      );
+    this.sub?.add(idsSub);
   }
+
   analyticGraph(responseData) {
     const search_x_axis_data = [];
     const click_x_axis_data = [];
@@ -384,11 +395,11 @@ export class InsightsComponent implements OnInit {
   }
 
   getcustomizeList() {
-    this.getAppDetails();
+    // this.getAppDetails();
     const quaryparms: any = {
-      searchIndexId: this.serachIndexId,
+      searchIndexId: this.searchIndexId,
       queryPipelineId: this.queryPipelineId,
-      indexpipelineId: this.workflowService.selectedIndexPipeline() || '',
+      indexpipelineId: this.indexPipelineId || '',
     };
     this.service.invoke('get.queryCustomizeList', quaryparms).subscribe(
       (res) => {
@@ -414,10 +425,10 @@ export class InsightsComponent implements OnInit {
   }
   clickCustomizeRecord(_id) {
     const quaryparms: any = {
-      searchIndexId: this.serachIndexId,
+      searchIndexId: this.searchIndexId,
       queryPipelineId: this.queryPipelineId,
       rankingAndPinningId: _id,
-      indexPipelineId: this.workflowService.selectedIndexPipeline() || '',
+      indexPipelineId: this.indexPipelineId || '',
     };
     this.service.invoke('get.customisationLogs', quaryparms).subscribe(
       (res) => {
@@ -446,5 +457,9 @@ export class InsightsComponent implements OnInit {
         }
       }
     );
+  }
+
+  ngOnDestroy(): void {
+    this.sub?.unsubscribe();
   }
 }
