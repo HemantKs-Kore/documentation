@@ -164,6 +164,7 @@ export class AppComponent implements OnInit, OnDestroy {
           if (event.url !== '/') {
             this.appSelected = true;
             this.smMainMenuOpened = false;
+            this.loadMainMenu('show', true);
           } else {
             this.appSelected = false;
           }
@@ -201,7 +202,7 @@ export class AppComponent implements OnInit, OnDestroy {
             this.dynamicRef.clear();
             this.mainMenuRef =
               this.dynamicRef.createComponent(MainMenuComponent);
-            this.updateMenuProps(menuType, event);
+            // this.updateMenuProps(menuType, event);
             const menuToggleSub =
               this.mainMenuRef.instance.toggleMainMenu.subscribe(() => {
                 this.smMainMenuOpened = false;
@@ -218,14 +219,15 @@ export class AppComponent implements OnInit, OnDestroy {
 
   showMenu(event) {
     this.showMainMenu = event;
-    this.loadMainMenu('show', event);
+    this.updateMenuProps('show', event);
+    // this.loadMainMenu('show', event);
   }
 
   showSourceMenu(event) {
-    this.loadMainMenu('sourceMenu', event);
+    this.updateMenuProps('sourceMenu', event);
   }
   settingMenu(event) {
-    this.loadMainMenu('settingMainMenu', event);
+    this.updateMenuProps('settingMainMenu', event);
   }
   openSmMainMenu() {
     this.smMainMenuOpened = true;

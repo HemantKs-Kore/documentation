@@ -3,10 +3,14 @@ import { routerReducer, RouterReducerState } from '@ngrx/router-store';
 import { createReducer, on } from '@ngrx/store';
 
 import {
+  addIndexPipeline,
+  removeIndexPipeline,
   setAppId,
   setIndexPipelineId,
+  setIndexPipelines,
   setQueryPipelineId,
   setSearchExperienceConfigSuccess,
+  updateIndexPipeline,
 } from './app.actions';
 
 export interface AppState {
@@ -14,6 +18,7 @@ export interface AppState {
   appId: string;
   searchIndexId: string;
   indexPipelineId: string;
+  indexPipelines: any[];
   queryPipelineId: string;
   searchExperienceConfig: SearchExperienceConfigInterface;
 }
@@ -22,6 +27,7 @@ const appInitialState: AppState = {
   appId: null,
   searchIndexId: null,
   indexPipelineId: null,
+  indexPipelines: [],
   queryPipelineId: null,
   searchExperienceConfig: null,
 };
@@ -33,6 +39,42 @@ export const rootReducer = createReducer(
   }),
   on(setIndexPipelineId, (state, { indexPipelineId }) => {
     return { ...state, indexPipelineId };
+  }),
+  on(setIndexPipelines, (state, { indexPipelines }) => {
+    return { ...state, indexPipelines };
+  }),
+  on(addIndexPipeline, (state, { indexPipeline }) => {
+    return {
+      ...state,
+      indexPipelines: [indexPipeline, ...state.indexPipelines],
+    };
+  }),
+  on(updateIndexPipeline, (state, { indexPipeline, isDefault }) => {
+    return {
+      ...state,
+      indexPipelines: state.indexPipelines.map((item) => {
+        if (item._id === indexPipeline._id) {
+          return indexPipeline;
+        }
+
+        if (isDefault) {
+          return {
+            ...item,
+            default: false,
+          };
+        }
+
+        return item;
+      }),
+    };
+  }),
+  on(removeIndexPipeline, (state, { indexPipelineId }) => {
+    return {
+      ...state,
+      indexPipelines: state.indexPipelines.filter(
+        (item) => item._id !== indexPipelineId
+      ),
+    };
   }),
   on(setQueryPipelineId, (state, { queryPipelineId }) => {
     return { ...state, queryPipelineId };

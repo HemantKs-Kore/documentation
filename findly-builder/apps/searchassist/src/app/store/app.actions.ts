@@ -7,6 +7,26 @@ export const setAppId = createAction(
   props<{ appId: string; searchIndexId: string }>()
 );
 
+export const setIndexPipelines = createAction(
+  AppActionTypes.SET_INDEX_PIPELINES,
+  props<{ indexPipelines: any[] }>()
+);
+
+export const addIndexPipeline = createAction(
+  AppActionTypes.ADD_INDEX_PIPELINE,
+  props<{ indexPipeline: any }>()
+);
+
+export const updateIndexPipeline = createAction(
+  AppActionTypes.UPDATE_INDEX_PIPELINE,
+  props<{ indexPipeline: any; isDefault: boolean }>()
+);
+
+export const removeIndexPipeline = createAction(
+  AppActionTypes.REMOVE_INDEX_PIPELINE,
+  props<{ indexPipelineId: string }>()
+);
+
 export const setIndexPipelineId = createAction(
   AppActionTypes.SET_INDEX_PIPELINE_ID,
   props<{ indexPipelineId: string }>()
