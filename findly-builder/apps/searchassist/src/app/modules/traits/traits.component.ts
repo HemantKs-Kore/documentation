@@ -44,7 +44,6 @@ export class TraitsComponent implements OnInit, OnDestroy {
   currentTraitKey: string;
   newUtterance: any;
   tempUtterance: string;
-  sub: Subscription;
   statusModalPopRef: any = [];
   addUtteranceModalPopRef: any = [];
   selcectionObj: any = {
@@ -144,7 +143,7 @@ export class TraitsComponent implements OnInit, OnDestroy {
   }
 
   initAppIds() {
-    this.sub = combineLatest([
+    this.subscription = combineLatest([
       this.store.select(selectIndexPipelineId),
       this.store.select(selectSearchIndexId),
       this.store.select(selectQueryPipelineId),
