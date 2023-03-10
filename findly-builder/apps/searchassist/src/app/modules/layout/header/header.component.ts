@@ -44,6 +44,7 @@ import { setAppId } from '@kore.apps/store/app.actions';
 import { LazyLoadService } from '@kore.libs/shared/src';
 import {
   selectAppId,
+  selectAppIds,
   selectEnablePreview,
   selectIndexPipelineId,
   selectQueryPipelineId,
@@ -554,31 +555,15 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
 
   initAppIds() {
-    const indexPipelineSub = combineLatest([
-      this.store.select(selectIndexPipelineId),
-      this.store.select(selectSearchIndexId),
-      this.store.select(selectQueryPipelineId),
-    ]).subscribe(([indexPipelineId, searchIndexId, queryPipelineId]) => {
-      this.queryPipelineId = queryPipelineId;
-      this.serachIndexId = searchIndexId;
-      this.indexPipelineId = indexPipelineId;
-    });
-    // const indexPipelineSub = this.store
-    //   .select(selectQueryPipelineId)
-    //   .pipe(
-    //     withLatestFrom(
-    //       this.store.select(selectIndexPipelineId),
-    //       this.store.select(selectSearchIndexId)
-    //     ),
-    //     tap(([queryPipelineId, indexPipelineId, searchIndexId]) => {
-    //       this.queryPipelineId = queryPipelineId;
-    //       this.serachIndexId = searchIndexId;
-    //       this.indexPipelineId = indexPipelineId;
-    //     })
-    //   )
-    //   .subscribe();
+    const idsSub = this.store
+      .select(selectAppIds)
+      .subscribe(({ searchIndexId, indexPipelineId, queryPipelineId }) => {
+        this.serachIndexId = searchIndexId;
+        this.indexPipelineId = indexPipelineId;
+        this.queryPipelineId = queryPipelineId;
+      });
 
-    this.subscription?.add(indexPipelineSub);
+    this.subscription?.add(idsSub);
   }
 
   onRouteEvents() {

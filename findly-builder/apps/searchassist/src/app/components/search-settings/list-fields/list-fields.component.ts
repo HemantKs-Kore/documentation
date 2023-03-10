@@ -15,7 +15,6 @@ import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { KRModalComponent } from '../../../shared/kr-modal/kr-modal.component';
-// import { WorkflowService } from '@kore.apps/services/workflow.service';
 import { AppSelectionService } from '@kore.apps/services/app.selection.service';
 import { ServiceInvokerService } from '@kore.apps/services/service-invoker.service';
 import { NotificationService } from '@kore.apps/services/notification.service';
@@ -49,7 +48,6 @@ export class ListFieldsComponent implements OnInit, OnDestroy {
   page_number = 0;
   highlightMsg = '';
   constructor(
-    // public workflowService: WorkflowService,
     private appSelectionService: AppSelectionService,
     public dialog: MatDialog,
     private route: ActivatedRoute,
@@ -87,23 +85,7 @@ export class ListFieldsComponent implements OnInit, OnDestroy {
   selectedList = [];
   ngOnInit(): void {
     this.modal_open = false;
-    // if(this.tablefieldvalues && this.tablefieldvalues.length){
-    //   this.loadingContent = false
-    // }
     this.initAppIds();
-    // this.selectedApp = this.workflowService?.selectedApp();
-    //console.log(this.presentabledata);
-    // this.indexPipelineId = this.workflowService.selectedIndexPipeline();
-    // this.queryPipelineId = this.workflowService.selectedQueryPipeline()
-    //   ? this.workflowService.selectedQueryPipeline()._id
-    //   : '';
-    // this.querySubscription =
-    //   this.appSelectionService.queryConfigSelected.subscribe((res) => {
-    //     this.indexPipelineId = this.workflowService.selectedIndexPipeline();
-    //     this.queryPipelineId = this.workflowService.selectedQueryPipeline()
-    //       ? this.workflowService.selectedQueryPipeline()._id
-    //       : '';
-    //   });
   }
 
   initAppIds() {
