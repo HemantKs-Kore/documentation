@@ -1341,13 +1341,7 @@ export class FaqsComponent implements OnInit, AfterViewInit, OnDestroy {
         position: navigate,
       };
     }
-    const quaryparms: any = {
-      searchIndexID: this.serachIndexId,
-      indexPipelineId: this.workflowService.selectedIndexPipeline() || '',
-      queryPipelineId: this.workflowService.selectedQueryPipeline()._id,
-      offset: 0,
-      limit: 3,
-    };
+
     let request: any = {};
     if (!sortValue) {
       request = {
