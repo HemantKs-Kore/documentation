@@ -10,7 +10,7 @@ import {
   Output,
 } from '@angular/core';
 import { ActivatedRoute, Routes, Router } from '@angular/router';
-import { Subscription } from 'rxjs';
+import { Subscription, switchMap, tap, withLatestFrom } from 'rxjs';
 import * as _ from 'underscore';
 import { WorkflowService } from '@kore.apps/services/workflow.service';
 import { AppSelectionService } from '@kore.apps/services/app.selection.service';
@@ -27,9 +27,12 @@ import { Store } from '@ngrx/store';
 import {
   addIndexPipeline,
   removeIndexPipeline,
+  removeQueryPipeline,
   setIndexPipelineId,
   setQueryPipelineId,
+  setQueryPipelines,
   updateIndexPipeline,
+  updateQueryPipeline,
 } from '@kore.apps/store/app.actions';
 
 import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
@@ -48,8 +51,11 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { SharedPipesModule } from '@kore.apps/helpers/filters/shared-pipes.module';
 import { PlanUpgradeModule } from '@kore.apps/modules/pricing/shared/plan-upgrade/plan-upgrade.module';
 import {
+  selectIndexPipelineId,
   selectIndexPipelines,
+  selectQueryPipelineId,
   selectQueryPipelines,
+  selectSearchIndexId,
 } from '@kore.apps/store/app.selectors';
 declare const $: any;
 @Component({
@@ -60,6 +66,7 @@ declare const $: any;
 })
 export class MainMenuComponent implements OnInit, OnDestroy {
   @Output() toggleMainMenu = new EventEmitter<void>();
+  indexPipelineId;
   selected = '';
   trainingMenu = false;
   addFieldModalPopRef: any;
@@ -266,7 +273,7 @@ export class MainMenuComponent implements OnInit, OnDestroy {
     const queryParms = {
       queryPipelineId: config._id,
       searchIndexId: this.searchIndexId,
-      indexPipelineId: this.workflowService.selectedIndexPipeline() || '',
+      indexPipelineId: this.indexPipelineId || '',
     };
     let payload = {};
     if (action == 'edit') {
@@ -280,6 +287,12 @@ export class MainMenuComponent implements OnInit, OnDestroy {
     }
     this.service.invoke('put.queryPipeline', queryParms, payload).subscribe(
       (res) => {
+        this.store.dispatch(
+          updateQueryPipeline({
+            queryPipeline: res,
+            isDefault: action !== 'edit',
+          })
+        );
         if (action == 'edit') {
           this.notify.notify(
             'Search congfiguration updated successfully',
@@ -435,14 +448,14 @@ export class MainMenuComponent implements OnInit, OnDestroy {
       }
       const queryParms = {
         searchIndexId: this.searchIndexId,
-        indexPipelineId: this.workflowService.selectedIndexPipeline() || '',
+        indexPipelineId: this.indexPipelineId || '',
       };
       this.service
         .invoke('create.queryPipeline', queryParms, payload)
+        .pipe(switchMap(() => this.appSelectionService.getQureryPipelineIds()))
         .subscribe(
           (res) => {
-            // console.log("search config", res)
-            this.appSelectionService.getQureryPipelineIds();
+            this.store.dispatch(setQueryPipelines({ queryPipelines: res }));
             if (res && res._id) {
               this.selectQueryPipelineId(res);
             }
@@ -496,16 +509,15 @@ export class MainMenuComponent implements OnInit, OnDestroy {
       //event.close();
     }
     this.appSelectionService.selectQueryConfig(queryConfigs);
-    this.selectedConfig = queryConfigs._id;
+    this.selectedConfig = queryConfigs;
+
     // this.reloadCurrentRoute();
   }
   deleteIndexPipeLine(indexConfigs, dialogRef, type) {
     let queryParms = {
       searchIndexId: this.searchIndexId,
       indexPipelineId:
-        type == 'index'
-          ? indexConfigs._id
-          : this.workflowService.selectedIndexPipeline(),
+        type == 'index' ? indexConfigs._id : this.indexPipelineId,
     };
     if (type == 'search') {
       queryParms = Object.assign(queryParms, {
@@ -534,7 +546,10 @@ export class MainMenuComponent implements OnInit, OnDestroy {
           // );
           // this.appSelectionService.getIndexPipelineIds(default_index);
         } else {
-          this.queryConfigs.splice(deleteIndex, 1);
+          this.store.dispatch(
+            removeQueryPipeline({ queryPipelineId: indexConfigs._id })
+          );
+          // this.queryConfigs.splice(deleteIndex, 1);
           this.appSelectionService.getQureryPipelineIds();
         }
         this.notify.notify('deleted successfully', 'success');
@@ -582,6 +597,7 @@ export class MainMenuComponent implements OnInit, OnDestroy {
     }
   }
   async ngOnInit() {
+    this.initAppIds();
     this.initPlanOnboadingModal();
     this.selectedApp = this.workflowService.selectedApp();
     this.currentSubscriptionPlan =
@@ -601,7 +617,7 @@ export class MainMenuComponent implements OnInit, OnDestroy {
     //     this.indexConfigObj[element._id] = element;
     //   });
     //   if (res.length > 0)
-    //     this.selectedIndexConfig = this.workflowService.selectedIndexPipeline();
+    //     this.selectedIndexConfig = this.indexPipelineId;
     // });
     // this.subscription = this.appSelectionService.queryConfigs.subscribe(
     //   (res) => {
@@ -618,9 +634,9 @@ export class MainMenuComponent implements OnInit, OnDestroy {
     //     }, 1000);
     //   }
     // );
-    if (this.selectedApp?.searchIndexes?.length) {
-      this.searchIndexId = this.selectedApp.searchIndexes[0]._id;
-    }
+    // if (this.selectedApp?.searchIndexes?.length) {
+    //   this.searchIndexId = this.selectedApp.searchIndexes[0]._id;
+    // }
     this.updateUsageData = this.appSelectionService.updateUsageData.subscribe(
       (res) => {
         if (res == 'updatedUsage') {
@@ -636,6 +652,26 @@ export class MainMenuComponent implements OnInit, OnDestroy {
       }
     );
   }
+
+  initAppIds() {
+    const indexPipelineSub = this.store
+      .select(selectIndexPipelineId)
+      .pipe(
+        withLatestFrom(
+          this.store.select(selectSearchIndexId)
+          // this.store.select(selectQueryPipelineId)
+        ),
+        tap(([indexPipelineId, searchIndexId]) => {
+          this.searchIndexId = searchIndexId;
+          this.indexPipelineId = indexPipelineId;
+          // this.loadFiledsData();
+        })
+      )
+      .subscribe();
+
+    this.subscription?.add(indexPipelineSub);
+  }
+
   initIndexPipeLines() {
     this.subscription = this.store
       .select(selectIndexPipelines)
@@ -794,10 +830,7 @@ export class MainMenuComponent implements OnInit, OnDestroy {
   checkExistInExperiment(config, type) {
     const queryParms = {
       searchIndexId: this.searchIndexId,
-      indexPipelineId:
-        type == 'index'
-          ? config._id
-          : this.workflowService.selectedIndexPipeline(),
+      indexPipelineId: type == 'index' ? config._id : this.indexPipelineId,
     };
     this.service.invoke('get.checkInExperiment', queryParms).subscribe(
       (res) => {

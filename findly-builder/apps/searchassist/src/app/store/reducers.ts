@@ -4,7 +4,9 @@ import { createReducer, on } from '@ngrx/store';
 
 import {
   addIndexPipeline,
+  addQueryPipeline,
   removeIndexPipeline,
+  removeQueryPipeline,
   setAppId,
   setIndexPipelineId,
   setIndexPipelines,
@@ -12,6 +14,7 @@ import {
   setQueryPipelines,
   setSearchExperienceConfigSuccess,
   updateIndexPipeline,
+  updateQueryPipeline,
 } from './app.actions';
 
 export interface AppState {
@@ -87,6 +90,39 @@ export const rootReducer = createReducer(
   }),
   on(setQueryPipelines, (state, { queryPipelines }) => {
     return { ...state, queryPipelines };
+  }),
+  on(addQueryPipeline, (state, { queryPipeline }) => {
+    return {
+      ...state,
+      queryPipelines: [queryPipeline, ...state.queryPipelines],
+    };
+  }),
+  on(updateQueryPipeline, (state, { queryPipeline, isDefault }) => {
+    return {
+      ...state,
+      queryPipelines: state.queryPipelines.map((item) => {
+        if (item._id === queryPipeline._id) {
+          return queryPipeline;
+        }
+
+        if (isDefault) {
+          return {
+            ...item,
+            default: false,
+          };
+        }
+
+        return item;
+      }),
+    };
+  }),
+  on(removeQueryPipeline, (state, { queryPipelineId }) => {
+    return {
+      ...state,
+      queryPipelines: state.queryPipelines.filter(
+        (item) => item._id !== queryPipelineId
+      ),
+    };
   })
 );
 

@@ -56,3 +56,18 @@ export const setQueryPipelines = createAction(
   AppActionTypes.SET_QUERY_PIPELINES,
   props<{ queryPipelines: any[] }>()
 );
+
+export const addQueryPipeline = createAction(
+  AppActionTypes.ADD_QUERY_PIPELINE,
+  props<{ queryPipeline: any }>()
+);
+
+export const updateQueryPipeline = createAction(
+  AppActionTypes.UPDATE_QUERY_PIPELINE,
+  props<{ queryPipeline: any; isDefault: boolean }>()
+);
+
+export const removeQueryPipeline = createAction(
+  AppActionTypes.REMOVE_QUERY_PIPELINE,
+  props<{ queryPipelineId: string }>()
+);
