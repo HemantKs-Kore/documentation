@@ -44,6 +44,7 @@ export class AppUrlsService {
     setTimeout(() => {
       const redirectUrl = this.getLoginRedirectURL();
       if (localStorage.getItem('utmLocation')) {
+        debugger;
         window.location.href =
           redirectUrl + localStorage.getItem('utmLocation');
       } else {
