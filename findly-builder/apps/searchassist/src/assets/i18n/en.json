@@ -3894,5 +3894,7 @@
 
   "sa_clone": "Clone",
 
-  "answer_snippet_reference":"References:"
+  "answer_snippet_reference":"References:",
+  "connectors_sync_stop": "Stop synchronize",
+  "connectors_no_results": "No data found"
 }

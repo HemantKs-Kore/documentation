@@ -1654,6 +1654,13 @@ export class EndPointsService {
         '/findly/:sidx/connectors/:fcon/jobs?limit=:limit',
       method: 'get',
     };
+    this.serviceList['put.stopSyncConnector'] = {
+      endpoint:
+        this.API_SERVER_URL +
+        '/findly/:searchIndexId/connectors/:connectorId/stop-content-sync',
+      method: 'put',
+    };
+
     this.serviceList['get.checkNewUser'] = {
       endpoint: this.API_SERVER_URL + '/findly/account?accountId=:accountId',
       method: 'get',

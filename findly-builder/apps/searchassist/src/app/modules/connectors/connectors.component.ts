@@ -108,6 +108,7 @@ export class ConnectorsComponent implements OnInit {
   isPopupDelete = true;
   isAuthorizeStatus = false;
   isSyncLoading = true;
+  isSyncLoadingMouseOver = false;
   searchField = '';
   isShowSearch = false;
   isloadingBtn = false;
@@ -117,7 +118,7 @@ export class ConnectorsComponent implements OnInit {
   validation = false;
   currentRouteData: any = '';
   contentInputSearch = '';
-  jobStatusList: Array<any> = [{ name: 'Success', status: 'SUCCESS' }, { name: 'In Progress', status: 'INPROGRESS' }, { name: 'Partial Success', status: 'PARTIAL_SUCCESS' }];
+  jobStatusList: Array<any> = [{ name: 'Success', status: 'success' }, { name: 'In Progress', status: 'inprogress' }, { name: 'Partial Success', status: 'partial_success' }, { name: 'Queued', status: 'queued' }];
   addConnectorSteps: any = [
     { name: 'instructions', isCompleted: true, display: 'Introduction' },
     {
@@ -376,7 +377,7 @@ export class ConnectorsComponent implements OnInit {
           let Data = [];
           if (res?.length > 0) {
             Data = res?.map(item => {
-              const status_name = this.jobStatusList.filter(job => job.status === item?.status);
+              const status_name = this.jobStatusList.filter(job => job.status === item?.status?.toLowerCase());
               return { ...item, status_name: status_name[0].name }
             })
           }
@@ -385,7 +386,7 @@ export class ConnectorsComponent implements OnInit {
             this.isSyncLoading = false;
           } else if (res && res[0]?.status === 'INPROGRESS') {
             this.checkJobStatus();
-            this.isSyncLoading = true;
+            this.isSyncLoading = false;
           }
         });
     }
@@ -413,6 +414,7 @@ export class ConnectorsComponent implements OnInit {
       this.isAuthorizeStatus = false;
       this.isPopupDelete = true;
       this.syncCount = { count: [], hours: 0, minutes: 0, days: 0 };
+      this.overViewData = { overview: [], coneten: [], jobs: [] };
       this.configurationObj = {
         name: '',
         clientId: '',
@@ -706,20 +708,21 @@ export class ConnectorsComponent implements OnInit {
         },
       },
     };
-    this.service.invoke('put.connector', quaryparms, payload).subscribe(
-      (res) => {
-        if (res) {
-          this.getConnectors();
-          this.notificationService.notify(
-            'Connector Updated Successfully',
-            'success'
-          );
+    this.service.invoke('put.connector', quaryparms, payload)
+      .subscribe(
+        (res) => {
+          if (res) {
+            this.getConnectors();
+            this.notificationService.notify(
+              'Connector Updated Successfully',
+              'success'
+            );
+          }
+        },
+        (errRes) => {
+          this.errorToaster(errRes, 'Connectors API Failed');
         }
-      },
-      (errRes) => {
-        this.errorToaster(errRes, 'Connectors API Failed');
-      }
-    );
+      );
   }
 
   //delete connector
@@ -767,6 +770,36 @@ export class ConnectorsComponent implements OnInit {
         this.errorToaster(errRes, 'Connectors API Failed');
       }
     );
+  }
+
+  //mouse over /out to call this method
+  syncMouseOver(type) {
+    if (this.isSyncLoading && type === 'over') {
+      this.isSyncLoadingMouseOver = true;
+    }
+    if (type === 'out') {
+      this.isSyncLoadingMouseOver = false;
+    }
+  }
+
+  //stop synchronize content for connectors
+  stopSynchronizeConnector() {
+    const quaryparms: any = {
+      searchIndexId: this.searchIndexId,
+      connectorId: this.connectorId,
+    };
+    const payload = {};
+    this.service.invoke('put.stopSyncConnector', quaryparms, payload)
+      .subscribe(
+        (res) => {
+          if (res) {
+            console.log("res", res);
+          }
+        },
+        (errRes) => {
+          this.errorToaster(errRes, 'Connectors API Failed');
+        }
+      );
   }
 
   //call jobs api wrt status

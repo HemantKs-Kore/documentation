@@ -750,6 +750,7 @@
                             </div>
                           </div>
                         </ng-container>
+                        <div class="no-content-data" *ngIf="overViewData?.overview?.length===0">{{"connectors_no_results"|translate}}</div>
                       </perfect-scrollbar>
                     </div>
                     <div class="source-data">
@@ -761,21 +762,21 @@
                           <button
                             class="kr-sg-button-primary btn_lg"
                             [ngStyle]="{
-                              background: isSyncLoading ? '#85B7FE' : '#0D6EFD'
+                              background: (isSyncLoading&&!isSyncLoadingMouseOver) ? '#85B7FE' : '#0D6EFD'
                             }"
-                            (click)="
-                              isSyncLoading ? null : ingestConnector(true)
-                            "
+                            (click)="isSyncLoading ? isSyncLoadingMouseOver?stopSynchronizeConnector():null : ingestConnector(true)"
+                            (mouseover)="syncMouseOver('over')"
+                            (mouseout)="syncMouseOver('out')"
                           >
                             <span
                               class="loader-spin-inside-btn"
-                              *ngIf="isSyncLoading"
-                            ></span
-                            >{{
-                              isSyncLoading
-                                ? ('connectors_sync_progress' | translate)
-                                : ('connectors_synchronize_content_now'
-                                  | translate)
+                              *ngIf="isSyncLoading&&!isSyncLoadingMouseOver"
+                            ></span>
+                            <span class="si-close font-size-12" *ngIf="isSyncLoading&&isSyncLoadingMouseOver"></span>
+                            {{
+                              (isSyncLoading
+                                ? isSyncLoadingMouseOver?'connectors_sync_stop':'connectors_sync_progress'
+                                : 'connectors_synchronize_content_now')| translate
                             }}
                           </button>
                         </div>
