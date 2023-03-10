@@ -487,6 +487,14 @@
                 color: #2D2F33;
             }
 
+            .ans-evaluvation-sub-title {
+                color: #777A80;
+                font-weight: 600;
+                font-size: 12px;
+                line-height: 15px;
+                padding: 5px 0 0 5px;
+            }
+
             .ans-evaluvation-desc {
                 font-weight: 400;
                 font-size: 12px;
@@ -498,6 +506,39 @@
                 .read-more {
                     color: #0D6EFD;
                     cursor: pointer;
+                }
+                .sup-txt{
+                    color: #0D6EFD;
+                    font-weight: 400;
+                    font-size: 10px;
+                    line-height: 15px;
+                    margin-left: -3px;
+                    top: -4px;
+                }
+            }
+            .ans-ref-block{
+                padding: 10px 10px;
+                .ans-ref-hding{
+                    color: #44474C;
+                    font-weight: 500;
+                    font-size: 10px;
+                    line-height: 12px;
+                    padding-bottom: 5px;
+                }
+                .ans-ref-ol-block{
+                    ol{
+                        padding-left: 12px;
+                        margin-bottom: 0;
+                        li{
+                            color: #99969E;
+                            font-weight: 400;
+                            font-size: 10px;
+                            line-height: 12px;
+                            text-decoration: underline;
+                            padding-bottom: 5px;
+                            cursor: pointer;                            
+                        }
+                    }
                 }
             }
 
@@ -525,11 +566,6 @@
                     font-size: 10px;
                     line-height: 12px;
                     padding-top: 3px;
-                    // white-space: nowrap;
-                    // overflow: hidden;
-                    // max-width: fit-content;
-                    // width: 319px;
-                    // text-overflow: ellipsis;
                 }
             }
         }

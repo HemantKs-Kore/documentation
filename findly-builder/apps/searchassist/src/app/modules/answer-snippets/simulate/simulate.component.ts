@@ -62,7 +62,7 @@ export class SimulateComponent implements OnInit {
           const snippetArray = res?.graph_answer?.payload;
           const Data = [];
           for (const item of snippetArray) {
-            Data.push(item?.center_panel.data[0])
+            Data.push({ ...item?.center_panel.data[0], type: item?.center_panel?.type })
           }
           if (Data.length < 2) {
             let emptyObj = [];
@@ -133,6 +133,12 @@ export class SimulateComponent implements OnInit {
   lazyLoadCodeMirror(): Observable<any[]> {
     return this.lazyLoadService.loadStyle('codemirror.min.css');
   }
+
+  //open reference link in seperate tab
+  openReferenceLink(link) {
+    window.open(link, '_blank');
+  }
+
 }
 
 
