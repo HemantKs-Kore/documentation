@@ -40,6 +40,7 @@
                 <div class="dummy-one" [ngClass]="{'verified-ans-border':(summaryViewObj.data&&summaryViewObj.data[0]?.isPresentedAnswer)}"></div>
                 <div class="dummy-two" [ngClass]="{'verified-ans-border':(summaryViewObj.data&&summaryViewObj.data[1]?.isPresentedAnswer)}"></div>
                <div *ngFor="let answer of summaryViewObj.data;let i=index;">
+               
                 <div class="user-ans-tile-main-{{i+1}}" [ngClass]="{'verified-ans-tile':answer?.isPresentedAnswer,'error-ans-tile':answer?.isNoAnswer}">
                     
                     <div class="user-ans-tile">
@@ -54,6 +55,9 @@
                             <div class="ans-evaluvation-type" [id]="'ans_msg_id'+i"><span class="ans-evaluation-dot"></span><span [innerHTML]="convertMDtoHTML?.helpers?.convertMDtoHTML(answer?.message)"></span></div>
                             <div class="if-evaluvated-score" *ngIf="answer?.score&&answer?.snippet_type!=='generative_model'">{{"answer_snippet_score"|translate}}: <b class="score-bold">{{answer?.score}}</b></div>
                         </div>
+                         
+                        <!-- Paragraph / list snippet code -->
+                        <ng-container *ngIf="!['active_citation_snippet','citation_snippet'].includes(answer.type)">
                         <div class="ans-evaluvation-title text-title-truncate" [title]="answer?.snippet_title" [innerHTML]="convertMDtoHTML?.helpers?.convertMDtoHTML(answer?.snippet_title)"></div>
                         <div class="ans-evaluvation-desc {{(answer?.isNoAnswer||answer?.snippet_content?.length===0)&&'d-none'}}" *ngIf="_array?.isArray(answer?.snippet_content) else contentTemp">
                              <div *ngFor="let snippetContent of answer?.snippet_content;let i=index;">
@@ -68,6 +72,32 @@
                             <div class="ans-source-file text-title-truncate" [title]="answer?.source"><span class="source-header mr-1">{{"workbench_source"|translate}}:</span>{{answer?.source}}</div>
                             <div class="ans-source-link text-title-truncate" [title]="answer?.url">{{answer?.url}}</div>
                         </div>
+                       </ng-container>
+
+                       <!-- citation snippet code -->
+                        <ng-container *ngIf="['active_citation_snippet','citation_snippet'].includes(answer.type)">
+                            <div class="ans-evaluvation-title text-title-truncate">{{answer?.snippet_title}}</div>
+                            <!-- <div class="ans-evaluvation-sub-title">FY dec 2024e</div> -->
+                            <div class="ans-evaluvation-desc">
+                                <span *ngFor="let content of answer?.snippet_content;let i=index;">
+                                    {{content?.answer_fragment}}.
+                                    <sup class="sup-txt">[{{i+1}}]</sup>
+                                </span>
+                            </div>
+                            <div class="ans-ref-block">
+                                <div class="ans-ref-hding">{{"answer_snippet_reference"|translate}} </div>
+                                <div class="ans-ref-ol-block">
+                                    <ol>
+                                        <ng-container *ngFor="let reference of answer?.snippet_content">
+                                            <li *ngFor="let source of reference?.sources">
+                                                <span (click)="openReferenceLink(source?.url)">{{source?.title}}</span>
+                                            </li>
+                                        </ng-container>                                        
+                                    </ol>                           
+                                </div>
+                            </div>
+                        </ng-container>
+
                     </div>
 
                     <div class="arrow-right" *ngIf="i===0"></div>
