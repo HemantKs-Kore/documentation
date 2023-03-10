@@ -6,6 +6,7 @@ import {
   ElementRef,
   ViewChild,
   AfterViewInit,
+  OnDestroy,
 } from '@angular/core';
 // import { EChartOption } from 'echarts';
 import { Options } from 'ng5-slider';
@@ -19,13 +20,25 @@ import { ServiceInvokerService } from '@kore.apps/services/service-invoker.servi
 import { NotificationService } from '@kore.apps/services/notification.service';
 import { AppSelectionService } from '@kore.apps/services/app.selection.service';
 import { TranslateModule } from '@ngx-translate/core';
+import { Store } from '@ngrx/store';
+import {
+  selectIndexPipelineId,
+  selectIndexPipelines,
+  selectQueryPipelineId,
+  selectSearchIndexId,
+} from '@kore.apps/store/app.selectors';
+import { combineLatest, Subscription } from 'rxjs';
 declare const $: any;
 @Component({
   selector: 'app-user-engagement',
   templateUrl: './user-engagement.component.html',
   styleUrls: ['./user-engagement.component.scss'],
 })
-export class UserEngagementComponent implements OnInit, AfterViewInit {
+export class UserEngagementComponent
+  implements OnInit, AfterViewInit, OnDestroy
+{
+  sub: Subscription;
+  indexPipelineId;
   math = Math;
   selectedApp;
   serachIndexId;
@@ -37,7 +50,6 @@ export class UserEngagementComponent implements OnInit, AfterViewInit {
   tsqlimitpage = 5;
   tsqrecordEnd = 5;
   selecteddropname: any;
-  selectedIndexConfig: any;
   indexConfigs: any = [];
   indexConfigObj: any = {};
   selecteddropId: any;
@@ -148,13 +160,15 @@ export class UserEngagementComponent implements OnInit, AfterViewInit {
     public workflowService: WorkflowService,
     private service: ServiceInvokerService,
     private notificationService: NotificationService,
-    private appSelectionService: AppSelectionService
+    private appSelectionService: AppSelectionService,
+    private store: Store
   ) {}
 
   ngOnInit(): void {
-    this.selectedApp = this.workflowService?.selectedApp();
-    this.serachIndexId = this.selectedApp?.searchIndexes[0]._id;
-    this.getIndexPipeline();
+    this.initAppIds();
+    // this.selectedApp = this.workflowService?.selectedApp();
+    // this.serachIndexId = this.selectedApp?.searchIndexes[0]._id;
+    // this.getIndexPipeline();
     //this.getAllgraphdetails()
 
     //this.mostClick();
@@ -163,49 +177,33 @@ export class UserEngagementComponent implements OnInit, AfterViewInit {
     // this.getQueries("SearchHistogram");
   }
 
-  getIndexPipeline() {
-    const header: any = {
-      'x-timezone-offset': '-330',
-    };
-    const quaryparms: any = {
-      searchIndexId: this.serachIndexId,
-      offset: 0,
-      limit: 100,
-    };
-    this.service.invoke('get.indexPipeline', quaryparms, header).subscribe(
-      (res) => {
-        this.indexConfigs = res;
-        if (res.length >= 0) {
-          //this.selectedIndexConfig = this.workflowService.selectedIndexPipeline();
-          for (let i = 0; i < res.length; i++) {
-            if (res[i].default === true) {
-              this.selectedIndexConfig = res[i]._id;
-            }
-          }
-          this.getAllgraphdetails(this.selectedIndexConfig);
-          // for(let i=0;i<res.length;i++){
-          //   if(res[i].default=== true){
-          //     this.selecteddropname=res[i].name;
-          //   }
-          // }
-        }
+  initAppIds() {
+    this.sub = combineLatest([
+      this.store.select(selectIndexPipelineId),
+      this.store.select(selectSearchIndexId),
+      // this.store.select(selectQueryPipelineId),
+    ]).subscribe(([indexPipelineId, searchIndexId]) => {
+      // this.queryPipelineId = queryPipelineId;
+      this.serachIndexId = searchIndexId;
+      this.indexPipelineId = indexPipelineId;
 
-        //this.getQueryPipeline(res[0]._id);
-      },
-      (errRes) => {
-        if (
-          errRes &&
-          errRes.error.errors &&
-          errRes.error.errors.length &&
-          errRes.error.errors[0] &&
-          errRes.error.errors[0].msg
-        ) {
-          this.notificationService.notify(errRes.error.errors[0].msg, 'error');
-        } else {
-          this.notificationService.notify('Failed ', 'error');
+      this.getIndexPipeline();
+    });
+  }
+
+  getIndexPipeline() {
+    const selectedDefaultIndexSub = this.store
+      .select(selectIndexPipelines)
+      .subscribe((res) => {
+        this.indexConfigs = res;
+
+        if (res.length) {
+          const selectedIndexConfigId = res.find((item) => item.default)?._id;
+          this.getAllgraphdetails(selectedIndexConfigId);
         }
-      }
-    );
+      });
+
+    this.sub?.add(selectedDefaultIndexSub);
   }
 
   getAllgraphdetails(selectedindexpipeline) {
@@ -512,7 +510,7 @@ export class UserEngagementComponent implements OnInit, AfterViewInit {
     };
     const quaryparms: any = {
       searchIndexId: this.serachIndexId,
-      indexPipelineId: this.workflowService.selectedIndexPipeline(),
+      indexPipelineId: this.indexPipelineId,
       offset: 0,
       limit: this.pageLimit,
     };
@@ -1818,5 +1816,9 @@ export class UserEngagementComponent implements OnInit, AfterViewInit {
   }
   openUserMetaTagsSlider() {
     this.appSelectionService.topicGuideShow.next(undefined);
+  }
+
+  ngOnDestroy(): void {
+    this.sub?.unsubscribe();
   }
 }
