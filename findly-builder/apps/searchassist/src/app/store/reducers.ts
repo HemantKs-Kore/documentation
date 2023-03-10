@@ -7,6 +7,7 @@ import {
   addQueryPipeline,
   removeIndexPipeline,
   removeQueryPipeline,
+  resetAppIds,
   setAppId,
   setIndexPipelineId,
   setIndexPipelines,
@@ -40,6 +41,19 @@ const appInitialState: AppState = {
 
 export const rootReducer = createReducer(
   appInitialState,
+  on(resetAppIds, (state, { appId }) => {
+    if (appId === state.appId) {
+      return {
+        ...state,
+        appId: null,
+        searchIndexId: null,
+        indexPipelineId: null,
+        queryPipelineId: null,
+      };
+    }
+
+    return state;
+  }),
   on(setAppId, (state, { appId, searchIndexId }) => {
     return { ...state, appId, searchIndexId, searchExperienceConfig: null };
   }),

@@ -2,6 +2,11 @@ import { SearchExperienceConfigInterface } from '@kore.apps/shared/types/search-
 import { createAction, props } from '@ngrx/store';
 import { AppActionTypes } from './app.action-types';
 
+export const resetAppIds = createAction(
+  AppActionTypes.RESET_APP_IDS,
+  props<{ appId: string }>()
+);
+
 export const setAppId = createAction(
   AppActionTypes.SET_APP_ID,
   props<{ appId: string; searchIndexId: string }>()

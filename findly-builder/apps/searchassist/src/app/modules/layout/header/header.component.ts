@@ -554,27 +554,29 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
 
   initAppIds() {
-    // const indexPipelineSub = combineLatest([
-    //   this.store.select(selectIndexPipelineId),
-    //   this.store.select(selectSearchIndexId),
-    //   this.store.select(selectQueryPipelineId),
-    // ]).subscribe(([indexPipelineId, searchIndexId, queryPipelineId]) => {
-    //   console.log('HERERE', indexPipelineId, searchIndexId, queryPipelineId);
-    // });
-    const indexPipelineSub = this.store
-      .select(selectQueryPipelineId)
-      .pipe(
-        withLatestFrom(
-          this.store.select(selectIndexPipelineId),
-          this.store.select(selectSearchIndexId)
-        ),
-        tap(([queryPipelineId, indexPipelineId, searchIndexId]) => {
-          this.queryPipelineId = queryPipelineId;
-          this.serachIndexId = searchIndexId;
-          this.indexPipelineId = indexPipelineId;
-        })
-      )
-      .subscribe();
+    const indexPipelineSub = combineLatest([
+      this.store.select(selectIndexPipelineId),
+      this.store.select(selectSearchIndexId),
+      this.store.select(selectQueryPipelineId),
+    ]).subscribe(([indexPipelineId, searchIndexId, queryPipelineId]) => {
+      this.queryPipelineId = queryPipelineId;
+      this.serachIndexId = searchIndexId;
+      this.indexPipelineId = indexPipelineId;
+    });
+    // const indexPipelineSub = this.store
+    //   .select(selectQueryPipelineId)
+    //   .pipe(
+    //     withLatestFrom(
+    //       this.store.select(selectIndexPipelineId),
+    //       this.store.select(selectSearchIndexId)
+    //     ),
+    //     tap(([queryPipelineId, indexPipelineId, searchIndexId]) => {
+    //       this.queryPipelineId = queryPipelineId;
+    //       this.serachIndexId = searchIndexId;
+    //       this.indexPipelineId = indexPipelineId;
+    //     })
+    //   )
+    //   .subscribe();
 
     this.subscription?.add(indexPipelineSub);
   }
