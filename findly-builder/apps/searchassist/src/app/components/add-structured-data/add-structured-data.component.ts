@@ -17,13 +17,10 @@ import { PerfectScrollbarComponent } from 'ngx-perfect-scrollbar';
 import { AuthService } from '@kore.apps/services/auth.service';
 import { ServiceInvokerService } from '@kore.apps/services/service-invoker.service';
 import { AppSelectionService } from '@kore.apps/services/app.selection.service';
-import { combineLatest, Observable, Subscription } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { LazyLoadService } from '@kore.libs/shared/src';
 import '../../../assets/js/codemirror.js';
-import {
-  selectIndexPipelineId,
-  selectSearchIndexId,
-} from '@kore.apps/store/app.selectors';
+import { selectSearchIndexId } from '@kore.apps/store/app.selectors';
 import { Store } from '@ngrx/store';
 declare const $: any;
 
@@ -104,15 +101,11 @@ export class AddStructuredDataComponent
   }
 
   initAppIds() {
-    const pipelineSub = combineLatest([
-      this.store.select(selectIndexPipelineId),
-      this.store.select(selectSearchIndexId),
-      // this.store.select(selectQueryPipelineId),
-    ]).subscribe(([indexPipelineId, searchIndexId]) => {
-      // this.queryPipelineId = queryPipelineId;
-      this.serachIndexId = searchIndexId;
-      this.indexPipelineId = indexPipelineId;
-    });
+    const pipelineSub = this.store
+      .select(selectSearchIndexId)
+      .subscribe((searchIndexId) => {
+        this.serachIndexId = searchIndexId;
+      });
 
     this.sub?.add(pipelineSub);
   }
