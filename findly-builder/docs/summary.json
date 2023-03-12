@@ -16,6 +16,18 @@
     "file": "i18n.md"
   },
   {
+    "title": "PWA",
+    "file": "pwa.md"
+  },
+  {
+    "title": "UNCSS",
+    "file": "uncss.md"
+  },
+  {
+    "title": "Resolver",
+    "file": "resolver.md"
+  },
+  {
     "title": "Build & Deploy",
     "file": "build-and-deploy.md"
   },

@@ -4,12 +4,11 @@ import { extModules } from '../build-specifics';
 import { appReducers } from './store/reducers';
 import { StoreRouterConnectingModule } from '@ngrx/router-store';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
-import { NgModule, isDevMode } from '@angular/core';
+import { NgModule, isDevMode, APP_INITIALIZER } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { globalProviders } from '@kore.services/inteceptors';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
-// import { NgxDaterangepickerMd } from 'ngx-daterangepicker-material';
 import { ToastrModule } from 'ngx-toastr';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -18,18 +17,9 @@ import { AppDataResolver } from '@kore.services/resolvers/app.data.resolve';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HeaderModule } from './modules/layout/header/header.module';
-// import { SideBarService } from '@kore.services/header.service';
-// import { AppSelectionService } from '@kore.services/app.selection.service';
-// import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-// import { DockStatusService } from '@kore.services/dock.status.service';
-// import { MatDatepickerModule } from '@angular/material/datepicker';
-// import { ConvertMDtoHTML } from '@kore.helpers/lib/convertHTML';
-// import { AccountsDataService } from '@kore.services/dataservices/accounts-data.service';
 import { AuthGuard } from '@kore.services/auth.guard';
-// import { SortPipe } from '@kore.helpers/sortPipe/sort-pipe';
 import { MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material/form-field';
 import { CommonModule } from '@angular/common';
-// import { MainMenuModule } from './modules/layout/mainmenu/mainmenu.module';
 import { NgxEchartsModule } from 'ngx-echarts';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { AppEffects } from './store/app.effects';
@@ -42,12 +32,27 @@ import {
 import { AppsDataService } from './modules/apps/services/apps-data.service';
 import { MatDialogModule } from '@angular/material/dialog';
 import { AppsModule } from './modules/apps/apps.module';
-// import { AddResultModule } from './modules/add-result/add-result.module';
-// import { InsightsModule } from './modules/insights/insights.module';
+import { AuthService } from './services/auth.service';
+import { AppUrlsService } from './services/app.urls.service';
 
 // AoT requires an exported function for factories
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
+}
+
+export function appInitializer(
+  authService: AuthService,
+  appUrlsService: AppUrlsService
+) {
+  return () => {
+    // check if the user is authenticated
+    const isAuthenticated = authService.isAuthenticated();
+    if (!isAuthenticated) {
+      // redirect to the login page
+      appUrlsService.redirectToLogin();
+    }
+    return isAuthenticated;
+  };
 }
 
 @NgModule({
@@ -60,7 +65,6 @@ export function createTranslateLoader(http: HttpClient) {
     AppsModule,
     HttpClientModule,
     CommonModule,
-    // AddResultModule,
     NgxEchartsModule.forRoot({
       echarts: () => import('echarts'),
     }),
@@ -78,9 +82,7 @@ export function createTranslateLoader(http: HttpClient) {
       autoDismiss: false,
       closeButton: true,
     }),
-    // NgxDaterangepickerMd.forRoot(),
     HeaderModule,
-    // MainMenuModule,
     MatDialogModule,
 
     // StoreModule.forRoot(appReducers, { metaReducers }),
@@ -97,43 +99,30 @@ export function createTranslateLoader(http: HttpClient) {
       registrationStrategy: 'registerWhenStable:30000',
     }),
   ],
-  // tslint:disable-next-line:max-line-length
-  entryComponents: [
-    // ConfirmationDialogComponent,
-    // IndexFieldsComfirmationDialogComponent,
-    // ImportFaqsModalComponent,
-    // EditorUrlDialogComponent,
-  ],
   providers: [
     globalProviders,
     {
       provide: MAT_FORM_FIELD_DEFAULT_OPTIONS,
       useValue: { appearance: 'fill' },
     },
-    // SortPipe,
     AuthGuard,
     AppDataResolver,
-    // QueryPipelineResolver,
-    // AccountsDataService,
-    // SideBarService,
-    // NgbActiveModal,
     MatSnackBar,
-    // ConvertMDtoHTML,
-    // MatDatepickerModule,
-    // AppSelectionService,
-    // DockStatusService,
     AppsDataService,
-    // IndexPipelineDataService,
-    // QueryPipelineDataService,
+    {
+      provide: APP_INITIALIZER,
+      useFactory: appInitializer,
+      multi: true,
+      deps: [AuthService, AppUrlsService],
+    },
   ],
-  // exports: [NgbdDatepickerRange],
   bootstrap: [AppComponent],
 })
 export class AppModule {
   constructor(
     private eds: EntityDefinitionService,
     private entityDataService: EntityDataService,
-    private appsDataService: AppsDataService // private indexPipelineDataService: IndexPipelineDataService, // private queryPipelineDataService: QueryPipelineDataService
+    private appsDataService: AppsDataService
   ) {
     this.eds.registerMetadataMap(entityMetadata);
     this.entityDataService.registerService(
