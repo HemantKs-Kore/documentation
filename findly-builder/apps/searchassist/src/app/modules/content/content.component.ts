@@ -12,7 +12,6 @@ import { NotificationService } from '../../services/notification.service';
 import { Router } from '@angular/router';
 declare const $: any;
 import * as _ from 'underscore';
-// import * as moment from 'moment';
 import { ConfirmationDialogComponent } from '../../helpers/components/confirmation-dialog/confirmation-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
 import { Subject } from 'rxjs';
@@ -639,10 +638,6 @@ export class ContentComponent implements OnInit, OnDestroy {
                 element?.advanceSettings?.scheduleOpts?.interval?.intervalValue
                   ?.endsOn
               ) {
-                // date = moment(
-                //   element.advanceSettings.scheduleOpts.interval.intervalValue
-                //     .endsOn.endDate
-                // ).format('Do MMMM YYYY');
                 date = format(
                   new Date(
                     element.advanceSettings.scheduleOpts.interval.intervalValue.endsOn.endDate
@@ -673,9 +668,6 @@ export class ContentComponent implements OnInit, OnDestroy {
             }
           }
           if (element.jobInfo.createdOn && element.jobInfo.createdOn != '--') {
-            // element['schedule_createdOn'] = moment(
-            //   element.jobInfo.createdOn
-            // ).fromNow();
             element['schedule_createdOn'] = formatDistanceToNow(
               new Date(element.jobInfo.createdOn),
               { addSuffix: true }
@@ -1122,8 +1114,6 @@ export class ContentComponent implements OnInit, OnDestroy {
             element.executionStats.duration = this.duration(
               element.executionStats.duration
             );
-            // console.log("element.executionStats.duration", element.executionStats.duration)
-            //element.createdOn = moment(element.createdOn).fromNow();
             const date = new Date(element.createdOn);
             element.createdOn = formatDistanceToNow(date, {
               addSuffix: true,
@@ -1952,14 +1942,7 @@ export class ContentComponent implements OnInit, OnDestroy {
     );
     // this.getFileds(event.skip, this.searchFields)
   }
-  // transform(date: string): any {
-  //   const _date = new Date(date);
-  //   if (_date.toString() === 'Invalid Date') {
-  //     return '-';
-  //   } else {
-  //     return moment(_date).format('DD MMM YYYY');
-  //   }
-  // }
+
   // pushValues(res, index) {
   //   const array = [];
   //   array.push(

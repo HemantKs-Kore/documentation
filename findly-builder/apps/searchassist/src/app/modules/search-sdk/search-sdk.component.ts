@@ -112,7 +112,6 @@ export class SearchSdkComponent implements OnInit, OnDestroy {
     //   });
     this.toggleSdkPopup();
 
-    // this.lazyLoadCodeScripts().subscribe(() => {
     // before click
     this.distroySearch();
 
@@ -135,14 +134,6 @@ export class SearchSdkComponent implements OnInit, OnDestroy {
 
     //   this.initSearchSDK();
     // });
-  }
-
-  lazyLoadCodeScripts(): Observable<any> {
-    return forkJoin([
-      // this.lazyLoadService.loadScript(
-      //   '../../../assets/web-kore-sdk/demo/libs/moment.js'
-      // ),
-    ]);
   }
 
   initAppIds() {

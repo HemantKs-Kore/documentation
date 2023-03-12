@@ -846,7 +846,6 @@ export class ResultRankingComponent implements OnInit, OnDestroy {
       queryPipelineId: this.queryPipelineId,
       rankingAndPinningId: record._id,
     };
-    // this.time =moment("2020-10-28T05:27:49.499Z").fromNow()
     // const displayTime=document.getElementById('displayTime')
     // displayTime.append('time')
     this.service.invoke('get.rankingActionLog', quaryparms).subscribe(
