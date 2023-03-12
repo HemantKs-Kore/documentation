@@ -15,7 +15,7 @@ const routes: Routes = [
   {
     path: '',
     canActivate: [AuthGuard],
-    resolve: [AppDataResolver],
+    resolve: [AppDataResolver, AppsDataResolver],
     children: [
       {
         path: 'summary',
