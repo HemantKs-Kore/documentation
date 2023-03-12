@@ -41,6 +41,7 @@ import {
 } from '@ngrx/data';
 import { AppsDataService } from './modules/apps/services/apps-data.service';
 import { MatDialogModule } from '@angular/material/dialog';
+import { AppsModule } from './modules/apps/apps.module';
 // import { AddResultModule } from './modules/add-result/add-result.module';
 // import { InsightsModule } from './modules/insights/insights.module';
 
@@ -55,6 +56,7 @@ export function createTranslateLoader(http: HttpClient) {
     LoaderModule,
     BrowserModule,
     BrowserAnimationsModule,
+    AppsModule,
     AppRoutingModule,
     HttpClientModule,
     CommonModule,
