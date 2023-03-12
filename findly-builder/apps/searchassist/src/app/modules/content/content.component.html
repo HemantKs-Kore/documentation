@@ -662,7 +662,7 @@
                     <ng-template #executed>
                       <div class="timestamp">
                         {{ 'contentSource_last_updated_on' | translate }}
-                        {{ source.lMod | dateFormatPipe : 'D MMMM YYYY' }}
+                        {{ source.lMod | dateFormatPipe : 'd MMMM yyyy' }}
                       </div>
                     </ng-template>
                     <div
@@ -2590,7 +2590,7 @@
                             </div>
                             <div class="page-c-data">
                               {{
-                                page.createdOn | dateFormatPipe : 'D MMMM YYYY'
+                                page.createdOn | dateFormatPipe : 'd MMMM yyyy'
                               }}
                             </div>
                           </a>
@@ -2728,7 +2728,7 @@
                                       <div class="info-text">
                                         {{
                                           selectedPage?.createdOn
-                                            | dateFormatPipe : 'D MMMM YYYY'
+                                            | dateFormatPipe : 'd MMMM yyyy'
                                         }}
                                       </div>
                                     </div>
@@ -3298,7 +3298,7 @@
         </div>
         <div class="title-desc-text">
           {{
-            selectedSource.createdOn | dateFormatPipe : 'D MMMM YYYY , hh:mm A'
+            selectedSource.createdOn | dateFormatPipe : 'd MMMM yyyy , hh:mm A'
           }}
         </div>
         <div class="title-text">

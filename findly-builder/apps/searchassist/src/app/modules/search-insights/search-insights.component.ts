@@ -82,14 +82,20 @@ export class SearchInsightsComponent implements OnInit {
 
     //this.getQueries("GetSearchQueriesResults");
     this.searchExperienceConfig = this.headerService.searchConfiguration;
-    this.feedbackDisableDate =
-      'User feedback disabled since ' +
-      format(
-        new Date(
-          this.searchExperienceConfig?.interactionsConfig?.feedbackExperience?.lmod
-        ),
-        'dd/MM/yyyy'
-      );
+    const feedbackDate =
+      this.searchExperienceConfig?.interactionsConfig?.feedbackExperience?.lmod;
+
+    if (feedbackDate) {
+      this.feedbackDisableDate =
+        'User feedback disabled since ' +
+        format(
+          new Date(
+            this.searchExperienceConfig?.interactionsConfig?.feedbackExperience?.lmod
+          ),
+          'dd/MM/yyyy'
+        );
+    }
+
     if (localStorage.getItem('search_Insight_Result')) {
       localStorage.getItem('search_Insight_Result') == 'Top_Search_Queries'
         ? (this.querieswithresults = true)

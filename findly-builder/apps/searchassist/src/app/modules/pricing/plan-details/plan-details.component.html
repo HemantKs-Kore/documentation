@@ -259,7 +259,7 @@
                           : 'plan_renews_on'
                         ) | translate) +
                         (currentSubscriptionPlan?.subscription?.endDate
-                          | dateFormatPipe : 'D.MMM.YYYY')
+                          | dateFormatPipe : 'd.MMM.yyyy')
                   }}
                 </div>
 
@@ -327,7 +327,8 @@
                   >
                     {{ usageDetails?.searchQueriesUsed | valueFormat }}
                     <span class="total-count"
-                      >/ {{ usageDetails?.searchQueriesLimit | valueFormat }}</span
+                      >/
+                      {{ usageDetails?.searchQueriesLimit | valueFormat }}</span
                     >
                   </div>
                 </div>
@@ -387,9 +388,10 @@
                     class="plan-progress-bar-count"
                     *ngIf="usageDetails?.overageSearchLimit"
                   >
-                    {{ usageDetails?.overageSearchCount | valueFormat}}
+                    {{ usageDetails?.overageSearchCount | valueFormat }}
                     <span class="total-count"
-                      >/ {{ usageDetails?.overageSearchLimit | valueFormat }}</span
+                      >/
+                      {{ usageDetails?.overageSearchLimit | valueFormat }}</span
                     >
                   </div>
                 </div>
