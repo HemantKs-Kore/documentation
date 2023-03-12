@@ -541,7 +541,9 @@
                       (removed)="remove(contain, i)"
                     >
                       <span class="mat-val">{{ contain }}</span>
-                      <img src="assets/images/close.svg" class="remove-icon" />
+                      <button matChipRemove>
+                        <i class="si-close"></i>
+                      </button>
                     </mat-chip-row>
                     <input
                       type="text"
@@ -1625,10 +1627,9 @@
                             ><span class="mat-val" *ngIf="entity">{{
                               entity | translate
                             }}</span>
-                            <img
-                              src="assets/images/close.svg"
-                              class="remove-icon"
-                            />
+                            <button matChipRemove>
+                              <i class="si-close"></i>
+                            </button>
                           </mat-chip-row>
                           <input
                             placeholder="{{
@@ -1673,10 +1674,9 @@
                             ><span class="mat-val" *ngIf="entity">{{
                               entity
                             }}</span>
-                            <img
-                              src="assets/images/close.svg"
-                              class="remove-icon"
-                            />
+                            <button matChipRemove>
+                              <i class="si-close"></i>
+                            </button>
                           </mat-chip-row>
                           <input
                             placeholder="{{
@@ -2157,10 +2157,9 @@
                         ><span class="mat-val" *ngIf="entity">{{
                           entity | translate
                         }}</span>
-                        <img
-                          src="assets/images/close.svg"
-                          class="remove-icon"
-                        />
+                        <button matChipRemove>
+                          <i class="si-close"></i>
+                        </button>
                       </mat-chip-row>
                       <input
                         id="addentity"
@@ -2239,10 +2238,9 @@
                         ><span class="mat-val" *ngIf="entity">{{
                           entity
                         }}</span>
-                        <img
-                          src="assets/images/close.svg"
-                          class="remove-icon"
-                        />
+                        <button matChipRemove>
+                          <i class="si-close"></i>
+                        </button>
                       </mat-chip-row>
                       <input
                         placeholder="{{
