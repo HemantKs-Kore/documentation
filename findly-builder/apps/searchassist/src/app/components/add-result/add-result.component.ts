@@ -6,12 +6,17 @@ import {
   Input,
   OnDestroy,
 } from '@angular/core';
-import { Subscription } from 'rxjs';
+import { combineLatest, Subscription } from 'rxjs';
 import { SideBarService } from './../../services/header.service';
-import { WorkflowService } from '@kore.apps/services/workflow.service';
 import { ServiceInvokerService } from '@kore.apps/services/service-invoker.service';
 import { NotificationService } from '@kore.apps/services/notification.service';
 import { AppSelectionService } from '@kore.apps/services/app.selection.service';
+import { Store } from '@ngrx/store';
+import {
+  selectIndexPipelineId,
+  selectQueryPipelineId,
+  selectSearchIndexId,
+} from '@kore.apps/store/app.selectors';
 declare const $: any;
 
 @Component({
@@ -46,11 +51,11 @@ export class AddResultComponent implements OnInit, OnDestroy {
   @Input() searchRequestId;
   @Output() closeResult = new EventEmitter();
   constructor(
-    public workflowService: WorkflowService,
     public notificationService: NotificationService,
     private appSelectionService: AppSelectionService,
     private service: ServiceInvokerService,
-    public headerService: SideBarService
+    public headerService: SideBarService,
+    private store: Store
   ) {}
 
   ngOnInit(): void {
@@ -75,22 +80,24 @@ export class AddResultComponent implements OnInit, OnDestroy {
         this.getFieldAutoComplete();
       });
   }
-  results() {
-    this.indexPipelineId = this.workflowService.selectedIndexPipeline();
-    this.queryPipelineId = this.workflowService.selectedQueryPipeline()
-      ? this.workflowService.selectedQueryPipeline()._id
-      : this.selectedApp.searchIndexes[0].queryPipelineId;
-    if (this.queryPipelineId) {
-      this.appDetails();
-      if (this.indexPipelineId) {
-        this.getFieldAutoComplete();
-      }
-    }
+
+  initAppIds() {
+    const indexPipelineSub = combineLatest([
+      this.store.select(selectIndexPipelineId),
+      this.store.select(selectSearchIndexId),
+      this.store.select(selectQueryPipelineId),
+    ]).subscribe(([indexPipelineId, searchIndexId, queryPipelineId]) => {
+      this.queryPipelineId = queryPipelineId;
+      this.serachIndexId = searchIndexId;
+      this.indexPipelineId = indexPipelineId;
+    });
+
+    this.subscription?.add(indexPipelineSub);
   }
-  appDetails() {
-    this.selectedApp = this.workflowService.selectedApp();
-    this.serachIndexId = this.selectedApp.searchIndexes[0]._id;
-    this.queryPipelineId = this.workflowService.selectedQueryPipeline()._id;
+  results() {
+    if (this.queryPipelineId) {
+      this.getFieldAutoComplete();
+    }
   }
 
   getFieldAutoComplete() {
@@ -259,7 +266,7 @@ export class AddResultComponent implements OnInit, OnDestroy {
     const quaryparms: any = {
       searchIndexId: searchIndex,
       queryPipelineId: this.queryPipelineId,
-      indexPipelineId: this.workflowService.selectedIndexPipeline() || '',
+      indexPipelineId: this.indexPipelineId || '',
     };
     const result: any = [];
     this.recordArray.forEach((element, index) => {
@@ -343,7 +350,7 @@ export class AddResultComponent implements OnInit, OnDestroy {
     const payload = {
       extractionType: this.searchType || this.searchRadioType,
       search: search,
-      indexPipelineId: this.workflowService.selectedIndexPipeline() || '',
+      indexPipelineId: this.indexPipelineId || '',
       searchRequestId: this.searchRequestId,
     };
     this.service

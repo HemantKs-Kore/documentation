@@ -16,9 +16,12 @@ import { AppSelectionService } from '@kore.apps/services/app.selection.service';
 import { NotificationService } from '@kore.apps/services/notification.service';
 import { SideBarService } from '@kore.apps/services/header.service';
 import { Store } from '@ngrx/store';
-import { selectSearchExperiance } from '@kore.apps/store/app.selectors';
 import { differenceInDays, format, subDays, subHours } from 'date-fns';
 import { utcToZonedTime } from 'date-fns-tz';
+import {
+  selectAppIds,
+  selectSearchExperiance,
+} from '@kore.apps/store/app.selectors';
 
 declare const $: any;
 @Component({
@@ -29,7 +32,7 @@ declare const $: any;
 export class DashboardComponent implements OnInit, OnDestroy {
   math = Math;
   selectedApp;
-  serachIndexId;
+  searchIndexId;
   pageLimit = 5;
   totalSearchSum = 0;
   searchesWithClicksSum = 0;
@@ -106,6 +109,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
     startDate: this.startDate,
     endDate: this.endDate,
   };
+  sub: Subscription;
   @ViewChild(DaterangepickerDirective, { static: true })
   pickerDirective: DaterangepickerDirective;
   @ViewChild('datetimeTrigger') datetimeTrigger: ElementRef<HTMLElement>;
@@ -121,36 +125,19 @@ export class DashboardComponent implements OnInit, OnDestroy {
   indexConfigs: any = []; //added on 17/01
 
   ngOnInit(): void {
-    this.selectedApp = this.workflowService?.selectedApp();
-    //this.indexConfigs = this.appSelectionService.appSelectedConfigs;
-    this.serachIndexId = this.selectedApp?.searchIndexes[0]?._id;
-    this.getIndexPipeline();
-    this.getSearchExperience();
-    //this.appselection();
+    this.initAppIds();
+  }
 
-    /*added 96 to 107 on 17/01 */
-    //   this.appSelectionService.appSelectedConfigs.subscribe(res =>   {
-    //   this.indexConfigs = res;
-    //   this.indexConfigs.forEach(element => {
-    //     this.indexConfigObj[element._id] = element;
-    //   });
-    //   if (res.length >= 0){
-    //     this.selectedIndexConfig = this.workflowService.selectedIndexPipeline();
-    //     this.getAllgraphdetails(this.selectedIndexConfig);
-    //     for(let i=0;i<res.length;i++){
-    //       if(res[i].default=== true){
-    //         this.selecteddropname=res[i].name;
-    //       }
-    //     }
-    //   }
+  initAppIds() {
+    const idsSub = this.store
+      .select(selectAppIds)
+      .subscribe(({ searchIndexId, indexPipelineId }) => {
+        this.searchIndexId = searchIndexId;
+        this.indexPipelineId = indexPipelineId;
 
-    //  }) //changes ends here
-
-    this.indexPipelineId = this.workflowService.selectedIndexPipeline();
-    this.appSubscription =
-      this.appSelectionService.appSelectedConfigs.subscribe((res) => {
-        this.indexPipelineId = this.workflowService.selectedIndexPipeline();
+        this.getSearchExperience();
       });
+    this.sub?.add(idsSub);
   }
 
   getSearchExperience() {
@@ -169,7 +156,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
       'x-timezone-offset': '-330',
     };
     const quaryparms: any = {
-      searchIndexId: this.serachIndexId,
+      searchIndexId: this.searchIndexId,
       offset: 0,
       limit: 100,
     };
@@ -180,7 +167,6 @@ export class DashboardComponent implements OnInit, OnDestroy {
           this.indexConfigObj[element._id] = element;
         });
         if (res.length >= 0) {
-          // this.selectedIndexConfig = this.workflowService.selectedIndexPipeline();
           for (let i = 0; i < res.length; i++) {
             if (res[i].default === true) {
               this.selectedIndexConfig = res[i]._id;
@@ -212,24 +198,6 @@ export class DashboardComponent implements OnInit, OnDestroy {
     );
   }
 
-  /*added on 21/01 creating seperate function for caputuring res inside funcstion rather than calling in ngOninit */
-  // appselection(){
-  // this.appSelectionService.appSelectedConfigs.subscribe(res =>   {
-  //   this.indexConfigs = res;
-  //   this.indexConfigs.forEach(element => {
-  //     this.indexConfigObj[element._id] = element;
-  //   });
-  //   if (res.length >= 0){
-  //     this.selectedIndexConfig = this.workflowService.selectedIndexPipeline();
-  //     this.getAllgraphdetails(this.selectedIndexConfig);
-  //     for(let i=0;i<res.length;i++){
-  //       if(res[i].default=== true){
-  //         this.selecteddropname=res[i].name;
-  //       }
-  //     }
-  //   }
-  //  })
-  // }
   /* added on 17/01 */
   getAllgraphdetails(selectedindexpipeline) {
     this.selecteddropId = selectedindexpipeline;
@@ -372,7 +340,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
     };
 
     const quaryparms: any = {
-      searchIndexId: this.serachIndexId,
+      searchIndexId: this.searchIndexId,
       /* adding indexPipelineid to query params on 17/01*/
       indexPipelineId: selectedindexpipeline,
       //indexPipelineId:selectedindexpipeline ? selectedindexpipeline : this.defaultPipelineid,
@@ -475,13 +443,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
         position: navigate,
       };
     }
-    // const quaryparms: any = {
-    //   searchIndexID: this.serachIndexId,
-    //   indexPipelineId: this.workflowService.selectedIndexPipeline() || '',
-    //   queryPipelineId: this.workflowService.selectedQueryPipeline()._id,
-    //   offset: 0,
-    //   limit: 10
-    // };
+
     let request: any = {};
     // if(!sortValue){
     //   request = {

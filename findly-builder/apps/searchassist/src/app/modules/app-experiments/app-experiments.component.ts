@@ -607,63 +607,6 @@ export class AppExperimentsComponent implements OnInit, OnDestroy {
 
     this.getExperiments(null, null, source, headerOption);
   }
-  // synonymFilter(searchValue?,searchSource?, source?,headerOption?, sortHeaderOption?,sortValue?,navigate?){
-  //   // fieldsFilter(searchValue?,searchSource?, source?,headerOption?, sortHeaderOption?,sortValue?,navigate?)
-  //   // this.loadingContent = true;
-  //   if(sortValue){
-  //     this.sortedObject = {
-  //       type : sortHeaderOption,
-  //       value : sortValue,
-  //       position: navigate
-  //     }
-  //   }
-
-  //   const quaryparms: any = {
-  //     searchIndexID: this.serachIndexId,
-  //     indexPipelineId: this.workflowService.selectedIndexPipeline() || '',
-  //     queryPipelineId: this.workflowService.selectedQueryPipeline()._id,
-  //     offset: 0,
-  //     limit: 10
-  //   };
-  //   let request:any={}
-  //   if(!sortValue){
-  //     request = {
-  //       "sort":{
-  //         'type':1
-  //       }
-  //   }
-  //   }
-  //   else if(sortValue){
-  //     const sort :any ={}
-  //     request= {
-  //       sort
-  //     }
-  //   }
-  //   else {
-  //   request={}
-  //   }
-
-  //   request.type = this.filterSystem.statusfilter;
-  //   request.search= this.synonymSearch;
-  //   if (request.type == 'all') {
-  //    delete  request.type;
-  //   }
-  //   if (this.synonymSearch === '') {
-  //    delete request.search;
-  //   }
-  //   if(sortValue){
-  //     this.getSortIconVisibility(sortHeaderOption,navigate);
-  //      //Sort start
-  //      if(sortHeaderOption === 'name' ){
-  //       request.sort.name = sortValue
-  //     }
-  //     if (sortHeaderOption === 'type') {
-  //       request.sort.type = sortValue
-  //     }
-  //   // end
-  //   }
-  //   this.getSynonymsApi(searchValue,searchSource, source,headerOption, sortHeaderOption,sortValue,navigate,request);
-  // }
   sortByApi(sort) {
     this.selectedSort = sort;
     if (this.selectedSort !== sort) {

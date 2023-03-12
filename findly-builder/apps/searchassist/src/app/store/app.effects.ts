@@ -3,11 +3,13 @@ import { ServiceInvokerService } from '@kore.apps/services/service-invoker.servi
 import { SearchExperienceConfigInterface } from '@kore.apps/shared/types/search-experience-config';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
-import { catchError, EMPTY, map, switchMap, withLatestFrom } from 'rxjs';
+import { catchError, EMPTY, map, switchMap, tap, withLatestFrom } from 'rxjs';
 import {
   setAppId,
   setIndexPipelineId,
+  setIndexPipelines,
   setQueryPipelineId,
+  setQueryPipelines,
   setSearchExperienceConfigSuccess,
 } from './app.actions';
 import { selectAppIds, selectSearchIndexId } from './app.selectors';
@@ -24,6 +26,9 @@ export class AppEffects {
             searchIndexId,
           })
           .pipe(
+            tap((indexPipelines: any[]) =>
+              this.store.dispatch(setIndexPipelines({ indexPipelines }))
+            ),
             map((indexPipelines: any[]) => {
               const defaultPipeline = indexPipelines.find(
                 (item) => item.default
@@ -49,6 +54,9 @@ export class AppEffects {
             indexPipelineId,
           })
           .pipe(
+            tap((queryPipelines: any[]) =>
+              this.store.dispatch(setQueryPipelines({ queryPipelines }))
+            ),
             map((queryPipelines: any[]) => {
               return setQueryPipelineId({
                 queryPipelineId: queryPipelines[0]?._id,

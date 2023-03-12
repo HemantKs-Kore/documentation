@@ -58,8 +58,12 @@ export class ActionsComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    this.selectedApp = this.workflowService?.selectedApp();
-    this.searchIndexId = this.selectedApp?.searchIndexes[0]?._id;
+    this.initActions();
+  }
+
+  initActions() {
+    // this.selectedApp = this.workflowService?.selectedApp();
+    // this.searchIndexId = this.selectedApp?.searchIndexes[0]?._id;
     if (this.workflowService.selectedApp()?.configuredBots[0]) {
       this.streamId =
         this.workflowService.selectedApp()?.configuredBots[0]?._id ?? null;
@@ -80,13 +84,7 @@ export class ActionsComponent implements OnInit, OnDestroy {
     // streamId: this.selectedApp._id
     this.previewTopBottom = this.workflowService.topDownOrBottomUp;
     if (!this.workflowService.topDownOrBottomUp) {
-      this.indexPipelineId = this.workflowService.selectedIndexPipeline();
-      this.queryPipelineId = this.workflowService.selectedQueryPipeline()
-        ? this.workflowService.selectedQueryPipeline()._id
-        : this.selectedApp.searchIndexes[0].queryPipelineId;
-      if (this.indexPipelineId) {
-        this.getSearchExperience();
-      }
+      this.getSearchExperience();
     }
     // this.topDownOrBottomUp('top')
 
@@ -97,6 +95,7 @@ export class ActionsComponent implements OnInit, OnDestroy {
     this.actionConfig.actionTemplate =
       (this.selectedApp || {}).botActionTemplate || 'grid';
   }
+
   getSearchExperience() {
     const searchExperianceConfigSub = this.store
       .select(selectSearchExperiance)
@@ -226,7 +225,7 @@ export class ActionsComponent implements OnInit, OnDestroy {
   }
   setActionConfig(payload) {
     const quaryparms: any = {
-      streamId: this.selectedApp._id,
+      streamId: this,
     };
     this.service.invoke('put.tourConfig', quaryparms, payload).subscribe(
       (res) => {

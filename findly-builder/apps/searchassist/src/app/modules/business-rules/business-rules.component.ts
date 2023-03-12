@@ -22,6 +22,8 @@ import { AppSelectionService } from '@kore.apps/services/app.selection.service';
 import { InlineManualService } from '@kore.apps/services/inline-manual.service';
 import { MixpanelServiceService } from '@kore.apps/services/mixpanel-service.service';
 import { PlanUpgradeComponent } from '../pricing/shared/plan-upgrade/plan-upgrade.component';
+import { selectAppIds } from '@kore.apps/store/app.selectors';
+import { Store } from '@ngrx/store';
 declare const $: any;
 declare global {
   interface String {
@@ -35,6 +37,7 @@ declare global {
 })
 export class BusinessRulesComponent implements OnInit, OnDestroy {
   @ViewChild('perfectScroll') perfectScroll: PerfectScrollbarComponent;
+  sub: Subscription;
   contextualEmptyScreen = EMPTY_SCREEN.CONTEXTUAL_RULES;
   nlpEmptyScreen = EMPTY_SCREEN.NLP_RULES;
   emptyScreen = this.contextualEmptyScreen;
@@ -64,7 +67,7 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
   searchImgSrc: any = 'assets/icons/search_gray.svg';
   searchFocusIn = false;
   selectedApp;
-  serachIndexId;
+  searchIndexId;
   indexPipelineId;
   currentEditInex;
   submitted = false;
@@ -212,19 +215,32 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
     public inlineManual: InlineManualService,
     public mixpanel: MixpanelServiceService,
     private appSelectionService: AppSelectionService,
-    private sanitizer: DomSanitizer
+    private store: Store
   ) {}
 
   ngOnInit(): void {
-    this.selectedApp = this.workflowService.selectedApp();
-    this.serachIndexId = this.selectedApp.searchIndexes[0]._id;
-    this.loadRules();
-    this.subscription = this.appSelectionService.queryConfigs.subscribe(
-      (res) => {
+    this.initAppIds();
+    // this.selectedApp = this.workflowService.selectedApp();
+    // this.searchIndexId = this.selectedApp.searchIndexes[0]._id;
+    // this.subscription = this.appSelectionService.queryConfigs.subscribe(
+    //   (res) => {
+    //     this.loadRules();
+    //   }
+    // );
+  }
+
+  initAppIds() {
+    const idsSub = this.store
+      .select(selectAppIds)
+      .subscribe(({ searchIndexId, indexPipelineId, queryPipelineId }) => {
+        // this.streamId = streamId;
+        this.searchIndexId = searchIndexId;
+        this.indexPipelineId = indexPipelineId;
+        this.queryPipelineId = queryPipelineId;
+
         this.loadRules();
-      }
-    );
-    this.indexPipelineId = this.workflowService.selectedIndexPipeline();
+      });
+    this.sub?.add(idsSub);
   }
 
   imageLoad() {
@@ -237,17 +253,16 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
     }
   }
   loadRules() {
-    this.indexPipelineId = this.workflowService.selectedIndexPipeline();
-    if (this.indexPipelineId) {
-      this.queryPipelineId = this.workflowService.selectedQueryPipeline()
-        ? this.workflowService.selectedQueryPipeline()._id
-        : this.selectedApp.searchIndexes[0].queryPipelineId;
-      if (this.queryPipelineId) {
-        this.getDyanmicFilterData();
-        this.getRules();
-        this.getFields();
-      }
-    }
+    // if (this.indexPipelineId) {
+    //   this.queryPipelineId = this.workflowService.selectedQueryPipeline()
+    //     ? this.queryPipelineId
+    //     : this.selectedApp.searchIndexes[0].queryPipelineId;
+    //   if (this.queryPipelineId) {
+    this.getDyanmicFilterData();
+    this.getRules();
+    this.getFields();
+    //   }
+    // }
   }
   searchByRule() {
     if (this.searchRules) {
@@ -557,9 +572,9 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
     }
 
     const quaryparms: any = {
-      searchIndexID: this.serachIndexId,
-      indexPipelineId: this.workflowService.selectedIndexPipeline() || '',
-      queryPipelineId: this.workflowService.selectedQueryPipeline()._id,
+      searchIndexID: this.searchIndexId,
+      indexPipelineId: this.indexPipelineId || '',
+      queryPipelineId: this.queryPipelineId,
       offset: 0,
       limit: 10,
     };
@@ -612,9 +627,9 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
   }
   sortRules(type?, navigate?, value?) {
     const quaryparms: any = {
-      searchIndexID: this.serachIndexId,
-      indexPipelineId: this.workflowService.selectedIndexPipeline() || '',
-      queryPipelineId: this.workflowService.selectedQueryPipeline()._id,
+      searchIndexID: this.searchIndexId,
+      indexPipelineId: this.indexPipelineId || '',
+      queryPipelineId: this.queryPipelineId,
       offset: this.skip || 0,
       limit: 100,
     };
@@ -649,12 +664,12 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
   getDyanmicFilterData(search?) {
     this.isRuleActiveArr = [];
     const quaryparms: any = {
-      searchIndexId: this.serachIndexId,
+      searchIndexId: this.searchIndexId,
     };
     const request: any = {
       moduleName: 'rules',
-      indexPipelineId: this.workflowService.selectedIndexPipeline() || '',
-      queryPipelineId: this.workflowService.selectedQueryPipeline()._id,
+      indexPipelineId: this.indexPipelineId || '',
+      queryPipelineId: this.queryPipelineId,
     };
     if (search) {
       request.search = search;
@@ -983,9 +998,9 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
     if (isValidate) {
       this.submitted = false;
       const quaryparms: any = {
-        searchIndexID: this.serachIndexId,
+        searchIndexID: this.searchIndexId,
         queryPipelineId: this.queryPipelineId,
-        indexPipelineId: this.workflowService.selectedIndexPipeline() || '',
+        indexPipelineId: this.indexPipelineId || '',
       };
       const payload: any = {
         ruleName: this.addEditRuleObj.ruleName,
@@ -1142,7 +1157,7 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
   //get all fields
   getFields() {
     const quaryparms: any = {
-      searchIndexID: this.serachIndexId,
+      searchIndexID: this.searchIndexId,
       indexPipelineId: this.indexPipelineId,
     };
     const payload = {
@@ -1171,9 +1186,9 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
     request?
   ) {
     const quaryparms: any = {
-      searchIndexID: this.serachIndexId,
+      searchIndexID: this.searchIndexId,
       queryPipelineId: this.queryPipelineId,
-      indexPipelineId: this.workflowService.selectedIndexPipeline() || '',
+      indexPipelineId: this.indexPipelineId || '',
       offset: this.skip || 0,
       limit: 10,
     };
@@ -1232,9 +1247,9 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
     if (this.validateRules()) {
       this.submitted = false;
       const quaryparms: any = {
-        searchIndexID: this.serachIndexId,
+        searchIndexID: this.searchIndexId,
         queryPipelineId: this.queryPipelineId,
-        indexPipelineId: this.workflowService.selectedIndexPipeline() || '',
+        indexPipelineId: this.indexPipelineId || '',
         ruleId: rule._id,
       };
       const payload: any = {
@@ -1351,9 +1366,9 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
   }
   deleteSelectedRules(dialogRef) {
     const quaryparms: any = {
-      searchIndexID: this.serachIndexId,
+      searchIndexID: this.searchIndexId,
       queryPipelineId: this.queryPipelineId,
-      indexPipelineId: this.workflowService.selectedIndexPipeline() || '',
+      indexPipelineId: this.indexPipelineId || '',
       limit: 100,
     };
     const payload: any = {
@@ -1389,9 +1404,9 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
   }
   deleteRule(rule, i, dilogRef) {
     const quaryparms: any = {
-      searchIndexID: this.serachIndexId,
+      searchIndexID: this.searchIndexId,
       queryPipelineId: this.queryPipelineId,
-      indexPipelineId: this.workflowService.selectedIndexPipeline() || '',
+      indexPipelineId: this.indexPipelineId || '',
       ruleId: rule._id,
       limit: 100,
     };
@@ -1510,6 +1525,7 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
 
   //unsubscribe subjects
   ngOnDestroy() {
+    this.sub?.unsubscribe();
     // this.subscription ? this.subscription.unsubscribe() : false;
     if (this.subscription) {
       this.subscription.unsubscribe();
@@ -1546,9 +1562,9 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
   updateRuleStatus(rule, event, index) {
     const isRuleStatus = event.target.checked;
     const quaryparms: any = {
-      searchIndexID: this.serachIndexId,
+      searchIndexID: this.searchIndexId,
       queryPipelineId: this.queryPipelineId,
-      indexPipelineId: this.workflowService.selectedIndexPipeline() || '',
+      indexPipelineId: this.indexPipelineId || '',
       ruleId: rule._id,
     };
     const payload: any = {
@@ -1915,9 +1931,9 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
   //get entities list
   getEntities() {
     const quaryparms: any = {
-      sidx: this.serachIndexId,
+      sidx: this.searchIndexId,
       queryPipelineId: this.queryPipelineId,
-      fip: this.workflowService.selectedIndexPipeline() || '',
+      fip: this.indexPipelineId || '',
     };
     this.service.invoke('get.entities', quaryparms).subscribe(
       (res) => {
@@ -1992,9 +2008,9 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
       ? 'put.entities'
       : 'post.entities';
     const quaryparms: any = {
-      sidx: this.serachIndexId,
+      sidx: this.searchIndexId,
       queryPipelineId: this.queryPipelineId,
-      fip: this.workflowService.selectedIndexPipeline() || '',
+      fip: this.indexPipelineId || '',
     };
     if (this.nlpAnnotatorObj.entities.isEditable) {
       quaryparms.entityId = this.nlpAnnotatorObj.entities.entityId;
@@ -2025,9 +2041,9 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
     event.stopImmediatePropagation();
     if (!this.validateEntityLengend(entity)) {
       const quaryparms: any = {
-        sidx: this.serachIndexId,
+        sidx: this.searchIndexId,
         queryPipelineId: this.queryPipelineId,
-        fip: this.workflowService.selectedIndexPipeline() || '',
+        fip: this.indexPipelineId || '',
       };
       const payload = { entityIds: [entity?._id] };
       this.service.invoke('delete.entities', quaryparms, payload).subscribe(

@@ -1758,13 +1758,7 @@ export class ContentComponent implements OnInit, OnDestroy {
         position: navigate,
       };
     }
-    const quaryparms: any = {
-      searchIndexID: this.serachIndexId,
-      indexPipelineId: this.workflowService.selectedIndexPipeline() || '',
-      queryPipelineId: this.workflowService.selectedQueryPipeline()._id,
-      offset: 0,
-      limit: 10,
-    };
+
     let request: any = {};
     if (!sortValue) {
       request = {
