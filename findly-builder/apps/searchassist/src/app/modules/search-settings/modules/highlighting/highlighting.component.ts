@@ -311,10 +311,13 @@ export class HighlightingComponent implements OnInit, OnDestroy {
         this.home_post_tag =
           res.settings?.highlight?.highlightAppearance?.postTag;
         this.notificationService.notify('Tags updated successfully', 'success');
-        this.highlightdata.highlightAppearance.preTag =
-          res?.settings?.highlight?.highlightAppearance?.preTag;
-        this.highlightdata.highlightAppearance.postTag =
-          res?.settings?.highlight?.highlightAppearance?.postTag;
+
+        if (this.highlightdata.highlightAppearance) {
+          this.highlightdata.highlightAppearance.preTag =
+            res?.settings?.highlight?.highlightAppearance?.preTag;
+          this.highlightdata.highlightAppearance.postTag =
+            res?.settings?.highlight?.highlightAppearance?.postTag;
+        }
       },
       (errRes) => {
         this.notificationService.notify('Failed to update', 'error');

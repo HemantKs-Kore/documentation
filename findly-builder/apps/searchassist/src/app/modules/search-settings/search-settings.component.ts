@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { Subscription, switchMap } from 'rxjs';
+import { map, Subscription, withLatestFrom } from 'rxjs';
 
 import { Router } from '@angular/router';
 import { WorkflowService } from '@kore.apps/services/workflow.service';
@@ -7,7 +7,10 @@ import { AppSelectionService } from '@kore.apps/services/app.selection.service';
 import { NotificationService } from '@kore.apps/services/notification.service';
 import { ServiceInvokerService } from '@kore.apps/services/service-invoker.service';
 import { Store } from '@ngrx/store';
-import { selectAppIds } from '@kore.apps/store/app.selectors';
+import {
+  selectQueryPipelineId,
+  selectQueryPipelines,
+} from '@kore.apps/store/app.selectors';
 
 @Component({
   selector: 'app-search-settings',
@@ -16,7 +19,6 @@ import { selectAppIds } from '@kore.apps/store/app.selectors';
 })
 export class SearchSettingsComponent implements OnInit, OnDestroy {
   sub: Subscription;
-  streamId: any;
   pipeline: any = [];
   selectedComponent = 'weights';
   componentsArray: any[] = [
@@ -47,35 +49,23 @@ export class SearchSettingsComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    this.initAppIds();
+    // this.getQueryPipeLine();
     this.openWeightsScreen();
   }
 
-  initAppIds() {
-    const idsSub = this.store
-      .select(selectAppIds)
-      .pipe(
-        switchMap(({ searchIndexId, indexPipelineId, queryPipelineId }) => {
-          return this.service.invoke('get.queryPipeline', {
-            searchIndexId,
-            indexPipelineId,
-            queryPipelineId,
-          });
-        })
-      )
-      .subscribe({
-        next: (res) => {
-          this.pipeline = res;
-        },
-        error: () => {
-          this.notificationService.notify(
-            'failed to get querypipeline details',
-            'error'
-          );
-        },
-      });
-    this.sub?.add(idsSub);
-  }
+  // getQueryPipeLine() {
+  //   this.sub = this.store
+  //     .select(selectQueryPipelines)
+  //     .pipe(
+  //       withLatestFrom(this.store.select(selectQueryPipelineId)),
+  //       map(([queryPipelines, queryPipelineId]) => {
+  //         this.pipeline = queryPipelines.find(
+  //           (item) => item._id === queryPipelineId
+  //         );
+  //       })
+  //     )
+  //     .subscribe();
+  // }
 
   openWeightsScreen() {
     if (this.router.url === '/search-settings') {

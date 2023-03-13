@@ -42,6 +42,7 @@ export class IndexConfigurationSettingsComponent implements OnInit, OnDestroy {
   public pollingSubscriber: any;
   docStatusObject: any = {};
   isTrainStatusInprogress = false;
+  streamId;
   sub: Subscription;
   @ViewChild('addLangModalPop') addLangModalPop: KRModalComponent;
   @ViewChild('perfectScroll') perfectScroll: PerfectScrollbarComponent;
@@ -73,7 +74,8 @@ export class IndexConfigurationSettingsComponent implements OnInit, OnDestroy {
   initAppIds() {
     const idsSub = this.store
       .select(selectAppIds)
-      .subscribe(({ searchIndexId, indexPipelineId }) => {
+      .subscribe(({ streamId, searchIndexId, indexPipelineId }) => {
+        this.streamId = streamId;
         this.searchIndexId = searchIndexId;
         this.indexPipelineId = indexPipelineId;
       });
@@ -174,7 +176,7 @@ export class IndexConfigurationSettingsComponent implements OnInit, OnDestroy {
   saveLanguage(dialogRef?, type?, langArr?) {
     this.isAddLoading = true;
     const queryParams = {
-      streamId: this.selectedApp?._id,
+      streamId: this.streamId,
       indexPipelineId: this.indexPipelineId,
     };
     const payload = {
