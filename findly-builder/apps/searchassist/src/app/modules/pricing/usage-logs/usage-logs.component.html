@@ -149,7 +149,7 @@
                     *ngFor="let queryType of queryTypeArr"
                     (click)="
                       queryTypeFilter.close();
-                      filterTable(queryType, 'queryType')
+                      dropdownfilterData(queryType, 'queryType')
                     "
                   >
                     <span
@@ -212,7 +212,7 @@
                   <li
                     *ngFor="let docType of resultsArr"
                     (click)="
-                      resultsFilter.close(); filterTable(docType, 'results')
+                      resultsFilter.close(); dropdownfilterData(docType, 'results')
                     "
                   >
                     <span

@@ -1487,7 +1487,7 @@ export class EndPointsService {
     this.serviceList['get.allUsageLogs'] = {
       endpoint:
         this.API_SERVER_URL +
-        '/findly/streams/:streamId/subscription/usageLog?skip=:skip&limit=:limit',
+        '/findly/streams/:streamId/subscription/usageLog?skip=:skip&limit=:limit&queryType=:queryType',
       method: 'get',
     };
     this.serviceList['get.usageLogs.search'] = {

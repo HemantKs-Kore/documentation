@@ -57,7 +57,7 @@
                         </div>
                          
                         <!-- Paragraph / list snippet code -->
-                        <ng-container *ngIf="!['active_citation_snippet','citation_snippet'].includes(answer.type)">
+                        <ng-container *ngIf="['paragraph_snippet','list_snippet'].includes(answer.type)">
                         <div class="ans-evaluvation-title text-title-truncate" [title]="answer?.snippet_title" [innerHTML]="convertMDtoHTML?.helpers?.convertMDtoHTML(answer?.snippet_title)"></div>
                         <div class="ans-evaluvation-desc {{(answer?.isNoAnswer||answer?.snippet_content?.length===0)&&'d-none'}}" *ngIf="_array?.isArray(answer?.snippet_content) else contentTemp">
                              <div *ngFor="let snippetContent of answer?.snippet_content;let i=index;">
@@ -95,6 +95,19 @@
                                         </ng-container>                                        
                                     </ol>                           
                                 </div>
+                            </div>
+                        </ng-container>
+
+                        <!-- image snippet code -->
+                        <ng-container *ngIf="['image_snippet'].includes(answer.type)">
+                            <div class="ans-evaluvation-title text-title-truncate" [title]="answer?.snippet_title" [innerHTML]="convertMDtoHTML?.helpers?.convertMDtoHTML(answer?.snippet_title)"></div>
+                            <div class="ans-evaluvation-desc">
+                                 <img src={{answer?.image_url}} />
+                            </div>
+                           
+                            <div class="ans-source" *ngIf="answer?.source">
+                                <div class="ans-source-file text-title-truncate" [title]="answer?.source"><span class="source-header mr-1">{{"workbench_source"|translate}}:</span>{{answer?.source}}</div>
+                                <div class="ans-source-link text-title-truncate" [title]="answer?.url">{{answer?.url}}</div>
                             </div>
                         </ng-container>
 
