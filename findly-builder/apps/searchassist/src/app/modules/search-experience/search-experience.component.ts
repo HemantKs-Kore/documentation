@@ -9,7 +9,7 @@ import { KRModalComponent } from '../../shared/kr-modal/kr-modal.component';
 import { RangeSlider } from '../../helpers/models/range-slider.model';
 import { NotificationService } from '../../services/notification.service';
 import { HttpClient } from '@angular/common/http';
-import { filter, Subscription } from 'rxjs';
+import { filter, Subscription, switchMap, tap } from 'rxjs';
 import { LocalStoreService } from './../../services/localstore.service';
 import { NgbDropdownMenu } from '@ng-bootstrap/ng-bootstrap';
 import { ServiceInvokerService } from '@kore.apps/services/service-invoker.service';
@@ -19,7 +19,10 @@ import { InlineManualService } from '@kore.apps/services/inline-manual.service';
 import { WorkflowService } from '@kore.apps/services/workflow.service';
 import { MixpanelServiceService } from '@kore.apps/services/mixpanel-service.service';
 import { AuthService } from '@kore.apps/services/auth.service';
-import { selectSearchExperiance } from '@kore.apps/store/app.selectors';
+import {
+  selectAppIds,
+  selectSearchExperiance,
+} from '@kore.apps/store/app.selectors';
 import { Store } from '@ngrx/store';
 import { setSearchExperienceConfigSuccess } from '@kore.apps/store/app.actions';
 declare const $: any;
@@ -32,7 +35,6 @@ export class SearchExperienceComponent implements OnInit, OnDestroy {
   selectedTab = 'experience';
   selectSearch: string;
   selectedApp: any = {};
-  serachIndexId: any;
   indexPipelineId: any;
   queryPipelineId: any;
   suggestions: any = [];
@@ -131,6 +133,8 @@ export class SearchExperienceComponent implements OnInit, OnDestroy {
   searchSDKSubscription: Subscription;
   feedBackType = 'result';
   isSpinnerLoading = false;
+  sub: Subscription;
+  searchIndexId;
   @ViewChild('hiddenText') textEl: ElementRef;
   @ViewChild('statusModalPop') statusModalPop: KRModalComponent;
   @ViewChild('guideModalPop') guideModalPop: KRModalComponent;
@@ -150,29 +154,12 @@ export class SearchExperienceComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    this.selectedApp = this.workflowService.selectedApp();
-    this.serachIndexId = this.selectedApp.searchIndexes[0]._id;
+    this.initAppIds();
     this.userInfo = this.authService.getUserInfo() || {};
-    this.loadSearchExperience();
-    // this.appSubscription = this.appSelectionService.appSelectedConfigs.subscribe(res => {
-    //   this.loadSearchExperience();
-    // })
-    this.queryConfigsSubscription =
-      this.appSelectionService.queryConfigSelected.subscribe((res) => {
-        /**
-         * res.length > 1 - its only query Details
-         *  res.length == 1- its from Index pipeline and then to query Details.
-         * **/
-        this.indexPipelineId = this.workflowService.selectedIndexPipeline();
-        this.queryPipelineId = this.workflowService.selectedQueryPipeline()
-          ? this.workflowService.selectedQueryPipeline()._id
-          : '';
-        this.getSearchExperience();
-      });
+
     this.subscription = this.appSelectionService.getTourConfigData.subscribe(
       (res) => {
         this.tourData = res;
-        //this.tourGuide = res.searchExperienceVisited ? '' : 'step1';
       }
     );
     this.userName = this.localstore.getAuthInfo()
@@ -185,6 +172,30 @@ export class SearchExperienceComponent implements OnInit, OnDestroy {
         }
       });
   }
+
+  initAppIds() {
+    const idsSub = this.store
+      .select(selectAppIds)
+      .pipe(
+        tap(({ searchIndexId, indexPipelineId, queryPipelineId }) => {
+          this.searchIndexId = searchIndexId;
+          this.indexPipelineId = indexPipelineId;
+          this.queryPipelineId = queryPipelineId;
+        }),
+        switchMap(({ searchIndexId, indexPipelineId, queryPipelineId }) => {
+          return this.service.invoke('get.searchexperience.list', {
+            searchIndexId,
+            indexPipelineId,
+            queryPipelineId,
+          });
+        })
+      )
+      .subscribe((res) => {
+        this.getSearchExperience(res);
+      });
+    this.sub?.add(idsSub);
+  }
+
   //validate max length in textarea
   testInputLength(event) {
     if (event.value.length > 150) {
@@ -262,17 +273,7 @@ export class SearchExperienceComponent implements OnInit, OnDestroy {
       this.msgColor = false;
     }
   }
-  loadSearchExperience() {
-    this.indexPipelineId = this.workflowService.selectedIndexPipeline();
-    if (this.indexPipelineId) {
-      this.queryPipelineId = this.workflowService.selectedQueryPipeline()
-        ? this.workflowService.selectedQueryPipeline()._id
-        : this.selectedApp.searchIndexes[0].queryPipelineId;
-      if (this.queryPipelineId) {
-        this.getSearchExperience();
-      }
-    }
-  }
+
   //dynamically increse input text
   resize() {
     this.width =
@@ -741,56 +742,42 @@ export class SearchExperienceComponent implements OnInit, OnDestroy {
     }, 100);
   }
   //get default data
-  getSearchExperience() {
-    const searchIndex = this.selectedApp.searchIndexes[0]._id;
-    const quaryparms: any = {
-      searchIndexId: searchIndex,
-      indexPipelineId: this.indexPipelineId,
-      queryPipelineId: this.queryPipelineId,
+  getSearchExperience(res) {
+    this.searchObject = {
+      searchExperienceConfig: res.experienceConfig,
+      searchWidgetConfig: res.widgetConfig,
+      searchInteractionsConfig: res.interactionsConfig,
     };
-    this.service.invoke('get.searchexperience.list', quaryparms).subscribe(
-      (res) => {
-        this.searchObject = {
-          searchExperienceConfig: res.experienceConfig,
-          searchWidgetConfig: res.widgetConfig,
-          searchInteractionsConfig: res.interactionsConfig,
-        };
-        if (this.searchObject.searchWidgetConfig.searchBarIcon !== '') {
-          this.searchIcon = this.searchObject.searchWidgetConfig.searchBarIcon;
-        }
-        // if (this.searchObject.searchInteractionsConfig.welcomeMsgEmoji !== '') {
-        //   this.emojiIcon = this.searchObject.searchInteractionsConfig.welcomeMsgEmoji;
-        // }
-        const fetchInputWidth = document.createElement('span');
-        document.body.appendChild(fetchInputWidth);
-        fetchInputWidth.innerText =
-          this.searchObject.searchWidgetConfig.searchBarPlaceholderText;
-        this.width = fetchInputWidth.offsetWidth + 57;
-        fetchInputWidth.remove();
-        this.changeSlider(
-          this.searchObject.searchExperienceConfig.searchBarPosition,
-          this.searchObject.searchInteractionsConfig
-        );
-        this.color = this.searchObject.searchWidgetConfig.searchBarFillColor;
-        this.color1 = this.searchObject.searchWidgetConfig.searchBarBorderColor;
-        this.color2 =
-          this.searchObject.searchWidgetConfig.searchBarPlaceholderTextColor;
-        this.color3 = this.searchObject.searchWidgetConfig.buttonTextColor;
-        this.color4 = this.searchObject.searchWidgetConfig.buttonFillColor;
-        this.color5 = this.searchObject.searchWidgetConfig.buttonBorderColor;
-        this.color6 =
-          this.searchObject.searchInteractionsConfig.welcomeMsgColor;
-        this.color7 =
-          this.searchObject.searchInteractionsConfig?.welcomeMsgFillColor;
-        if (!this.inlineManual.checkVisibility('SEARCH_INTERFACE')) {
-          this.inlineManual.openHelp('SEARCH_INTERFACE');
-          this.inlineManual.visited('SEARCH_INTERFACE');
-        }
-      },
-      (errRes) => {
-        console.log(errRes);
-      }
+    if (this.searchObject.searchWidgetConfig.searchBarIcon !== '') {
+      this.searchIcon = this.searchObject.searchWidgetConfig.searchBarIcon;
+    }
+    // if (this.searchObject.searchInteractionsConfig.welcomeMsgEmoji !== '') {
+    //   this.emojiIcon = this.searchObject.searchInteractionsConfig.welcomeMsgEmoji;
+    // }
+    const fetchInputWidth = document.createElement('span');
+    document.body.appendChild(fetchInputWidth);
+    fetchInputWidth.innerText =
+      this.searchObject.searchWidgetConfig.searchBarPlaceholderText;
+    this.width = fetchInputWidth.offsetWidth + 57;
+    fetchInputWidth.remove();
+    this.changeSlider(
+      this.searchObject.searchExperienceConfig.searchBarPosition,
+      this.searchObject.searchInteractionsConfig
     );
+    this.color = this.searchObject.searchWidgetConfig.searchBarFillColor;
+    this.color1 = this.searchObject.searchWidgetConfig.searchBarBorderColor;
+    this.color2 =
+      this.searchObject.searchWidgetConfig.searchBarPlaceholderTextColor;
+    this.color3 = this.searchObject.searchWidgetConfig.buttonTextColor;
+    this.color4 = this.searchObject.searchWidgetConfig.buttonFillColor;
+    this.color5 = this.searchObject.searchWidgetConfig.buttonBorderColor;
+    this.color6 = this.searchObject.searchInteractionsConfig.welcomeMsgColor;
+    this.color7 =
+      this.searchObject.searchInteractionsConfig?.welcomeMsgFillColor;
+    if (!this.inlineManual.checkVisibility('SEARCH_INTERFACE')) {
+      this.inlineManual.openHelp('SEARCH_INTERFACE');
+      this.inlineManual.visited('SEARCH_INTERFACE');
+    }
   }
   //save color method
   saveColor(color) {
@@ -848,9 +835,8 @@ export class SearchExperienceComponent implements OnInit, OnDestroy {
       widgetConfig: this.searchObject.searchWidgetConfig,
       interactionsConfig: this.searchObject.searchInteractionsConfig,
     };
-    const searchIndex = this.selectedApp.searchIndexes[0]._id;
     const quaryparms: any = {
-      searchIndexId: searchIndex,
+      searchIndexId: this.searchIndexId,
       indexPipelineId: this.indexPipelineId,
       queryPipelineId: this.queryPipelineId,
     };

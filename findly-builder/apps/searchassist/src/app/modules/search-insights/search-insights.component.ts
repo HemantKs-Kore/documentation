@@ -120,7 +120,6 @@ export class SearchInsightsComponent implements OnInit {
           this.indexConfigObj[element._id] = element;
         });
         if (res.length >= 0) {
-          //this.selectedIndexConfig = this.workflowService.selectedIndexPipeline();
           for (let i = 0; i < res.length; i++) {
             if (res[i].default === true) {
               this.selectedIndexConfig = res[i]._id;
