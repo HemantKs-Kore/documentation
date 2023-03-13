@@ -482,14 +482,12 @@ export class SearchSdkComponent implements OnInit, OnDestroy {
         appData &&
         appData.searchIndexes &&
         appData.searchIndexes.length &&
-        appData.searchIndexes[0]._id
+        this.searchIndexId
       ) {
         const searchData = {
-          _id: appData.searchIndexes[0]._id,
-          pipelineId: this.workflowService.selectedQueryPipeline()
-            ? this.workflowService.selectedQueryPipeline()._id
-            : '',
-          indexpipelineId: this.workflowService.selectedIndexPipeline() || '',
+          _id: this.searchIndexId,
+          pipelineId: this.queryPipelineId || '',
+          indexpipelineId: this.indexPipelineId || '',
         };
         window.selectedFindlyApp = searchData;
         this.topDownSearchInstance.setAPIDetails();
@@ -598,12 +596,10 @@ export class SearchSdkComponent implements OnInit, OnDestroy {
     if (
       this.workflowService.selectedApp() &&
       (this.workflowService.selectedApp().searchIndexes || []).length &&
-      this.workflowService.selectedApp().searchIndexes[0]._id
+      this.searchIndexId
     ) {
-      botOptionsFindly.searchIndexID =
-        this.workflowService.selectedApp().searchIndexes[0]._id;
+      botOptionsFindly.searchIndexID = this.searchIndexId;
     }
-    // botOptionsFindly.indexPipelineId = this.workflowService.selectedIndexPipeline()||'';
     botOptionsFindly.queryPipelineId = this.queryPipelineId || '';
     botOptionsFindly.botInfo = {
       chatBot: this.workflowService.selectedApp().name,
