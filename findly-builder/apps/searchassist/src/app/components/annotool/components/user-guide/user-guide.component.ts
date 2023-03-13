@@ -1,5 +1,5 @@
 /* eslint-disable @angular-eslint/component-selector */
-import { Component, OnInit, Inject } from '@angular/core';
+import { Component, OnInit, Inject, OnDestroy } from '@angular/core';
 import {
   MatDialog,
   MatDialogRef,
@@ -7,35 +7,46 @@ import {
 } from '@angular/material/dialog';
 import { ServiceInvokerService } from '@kore.apps/services/service-invoker.service';
 import { WorkflowService } from '@kore.apps/services/workflow.service';
+import { selectAppIds } from '@kore.apps/store/app.selectors';
+import { Store } from '@ngrx/store';
 import { TranslateModule } from '@ngx-translate/core';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'kr-user-guide',
   standalone: true,
   templateUrl: './user-guide.component.html',
   styleUrls: ['./user-guide.component.scss'],
-  imports:[
-    TranslateModule
-  ]
+  imports: [TranslateModule],
 })
-export class UserGuideComponent implements OnInit {
+export class UserGuideComponent implements OnInit, OnDestroy {
   selectedApp;
   searchIndexId;
   jobId;
+  sub: Subscription;
 
   constructor(
     public workflowService: WorkflowService,
     private service: ServiceInvokerService,
     public dialog: MatDialog,
     public dialogRef: MatDialogRef<UserGuideComponent>,
-    @Inject(MAT_DIALOG_DATA) public dialogData: any
+    @Inject(MAT_DIALOG_DATA) public dialogData: any,
+    private store: Store
   ) {}
 
   ngOnInit() {
-    this.selectedApp = this.workflowService.selectedApp();
-    this.searchIndexId = this.selectedApp.searchIndexes[0]._id;
     this.jobId = this.workflowService.selectedJob_id;
   }
+
+  initAppIds() {
+    const idsSub = this.store
+      .select(selectAppIds)
+      .subscribe(({ searchIndexId }) => {
+        this.searchIndexId = searchIndexId;
+      });
+    this.sub?.add(idsSub);
+  }
+
   // close modal
   close(cancelFaqExtract?) {
     const payload = {
@@ -60,5 +71,9 @@ export class UserGuideComponent implements OnInit {
   // get started
   getStarted() {
     this.dialogRef.close();
+  }
+
+  ngOnDestroy(): void {
+    this.sub?.unsubscribe();
   }
 }
