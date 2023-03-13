@@ -3881,5 +3881,6 @@
   "plans_overages_opt_out": "Opting out of overages may affect the search results when your standard plan’s query limits are exhausted. Overages will continue to apply till the end of the current billing cycle.",
   "sa_clone": "Clone",
 
-  "answer_snippet_reference":"References:"
+  "answer_snippet_reference":"References:",
+  "usageLog_liveSearch": "Live Search"
 }

@@ -1484,17 +1484,11 @@ export class EndPointsService {
         '/findly/streams/:streamId/invoices?skip=:skip&limit=:limit&sortByInvoiceDate=:sortByInvoiceDate',
       method: 'get',
     };
-    this.serviceList['get.allUsageLogs'] = {
+    this.serviceList['post.allUsageLogs'] = {
       endpoint:
         this.API_SERVER_URL +
-        '/findly/streams/:streamId/subscription/usageLog?skip=:skip&limit=:limit&queryType=:queryType',
-      method: 'get',
-    };
-    this.serviceList['get.usageLogs.search'] = {
-      endpoint:
-        this.API_SERVER_URL +
-        '/findly/streams/:streamId/subscription/usageLog?skip=:skip&limit=:limit&search=:searchQuary',
-      method: 'get',
+        '/findly/streams/:streamId/subscription/usageLog?skip=:skip&limit=:limit',
+      method: 'post',
     };
     this.serviceList['post.exportUsageLog'] = {
       endpoint:

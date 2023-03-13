@@ -31,7 +31,7 @@
           autocomplete="off"
           autofocus
           [(ngModel)]="searchUsageLog"
-          (keyup)="searchUsageLogs()"
+          (keypress)="searchUsageLogs()"
           (mouseover)="
             searchImgSrc = searchFocusIn
               ? 'assets/icons/search_gray.svg'
@@ -278,7 +278,7 @@
               }}
             </div>
             <div class="col-2 title pl-4">
-              {{ usageLog.createdOn | dateFormatPipe : 'DD MMM YYYY h:mm a' }}
+              {{ usageLog.createdOn | dateFormatPipe : 'DD MMM YYYY h:mm a' }} 
             </div>
           </div>
         </ng-container>
