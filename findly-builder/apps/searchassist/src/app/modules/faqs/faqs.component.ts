@@ -28,7 +28,6 @@ import {
 // import { DockStatusService } from '../../services/dockstatusService/dock-status.service';
 
 declare const $: any;
-// import * as moment from 'moment';
 import { formatDistanceToNow, format } from 'date-fns';
 import { SideBarService } from './../../services/header.service';
 import { PdfAnnotationComponent } from '@kore.apps/components/annotool/components/pdf-annotation/pdf-annotation.component';
@@ -762,7 +761,6 @@ export class FaqsComponent implements OnInit, AfterViewInit, OnDestroy {
     };
     this.service.invoke('add.comment', quaryparms, payload).subscribe(
       (res) => {
-        // res.createdOn = moment(res.createdOn).fromNow();
         const date = new Date(res.createdOn);
         res.createdOn = formatDistanceToNow(date, {
           addSuffix: true,
@@ -770,7 +768,6 @@ export class FaqsComponent implements OnInit, AfterViewInit, OnDestroy {
         if (res.userDetails && res.userDetails.fullName) {
           res.initial = res.userDetails.fullName.slice(0, 1);
         }
-        // res.color = this.getRandomRolor();
         this.faqComments.push(res);
         this.clearContent();
       },
@@ -804,8 +801,6 @@ export class FaqsComponent implements OnInit, AfterViewInit, OnDestroy {
             if (element.userDetails && element.userDetails.fullName) {
               element.initial = element.userDetails.fullName.slice(0, 1);
             }
-            // element.color = this.getRandomRolor();
-            //element.createdOn = moment(element.createdOn).fromNow();
             const date = new Date(element.createdOn);
             element.createdOn = formatDistanceToNow(date, {
               addSuffix: true,
@@ -1203,9 +1198,6 @@ export class FaqsComponent implements OnInit, AfterViewInit, OnDestroy {
               element.advanceSettings.scheduleOpts.time.timezone;
           }
           if (element.jobInfo.createdOn) {
-            // element['schedule_createdOn'] = moment(
-            //   element.jobInfo.createdOn
-            // ).fromNow();
             const date = new Date(element.jobInfo.createdOn);
             element['schedule_createdOn'] = formatDistanceToNow(date, {
               addSuffix: true,
@@ -2278,9 +2270,6 @@ export class FaqsComponent implements OnInit, AfterViewInit, OnDestroy {
        dockStatuses added updated code in 1898 line*/
           // res.dockStatuses.forEach((record: any) => {
           res.forEach((record: any) => {
-            // record.createdOn = moment(record.createdOn).format(
-            //   'Do MMM YYYY | h:mm A'
-            // );
             record.createdOn = format(
               new Date(record.createdOn),
               'do MMM yyyy | h:mm a'

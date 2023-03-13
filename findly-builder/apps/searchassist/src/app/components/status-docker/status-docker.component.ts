@@ -6,8 +6,8 @@ import { from, interval, Subject, Subscription } from 'rxjs';
 import { startWith, elementAt, filter } from 'rxjs/operators';
 import * as _ from 'underscore';
 import { Router } from '@angular/router';
-import * as moment from 'moment';
 import { DockStatusService } from '../../services/dock.status.service';
+import { format } from 'date-fns';
 declare let self: any;
 @Component({
   selector: 'app-status-docker',
@@ -68,8 +68,9 @@ export class StatusDockerComponent implements OnInit, OnChanges, OnDestroy {
             // this.dockersList = JSON.parse(JSON.stringify(res.dockStatuses));
             this.dockersList = JSON.parse(JSON.stringify(res));
             this.dockersList.forEach((record: any) => {
-              record.createdOn = moment(record.createdOn).format(
-                'Do MMM YYYY | h:mm A'
+              record.createdOn = format(
+                new Date(record.createdOn),
+                'do MMM yyyy | h:mm a'
               );
               /**made code updates in line no 66 on 03/01 added new condition for success,since SUCCESS is upadted to success as per new api contract */
               // if(record.status === 'SUCCESS' && record.fileId && !record.store.toastSeen){

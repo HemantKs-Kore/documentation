@@ -35,7 +35,6 @@ export class UsageLogsComponent implements OnInit {
   totalRecord: number;
   filterSystem: any = {
     queryTypeFilter: 'all',
-    requestSourceFilter: 'all',
     resultsFilter: 'all',
   };
   activeClose = false;
@@ -76,44 +75,72 @@ export class UsageLogsComponent implements OnInit {
 
   loadUsageLogs() {
     this.indexPipelineId = this.workflowService.selectedIndexPipeline();
-    if (this.indexPipelineId) this.getUsageLogs();
+    if (this.indexPipelineId) {
+      this.getUsageLogs();
+      this.getDyanmicFilterData();
+    }
   }
   searchUsageLogs() {
     this.searchLoading = true;
-    this.searchUsageLog
-      ? this.getUsageLogs(null, this.searchUsageLog)
-      : this.getUsageLogs();
+    setTimeout(() => {
+      this.searchUsageLog
+        ? this.getUsageLogs(null, this.searchUsageLog)
+        : this.getUsageLogs();
+    }, 600);
   }
-  getUsageLogs(offset?, quary?) {
+  //get dynamic filters dropdown data
+  getDyanmicFilterData() {
+    const quaryparms: any = {
+      searchIndexId: this.serachIndexId,
+    };
+    const request: any = {
+      moduleName: 'usageLog',
+    };
+    this.service.invoke('post.filters', quaryparms, request).subscribe(
+      (res) => {
+        if (res) {
+          this.queryTypeArr = [...this.queryTypeArr, ...res?.queryType];
+          this.resultsArr = [...this.resultsArr, ...res?.results];
+        }
+      },
+      errRes => {
+        this.errorToaster(errRes, 'Failed to get filters');
+      }
+    );
+  }
+
+  //get list of usage logs data
+  getUsageLogs(offset?, query?) {
     this.loading = true;
     const quaryparms: any = {
       streamId: this.selectedApp._id,
       skip: offset || 0,
-      limit: 10,
+      limit: 10
     };
-    let serviceId = 'get.allUsageLogs';
-    if (quary) {
-      quaryparms.searchQuary = quary;
-      serviceId = 'get.usageLogs.search';
+    const payload = {
+      queryType: this.filterSystem.queryTypeFilter,
+      results: this.filterSystem.resultsFilter,
+      search: query
+    };
+    if (payload?.queryType === 'all') {
+      delete payload.queryType;
     }
-    if (!this.usageLogs.length && !quary) {
+    if (payload?.results === 'all') {
+      delete payload.results;
+    }
+    if (query === '') {
+      delete payload.search;
+    }
+    let serviceId = 'post.allUsageLogs';
+    if (!this.usageLogs.length && !query) {
       this.loadingLogs = true;
     }
-    this.service.invoke(serviceId, quaryparms).subscribe(
+    this.service.invoke(serviceId, quaryparms, payload).subscribe(
       (res) => {
         this.usageLogs = res.data || [];
         this.totalRecord = res.total;
         this.loadingLogs = false;
         this.searchLoading = false;
-        if (this.usageLogs.length) {
-          this.usageLogs.forEach((element) => {
-            this.queryTypeArr.push(element.queryType);
-            if (element?.results !== null)
-              this.resultsArr.push(element.results);
-          });
-          this.queryTypeArr = [...new Set(this.queryTypeArr)];
-          this.resultsArr = [...new Set(this.resultsArr)];
-        }
         this.loading = false;
         this.cd.detectChanges();
       },
@@ -143,55 +170,6 @@ export class UsageLogsComponent implements OnInit {
 
   paginate(event) {
     this.getUsageLogs(event.skip);
-  }
-
-  filterTable(source, headerOption) {
-    this.filterSystem.queryTypeFilter = 'all';
-    this.filterSystem.requestSourceFilter = 'all';
-    this.filterSystem.resultsFilter = 'all';
-    this.filterUsageLogs(source, headerOption);
-    switch (headerOption) {
-      case 'queryType': {
-        this.filterSystem.queryTypeFilter = source;
-        return;
-      }
-      case 'requestSource': {
-        this.filterSystem.requestSourceFilter = source;
-        return;
-      }
-      case 'results': {
-        this.filterSystem.resultsFilter = source;
-        return;
-      }
-    }
-  }
-
-  filterUsageLogs(source, headerOption) {
-    if (!this.beforeFilterUsageLogs.length) {
-      this.beforeFilterUsageLogs = JSON.parse(JSON.stringify(this.usageLogs));
-    }
-    const tempUsageLogs = this.beforeFilterUsageLogs.filter((field: any) => {
-      if (source !== 'all') {
-        if (headerOption === 'queryType') {
-          if (field.queryType === source) {
-            return field;
-          }
-        }
-        if (headerOption === 'requestSource') {
-          if (field.requestSource === source) {
-            return field;
-          }
-        }
-        if (headerOption === 'results') {
-          if (field.results === source) {
-            return field;
-          }
-        }
-      } else {
-        return field;
-      }
-    });
-    this.usageLogs = JSON.parse(JSON.stringify(tempUsageLogs));
   }
 
   getSortIconVisibility(sortingField: string, type: string) {
@@ -304,7 +282,7 @@ export class UsageLogsComponent implements OnInit {
         window.open(hrefURL, '_self');
         this.service
           .invoke('put.dockStatus', params, payload)
-          .subscribe((res) => {});
+          .subscribe((res) => { });
       },
       (err) => {
         console.log(err);
@@ -329,5 +307,15 @@ export class UsageLogsComponent implements OnInit {
 
   openUserMetaTagsSlider() {
     this.appSelectionService.topicGuideShow.next(null);
+  }
+
+  //dropdown filter to get dynamic data
+  dropdownfilterData(query, type) {
+    if (type === 'queryType') {
+      this.filterSystem.queryTypeFilter = query;
+    } else if (type === 'results') {
+      this.filterSystem.resultsFilter = query;
+    }
+    this.getUsageLogs();
   }
 }

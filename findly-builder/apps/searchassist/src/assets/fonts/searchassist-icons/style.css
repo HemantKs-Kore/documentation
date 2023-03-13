@@ -1,10 +1,10 @@
 @font-face {
   font-family: 'searchassist-icons';
-  src:  url('fonts/searchassist-icons.eot?58aima');
-  src:  url('fonts/searchassist-icons.eot?58aima#iefix') format('embedded-opentype'),
-    url('fonts/searchassist-icons.ttf?58aima') format('truetype'),
-    url('fonts/searchassist-icons.woff?58aima') format('woff'),
-    url('fonts/searchassist-icons.svg?58aima#searchassist-icons') format('svg');
+  src:  url('fonts/searchassist-icons.eot?s8expj');
+  src:  url('fonts/searchassist-icons.eot?s8expj#iefix') format('embedded-opentype'),
+    url('fonts/searchassist-icons.ttf?s8expj') format('truetype'),
+    url('fonts/searchassist-icons.woff?s8expj') format('woff'),
+    url('fonts/searchassist-icons.svg?s8expj#searchassist-icons') format('svg');
   font-weight: normal;
   font-style: normal;
   font-display: block;
@@ -25,12 +25,8 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
-.si-sort:before {
-  content: "\e97d";
-}
 .si-clone-copy:before {
   content: "\e979";
-  color: #0d6efd;
 }
 .si-dark-mode:before {
   content: "\e97a";
@@ -40,43 +36,34 @@
 }
 .si-light-mode:before {
   content: "\e97c";
-  color: #0d6efd;
 }
+
 .si-sort-up:before {
   content: "\e977";
-  color: #04af5f;
 }
 .si-timer:before {
   content: "\e978";
-  color: #777a80;
 }
 .si-bot-icon:before {
   content: "\e970";
-  color: #777a80;
 }
 .si-conectors:before {
   content: "\e971";
-  color: #777a80;
 }
 .si-data:before {
   content: "\e972";
-  color: #777a80;
 }
 .si-doc-files:before {
   content: "\e973";
-  color: #777a80;
 }
 .si-go-to:before {
   content: "\e974";
-  color: #0d6efd;
 }
 .si-qestionandanswers:before {
   content: "\e975";
-  color: #777a80;
 }
 .si-trail:before {
   content: "\e976";
-  color: #777a80;
 }
 .si-add-plus-square:before {
   content: "\e96e";
@@ -86,15 +73,12 @@
 }
 .si-minus:before {
   content: "\e96a";
-  color: #0d6efd;
 }
 .si-double-arrow-up:before {
   content: "\e96b";
-  color: #0d6efd;
 }
 .si-double-arrow-down:before {
   content: "\e96c";
-  color: #0d6efd;
 }
 .si-arrow-two-way:before {
   content: "\e96d";
@@ -119,15 +103,12 @@
 }
 .si-topic-guide:before {
   content: "\e962";
-  color: #0d6efd;
 }
 .si-copy:before {
   content: "\e963";
-  color: #0d6efd;
 }
 .si-recall:before {
   content: "\e964";
-  color: #0d6efd;
 }
 .si-train-multi-intent:before {
   content: "\e961";
@@ -140,19 +121,15 @@
 }
 .si-time-estimate:before {
   content: "\e960";
-  color: #9aa0a6;
 }
 .si-skelton-medium:before {
   content: "\e95d";
-  color: #bdc1c6;
 }
 .si-pdf:before {
   content: "\e95c";
-  color: #07377f;
 }
 .si-cart:before {
   content: "\e95b";
-  color: #28a745;
 }
 .si-star-un-filled:before {
   content: "\e958";
@@ -165,7 +142,6 @@
 }
 .si-layout:before {
   content: "\e953";
-  color: #0d6efd;
 }
 .si-list-view:before {
   content: "\e954";
@@ -181,15 +157,12 @@
 }
 .si-avg:before {
   content: "\e952";
-  color: #9aa0a6;
 }
 .si-interuptions:before {
   content: "\e950";
-  color: #5f6368;
 }
 .si-checkround-up:before {
   content: "\e951";
-  color: #28a745;
 }
 .si-loading .path1:before {
   content: "\e91d";
@@ -217,27 +190,21 @@
 }
 .si-re-fresh:before {
   content: "\e922";
-  color: #0d6efd;
 }
 .si-link-file:before {
   content: "\e923";
-  color: #dd3646;
 }
 .si-share:before {
   content: "\e924";
-  color: #803c25;
 }
 .si-maximize:before {
   content: "\e925";
-  color: #0d6efd;
 }
 .si-close-red:before {
   content: "\e926";
-  color: #ef4444;
 }
 .si-graph-filter:before {
   content: "\e927";
-  color: #9aa0a6;
 }
 .si-file-help .path1:before {
   content: "\e928";
@@ -325,15 +292,12 @@
 }
 .si-ellipsis-horizontal:before {
   content: "\e938";
-  color: #9ca3af;
 }
 .si-green-check:before {
   content: "\e939";
-  color: #22c55e;
 }
 .si-grow-up-arrow:before {
   content: "\e93a";
-  color: #0d6efd;
 }
 .si-plan-crown .path1:before {
   content: "\e93b";
@@ -358,22 +322,18 @@
 }
 .si-check-document:before {
   content: "\e941";
-  color: #93d3a2;
 }
 .si-Internet:before {
   content: "\e942";
-  color: #85b7fe;
 }
 .si-tc-filter:before {
   content: "\e943";
-  color: #0d6efd;
 }
 .si-grid-view:before {
   content: "\e944";
 }
 .si-re-cycle-square:before {
   content: "\e945";
-  color: #28a745;
 }
 .si-progress-indicator .path1:before {
   content: "\e946";
@@ -425,7 +385,6 @@
 }
 .si-back-arrow:before {
   content: "\e91b";
-  color: #e4e5e7;
 }
 .si-right-arrow-large:before {
   content: "\e91c";
@@ -438,25 +397,21 @@
 }
 .si-warning:before {
   content: "\e918";
-  color: #dd3646;
 }
 .si-eyeshow:before {
   content: "\e917";
 }
 .si-external-horizantal:before {
   content: "\e916";
-  color: #0d6efd;
 }
 .si-pencil-edit:before {
   content: "\e914";
 }
 .si-delete1:before {
   content: "\e915";
-  color: #dd3646;
 }
 .si-instructions:before {
   content: "\e90a";
-  color: #0d6efd;
 }
 .si-delete:before {
   content: "\e90b";
@@ -466,11 +421,9 @@
 }
 .si-info:before {
   content: "\e90d";
-  color: #07377f;
 }
 .si-external-link:before {
   content: "\e90e";
-  color: #0d6efd;
 }
 .si-lock:before {
   content: "\e90f";
@@ -486,30 +439,24 @@
 }
 .si-check:before {
   content: "\e909";
-  color: #28a745;
 }
 .si-check-round:before {
   content: "\e908";
-  color: #135423;
 }
 .si-help:before {
   content: "\e907";
-  color: #5f6368;
 }
 .si-externallink:before {
   content: "\e900";
-  color: #0d6efd;
 }
 .si-faq:before {
   content: "\e901";
-  color: #7027e5;
 }
 .si-home:before {
   content: "\e902";
 }
 .si-list:before {
   content: "\e903";
-  color: #7027e5;
 }
 .si-search:before {
   content: "\e904";

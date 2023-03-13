@@ -471,10 +471,9 @@
                                     [removable]="removable"
                                     (removed)="remove(syn, 'edit')"
                                     ><span *ngIf="syn">{{ syn }}</span>
-                                    <img
-                                      src="assets/images/close.svg"
-                                      class="remove-icon"
-                                    />
+                                    <button matChipRemove>
+                                      <i class="si-close"></i>
+                                    </button>
                                   </mat-chip-row>
                                   <input
                                     id="sa_synonym_input_enter"

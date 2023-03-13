@@ -15,7 +15,6 @@ import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 //   EntityDefinitionService,
 //   EntityMetadataMap,
 // } from '@ngrx/data';
-// import { AppsDataResolver } from './services/apps-data.resolver';
 // import { AppsDataService } from './services/apps-data.service';
 // import { AppsService } from './services/apps.service';
 

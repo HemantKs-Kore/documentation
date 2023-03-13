@@ -2,7 +2,6 @@ import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
 import { KRModalComponent } from '../../shared/kr-modal/kr-modal.component';
 import { MatDialog } from '@angular/material/dialog';
 import * as _ from 'underscore';
-// import * as moment from 'moment';
 declare const $: any;
 import { ConfirmationDialogComponent } from '../../helpers/components/confirmation-dialog/confirmation-dialog.component';
 import { Subscription } from 'rxjs';
@@ -513,11 +512,9 @@ export class AppExperimentsComponent implements OnInit, OnDestroy {
 
         this.imageLoaded();
         const result = res.experiments.map((data) => {
-          //const hours = moment().diff(moment(data.end), 'hours');
           const date1 = new Date(); // current date and time
           const date2 = new Date(data.end);
           const hours = differenceInHours(date1, date2);
-          //const days = moment().diff(moment(data.end), 'days');
           const now = new Date(); // current date and time
           const end = new Date(data.end);
           const days = differenceInDays(now, end);
@@ -1007,11 +1004,9 @@ export class AppExperimentsComponent implements OnInit, OnDestroy {
         });
         if (status === 'active') {
           this.filterExperiments = this.filterExperiments.map((data) => {
-            //const hours = moment().diff(moment(data.end), 'hours');
             const date1 = new Date(); // current date and time
             const date2 = new Date(data.end);
             const hours = differenceInHours(date1, date2);
-            //const days = moment().diff(moment(data.end), 'days');
             const now = new Date(); // current date and time
             const end = new Date(data.end);
             const days = differenceInDays(now, end);

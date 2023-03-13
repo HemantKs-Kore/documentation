@@ -71,8 +71,6 @@
         "serviceWorker": true,
         "ngswConfigPath": "apps/searchassist/ngsw-config.json",
         "allowedCommonJsDependencies": [
-          "moment",
-          "moment-timezone",
           "codemirror",
           "jquery",
           "rangy",

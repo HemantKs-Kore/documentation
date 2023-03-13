@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { LazyScriptResolver } from '@kore.libs/shared/src';
+import { AppsComponent } from './modules/apps/apps.component';
 import { AppsDataResolver } from './modules/apps/services/apps-data.resolver';
 import { AuthGuard } from './services/auth.guard';
 import { AppDataResolver } from './services/resolvers/app.data.resolve';
@@ -224,8 +225,9 @@ const routes: Routes = [
       },
       {
         path: '',
-        loadChildren: () =>
-          import('./modules/apps/apps.module').then((m) => m.AppsModule),
+        component: AppsComponent,
+        // loadChildren: () =>
+        //   import('./modules/apps/apps.module').then((m) => m.AppsModule),
         pathMatch: 'full',
       },
       // {

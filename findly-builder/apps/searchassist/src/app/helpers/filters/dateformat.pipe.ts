@@ -1,20 +1,20 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import * as moment from 'moment';
+import { format } from 'date-fns';
 
 @Pipe({
-   name: 'dateFormatPipe'
+  name: 'dateFormatPipe',
 })
-export class DateFormatPipe  implements PipeTransform {
-   transform(date: string , format: string): any {
+export class DateFormatPipe implements PipeTransform {
+  transform(date: string, fmt: string): any {
     const dateValue = new Date(date);
     if (dateValue.toString() === 'Invalid Date') {
-        return date;
+      return date;
     } else {
-        if (format) {
-            return moment(dateValue).format(format);
-        } else {
-            return moment(dateValue).format('MM-DD-YYYY');
-        }
+      if (fmt) {
+        return format(new Date(dateValue), fmt);
+      } else {
+        return format(new Date(dateValue), 'MM-dd-yyyy');
+      }
     }
-   }
+  }
 }

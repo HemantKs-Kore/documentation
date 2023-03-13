@@ -9,16 +9,12 @@ import {
 } from '@angular/core';
 // import { EChartOption } from 'echarts';
 import { Options } from 'ng5-slider';
-import { Moment } from 'moment';
-import * as moment from 'moment-timezone';
 import { DaterangepickerDirective } from 'ngx-daterangepicker-material';
-import { NGB_DATEPICKER_18N_FACTORY } from '@ng-bootstrap/ng-bootstrap/datepicker/datepicker-i18n';
-import { style } from '@angular/animations';
 import { WorkflowService } from '@kore.apps/services/workflow.service';
 import { ServiceInvokerService } from '@kore.apps/services/service-invoker.service';
 import { NotificationService } from '@kore.apps/services/notification.service';
 import { AppSelectionService } from '@kore.apps/services/app.selection.service';
-import { TranslateModule } from '@ngx-translate/core';
+import { differenceInDays, subDays, subHours } from 'date-fns';
 declare const $: any;
 @Component({
   selector: 'app-user-engagement',
@@ -130,14 +126,14 @@ export class UserEngagementComponent implements OnInit, AfterViewInit {
   lowValue = 0;
   isyAxismostUsedBrowserdata = false;
   isyAxisGeodata = false;
-  startDate: any = moment().subtract({ days: 6 });
-  endDate: any = moment();
-  minDate: any = moment().subtract({ days: 95 });
-  maxDate: any = moment();
+  startDate: any = subDays(new Date(), 6);
+  endDate: any = new Date();
+  minDate: any = subDays(new Date(), 95);
+  maxDate: any = new Date();
   defaultSelectedDay = 7;
   showDateRange = false;
   busyHour_dataDIV: any = '';
-  selected: { startDate: Moment; endDate: Moment } = {
+  selected: { startDate: Date; endDate: Date } = {
     startDate: this.startDate,
     endDate: this.endDate,
   };
@@ -319,14 +315,14 @@ export class UserEngagementComponent implements OnInit, AfterViewInit {
       }
       // this.dateLimt('custom')
     } else if (range === 7) {
-      this.startDate = moment().subtract({ days: 6 });
-      this.endDate = moment();
+      this.startDate = subDays(new Date(), 6);
+      this.endDate = new Date();
       this.dateLimt('week');
       // this.callFlowJourneyData();
       this.showDateRange = false;
     } else if (range === 1) {
-      this.startDate = moment().subtract({ hours: 23 });
-      this.endDate = moment();
+      this.startDate = subHours(new Date(), 26);
+      this.endDate = new Date();
       this.dateLimt('hour');
       // this.callFlowJourneyData();
       this.showDateRange = false;
@@ -399,11 +395,13 @@ export class UserEngagementComponent implements OnInit, AfterViewInit {
       this.group = 'date';
     } else if (this.dateType == 'custom') {
       from = custom;
-      const duration = moment.duration(
-        Date.parse(this.endDate.toJSON()) - Date.parse(this.startDate.toJSON()),
-        'milliseconds'
+      const days = Math.round(
+        differenceInDays(
+          Date.parse(this.endDate.toJSON()),
+          Date.parse(this.startDate.toJSON())
+        )
       );
-      const days = duration.asDays();
+
       console.log(days);
       if (days > 28) {
         this.group = 'week';
