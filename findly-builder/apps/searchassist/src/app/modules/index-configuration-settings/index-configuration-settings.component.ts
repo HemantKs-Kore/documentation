@@ -174,7 +174,7 @@ export class IndexConfigurationSettingsComponent implements OnInit, OnDestroy {
   saveLanguage(dialogRef?, type?, langArr?) {
     this.isAddLoading = true;
     const queryParams = {
-      streamId: this.selectedApp._id,
+      streamId: this.selectedApp?._id,
       indexPipelineId: this.indexPipelineId,
     };
     const payload = {
