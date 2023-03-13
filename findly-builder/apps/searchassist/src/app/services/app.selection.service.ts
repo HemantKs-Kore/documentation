@@ -5,7 +5,6 @@ import { ServiceInvokerService } from './service-invoker.service';
 import {
   BehaviorSubject,
   catchError,
-  debounceTime,
   EMPTY,
   Observable,
   ReplaySubject,
@@ -337,7 +336,7 @@ export class AppSelectionService {
   getAllPlans(): Observable<any> {
     return this.service
       .invoke('get.pricingPlans', null, null, { cache: 'cachable' })
-      .pipe(debounceTime(5000), catchError(this.handleError));
+      .pipe(catchError(this.handleError));
   }
 
   //get current usage data of search and queries

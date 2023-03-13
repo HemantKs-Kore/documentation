@@ -28,6 +28,10 @@
     "file": "resolver.md"
   },
   {
+    "title": "Cache Http Request",
+    "file": "cache-http.md"
+  },
+  {
     "title": "Build & Deploy",
     "file": "build-and-deploy.md"
   },
