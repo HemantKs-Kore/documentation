@@ -218,20 +218,19 @@
                   )
                   ">
                   {{
-                  (currentSubscriptionPlan?.subscription?.planName
-                  | lowercase) === planNames.free
-                  ? ('plan_free_trail' | translate) +
-                  ': ' +
-                  currentSubscriptionPlan?.subscription?.expiryDays +
-                  ('plan_days_left' | translate)
-                  : ((currentSubscriptionPlan?.subscription
-                  ?.changesScheduledFor ===
-                  'cancel'
-                  ? 'plan_cancels_on'
-                  : 'plan_renews_on'
-                  ) | translate) +
-                  (currentSubscriptionPlan?.subscription?.endDate
-                  | dateFormatPipe : 'D.MMM.YYYY')
+                    (currentSubscriptionPlan?.subscription?.planName
+                      | lowercase) === planNames.free
+                      ? ('plan_free_trail' | translate) +
+                        ': ' +
+                        currentSubscriptionPlan?.subscription?.expiryDays +
+                        ('plan_days_left' | translate)
+                      : ((currentSubscriptionPlan?.subscription
+                          ?.changesScheduledFor === 'cancel'
+                          ? 'plan_cancels_on'
+                          : 'plan_renews_on'
+                        ) | translate) +
+                        (currentSubscriptionPlan?.subscription?.endDate
+                          | dateFormatPipe : 'd.MMM.yyyy')
                   }}
                 </div>
 

@@ -29,7 +29,6 @@ import {
 } from 'ngx-perfect-scrollbar';
 import { MatDialog } from '@angular/material/dialog';
 import { ConfirmationDialogComponent } from '../../helpers/components/confirmation-dialog/confirmation-dialog.component';
-// import * as moment from 'moment';
 import { AuthService } from '@kore.apps/services/auth.service';
 import { KgDataService } from '@kore.apps/services/componentsServices/kg-data.service';
 import { ServiceInvokerService } from '@kore.apps/services/service-invoker.service';
@@ -360,19 +359,15 @@ export class AddFaqComponent implements OnInit, AfterViewInit, OnDestroy {
     }
     if (ruleObj && ruleObj.operator === 'between') {
       if (event.startDate && event.endDate) {
-        // moment.utc();
         const date = [];
         const startDate = event.startDate?.toUTCString();
-        // const startDate = moment.utc(event.startDate).format();
         const endDate = event.endDate.toUTCString();
-        // const endDate = moment.utc(event.endDate).format();
         date.push(startDate);
         date.push(endDate);
         ruleObj.value.push(date);
       }
     } else {
       if (event.startDate) {
-        // const date = moment.utc(event.startDate).format();
         const date = event.startDate?.toUTCString();
         ruleObj.value.push(date);
       }

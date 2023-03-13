@@ -1,13 +1,13 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { KRModalComponent } from '../../shared/kr-modal/kr-modal.component';
-import { Moment } from 'moment';
-import * as moment from 'moment-timezone';
+
 import { DaterangepickerDirective } from 'ngx-daterangepicker-material';
 import { WorkflowService } from '@kore.apps/services/workflow.service';
 import { ServiceInvokerService } from '@kore.apps/services/service-invoker.service';
 import { AppSelectionService } from '@kore.apps/services/app.selection.service';
 import { SideBarService } from '@kore.apps/services/header.service';
 import { NotificationService } from '@kore.apps/services/notification.service';
+import { differenceInDays, format, subDays, subHours } from 'date-fns';
 declare const $: any;
 
 @Component({
@@ -51,15 +51,15 @@ export class SearchInsightsComponent implements OnInit {
     position: '',
     value: '',
   };
-  startDate: any = moment().subtract({ days: 7 });
-  endDate: any = moment();
+  startDate: any = subDays(new Date(), 7);
+  endDate: any = new Date();
   defaultSelectedDay = 7;
   showDateRange = false;
   querieswithresults = true;
   componentType = 'addData';
   searchExperienceConfig: any;
   feedbackDisableDate: string;
-  selected: { startDate: Moment; endDate: Moment } = {
+  selected: { startDate: Date; endDate: Date } = {
     startDate: this.startDate,
     endDate: this.endDate,
   };
@@ -82,12 +82,20 @@ export class SearchInsightsComponent implements OnInit {
 
     //this.getQueries("GetSearchQueriesResults");
     this.searchExperienceConfig = this.headerService.searchConfiguration;
-    this.feedbackDisableDate =
-      'User feedback disabled since ' +
-      moment(
-        this.searchExperienceConfig?.interactionsConfig?.feedbackExperience
-          ?.lmod
-      ).format('DD/MM/YYYY');
+    const feedbackDate =
+      this.searchExperienceConfig?.interactionsConfig?.feedbackExperience?.lmod;
+
+    if (feedbackDate) {
+      this.feedbackDisableDate =
+        'User feedback disabled since ' +
+        format(
+          new Date(
+            this.searchExperienceConfig?.interactionsConfig?.feedbackExperience?.lmod
+          ),
+          'dd/MM/yyyy'
+        );
+    }
+
     if (localStorage.getItem('search_Insight_Result')) {
       localStorage.getItem('search_Insight_Result') == 'Top_Search_Queries'
         ? (this.querieswithresults = true)
@@ -169,14 +177,14 @@ export class SearchInsightsComponent implements OnInit {
         this.showDateRange = false;
       }
     } else if (range === 7) {
-      this.startDate = moment().subtract({ days: 6 });
-      this.endDate = moment();
+      this.startDate = subDays(new Date(), 6);
+      this.endDate = new Date();
       this.dateLimt('week');
       // this.callFlowJourneyData();
       this.showDateRange = false;
     } else if (range === 1) {
-      this.startDate = moment().subtract({ hours: 23 });
-      this.endDate = moment();
+      this.startDate = subHours(new Date(), 23);
+      this.endDate = new Date();
       this.dateLimt('hour');
       // this.callFlowJourneyData();
       this.showDateRange = false;
@@ -243,11 +251,12 @@ export class SearchInsightsComponent implements OnInit {
       this.group = 'date';
     } else if (this.dateType == 'custom') {
       from = custom;
-      const duration = moment.duration(
-        Date.parse(this.endDate.toJSON()) - Date.parse(this.startDate.toJSON()),
-        'milliseconds'
+      const days = Math.round(
+        differenceInDays(
+          Date.parse(this.endDate.toJSON()),
+          Date.parse(this.startDate.toJSON())
+        )
       );
-      const days = duration.asDays();
       // console.log(days);
       if (days > 28) {
         this.group = 'week';

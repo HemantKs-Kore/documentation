@@ -31,7 +31,7 @@
           autocomplete="off"
           autofocus
           [(ngModel)]="searchUsageLog"
-          (keyup)="searchUsageLogs()"
+          (keypress)="searchUsageLogs()"
           (mouseover)="
             searchImgSrc = searchFocusIn
               ? 'assets/icons/search_gray.svg'
@@ -149,7 +149,7 @@
                     *ngFor="let queryType of queryTypeArr"
                     (click)="
                       queryTypeFilter.close();
-                      filterTable(queryType, 'queryType')
+                      dropdownfilterData(queryType, 'queryType')
                     "
                   >
                     <span
@@ -212,7 +212,7 @@
                   <li
                     *ngFor="let docType of resultsArr"
                     (click)="
-                      resultsFilter.close(); filterTable(docType, 'results')
+                      resultsFilter.close(); dropdownfilterData(docType, 'results')
                     "
                   >
                     <span
@@ -278,7 +278,7 @@
               }}
             </div>
             <div class="col-2 title pl-4">
-              {{ usageLog.createdOn | dateFormatPipe : 'DD MMM YYYY h:mm a' }}
+              {{ usageLog.createdOn | dateFormatPipe : 'dd MMM yyyy h:mm a' }}
             </div>
           </div>
         </ng-container>

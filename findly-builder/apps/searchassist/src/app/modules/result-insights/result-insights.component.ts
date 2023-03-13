@@ -1,13 +1,11 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
-// import { EChartOption } from 'echarts';
 import { KRModalComponent } from '../../shared/kr-modal/kr-modal.component';
-import { Moment } from 'moment';
-import * as moment from 'moment-timezone';
 import { DaterangepickerDirective } from 'ngx-daterangepicker-material';
 import { WorkflowService } from '@kore.apps/services/workflow.service';
 import { ServiceInvokerService } from '@kore.apps/services/service-invoker.service';
 import { NotificationService } from '@kore.apps/services/notification.service';
 import { AppSelectionService } from '@kore.apps/services/app.selection.service';
+import { differenceInDays, subDays, subHours } from 'date-fns';
 declare const $: any;
 @Component({
   selector: 'app-result-insights',
@@ -89,12 +87,12 @@ export class ResultInsightsComponent implements OnInit {
   Q_totalRecord = 0;
   Q_limitPage = 10;
   Q_skipPage = 0;
-  startDate: any = moment().subtract({ days: 7 });
-  endDate: any = moment();
+  startDate: any = subDays(new Date(), 7);
+  endDate: any = new Date();
   defaultSelectedDay = 7;
   showDateRange = false;
   componentType = 'addData';
-  selected: { startDate: Moment; endDate: Moment } = {
+  selected: { startDate: Date; endDate: Date } = {
     startDate: this.startDate,
     endDate: this.endDate,
   };
@@ -200,14 +198,14 @@ export class ResultInsightsComponent implements OnInit {
         this.showDateRange = false;
       }
     } else if (range === 7) {
-      this.startDate = moment().subtract({ days: 6 });
-      this.endDate = moment();
+      this.startDate = subDays(new Date(), 6);
+      this.endDate = new Date();
       this.dateLimt('week');
       // this.callFlowJourneyData();
       this.showDateRange = false;
     } else if (range === 1) {
-      this.startDate = moment().subtract({ hours: 23 });
-      this.endDate = moment();
+      this.startDate = subHours(new Date(), 23);
+      this.endDate = new Date();
       this.dateLimt('hour');
       // this.callFlowJourneyData();
       this.showDateRange = false;
@@ -257,11 +255,13 @@ export class ResultInsightsComponent implements OnInit {
       this.group = 'date';
     } else if (this.dateType == 'custom') {
       from = custom;
-      const duration = moment.duration(
-        Date.parse(this.endDate.toJSON()) - Date.parse(this.startDate.toJSON()),
-        'milliseconds'
+      const days = Math.round(
+        differenceInDays(
+          Date.parse(this.endDate.toJSON()),
+          Date.parse(this.startDate.toJSON())
+        )
       );
-      const days = duration.asDays();
+
       // console.log(days);
       if (days > 28) {
         this.group = 'week';

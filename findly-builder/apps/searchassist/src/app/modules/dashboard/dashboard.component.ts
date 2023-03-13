@@ -7,8 +7,7 @@ import {
 } from '@angular/core';
 // import { EChartOption } from 'echarts';
 import { Router } from '@angular/router';
-import { Moment } from 'moment';
-import * as moment from 'moment-timezone';
+
 import { DaterangepickerDirective } from 'ngx-daterangepicker-material';
 import { filter, Subscription } from 'rxjs';
 import { WorkflowService } from '@kore.apps/services/workflow.service';
@@ -18,6 +17,8 @@ import { NotificationService } from '@kore.apps/services/notification.service';
 import { SideBarService } from '@kore.apps/services/header.service';
 import { Store } from '@ngrx/store';
 import { selectSearchExperiance } from '@kore.apps/store/app.selectors';
+import { differenceInDays, format, subDays, subHours } from 'date-fns';
+import { utcToZonedTime } from 'date-fns-tz';
 
 declare const $: any;
 @Component({
@@ -92,8 +93,8 @@ export class DashboardComponent implements OnInit, OnDestroy {
   dateType = 'hour';
   group = 'week';
   isyAxisMostClickPostiondata = false;
-  startDate: any = moment().subtract({ days: 7 });
-  endDate: any = moment();
+  startDate: any = subDays(new Date(), 7);
+  endDate: any = new Date();
   defaultSelectedDay = 7;
   showDateRange = false;
   componentType = 'addData';
@@ -101,7 +102,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
   searchConfigurationSubscription: Subscription;
   appSubscription: Subscription;
   indexPipelineId: string;
-  selected: { startDate: Moment; endDate: Moment } = {
+  selected: { startDate: Date; endDate: Date } = {
     startDate: this.startDate,
     endDate: this.endDate,
   };
@@ -287,14 +288,14 @@ export class DashboardComponent implements OnInit, OnDestroy {
         this.showDateRange = false;
       }
     } else if (range === 7) {
-      this.startDate = moment().subtract({ days: 6 });
-      this.endDate = moment();
+      this.startDate = subDays(new Date(), 6);
+      this.endDate = new Date();
       this.dateLimt('week');
       // this.callFlowJourneyData();
       this.showDateRange = false;
     } else if (range === 1) {
-      this.startDate = moment().subtract({ hours: 23 });
-      this.endDate = moment();
+      this.startDate = subHours(new Date(), 23);
+      this.endDate = new Date();
       this.dateLimt('hour');
       // this.callFlowJourneyData();
       this.showDateRange = false;
@@ -347,11 +348,13 @@ export class DashboardComponent implements OnInit, OnDestroy {
     } else if (this.dateType == 'custom') {
       from = custom;
       //this.group = "week";
-      const duration = moment.duration(
-        Date.parse(this.endDate.toJSON()) - Date.parse(this.startDate.toJSON()),
-        'milliseconds'
+      const days = Math.round(
+        differenceInDays(
+          Date.parse(this.endDate.toJSON()),
+          Date.parse(this.startDate.toJSON())
+        )
       );
-      const days = duration.asDays();
+      // const days = duration.asDays();
       // console.log(days);
       if (days > 28) {
         this.group = 'week';
@@ -738,13 +741,13 @@ export class DashboardComponent implements OnInit, OnDestroy {
       } else if (this.dateType == 'week' || this.dateType == 'custom') {
         const date = new Date(this.searchHistogram[i].date);
         // xAxisData.push(date.getDate() + " " +monthNames[date.getMonth()])
-        // totaldata.push([date.getDate() + " " + monthNames[date.getMonth()], this.searchHistogram[i].totalSearches, this.searchHistogram[i].searchesWithResults, this.searchHistogram[i].searchesWithClicks, moment(date,"Do MMM, YYYY")])
+
         totaldata.push([
-          moment.utc(date).format('Do MMM'),
+          format(utcToZonedTime(date, 'UTC'), 'do MMM'),
           this.searchHistogram[i].totalSearches,
           this.searchHistogram[i].searchesWithResults,
           this.searchHistogram[i].searchesWithClicks,
-          moment.utc(date).format('DD MMM YYYY'),
+          format(utcToZonedTime(date, 'UTC'), 'dd MMM yyyy'),
         ]);
       }
       // else if(this.dateType == 'custom'){
