@@ -2,6 +2,7 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
+  OnDestroy,
   OnInit,
 } from '@angular/core';
 import { WorkflowService } from '@kore.services/workflow.service';
@@ -13,6 +14,7 @@ import { AppSelectionService } from '@kore.services/app.selection.service';
 import { TranslationService } from '@kore.libs/shared/src';
 import { selectAppIds } from '@kore.apps/store/app.selectors';
 import { Store } from '@ngrx/store';
+import { Subscription } from 'rxjs';
 declare let require: any;
 const FileSaver = require('file-saver');
 @Component({
@@ -21,7 +23,7 @@ const FileSaver = require('file-saver');
   styleUrls: ['./invoices.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class InvoicesComponent implements OnInit {
+export class InvoicesComponent implements OnInit, OnDestroy {
   invoices = [];
   showSearch = false;
   searchInvoice = '';
@@ -32,6 +34,7 @@ export class InvoicesComponent implements OnInit {
   selectedSort = '';
   loading = false;
   streamId;
+  sub: Subscription;
 
   constructor(
     public workflowService: WorkflowService,
@@ -125,5 +128,9 @@ export class InvoicesComponent implements OnInit {
 
   openUserMetaTagsSlider() {
     this.appSelectionService.topicGuideShow.next(null);
+  }
+
+  ngOnDestroy(): void {
+    this.sub?.unsubscribe();
   }
 }

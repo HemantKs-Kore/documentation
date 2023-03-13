@@ -2,6 +2,7 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
+  OnDestroy,
   OnInit,
 } from '@angular/core';
 import { WorkflowService } from '@kore.services/workflow.service';
@@ -13,13 +14,16 @@ import { AppSelectionService } from '@kore.services/app.selection.service';
 import { Subscription } from 'rxjs';
 import { format } from 'date-fns';
 import { TranslationService } from '@kore.libs/shared/src';
+import { Store } from '@ngrx/store';
+import { selectAppIds } from '@kore.apps/store/app.selectors';
 @Component({
   selector: 'app-usage-logs',
   templateUrl: './usage-logs.component.html',
   styleUrls: ['./usage-logs.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class UsageLogsComponent implements OnInit {
+export class UsageLogsComponent implements OnInit, OnDestroy {
+  sub: Subscription;
   usageLogs = [];
   queryTypeArr = ['all'];
   resultsArr = ['all'];
@@ -29,8 +33,7 @@ export class UsageLogsComponent implements OnInit {
   searchImgSrc = 'assets/icons/search_gray.svg';
   searchFocusIn = false;
   selectedApp: any;
-  serachIndexId: string;
-  indexPipelineId: string;
+  searchIndexId: string;
   subscription: Subscription;
   totalRecord: number;
   filterSystem: any = {
@@ -45,6 +48,8 @@ export class UsageLogsComponent implements OnInit {
   isAsc = true;
   current_plan_name: string;
   beforeFilterUsageLogs: any = [];
+  streamId;
+
   constructor(
     public workflowService: WorkflowService,
     private service: ServiceInvokerService,
@@ -53,20 +58,29 @@ export class UsageLogsComponent implements OnInit {
     public authService: AuthService,
     private appSelectionService: AppSelectionService,
     private cd: ChangeDetectorRef,
-    private translationService: TranslationService
+    private translationService: TranslationService,
+    private store: Store
   ) {
     // Load translations for this module
     this.translationService.loadModuleTranslations('usage-log');
   }
 
   ngOnInit(): void {
-    this.selectedApp = this.workflowService?.selectedApp();
-    this.serachIndexId = this.selectedApp?.searchIndexes[0]?._id;
-    this.indexPipelineId = this.workflowService.selectedIndexPipeline();
     const subscription_data =
       this.appSelectionService?.currentsubscriptionPlanDetails;
     this.current_plan_name = subscription_data?.subscription?.planName;
-    this.loadUsageLogs();
+  }
+
+  initAppIds() {
+    const idsSub = this.store
+      .select(selectAppIds)
+      .subscribe(({ streamId, searchIndexId }) => {
+        this.streamId = streamId;
+        this.searchIndexId = searchIndexId;
+
+        this.getUsageLogs();
+      });
+    this.sub?.add(idsSub);
   }
 
   toggleSearch() {
@@ -74,10 +88,6 @@ export class UsageLogsComponent implements OnInit {
     if (this.showSearch && this.searchUsageLog) this.searchUsageLog = '';
   }
 
-  loadUsageLogs() {
-    this.indexPipelineId = this.workflowService.selectedIndexPipeline();
-    if (this.indexPipelineId) this.getUsageLogs();
-  }
   searchUsageLogs() {
     this.searchLoading = true;
     this.searchUsageLog
@@ -87,7 +97,7 @@ export class UsageLogsComponent implements OnInit {
   getUsageLogs(offset?, quary?) {
     this.loading = true;
     const quaryparms: any = {
-      streamId: this.selectedApp._id,
+      streamId: this.streamId,
       skip: offset || 0,
       limit: 10,
     };
@@ -230,7 +240,7 @@ export class UsageLogsComponent implements OnInit {
 
   exportUsageLog() {
     const quaryparms: any = {
-      streamId: this.selectedApp._id,
+      streamId: this.streamId,
     };
     const payload = {
       fileType: 'csv',
@@ -252,7 +262,7 @@ export class UsageLogsComponent implements OnInit {
 
   checkExportUsagelog() {
     const queryParms = {
-      searchIndexId: this.workflowService.selectedSearchIndexId,
+      searchIndexId: this.searchIndexId,
     };
     this.service.invoke('get.dockStatus', queryParms).subscribe(
       (res) => {
@@ -290,7 +300,7 @@ export class UsageLogsComponent implements OnInit {
       streamId: streamId,
       dockId: dockId,
       jobId: dockId,
-      sidx: this.serachIndexId,
+      sidx: this.searchIndexId,
     };
     const payload = {
       store: {
@@ -329,5 +339,9 @@ export class UsageLogsComponent implements OnInit {
 
   openUserMetaTagsSlider() {
     this.appSelectionService.topicGuideShow.next(null);
+  }
+
+  ngOnDestroy(): void {
+    this.sub?.unsubscribe();
   }
 }
