@@ -25,12 +25,13 @@ declare const $: any;
   styleUrls: ['./result-ranking.component.scss'],
 })
 export class ResultRankingComponent implements OnInit, OnDestroy {
+  sub: Subscription;
   actionLogData: any;
   time;
   iconIndex;
   actionIndex;
   selectedApp;
-  serachIndexId;
+  searchIndexId;
   queryPipelineId;
   indexPipelineId;
   customizeLog: any = [];
@@ -67,6 +68,8 @@ export class ResultRankingComponent implements OnInit, OnDestroy {
   loadingContent1: boolean;
   customizedActionLogData = [];
   searchExperienceConfig: any = {};
+  streamId;
+
   constructor(
     public workflowService: WorkflowService,
     private service: ServiceInvokerService,
@@ -87,8 +90,6 @@ export class ResultRankingComponent implements OnInit, OnDestroy {
     //   this.getcustomizeList(20, 0);
     // })
     $(document).on('click', '.kore-search-container-close-icon', () => {
-      this.selectedApp = this.workflowService.selectedApp();
-      this.serachIndexId = this.selectedApp.searchIndexes[0]._id;
       this.zone.run(() => {
         this.loadCustomRankingList();
       });
@@ -96,8 +97,6 @@ export class ResultRankingComponent implements OnInit, OnDestroy {
     $(document)
       .off('click', '.start-search-icon-div')
       .on('click', '.start-search-icon-div', () => {
-        this.selectedApp = this.workflowService.selectedApp();
-        this.serachIndexId = this.selectedApp.searchIndexes[0]._id;
         this.loadCustomRankingList();
       });
 
@@ -105,23 +104,31 @@ export class ResultRankingComponent implements OnInit, OnDestroy {
     $(document)
       .off('click', '.rr-tour-test-btn')
       .on('click', '.rr-tour-test-btn', () => {
-        this.selectedApp = this.workflowService.selectedApp();
-        this.serachIndexId = this.selectedApp.searchIndexes[0]._id;
         this.loadCustomRankingList();
       });
   }
   ngOnInit(): void {
+    this.initAppIds();
     this.sdk_evenBind();
     this.getSearchExperience();
-    this.selectedApp = this.workflowService?.selectedApp();
-    this.serachIndexId = this.selectedApp?.searchIndexes[0]?._id;
-    this.loadCustomRankingList();
-    this.subscription = this.appSelectionService.queryConfigs.subscribe(
-      (res) => {
-        this.loadCustomRankingList();
-      }
-    );
   }
+
+  initAppIds() {
+    const idsSub = this.store
+      .select(selectAppIds)
+      .subscribe(
+        ({ streamId, searchIndexId, indexPipelineId, queryPipelineId }) => {
+          this.streamId = streamId;
+          this.searchIndexId = searchIndexId;
+          this.indexPipelineId = indexPipelineId;
+          this.queryPipelineId = queryPipelineId;
+
+          this.loadCustomRankingList();
+        }
+      );
+    this.sub?.add(idsSub);
+  }
+
   //get default data
   getSearchExperience() {
     const searchExperianceConfigSub = this.store
@@ -144,32 +151,19 @@ export class ResultRankingComponent implements OnInit, OnDestroy {
       }
     }
   }
+
   loadCustomRankingList() {
-    this.indexPipelineId = this.workflowService.selectedIndexPipeline();
-    if (this.indexPipelineId) {
-      this.queryPipelineId = this.workflowService.selectedQueryPipeline()
-        ? this.workflowService.selectedQueryPipeline()._id
-        : this.selectedApp.searchIndexes[0].queryPipelineId;
-      if (this.queryPipelineId) {
-        this.getFieldAutoComplete();
-      }
-    }
+    this.getFieldAutoComplete();
   }
+
   getFieldAutoComplete() {
-    const query: any = '';
-    // const quaryparms: any = {
-    //   searchIndexID: this.serachIndexId,
-    //   indexPipelineId: this.indexPipelineId,
-    //   query,
-    // };
-    // const url = 'get.getFieldAutocomplete'
     const url = 'get.presentableFields';
     const quaryparms: any = {
       isSelected: true,
       sortField: 'fieldName',
       orderType: 'asc', //desc,
       indexPipelineId: this.indexPipelineId,
-      streamId: this.selectedApp._id,
+      streamId: this.streamId,
       queryPipelineId: this.queryPipelineId,
       searchKey: '',
     };
@@ -203,7 +197,7 @@ export class ResultRankingComponent implements OnInit, OnDestroy {
   }
   getSettings(interfaceType) {
     const quaryparms: any = {
-      searchIndexId: this.serachIndexId,
+      searchIndexId: this.searchIndexId,
       interface: interfaceType,
       indexPipelineId: this.indexPipelineId,
       queryPipelineId: this.queryPipelineId,
@@ -232,7 +226,7 @@ export class ResultRankingComponent implements OnInit, OnDestroy {
   }
   getTemplate(templateId) {
     const quaryparms: any = {
-      searchIndexId: this.serachIndexId,
+      searchIndexId: this.searchIndexId,
       templateId: templateId,
       indexPipelineId: this.indexPipelineId,
       queryPipelineId: this.queryPipelineId,
@@ -276,9 +270,9 @@ export class ResultRankingComponent implements OnInit, OnDestroy {
   }
   resetCustomization() {
     const quaryparms: any = {
-      searchIndexId: this.serachIndexId,
+      searchIndexId: this.searchIndexId,
       queryPipelineId: this.queryPipelineId,
-      indexPipelineId: this.workflowService.selectedIndexPipeline() || '',
+      indexPipelineId: this.indexPipelineId || '',
     };
     const ids = [];
     this.collectedRecord.forEach((element) => {
@@ -526,10 +520,10 @@ export class ResultRankingComponent implements OnInit, OnDestroy {
     //this.multiSelect(record,opt)
     this.selectedRecord = record;
     const quaryparms: any = {
-      searchIndexId: this.serachIndexId,
+      searchIndexId: this.searchIndexId,
       queryPipelineId: this.queryPipelineId,
       rankingAndPinningId: record._id,
-      indexPipelineId: this.workflowService.selectedIndexPipeline() || '',
+      indexPipelineId: this.indexPipelineId || '',
     };
 
     this.service.invoke('get.customisationLogs', quaryparms).subscribe(
@@ -740,18 +734,18 @@ export class ResultRankingComponent implements OnInit, OnDestroy {
     );
   }
   removeRecord(actLog) {
-    const searchIndex = this.serachIndexId;
+    const searchIndex = this.searchIndexId;
     const quaryparms: any = {
       searchIndexId: searchIndex,
       queryPipelineId: this.queryPipelineId,
       rankingAndPinningId: this.selectedRecord._id,
       contentId: actLog?.contentId,
-      indexPipelineId: this.workflowService.selectedIndexPipeline() || '',
+      indexPipelineId: this.indexPipelineId || '',
     };
     this.remove_Record(quaryparms);
   }
   remove_Record(quaryparms) {
-    // const searchIndex = this.serachIndexId;
+    // const searchIndex = this.searchIndexId;
     // const quaryparms: any = {
     //   searchIndexId: searchIndex,
     //   queryPipelineId: this.queryPipelineId
@@ -842,7 +836,7 @@ export class ResultRankingComponent implements OnInit, OnDestroy {
   timeLog(record) {
     // this.selectedRecord = record;
     const quaryparms: any = {
-      searchIndexId: this.serachIndexId,
+      searchIndexId: this.searchIndexId,
       queryPipelineId: this.queryPipelineId,
       rankingAndPinningId: record._id,
     };
@@ -898,10 +892,10 @@ export class ResultRankingComponent implements OnInit, OnDestroy {
 
   restore(record) {
     const quaryparms: any = {
-      searchIndexId: this.serachIndexId,
+      searchIndexId: this.searchIndexId,
       queryPipelineId: this.queryPipelineId,
       rankingAndPinningId: record._id,
-      indexPipelineId: this.workflowService.selectedIndexPipeline() || '',
+      indexPipelineId: this.indexPipelineId || '',
     };
     const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
       width: '530px',
@@ -955,9 +949,9 @@ export class ResultRankingComponent implements OnInit, OnDestroy {
     limit ? limit : 10;
     skip ? skip : 0;
     const quaryparms: any = {
-      searchIndexId: this.serachIndexId,
+      searchIndexId: this.searchIndexId,
       queryPipelineId: this.queryPipelineId,
-      indexPipelineId: this.workflowService.selectedIndexPipeline() || '',
+      indexPipelineId: this.indexPipelineId || '',
       limit: limit,
       skip: skip,
     };
@@ -1058,6 +1052,7 @@ export class ResultRankingComponent implements OnInit, OnDestroy {
   }
   ngOnDestroy() {
     this.subscription ? this.subscription.unsubscribe() : false;
+    this.sub?.unsubscribe();
   }
   openUserMetaTagsSlider() {
     this.appSelectionService.topicGuideShow.next(undefined);

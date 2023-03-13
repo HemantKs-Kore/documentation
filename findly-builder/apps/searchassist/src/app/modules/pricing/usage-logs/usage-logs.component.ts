@@ -66,6 +66,7 @@ export class UsageLogsComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+    this.initAppIds();
     const subscription_data =
       this.appSelectionService?.currentsubscriptionPlanDetails;
     this.current_plan_name = subscription_data?.subscription?.planName;

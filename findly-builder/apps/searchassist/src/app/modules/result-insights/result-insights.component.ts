@@ -141,7 +141,6 @@ export class ResultInsightsComponent implements OnInit {
           this.indexConfigObj[element._id] = element;
         });
         if (res.length >= 0) {
-          //this.selectedIndexConfig = this.workflowService.selectedIndexPipeline();
           for (let i = 0; i < res.length; i++) {
             if (res[i].default === true) {
               this.selectedIndexConfig = res[i]._id;
@@ -345,13 +344,7 @@ export class ResultInsightsComponent implements OnInit {
         position: navigate,
       };
     }
-    // const quaryparms: any = {
-    //   searchIndexID: this.serachIndexId,
-    //   indexPipelineId: this.workflowService.selectedIndexPipeline() || '',
-    //   queryPipelineId: this.workflowService.selectedQueryPipeline()._id,
-    //   offset: 0,
-    //   limit: 10
-    // };
+
     let request: any = {};
     // if(!sortValue){
     //   request = {
