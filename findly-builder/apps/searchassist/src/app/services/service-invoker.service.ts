@@ -60,7 +60,11 @@ export class ServiceInvokerService {
     }
 
     _url += _url.indexOf('?') > -1 ? '&' : '?';
-    _url += this.genRandQuery();
+
+    if (_url.endsWith('?')) {
+      _url = _url.replace('?', '');
+    }
+    // _url += this.genRandQuery();
 
     if (_verb === HTTP_VERB_DELETE) {
       _verb = HTTP_VERB_POST;

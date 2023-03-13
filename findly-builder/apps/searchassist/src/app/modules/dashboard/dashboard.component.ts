@@ -9,7 +9,7 @@ import {
 import { Router } from '@angular/router';
 
 import { DaterangepickerDirective } from 'ngx-daterangepicker-material';
-import { filter, Subscription } from 'rxjs';
+import { filter, Subscription, tap, withLatestFrom } from 'rxjs';
 import { WorkflowService } from '@kore.apps/services/workflow.service';
 import { ServiceInvokerService } from '@kore.apps/services/service-invoker.service';
 import { AppSelectionService } from '@kore.apps/services/app.selection.service';
@@ -20,6 +20,8 @@ import { differenceInDays, format, subDays, subHours } from 'date-fns';
 import { utcToZonedTime } from 'date-fns-tz';
 import {
   selectAppIds,
+  selectIndexPipelineId,
+  selectIndexPipelines,
   selectSearchExperiance,
 } from '@kore.apps/store/app.selectors';
 
@@ -126,6 +128,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.initAppIds();
+    this.getIndexPipeline();
   }
 
   initAppIds() {
@@ -136,6 +139,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
         this.indexPipelineId = indexPipelineId;
 
         this.getSearchExperience();
+        this.getAllgraphdetails(this.indexPipelineId);
       });
     this.sub?.add(idsSub);
   }
@@ -152,50 +156,58 @@ export class DashboardComponent implements OnInit, OnDestroy {
   }
 
   getIndexPipeline() {
-    const header: any = {
-      'x-timezone-offset': '-330',
-    };
-    const quaryparms: any = {
-      searchIndexId: this.searchIndexId,
-      offset: 0,
-      limit: 100,
-    };
-    this.service.invoke('get.indexPipeline', quaryparms, header).subscribe(
-      (res) => {
-        this.indexConfigs = res;
-        this.indexConfigs.forEach((element) => {
-          this.indexConfigObj[element._id] = element;
-        });
-        if (res.length >= 0) {
-          for (let i = 0; i < res.length; i++) {
-            if (res[i].default === true) {
-              this.selectedIndexConfig = res[i]._id;
-            }
-          }
-          this.getAllgraphdetails(this.selectedIndexConfig);
-          // for(let i=0;i<res.length;i++){
-          //   if(res[i].default=== true){
-          //     this.selecteddropname=res[i].name;
-          //   }
-          // }
-        }
+    const indexPipelineSub = this.store
+      .select(selectIndexPipelines)
+      .subscribe((indexPipelines) => {
+        this.indexConfigs = indexPipelines;
+      });
 
-        //this.getQueryPipeline(res[0]._id);
-      },
-      (errRes) => {
-        if (
-          errRes &&
-          errRes.error.errors &&
-          errRes.error.errors.length &&
-          errRes.error.errors[0] &&
-          errRes.error.errors[0].msg
-        ) {
-          this.notificationService.notify(errRes.error.errors[0].msg, 'error');
-        } else {
-          this.notificationService.notify('Failed ', 'error');
-        }
-      }
-    );
+    this.sub?.add(indexPipelineSub);
+
+    // const header: any = {
+    //   'x-timezone-offset': '-330',
+    // };
+    // const quaryparms: any = {
+    //   searchIndexId: this.searchIndexId,
+    //   offset: 0,
+    //   limit: 100,
+    // };
+    // this.service.invoke('get.indexPipeline', quaryparms, header).subscribe(
+    //   (res) => {
+    //     this.indexConfigs = res;
+    //     this.indexConfigs.forEach((element) => {
+    //       this.indexConfigObj[element._id] = element;
+    //     });
+    //     if (res.length >= 0) {
+    //       for (let i = 0; i < res.length; i++) {
+    //         if (res[i].default === true) {
+    //           this.selectedIndexConfig = res[i]._id;
+    //         }
+    //       }
+    //       this.getAllgraphdetails(this.selectedIndexConfig);
+    //       // for(let i=0;i<res.length;i++){
+    //       //   if(res[i].default=== true){
+    //       //     this.selecteddropname=res[i].name;
+    //       //   }
+    //       // }
+    //     }
+
+    //     //this.getQueryPipeline(res[0]._id);
+    //   },
+    //   (errRes) => {
+    //     if (
+    //       errRes &&
+    //       errRes.error.errors &&
+    //       errRes.error.errors.length &&
+    //       errRes.error.errors[0] &&
+    //       errRes.error.errors[0].msg
+    //     ) {
+    //       this.notificationService.notify(errRes.error.errors[0].msg, 'error');
+    //     } else {
+    //       this.notificationService.notify('Failed ', 'error');
+    //     }
+    //   }
+    // );
   }
 
   /* added on 17/01 */
