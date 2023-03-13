@@ -143,8 +143,6 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    if (Object.entries(localStorage?.jStorage).length > 2)
-      this.appSelectionService?.getAllPlans();
     this.lazyLoadStyles();
   }
 

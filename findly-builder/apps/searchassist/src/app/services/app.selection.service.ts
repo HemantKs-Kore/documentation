@@ -2,7 +2,15 @@
 import { Injectable } from '@angular/core';
 import { WorkflowService } from './workflow.service';
 import { ServiceInvokerService } from './service-invoker.service';
-import { BehaviorSubject, ReplaySubject, Subject } from 'rxjs';
+import {
+  BehaviorSubject,
+  catchError,
+  debounceTime,
+  EMPTY,
+  Observable,
+  ReplaySubject,
+  Subject,
+} from 'rxjs';
 import * as _ from 'underscore';
 import { Router } from '@angular/router';
 import { SideBarService } from './header.service';
@@ -12,7 +20,6 @@ import { AuthService } from './auth.service';
 import { environment } from '../../environments/environment';
 import { LocalStoreService } from './localstore.service';
 import { differenceInDays, parseISO } from 'date-fns';
-
 import { AppsService } from '@kore.apps/modules/apps/services/apps.service';
 environment;
 @Injectable({
@@ -308,31 +315,29 @@ export class AppSelectionService {
     );
   }
 
-  //get all plans in pricing
-  getAllPlans() {
-    this.service.invoke('get.pricingPlans').subscribe(
-      (res) => {
-        this.pricingPlansData = res;
-      },
-      (errRes) => {
-        if (localStorage.jStorage) {
-          if (
-            errRes &&
-            errRes.error.errors &&
-            errRes.error.errors.length &&
-            errRes.error.errors[0] &&
-            errRes.error.errors[0].msg
-          ) {
-            this.notificationService.notify(
-              errRes.error.errors[0].msg,
-              'error'
-            );
-          } else {
-            this.notificationService.notify('Failed ', 'error');
-          }
-        }
+  handleError(errRes: any): Observable<any> {
+    if (localStorage.jStorage) {
+      if (
+        errRes &&
+        errRes.error.errors &&
+        errRes.error.errors.length &&
+        errRes.error.errors[0] &&
+        errRes.error.errors[0].msg
+      ) {
+        this.notificationService.notify(errRes.error.errors[0].msg, 'error');
+      } else {
+        this.notificationService.notify('Failed ', 'error');
       }
-    );
+    }
+
+    return EMPTY;
+  }
+
+  //get all plans in pricing
+  getAllPlans(): Observable<any> {
+    return this.service
+      .invoke('get.pricingPlans', null, null, { cache: 'cachable' })
+      .pipe(debounceTime(5000), catchError(this.handleError));
   }
 
   //get current usage data of search and queries
