@@ -12,7 +12,6 @@ import {
   MatAutocompleteSelectedEvent,
 } from '@angular/material/autocomplete';
 import { Subscription } from 'rxjs';
-// import * as moment from 'moment';
 import { PerfectScrollbarComponent } from 'ngx-perfect-scrollbar';
 import { DomSanitizer } from '@angular/platform-browser';
 import { EMPTY_SCREEN } from '../../modules/empty-screen/empty-screen.constants';
@@ -434,11 +433,8 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
     }
     if (ruleObj && ruleObj.operator === 'between') {
       if (event.startDate && event.endDate) {
-        //moment.utc();
         const date = [];
-        // const startDate = moment.utc(event.startDate).format();
         const startDate = event?.startDate?.toUTCString();
-        //const endDate = moment.utc(event.endDate).format();
         const endDate = event?.endDate.toUTCString();
         date.push(startDate);
         date.push(endDate);
@@ -446,7 +442,6 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
       }
     } else {
       if (event.startDate) {
-        //const date = moment.utc(event.startDate).format();
         const date = event.startDate?.toUTCString();
         ruleObj.value.push(date);
       }

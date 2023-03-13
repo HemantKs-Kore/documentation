@@ -6,7 +6,7 @@
     "start": "ng serve searchassist -o",
     "serve:app": "ng build searchassist --configuration=app && live-server dist/apps/searchassist",
     "serve:qa": "ng build searchassist --configuration=qa && npm run uncss && npm run liveserver",
-    "serve:prod": "run-s build liveserver",
+    "serve:prod": "ng build searchassist && npm run uncss && npm run liveserver",
     "liveserver": "cd dist/apps/searchassist && live-server",
     "build": "ng build searchassist --base-href /home/ && npm run uncss",
     "ng": "nx",

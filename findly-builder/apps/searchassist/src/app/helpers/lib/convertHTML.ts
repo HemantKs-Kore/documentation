@@ -1,7 +1,6 @@
 /* eslint-disable no-useless-escape */
 import { Injectable } from '@angular/core';
-import { Observable, BehaviorSubject } from 'rxjs';
-import * as moment from 'moment';
+import { format } from 'date-fns';
 declare const $: any;
 
 @Injectable({
@@ -194,7 +193,6 @@ export class ConvertMDtoHTML {
             const datematcharray = matchmap(mdre.date, strvald);
             if (datematcharray.length) {
               for (k = 0; k < datematcharray.length; k++) {
-                // var fdate = moment(datematcharray[k].matchval).format('DD,dd,MM,YYY');
                 let fdate = new Date(
                   datematcharray[k].matchval1
                 ).toLocaleDateString();
@@ -236,7 +234,7 @@ export class ConvertMDtoHTML {
                 fmtstr = fmtstr.replace(mmntns.dd, ucreplacer);
                 fmtstr = fmtstr.replace(mmntns.sd, ucreplacer);
                 // var fdtime = new Date(dtimematcharray[k].matchval).toLocaleString();
-                let fdtime = moment(ms).format(fmtstr);
+                let fdtime = format(new Date(ms), fmtstr);
                 fdtime = ' ' + fdtime.toString() + ' ';
                 str = str.replace(
                   dtimematcharray[k].matchexp.toString(),

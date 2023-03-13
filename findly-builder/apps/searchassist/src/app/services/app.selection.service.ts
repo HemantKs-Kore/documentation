@@ -169,7 +169,7 @@ export class AppSelectionService {
         this.redirectToLogin();
       }
       // eslint-disable-next-line no-empty
-    } catch (e) { }
+    } catch (e) {}
     return previOusState;
   }
   private redirectToLogin() {
@@ -216,8 +216,10 @@ export class AppSelectionService {
     }
   }
   selectIndexConfig(config) {
-    this.workflowService.selectedIndexPipeline(config._id);
-    this.workflowService.getSettings(config.settings); // check For All Cases.
+    if (config) {
+      this.workflowService.selectedIndexPipeline(config._id);
+      this.workflowService.getSettings(config.settings); // check For All Cases.
+    }
   }
   selectQueryConfig(config) {
     this.res_length = this.queryList.length;
