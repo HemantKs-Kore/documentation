@@ -12,7 +12,7 @@ import { InlineManualService } from '../../services/inline-manual.service';
 import { AppSelectionService } from './../../services/app.selection.service';
 import { PerfectScrollbarComponent } from 'ngx-perfect-scrollbar';
 import { SliderComponentComponent } from '../../shared/slider-component/slider-component.component';
-import { format } from 'date-fns';
+import { format, parseISO } from 'date-fns';
 import { ServiceInvokerService } from '@kore.apps/services/service-invoker.service';
 import { WorkflowService } from '@kore.apps/services/workflow.service';
 import { OnboardingComponent } from '../onboarding/onboarding.component';
@@ -1460,7 +1460,10 @@ export class StructuredDataComponent implements OnInit, OnDestroy {
        dockStatuses added updated code in 1898 line*/
           // res.dockStatuses.forEach((record: any) => {
           res.forEach((record: any) => {
-            record.createdOn = format(record.createdOn, 'dd MMM yyyy');
+            record.createdOn = format(
+              parseISO(record.createdOn),
+              'do MMM yyyy | h:mm a'
+            );
 
             /**made code updates in line no 1905 on 03/01 added new condition for success,since SUCCESS is updated to success as per new api contract */
             /** made code updates in line no 1903 on 03/09 added new condition for record.fileInfo and record.fileInfo.fileId,since fileId is now has to be fetched from fileInfo  as per new api contract  */
