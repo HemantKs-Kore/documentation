@@ -11,6 +11,8 @@ export class DateFormatPipe implements PipeTransform {
       return date;
     } else {
       if (fmt) {
+        console.log(fmt);
+        console.log(format(new Date(dateValue), fmt));
         return format(new Date(dateValue), fmt);
       } else {
         return format(new Date(dateValue), 'MM-dd-yyyy');

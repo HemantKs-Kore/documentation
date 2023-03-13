@@ -428,7 +428,7 @@
                       container="body"
                       >{{
                         rule.dataType === 'date'
-                          ? (value | dateFormatPipe : 'DD MMM YYYY')
+                          ? (value | dateFormatPipe : 'dd MMM yyyy')
                           : value
                       }}</span
                     >
@@ -441,7 +441,7 @@
                         container="body"
                         >{{
                           rule.dataType === 'date'
-                            ? (num | dateFormatPipe : 'DD MMM YYYY')
+                            ? (num | dateFormatPipe : 'dd MMM yyyy')
                             : num
                         }}
                         <span *ngIf="!numIndex"> - </span>
@@ -1099,11 +1099,11 @@
                                         "
                                         container="body"
                                         ngbTooltip="{{
-                                          date | dateFormatPipe : 'DD MMM YYYY'
+                                          date | dateFormatPipe : 'dd MMM yyyy'
                                         }}"
                                       >
                                         {{
-                                          date | dateFormatPipe : 'DD MMM YYYY'
+                                          date | dateFormatPipe : 'dd MMM yyyy'
                                         }}
                                         <span *ngIf="!dateIndex"> - </span>
                                       </span>
@@ -1113,10 +1113,10 @@
                                       *ngIf="value && !checkIsArray(value)"
                                       container="body"
                                       ngbTooltip="{{
-                                        value | dateFormatPipe : 'DD MMM YYYY'
+                                        value | dateFormatPipe : 'dd MMM yyyy'
                                       }}"
                                       >{{
-                                        value | dateFormatPipe : 'DD MMM YYYY'
+                                        value | dateFormatPipe : 'dd MMM yyyy'
                                       }}</span
                                     >
                                     <button matChipRemove>
@@ -1183,7 +1183,7 @@
                                     showCancel="true"
                                     [locale]="{
                                       format: 'DD/MM/YYYY hh:mm',
-                                      displayFormat: 'DD MMM YYYY'
+                                      displayFormat: 'dd MMM yyyy'
                                     }"
                                     [(ngModel)]="ruleObj.dateValue"
                                     (datesUpdated)="
@@ -1214,7 +1214,7 @@
                                     showCancel="false"
                                     [locale]="{
                                       format: 'DD/MM/YYYY hh:mm',
-                                      displayFormat: 'DD MMM YYYY'
+                                      displayFormat: 'dd MMM yyyy'
                                     }"
                                     [(ngModel)]="ruleObj.dateValue"
                                     (datesUpdated)="
