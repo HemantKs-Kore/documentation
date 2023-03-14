@@ -32,6 +32,10 @@
     "file": "cache-http.md"
   },
   {
+    "title": "Using Pipeline",
+    "file": "using-pipeline.md"
+  },
+  {
     "title": "Build & Deploy",
     "file": "build-and-deploy.md"
   },

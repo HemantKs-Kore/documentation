@@ -25,6 +25,7 @@ import {
 } from '@kore.apps/store/app.selectors';
 import { Store } from '@ngrx/store';
 import { setSearchExperienceConfigSuccess } from '@kore.apps/store/app.actions';
+import { StoreService } from '@kore.apps/store/store.service';
 declare const $: any;
 @Component({
   selector: 'app-search-experience',
@@ -150,7 +151,8 @@ export class SearchExperienceComponent implements OnInit, OnDestroy {
     public localstore: LocalStoreService,
     public inlineManual: InlineManualService,
     public mixpanel: MixpanelServiceService,
-    private store: Store
+    private store: Store,
+    private storeService: StoreService
   ) {}
 
   ngOnInit(): void {
@@ -174,8 +176,7 @@ export class SearchExperienceComponent implements OnInit, OnDestroy {
   }
 
   initAppIds() {
-    const idsSub = this.store
-      .select(selectAppIds)
+    const idsSub = this.storeService.ids$
       .pipe(
         tap(({ searchIndexId, indexPipelineId, queryPipelineId }) => {
           this.searchIndexId = searchIndexId;
@@ -193,6 +194,7 @@ export class SearchExperienceComponent implements OnInit, OnDestroy {
       .subscribe((res) => {
         this.getSearchExperience(res);
       });
+
     this.sub?.add(idsSub);
   }
 

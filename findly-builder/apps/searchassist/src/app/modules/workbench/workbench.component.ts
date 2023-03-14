@@ -13,8 +13,8 @@ import { ConfirmationDialogComponent } from '../../helpers/components/confirmati
 import { KRModalComponent } from '../../shared/kr-modal/kr-modal.component';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import * as _ from 'underscore';
-import { interval, Subscription, Observable } from 'rxjs';
-import { startWith } from 'rxjs/operators';
+import { interval, Subscription } from 'rxjs';
+import { startWith, tap } from 'rxjs/operators';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
 import { FormControl } from '@angular/forms';
@@ -27,8 +27,7 @@ import { MixpanelServiceService } from '@kore.apps/services/mixpanel-service.ser
 import { PlanUpgradeComponent } from '../pricing/shared/plan-upgrade/plan-upgrade.component';
 import { LazyLoadService, TranslationService } from '@kore.libs/shared/src';
 import '../../../assets/js/codemirror.js';
-import { Store } from '@ngrx/store';
-import { selectAppIds } from '@kore.apps/store/app.selectors';
+import { StoreService } from '@kore.apps/store/store.service';
 declare const $: any;
 @Component({
   selector: 'app-workbench',
@@ -299,7 +298,7 @@ export class WorkbenchComponent implements OnInit, OnDestroy, AfterViewInit {
     public mixpanel: MixpanelServiceService,
     private lazyLoadService: LazyLoadService,
     private translationService: TranslationService,
-    private store: Store
+    private storeService: StoreService
   ) {
     this.translationService.loadModuleTranslations('workbench');
   }
@@ -312,14 +311,17 @@ export class WorkbenchComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   initAppIds() {
-    const idsSub = this.store
-      .select(selectAppIds)
-      .subscribe(({ searchIndexId, indexPipelineId, queryPipelineId }) => {
-        this.serachIndexId = searchIndexId;
-        this.indexPipelineId = indexPipelineId;
-        this.queryPipelineId = queryPipelineId;
-        this.loadIndexAll();
-      });
+    const idsSub = this.storeService.ids$
+      .pipe(
+        tap(({ searchIndexId, indexPipelineId, queryPipelineId }) => {
+          this.serachIndexId = searchIndexId;
+          this.indexPipelineId = indexPipelineId;
+          this.queryPipelineId = queryPipelineId;
+          this.loadIndexAll();
+        })
+      )
+      .subscribe();
+
     this.sub?.add(idsSub);
   }
 

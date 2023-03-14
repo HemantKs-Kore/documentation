@@ -11,7 +11,7 @@ import {
   MatAutocomplete,
   MatAutocompleteSelectedEvent,
 } from '@angular/material/autocomplete';
-import { Subscription } from 'rxjs';
+import { Subscription, tap } from 'rxjs';
 import { PerfectScrollbarComponent } from 'ngx-perfect-scrollbar';
 import { DomSanitizer } from '@angular/platform-browser';
 import { EMPTY_SCREEN } from '../../modules/empty-screen/empty-screen.constants';
@@ -24,6 +24,7 @@ import { MixpanelServiceService } from '@kore.apps/services/mixpanel-service.ser
 import { PlanUpgradeComponent } from '../pricing/shared/plan-upgrade/plan-upgrade.component';
 import { selectAppIds } from '@kore.apps/store/app.selectors';
 import { Store } from '@ngrx/store';
+import { StoreService } from '@kore.apps/store/store.service';
 declare const $: any;
 declare global {
   interface String {
@@ -215,7 +216,7 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
     public inlineManual: InlineManualService,
     public mixpanel: MixpanelServiceService,
     private appSelectionService: AppSelectionService,
-    private store: Store
+    private storeService: StoreService
   ) {}
 
   ngOnInit(): void {
@@ -230,16 +231,18 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
   }
 
   initAppIds() {
-    const idsSub = this.store
-      .select(selectAppIds)
-      .subscribe(({ searchIndexId, indexPipelineId, queryPipelineId }) => {
-        // this.streamId = streamId;
-        this.searchIndexId = searchIndexId;
-        this.indexPipelineId = indexPipelineId;
-        this.queryPipelineId = queryPipelineId;
+    const idsSub = this.storeService.ids$
+      .pipe(
+        tap(({ searchIndexId, indexPipelineId, queryPipelineId }) => {
+          this.searchIndexId = searchIndexId;
+          this.indexPipelineId = indexPipelineId;
+          this.queryPipelineId = queryPipelineId;
 
-        this.loadRules();
-      });
+          this.loadRules();
+        })
+      )
+      .subscribe();
+
     this.sub?.add(idsSub);
   }
 

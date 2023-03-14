@@ -1,15 +1,14 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import * as _ from 'underscore';
-import { Subscription } from 'rxjs';
+import { Subscription, tap } from 'rxjs';
 import { NotificationService } from '@kore.apps/services/notification.service';
 import { WorkflowService } from '@kore.apps/services/workflow.service';
 import { ServiceInvokerService } from '@kore.apps/services/service-invoker.service';
 import { AppSelectionService } from '@kore.apps/services/app.selection.service';
 import { InlineManualService } from '@kore.apps/services/inline-manual.service';
 import { ConfirmationDialogComponent } from '@kore.apps/helpers/components/confirmation-dialog/confirmation-dialog.component';
-import { Store } from '@ngrx/store';
-import { selectAppIds } from '@kore.apps/store/app.selectors';
+import { StoreService } from '@kore.apps/store/store.service';
 declare const $: any;
 @Component({
   selector: 'app-stop-words',
@@ -57,7 +56,7 @@ export class StopWordsComponent implements OnInit, OnDestroy {
     public dialog: MatDialog,
     public inlineManual: InlineManualService,
     private appSelectionService: AppSelectionService,
-    private store: Store
+    private storeService: StoreService
   ) {}
   ngOnInit(): void {
     // this.selectedApp = this.workflowService?.selectedApp();
@@ -72,18 +71,20 @@ export class StopWordsComponent implements OnInit, OnDestroy {
     this.initAppIds();
   }
   initAppIds() {
-    const idsSub = this.store
-      .select(selectAppIds)
-      .subscribe(
-        ({ streamId, searchIndexId, indexPipelineId, queryPipelineId }) => {
+    const idsSub = this.storeService.ids$
+      .pipe(
+        tap(({ streamId, searchIndexId, indexPipelineId, queryPipelineId }) => {
           this.streamId = streamId;
           this.searchIndexId = searchIndexId;
           this.indexPipelineId = indexPipelineId;
           this.queryPipelineId = queryPipelineId;
           this.loadStopwords();
-        }
-      );
+        })
+      )
+      .subscribe();
+
     this.sub?.add(idsSub);
+
     this.getDefaultStopWords();
   }
 

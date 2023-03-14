@@ -49,7 +49,7 @@ import {
   selectAppId,
   selectSearchIndexId,
 } from '@kore.apps/store/app.selectors';
-import { combineLatest, Subscription } from 'rxjs';
+import { combineLatest, Subscription, withLatestFrom } from 'rxjs';
 
 @Component({
   selector: 'app-pdf-annotation',
@@ -171,13 +171,13 @@ export class PdfAnnotationComponent implements OnInit, OnDestroy {
   }
 
   initAppIds() {
-    const pipelineSub = combineLatest([
-      this.store.select(selectAppId),
-      this.store.select(selectSearchIndexId),
-    ]).subscribe(([appId, searchIndexId]) => {
-      this.appId = appId;
-      this.searchIndexId = searchIndexId;
-    });
+    const pipelineSub = this.store
+      .select(selectSearchIndexId)
+      .pipe(withLatestFrom(this.store.select(selectAppId)))
+      .subscribe(([searchIndexId, appId]) => {
+        this.appId = appId;
+        this.searchIndexId = searchIndexId;
+      });
 
     this.sub?.add(pipelineSub);
   }

@@ -1,19 +1,11 @@
-import {
-  Component,
-  OnInit,
-  Output,
-  Input,
-  EventEmitter,
-  OnDestroy,
-} from '@angular/core';
+import { Component, OnInit, Input, OnDestroy } from '@angular/core';
 import { AppSelectionService } from '@kore.apps/services/app.selection.service';
 import { NotificationService } from '@kore.apps/services/notification.service';
 import { ServiceInvokerService } from '@kore.apps/services/service-invoker.service';
 import { WorkflowService } from '@kore.apps/services/workflow.service';
-import { selectAppIds } from '@kore.apps/store/app.selectors';
-import { Store } from '@ngrx/store';
+import { StoreService } from '@kore.apps/store/store.service';
 
-import { Subscription } from 'rxjs';
+import { Subscription, tap } from 'rxjs';
 
 @Component({
   selector: 'app-bot-actions',
@@ -36,24 +28,25 @@ export class BotActionsComponent implements OnInit, OnDestroy {
     private appSelectionService: AppSelectionService,
     private notificationService: NotificationService,
     private service: ServiceInvokerService,
-    private store: Store
+    private storeService: StoreService
   ) {}
 
   ngOnInit(): void {
     this.initAppIds();
   }
   initAppIds() {
-    const idsSub = this.store
-      .select(selectAppIds)
-      .subscribe(
-        ({ streamId, searchIndexId, indexPipelineId, queryPipelineId }) => {
+    const idsSub = this.storeService.ids$
+      .pipe(
+        tap(({ streamId, searchIndexId, indexPipelineId, queryPipelineId }) => {
           this.streamId = streamId;
           this.searchIndexId = searchIndexId;
           this.indexPipelineId = indexPipelineId;
           this.queryPipelineId = queryPipelineId;
           this.getQuerypipeline();
-        }
-      );
+        })
+      )
+      .subscribe();
+
     this.sub?.add(idsSub);
   }
   //open topic guide

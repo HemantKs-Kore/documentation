@@ -7,7 +7,10 @@ import {
 } from '@angular/material/dialog';
 import { ServiceInvokerService } from '@kore.apps/services/service-invoker.service';
 import { WorkflowService } from '@kore.apps/services/workflow.service';
-import { selectAppIds } from '@kore.apps/store/app.selectors';
+import {
+  selectAppIds,
+  selectSearchIndexId,
+} from '@kore.apps/store/app.selectors';
 import { Store } from '@ngrx/store';
 import { TranslateModule } from '@ngx-translate/core';
 import { Subscription } from 'rxjs';
@@ -40,8 +43,8 @@ export class UserGuideComponent implements OnInit, OnDestroy {
 
   initAppIds() {
     const idsSub = this.store
-      .select(selectAppIds)
-      .subscribe(({ searchIndexId }) => {
+      .select(selectSearchIndexId)
+      .subscribe((searchIndexId) => {
         this.searchIndexId = searchIndexId;
       });
     this.sub?.add(idsSub);

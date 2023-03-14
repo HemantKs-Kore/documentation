@@ -3,9 +3,10 @@ import { Component, OnInit, Input, OnDestroy } from '@angular/core';
 import { WorkflowService } from '@kore.services/workflow.service';
 import { ServiceInvokerService } from '@kore.services/service-invoker.service';
 import { NotificationService } from '@kore.services/notification.service';
-import { Subscription } from 'rxjs';
+import { Subscription, tap } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { selectAppIds } from '@kore.apps/store/app.selectors';
+import { StoreService } from '@kore.apps/store/store.service';
 declare const $: any;
 
 @Component({
@@ -82,7 +83,7 @@ export class InsightsComponent implements OnInit, OnDestroy {
     public workflowService: WorkflowService,
     private service: ServiceInvokerService,
     private notificationService: NotificationService,
-    private store: Store
+    private storeService: StoreService
   ) {}
   getQueryLevelAnalytics() {
     // if(window.koreWidgetSDKInstance.vars.searchObject.searchText){
@@ -153,16 +154,16 @@ export class InsightsComponent implements OnInit, OnDestroy {
   }
 
   initAppIds() {
-    const idsSub = this.store
-      .select(selectAppIds)
-      .subscribe(
-        ({ streamId, searchIndexId, indexPipelineId, queryPipelineId }) => {
-          // this.streamId = streamId;
+    const idsSub = this.storeService.ids$
+      .pipe(
+        tap(({ searchIndexId, indexPipelineId, queryPipelineId }) => {
           this.searchIndexId = searchIndexId;
           this.indexPipelineId = indexPipelineId;
           this.queryPipelineId = queryPipelineId;
-        }
-      );
+        })
+      )
+      .subscribe();
+
     this.sub?.add(idsSub);
   }
 

@@ -15,11 +15,12 @@ import { AuthService } from '@kore.apps/services/auth.service';
 import { InsightsModule } from '../insights/insights.module';
 import { NgIf } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
-import { filter } from 'rxjs/operators';
+import { filter, tap } from 'rxjs/operators';
 import {
   selectAppIds,
   selectSearchExperiance,
 } from '@kore.apps/store/app.selectors';
+import { StoreService } from '@kore.apps/store/store.service';
 
 declare const $: any;
 declare let self: any;
@@ -96,6 +97,7 @@ export class SearchSdkComponent implements OnInit, OnDestroy {
     private searchSdkService: SearchSdkService,
     public localstore: LocalStoreService,
     private lazyLoadService: LazyLoadService,
+    private storeService: StoreService,
     private store: Store,
     private cdr: ChangeDetectorRef
   ) {}
@@ -137,16 +139,17 @@ export class SearchSdkComponent implements OnInit, OnDestroy {
   }
 
   initAppIds() {
-    const idsSub = this.store
-      .select(selectAppIds)
-      .subscribe(
-        ({ streamId, searchIndexId, indexPipelineId, queryPipelineId }) => {
+    const idsSub = this.storeService.ids$
+      .pipe(
+        tap(({ streamId, searchIndexId, indexPipelineId, queryPipelineId }) => {
           this.streamId = streamId;
           this.searchIndexId = searchIndexId;
           this.indexPipelineId = indexPipelineId;
           this.queryPipelineId = queryPipelineId;
-        }
-      );
+        })
+      )
+      .subscribe();
+
     this.sub?.add(idsSub);
   }
 

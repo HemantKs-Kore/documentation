@@ -6,7 +6,7 @@ import {
   Input,
   OnDestroy,
 } from '@angular/core';
-import { combineLatest, Subscription } from 'rxjs';
+import { combineLatest, Subscription, tap } from 'rxjs';
 import { SideBarService } from './../../services/header.service';
 import { ServiceInvokerService } from '@kore.apps/services/service-invoker.service';
 import { NotificationService } from '@kore.apps/services/notification.service';
@@ -17,6 +17,7 @@ import {
   selectQueryPipelineId,
   selectSearchIndexId,
 } from '@kore.apps/store/app.selectors';
+import { StoreService } from '@kore.apps/store/store.service';
 declare const $: any;
 
 @Component({
@@ -31,7 +32,7 @@ export class AddResultComponent implements OnInit, OnDestroy {
   searchRadioTypeTxt = 'Any';
   selectedApp: any = {};
   extractedResults: any = [];
-  serachIndexId;
+  searchIndexId;
   queryPipelineId;
   recordArray = [];
   searchTxt = '';
@@ -55,7 +56,7 @@ export class AddResultComponent implements OnInit, OnDestroy {
     private appSelectionService: AppSelectionService,
     private service: ServiceInvokerService,
     public headerService: SideBarService,
-    private store: Store
+    private storeService: StoreService
   ) {}
 
   ngOnInit(): void {
@@ -82,15 +83,15 @@ export class AddResultComponent implements OnInit, OnDestroy {
   }
 
   initAppIds() {
-    const indexPipelineSub = combineLatest([
-      this.store.select(selectIndexPipelineId),
-      this.store.select(selectSearchIndexId),
-      this.store.select(selectQueryPipelineId),
-    ]).subscribe(([indexPipelineId, searchIndexId, queryPipelineId]) => {
-      this.queryPipelineId = queryPipelineId;
-      this.serachIndexId = searchIndexId;
-      this.indexPipelineId = indexPipelineId;
-    });
+    const indexPipelineSub = this.storeService.ids$
+      .pipe(
+        tap(({ searchIndexId, indexPipelineId, queryPipelineId }) => {
+          this.searchIndexId = searchIndexId;
+          this.indexPipelineId = indexPipelineId;
+          this.queryPipelineId = queryPipelineId;
+        })
+      )
+      .subscribe();
 
     this.subscription?.add(indexPipelineSub);
   }
@@ -103,7 +104,7 @@ export class AddResultComponent implements OnInit, OnDestroy {
   getFieldAutoComplete() {
     const query: any = '';
     const quaryparms: any = {
-      searchIndexID: this.serachIndexId,
+      searchIndexID: this.searchIndexId,
       indexPipelineId: this.indexPipelineId,
       query,
     };
@@ -121,7 +122,7 @@ export class AddResultComponent implements OnInit, OnDestroy {
 
   getAllSettings() {
     const quaryparms: any = {
-      searchIndexId: this.serachIndexId,
+      searchIndexId: this.searchIndexId,
       indexPipelineId: this.indexPipelineId,
       queryPipelineId: this.queryPipelineId,
       interface: 'fullSearch',
@@ -174,7 +175,7 @@ export class AddResultComponent implements OnInit, OnDestroy {
   }
   getTemplate(templateId) {
     const quaryparms: any = {
-      searchIndexId: this.serachIndexId,
+      searchIndexId: this.searchIndexId,
       templateId: templateId,
       indexPipelineId: this.indexPipelineId,
       queryPipelineId: this.queryPipelineId,
@@ -262,7 +263,7 @@ export class AddResultComponent implements OnInit, OnDestroy {
       contentType = this.searchType || this.searchRadioType;
       contentTaskFlag = true;
     }
-    const searchIndex = this.serachIndexId;
+    const searchIndex = this.searchIndexId;
     const quaryparms: any = {
       searchIndexId: searchIndex,
       queryPipelineId: this.queryPipelineId,
@@ -339,7 +340,7 @@ export class AddResultComponent implements OnInit, OnDestroy {
     this.appDetails();
     this.loadingContent = true;
     this.recordArray = [];
-    const searchIndex = this.serachIndexId;
+    const searchIndex = this.searchIndexId;
     const quaryparms: any = {
       searchIndexId: searchIndex,
       search: search,

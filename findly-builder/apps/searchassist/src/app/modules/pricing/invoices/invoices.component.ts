@@ -12,9 +12,9 @@ import { MatDialog } from '@angular/material/dialog';
 import { AuthService } from '@kore.services/auth.service';
 import { AppSelectionService } from '@kore.services/app.selection.service';
 import { TranslationService } from '@kore.libs/shared/src';
-import { selectAppIds } from '@kore.apps/store/app.selectors';
+import { selectAppId, selectAppIds } from '@kore.apps/store/app.selectors';
 import { Store } from '@ngrx/store';
-import { Subscription } from 'rxjs';
+import { Subscription, tap } from 'rxjs';
 declare let require: any;
 const FileSaver = require('file-saver');
 @Component({
@@ -56,10 +56,16 @@ export class InvoicesComponent implements OnInit, OnDestroy {
   }
 
   initAppIds() {
-    const idsSub = this.store.select(selectAppIds).subscribe(({ streamId }) => {
-      this.streamId = streamId;
-      this.getInvoices();
-    });
+    const idsSub = this.store
+      .select(selectAppId)
+      .pipe(
+        tap((streamId) => {
+          this.streamId = streamId;
+          this.getInvoices();
+        })
+      )
+      .subscribe();
+
     this.sub?.add(idsSub);
   }
 

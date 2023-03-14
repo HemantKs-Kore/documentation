@@ -7,7 +7,7 @@ import {
 } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import * as _ from 'underscore';
-import { Subscription } from 'rxjs';
+import { Subscription, tap } from 'rxjs';
 import { PerfectScrollbarComponent } from 'ngx-perfect-scrollbar';
 import { ActivatedRoute } from '@angular/router';
 import { WorkflowService } from '@kore.apps/services/workflow.service';
@@ -19,8 +19,7 @@ import { MixpanelServiceService } from '@kore.apps/services/mixpanel-service.ser
 import { ConfirmationDialogComponent } from '@kore.apps/helpers/components/confirmation-dialog/confirmation-dialog.component';
 import { RangeSlider } from '@kore.apps/helpers/models/range-slider.model';
 import { KRModalComponent } from '@kore.apps/shared/kr-modal/kr-modal.component';
-import { Store } from '@ngrx/store';
-import { selectAppIds } from '@kore.apps/store/app.selectors';
+import { StoreService } from '@kore.apps/store/store.service';
 declare const $: any;
 @Component({
   selector: 'app-weights',
@@ -74,8 +73,8 @@ export class WeightsComponent implements OnInit, OnDestroy {
     public inlineManual: InlineManualService,
     public mixpanel: MixpanelServiceService,
     private route: ActivatedRoute,
-    private store: Store
-  ) { }
+    private storeService: StoreService
+  ) {}
   selectedApp: any = {};
   serachIndexId;
   queryPipelineId;
@@ -94,16 +93,17 @@ export class WeightsComponent implements OnInit, OnDestroy {
   }
 
   initAppIds() {
-    const idsSub = this.store
-      .select(selectAppIds)
-      .subscribe(
-        ({ streamId, searchIndexId, indexPipelineId, queryPipelineId }) => {
+    const idsSub = this.storeService.ids$
+      .pipe(
+        tap(({ streamId, searchIndexId, indexPipelineId, queryPipelineId }) => {
           this.streamId = streamId;
           this.searchIndexId = searchIndexId;
           this.indexPipelineId = indexPipelineId;
           this.queryPipelineId = queryPipelineId;
-        }
-      );
+        })
+      )
+      .subscribe();
+
     this.subscription?.add(idsSub);
   }
 

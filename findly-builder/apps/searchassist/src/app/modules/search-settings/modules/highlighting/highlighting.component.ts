@@ -1,6 +1,6 @@
 import { Component, OnInit, Input, ViewChild, OnDestroy } from '@angular/core';
 import { KRModalComponent } from '../../../../shared/kr-modal/kr-modal.component';
-import { Subscription } from 'rxjs';
+import { Subscription, tap } from 'rxjs';
 import {
   PerfectScrollbarComponent,
   PerfectScrollbarDirective,
@@ -10,8 +10,7 @@ import { WorkflowService } from '@kore.apps/services/workflow.service';
 import { AppSelectionService } from '@kore.apps/services/app.selection.service';
 import { NotificationService } from '@kore.apps/services/notification.service';
 import { ServiceInvokerService } from '@kore.apps/services/service-invoker.service';
-import { Store } from '@ngrx/store';
-import { selectAppIds } from '@kore.apps/store/app.selectors';
+import { StoreService } from '@kore.apps/store/store.service';
 
 @Component({
   selector: 'app-highlighting',
@@ -58,7 +57,7 @@ export class HighlightingComponent implements OnInit, OnDestroy {
     private notificationService: NotificationService,
     private service: ServiceInvokerService,
     private route: ActivatedRoute,
-    private store: Store
+    private storeService: StoreService
   ) {}
 
   highlightAppearanceModalPopRef: any;
@@ -77,16 +76,17 @@ export class HighlightingComponent implements OnInit, OnDestroy {
   }
 
   initAppIds() {
-    const idsSub = this.store
-      .select(selectAppIds)
-      .subscribe(
-        ({ streamId, searchIndexId, indexPipelineId, queryPipelineId }) => {
+    const idsSub = this.storeService.ids$
+      .pipe(
+        tap(({ streamId, searchIndexId, indexPipelineId, queryPipelineId }) => {
           this.streamId = streamId;
           this.searchIndexId = searchIndexId;
           this.indexPipelineId = indexPipelineId;
           this.queryPipelineId = queryPipelineId;
-        }
-      );
+        })
+      )
+      .subscribe();
+
     this.sub?.add(idsSub);
   }
 
@@ -101,27 +101,6 @@ export class HighlightingComponent implements OnInit, OnDestroy {
       this.highlightdata.settings.highlight.highlightAppearance.preTag;
     this.post_tag =
       this.highlightdata.settings.highlight.highlightAppearance.postTag;
-
-    // const quaryparms: any = {
-    //   searchIndexID: this.searchIndexId,
-    //   queryPipelineId: this.queryPipelineId,
-    //   indexPipelineId: this.indexPipelineId,
-    // };
-    // this.service.invoke('get.queryPipeline', quaryparms).subscribe(
-    //   (res) => {
-    //     this.highlightdata = res;
-    //     this.home_pre_tag=this.highlightdata.settings.highlight.highlightAppearance.preTag
-    //     this.home_post_tag=this.highlightdata.settings.highlight.highlightAppearance.postTag
-    //     this.pre_tag=this.highlightdata.settings.highlight.highlightAppearance.preTag;
-    //     this.post_tag=this.highlightdata.settings.highlight.highlightAppearance.postTag;
-    //   },
-    //   (errRes) => {
-    //     this.notificationService.notify(
-    //       'failed to get querypipeline details',
-    //       'error'
-    //     );
-    //   }
-    // );
   }
   //** to get the data for the highlight table and add highlight pop-up sending true and false for get api */
   getAllHighlightFields() {

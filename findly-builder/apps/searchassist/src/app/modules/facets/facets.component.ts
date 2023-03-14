@@ -10,7 +10,7 @@ import { ConfirmationDialogComponent } from '../../helpers/components/confirmati
 import { KRModalComponent } from '../../shared/kr-modal/kr-modal.component';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import * as _ from 'underscore';
-import { Subscription } from 'rxjs';
+import { Subscription, tap } from 'rxjs';
 import { PerfectScrollbarComponent } from 'ngx-perfect-scrollbar';
 import { NotificationService } from '@kore.apps/services/notification.service';
 import { WorkflowService } from '@kore.apps/services/workflow.service';
@@ -19,6 +19,7 @@ import { AppSelectionService } from '@kore.apps/services/app.selection.service';
 import { InlineManualService } from '@kore.apps/services/inline-manual.service';
 import { Store } from '@ngrx/store';
 import { selectAppIds } from '@kore.apps/store/app.selectors';
+import { StoreService } from '@kore.apps/store/store.service';
 declare const $: any;
 @Component({
   selector: 'app-facets',
@@ -163,7 +164,7 @@ export class FacetsComponent implements OnInit, OnDestroy {
     public dialog: MatDialog,
     private appSelectionService: AppSelectionService,
     public inlineManual: InlineManualService,
-    private store: Store
+    private storeService: StoreService
   ) {}
   @ViewChild('facetModalPouup') facetModalPouup: KRModalComponent;
   @ViewChild('facetModalPopupNew') facetModalPopupNew: KRModalComponent;
@@ -172,15 +173,18 @@ export class FacetsComponent implements OnInit, OnDestroy {
   }
 
   initAppIds() {
-    const idsSub = this.store
-      .select(selectAppIds)
-      .subscribe(({ searchIndexId, indexPipelineId, queryPipelineId }) => {
-        this.searchIndexId = searchIndexId;
-        this.indexPipelineId = indexPipelineId;
-        this.queryPipelineId = queryPipelineId;
+    const idsSub = this.storeService.ids$
+      .pipe(
+        tap(({ searchIndexId, indexPipelineId, queryPipelineId }) => {
+          this.searchIndexId = searchIndexId;
+          this.indexPipelineId = indexPipelineId;
+          this.queryPipelineId = queryPipelineId;
 
-        this.loadfacets();
-      });
+          this.loadfacets();
+        })
+      )
+      .subscribe();
+
     this.sub?.add(idsSub);
   }
 

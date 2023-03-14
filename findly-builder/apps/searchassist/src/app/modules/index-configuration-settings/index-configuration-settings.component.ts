@@ -5,7 +5,7 @@ import { interval, Subscription } from 'rxjs';
 import { ConfirmationDialogComponent } from '../../helpers/components/confirmation-dialog/confirmation-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
 import { DockStatusService } from '../../services/dockstatusService/dock-status.service';
-import { startWith } from 'rxjs/operators';
+import { startWith, tap } from 'rxjs/operators';
 import * as _ from 'underscore';
 import { ServiceInvokerService } from '@kore.apps/services/service-invoker.service';
 import { NotificationService } from '@kore.apps/services/notification.service';
@@ -13,6 +13,7 @@ import { AppSelectionService } from '@kore.apps/services/app.selection.service';
 import { WorkflowService } from '@kore.apps/services/workflow.service';
 import { selectAppIds } from '@kore.apps/store/app.selectors';
 import { Store } from '@ngrx/store';
+import { StoreService } from '@kore.apps/store/store.service';
 
 declare const $: any;
 @Component({
@@ -54,7 +55,7 @@ export class IndexConfigurationSettingsComponent implements OnInit, OnDestroy {
     private appSelectionService: AppSelectionService,
     public dialog: MatDialog,
     public dockService: DockStatusService,
-    private store: Store
+    private storeService: StoreService
   ) {}
 
   ngOnInit(): void {
@@ -72,13 +73,15 @@ export class IndexConfigurationSettingsComponent implements OnInit, OnDestroy {
   }
 
   initAppIds() {
-    const idsSub = this.store
-      .select(selectAppIds)
-      .subscribe(({ streamId, searchIndexId, indexPipelineId }) => {
-        this.streamId = streamId;
-        this.searchIndexId = searchIndexId;
-        this.indexPipelineId = indexPipelineId;
-      });
+    const idsSub = this.storeService.ids$
+      .pipe(
+        tap(({ searchIndexId, indexPipelineId }) => {
+          this.searchIndexId = searchIndexId;
+          this.indexPipelineId = indexPipelineId;
+        })
+      )
+      .subscribe();
+
     this.sub?.add(idsSub);
   }
 

@@ -2,7 +2,7 @@ import { Component, NgZone, OnDestroy, OnInit } from '@angular/core';
 import { formatDistanceToNow } from 'date-fns';
 import { ConfirmationDialogComponent } from '../../helpers/components/confirmation-dialog/confirmation-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
-import { Subscription, filter } from 'rxjs';
+import { Subscription, filter, tap } from 'rxjs';
 import { WorkflowService } from '@kore.apps/services/workflow.service';
 import { ServiceInvokerService } from '@kore.apps/services/service-invoker.service';
 import { NotificationService } from '@kore.apps/services/notification.service';
@@ -17,6 +17,7 @@ import {
   selectSearchIndexId,
 } from '@kore.apps/store/app.selectors';
 import { Store } from '@ngrx/store';
+import { StoreService } from '@kore.apps/store/store.service';
 declare const $: any;
 
 @Component({
@@ -80,6 +81,7 @@ export class ResultRankingComponent implements OnInit, OnDestroy {
     private headerService: SideBarService,
     private zone: NgZone,
     private translationService: TranslationService,
+    private storeService: StoreService,
     private store: Store
   ) {
     // Load translations for this module
@@ -114,18 +116,19 @@ export class ResultRankingComponent implements OnInit, OnDestroy {
   }
 
   initAppIds() {
-    const idsSub = this.store
-      .select(selectAppIds)
-      .subscribe(
-        ({ streamId, searchIndexId, indexPipelineId, queryPipelineId }) => {
+    const idsSub = this.storeService.ids$
+      .pipe(
+        tap(({ streamId, searchIndexId, indexPipelineId, queryPipelineId }) => {
           this.streamId = streamId;
           this.searchIndexId = searchIndexId;
           this.indexPipelineId = indexPipelineId;
           this.queryPipelineId = queryPipelineId;
 
           this.loadCustomRankingList();
-        }
-      );
+        })
+      )
+      .subscribe();
+
     this.sub?.add(idsSub);
   }
 

@@ -1,13 +1,12 @@
 import { Component, OnInit, Input, OnDestroy } from '@angular/core';
 import { WorkflowService } from '@kore.services/workflow.service';
 import { AppSelectionService } from '@kore.services/app.selection.service';
-import { Subscription } from 'rxjs';
+import { Subscription, tap } from 'rxjs';
 
 import { NotificationService } from '@kore.services/notification.service';
 import { ServiceInvokerService } from '@kore.services/service-invoker.service';
 import { ActivatedRoute } from '@angular/router';
-import { Store } from '@ngrx/store';
-import { selectAppIds } from '@kore.apps/store/app.selectors';
+import { StoreService } from '@kore.apps/store/store.service';
 
 @Component({
   selector: 'app-spell-correction',
@@ -47,7 +46,7 @@ export class SpellCorrectionComponent implements OnInit, OnDestroy {
     private notificationService: NotificationService,
     private service: ServiceInvokerService,
     private route: ActivatedRoute,
-    private store: Store
+    private storeService: StoreService
   ) {}
 
   //** get Query pipeline API call */
@@ -65,16 +64,17 @@ export class SpellCorrectionComponent implements OnInit, OnDestroy {
   }
 
   initAppIds() {
-    const idsSub = this.store
-      .select(selectAppIds)
-      .subscribe(
-        ({ streamId, searchIndexId, indexPipelineId, queryPipelineId }) => {
+    const idsSub = this.storeService.ids$
+      .pipe(
+        tap(({ streamId, searchIndexId, indexPipelineId, queryPipelineId }) => {
           this.streamId = streamId;
           this.searchIndexId = searchIndexId;
           this.indexPipelineId = indexPipelineId;
           this.queryPipelineId = queryPipelineId;
-        }
-      );
+        })
+      )
+      .subscribe();
+
     this.sub?.add(idsSub);
   }
 

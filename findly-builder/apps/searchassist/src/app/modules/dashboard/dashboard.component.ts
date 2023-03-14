@@ -24,6 +24,7 @@ import {
   selectIndexPipelines,
   selectSearchExperiance,
 } from '@kore.apps/store/app.selectors';
+import { StoreService } from '@kore.apps/store/store.service';
 
 declare const $: any;
 @Component({
@@ -122,7 +123,8 @@ export class DashboardComponent implements OnInit, OnDestroy {
     public headerService: SideBarService,
     private appSelectionService: AppSelectionService,
     private notificationService: NotificationService,
-    private store: Store
+    private store: Store,
+    private storeService: StoreService
   ) {}
   indexConfigs: any = []; //added on 17/01
 
@@ -132,15 +134,18 @@ export class DashboardComponent implements OnInit, OnDestroy {
   }
 
   initAppIds() {
-    const idsSub = this.store
-      .select(selectAppIds)
-      .subscribe(({ searchIndexId, indexPipelineId }) => {
-        this.searchIndexId = searchIndexId;
-        this.indexPipelineId = indexPipelineId;
+    const idsSub = this.storeService.ids$
+      .pipe(
+        tap(({ indexPipelineId, searchIndexId }) => {
+          this.searchIndexId = searchIndexId;
+          this.indexPipelineId = indexPipelineId;
 
-        this.getSearchExperience();
-        this.getAllgraphdetails(this.indexPipelineId);
-      });
+          this.getSearchExperience();
+          this.getAllgraphdetails(this.indexPipelineId);
+        })
+      )
+      .subscribe();
+
     this.sub?.add(idsSub);
   }
 

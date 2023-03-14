@@ -11,11 +11,12 @@ import { NotificationService } from '@kore.services/notification.service';
 import { MatDialog } from '@angular/material/dialog';
 import { AuthService } from '@kore.services/auth.service';
 import { AppSelectionService } from '@kore.services/app.selection.service';
-import { Subscription } from 'rxjs';
+import { Subscription, tap } from 'rxjs';
 import { format } from 'date-fns';
 import { TranslationService } from '@kore.libs/shared/src';
 import { Store } from '@ngrx/store';
 import { selectAppIds } from '@kore.apps/store/app.selectors';
+import { StoreService } from '@kore.apps/store/store.service';
 @Component({
   selector: 'app-usage-logs',
   templateUrl: './usage-logs.component.html',
@@ -59,7 +60,7 @@ export class UsageLogsComponent implements OnInit, OnDestroy {
     private appSelectionService: AppSelectionService,
     private cd: ChangeDetectorRef,
     private translationService: TranslationService,
-    private store: Store
+    private storeService: StoreService
   ) {
     // Load translations for this module
     this.translationService.loadModuleTranslations('usage-log');
@@ -73,14 +74,17 @@ export class UsageLogsComponent implements OnInit, OnDestroy {
   }
 
   initAppIds() {
-    const idsSub = this.store
-      .select(selectAppIds)
-      .subscribe(({ streamId, searchIndexId }) => {
-        this.streamId = streamId;
-        this.searchIndexId = searchIndexId;
+    const idsSub = this.storeService.ids$
+      .pipe(
+        tap(({ streamId, searchIndexId }) => {
+          this.streamId = streamId;
+          this.searchIndexId = searchIndexId;
 
-        this.getUsageLogs();
-      });
+          this.getUsageLogs();
+        })
+      )
+      .subscribe();
+
     this.sub?.add(idsSub);
   }
 

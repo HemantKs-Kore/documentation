@@ -1,12 +1,11 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { of, interval, Subject, Subscription } from 'rxjs';
+import { Subscription, tap } from 'rxjs';
 import { WorkflowService } from '@kore.apps/services/workflow.service';
 import { ServiceInvokerService } from '@kore.apps/services/service-invoker.service';
 import { AppSelectionService } from '@kore.apps/services/app.selection.service';
 import { NotificationService } from '@kore.apps/services/notification.service';
-import { AuthService } from '@kore.apps/services/auth.service';
-import { Store } from '@ngrx/store';
-import { selectAppIds } from '@kore.apps/store/app.selectors';
+
+import { StoreService } from '@kore.apps/store/store.service';
 @Component({
   selector: 'app-small-talk',
   templateUrl: './small-talk.component.html',
@@ -29,25 +28,25 @@ export class SmallTalkComponent implements OnInit, OnDestroy {
     public workflowService: WorkflowService,
     private service: ServiceInvokerService,
     private notificationService: NotificationService,
-    private authService: AuthService,
     private appSelectionService: AppSelectionService,
-    private store: Store
+    private storeService: StoreService
   ) {}
   ngOnInit(): void {
     this.initAppIds();
   }
   initAppIds() {
-    const idsSub = this.store
-      .select(selectAppIds)
-      .subscribe(
-        ({ streamId, searchIndexId, indexPipelineId, queryPipelineId }) => {
+    const idsSub = this.storeService.ids$
+      .pipe(
+        tap(({ streamId, searchIndexId, indexPipelineId, queryPipelineId }) => {
           this.streamId = streamId;
           this.searchIndexId = searchIndexId;
           this.indexPipelineId = indexPipelineId;
           this.queryPipelineId = queryPipelineId;
           this.getQuerypipeline();
-        }
-      );
+        })
+      )
+      .subscribe();
+
     this.sub?.add(idsSub);
   }
   //Open topic slider

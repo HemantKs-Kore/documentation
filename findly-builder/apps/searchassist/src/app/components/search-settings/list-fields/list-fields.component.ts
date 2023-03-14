@@ -13,7 +13,7 @@ import {
 } from 'ngx-perfect-scrollbar';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Subscription } from 'rxjs';
+import { Subscription, tap } from 'rxjs';
 import { KRModalComponent } from '../../../shared/kr-modal/kr-modal.component';
 import { AppSelectionService } from '@kore.apps/services/app.selection.service';
 import { ServiceInvokerService } from '@kore.apps/services/service-invoker.service';
@@ -21,6 +21,7 @@ import { NotificationService } from '@kore.apps/services/notification.service';
 import { ConfirmationDialogComponent } from '@kore.apps/helpers/components/confirmation-dialog/confirmation-dialog.component';
 import { Store } from '@ngrx/store';
 import { selectAppIds } from '@kore.apps/store/app.selectors';
+import { StoreService } from '@kore.apps/store/store.service';
 
 declare const $: any;
 
@@ -48,13 +49,10 @@ export class ListFieldsComponent implements OnInit, OnDestroy {
   page_number = 0;
   highlightMsg = '';
   constructor(
-    private appSelectionService: AppSelectionService,
     public dialog: MatDialog,
-    private route: ActivatedRoute,
     private router: Router,
     private service: ServiceInvokerService,
-    private notificationService: NotificationService,
-    private store: Store
+    private storeService: StoreService
   ) {}
 
   addFieldModalPopRef: any;
@@ -89,16 +87,17 @@ export class ListFieldsComponent implements OnInit, OnDestroy {
   }
 
   initAppIds() {
-    const idsSub = this.store
-      .select(selectAppIds)
-      .subscribe(
-        ({ streamId, searchIndexId, indexPipelineId, queryPipelineId }) => {
+    const idsSub = this.storeService.ids$
+      .pipe(
+        tap(({ streamId, searchIndexId, indexPipelineId, queryPipelineId }) => {
           this.streamId = streamId;
           this.searchIndexId = searchIndexId;
           this.indexPipelineId = indexPipelineId;
           this.queryPipelineId = queryPipelineId;
-        }
-      );
+        })
+      )
+      .subscribe();
+
     this.sub?.add(idsSub);
   }
   /** To cehck for the Selected fileds - > use 'checkPopupfieldvalues()' to loop the slected fields on retun */

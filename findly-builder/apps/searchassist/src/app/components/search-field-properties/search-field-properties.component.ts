@@ -15,7 +15,7 @@ import { KRModalComponent } from '../../shared/kr-modal/kr-modal.component';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import * as _ from 'underscore';
 import { of, interval, Subject, Subscription, combineLatest } from 'rxjs';
-import { startWith } from 'rxjs/operators';
+import { startWith, tap } from 'rxjs/operators';
 import { AuthService } from '@kore.services/auth.service';
 import { AppSelectionService } from '@kore.services/app.selection.service';
 import { InlineManualService } from '@kore.services/inline-manual.service';
@@ -29,6 +29,7 @@ import {
   selectIndexPipelineId,
   selectQueryPipelineId,
 } from '@kore.apps/store/app.selectors';
+import { StoreService } from '@kore.apps/store/store.service';
 
 declare const $: any;
 
@@ -74,9 +75,8 @@ export class SearchFieldPropertiesComponent implements OnInit, OnDestroy {
     public authService: AuthService,
     private appSelectionService: AppSelectionService,
     public inlineManual: InlineManualService,
-    private router: Router,
     public mixpanel: MixpanelServiceService,
-    private store: Store
+    private storeService: StoreService
   ) {}
 
   ngOnInit(): void {
@@ -84,14 +84,15 @@ export class SearchFieldPropertiesComponent implements OnInit, OnDestroy {
   }
 
   initAppIds() {
-    const idsSub = this.store
-      .select(selectAppIds)
-      .subscribe(({ indexPipelineId, queryPipelineId }) => {
-        this.indexPipelineId = indexPipelineId;
-        this.queryPipelineId = queryPipelineId;
-
-        this.fetchPropeties();
-      });
+    const idsSub = this.storeService.ids$
+      .pipe(
+        tap(({ indexPipelineId, queryPipelineId }) => {
+          this.indexPipelineId = indexPipelineId;
+          this.queryPipelineId = queryPipelineId;
+          this.fetchPropeties();
+        })
+      )
+      .subscribe();
 
     this.sub?.add(idsSub);
   }

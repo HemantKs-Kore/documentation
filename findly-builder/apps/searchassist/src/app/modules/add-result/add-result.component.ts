@@ -10,10 +10,11 @@ import { WorkflowService } from '@kore.services/workflow.service';
 import { ServiceInvokerService } from '@kore.services/service-invoker.service';
 import { NotificationService } from '@kore.services/notification.service';
 import { AppSelectionService } from '@kore.services/app.selection.service';
-import { Subscription } from 'rxjs';
+import { Subscription, tap } from 'rxjs';
 import { SideBarService } from './../../services/header.service';
 import { Store } from '@ngrx/store';
 import { selectAppIds } from '@kore.apps/store/app.selectors';
+import { StoreService } from '@kore.apps/store/store.service';
 declare const $: any;
 
 @Component({
@@ -54,7 +55,7 @@ export class AddResultComponent implements OnInit, OnDestroy {
     private appSelectionService: AppSelectionService,
     private service: ServiceInvokerService,
     public headerService: SideBarService,
-    private store: Store
+    private storeService: StoreService
   ) {}
 
   ngOnInit(): void {
@@ -78,16 +79,17 @@ export class AddResultComponent implements OnInit, OnDestroy {
   }
 
   initAppIds() {
-    const idsSub = this.store
-      .select(selectAppIds)
-      .subscribe(({ indexPipelineId, queryPipelineId }) => {
-        // this.streamId = streamId;
-        // this.searchIndexId = searchIndexId;
-        this.indexPipelineId = indexPipelineId;
-        this.queryPipelineId = queryPipelineId;
+    const idsSub = this.storeService.ids$
+      .pipe(
+        tap(({ indexPipelineId, queryPipelineId }) => {
+          this.indexPipelineId = indexPipelineId;
+          this.queryPipelineId = queryPipelineId;
 
-        this.getFieldAutoComplete();
-      });
+          this.getFieldAutoComplete();
+        })
+      )
+      .subscribe();
+
     this.sub?.add(idsSub);
   }
 
