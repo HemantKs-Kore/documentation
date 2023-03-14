@@ -422,7 +422,7 @@ export class AppSelectionService {
     const searchIndex = app.searchIndexes[0]?._id;
     this.workflowService?.selectedSearchIndex(searchIndex);
     //this.getQureryPipelineIds(queryPipeline);
-    await this.getIndexPipelineIds();
+    // await this.getIndexPipelineIds();
     this.headerService.updateSearchConfiguration();
   }
   getStreamData(app) {

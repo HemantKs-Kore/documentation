@@ -255,7 +255,7 @@ export class MainMenuComponent implements OnInit, OnDestroy {
           this.notify.notify('Set to default Index successfully', 'success');
         }
         // this.indexPipelineService.updateOneInCache(res);
-        this.appSelectionService.getIndexPipelineIds(config);
+        // this.appSelectionService.getIndexPipelineIds(config);
         this.selectedIndexConfig = res;
         // this.appSelectionService.getIndexPipelineIds(config);
         // if (config && config._id && action !== 'edit') {
