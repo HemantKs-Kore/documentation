@@ -13,7 +13,7 @@ import {
 import { SideBarService } from '../../../services/header.service';
 import { KRModalComponent } from '../../../shared/kr-modal/kr-modal.component';
 import { NavigationEnd, Router } from '@angular/router';
-import { combineLatest, Observable } from 'rxjs';
+import { Observable } from 'rxjs';
 import {
   debounceTime,
   filter,
@@ -41,14 +41,9 @@ import { SearchSdkService } from '@kore.apps/modules/search-sdk/services/search-
 import { OnboardingComponent } from '@kore.apps/modules/onboarding/onboarding.component';
 import { Store } from '@ngrx/store';
 import { setAppId } from '@kore.apps/store/app.actions';
-import { LazyLoadService } from '@kore.libs/shared/src';
 import {
   selectAppId,
-  selectAppIds,
   selectEnablePreview,
-  selectIndexPipelineId,
-  selectQueryPipelineId,
-  selectSearchIndexId,
 } from '@kore.apps/store/app.selectors';
 import { AppsService } from '@kore.apps/modules/apps/services/apps.service';
 import { IntersectionStatus } from '@kore.libs/shared/src/lib/directives/intersection-observer/from-intersection-observer';
