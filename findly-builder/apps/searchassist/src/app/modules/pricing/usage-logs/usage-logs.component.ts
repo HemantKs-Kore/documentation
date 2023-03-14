@@ -2,6 +2,7 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
+  OnDestroy,
   OnInit,
 } from '@angular/core';
 import { WorkflowService } from '@kore.services/workflow.service';
@@ -10,16 +11,20 @@ import { NotificationService } from '@kore.services/notification.service';
 import { MatDialog } from '@angular/material/dialog';
 import { AuthService } from '@kore.services/auth.service';
 import { AppSelectionService } from '@kore.services/app.selection.service';
-import { Subscription } from 'rxjs';
+import { Subscription, tap } from 'rxjs';
 import { format } from 'date-fns';
 import { TranslationService } from '@kore.libs/shared/src';
+import { Store } from '@ngrx/store';
+import { selectAppIds } from '@kore.apps/store/app.selectors';
+import { StoreService } from '@kore.apps/store/store.service';
 @Component({
   selector: 'app-usage-logs',
   templateUrl: './usage-logs.component.html',
   styleUrls: ['./usage-logs.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class UsageLogsComponent implements OnInit {
+export class UsageLogsComponent implements OnInit, OnDestroy {
+  sub: Subscription;
   usageLogs = [];
   queryTypeArr = ['all'];
   resultsArr = ['all'];
@@ -29,8 +34,7 @@ export class UsageLogsComponent implements OnInit {
   searchImgSrc = 'assets/icons/search_gray.svg';
   searchFocusIn = false;
   selectedApp: any;
-  serachIndexId: string;
-  indexPipelineId: string;
+  searchIndexId: string;
   subscription: Subscription;
   totalRecord: number;
   filterSystem: any = {
@@ -44,6 +48,8 @@ export class UsageLogsComponent implements OnInit {
   isAsc = true;
   current_plan_name: string;
   beforeFilterUsageLogs: any = [];
+  streamId;
+
   constructor(
     public workflowService: WorkflowService,
     private service: ServiceInvokerService,
@@ -52,20 +58,34 @@ export class UsageLogsComponent implements OnInit {
     public authService: AuthService,
     private appSelectionService: AppSelectionService,
     private cd: ChangeDetectorRef,
-    private translationService: TranslationService
+    private translationService: TranslationService,
+    private storeService: StoreService
   ) {
     // Load translations for this module
     this.translationService.loadModuleTranslations('usage-log');
   }
 
   ngOnInit(): void {
-    this.selectedApp = this.workflowService?.selectedApp();
-    this.serachIndexId = this.selectedApp?.searchIndexes[0]?._id;
-    this.indexPipelineId = this.workflowService.selectedIndexPipeline();
+    this.initAppIds();
     const subscription_data =
       this.appSelectionService?.currentsubscriptionPlanDetails;
     this.current_plan_name = subscription_data?.subscription?.planName;
-    this.loadUsageLogs();
+  }
+
+  initAppIds() {
+    const idsSub = this.storeService.ids$
+      .pipe(
+        tap(({ streamId, searchIndexId }) => {
+          this.streamId = streamId;
+          this.searchIndexId = searchIndexId;
+
+          this.getUsageLogs();
+          this.getDyanmicFilterData();
+        })
+      )
+      .subscribe();
+
+    this.sub?.add(idsSub);
   }
 
   toggleSearch() {
@@ -73,13 +93,6 @@ export class UsageLogsComponent implements OnInit {
     if (this.showSearch && this.searchUsageLog) this.searchUsageLog = '';
   }
 
-  loadUsageLogs() {
-    this.indexPipelineId = this.workflowService.selectedIndexPipeline();
-    if (this.indexPipelineId) {
-      this.getUsageLogs();
-      this.getDyanmicFilterData();
-    }
-  }
   searchUsageLogs() {
     this.searchLoading = true;
     setTimeout(() => {
@@ -91,7 +104,7 @@ export class UsageLogsComponent implements OnInit {
   //get dynamic filters dropdown data
   getDyanmicFilterData() {
     const quaryparms: any = {
-      searchIndexId: this.serachIndexId,
+      searchIndexId: this.searchIndexId,
     };
     const request: any = {
       moduleName: 'usageLog',
@@ -103,7 +116,7 @@ export class UsageLogsComponent implements OnInit {
           this.resultsArr = [...this.resultsArr, ...res?.results];
         }
       },
-      errRes => {
+      (errRes) => {
         this.errorToaster(errRes, 'Failed to get filters');
       }
     );
@@ -113,14 +126,14 @@ export class UsageLogsComponent implements OnInit {
   getUsageLogs(offset?, query?) {
     this.loading = true;
     const quaryparms: any = {
-      streamId: this.selectedApp._id,
+      streamId: this.streamId,
       skip: offset || 0,
-      limit: 10
+      limit: 10,
     };
     const payload = {
       queryType: this.filterSystem.queryTypeFilter,
       results: this.filterSystem.resultsFilter,
-      search: query
+      search: query,
     };
     if (payload?.queryType === 'all') {
       delete payload.queryType;
@@ -208,7 +221,7 @@ export class UsageLogsComponent implements OnInit {
 
   exportUsageLog() {
     const quaryparms: any = {
-      streamId: this.selectedApp._id,
+      streamId: this.streamId,
     };
     const payload = {
       fileType: 'csv',
@@ -230,7 +243,7 @@ export class UsageLogsComponent implements OnInit {
 
   checkExportUsagelog() {
     const queryParms = {
-      searchIndexId: this.workflowService.selectedSearchIndexId,
+      searchIndexId: this.searchIndexId,
     };
     this.service.invoke('get.dockStatus', queryParms).subscribe(
       (res) => {
@@ -268,7 +281,7 @@ export class UsageLogsComponent implements OnInit {
       streamId: streamId,
       dockId: dockId,
       jobId: dockId,
-      sidx: this.serachIndexId,
+      sidx: this.searchIndexId,
     };
     const payload = {
       store: {
@@ -282,7 +295,7 @@ export class UsageLogsComponent implements OnInit {
         window.open(hrefURL, '_self');
         this.service
           .invoke('put.dockStatus', params, payload)
-          .subscribe((res) => { });
+          .subscribe((res) => {});
       },
       (err) => {
         console.log(err);
@@ -316,6 +329,9 @@ export class UsageLogsComponent implements OnInit {
     } else if (type === 'results') {
       this.filterSystem.resultsFilter = query;
     }
-    this.getUsageLogs();
+  }
+
+  ngOnDestroy(): void {
+    this.sub?.unsubscribe();
   }
 }

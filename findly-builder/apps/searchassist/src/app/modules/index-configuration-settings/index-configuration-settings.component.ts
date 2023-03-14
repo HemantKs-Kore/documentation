@@ -5,12 +5,15 @@ import { interval, Subscription } from 'rxjs';
 import { ConfirmationDialogComponent } from '../../helpers/components/confirmation-dialog/confirmation-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
 import { DockStatusService } from '../../services/dockstatusService/dock-status.service';
-import { startWith } from 'rxjs/operators';
+import { startWith, tap } from 'rxjs/operators';
 import * as _ from 'underscore';
 import { ServiceInvokerService } from '@kore.apps/services/service-invoker.service';
 import { NotificationService } from '@kore.apps/services/notification.service';
 import { AppSelectionService } from '@kore.apps/services/app.selection.service';
 import { WorkflowService } from '@kore.apps/services/workflow.service';
+import { selectAppIds } from '@kore.apps/store/app.selectors';
+import { Store } from '@ngrx/store';
+import { StoreService } from '@kore.apps/store/store.service';
 
 declare const $: any;
 @Component({
@@ -21,10 +24,9 @@ declare const $: any;
 export class IndexConfigurationSettingsComponent implements OnInit, OnDestroy {
   addLangModalPopRef: any;
   indexPipelineId;
-  queryPipelineId;
   searchLanguages: any = '';
   selectedApp;
-  serachIndexId;
+  searchIndexId;
   seedData;
   saveLanguages = false;
   isAddLoading = false;
@@ -41,6 +43,8 @@ export class IndexConfigurationSettingsComponent implements OnInit, OnDestroy {
   public pollingSubscriber: any;
   docStatusObject: any = {};
   isTrainStatusInprogress = false;
+  streamId;
+  sub: Subscription;
   @ViewChild('addLangModalPop') addLangModalPop: KRModalComponent;
   @ViewChild('perfectScroll') perfectScroll: PerfectScrollbarComponent;
 
@@ -50,30 +54,37 @@ export class IndexConfigurationSettingsComponent implements OnInit, OnDestroy {
     private notificationService: NotificationService,
     private appSelectionService: AppSelectionService,
     public dialog: MatDialog,
-    public dockService: DockStatusService
+    public dockService: DockStatusService,
+    private storeService: StoreService
   ) {}
 
   ngOnInit(): void {
+    this.initAppIds();
     this.getAvilableLanguages();
-    this.selectedApp = this.workflowService?.selectedApp();
-    this.serachIndexId = this.selectedApp?.searchIndexes[0]?._id;
-    this.indexPipelineId = this.workflowService?.selectedIndexPipeline();
-    this.queryPipelineId = this.workflowService?.selectedQueryPipeline()
-      ? this.workflowService.selectedQueryPipeline()?._id
-      : '';
+
     this.supportedLanguages = this.workflowService?.supportedLanguages?.values;
     this.configurationsSubscription =
       this.appSelectionService.queryConfigSelected.subscribe((res) => {
-        this.indexPipelineId = this.workflowService.selectedIndexPipeline();
-        this.queryPipelineId = this.workflowService.selectedQueryPipeline()
-          ? this.workflowService.selectedQueryPipeline()._id
-          : '';
         this.supportedLanguages =
           this.workflowService?.supportedLanguages?.values;
       });
 
     this.poling();
   }
+
+  initAppIds() {
+    const idsSub = this.storeService.ids$
+      .pipe(
+        tap(({ searchIndexId, indexPipelineId }) => {
+          this.searchIndexId = searchIndexId;
+          this.indexPipelineId = indexPipelineId;
+        })
+      )
+      .subscribe();
+
+    this.sub?.add(idsSub);
+  }
+
   // toaster message
   errorToaster(errRes, message) {
     if (
@@ -168,7 +179,7 @@ export class IndexConfigurationSettingsComponent implements OnInit, OnDestroy {
   saveLanguage(dialogRef?, type?, langArr?) {
     this.isAddLoading = true;
     const queryParams = {
-      streamId: this.selectedApp._id,
+      streamId: this.streamId,
       indexPipelineId: this.indexPipelineId,
     };
     const payload = {
@@ -304,7 +315,7 @@ export class IndexConfigurationSettingsComponent implements OnInit, OnDestroy {
       'x-timezone-offset': '-330',
     };
     const quaryparms: any = {
-      searchIndexId: this.serachIndexId,
+      searchIndexId: this.searchIndexId,
       offset: 0,
       limit: 100,
     };
@@ -338,7 +349,7 @@ export class IndexConfigurationSettingsComponent implements OnInit, OnDestroy {
       this.pollingSubscriber.unsubscribe();
     }
     const queryParms = {
-      searchIndexId: this.workflowService.selectedSearchIndexId,
+      searchIndexId: this.searchIndexId,
     };
     this.pollingSubscriber = interval(10000)
       .pipe(startWith(0))
@@ -369,6 +380,7 @@ export class IndexConfigurationSettingsComponent implements OnInit, OnDestroy {
     this.appSelectionService.topicGuideShow.next(null);
   }
   ngOnDestroy() {
+    this.sub?.unsubscribe();
     this.configurationsSubscription
       ? this.configurationsSubscription.unsubscribe()
       : false;

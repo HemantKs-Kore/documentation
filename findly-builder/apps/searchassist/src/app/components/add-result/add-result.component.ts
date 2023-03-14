@@ -6,12 +6,18 @@ import {
   Input,
   OnDestroy,
 } from '@angular/core';
-import { Subscription } from 'rxjs';
+import { combineLatest, Subscription, tap } from 'rxjs';
 import { SideBarService } from './../../services/header.service';
-import { WorkflowService } from '@kore.apps/services/workflow.service';
 import { ServiceInvokerService } from '@kore.apps/services/service-invoker.service';
 import { NotificationService } from '@kore.apps/services/notification.service';
 import { AppSelectionService } from '@kore.apps/services/app.selection.service';
+import { Store } from '@ngrx/store';
+import {
+  selectIndexPipelineId,
+  selectQueryPipelineId,
+  selectSearchIndexId,
+} from '@kore.apps/store/app.selectors';
+import { StoreService } from '@kore.apps/store/store.service';
 declare const $: any;
 
 @Component({
@@ -26,7 +32,7 @@ export class AddResultComponent implements OnInit, OnDestroy {
   searchRadioTypeTxt = 'Any';
   selectedApp: any = {};
   extractedResults: any = [];
-  serachIndexId;
+  searchIndexId;
   queryPipelineId;
   recordArray = [];
   searchTxt = '';
@@ -46,11 +52,11 @@ export class AddResultComponent implements OnInit, OnDestroy {
   @Input() searchRequestId;
   @Output() closeResult = new EventEmitter();
   constructor(
-    public workflowService: WorkflowService,
     public notificationService: NotificationService,
     private appSelectionService: AppSelectionService,
     private service: ServiceInvokerService,
-    public headerService: SideBarService
+    public headerService: SideBarService,
+    private storeService: StoreService
   ) {}
 
   ngOnInit(): void {
@@ -75,28 +81,30 @@ export class AddResultComponent implements OnInit, OnDestroy {
         this.getFieldAutoComplete();
       });
   }
-  results() {
-    this.indexPipelineId = this.workflowService.selectedIndexPipeline();
-    this.queryPipelineId = this.workflowService.selectedQueryPipeline()
-      ? this.workflowService.selectedQueryPipeline()._id
-      : this.selectedApp.searchIndexes[0].queryPipelineId;
-    if (this.queryPipelineId) {
-      this.appDetails();
-      if (this.indexPipelineId) {
-        this.getFieldAutoComplete();
-      }
-    }
+
+  initAppIds() {
+    const indexPipelineSub = this.storeService.ids$
+      .pipe(
+        tap(({ searchIndexId, indexPipelineId, queryPipelineId }) => {
+          this.searchIndexId = searchIndexId;
+          this.indexPipelineId = indexPipelineId;
+          this.queryPipelineId = queryPipelineId;
+        })
+      )
+      .subscribe();
+
+    this.subscription?.add(indexPipelineSub);
   }
-  appDetails() {
-    this.selectedApp = this.workflowService.selectedApp();
-    this.serachIndexId = this.selectedApp.searchIndexes[0]._id;
-    this.queryPipelineId = this.workflowService.selectedQueryPipeline()._id;
+  results() {
+    if (this.queryPipelineId) {
+      this.getFieldAutoComplete();
+    }
   }
 
   getFieldAutoComplete() {
     const query: any = '';
     const quaryparms: any = {
-      searchIndexID: this.serachIndexId,
+      searchIndexID: this.searchIndexId,
       indexPipelineId: this.indexPipelineId,
       query,
     };
@@ -114,7 +122,7 @@ export class AddResultComponent implements OnInit, OnDestroy {
 
   getAllSettings() {
     const quaryparms: any = {
-      searchIndexId: this.serachIndexId,
+      searchIndexId: this.searchIndexId,
       indexPipelineId: this.indexPipelineId,
       queryPipelineId: this.queryPipelineId,
       interface: 'fullSearch',
@@ -167,7 +175,7 @@ export class AddResultComponent implements OnInit, OnDestroy {
   }
   getTemplate(templateId) {
     const quaryparms: any = {
-      searchIndexId: this.serachIndexId,
+      searchIndexId: this.searchIndexId,
       templateId: templateId,
       indexPipelineId: this.indexPipelineId,
       queryPipelineId: this.queryPipelineId,
@@ -255,11 +263,11 @@ export class AddResultComponent implements OnInit, OnDestroy {
       contentType = this.searchType || this.searchRadioType;
       contentTaskFlag = true;
     }
-    const searchIndex = this.serachIndexId;
+    const searchIndex = this.searchIndexId;
     const quaryparms: any = {
       searchIndexId: searchIndex,
       queryPipelineId: this.queryPipelineId,
-      indexPipelineId: this.workflowService.selectedIndexPipeline() || '',
+      indexPipelineId: this.indexPipelineId || '',
     };
     const result: any = [];
     this.recordArray.forEach((element, index) => {
@@ -332,7 +340,7 @@ export class AddResultComponent implements OnInit, OnDestroy {
     this.appDetails();
     this.loadingContent = true;
     this.recordArray = [];
-    const searchIndex = this.serachIndexId;
+    const searchIndex = this.searchIndexId;
     const quaryparms: any = {
       searchIndexId: searchIndex,
       search: search,
@@ -343,7 +351,7 @@ export class AddResultComponent implements OnInit, OnDestroy {
     const payload = {
       extractionType: this.searchType || this.searchRadioType,
       search: search,
-      indexPipelineId: this.workflowService.selectedIndexPipeline() || '',
+      indexPipelineId: this.indexPipelineId || '',
       searchRequestId: this.searchRequestId,
     };
     this.service

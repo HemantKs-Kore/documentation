@@ -14,9 +14,18 @@ export const selectIndexPipelineId = createSelector(
   selectAppFeature,
   (state: AppState) => state.indexPipelineId
 );
+export const selectIndexPipelines = createSelector(
+  selectAppFeature,
+  (state: AppState) => state.indexPipelines
+);
 export const selectQueryPipelineId = createSelector(
   selectAppFeature,
   (state: AppState) => state.queryPipelineId
+);
+
+export const selectQueryPipelines = createSelector(
+  selectAppFeature,
+  (state: AppState) => state.queryPipelines
 );
 
 export const selectAppIds = createSelector(

@@ -15,11 +15,12 @@ import { AuthService } from '@kore.apps/services/auth.service';
 import { InsightsModule } from '../insights/insights.module';
 import { NgIf } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
-import { filter } from 'rxjs/operators';
+import { filter, tap } from 'rxjs/operators';
 import {
   selectAppIds,
   selectSearchExperiance,
 } from '@kore.apps/store/app.selectors';
+import { StoreService } from '@kore.apps/store/store.service';
 
 declare const $: any;
 declare let self: any;
@@ -96,6 +97,7 @@ export class SearchSdkComponent implements OnInit, OnDestroy {
     private searchSdkService: SearchSdkService,
     public localstore: LocalStoreService,
     private lazyLoadService: LazyLoadService,
+    private storeService: StoreService,
     private store: Store,
     private cdr: ChangeDetectorRef
   ) {}
@@ -137,16 +139,17 @@ export class SearchSdkComponent implements OnInit, OnDestroy {
   }
 
   initAppIds() {
-    const idsSub = this.store
-      .select(selectAppIds)
-      .subscribe(
-        ({ streamId, searchIndexId, indexPipelineId, queryPipelineId }) => {
+    const idsSub = this.storeService.ids$
+      .pipe(
+        tap(({ streamId, searchIndexId, indexPipelineId, queryPipelineId }) => {
           this.streamId = streamId;
           this.searchIndexId = searchIndexId;
           this.indexPipelineId = indexPipelineId;
           this.queryPipelineId = queryPipelineId;
-        }
-      );
+        })
+      )
+      .subscribe();
+
     this.sub?.add(idsSub);
   }
 
@@ -482,14 +485,12 @@ export class SearchSdkComponent implements OnInit, OnDestroy {
         appData &&
         appData.searchIndexes &&
         appData.searchIndexes.length &&
-        appData.searchIndexes[0]._id
+        this.searchIndexId
       ) {
         const searchData = {
-          _id: appData.searchIndexes[0]._id,
-          pipelineId: this.workflowService.selectedQueryPipeline()
-            ? this.workflowService.selectedQueryPipeline()._id
-            : '',
-          indexpipelineId: this.workflowService.selectedIndexPipeline() || '',
+          _id: this.searchIndexId,
+          pipelineId: this.queryPipelineId || '',
+          indexpipelineId: this.indexPipelineId || '',
         };
         window.selectedFindlyApp = searchData;
         this.topDownSearchInstance.setAPIDetails();
@@ -598,12 +599,10 @@ export class SearchSdkComponent implements OnInit, OnDestroy {
     if (
       this.workflowService.selectedApp() &&
       (this.workflowService.selectedApp().searchIndexes || []).length &&
-      this.workflowService.selectedApp().searchIndexes[0]._id
+      this.searchIndexId
     ) {
-      botOptionsFindly.searchIndexID =
-        this.workflowService.selectedApp().searchIndexes[0]._id;
+      botOptionsFindly.searchIndexID = this.searchIndexId;
     }
-    // botOptionsFindly.indexPipelineId = this.workflowService.selectedIndexPipeline()||'';
     botOptionsFindly.queryPipelineId = this.queryPipelineId || '';
     botOptionsFindly.botInfo = {
       chatBot: this.workflowService.selectedApp().name,

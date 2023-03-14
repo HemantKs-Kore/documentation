@@ -3,6 +3,7 @@ import {
   EventEmitter,
   Input,
   OnChanges,
+  OnDestroy,
   OnInit,
   Output,
   ViewChild,
@@ -15,11 +16,12 @@ import { ConfirmationDialogComponent } from '../../helpers/components/confirmati
 import { PerfectScrollbarComponent } from 'ngx-perfect-scrollbar';
 import { AuthService } from '@kore.apps/services/auth.service';
 import { ServiceInvokerService } from '@kore.apps/services/service-invoker.service';
-import { WorkflowService } from '@kore.apps/services/workflow.service';
 import { AppSelectionService } from '@kore.apps/services/app.selection.service';
-import { Observable } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { LazyLoadService } from '@kore.libs/shared/src';
 import '../../../assets/js/codemirror.js';
+import { selectSearchIndexId } from '@kore.apps/store/app.selectors';
+import { Store } from '@ngrx/store';
 declare const $: any;
 
 @Component({
@@ -27,7 +29,10 @@ declare const $: any;
   templateUrl: './add-structured-data.component.html',
   styleUrls: ['./add-structured-data.component.scss'],
 })
-export class AddStructuredDataComponent implements OnInit, OnChanges {
+export class AddStructuredDataComponent
+  implements OnInit, OnChanges, OnDestroy
+{
+  sub: Subscription;
   public newSourceObj: any = {};
   csvContent: any = '';
   fileObj: any = {};
@@ -49,7 +54,7 @@ export class AddStructuredDataComponent implements OnInit, OnChanges {
     lint: false,
     indentUnit: 2,
   };
-  selectedApp: any = {};
+  // selectedApp: any = {};
   selectedJsonForEdit: any;
   sampleJsonPath = '/home/assets/sampleData/sample.json';
   sampleCsvPath = '/home/assets/sampleData/sample.csv';
@@ -62,6 +67,8 @@ export class AddStructuredDataComponent implements OnInit, OnChanges {
   allStructuredData: any = [];
   submitted = false;
   isInvalidJSON = false;
+  indexPipelineId;
+  serachIndexId;
 
   @Output() closeStructuredDataModal = new EventEmitter();
   @Input() selectedSourceType: any;
@@ -74,15 +81,15 @@ export class AddStructuredDataComponent implements OnInit, OnChanges {
     private notificationService: NotificationService,
     private service: ServiceInvokerService,
     private authService: AuthService,
-    public workflowService: WorkflowService,
     private appSelectionService: AppSelectionService,
     private router: Router,
     public dialog: MatDialog,
-    private lazyLoadService: LazyLoadService
+    private lazyLoadService: LazyLoadService,
+    private store: Store
   ) {}
 
   ngOnInit(): void {
-    this.selectedApp = this.workflowService.selectedApp();
+    this.initAppIds();
     this.userInfo = this.authService.getUserInfo() || {};
     this.codeMirrorOptions['readOnly'] = '';
     setTimeout(() => {
@@ -91,6 +98,16 @@ export class AddStructuredDataComponent implements OnInit, OnChanges {
     }, 500);
 
     this.lazyLoadCodeMirror();
+  }
+
+  initAppIds() {
+    const pipelineSub = this.store
+      .select(selectSearchIndexId)
+      .subscribe((searchIndexId) => {
+        this.serachIndexId = searchIndexId;
+      });
+
+    this.sub?.add(pipelineSub);
   }
 
   lazyLoadCodeMirror(): Observable<any[]> {
@@ -228,7 +245,7 @@ export class AddStructuredDataComponent implements OnInit, OnChanges {
 
   deleteStructuredData(record) {
     const quaryparms: any = {};
-    quaryparms.searchIndexId = this.selectedApp.searchIndexes[0]._id;
+    quaryparms.searchIndexId = this.serachIndexId;
     quaryparms.sourceId = Math.random().toString(36).substr(7);
     if (record) {
       quaryparms.contentId = record._id;
@@ -371,7 +388,7 @@ export class AddStructuredDataComponent implements OnInit, OnChanges {
 
   proceedSource() {
     const payload: any = {};
-    const searchIndex = this.selectedApp.searchIndexes[0]._id;
+    const searchIndex = this.serachIndexId;
     const quaryparms: any = {
       searchIndexId: searchIndex,
       type: this.selectedSourceType.sourceType,
@@ -442,7 +459,7 @@ export class AddStructuredDataComponent implements OnInit, OnChanges {
 
   updateStructuredData(jsonData) {
     const quaryparms: any = {};
-    quaryparms.searchIndexId = this.selectedApp.searchIndexes[0]._id;
+    quaryparms.searchIndexId = this.serachIndexId;
     // quaryparms.sourceId = Math.random().toString(36).substr(7);
     if (jsonData) {
       quaryparms.contentId = this.selectedJsonForEdit._id;
@@ -555,5 +572,9 @@ export class AddStructuredDataComponent implements OnInit, OnChanges {
         (link.target = '_blank'), (link.download = fileName), link.click();
         link.remove();
       });
+  }
+
+  ngOnDestroy(): void {
+    this.sub?.unsubscribe();
   }
 }

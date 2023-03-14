@@ -4,7 +4,7 @@ import { MatChipInputEvent } from '@angular/material/chips';
 import { Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import * as _ from 'underscore';
-import { Observable, Subscription } from 'rxjs';
+import { Observable, Subscription, tap } from 'rxjs';
 import { WorkflowService } from '@kore.apps/services/workflow.service';
 import { ServiceInvokerService } from '@kore.apps/services/service-invoker.service';
 import { AuthService } from '@kore.apps/services/auth.service';
@@ -15,6 +15,7 @@ import { Store } from '@ngrx/store';
 import { ConfirmationDialogComponent } from '@kore.apps/helpers/components/confirmation-dialog/confirmation-dialog.component';
 import { selectAppIds } from '@kore.apps/store/app.selectors';
 import { TranslationService } from '@kore.libs/shared/src';
+import { StoreService } from '@kore.apps/store/store.service';
 declare const $: any;
 
 @Component({
@@ -106,7 +107,7 @@ export class SynonymsComponent implements OnInit, OnDestroy {
     public dialog: MatDialog,
     private appSelectionService: AppSelectionService,
     public inlineManual: InlineManualService,
-    private store: Store,
+    private storeService: StoreService,
     private translationService: TranslationService
   ) {
     this.synonymObj = new SynonymClass();
@@ -126,16 +127,17 @@ export class SynonymsComponent implements OnInit, OnDestroy {
   }
 
   initAppIds() {
-    const idsSub = this.store
-      .select(selectAppIds)
-      .subscribe(
-        ({ streamId, searchIndexId, indexPipelineId, queryPipelineId }) => {
+    const idsSub = this.storeService.ids$
+      .pipe(
+        tap(({ streamId, searchIndexId, indexPipelineId, queryPipelineId }) => {
           this.streamId = streamId;
           this.searchIndexId = searchIndexId;
           this.indexPipelineId = indexPipelineId;
           this.queryPipelineId = queryPipelineId;
-        }
-      );
+        })
+      )
+      .subscribe();
+
     this.sub?.add(idsSub);
   }
 
