@@ -111,8 +111,8 @@ export class UsageLogsComponent implements OnInit, OnDestroy {
     this.service.invoke('post.filters', quaryparms, request).subscribe(
       (res: any) => {
         if (res) {
-          this.queryTypeArr = [...this.queryTypeArr, ...res?.queryType];
-          this.resultsArr = [...this.resultsArr, ...res?.results];
+          this.queryTypeArr = [...this.queryTypeArr, ...res.queryType];
+          this.resultsArr = [...this.resultsArr, ...res.results];
         }
       },
       (errRes) => {
@@ -143,7 +143,7 @@ export class UsageLogsComponent implements OnInit, OnDestroy {
     if (query === '') {
       delete payload.search;
     }
-    let serviceId = 'post.allUsageLogs';
+    const serviceId = 'post.allUsageLogs';
     if (!this.usageLogs.length && !query) {
       this.loadingLogs = true;
     }
