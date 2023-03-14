@@ -196,17 +196,15 @@ export class SummaryComponent implements OnInit, AfterViewInit, OnDestroy {
   handlePipelineError(errRes) {
     if (
       errRes &&
-      errRes.error.errors &&
-      errRes.error.errors.length &&
-      errRes.error.errors[0] &&
-      errRes.error.errors[0].msg
+      errRes.error?.errors &&
+      errRes.error?.errors.length &&
+      errRes.error?.errors[0] &&
+      errRes.error?.errors[0].msg
     ) {
       this.notificationService.notify(errRes.error.errors[0].msg, 'error');
     } else {
-      this.notificationService.notify('Failed ', 'error');
+      this.notificationService.notify('Failed ', errRes);
     }
-
-    return EMPTY;
   }
 
   getIndexPipeline(status?) {
@@ -222,10 +220,11 @@ export class SummaryComponent implements OnInit, AfterViewInit, OnDestroy {
           this.getQueries('TotalSearchesStats');
           this.getAllOverview(status);
           this.componentType = 'summary';
-        }),
-        catchError(this.handlePipelineError)
+        })
       )
-      .subscribe();
+      .subscribe({
+        error: this.handlePipelineError.bind(this),
+      });
 
     this.sub?.add(indexPipelineSub);
   }

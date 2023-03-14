@@ -118,17 +118,15 @@ export class SearchInsightsComponent implements OnInit, OnDestroy {
   handlePipelineError(errRes) {
     if (
       errRes &&
-      errRes.error.errors &&
-      errRes.error.errors.length &&
-      errRes.error.errors[0] &&
-      errRes.error.errors[0].msg
+      errRes.error?.errors &&
+      errRes.error?.errors.length &&
+      errRes.error?.errors[0] &&
+      errRes.error?.errors[0].msg
     ) {
       this.notificationService.notify(errRes.error.errors[0].msg, 'error');
     } else {
       this.notificationService.notify('Failed ', 'error');
     }
-
-    return EMPTY;
   }
 
   getIndexPipeline() {
@@ -145,11 +143,11 @@ export class SearchInsightsComponent implements OnInit, OnDestroy {
 
             this.getAllgraphdetails(this.selectedIndexConfig._id);
           }
-        }),
-        catchError(this.handlePipelineError)
+        })
       )
-      .subscribe();
-
+      .subscribe({
+        error: this.handlePipelineError.bind(this),
+      });
     this.sub?.add(indexPipelineSub);
   }
 
