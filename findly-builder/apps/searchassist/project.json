@@ -68,7 +68,7 @@
             "inject": false
           }
         ],
-        "serviceWorker": true,
+        "serviceWorker": false,
         "ngswConfigPath": "apps/searchassist/ngsw-config.json",
         "allowedCommonJsDependencies": [
           "codemirror",
@@ -120,10 +120,7 @@
             }
           ],
           "outputHashing": "all",
-          "vendorChunk": true,
-          "optimization": {
-            "styles": false
-          }
+          "vendorChunk": true
         },
         "development": {
           "buildOptimizer": false,
