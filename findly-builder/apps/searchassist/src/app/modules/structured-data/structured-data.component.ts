@@ -4,7 +4,7 @@ import { NotificationService } from '../../services/notification.service';
 import { KRModalComponent } from '../../shared/kr-modal/kr-modal.component';
 import { MatDialog } from '@angular/material/dialog';
 import { ConfirmationDialogComponent } from '../../helpers/components/confirmation-dialog/confirmation-dialog.component';
-import { debounceTime, map, tap, withLatestFrom } from 'rxjs/operators';
+import { debounceTime, map, tap } from 'rxjs/operators';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Observable, Subscription } from 'rxjs';
 import { SideBarService } from './../../services/header.service';
@@ -18,13 +18,7 @@ import { WorkflowService } from '@kore.apps/services/workflow.service';
 import { OnboardingComponent } from '../onboarding/onboarding.component';
 import { LazyLoadService, TranslationService } from '@kore.libs/shared/src';
 import '../../../assets/js/codemirror.js';
-import { Store } from '@ngrx/store';
-import {
-  selectAppIds,
-  selectIndexPipelineId,
-  selectQueryPipelineId,
-  selectSearchIndexId,
-} from '@kore.apps/store/app.selectors';
+
 import { StoreService } from '@kore.apps/store/store.service';
 
 @Component({
@@ -189,12 +183,7 @@ export class StructuredDataComponent implements OnInit, OnDestroy {
           this.getAllSettings();
         })
       )
-      .subscribe(({ queryPipelineId, searchIndexId, indexPipelineId }) => {
-        console.log('HERER', searchIndexId, indexPipelineId, queryPipelineId);
-        // this.searchIndexId = searchIndexId;
-        // this.indexPipelineId = indexPipelineId;
-        // this.queryPipelineId = queryPipelineId;
-      });
+      .subscribe();
     this.sub?.add(idsSub);
   }
 

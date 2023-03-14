@@ -80,7 +80,6 @@ export class UsageLogsComponent implements OnInit, OnDestroy {
           this.searchIndexId = searchIndexId;
 
           this.getUsageLogs();
-          this.getDyanmicFilterData();
         })
       )
       .subscribe();
@@ -110,7 +109,7 @@ export class UsageLogsComponent implements OnInit, OnDestroy {
       moduleName: 'usageLog',
     };
     this.service.invoke('post.filters', quaryparms, request).subscribe(
-      (res) => {
+      (res: any) => {
         if (res) {
           this.queryTypeArr = [...this.queryTypeArr, ...res?.queryType];
           this.resultsArr = [...this.resultsArr, ...res?.results];
