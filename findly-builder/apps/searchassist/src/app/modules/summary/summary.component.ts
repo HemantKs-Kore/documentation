@@ -19,6 +19,7 @@ import { AppSelectionService } from '@kore.apps/services/app.selection.service';
 import { InlineManualService } from '@kore.apps/services/inline-manual.service';
 import { selectIndexPipelines } from '@kore.apps/store/app.selectors';
 import { Store } from '@ngrx/store';
+import { StoreService } from '@kore.apps/store/store.service';
 // import { IndexPipelineService } from './services/index-pipeline.service';
 // import { QueryPipelineService } from './services/query-pipeline.service';
 declare const $: any;
@@ -31,7 +32,7 @@ declare const $: any;
 export class SummaryComponent implements OnInit, AfterViewInit, OnDestroy {
   sub: Subscription;
   math = Math;
-  serachIndexId;
+  searchIndexId;
   indices: any = [];
   experiments: any = [];
   default_Indexpipelineid: any;
@@ -137,6 +138,8 @@ export class SummaryComponent implements OnInit, AfterViewInit, OnDestroy {
   currentUsageSubscription: Subscription;
   currentPlanSubscription: Subscription;
   updateUsageData: Subscription;
+  streamId;
+  indexPipelineId;
   @ViewChild('onBoardingModalPop') onBoardingModalPop: KRModalComponent;
   @ViewChild('onboard') onboard: UseronboardingJourneyComponent;
   constructor(
@@ -148,10 +151,12 @@ export class SummaryComponent implements OnInit, AfterViewInit, OnDestroy {
     private router: Router,
     public inlineManual: InlineManualService,
     public appSelectionService: AppSelectionService,
-    private store: Store
+    private store: Store,
+    private storeService: StoreService
   ) {}
 
   async ngOnInit() {
+    this.initAppIds();
     this.currentPlan = {};
     this.loading_skelton = true;
     this.initialCall();
@@ -181,6 +186,21 @@ export class SummaryComponent implements OnInit, AfterViewInit, OnDestroy {
         this.currentPlan = subscription_data.subscription;
       });
   }
+
+  initAppIds() {
+    const indexPipelineSub = this.storeService.ids$
+      .pipe(
+        tap(({ streamId, searchIndexId, indexPipelineId }) => {
+          this.streamId = streamId;
+          this.searchIndexId = searchIndexId;
+          this.indexPipelineId = indexPipelineId;
+        })
+      )
+      .subscribe();
+
+    this.subscription?.add(indexPipelineSub);
+  }
+
   ngAfterViewInit() {
     if (!this.inlineManual?.checkVisibility('APP_WALKTHROUGH')) {
       // this.onboard.openOnBoardingModal(); //commenting this since we have new check list
@@ -236,8 +256,6 @@ export class SummaryComponent implements OnInit, AfterViewInit, OnDestroy {
       toShowWidgetNavigation: this.workflowService.showAppCreationHeader(),
     };
     this.current_month = this.listMonths[this.date.getMonth()];
-    this.selectedApp = this.workflowService?.selectedApp();
-    this.serachIndexId = this.selectedApp?.searchIndexes[0]?._id;
     this.headerService.toggle(toogleObj);
     this.getIndexPipeline(status);
   }
@@ -250,8 +268,8 @@ export class SummaryComponent implements OnInit, AfterViewInit, OnDestroy {
       'x-timezone-offset': '-330',
     };
     const quaryparms: any = {
-      searchIndexId: this.serachIndexId,
-      indexPipelineId: this.default_Indexpipelineid,
+      searchIndexId: this.searchIndexId,
+      indexPipelineId: this.indexPipelineId,
       offset: 0,
       limit: 100,
     };
@@ -295,7 +313,7 @@ export class SummaryComponent implements OnInit, AfterViewInit, OnDestroy {
   getChannel() {
     const queryParams = {
       userId: this.authService.getUserId(),
-      streamId: this.selectedApp._id,
+      streamId: this.streamId,
     };
     this.service.invoke('get.credential', queryParams).subscribe(
       (res) => {
@@ -322,7 +340,7 @@ export class SummaryComponent implements OnInit, AfterViewInit, OnDestroy {
   getLinkedBot() {
     const queryParams = {
       userId: this.authService.getUserId(),
-      streamId: this.selectedApp._id,
+      streamId: this.streamId,
     };
 
     this.service.invoke('get.linkedBot', queryParams).subscribe(
@@ -350,7 +368,7 @@ export class SummaryComponent implements OnInit, AfterViewInit, OnDestroy {
   }
   getAllOverview(status?) {
     const queryParams = {
-      searchIndexId: this.serachIndexId,
+      searchIndexId: this.searchIndexId,
     };
     this.service.invoke('get.overview', queryParams).subscribe(
       (res) => {
