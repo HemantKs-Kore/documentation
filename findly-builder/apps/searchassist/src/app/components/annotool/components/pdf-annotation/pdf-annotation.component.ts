@@ -49,7 +49,8 @@ import {
   selectAppId,
   selectSearchIndexId,
 } from '@kore.apps/store/app.selectors';
-import { combineLatest, Subscription, withLatestFrom } from 'rxjs';
+import { combineLatest, Subscription, tap, withLatestFrom } from 'rxjs';
+import { StoreService } from '@kore.apps/store/store.service';
 
 @Component({
   selector: 'app-pdf-annotation',
@@ -153,7 +154,7 @@ export class PdfAnnotationComponent implements OnInit, OnDestroy {
     public dialogRef: MatDialogRef<PdfAnnotationComponent>,
     @Inject(MAT_DIALOG_DATA) public dialogData: any,
     public platform: Platform,
-    private store: Store
+    private storeService: StoreService
   ) {
     this.createForm();
     this.initPdfViewer();
@@ -162,7 +163,6 @@ export class PdfAnnotationComponent implements OnInit, OnDestroy {
   ngOnInit() {
     // this.userGuide();
     this.initAppIds();
-    this.getSavedAnnotatedDataForStream();
     this.formUpdatation();
     this.createThemeForm();
     this.applyTheme(this.form.value); // Make sure apply default colors
@@ -171,13 +171,15 @@ export class PdfAnnotationComponent implements OnInit, OnDestroy {
   }
 
   initAppIds() {
-    const pipelineSub = this.store
-      .select(selectSearchIndexId)
-      .pipe(withLatestFrom(this.store.select(selectAppId)))
-      .subscribe(([searchIndexId, appId]) => {
-        this.appId = appId;
-        this.searchIndexId = searchIndexId;
-      });
+    const pipelineSub = this.storeService.ids$
+      .pipe(
+        tap(({ streamId, searchIndexId }) => {
+          this.appId = streamId;
+          this.searchIndexId = searchIndexId;
+          this.getSavedAnnotatedDataForStream();
+        })
+      )
+      .subscribe();
 
     this.sub?.add(pipelineSub);
   }
@@ -721,7 +723,7 @@ export class PdfAnnotationComponent implements OnInit, OnDestroy {
   // Check user guide info from api
   getSavedAnnotatedDataForStream() {
     this.service
-      .invoke('PdfAnno.get.userguide', { streamId: this.pdfPayload.streamId })
+      .invoke('PdfAnno.get.userguide', { streamId: this.appId })
       .subscribe(
         (res: any) => {
           if (
