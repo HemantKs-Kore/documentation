@@ -1,19 +1,23 @@
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { KRModalComponent } from '../../shared/kr-modal/kr-modal.component';
 import { PerfectScrollbarComponent } from 'ngx-perfect-scrollbar';
-import { interval, Subscription } from 'rxjs';
+import { EMPTY, interval, Subscription } from 'rxjs';
 import { ConfirmationDialogComponent } from '../../helpers/components/confirmation-dialog/confirmation-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
 import { DockStatusService } from '../../services/dockstatusService/dock-status.service';
-import { startWith, tap } from 'rxjs/operators';
+import { catchError, startWith, tap } from 'rxjs/operators';
 import * as _ from 'underscore';
 import { ServiceInvokerService } from '@kore.apps/services/service-invoker.service';
 import { NotificationService } from '@kore.apps/services/notification.service';
 import { AppSelectionService } from '@kore.apps/services/app.selection.service';
 import { WorkflowService } from '@kore.apps/services/workflow.service';
-import { selectAppIds } from '@kore.apps/store/app.selectors';
+import {
+  selectAppIds,
+  selectIndexPipelines,
+} from '@kore.apps/store/app.selectors';
 import { Store } from '@ngrx/store';
 import { StoreService } from '@kore.apps/store/store.service';
+import { updateIndexPipeline } from '@kore.apps/store/app.actions';
 
 declare const $: any;
 @Component({
@@ -55,7 +59,8 @@ export class IndexConfigurationSettingsComponent implements OnInit, OnDestroy {
     private appSelectionService: AppSelectionService,
     public dialog: MatDialog,
     public dockService: DockStatusService,
-    private storeService: StoreService
+    private storeService: StoreService,
+    private store: Store
   ) {}
 
   ngOnInit(): void {
@@ -75,7 +80,8 @@ export class IndexConfigurationSettingsComponent implements OnInit, OnDestroy {
   initAppIds() {
     const idsSub = this.storeService.ids$
       .pipe(
-        tap(({ searchIndexId, indexPipelineId }) => {
+        tap(({ streamId, searchIndexId, indexPipelineId }) => {
+          this.streamId = streamId;
           this.searchIndexId = searchIndexId;
           this.indexPipelineId = indexPipelineId;
         })
@@ -191,6 +197,9 @@ export class IndexConfigurationSettingsComponent implements OnInit, OnDestroy {
     const url = 'put.indexLanguages';
     this.service.invoke(url, queryParams, payload).subscribe(
       (res) => {
+        this.store.dispatch(
+          updateIndexPipeline({ indexPipeline: res, isDefault: false })
+        );
         this.getIndexPipeline();
         if (dialogRef && dialogRef.close) {
           dialogRef.close();
@@ -319,29 +328,40 @@ export class IndexConfigurationSettingsComponent implements OnInit, OnDestroy {
       offset: 0,
       limit: 100,
     };
-    this.service.invoke('get.indexPipeline', quaryparms, header).subscribe(
-      (res) => {
-        res.forEach((element) => {
-          if (element._id == this.indexPipelineId) {
-            this.supportedLanguages = element.settings.language.values;
-            this.workflowService.getSettings(element.settings);
+
+    const langSub = this.store
+      .select(selectIndexPipelines)
+      .pipe(
+        tap((res) => {
+          res.forEach((element) => {
+            if (element._id == this.indexPipelineId) {
+              this.supportedLanguages = element.settings.language.values;
+              this.workflowService.getSettings(element.settings);
+            }
+          });
+        }),
+        catchError((errRes: any) => {
+          if (
+            errRes &&
+            errRes.error.errors &&
+            errRes.error.errors.length &&
+            errRes.error.errors[0] &&
+            errRes.error.errors[0].msg
+          ) {
+            this.notificationService.notify(
+              errRes.error.errors[0].msg,
+              'error'
+            );
+          } else {
+            this.notificationService.notify('Failed ', 'error');
           }
-        });
-      },
-      (errRes) => {
-        if (
-          errRes &&
-          errRes.error.errors &&
-          errRes.error.errors.length &&
-          errRes.error.errors[0] &&
-          errRes.error.errors[0].msg
-        ) {
-          this.notificationService.notify(errRes.error.errors[0].msg, 'error');
-        } else {
-          this.notificationService.notify('Failed ', 'error');
-        }
-      }
-    );
+
+          return EMPTY;
+        })
+      )
+      .subscribe();
+
+    this.sub?.add(langSub);
   }
   poling() {
     this.isTrainStatusInprogress = true;
