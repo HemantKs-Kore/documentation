@@ -4,7 +4,7 @@ import { NotificationService } from '../../services/notification.service';
 import { KRModalComponent } from '../../shared/kr-modal/kr-modal.component';
 import { MatDialog } from '@angular/material/dialog';
 import { ConfirmationDialogComponent } from '../../helpers/components/confirmation-dialog/confirmation-dialog.component';
-import { debounceTime, map } from 'rxjs/operators';
+import { debounceTime, map, tap, withLatestFrom } from 'rxjs/operators';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Observable, Subscription } from 'rxjs';
 import { SideBarService } from './../../services/header.service';
@@ -19,7 +19,13 @@ import { OnboardingComponent } from '../onboarding/onboarding.component';
 import { LazyLoadService, TranslationService } from '@kore.libs/shared/src';
 import '../../../assets/js/codemirror.js';
 import { Store } from '@ngrx/store';
-import { selectAppIds } from '@kore.apps/store/app.selectors';
+import {
+  selectAppIds,
+  selectIndexPipelineId,
+  selectQueryPipelineId,
+  selectSearchIndexId,
+} from '@kore.apps/store/app.selectors';
+import { StoreService } from '@kore.apps/store/store.service';
 
 @Component({
   selector: 'app-structured-data',
@@ -155,7 +161,7 @@ export class StructuredDataComponent implements OnInit, OnDestroy {
     private appSelectionService: AppSelectionService,
     private lazyLoadService: LazyLoadService,
     private translationService: TranslationService,
-    private store: Store
+    private storeService: StoreService
   ) {
     this.translationService.loadModuleTranslations();
   }
@@ -174,27 +180,26 @@ export class StructuredDataComponent implements OnInit, OnDestroy {
   }
 
   initAppIds() {
-    const idsSub = this.store
-      .select(selectAppIds)
-      .subscribe(
-        ({ streamId, searchIndexId, indexPipelineId, queryPipelineId }) => {
-          // this.streamId = streamId;
+    const idsSub = this.storeService.ids$
+      .pipe(
+        tap(({ queryPipelineId, searchIndexId, indexPipelineId }) => {
           this.searchIndexId = searchIndexId;
           this.indexPipelineId = indexPipelineId;
           this.queryPipelineId = queryPipelineId;
-
-          this.loadData();
-        }
-      );
+          this.getAllSettings();
+        })
+      )
+      .subscribe(({ queryPipelineId, searchIndexId, indexPipelineId }) => {
+        console.log('HERER', searchIndexId, indexPipelineId, queryPipelineId);
+        // this.searchIndexId = searchIndexId;
+        // this.indexPipelineId = indexPipelineId;
+        // this.queryPipelineId = queryPipelineId;
+      });
     this.sub?.add(idsSub);
   }
 
   lazyLoadCodeMirror(): Observable<any[]> {
     return this.lazyLoadService.loadStyle('codemirror.min.css');
-  }
-
-  loadData() {
-    this.getAllSettings();
   }
 
   getStructuredDataList(skip?) {

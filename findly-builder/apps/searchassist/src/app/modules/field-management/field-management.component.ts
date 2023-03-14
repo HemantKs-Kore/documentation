@@ -10,8 +10,16 @@ import { MatDialog } from '@angular/material/dialog';
 import { ConfirmationDialogComponent } from '../../helpers/components/confirmation-dialog/confirmation-dialog.component';
 import { KRModalComponent } from '../../shared/kr-modal/kr-modal.component';
 import * as _ from 'underscore';
-import { of, interval, Subject, Subscription } from 'rxjs';
-import { startWith } from 'rxjs/operators';
+import {
+  of,
+  interval,
+  Subject,
+  Subscription,
+  combineLatest,
+  Observable,
+  EMPTY,
+} from 'rxjs';
+import { catchError, startWith, switchMap, tap } from 'rxjs/operators';
 import { PerfectScrollbarComponent } from 'ngx-perfect-scrollbar';
 import { Router, ActivatedRoute } from '@angular/router';
 import { DomSanitizer } from '@angular/platform-browser';
@@ -26,6 +34,7 @@ import { MixpanelServiceService } from '@kore.apps/services/mixpanel-service.ser
 import { TranslationService } from '@kore.libs/shared/src';
 import { Store } from '@ngrx/store';
 import { selectAppIds } from '@kore.apps/store/app.selectors';
+import { StoreService } from '@kore.apps/store/store.service';
 
 declare const $: any;
 @Component({
@@ -124,7 +133,7 @@ export class FieldManagementComponent
     public mixpanel: MixpanelServiceService,
     private sanitizer: DomSanitizer,
     private translationService: TranslationService,
-    private store: Store
+    private storeService: StoreService
   ) {
     this.translationService.loadModuleTranslations('field-management');
   }
@@ -134,15 +143,17 @@ export class FieldManagementComponent
   }
 
   initAppIds() {
-    const idsSub = this.store
-      .select(selectAppIds)
-      .subscribe(({ searchIndexId, indexPipelineId, queryPipelineId }) => {
-        this.searchIndexId = searchIndexId;
-        this.indexPipelineId = indexPipelineId;
-        this.queryPipelineId = queryPipelineId;
+    const idsSub = this.storeService.ids$
+      .pipe(
+        tap(({ searchIndexId, indexPipelineId, queryPipelineId }) => {
+          this.searchIndexId = searchIndexId;
+          this.indexPipelineId = indexPipelineId;
+          this.queryPipelineId = queryPipelineId;
+        }),
+        switchMap(() => this.loadFileds())
+      )
+      .subscribe();
 
-        this.loadFileds();
-      });
     this.sub?.add(idsSub);
   }
 
@@ -156,8 +167,7 @@ export class FieldManagementComponent
     };
   }
   loadFileds() {
-    this.getDyanmicFilterData();
-    this.getFileds();
+    return combineLatest([this.getDyanmicFilterData(), this.getFileds()]);
   }
   toggleSearch() {
     if (this.showSearch && this.searchFields) {
@@ -617,7 +627,7 @@ export class FieldManagementComponent
     sortValue?,
     navigate?,
     request?
-  ) {
+  ): Observable<any> {
     const quaryparms: any = {
       searchIndexID: this.searchIndexId,
       indexPipelineId: this.indexPipelineId,
@@ -655,27 +665,52 @@ export class FieldManagementComponent
     //   serviceId = 'post.allField';
     //   this.getDyanmicFilterData();
     // }
-    this.service.invoke(serviceId, quaryparms, payload).subscribe(
-      (res) => {
-        this.mixpanel.postEvent('Enter Fields', {});
-        this.filelds = res.fields || [];
-        this.totalRecord = res.totalCount || 0;
-        this.loadingContent = false;
-        if (this.filelds.length) {
-          if (!this.inlineManual.checkVisibility('FIEDS_TABLE')) {
-            this.inlineManual.openHelp('FIEDS_TABLE');
-            this.inlineManual.visited('FIEDS_TABLE');
+    return this.service.invoke(serviceId, quaryparms, payload).pipe(
+      tap(
+        (res) => {
+          this.mixpanel.postEvent('Enter Fields', {});
+          this.filelds = res.fields || [];
+          this.totalRecord = res.totalCount || 0;
+          this.loadingContent = false;
+          if (this.filelds.length) {
+            if (!this.inlineManual.checkVisibility('FIEDS_TABLE')) {
+              this.inlineManual.openHelp('FIEDS_TABLE');
+              this.inlineManual.visited('FIEDS_TABLE');
+            }
+            this.getDyanmicFilterData(searchValue);
+            // this.defaultSort( this.sortedObject.type, this.sortedObject.position, this.sortedObject.value)
+            // this.sortField( this.sortedObject.type, this.sortedObject.position, this.sortedObject.value)
           }
-          this.getDyanmicFilterData(searchValue);
-          // this.defaultSort( this.sortedObject.type, this.sortedObject.position, this.sortedObject.value)
-          // this.sortField( this.sortedObject.type, this.sortedObject.position, this.sortedObject.value)
-        }
-      },
-      (errRes) => {
-        this.loadingContent = false;
-        this.errorToaster(errRes, 'Failed to get index  stages');
-      }
+        },
+        catchError((errRes) => {
+          this.loadingContent = false;
+          this.errorToaster(errRes, 'Failed to get index  stages');
+          return EMPTY;
+        })
+      )
     );
+
+    // .subscribe(
+    //   (res) => {
+    //     this.mixpanel.postEvent('Enter Fields', {});
+    //     this.filelds = res.fields || [];
+    //     this.totalRecord = res.totalCount || 0;
+    //     this.loadingContent = false;
+    //     if (this.filelds.length) {
+    //       if (!this.inlineManual.checkVisibility('FIEDS_TABLE')) {
+    //         this.inlineManual.openHelp('FIEDS_TABLE');
+    //         this.inlineManual.visited('FIEDS_TABLE');
+    //       }
+    //       this.getDyanmicFilterData(searchValue);
+    //       // this.defaultSort( this.sortedObject.type, this.sortedObject.position, this.sortedObject.value)
+    //       // this.sortField( this.sortedObject.type, this.sortedObject.position, this.sortedObject.value)
+    //     }
+    //   },
+    //   (errRes) => {
+    //     this.loadingContent = false;
+    //     this.errorToaster(errRes, 'Failed to get index  stages');
+    //   }
+    // );
   }
 
   deleteIndField(record, dialogRef) {
@@ -993,7 +1028,7 @@ export class FieldManagementComponent
     }
     this.getFileds();
   }
-  getDyanmicFilterData(search?) {
+  getDyanmicFilterData(search?): Observable<any> {
     const quaryparms: any = {
       searchIndexId: this.searchIndexId,
     };
@@ -1020,16 +1055,28 @@ export class FieldManagementComponent
       delete request.search;
     }
 
-    this.service.invoke('post.filters', quaryparms, request).subscribe(
-      (res) => {
+    return this.service.invoke('post.filters', quaryparms, request).pipe(
+      tap((res) => {
         this.fieldDataTypeArr = [...res.fieldDataType];
         this.isAutosuggestArr = [...res.isAutosuggest];
         this.isSearchableArr = [...res.isSearchable];
-      },
-      (errRes) => {
+      }),
+      catchError((errRes: any) => {
         this.errorToaster(errRes, 'Failed to get filters');
-      }
+        return EMPTY;
+      })
     );
+
+    // .subscribe(
+    //   (res) => {
+    //     this.fieldDataTypeArr = [...res.fieldDataType];
+    //     this.isAutosuggestArr = [...res.isAutosuggest];
+    //     this.isSearchableArr = [...res.isSearchable];
+    //   },
+    //   (errRes) => {
+    //     this.errorToaster(errRes, 'Failed to get filters');
+    //   }
+    // );
   }
   getFieldAutoComplete(query) {
     if (!query) {
