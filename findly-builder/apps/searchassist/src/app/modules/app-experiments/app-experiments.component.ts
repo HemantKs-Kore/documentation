@@ -4,7 +4,7 @@ import { MatDialog } from '@angular/material/dialog';
 import * as _ from 'underscore';
 declare const $: any;
 import { ConfirmationDialogComponent } from '../../helpers/components/confirmation-dialog/confirmation-dialog.component';
-import { Subscription } from 'rxjs';
+import { catchError, EMPTY, Subscription, tap } from 'rxjs';
 import { WorkflowService } from '@kore.apps/services/workflow.service';
 import { AppSelectionService } from '@kore.apps/services/app.selection.service';
 import { InlineManualService } from '@kore.apps/services/inline-manual.service';
@@ -13,12 +13,18 @@ import { NotificationService } from '@kore.apps/services/notification.service';
 import { MixpanelServiceService } from '@kore.apps/services/mixpanel-service.service';
 import { TranslationService } from '@kore.libs/shared/src';
 import { differenceInHours, differenceInDays } from 'date-fns';
+import {
+  selectIndexPipelines,
+  selectQueryPipelines,
+} from '@kore.apps/store/app.selectors';
+import { Store } from '@ngrx/store';
 @Component({
   selector: 'app-app-experiments',
   templateUrl: './app-experiments.component.html',
   styleUrls: ['./app-experiments.component.scss'],
 })
 export class AppExperimentsComponent implements OnInit, OnDestroy {
+  sub: Subscription;
   addExperimentsRef: any;
   selectedApp: any;
   serachIndexId: any;
@@ -105,7 +111,8 @@ export class AppExperimentsComponent implements OnInit, OnDestroy {
     private appSelectionService: AppSelectionService,
     public inlineManual: InlineManualService,
     public mixpanel: MixpanelServiceService,
-    private translationService: TranslationService
+    private translationService: TranslationService,
+    private store: Store
   ) {
     // Load translations for this module
     this.translationService.loadModuleTranslations();
@@ -414,37 +421,40 @@ export class AppExperimentsComponent implements OnInit, OnDestroy {
       }
     }, 50);
   }
-  getIndexPipeline() {
-    const header: any = {
-      'x-timezone-offset': '-330',
-    };
-    const quaryparms: any = {
-      searchIndexId: this.serachIndexId,
-      offset: 0,
-      limit: 100,
-    };
-    this.service.invoke('get.indexPipeline', quaryparms, header).subscribe(
-      (res) => {
-        this.indexConfig = res;
-        for (let i = 0; i < this.indexConfig.length; i++) {
-          this.getQueryPipeline(this.indexConfig[i]._id, i);
-        }
-      },
-      (errRes) => {
-        if (
-          errRes &&
-          errRes.error.errors &&
-          errRes.error.errors.length &&
-          errRes.error.errors[0] &&
-          errRes.error.errors[0].msg
-        ) {
-          this.notificationService.notify(errRes.error.errors[0].msg, 'error');
-        } else {
-          this.notificationService.notify('Failed ', 'error');
-        }
-      }
-    );
+
+  handlePipelineError(errRes) {
+    if (
+      errRes &&
+      errRes.error.errors &&
+      errRes.error.errors.length &&
+      errRes.error.errors[0] &&
+      errRes.error.errors[0].msg
+    ) {
+      this.notificationService.notify(errRes.error.errors[0].msg, 'error');
+    } else {
+      this.notificationService.notify('Failed ', 'error');
+    }
+
+    return EMPTY;
   }
+
+  getIndexPipeline() {
+    const indexPipelineSub = this.store
+      .select(selectIndexPipelines)
+      .pipe(
+        tap((indexPipelines) => {
+          this.indexConfig = indexPipelines;
+          for (let i = 0; i < this.indexConfig.length; i++) {
+            this.getQueryPipeline(this.indexConfig[i]._id, i);
+          }
+        }),
+        catchError(this.handlePipelineError)
+      )
+      .subscribe();
+
+    this.sub?.add(indexPipelineSub);
+  }
+
   getQueryPipeline(id, index) {
     const header: any = {
       'x-timezone-offset': '-330',
@@ -1194,6 +1204,8 @@ export class AppExperimentsComponent implements OnInit, OnDestroy {
     this.currentSubsciptionData
       ? this.currentSubsciptionData.unsubscribe()
       : null;
+
+    this.sub?.unsubscribe();
   }
   openUserMetaTagsSlider() {
     this.appSelectionService.topicGuideShow.next(undefined);

@@ -59,3 +59,48 @@ initAppIds() {
   this.sub?.add(idsSub);
 }
 ```
+
+## Get index pipelines (list)
+
+```js
+  handlePipelineError(errRes) {
+    if (
+      errRes &&
+      errRes.error.errors &&
+      errRes.error.errors.length &&
+      errRes.error.errors[0] &&
+      errRes.error.errors[0].msg
+    ) {
+      this.notificationService.notify(
+        errRes.error.errors[0].msg,
+        'error'
+      );
+    } else {
+      this.notificationService.notify('Failed ', 'error');
+    }
+
+    return EMPTY;
+  }
+
+  getIndexPipeline() {
+    const indexPipelineSub = this.store
+      .select(selectIndexPipelines)
+      .pipe(
+        tap((indexPipelines) => {
+          this.indexConfigs = JSON.parse(JSON.stringify(res));
+
+          if (indexPipelines.length > 0) {
+            this.selectedIndexConfig = this.indexConfigs.find(
+              (item) => item.default
+            );
+
+            this.getAllgraphdetails(this.selectedIndexConfig._id);
+          }
+        }),
+        catchError(this.handlePipelineError)
+      )
+      .subscribe();
+
+      this.sub?.add(indexPipelineSub);
+  }
+```

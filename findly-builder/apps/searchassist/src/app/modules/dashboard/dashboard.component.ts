@@ -9,7 +9,14 @@ import {
 import { Router } from '@angular/router';
 
 import { DaterangepickerDirective } from 'ngx-daterangepicker-material';
-import { filter, Subscription, tap, withLatestFrom } from 'rxjs';
+import {
+  catchError,
+  EMPTY,
+  filter,
+  Subscription,
+  tap,
+  withLatestFrom,
+} from 'rxjs';
 import { WorkflowService } from '@kore.apps/services/workflow.service';
 import { ServiceInvokerService } from '@kore.apps/services/service-invoker.service';
 import { AppSelectionService } from '@kore.apps/services/app.selection.service';
@@ -163,56 +170,32 @@ export class DashboardComponent implements OnInit, OnDestroy {
   getIndexPipeline() {
     const indexPipelineSub = this.store
       .select(selectIndexPipelines)
-      .subscribe((indexPipelines) => {
-        this.indexConfigs = indexPipelines;
-      });
+      .pipe(
+        tap((indexPipelines) => {
+          this.indexConfigs = indexPipelines;
+        }),
+        catchError((errRes) => {
+          if (
+            errRes &&
+            errRes.error.errors &&
+            errRes.error.errors.length &&
+            errRes.error.errors[0] &&
+            errRes.error.errors[0].msg
+          ) {
+            this.notificationService.notify(
+              errRes.error.errors[0].msg,
+              'error'
+            );
+          } else {
+            this.notificationService.notify('Failed ', 'error');
+          }
+
+          return EMPTY;
+        })
+      )
+      .subscribe();
 
     this.sub?.add(indexPipelineSub);
-
-    // const header: any = {
-    //   'x-timezone-offset': '-330',
-    // };
-    // const quaryparms: any = {
-    //   searchIndexId: this.searchIndexId,
-    //   offset: 0,
-    //   limit: 100,
-    // };
-    // this.service.invoke('get.indexPipeline', quaryparms, header).subscribe(
-    //   (res) => {
-    //     this.indexConfigs = res;
-    //     this.indexConfigs.forEach((element) => {
-    //       this.indexConfigObj[element._id] = element;
-    //     });
-    //     if (res.length >= 0) {
-    //       for (let i = 0; i < res.length; i++) {
-    //         if (res[i].default === true) {
-    //           this.selectedIndexConfig = res[i]._id;
-    //         }
-    //       }
-    //       this.getAllgraphdetails(this.selectedIndexConfig);
-    //       // for(let i=0;i<res.length;i++){
-    //       //   if(res[i].default=== true){
-    //       //     this.selecteddropname=res[i].name;
-    //       //   }
-    //       // }
-    //     }
-
-    //     //this.getQueryPipeline(res[0]._id);
-    //   },
-    //   (errRes) => {
-    //     if (
-    //       errRes &&
-    //       errRes.error.errors &&
-    //       errRes.error.errors.length &&
-    //       errRes.error.errors[0] &&
-    //       errRes.error.errors[0].msg
-    //     ) {
-    //       this.notificationService.notify(errRes.error.errors[0].msg, 'error');
-    //     } else {
-    //       this.notificationService.notify('Failed ', 'error');
-    //     }
-    //   }
-    // );
   }
 
   /* added on 17/01 */

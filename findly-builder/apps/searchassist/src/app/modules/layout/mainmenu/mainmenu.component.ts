@@ -677,9 +677,6 @@ export class MainMenuComponent implements OnInit, OnDestroy {
       .select(selectIndexPipelines)
       .subscribe((res) => {
         this.indexConfigs = JSON.parse(JSON.stringify(res));
-        // this.indexConfigs.forEach((element) => {
-        //   this.indexConfigObj[element._id] = element;
-        // });
 
         if (res.length > 0) {
           this.selectedIndexConfig = this.indexConfigs.find(

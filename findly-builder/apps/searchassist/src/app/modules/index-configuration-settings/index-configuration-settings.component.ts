@@ -11,10 +11,7 @@ import { ServiceInvokerService } from '@kore.apps/services/service-invoker.servi
 import { NotificationService } from '@kore.apps/services/notification.service';
 import { AppSelectionService } from '@kore.apps/services/app.selection.service';
 import { WorkflowService } from '@kore.apps/services/workflow.service';
-import {
-  selectAppIds,
-  selectIndexPipelines,
-} from '@kore.apps/store/app.selectors';
+import { selectIndexPipelines } from '@kore.apps/store/app.selectors';
 import { Store } from '@ngrx/store';
 import { StoreService } from '@kore.apps/store/store.service';
 import { updateIndexPipeline } from '@kore.apps/store/app.actions';
@@ -319,16 +316,24 @@ export class IndexConfigurationSettingsComponent implements OnInit, OnDestroy {
   clearSearch() {
     this.searchLanguages = '';
   }
-  getIndexPipeline() {
-    const header: any = {
-      'x-timezone-offset': '-330',
-    };
-    const quaryparms: any = {
-      searchIndexId: this.searchIndexId,
-      offset: 0,
-      limit: 100,
-    };
 
+  handlePipelineError(errRes) {
+    if (
+      errRes &&
+      errRes.error.errors &&
+      errRes.error.errors.length &&
+      errRes.error.errors[0] &&
+      errRes.error.errors[0].msg
+    ) {
+      this.notificationService.notify(errRes.error.errors[0].msg, 'error');
+    } else {
+      this.notificationService.notify('Failed ', 'error');
+    }
+
+    return EMPTY;
+  }
+
+  getIndexPipeline() {
     const langSub = this.store
       .select(selectIndexPipelines)
       .pipe(
@@ -340,24 +345,7 @@ export class IndexConfigurationSettingsComponent implements OnInit, OnDestroy {
             }
           });
         }),
-        catchError((errRes: any) => {
-          if (
-            errRes &&
-            errRes.error.errors &&
-            errRes.error.errors.length &&
-            errRes.error.errors[0] &&
-            errRes.error.errors[0].msg
-          ) {
-            this.notificationService.notify(
-              errRes.error.errors[0].msg,
-              'error'
-            );
-          } else {
-            this.notificationService.notify('Failed ', 'error');
-          }
-
-          return EMPTY;
-        })
+        catchError(this.handlePipelineError)
       )
       .subscribe();
 
