@@ -3741,10 +3741,10 @@ app-slider-component {
 }
 
 .pricing-hover-tooltip {
-  background: #f8f9fa;
-  box-shadow: 0px 1px 2px #bdc1c6;
-  border-radius: 4px;
-  padding: 10px;
+  // background: #f8f9fa;
+  // box-shadow: 0px 1px 2px #bdc1c6;
+  // border-radius: 0;
+  // padding: 10px;
   font-family: 'Inter' !important;
   &::before {
     content: '';

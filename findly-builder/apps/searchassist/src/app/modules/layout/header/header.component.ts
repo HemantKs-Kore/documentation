@@ -1750,7 +1750,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   //   this.recentApps = apps.slice(0, 4);
   // }
   //open app
-  openApp(app) {
+  openApp(app, isOnboarding) {
     this.store.dispatch(
       setAppId({ appId: app._id, searchIndexId: app.searchIndexes[0]._id })
     );
@@ -1763,7 +1763,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
     this.router.navigateByUrl('/summary', { skipLocationChange: true });
     this.checkTrainingProgress();
     this.workflowService.selectedIndexPipelineId = '';
-    if (app?.planName === 'Free')
+    if (app?.planName === 'Free' && isOnboarding)
       this.appSelectionService?.openPlanOnboardingModal?.next(null);
   }
   //check training in progress
@@ -1847,7 +1847,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
           description: '',
         };
         this.creatingInProgress = false;
-        this.openApp(res);
+        this.openApp(res, true);
         // this.router.navigate(['/apps'], { skipLocationChange: true });
         // this.analyticsClick('apps', true)
       },

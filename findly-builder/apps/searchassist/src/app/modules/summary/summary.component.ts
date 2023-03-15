@@ -156,7 +156,7 @@ export class SummaryComponent implements OnInit, AfterViewInit, OnDestroy {
     public appSelectionService: AppSelectionService,
     private store: Store,
     private storeService: StoreService
-  ) {}
+  ) { }
 
   async ngOnInit() {
     this.initAppIds();
@@ -385,14 +385,14 @@ export class SummaryComponent implements OnInit, AfterViewInit, OnDestroy {
         this.indices = res.indices[0];
         this.show_indices =
           this.indices.botActions.tasks > 0 ||
-          this.indices?.connectors?.sources > 0 ||
-          this.indices.files > 0 ||
-          this.indices.structuredDataCount > 0 ||
-          this.indices.web.domains > 0 ||
-          this.indices.web.numOfDocs > 0 ||
-          this.indices.faqs.in_review > 0 ||
-          this.indices.faqs.draft > 0 ||
-          this.indices.faqs.approved > 0
+            this.indices?.connectors?.sources > 0 ||
+            this.indices.files > 0 ||
+            this.indices.structuredDataCount > 0 ||
+            this.indices.web.domains > 0 ||
+            this.indices.web.numOfDocs > 0 ||
+            this.indices.faqs.in_review > 0 ||
+            this.indices.faqs.draft > 0 ||
+            this.indices.faqs.approved > 0
             ? true
             : false;
         if (status == undefined) {
@@ -459,18 +459,9 @@ export class SummaryComponent implements OnInit, AfterViewInit, OnDestroy {
   }
   openSource() {
     this.router.navigate(['sources'], { skipLocationChange: true });
-    //this.router.navigateByUrl('sources', { skipLocationChange: true });
-    // this.appSelectionService.routeChanged.next({
-    //   name: 'pathchanged',
-    //   path: '/sources',
-    // });
   }
   redirectToPricing() {
-    // this.router.navigateByUrl('/pricing');
-    this.appSelectionService.routeChanged.next({
-      name: 'pathchanged',
-      path: '/pricing',
-    });
+    this.router.navigateByUrl('/pricing', { skipLocationChange: true });
   }
   openOnBoardingModal() {
     this.onboard.openOnBoardingModal();

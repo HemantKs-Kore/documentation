@@ -187,7 +187,7 @@
                       class="app-name-block"
                       *ngFor="let app of recentApps"
                       (click)="
-                        app.disabled ? null : [myDrop.close(), openApp(app)]
+                        app.disabled ? null : [myDrop.close(), openApp(app,false)]
                       "
                       [ngStyle]="
                         app.disabled && { opacity: '0.4', cursor: 'default' }
