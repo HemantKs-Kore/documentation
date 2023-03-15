@@ -1466,12 +1466,7 @@
                             <div
                               class="col-2"
                               [ngStyle]="{
-                                color:
-                                  ['SUCCESS','PARTIAL_SUCCESS'].includes(job?.status)
-                                    ? 'green'
-                                    : job?.status === 'INPROGRESS'
-                                    ? 'black'
-                                    : 'red'
+                                'color':job?.color
                               }"
                             >
                               {{ job?.status_name | titlecase }}

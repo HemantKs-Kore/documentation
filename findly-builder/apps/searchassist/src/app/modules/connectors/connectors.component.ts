@@ -118,7 +118,7 @@ export class ConnectorsComponent implements OnInit {
   validation = false;
   currentRouteData: any = '';
   contentInputSearch = '';
-  jobStatusList: Array<any> = [{ name: 'Success', status: 'success' }, { name: 'In Progress', status: 'inprogress' }, { name: 'Partial Success', status: 'partial_success' }, { name: 'Queued', status: 'queued' }];
+  jobStatusList: Array<any> = [{ name: 'Success', status: 'success', color: 'green' }, { name: 'In Progress', status: 'inprogress', color: 'black' }, { name: 'Partial Success', status: 'partial_success', color: 'green' }, { name: 'Queued', status: 'queued', color: 'red' }, { name: 'Stopped', status: 'stopped', color: 'red' }];
   addConnectorSteps: any = [
     { name: 'instructions', isCompleted: true, display: 'Introduction' },
     {
@@ -374,14 +374,7 @@ export class ConnectorsComponent implements OnInit {
       this.appSelectionService
         .connectorSyncJobStatus(this.searchIndexId, this.connectorId)
         .then((res: any) => {
-          let Data = [];
-          if (res?.length > 0) {
-            Data = res?.map(item => {
-              const status_name = this.jobStatusList.filter(job => job.status === item?.status?.toLowerCase());
-              return { ...item, status_name: status_name[0].name }
-            })
-          }
-          this.overViewData.jobs = Data;
+          this.overViewData.jobs = this.modifyJobStatusNames(res);
           if (res && res[0]?.status !== 'INPROGRESS') {
             this.isSyncLoading = false;
           } else if (res && res[0]?.status === 'INPROGRESS') {
@@ -793,7 +786,7 @@ export class ConnectorsComponent implements OnInit {
       .subscribe(
         (res) => {
           if (res) {
-            console.log("res", res);
+            this.notificationService.notify('Synchronize Stopped Successfully', 'success');
           }
         },
         (errRes) => {
@@ -809,7 +802,7 @@ export class ConnectorsComponent implements OnInit {
         this.appSelectionService
           .connectorSyncJobStatus(this.searchIndexId, this.connectorId)
           .then((res: any) => {
-            this.overViewData.jobs = res;
+            this.overViewData.jobs = this.modifyJobStatusNames(res);
             if (res && res[0]?.status !== 'INPROGRESS') {
               clearInterval(jobInterval);
               this.isSyncLoading = false;
@@ -821,6 +814,18 @@ export class ConnectorsComponent implements OnInit {
         this.isSyncLoading = false;
       }
     }, 3000);
+  }
+
+  //modify job status names
+  modifyJobStatusNames(res) {
+    let Data = [];
+    if (res?.length > 0) {
+      Data = res?.map(item => {
+        const status_name = this.jobStatusList.filter(job => job.status === item?.status?.toLowerCase());
+        return { ...item, status_name: status_name[0].name, color: status_name[0].color };
+      });
+    }
+    return Data;
   }
 
   openUserMetaTagsSlider() {

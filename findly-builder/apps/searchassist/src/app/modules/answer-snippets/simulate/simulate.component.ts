@@ -1,8 +1,8 @@
-import { Component, ChangeDetectionStrategy, OnInit, Output, Input, EventEmitter, ChangeDetectorRef } from '@angular/core';
+import { Component, ChangeDetectionStrategy, OnInit, Output, Input, EventEmitter, ChangeDetectorRef, ElementRef, ViewChild } from '@angular/core';
 import { LazyLoadService } from '@kore.libs/shared/src';
 import { NotificationService } from '@kore.services/notification.service';
 import { ServiceInvokerService } from '@kore.services/service-invoker.service';
-import { Observable } from 'rxjs';
+import { delay, Observable, of, Subject, switchMap, takeUntil } from 'rxjs';
 import { ConvertMDtoHTML } from '../../../helpers/lib/convertHTML';
 declare const $: any;
 @Component({
@@ -13,19 +13,27 @@ declare const $: any;
 })
 export class SimulateComponent implements OnInit {
   codeMirrorOptions: any = {
-    theme: 'idea',
-    mode: "application/ld+json",
+    theme: 'neo',
+    mode: "javascript",
     lineNumbers: true,
     lineWrapping: true,
     foldGutter: true,
     gutters: ['CodeMirror-linenumbers', 'CodeMirror-foldgutter', 'CodeMirror-lint-markers'],
     autoCloseBrackets: true,
     matchBrackets: true,
-    readOnly: true
+    lint: false,
+    indentUnit: 2
   };
+  simulateApiCalls = new Subject();
   showSummaryView = true;
   summaryViewObj: any = new SummaryViewObjSchema();
   private _array = Array;
+  isReadMore: Boolean = true;
+  isShowReadMore: Boolean = false;
+  simulateService = {
+    debounceSimulate: () => of({}).pipe(delay(400)),
+  };
+  @ViewChild("readMoreText") readMoreText: ElementRef<any>;
   @Input() config: any;
   @Output() closeSlider = new EventEmitter();
   constructor(private service: ServiceInvokerService, private notificationService: NotificationService, public convertMDtoHTML: ConvertMDtoHTML, private cd: ChangeDetectorRef, private lazyLoadService: LazyLoadService) { }
@@ -36,8 +44,11 @@ export class SimulateComponent implements OnInit {
 
   //close slider event
   closeSimulator() {
+    this.simulateApiCalls.next(false);
     this.closeSlider.emit();
     this.showSummaryView = true;
+    this.isShowReadMore = false;
+    this.isReadMore = true;
     this.summaryViewObj = new SummaryViewObjSchema();
   }
 
@@ -55,13 +66,19 @@ export class SimulateComponent implements OnInit {
       queryPipelineId: this.config?.queryPipelineId
     };
     const payload = { "query": this.summaryViewObj.query };
-    this.service.invoke('post.simulateTest', quaryparms, payload).subscribe(
+    this.simulateService.debounceSimulate().pipe(
+      takeUntil(this.simulateApiCalls),
+      switchMap(res => this.getSimulateData(quaryparms, payload))
+    ).subscribe(
       (res) => {
         if (res) {
           this.summaryViewObj.isLoading = false;
           const snippetArray = res?.graph_answer?.payload;
           const Data = [];
           for (const item of snippetArray) {
+            if (item?.center_panel?.data?.length) {
+              item.center_panel.data[0].snippet_title = (item.center_panel.data[0].snippet_title === '**' || item.center_panel.data[0].snippet_title === "*®*") ? '' : item.center_panel.data[0].snippet_title;
+            }
             Data.push({ ...item?.center_panel.data[0], type: item?.center_panel?.type })
           }
           if (Data.length < 2) {
@@ -83,6 +100,9 @@ export class SimulateComponent implements OnInit {
           this.summaryViewObj.data = Data;
           this.summaryViewObj.jsonData = JSON.stringify(res?.graph_answer, null, "\t");
           this.summaryViewObj.isCopyBtnShow = false;
+          setTimeout(() => {
+            this.isShowReadMore = this.readMoreText.nativeElement.scrollHeight > 143 ? true : false;
+          }, 200)
           this.cd.detectChanges();
         }
       },
@@ -91,6 +111,19 @@ export class SimulateComponent implements OnInit {
         this.errorToaster(errRes, 'Simulate API Failed');
       }
     );
+  }
+
+  //get simulate Data using simulate
+  getSimulateData(quaryparms, payload) {
+    return this.service.invoke('post.simulateTest', quaryparms, payload).pipe(
+      takeUntil(this.simulateApiCalls),
+    )
+  }
+
+  //show more or less using isShowReadMore Flag
+  showLessMore() {
+    this.readMoreText.nativeElement.style.webkitLineClamp = this.isReadMore ? 'initial' : '8';
+    this.isReadMore = !this.isReadMore;
   }
 
   //common for toast messages
@@ -137,6 +170,10 @@ export class SimulateComponent implements OnInit {
   //open reference link in seperate tab
   openReferenceLink(link) {
     window.open(link, '_blank');
+  }
+
+  ngOnDestroy() {
+    this.simulateApiCalls.next(false);
   }
 
 }
