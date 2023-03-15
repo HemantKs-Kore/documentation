@@ -17,7 +17,10 @@ import { NotificationService } from '@kore.apps/services/notification.service';
 import { AuthService } from '@kore.apps/services/auth.service';
 import { AppSelectionService } from '@kore.apps/services/app.selection.service';
 import { InlineManualService } from '@kore.apps/services/inline-manual.service';
-import { selectIndexPipelines } from '@kore.apps/store/app.selectors';
+import {
+  selectIndexPipelineId,
+  selectIndexPipelines,
+} from '@kore.apps/store/app.selectors';
 import { Store } from '@ngrx/store';
 import { StoreService } from '@kore.apps/store/store.service';
 // import { IndexPipelineService } from './services/index-pipeline.service';
@@ -159,7 +162,6 @@ export class SummaryComponent implements OnInit, AfterViewInit, OnDestroy {
     this.initAppIds();
     this.currentPlan = {};
     this.loading_skelton = true;
-    this.initialCall();
     await this.appSelectionService.getCurrentUsage();
     this.usageDetails = this.appSelectionService?.currentUsageData;
     this.updateUsageData = this.appSelectionService.updateUsageData.subscribe(
@@ -190,10 +192,15 @@ export class SummaryComponent implements OnInit, AfterViewInit, OnDestroy {
   initAppIds() {
     const indexPipelineSub = this.storeService.ids$
       .pipe(
+        filter((res: any) => !!res.indexPipelineId),
         tap(({ streamId, searchIndexId, indexPipelineId }) => {
           this.streamId = streamId;
           this.searchIndexId = searchIndexId;
           this.indexPipelineId = indexPipelineId;
+
+          this.initialCall();
+          this.getQueries('TotalUsersStats');
+          this.getQueries('TotalSearchesStats');
         })
       )
       .subscribe();
@@ -236,9 +243,7 @@ export class SummaryComponent implements OnInit, AfterViewInit, OnDestroy {
             (item) => item.default
           );
           this.default_Indexpipelineid = selectedIndexConfig._id;
-          this.getQueries('TotalUsersStats');
-          this.getQueries('TotalSearchesStats');
-          this.getAllOverview(status);
+
           this.componentType = 'summary';
         })
       )
@@ -257,6 +262,7 @@ export class SummaryComponent implements OnInit, AfterViewInit, OnDestroy {
     };
     this.current_month = this.listMonths[this.date.getMonth()];
     this.headerService.toggle(toogleObj);
+    this.getAllOverview(status);
     this.getIndexPipeline(status);
   }
   getQueries(type) {
@@ -367,6 +373,9 @@ export class SummaryComponent implements OnInit, AfterViewInit, OnDestroy {
     );
   }
   getAllOverview(status?) {
+    if (!this.searchIndexId) {
+      return;
+    }
     const queryParams = {
       searchIndexId: this.searchIndexId,
     };

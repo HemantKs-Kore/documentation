@@ -5,6 +5,8 @@ import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 import { catchError, EMPTY, map, switchMap, tap, withLatestFrom } from 'rxjs';
 import {
+  resetAppIds,
+  resetIndexPipelineId,
   setAppId,
   setIndexPipelineId,
   setIndexPipelines,
@@ -42,6 +44,18 @@ export class AppEffects {
       })
     );
   });
+
+  resetAppIds$ = createEffect(
+    () => {
+      return this.actions$.pipe(
+        ofType(setAppId),
+        tap(({ appId }) => {
+          this.store.dispatch(resetIndexPipelineId({ appId }));
+        })
+      );
+    },
+    { dispatch: false }
+  );
 
   setQueryPipelineId$ = createEffect((): any => {
     return this.actions$.pipe(

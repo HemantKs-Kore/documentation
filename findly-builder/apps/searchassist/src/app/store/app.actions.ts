@@ -7,6 +7,11 @@ export const resetAppIds = createAction(
   props<{ appId: string }>()
 );
 
+export const resetIndexPipelineId = createAction(
+  AppActionTypes.RESET_INDEX_PIPELINE_ID,
+  props<{ appId: string }>()
+);
+
 export const setAppId = createAction(
   AppActionTypes.SET_APP_ID,
   props<{ appId: string; searchIndexId: string }>()

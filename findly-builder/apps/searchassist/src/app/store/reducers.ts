@@ -8,6 +8,7 @@ import {
   removeIndexPipeline,
   removeQueryPipeline,
   resetAppIds,
+  resetIndexPipelineId,
   setAppId,
   setIndexPipelineId,
   setIndexPipelines,
@@ -49,6 +50,16 @@ export const rootReducer = createReducer(
         searchIndexId: null,
         indexPipelineId: null,
         queryPipelineId: null,
+      };
+    }
+
+    return state;
+  }),
+  on(resetIndexPipelineId, (state, { appId }) => {
+    if (appId === state.appId) {
+      return {
+        ...state,
+        indexPipelineId: null,
       };
     }
 
