@@ -1619,6 +1619,12 @@ export class BotActionsComponent implements OnInit {
       };
       this.service.invoke('put.configLinkbot', queryParams, payload).subscribe(
         (res) => {
+          if(res.hasOwnProperty("validationStatus") && !res['validationStatus']){
+            let errorMsg='Invalid details are entered';
+            if(res['error']) errorMsg = res['error'];
+            this.notificationService.notify(errorMsg, 'error');
+            return;
+          }
           this.allBotArray = [];
           res.configuredBots.forEach((element) => {
             const obj = {
