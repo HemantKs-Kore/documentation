@@ -610,11 +610,13 @@ export class EndPointsService {
       method: 'post',
     };
     this.serviceList['put.indexPipeline'] = {
-      endpoint:
-        this.API_SERVER_URL +
-        '/findly/:searchIndexID/indexPipeline/:indexPipelineId?deleteSnippetExtractionStage=:deleteSnippetExtractionStage',
-      method: 'put',
-    };
+      endpoint: this.API_SERVER_URL + '/findly/:searchIndexID/indexPipeline/:indexPipelineId',
+      method: 'put'
+    }
+    this.serviceList['put.indexPipelineSnippetDelete'] = {
+      endpoint: this.API_SERVER_URL + '/findly/:searchIndexID/indexPipeline/:indexPipelineId?deleteSnippetExtractionStage=:deleteSnippetExtractionStage',
+      method: 'put'
+    }
     this.serviceList['post.reindex'] = {
       endpoint:
         this.API_SERVER_URL +

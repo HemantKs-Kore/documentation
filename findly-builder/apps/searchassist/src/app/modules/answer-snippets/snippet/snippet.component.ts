@@ -20,6 +20,7 @@ export class SnippetComponent implements OnInit, OnDestroy {
   isLoading = false;
   snippetArray: Array<any> = [];
   isWorkbenchSnippetDisabled = false;
+  isWorkbenchDeleted = true;
   configObj: ConfigObj = { searchIndexId: '', indexPipelineId: '', queryPipelineId: '' };
   selectedSnippetObj: any = { type: 'extractive_model' };
   openAIObj = new openAIObj();
@@ -65,8 +66,7 @@ export class SnippetComponent implements OnInit, OnDestroy {
         if (res) {
           this.snippetArray = res?.config;
           this.selectSnippet(this.snippetArray[0].type);
-          const ExtractedData = res?.config?.filter(item => item.type === 'extractive_model');
-          this.isWorkbenchSnippetDisabled = (ExtractedData[0]?.active && !ExtractedData[0]?.workBenchStageFound) ? true : false;
+          this.showHideWarningIcon(res?.config)
           this.cd.detectChanges();
         }
       },
@@ -74,6 +74,16 @@ export class SnippetComponent implements OnInit, OnDestroy {
         this.errorToaster(errRes, 'Get Answer snippet API Failed');
       }
     );
+  }
+
+  //show /hide warning icon for extractive model
+  showHideWarningIcon(data) {
+    const ExtractedData = data?.filter(item => item.type === 'extractive_model');
+    const isWorkBenchStageFound = ExtractedData[0]?.workBenchStageFound;
+    const isWorkBenchStageEnabled = ExtractedData[0]?.workBenchStageEnabled;
+    const stageFound = ((isWorkBenchStageFound && isWorkBenchStageEnabled)) ? false : ((!isWorkBenchStageFound && !isWorkBenchStageEnabled) || (isWorkBenchStageFound && !isWorkBenchStageEnabled)) ? true : false;
+    this.isWorkbenchSnippetDisabled = (ExtractedData[0]?.active) ? stageFound : false;
+    this.isWorkbenchDeleted = ExtractedData[0]?.active && (!ExtractedData[0]?.workBenchStageFound && !ExtractedData[0]?.workBenchStageEnabled) ? true : false;
   }
 
   //get open AI key API method  
@@ -139,6 +149,7 @@ export class SnippetComponent implements OnInit, OnDestroy {
         if (res) {
           const msg = message || 'Updated successfully';
           this.notificationService.notify(msg, 'success');
+          this.showHideWarningIcon(res?.config);
         }
       },
       (errRes) => {

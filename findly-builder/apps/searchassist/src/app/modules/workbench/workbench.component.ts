@@ -429,7 +429,7 @@ export class WorkbenchComponent implements OnInit, OnDestroy, AfterViewInit {
           // this.traitsSuggesitions = allTraitskeys;
         }
       },
-      (err) => {}
+      (err) => { }
     );
   }
   drop(event: CdkDragDrop<string[]>, list) {
@@ -581,7 +581,7 @@ export class WorkbenchComponent implements OnInit, OnDestroy, AfterViewInit {
           this.newMappingObj.field_mapping.defaultValue.target_field &&
           (this.newMappingObj.field_mapping.defaultValue.value ||
             this.newMappingObj.field_mapping.defaultValue.operation ===
-              'remove' ||
+            'remove' ||
             this.newMappingObj.field_mapping.defaultValue.source_field)
         ) {
           this.addFiledmappings(this.newMappingObj.field_mapping.defaultValue);
@@ -1102,6 +1102,7 @@ export class WorkbenchComponent implements OnInit, OnDestroy, AfterViewInit {
   }
   saveConfig(warningmessage?, index?, dialogRef?) {
     let plainScriptTxt: any;
+    let apiURL = '';
     if (
       this.newMappingObj &&
       this.newMappingObj.custom_script &&
@@ -1117,14 +1118,16 @@ export class WorkbenchComponent implements OnInit, OnDestroy, AfterViewInit {
       this.savingConfig = true;
       const quaryparms: any = {
         searchIndexID: this.serachIndexId,
-        indexPipelineId: this.indexPipelineId,
-        deleteSnippetExtractionStage: false,
+        indexPipelineId: this.indexPipelineId
       };
-      if (this.isAnswerSnippetEnabled)
+      if (this.isAnswerSnippetEnabled) {
+        apiURL = 'put.indexPipelineSnippetDelete';
         quaryparms.deleteSnippetExtractionStage = true;
-      // this.tempConfigObj = config.entity_types
+      } else {
+        apiURL = 'put.indexPipeline';
+      }
       this.service
-        .invoke('put.indexPipeline', quaryparms, {
+        .invoke(apiURL, quaryparms, {
           stages: this.preparepayload(),
         })
         .subscribe(
@@ -1438,7 +1441,7 @@ export class WorkbenchComponent implements OnInit, OnDestroy, AfterViewInit {
       );
     } else if (type == 'entitytarget') {
       this.newMappingObj[this.selectedStage.type].defaultValue.target_field !=
-      ''
+        ''
         ? $('#infoWarning4').hide()
         : $('#infoWarning4').show();
       $('#entitytarget').css(
@@ -1533,13 +1536,13 @@ export class WorkbenchComponent implements OnInit, OnDestroy, AfterViewInit {
               }
             } else if (
               this.newMappingObj.field_mapping.defaultValue.target_field ===
-                '' ||
+              '' ||
               this.newMappingObj.field_mapping.defaultValue.value === ''
             ) {
               if (
                 this.newMappingObj.field_mapping.defaultValue.value === '' &&
                 this.newMappingObj.field_mapping.defaultValue.target_field ===
-                  ''
+                ''
               ) {
                 $('#fieldname').css('border-color', '#DD3646');
                 $('#infoWarning').css({
@@ -1591,7 +1594,7 @@ export class WorkbenchComponent implements OnInit, OnDestroy, AfterViewInit {
           }
         } else if (
           this.newMappingObj.field_mapping.defaultValue.operation ===
-            'rename' ||
+          'rename' ||
           this.newMappingObj.field_mapping.defaultValue.operation === 'copy'
         ) {
           for (
@@ -1615,18 +1618,18 @@ export class WorkbenchComponent implements OnInit, OnDestroy, AfterViewInit {
               }
             } else if (
               this.newMappingObj.field_mapping.defaultValue.source_field ===
-                '' ||
+              '' ||
               this.newMappingObj.field_mapping.defaultValue.source_field ===
-                undefined ||
+              undefined ||
               this.newMappingObj.field_mapping.defaultValue.target_field === ''
             ) {
               if (
                 (this.newMappingObj.field_mapping.defaultValue.source_field ===
                   '' ||
                   this.newMappingObj.field_mapping.defaultValue.source_field ===
-                    undefined) &&
+                  undefined) &&
                 this.newMappingObj.field_mapping.defaultValue.target_field ===
-                  ''
+                ''
               ) {
                 $('#rename_sourcefield').css('border-color', '#DD3646');
                 $('#infoWarning2').css({
@@ -1644,9 +1647,9 @@ export class WorkbenchComponent implements OnInit, OnDestroy, AfterViewInit {
                 });
               } else if (
                 this.newMappingObj.field_mapping.defaultValue.source_field ===
-                  '' ||
+                '' ||
                 this.newMappingObj.field_mapping.defaultValue.source_field ===
-                  undefined
+                undefined
               ) {
                 $('#rename_sourcefield').css('border-color', '#DD3646');
                 $('#infoWarning2').css({
@@ -2322,7 +2325,6 @@ export class WorkbenchComponent implements OnInit, OnDestroy, AfterViewInit {
   checkStageActive() {
     if (this.selectedStage?.type === 'snippet_extraction') {
       if (!this.selectedStage?.enable) {
-        this.isAnswerSnippetEnabled = !this.isAnswerSnippetEnabled;
         this.getAnswerSnippets('disable', 0);
       }
     }
@@ -2486,9 +2488,9 @@ export class WorkbenchComponent implements OnInit, OnDestroy, AfterViewInit {
   getFileds(offset?) {
     this.loadingFields = true;
     const quaryparms: any = {
-        searchIndexID: this.serachIndexId,
-        indexPipelineId: this.indexPipelineId,
-      },
+      searchIndexID: this.serachIndexId,
+      indexPipelineId: this.indexPipelineId,
+    },
       payload = {
         sort: {
           fieldName: 1,
@@ -2896,8 +2898,8 @@ export class WorkbenchComponent implements OnInit, OnDestroy, AfterViewInit {
         map.operation === 'rename' || map.operation === 'copy'
           ? !map.target_field || !map.source_field
           : map.operation === 'remove'
-          ? !map.target_field
-          : !map.target_field || !map.value
+            ? !map.target_field
+            : !map.target_field || !map.value
       ) {
         return false;
       }

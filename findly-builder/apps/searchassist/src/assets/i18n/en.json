@@ -3898,5 +3898,7 @@
 
   "answer_snippet_reference":"References:",
   "connectors_sync_stop": "Stop synchronize",
-  "connectors_no_results": "No data found"
+  "connectors_no_results": "No data found",
+  "answer_snippet_model_tooltip_text_delete":"The Snippet Workbench Stage is deleted. For snippet generation, please add the workbench stage"
+
 }

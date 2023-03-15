@@ -101,7 +101,7 @@ export class SimulateComponent implements OnInit {
           this.summaryViewObj.jsonData = JSON.stringify(res?.graph_answer, null, "\t");
           this.summaryViewObj.isCopyBtnShow = false;
           setTimeout(() => {
-            this.isShowReadMore = this.readMoreText.nativeElement.scrollHeight > 143 ? true : false;
+            this.isShowReadMore = this.readMoreText?.nativeElement?.scrollHeight > 143 ? true : false;
           }, 200)
           this.cd.detectChanges();
         }
