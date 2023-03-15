@@ -1837,7 +1837,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
       },
       defaultLanguage: 'en',
     };
-    this.service.invoke('create.app', {}, payload).subscribe(
+
+    this.appsService.add(payload).subscribe(
       (res) => {
         this.notificationService.notify('App created successfully', 'success');
         this.closeCreateApp();
