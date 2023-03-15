@@ -9,7 +9,7 @@ import { fadeInOutAnimation } from '../../helpers/animations/animations';
 import { Router } from '@angular/router';
 import { KRModalComponent } from '../../shared/kr-modal/kr-modal.component';
 import { UseronboardingJourneyComponent } from '../../helpers/components/useronboarding-journey/useronboarding-journey.component';
-import { filter, Subscription, switchMap } from 'rxjs';
+import { catchError, EMPTY, filter, Subscription, switchMap, tap } from 'rxjs';
 import { SideBarService } from '@kore.apps/services/header.service';
 import { WorkflowService } from '@kore.apps/services/workflow.service';
 import { ServiceInvokerService } from '@kore.apps/services/service-invoker.service';
@@ -17,6 +17,12 @@ import { NotificationService } from '@kore.apps/services/notification.service';
 import { AuthService } from '@kore.apps/services/auth.service';
 import { AppSelectionService } from '@kore.apps/services/app.selection.service';
 import { InlineManualService } from '@kore.apps/services/inline-manual.service';
+import {
+  selectIndexPipelineId,
+  selectIndexPipelines,
+} from '@kore.apps/store/app.selectors';
+import { Store } from '@ngrx/store';
+import { StoreService } from '@kore.apps/store/store.service';
 // import { IndexPipelineService } from './services/index-pipeline.service';
 // import { QueryPipelineService } from './services/query-pipeline.service';
 declare const $: any;
@@ -29,7 +35,7 @@ declare const $: any;
 export class SummaryComponent implements OnInit, AfterViewInit, OnDestroy {
   sub: Subscription;
   math = Math;
-  serachIndexId;
+  searchIndexId;
   indices: any = [];
   experiments: any = [];
   default_Indexpipelineid: any;
@@ -135,6 +141,8 @@ export class SummaryComponent implements OnInit, AfterViewInit, OnDestroy {
   currentUsageSubscription: Subscription;
   currentPlanSubscription: Subscription;
   updateUsageData: Subscription;
+  streamId;
+  indexPipelineId;
   @ViewChild('onBoardingModalPop') onBoardingModalPop: KRModalComponent;
   @ViewChild('onboard') onboard: UseronboardingJourneyComponent;
   constructor(
@@ -145,13 +153,15 @@ export class SummaryComponent implements OnInit, AfterViewInit, OnDestroy {
     private authService: AuthService,
     private router: Router,
     public inlineManual: InlineManualService,
-    public appSelectionService: AppSelectionService
+    public appSelectionService: AppSelectionService,
+    private store: Store,
+    private storeService: StoreService
   ) {}
 
   async ngOnInit() {
+    this.initAppIds();
     this.currentPlan = {};
     this.loading_skelton = true;
-    this.initialCall();
     await this.appSelectionService.getCurrentUsage();
     this.usageDetails = this.appSelectionService?.currentUsageData;
     this.updateUsageData = this.appSelectionService.updateUsageData.subscribe(
@@ -178,6 +188,26 @@ export class SummaryComponent implements OnInit, AfterViewInit, OnDestroy {
         this.currentPlan = subscription_data.subscription;
       });
   }
+
+  initAppIds() {
+    const indexPipelineSub = this.storeService.ids$
+      .pipe(
+        filter((res: any) => !!res.indexPipelineId),
+        tap(({ streamId, searchIndexId, indexPipelineId }) => {
+          this.streamId = streamId;
+          this.searchIndexId = searchIndexId;
+          this.indexPipelineId = indexPipelineId;
+
+          this.initialCall();
+          this.getQueries('TotalUsersStats');
+          this.getQueries('TotalSearchesStats');
+        })
+      )
+      .subscribe();
+
+    this.subscription?.add(indexPipelineSub);
+  }
+
   ngAfterViewInit() {
     if (!this.inlineManual?.checkVisibility('APP_WALKTHROUGH')) {
       // this.onboard.openOnBoardingModal(); //commenting this since we have new check list
@@ -189,42 +219,41 @@ export class SummaryComponent implements OnInit, AfterViewInit, OnDestroy {
       }
     }, 1000);
   }
-  getIndexPipeline(status?) {
-    const header: any = {
-      'x-timezone-offset': '-330',
-    };
-    const quaryparms: any = {
-      searchIndexId: this.serachIndexId,
-      offset: 0,
-      limit: 100,
-    };
-    this.service.invoke('get.indexPipeline', quaryparms, header).subscribe(
-      (res) => {
-        res.forEach((element) => {
-          if (element.default == true) {
-            this.default_Indexpipelineid = element._id;
-          }
-        });
-        this.getQueries('TotalUsersStats');
-        this.getQueries('TotalSearchesStats');
-        this.getAllOverview(status);
-        this.componentType = 'summary';
-      },
-      (errRes) => {
-        if (
-          errRes &&
-          errRes.error.errors &&
-          errRes.error.errors.length &&
-          errRes.error.errors[0] &&
-          errRes.error.errors[0].msg
-        ) {
-          this.notificationService.notify(errRes.error.errors[0].msg, 'error');
-        } else {
-          this.notificationService.notify('Failed ', 'error');
-        }
-      }
-    );
+
+  handlePipelineError(errRes) {
+    if (
+      errRes &&
+      errRes.error?.errors &&
+      errRes.error?.errors.length &&
+      errRes.error?.errors[0] &&
+      errRes.error?.errors[0].msg
+    ) {
+      this.notificationService.notify(errRes.error.errors[0].msg, 'error');
+    } else {
+      this.notificationService.notify('Failed ', errRes);
+    }
   }
+
+  getIndexPipeline(status?) {
+    const indexPipelineSub = this.store
+      .select(selectIndexPipelines)
+      .pipe(
+        tap((indexPipelines: any[]) => {
+          const selectedIndexConfig = indexPipelines.find(
+            (item) => item.default
+          );
+          this.default_Indexpipelineid = selectedIndexConfig._id;
+
+          this.componentType = 'summary';
+        })
+      )
+      .subscribe({
+        error: this.handlePipelineError.bind(this),
+      });
+
+    this.sub?.add(indexPipelineSub);
+  }
+
   //initial ngoninit method call
   initialCall(status?) {
     const toogleObj = {
@@ -232,9 +261,8 @@ export class SummaryComponent implements OnInit, AfterViewInit, OnDestroy {
       toShowWidgetNavigation: this.workflowService.showAppCreationHeader(),
     };
     this.current_month = this.listMonths[this.date.getMonth()];
-    this.selectedApp = this.workflowService?.selectedApp();
-    this.serachIndexId = this.selectedApp?.searchIndexes[0]?._id;
     this.headerService.toggle(toogleObj);
+    this.getAllOverview(status);
     this.getIndexPipeline(status);
   }
   getQueries(type) {
@@ -246,8 +274,8 @@ export class SummaryComponent implements OnInit, AfterViewInit, OnDestroy {
       'x-timezone-offset': '-330',
     };
     const quaryparms: any = {
-      searchIndexId: this.serachIndexId,
-      indexPipelineId: this.default_Indexpipelineid,
+      searchIndexId: this.searchIndexId,
+      indexPipelineId: this.indexPipelineId,
       offset: 0,
       limit: 100,
     };
@@ -291,7 +319,7 @@ export class SummaryComponent implements OnInit, AfterViewInit, OnDestroy {
   getChannel() {
     const queryParams = {
       userId: this.authService.getUserId(),
-      streamId: this.selectedApp._id,
+      streamId: this.streamId,
     };
     this.service.invoke('get.credential', queryParams).subscribe(
       (res) => {
@@ -318,7 +346,7 @@ export class SummaryComponent implements OnInit, AfterViewInit, OnDestroy {
   getLinkedBot() {
     const queryParams = {
       userId: this.authService.getUserId(),
-      streamId: this.selectedApp._id,
+      streamId: this.streamId,
     };
 
     this.service.invoke('get.linkedBot', queryParams).subscribe(
@@ -345,8 +373,11 @@ export class SummaryComponent implements OnInit, AfterViewInit, OnDestroy {
     );
   }
   getAllOverview(status?) {
+    if (!this.searchIndexId) {
+      return;
+    }
     const queryParams = {
-      searchIndexId: this.serachIndexId,
+      searchIndexId: this.searchIndexId,
     };
     this.service.invoke('get.overview', queryParams).subscribe(
       (res) => {

@@ -1,19 +1,11 @@
-import {
-  Component,
-  OnInit,
-  Output,
-  Input,
-  EventEmitter,
-  OnDestroy,
-} from '@angular/core';
-import { of, interval, Subject, Subscription } from 'rxjs';
+import { Component, OnInit, Input, OnDestroy } from '@angular/core';
+import { Subscription, tap } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
 import { WorkflowService } from '@kore.apps/services/workflow.service';
 import { AppSelectionService } from '@kore.apps/services/app.selection.service';
 import { NotificationService } from '@kore.apps/services/notification.service';
 import { ServiceInvokerService } from '@kore.apps/services/service-invoker.service';
-import { Store } from '@ngrx/store';
-import { selectAppIds } from '@kore.apps/store/app.selectors';
+import { StoreService } from '@kore.apps/store/store.service';
 @Component({
   selector: 'app-presentable',
   templateUrl: './presentable.component.html',
@@ -50,7 +42,7 @@ export class PresentableComponent implements OnInit, OnDestroy {
     private notificationService: NotificationService,
     private service: ServiceInvokerService,
     private route: ActivatedRoute,
-    private store: Store
+    private storeService: StoreService
   ) {}
 
   ngOnInit(): void {
@@ -59,16 +51,17 @@ export class PresentableComponent implements OnInit, OnDestroy {
   }
 
   initAppIds() {
-    const idsSub = this.store
-      .select(selectAppIds)
-      .subscribe(
-        ({ streamId, searchIndexId, indexPipelineId, queryPipelineId }) => {
+    const idsSub = this.storeService.ids$
+      .pipe(
+        tap(({ streamId, searchIndexId, indexPipelineId, queryPipelineId }) => {
           this.streamId = streamId;
           this.searchIndexId = searchIndexId;
           this.indexPipelineId = indexPipelineId;
           this.queryPipelineId = queryPipelineId;
-        }
-      );
+        })
+      )
+      .subscribe();
+
     this.sub?.add(idsSub);
   }
 

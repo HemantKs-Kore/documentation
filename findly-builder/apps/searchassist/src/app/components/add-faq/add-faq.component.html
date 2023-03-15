@@ -896,7 +896,7 @@
                                                     >{{
                                                       value
                                                         | dateFormatPipe
-                                                          : 'DD MMM YYYY'
+                                                          : 'dd MMM yyyy'
                                                     }}</span
                                                   >
                                                   <button matChipRemove>
@@ -947,7 +947,7 @@
                                                       {{
                                                         date
                                                           | dateFormatPipe
-                                                            : 'DD MMM YYYY'
+                                                            : 'dd MMM yyyy'
                                                       }}
                                                       <span *ngIf="!dateIndex">
                                                         -
@@ -1022,7 +1022,7 @@
                                                   showCancel="true"
                                                   [locale]="{
                                                     format: 'DD/MM/YYYY hh:mm',
-                                                    displayFormat: 'DD MMM YYYY'
+                                                    displayFormat: 'dd MMM yyyy'
                                                   }"
                                                   (datesUpdated)="
                                                     onDatesUpdated(
@@ -1069,7 +1069,7 @@
                                                   showCancel="false"
                                                   [locale]="{
                                                     format: 'DD/MM/YYYY hh:mm',
-                                                    displayFormat: 'DD MMM YYYY'
+                                                    displayFormat: 'dd MMM yyyy'
                                                   }"
                                                   (datesUpdated)="
                                                     onDatesUpdated(

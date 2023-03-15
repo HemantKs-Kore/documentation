@@ -8,19 +8,25 @@ import {
 } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import * as _ from 'underscore';
-import { Subscription } from 'rxjs';
+import { combineLatest, Subscription } from 'rxjs';
 import { PerfectScrollbarComponent } from 'ngx-perfect-scrollbar';
 import { nanoid } from 'nanoid';
 import { Router, ActivatedRoute } from '@angular/router';
 import { KRModalComponent } from '../../shared/kr-modal/kr-modal.component';
 import { NotificationService } from '@kore.apps/services/notification.service';
 import { ServiceInvokerService } from '@kore.apps/services/service-invoker.service';
-import { WorkflowService } from '@kore.apps/services/workflow.service';
+// import { WorkflowService } from '@kore.apps/services/workflow.service';
 import { AuthService } from '@kore.apps/services/auth.service';
 import { AppSelectionService } from '@kore.apps/services/app.selection.service';
 import { MixpanelServiceService } from '@kore.apps/services/mixpanel-service.service';
 import { ConfirmationDialogComponent } from '@kore.apps/helpers/components/confirmation-dialog/confirmation-dialog.component';
 import { TranslationService } from '@kore.libs/shared/src';
+import { Store } from '@ngrx/store';
+import {
+  selectIndexPipelineId,
+  selectQueryPipelineId,
+  selectSearchIndexId,
+} from '@kore.apps/store/app.selectors';
 
 declare const $: any;
 @Component({
@@ -107,31 +113,36 @@ export class TraitsComponent implements OnInit, OnDestroy {
   componentType = 'indexing';
   utteranceModel;
   constructor(
-    public workflowService: WorkflowService,
+    // public workflowService: WorkflowService,
     private service: ServiceInvokerService,
     private notificationService: NotificationService,
     public dialog: MatDialog,
     public authService: AuthService,
     private appSelectionService: AppSelectionService,
     public mixpanel: MixpanelServiceService,
-    private translationService: TranslationService
+    private translationService: TranslationService,
+    private store: Store
   ) {
     // Load translations for this module
     this.translationService.loadModuleTranslations();
   }
 
   ngOnInit(): void {
-    this.selectedApp = this.workflowService.selectedApp();
-    this.serachIndexId = this.selectedApp.searchIndexes[0]._id;
-    this.queryPipelineId = this.selectedApp.searchIndexes[0].queryPipelineId;
+    this.initAppIds();
     this.groupConfigs = JSON.parse(JSON.stringify(this.defaultGroupConfigs));
-    this.indexPipelineId = this.workflowService.selectedIndexPipeline();
-    this.loadFileds();
-    this.subscription = this.appSelectionService.appSelectedConfigs.subscribe(
-      (res) => {
-        this.loadFileds();
-      }
-    );
+  }
+
+  initAppIds() {
+    this.subscription = combineLatest([
+      this.store.select(selectIndexPipelineId),
+      this.store.select(selectSearchIndexId),
+      this.store.select(selectQueryPipelineId),
+    ]).subscribe(([indexPipelineId, searchIndexId, queryPipelineId]) => {
+      this.queryPipelineId = queryPipelineId;
+      this.serachIndexId = searchIndexId;
+      this.indexPipelineId = indexPipelineId;
+      this.loadFileds();
+    });
   }
 
   isEmptyScreenLoading() {
@@ -140,7 +151,6 @@ export class TraitsComponent implements OnInit, OnDestroy {
     this.loadImageText = true;
   }
   loadFileds() {
-    this.indexPipelineId = this.workflowService.selectedIndexPipeline();
     if (this.indexPipelineId) {
       this.getTraitsGroupsApi(true);
     }
@@ -512,7 +522,7 @@ export class TraitsComponent implements OnInit, OnDestroy {
   deleteBulkTrait(dialogRef) {
     const quaryparms: any = {
       searchIndexID: this.serachIndexId,
-      indexPipelineId: this.workflowService.selectedIndexPipeline() || '',
+      indexPipelineId: this.indexPipelineId,
       queryPipelineId: this.queryPipelineId,
     };
     const triats = Object.keys(this.selcectionObj.selectedItems);

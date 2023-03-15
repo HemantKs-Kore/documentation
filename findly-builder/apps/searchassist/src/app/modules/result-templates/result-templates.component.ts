@@ -19,6 +19,7 @@ import {
   selectSearchExperiance,
   selectSearchIndexId,
 } from '@kore.apps/store/app.selectors';
+import { StoreService } from '@kore.apps/store/store.service';
 declare const $: any;
 @Component({
   selector: 'app-result-templates',
@@ -164,6 +165,7 @@ export class ResultTemplatesComponent implements OnInit, OnDestroy {
     public headerService: SideBarService,
     public inlineManual: InlineManualService,
     public localstore: LocalStoreService,
+    private storeService: StoreService,
     private store: Store
   ) {}
 
@@ -175,31 +177,19 @@ export class ResultTemplatesComponent implements OnInit, OnDestroy {
   }
 
   initAppIds() {
-    const idsSub = this.store
-      .select(selectAppIds)
-      .subscribe(
-        ({ streamId, searchIndexId, indexPipelineId, queryPipelineId }) => {
+    const idsSub = this.storeService.ids$
+      .pipe(
+        tap(({ streamId, searchIndexId, indexPipelineId, queryPipelineId }) => {
           this.streamId = streamId;
           this.searchIndexId = searchIndexId;
           this.indexPipelineId = indexPipelineId;
           this.queryPipelineId = queryPipelineId;
-        }
-      );
-
-    const indexPipelineSub = this.store
-      .select(selectIndexPipelineId)
-      .pipe(
-        withLatestFrom(this.store.select(selectSearchIndexId)),
-        tap(([indexPipelineId, searchIndexId]) => {
-          this.searchIndexId = searchIndexId;
-          this.indexPipelineId = indexPipelineId;
           this.loadFiledsData();
         })
       )
       .subscribe();
 
     this.subscription?.add(idsSub);
-    this.subscription?.add(indexPipelineSub);
   }
 
   //get default data

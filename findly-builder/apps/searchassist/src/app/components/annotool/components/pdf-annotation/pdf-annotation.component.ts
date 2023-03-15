@@ -38,13 +38,19 @@ import {
   PerfectScrollbarModule,
 } from 'ngx-perfect-scrollbar';
 import { NotificationService } from '../../../../services/notification.service';
-import { WorkflowService } from '../../../../services/workflow.service';
 import { SummaryModalComponent } from '../summary-modal/summary-modal.component';
 import { ConfirmationComponent } from '../confirmation/confirmation.component';
 import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 // import { SimplebarAngularModule } from 'simplebar-angular';
 import { TranslateModule } from '@ngx-translate/core';
+import { Store } from '@ngrx/store';
+import {
+  selectAppId,
+  selectSearchIndexId,
+} from '@kore.apps/store/app.selectors';
+import { combineLatest, Subscription, tap, withLatestFrom } from 'rxjs';
+import { StoreService } from '@kore.apps/store/store.service';
 
 @Component({
   selector: 'app-pdf-annotation',
@@ -136,17 +142,19 @@ export class PdfAnnotationComponent implements OnInit, OnDestroy {
   removeProgressBar = false;
   selectedApp: any = {};
   searchIndexId = '';
+  sub: Subscription;
+  appId;
 
   constructor(
     private _formBuilder: FormBuilder,
-    public workflowService: WorkflowService,
     private service: ServiceInvokerService,
     private notificationService: NotificationService,
     private rangeService: RangySelectionService,
     public dialog: MatDialog,
     public dialogRef: MatDialogRef<PdfAnnotationComponent>,
     @Inject(MAT_DIALOG_DATA) public dialogData: any,
-    public platform: Platform
+    public platform: Platform,
+    private storeService: StoreService
   ) {
     this.createForm();
     this.initPdfViewer();
@@ -154,12 +162,26 @@ export class PdfAnnotationComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     // this.userGuide();
-    this.getSavedAnnotatedDataForStream();
+    this.initAppIds();
     this.formUpdatation();
     this.createThemeForm();
     this.applyTheme(this.form.value); // Make sure apply default colors
     // const simpleBar = new SimpleBar(document.getElementById('simpleBar'));
     // simpleBar.getScrollElement().addEventListener('scroll', this.onScrollEvent);
+  }
+
+  initAppIds() {
+    const pipelineSub = this.storeService.ids$
+      .pipe(
+        tap(({ streamId, searchIndexId }) => {
+          this.appId = streamId;
+          this.searchIndexId = searchIndexId;
+          this.getSavedAnnotatedDataForStream();
+        })
+      )
+      .subscribe();
+
+    this.sub?.add(pipelineSub);
   }
 
   ngOnDestroy() {
@@ -173,10 +195,8 @@ export class PdfAnnotationComponent implements OnInit, OnDestroy {
   }
   // Init data for pdf-viwer
   initPdfViewer() {
-    this.selectedApp = this.workflowService.selectedApp();
-    this.searchIndexId = this.selectedApp.searchIndexes[0]._id;
-    this.pdfPayload.streamId = this.selectedApp._id;
-    this.streamId = this.selectedApp._id;
+    this.pdfPayload.streamId = this.appId;
+    this.streamId = this.appId;
     if (
       this.dialogData &&
       this.dialogData.type &&
@@ -703,7 +723,7 @@ export class PdfAnnotationComponent implements OnInit, OnDestroy {
   // Check user guide info from api
   getSavedAnnotatedDataForStream() {
     this.service
-      .invoke('PdfAnno.get.userguide', { streamId: this.pdfPayload.streamId })
+      .invoke('PdfAnno.get.userguide', { streamId: this.appId })
       .subscribe(
         (res: any) => {
           if (

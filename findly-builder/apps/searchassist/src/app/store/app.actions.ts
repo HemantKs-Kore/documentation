@@ -2,9 +2,39 @@ import { SearchExperienceConfigInterface } from '@kore.apps/shared/types/search-
 import { createAction, props } from '@ngrx/store';
 import { AppActionTypes } from './app.action-types';
 
+export const resetAppIds = createAction(
+  AppActionTypes.RESET_APP_IDS,
+  props<{ appId: string }>()
+);
+
+export const resetIndexPipelineId = createAction(
+  AppActionTypes.RESET_INDEX_PIPELINE_ID,
+  props<{ appId: string }>()
+);
+
 export const setAppId = createAction(
   AppActionTypes.SET_APP_ID,
   props<{ appId: string; searchIndexId: string }>()
+);
+
+export const setIndexPipelines = createAction(
+  AppActionTypes.SET_INDEX_PIPELINES,
+  props<{ indexPipelines: any[] }>()
+);
+
+export const addIndexPipeline = createAction(
+  AppActionTypes.ADD_INDEX_PIPELINE,
+  props<{ indexPipeline: any }>()
+);
+
+export const updateIndexPipeline = createAction(
+  AppActionTypes.UPDATE_INDEX_PIPELINE,
+  props<{ indexPipeline: any; isDefault: boolean }>()
+);
+
+export const removeIndexPipeline = createAction(
+  AppActionTypes.REMOVE_INDEX_PIPELINE,
+  props<{ indexPipelineId: string }>()
 );
 
 export const setIndexPipelineId = createAction(
@@ -30,4 +60,24 @@ export const setSearchExperienceConfigSuccess = createAction(
   props<{
     searchExperienceConfig: SearchExperienceConfigInterface;
   }>()
+);
+
+export const setQueryPipelines = createAction(
+  AppActionTypes.SET_QUERY_PIPELINES,
+  props<{ queryPipelines: any[] }>()
+);
+
+export const addQueryPipeline = createAction(
+  AppActionTypes.ADD_QUERY_PIPELINE,
+  props<{ queryPipeline: any }>()
+);
+
+export const updateQueryPipeline = createAction(
+  AppActionTypes.UPDATE_QUERY_PIPELINE,
+  props<{ queryPipeline: any; isDefault: boolean }>()
+);
+
+export const removeQueryPipeline = createAction(
+  AppActionTypes.REMOVE_QUERY_PIPELINE,
+  props<{ queryPipelineId: string }>()
 );

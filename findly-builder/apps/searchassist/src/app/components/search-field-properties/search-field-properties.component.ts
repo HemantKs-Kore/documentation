@@ -14,8 +14,8 @@ import { ConfirmationDialogComponent } from '../../helpers/components/confirmati
 import { KRModalComponent } from '../../shared/kr-modal/kr-modal.component';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import * as _ from 'underscore';
-import { of, interval, Subject, Subscription } from 'rxjs';
-import { startWith } from 'rxjs/operators';
+import { of, interval, Subject, Subscription, combineLatest } from 'rxjs';
+import { startWith, tap } from 'rxjs/operators';
 import { AuthService } from '@kore.services/auth.service';
 import { AppSelectionService } from '@kore.services/app.selection.service';
 import { InlineManualService } from '@kore.services/inline-manual.service';
@@ -23,6 +23,13 @@ import { PerfectScrollbarComponent } from 'ngx-perfect-scrollbar';
 import { Router, ActivatedRoute } from '@angular/router';
 import { MixpanelServiceService } from '@kore.services/mixpanel-service.service';
 import { RangeSlider } from '../../helpers/models/range-slider.model';
+import { Store } from '@ngrx/store';
+import {
+  selectAppIds,
+  selectIndexPipelineId,
+  selectQueryPipelineId,
+} from '@kore.apps/store/app.selectors';
+import { StoreService } from '@kore.apps/store/store.service';
 
 declare const $: any;
 
@@ -32,8 +39,8 @@ declare const $: any;
   styleUrls: ['./search-field-properties.component.scss'],
 })
 export class SearchFieldPropertiesComponent implements OnInit, OnDestroy {
+  sub: Subscription;
   selectedApp;
-  serachIndexId;
   indexPipelineId;
   streamId: any;
   querySubscription: Subscription;
@@ -68,37 +75,28 @@ export class SearchFieldPropertiesComponent implements OnInit, OnDestroy {
     public authService: AuthService,
     private appSelectionService: AppSelectionService,
     public inlineManual: InlineManualService,
-    private router: Router,
-    public mixpanel: MixpanelServiceService
+    public mixpanel: MixpanelServiceService,
+    private storeService: StoreService
   ) {}
 
   ngOnInit(): void {
-    this.selectedApp = this.workflowService.selectedApp();
-    this.serachIndexId = this.selectedApp.searchIndexes[0]._id;
-    this.indexPipelineId = this.workflowService.selectedIndexPipeline();
-    // if (this.workflowService.selectedApp()?.configuredBots[0]) {
-    //   this.streamId = this.workflowService.selectedApp()?.configuredBots[0]?._id ?? null;
-    // }
-    // else if (this.workflowService.selectedApp()?.publishedBots && this.workflowService.selectedApp()?.publishedBots[0]) {
-    //   this.streamId = this.workflowService.selectedApp()?.publishedBots[0]?._id ?? null
-    // }
-    // else {
-    //   this.streamId = null;
-    // }
-    this.queryPipelineId = this.workflowService.selectedQueryPipeline()
-      ? this.workflowService.selectedQueryPipeline()._id
-      : '';
-    this.fetchPropeties();
-    this.querySubscription =
-      this.appSelectionService.queryConfigSelected.subscribe((res) => {
-        this.indexPipelineId = this.workflowService.selectedIndexPipeline();
-        this.queryPipelineId = this.workflowService.selectedQueryPipeline()
-          ? this.workflowService.selectedQueryPipeline()._id
-          : '';
-        this.fetchPropeties();
-      });
+    this.initAppIds();
   }
-  /**   */
+
+  initAppIds() {
+    const idsSub = this.storeService.ids$
+      .pipe(
+        tap(({ indexPipelineId, queryPipelineId }) => {
+          this.indexPipelineId = indexPipelineId;
+          this.queryPipelineId = queryPipelineId;
+          this.fetchPropeties();
+        })
+      )
+      .subscribe();
+
+    this.sub?.add(idsSub);
+  }
+
   fetchPropeties(search?, type?, skip?) {
     if (this.searchFields || this.searchFields.length > 0) {
       this.skip = 0;
@@ -139,6 +137,7 @@ export class SearchFieldPropertiesComponent implements OnInit, OnDestroy {
       }
     );
   }
+
   /** Record Pagination's ( Child ) event captured here in SearchFiled ( Parent ) */
   paginate(event) {
     this.skip = event.skip;

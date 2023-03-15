@@ -7,6 +7,7 @@ import {
   Input,
   Output,
   EventEmitter,
+  OnDestroy,
 } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import {
@@ -14,18 +15,21 @@ import {
   MatAutocomplete,
 } from '@angular/material/autocomplete';
 import { MatChipInputEvent } from '@angular/material/chips';
-import { Observable } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { FaqsService } from '../../../services/faqsService/faqs.service';
 import * as _ from 'underscore';
 import { WorkflowService } from '@kore.apps/services/workflow.service';
 import { ServiceInvokerService } from '@kore.apps/services/service-invoker.service';
+import { Store } from '@ngrx/store';
+import { selectSearchIndexId } from '@kore.apps/store/app.selectors';
 
 @Component({
   selector: 'app-group-input',
   templateUrl: './group-input.component.html',
   styleUrls: ['./group-input.component.scss'],
 })
-export class GroupInputComponent implements OnInit {
+export class GroupInputComponent implements OnInit, OnDestroy {
+  sub: Subscription;
   visible = true;
   selectable = true;
   removable = true;
@@ -48,13 +52,18 @@ export class GroupInputComponent implements OnInit {
   constructor(
     private faqService: FaqsService,
     private service: ServiceInvokerService,
-    public workflowService: WorkflowService
+    public workflowService: WorkflowService,
+    private store: Store
   ) {}
 
   ngOnInit(): void {
-    this.selectedApp = this.workflowService.selectedApp();
-    this.searchIndexId = this.selectedApp.searchIndexes[0]._id;
-    this.getAllGroups();
+    this.sub = this.store
+      .select(selectSearchIndexId)
+      .subscribe((searchIndexId) => {
+        this.searchIndexId = searchIndexId;
+        this.getAllGroups();
+      });
+
     if (this.valuesAdded) {
       this.groups = _.pluck(
         _.filter(
@@ -192,5 +201,9 @@ export class GroupInputComponent implements OnInit {
     return this.currentSugg.filter(
       (group) => group.toLowerCase().indexOf(filterValue) === 0
     );
+  }
+
+  ngOnDestroy(): void {
+    this.sub?.unsubscribe();
   }
 }

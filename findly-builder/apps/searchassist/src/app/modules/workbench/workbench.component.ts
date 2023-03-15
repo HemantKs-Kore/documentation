@@ -13,14 +13,13 @@ import { ConfirmationDialogComponent } from '../../helpers/components/confirmati
 import { KRModalComponent } from '../../shared/kr-modal/kr-modal.component';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import * as _ from 'underscore';
-import { interval, Subscription, Observable } from 'rxjs';
-import { startWith } from 'rxjs/operators';
+import { interval, Subscription } from 'rxjs';
+import { startWith, tap } from 'rxjs/operators';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
 import { FormControl } from '@angular/forms';
 import { NotificationService } from '@kore.apps/services/notification.service';
 import { ServiceInvokerService } from '@kore.apps/services/service-invoker.service';
-import { WorkflowService } from '@kore.apps/services/workflow.service';
 import { AuthService } from '@kore.apps/services/auth.service';
 import { AppSelectionService } from '@kore.apps/services/app.selection.service';
 import { InlineManualService } from '@kore.apps/services/inline-manual.service';
@@ -28,6 +27,7 @@ import { MixpanelServiceService } from '@kore.apps/services/mixpanel-service.ser
 import { PlanUpgradeComponent } from '../pricing/shared/plan-upgrade/plan-upgrade.component';
 import { LazyLoadService, TranslationService } from '@kore.libs/shared/src';
 import '../../../assets/js/codemirror.js';
+import { StoreService } from '@kore.apps/store/store.service';
 declare const $: any;
 @Component({
   selector: 'app-workbench',
@@ -78,6 +78,8 @@ export class WorkbenchComponent implements OnInit, OnDestroy, AfterViewInit {
   showNewStageType = false;
   loadingSimulate = true;
   subscription: Subscription;
+  sub: Subscription;
+  queryPipelineId;
   fieldOffset = 50;
   @ViewChild('tleft') public tooltip: NgbTooltip;
   @ViewChild('addFieldModalPop') addFieldModalPop: KRModalComponent;
@@ -287,7 +289,6 @@ export class WorkbenchComponent implements OnInit, OnDestroy, AfterViewInit {
   readonly separatorKeysCodes: number[] = [ENTER, COMMA];
   entityName: string;
   constructor(
-    public workflowService: WorkflowService,
     private service: ServiceInvokerService,
     private notificationService: NotificationService,
     public dialog: MatDialog,
@@ -296,37 +297,32 @@ export class WorkbenchComponent implements OnInit, OnDestroy, AfterViewInit {
     public inlineManual: InlineManualService,
     public mixpanel: MixpanelServiceService,
     private lazyLoadService: LazyLoadService,
-    private translationService: TranslationService
+    private translationService: TranslationService,
+    private storeService: StoreService
   ) {
     this.translationService.loadModuleTranslations('workbench');
   }
   @ViewChild('plans') plans: PlanUpgradeComponent;
 
   ngOnInit(): void {
-    this.selectedApp = this.workflowService.selectedApp();
-    // console.log("this.selectedApp", this.selectedApp)
-    if (
-      (this.selectedApp || {}).searchIndexes &&
-      (this.selectedApp || {}).searchIndexes.length
-    ) {
-      this.serachIndexId = this.selectedApp.searchIndexes[0]._id;
-      //this.indexPipelineId = this.selectedApp.searchIndexes[0].pipelineId;
-      this.indexPipelineId = this.workflowService.selectedIndexPipeline();
-    }
-    this.loadIndexAll();
-    // this.getSystemStages();
-    // this.getIndexPipline();
-    // this.getFileds();
-    // this.setResetNewMappingsObj();
-    // this.addcode({});
-    // this.getTraitGroups()
-    this.subscription = this.appSelectionService.appSelectedConfigs.subscribe(
-      (res) => {
-        this.loadIndexAll();
-      }
-    );
+    this.initAppIds();
 
     this.lazyLoadCodeMirror();
+  }
+
+  initAppIds() {
+    const idsSub = this.storeService.ids$
+      .pipe(
+        tap(({ searchIndexId, indexPipelineId, queryPipelineId }) => {
+          this.serachIndexId = searchIndexId;
+          this.indexPipelineId = indexPipelineId;
+          this.queryPipelineId = queryPipelineId;
+          this.loadIndexAll();
+        })
+      )
+      .subscribe();
+
+    this.sub?.add(idsSub);
   }
 
   lazyLoadCodeMirror() {
@@ -334,7 +330,6 @@ export class WorkbenchComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   loadIndexAll() {
-    this.indexPipelineId = this.workflowService.selectedIndexPipeline();
     if (this.indexPipelineId) {
       this.getSystemStages();
       //this.getIndexPipline();
@@ -434,7 +429,7 @@ export class WorkbenchComponent implements OnInit, OnDestroy, AfterViewInit {
           // this.traitsSuggesitions = allTraitskeys;
         }
       },
-      (err) => { }
+      (err) => {}
     );
   }
   drop(event: CdkDragDrop<string[]>, list) {
@@ -586,7 +581,7 @@ export class WorkbenchComponent implements OnInit, OnDestroy, AfterViewInit {
           this.newMappingObj.field_mapping.defaultValue.target_field &&
           (this.newMappingObj.field_mapping.defaultValue.value ||
             this.newMappingObj.field_mapping.defaultValue.operation ===
-            'remove' ||
+              'remove' ||
             this.newMappingObj.field_mapping.defaultValue.source_field)
         ) {
           this.addFiledmappings(this.newMappingObj.field_mapping.defaultValue);
@@ -1443,7 +1438,7 @@ export class WorkbenchComponent implements OnInit, OnDestroy, AfterViewInit {
       );
     } else if (type == 'entitytarget') {
       this.newMappingObj[this.selectedStage.type].defaultValue.target_field !=
-        ''
+      ''
         ? $('#infoWarning4').hide()
         : $('#infoWarning4').show();
       $('#entitytarget').css(
@@ -1538,13 +1533,13 @@ export class WorkbenchComponent implements OnInit, OnDestroy, AfterViewInit {
               }
             } else if (
               this.newMappingObj.field_mapping.defaultValue.target_field ===
-              '' ||
+                '' ||
               this.newMappingObj.field_mapping.defaultValue.value === ''
             ) {
               if (
                 this.newMappingObj.field_mapping.defaultValue.value === '' &&
                 this.newMappingObj.field_mapping.defaultValue.target_field ===
-                ''
+                  ''
               ) {
                 $('#fieldname').css('border-color', '#DD3646');
                 $('#infoWarning').css({
@@ -1596,7 +1591,7 @@ export class WorkbenchComponent implements OnInit, OnDestroy, AfterViewInit {
           }
         } else if (
           this.newMappingObj.field_mapping.defaultValue.operation ===
-          'rename' ||
+            'rename' ||
           this.newMappingObj.field_mapping.defaultValue.operation === 'copy'
         ) {
           for (
@@ -1620,18 +1615,18 @@ export class WorkbenchComponent implements OnInit, OnDestroy, AfterViewInit {
               }
             } else if (
               this.newMappingObj.field_mapping.defaultValue.source_field ===
-              '' ||
+                '' ||
               this.newMappingObj.field_mapping.defaultValue.source_field ===
-              undefined ||
+                undefined ||
               this.newMappingObj.field_mapping.defaultValue.target_field === ''
             ) {
               if (
                 (this.newMappingObj.field_mapping.defaultValue.source_field ===
                   '' ||
                   this.newMappingObj.field_mapping.defaultValue.source_field ===
-                  undefined) &&
+                    undefined) &&
                 this.newMappingObj.field_mapping.defaultValue.target_field ===
-                ''
+                  ''
               ) {
                 $('#rename_sourcefield').css('border-color', '#DD3646');
                 $('#infoWarning2').css({
@@ -1649,9 +1644,9 @@ export class WorkbenchComponent implements OnInit, OnDestroy, AfterViewInit {
                 });
               } else if (
                 this.newMappingObj.field_mapping.defaultValue.source_field ===
-                '' ||
+                  '' ||
                 this.newMappingObj.field_mapping.defaultValue.source_field ===
-                undefined
+                  undefined
               ) {
                 $('#rename_sourcefield').css('border-color', '#DD3646');
                 $('#infoWarning2').css({
@@ -2386,9 +2381,7 @@ export class WorkbenchComponent implements OnInit, OnDestroy, AfterViewInit {
 
   //get Answer snippet Data API method
   getAnswerSnippets(type, index) {
-    const querypipeLineId = this.workflowService?.selectedQueryPipeline()
-      ? this.workflowService?.selectedQueryPipeline()?._id
-      : '';
+    const querypipeLineId = this.queryPipelineId;
     const quaryparms: any = {
       sidx: this.serachIndexId,
       indexPipelineId: this.indexPipelineId,
@@ -2493,9 +2486,9 @@ export class WorkbenchComponent implements OnInit, OnDestroy, AfterViewInit {
   getFileds(offset?) {
     this.loadingFields = true;
     const quaryparms: any = {
-      searchIndexID: this.serachIndexId,
-      indexPipelineId: this.indexPipelineId,
-    },
+        searchIndexID: this.serachIndexId,
+        indexPipelineId: this.indexPipelineId,
+      },
       payload = {
         sort: {
           fieldName: 1,
@@ -2903,8 +2896,8 @@ export class WorkbenchComponent implements OnInit, OnDestroy, AfterViewInit {
         map.operation === 'rename' || map.operation === 'copy'
           ? !map.target_field || !map.source_field
           : map.operation === 'remove'
-            ? !map.target_field
-            : !map.target_field || !map.value
+          ? !map.target_field
+          : !map.target_field || !map.value
       ) {
         return false;
       }

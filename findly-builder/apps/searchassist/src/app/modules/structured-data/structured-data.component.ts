@@ -4,7 +4,7 @@ import { NotificationService } from '../../services/notification.service';
 import { KRModalComponent } from '../../shared/kr-modal/kr-modal.component';
 import { MatDialog } from '@angular/material/dialog';
 import { ConfirmationDialogComponent } from '../../helpers/components/confirmation-dialog/confirmation-dialog.component';
-import { debounceTime, map } from 'rxjs/operators';
+import { debounceTime, map, tap } from 'rxjs/operators';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Observable, Subscription } from 'rxjs';
 import { SideBarService } from './../../services/header.service';
@@ -12,12 +12,14 @@ import { InlineManualService } from '../../services/inline-manual.service';
 import { AppSelectionService } from './../../services/app.selection.service';
 import { PerfectScrollbarComponent } from 'ngx-perfect-scrollbar';
 import { SliderComponentComponent } from '../../shared/slider-component/slider-component.component';
-import { format } from 'date-fns';
+import { format, parseISO } from 'date-fns';
 import { ServiceInvokerService } from '@kore.apps/services/service-invoker.service';
 import { WorkflowService } from '@kore.apps/services/workflow.service';
 import { OnboardingComponent } from '../onboarding/onboarding.component';
 import { LazyLoadService, TranslationService } from '@kore.libs/shared/src';
 import '../../../assets/js/codemirror.js';
+
+import { StoreService } from '@kore.apps/store/store.service';
 
 @Component({
   selector: 'app-structured-data',
@@ -25,6 +27,7 @@ import '../../../assets/js/codemirror.js';
   styleUrls: ['./structured-data.component.scss'],
 })
 export class StructuredDataComponent implements OnInit, OnDestroy {
+  sub: Subscription;
   addStructuredDataModalPopRef: any;
   selectedSourceType: any;
   isLoading1: boolean;
@@ -113,7 +116,7 @@ export class StructuredDataComponent implements OnInit, OnDestroy {
   disableContainer: any = false;
   isResultTemplate = false;
   isResultTemplateLoading = false;
-  serachIndexId: any;
+  searchIndexId: any;
   searchFocusIn = false;
   search: any;
   formatter: any;
@@ -151,51 +154,49 @@ export class StructuredDataComponent implements OnInit, OnDestroy {
     public inlineManual: InlineManualService,
     private appSelectionService: AppSelectionService,
     private lazyLoadService: LazyLoadService,
-    private translationService: TranslationService
+    private translationService: TranslationService,
+    private storeService: StoreService
   ) {
     this.translationService.loadModuleTranslations();
   }
 
   ngOnInit(): void {
+    this.initAppIds();
     this.selectedApp = this.workflowService.selectedApp();
-    this.serachIndexId = this.selectedApp?.searchIndexes[0]._id;
     this.getStructuredDataList();
     this.search = (text$: Observable<string>) =>
       text$.pipe(
         debounceTime(200),
         map((term) => this.searchItems())
       );
-    //this.loadData();
-    this.subscription = this.appSelectionService.appSelectedConfigs.subscribe(
-      (res) => {
-        this.loadData();
-      }
-    );
 
     this.lazyLoadCodeMirror();
+  }
+
+  initAppIds() {
+    const idsSub = this.storeService.ids$
+      .pipe(
+        tap(({ queryPipelineId, searchIndexId, indexPipelineId }) => {
+          this.searchIndexId = searchIndexId;
+          this.indexPipelineId = indexPipelineId;
+          this.queryPipelineId = queryPipelineId;
+          this.getAllSettings();
+        })
+      )
+      .subscribe();
+    this.sub?.add(idsSub);
   }
 
   lazyLoadCodeMirror(): Observable<any[]> {
     return this.lazyLoadService.loadStyle('codemirror.min.css');
   }
 
-  loadData() {
-    this.indexPipelineId = this.workflowService.selectedIndexPipeline();
-    if (this.indexPipelineId) {
-      this.queryPipelineId = this.workflowService.selectedQueryPipeline()
-        ? this.workflowService.selectedQueryPipeline()._id
-        : this.selectedApp.searchIndexes[0].queryPipelineId;
-      this.getAllSettings();
-    }
-  }
-
   getStructuredDataList(skip?) {
     this.isLoading = true;
     this.noItems = false;
     this.emptySearchResults = false;
-    const searchIndex = this.selectedApp?.searchIndexes[0]._id;
     const quaryparms: any = {
-      searchIndexId: searchIndex,
+      searchIndexId: this.searchIndexId,
       skip: 0,
       limit: 10,
     };
@@ -410,9 +411,9 @@ export class StructuredDataComponent implements OnInit, OnDestroy {
       query = parseInt(query, 10);
     }
     const quaryparms: any = {
-      searchIndexID: this.selectedApp.searchIndexes[0]._id,
+      searchIndexID: this.searchIndexId,
       query,
-      indexPipelineId: this.workflowService.selectedIndexPipeline() || '',
+      indexPipelineId: this.indexPipelineId || '',
     };
     this.service.invoke('get.getFieldAutocomplete', quaryparms).subscribe(
       (res) => {
@@ -681,7 +682,7 @@ export class StructuredDataComponent implements OnInit, OnDestroy {
     this.isLoading = true;
     this.emptySearchResults = false;
     this.noItems = false;
-    const searchIndex = this.selectedApp.searchIndexes[0]._id;
+    const searchIndex = this.searchIndexId;
     const quaryparms: any = {
       searchIndexId: searchIndex,
       skip: 0,
@@ -1184,7 +1185,7 @@ export class StructuredDataComponent implements OnInit, OnDestroy {
     this.emptySearchResults = false;
     this.noItems = false;
     let payload;
-    const searchIndex = this.selectedApp.searchIndexes[0]._id;
+    const searchIndex = this.searchIndexId;
     const quaryparms: any = {
       searchIndexId: searchIndex,
       skip: 0,
@@ -1282,7 +1283,7 @@ export class StructuredDataComponent implements OnInit, OnDestroy {
 
   deleteStructuredData(record) {
     const quaryparms: any = {};
-    quaryparms.searchIndexId = this.selectedApp.searchIndexes[0]._id;
+    quaryparms.searchIndexId = this.searchIndexId;
     quaryparms.sourceId = Math.random().toString(36).substr(7);
     if (record) {
       quaryparms.contentId = record._id;
@@ -1326,7 +1327,7 @@ export class StructuredDataComponent implements OnInit, OnDestroy {
     }
     const quaryparms: any = {};
     const payload: any = {};
-    quaryparms.searchIndexId = this.selectedApp.searchIndexes[0]._id;
+    quaryparms.searchIndexId = this.searchIndexId;
     if (this.selecteditems.length) {
       if (this.allSelected) {
         payload.allStructuredData = true;
@@ -1403,7 +1404,7 @@ export class StructuredDataComponent implements OnInit, OnDestroy {
   }
   exportStructureData(ext) {
     const quaryparms: any = {
-      searchIndexId: this.serachIndexId,
+      searchIndexId: this.searchIndexId,
     };
     const payload = {
       exportType: ext,
@@ -1453,7 +1454,10 @@ export class StructuredDataComponent implements OnInit, OnDestroy {
        dockStatuses added updated code in 1898 line*/
           // res.dockStatuses.forEach((record: any) => {
           res.forEach((record: any) => {
-            record.createdOn = format(record.createdOn, 'dd MMM yyyy');
+            record.createdOn = format(
+              parseISO(record.createdOn),
+              'do MMM yyyy | h:mm a'
+            );
 
             /**made code updates in line no 1905 on 03/01 added new condition for success,since SUCCESS is updated to success as per new api contract */
             /** made code updates in line no 1903 on 03/09 added new condition for record.fileInfo and record.fileInfo.fileId,since fileId is now has to be fetched from fileInfo  as per new api contract  */
@@ -1503,7 +1507,7 @@ export class StructuredDataComponent implements OnInit, OnDestroy {
       streamId: streamId,
       dockId: dockId,
       jobId: dockId,
-      sidx: this.serachIndexId,
+      sidx: this.searchIndexId,
     };
     const payload = {
       store: {
@@ -1527,7 +1531,7 @@ export class StructuredDataComponent implements OnInit, OnDestroy {
 
   getAllSettings() {
     const quaryparms: any = {
-      searchIndexId: this.serachIndexId,
+      searchIndexId: this.searchIndexId,
       indexPipelineId: this.indexPipelineId,
       queryPipelineId: this.queryPipelineId,
       interface: 'fullSearch',
