@@ -1,4 +1,10 @@
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  ViewChild,
+  ElementRef,
+  OnDestroy,
+} from '@angular/core';
 import { KRModalComponent } from '../../shared/kr-modal/kr-modal.component';
 import { DaterangepickerDirective } from 'ngx-daterangepicker-material';
 import { WorkflowService } from '@kore.apps/services/workflow.service';
@@ -6,13 +12,17 @@ import { ServiceInvokerService } from '@kore.apps/services/service-invoker.servi
 import { NotificationService } from '@kore.apps/services/notification.service';
 import { AppSelectionService } from '@kore.apps/services/app.selection.service';
 import { differenceInDays, subDays, subHours } from 'date-fns';
+import { catchError, EMPTY, Subscription, tap } from 'rxjs';
+import { selectIndexPipelines } from '@kore.apps/store/app.selectors';
+import { Store } from '@ngrx/store';
 declare const $: any;
 @Component({
   selector: 'app-result-insights',
   templateUrl: './result-insights.component.html',
   styleUrls: ['./result-insights.component.scss'],
 })
-export class ResultInsightsComponent implements OnInit {
+export class ResultInsightsComponent implements OnInit, OnDestroy {
+  sub: Subscription;
   viewQueriesRef: any;
   selectedApp;
   serachIndexId;
@@ -103,7 +113,8 @@ export class ResultInsightsComponent implements OnInit {
     public workflowService: WorkflowService,
     private service: ServiceInvokerService,
     private notificationService: NotificationService,
-    private appSelectionService: AppSelectionService
+    private appSelectionService: AppSelectionService,
+    private store: Store
   ) {}
   @ViewChild('viewQueries') viewQueries: KRModalComponent;
 
@@ -125,52 +136,40 @@ export class ResultInsightsComponent implements OnInit {
     this.getIndexPipeline();
   }
 
-  getIndexPipeline() {
-    const header: any = {
-      'x-timezone-offset': '-330',
-    };
-    const quaryparms: any = {
-      searchIndexId: this.serachIndexId,
-      offset: 0,
-      limit: 100,
-    };
-    this.service.invoke('get.indexPipeline', quaryparms, header).subscribe(
-      (res) => {
-        this.indexConfigs = res;
-        this.indexConfigs.forEach((element) => {
-          this.indexConfigObj[element._id] = element;
-        });
-        if (res.length >= 0) {
-          //this.selectedIndexConfig = this.workflowService.selectedIndexPipeline();
-          for (let i = 0; i < res.length; i++) {
-            if (res[i].default === true) {
-              this.selectedIndexConfig = res[i]._id;
-            }
-          }
-          this.getAllgraphdetails(this.selectedIndexConfig);
-          // for(let i=0;i<res.length;i++){
-          //   if(res[i].default=== true){
-          //     this.selecteddropname=res[i].name;
-          //   }
-          // }
-        }
+  handlePipelineError(errRes) {
+    if (
+      errRes &&
+      errRes.error?.errors &&
+      errRes.error?.errors.length &&
+      errRes.error?.errors[0] &&
+      errRes.error?.errors[0].msg
+    ) {
+      this.notificationService.notify(errRes.error.errors[0].msg, 'error');
+    } else {
+      this.notificationService.notify('Failed ', 'error');
+    }
+  }
 
-        //this.getQueryPipeline(res[0]._id);
-      },
-      (errRes) => {
-        if (
-          errRes &&
-          errRes.error.errors &&
-          errRes.error.errors.length &&
-          errRes.error.errors[0] &&
-          errRes.error.errors[0].msg
-        ) {
-          this.notificationService.notify(errRes.error.errors[0].msg, 'error');
-        } else {
-          this.notificationService.notify('Failed ', 'error');
-        }
-      }
-    );
+  getIndexPipeline() {
+    const indexPipelineSub = this.store
+      .select(selectIndexPipelines)
+      .pipe(
+        tap((indexPipelines) => {
+          this.indexConfigs = JSON.parse(JSON.stringify(indexPipelines));
+
+          if (indexPipelines.length > 0) {
+            this.selectedIndexConfig = this.indexConfigs.find(
+              (item) => item.default
+            );
+
+            this.getAllgraphdetails(this.selectedIndexConfig._id);
+          }
+        })
+      )
+      .subscribe({
+        error: this.handlePipelineError.bind(this),
+      });
+    this.sub?.add(indexPipelineSub);
   }
 
   getAllgraphdetails(selectedindexpipeline) {
@@ -345,13 +344,7 @@ export class ResultInsightsComponent implements OnInit {
         position: navigate,
       };
     }
-    // const quaryparms: any = {
-    //   searchIndexID: this.serachIndexId,
-    //   indexPipelineId: this.workflowService.selectedIndexPipeline() || '',
-    //   queryPipelineId: this.workflowService.selectedQueryPipeline()._id,
-    //   offset: 0,
-    //   limit: 10
-    // };
+
     let request: any = {};
     // if(!sortValue){
     //   request = {
@@ -560,5 +553,9 @@ export class ResultInsightsComponent implements OnInit {
   // }
   openUserMetaTagsSlider() {
     this.appSelectionService.topicGuideShow.next(undefined);
+  }
+
+  ngOnDestroy(): void {
+    this.sub?.unsubscribe();
   }
 }

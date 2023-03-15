@@ -37,13 +37,9 @@ export class CacheInterceptor implements HttpInterceptor {
 
   isRequestCachable(request: HttpRequest<unknown>): boolean {
     if (request.method === 'GET') {
-      if (
-        request.url.includes('indexPipeline') ||
-        request.url.includes('queryPipeline')
-      ) {
+      if (request.headers.has('cache')) {
         return true;
       }
-
       return false;
     }
 

@@ -4,7 +4,7 @@ import { MatDialog } from '@angular/material/dialog';
 import * as _ from 'underscore';
 declare const $: any;
 import { ConfirmationDialogComponent } from '../../helpers/components/confirmation-dialog/confirmation-dialog.component';
-import { Subscription } from 'rxjs';
+import { catchError, EMPTY, Subscription, tap } from 'rxjs';
 import { WorkflowService } from '@kore.apps/services/workflow.service';
 import { AppSelectionService } from '@kore.apps/services/app.selection.service';
 import { InlineManualService } from '@kore.apps/services/inline-manual.service';
@@ -13,12 +13,18 @@ import { NotificationService } from '@kore.apps/services/notification.service';
 import { MixpanelServiceService } from '@kore.apps/services/mixpanel-service.service';
 import { TranslationService } from '@kore.libs/shared/src';
 import { differenceInHours, differenceInDays } from 'date-fns';
+import {
+  selectIndexPipelines,
+  selectQueryPipelines,
+} from '@kore.apps/store/app.selectors';
+import { Store } from '@ngrx/store';
 @Component({
   selector: 'app-app-experiments',
   templateUrl: './app-experiments.component.html',
   styleUrls: ['./app-experiments.component.scss'],
 })
 export class AppExperimentsComponent implements OnInit, OnDestroy {
+  sub: Subscription;
   addExperimentsRef: any;
   selectedApp: any;
   serachIndexId: any;
@@ -105,7 +111,8 @@ export class AppExperimentsComponent implements OnInit, OnDestroy {
     private appSelectionService: AppSelectionService,
     public inlineManual: InlineManualService,
     public mixpanel: MixpanelServiceService,
-    private translationService: TranslationService
+    private translationService: TranslationService,
+    private store: Store
   ) {
     // Load translations for this module
     this.translationService.loadModuleTranslations();
@@ -414,37 +421,39 @@ export class AppExperimentsComponent implements OnInit, OnDestroy {
       }
     }, 50);
   }
-  getIndexPipeline() {
-    const header: any = {
-      'x-timezone-offset': '-330',
-    };
-    const quaryparms: any = {
-      searchIndexId: this.serachIndexId,
-      offset: 0,
-      limit: 100,
-    };
-    this.service.invoke('get.indexPipeline', quaryparms, header).subscribe(
-      (res) => {
-        this.indexConfig = res;
-        for (let i = 0; i < this.indexConfig.length; i++) {
-          this.getQueryPipeline(this.indexConfig[i]._id, i);
-        }
-      },
-      (errRes) => {
-        if (
-          errRes &&
-          errRes.error.errors &&
-          errRes.error.errors.length &&
-          errRes.error.errors[0] &&
-          errRes.error.errors[0].msg
-        ) {
-          this.notificationService.notify(errRes.error.errors[0].msg, 'error');
-        } else {
-          this.notificationService.notify('Failed ', 'error');
-        }
-      }
-    );
+
+  handlePipelineError(errRes) {
+    if (
+      errRes &&
+      errRes.error?.errors &&
+      errRes.error?.errors.length &&
+      errRes.error?.errors[0] &&
+      errRes.error?.errors[0].msg
+    ) {
+      this.notificationService.notify(errRes.error.errors[0].msg, 'error');
+    } else {
+      this.notificationService.notify('Failed ', 'error');
+    }
   }
+
+  getIndexPipeline() {
+    const indexPipelineSub = this.store
+      .select(selectIndexPipelines)
+      .pipe(
+        tap((indexPipelines) => {
+          this.indexConfig = indexPipelines;
+          for (let i = 0; i < this.indexConfig.length; i++) {
+            this.getQueryPipeline(this.indexConfig[i]._id, i);
+          }
+        })
+      )
+      .subscribe({
+        error: this.handlePipelineError.bind(this),
+      });
+
+    this.sub?.add(indexPipelineSub);
+  }
+
   getQueryPipeline(id, index) {
     const header: any = {
       'x-timezone-offset': '-330',
@@ -607,63 +616,6 @@ export class AppExperimentsComponent implements OnInit, OnDestroy {
 
     this.getExperiments(null, null, source, headerOption);
   }
-  // synonymFilter(searchValue?,searchSource?, source?,headerOption?, sortHeaderOption?,sortValue?,navigate?){
-  //   // fieldsFilter(searchValue?,searchSource?, source?,headerOption?, sortHeaderOption?,sortValue?,navigate?)
-  //   // this.loadingContent = true;
-  //   if(sortValue){
-  //     this.sortedObject = {
-  //       type : sortHeaderOption,
-  //       value : sortValue,
-  //       position: navigate
-  //     }
-  //   }
-
-  //   const quaryparms: any = {
-  //     searchIndexID: this.serachIndexId,
-  //     indexPipelineId: this.workflowService.selectedIndexPipeline() || '',
-  //     queryPipelineId: this.workflowService.selectedQueryPipeline()._id,
-  //     offset: 0,
-  //     limit: 10
-  //   };
-  //   let request:any={}
-  //   if(!sortValue){
-  //     request = {
-  //       "sort":{
-  //         'type':1
-  //       }
-  //   }
-  //   }
-  //   else if(sortValue){
-  //     const sort :any ={}
-  //     request= {
-  //       sort
-  //     }
-  //   }
-  //   else {
-  //   request={}
-  //   }
-
-  //   request.type = this.filterSystem.statusfilter;
-  //   request.search= this.synonymSearch;
-  //   if (request.type == 'all') {
-  //    delete  request.type;
-  //   }
-  //   if (this.synonymSearch === '') {
-  //    delete request.search;
-  //   }
-  //   if(sortValue){
-  //     this.getSortIconVisibility(sortHeaderOption,navigate);
-  //      //Sort start
-  //      if(sortHeaderOption === 'name' ){
-  //       request.sort.name = sortValue
-  //     }
-  //     if (sortHeaderOption === 'type') {
-  //       request.sort.type = sortValue
-  //     }
-  //   // end
-  //   }
-  //   this.getSynonymsApi(searchValue,searchSource, source,headerOption, sortHeaderOption,sortValue,navigate,request);
-  // }
   sortByApi(sort) {
     this.selectedSort = sort;
     if (this.selectedSort !== sort) {
@@ -1251,6 +1203,8 @@ export class AppExperimentsComponent implements OnInit, OnDestroy {
     this.currentSubsciptionData
       ? this.currentSubsciptionData.unsubscribe()
       : null;
+
+    this.sub?.unsubscribe();
   }
   openUserMetaTagsSlider() {
     this.appSelectionService.topicGuideShow.next(undefined);

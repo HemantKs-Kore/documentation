@@ -113,129 +113,122 @@
           <div class="dropdown dropdown-open">
             <button
               class="dropdown-toggle dropdown-input"
-              title="{{
-                indexConfigObj[selectedIndexConfig]
-                  ? indexConfigObj[selectedIndexConfig].name === 'Default'
-                    ? ('app_menu_Default_Index' | translate)
-                    : indexConfigObj[selectedIndexConfig].name
-                  : 'Loading..'
-              }}"
+              title="{{ selectedIndexConfig?.name }}"
               ngbDropdownToggle
             >
-              <span class="text-truncate">{{
-                indexConfigObj[selectedIndexConfig]
-                  ? indexConfigObj[selectedIndexConfig].name === 'Default'
-                    ? ('app_menu_Default_Index' | translate)
-                    : indexConfigObj[selectedIndexConfig].name
-                  : 'Loading..'
-              }}</span>
+              <span class="text-truncate">{{ selectedIndexConfig?.name }}</span>
             </button>
             <ul
               class="dropdown-menu content-menu queryPipelineDefault"
               ngbDropdownMenu
             >
               <perfect-scrollbar>
-                <li
-                  class="list-name text-truncate"
-                  [ngClass]="{ nostars: config.default || !config.default }"
-                  (click)="selectIndexPipelineId(config, selectIndexConfigDrop)"
-                  *ngFor="let config of indexConfigs"
-                >
-                  <img
-                    src="assets/icons/star.svg"
-                    *ngIf="config.default"
-                    class="star"
-                    [container]="'body'"
-                    ngbTooltip="{{ 'app_menu_Default_Index' | translate }}"
-                    placement="top-center"
-                  />
-                  <img
-                    src="assets/icons/start-black.svg"
-                    [container]="'body'"
+                <ul class="pl-0">
+                  <li
+                    class="list-name text-truncate"
+                    [ngClass]="{ nostars: config.default || !config.default }"
                     (click)="
-                      $event.stopPropagation(); markAsDefaultIndex(config)
+                      selectIndexPipelineId(config, selectIndexConfigDrop)
                     "
-                    *ngIf="!config.default && !editName"
-                    class="star-black"
-                    ngbTooltip="Make as Default"
-                    placement="top-center"
-                  />
-                  <span
-                    *ngIf="
-                      selectedIndexConfig === config._id && editIndexName;
-                      else indexName
-                    "
+                    *ngFor="let config of indexConfigs"
                   >
-                    <input
-                      type="text"
-                      class="edit-name"
-                      name="editIndexName"
-                      [(ngModel)]="editIndexNameVal"
-                      id="editIndexNameID"
-                      (click)="$event.stopPropagation()"
-                      (keypress)="onKeypressIndexEvent($event, config)"
+                    <img
+                      src="assets/icons/star.svg"
+                      *ngIf="config.default"
+                      class="star"
+                      [container]="'body'"
+                      ngbTooltip="{{ 'app_menu_Default_Index' | translate }}"
+                      placement="top-center"
                     />
-                  </span>
-                  <ng-template #indexName>
+                    <img
+                      src="assets/icons/start-black.svg"
+                      [container]="'body'"
+                      (click)="
+                        $event.stopPropagation(); markAsDefaultIndex(config)
+                      "
+                      *ngIf="!config.default && !editName"
+                      class="star-black"
+                      ngbTooltip="Make as Default"
+                      placement="top-center"
+                    />
                     <span
-                      class="config_name text-truncate"
-                      placement="top-center"
-                      [container]="'body'"
-                      ngbTooltip="{{
-                        config.name === 'Default'
-                          ? ('app_menu_Default_Index' | translate)
-                          : config.name
-                      }}"
-                      >{{
-                        config.name === 'Default'
-                          ? ('app_menu_Default_Index' | translate)
-                          : config.name
-                      }}</span
-                    >
-                  </ng-template>
-                  <div class="action-icons-data">
-                    <div
-                      class="clone"
-                      *ngIf="!editIndexName"
-                      (click)="
-                        $event.stopPropagation();
-                        openIndexModalPopup('clone', config);
-                        selectIndexConfigDrop.close()
-                      "
-                      ngbTooltip="{{ 'sa_clone' | translate }}"
-                      placement="top-center"
-                      [container]="'body'"
-                    >
-                      <img src="assets/icons/clone.svg" />
-                    </div>
-                    <div
-                      class="edit-black"
-                      *ngIf="!editIndexName && !config.default"
-                      (click)="
-                        $event.stopPropagation();
-                        editIndexConfig(config, 'edit')
-                      "
-                      ngbTooltip="{{ 'sa_edit' | translate }}"
-                      placement="top-center"
-                      [container]="'body'"
-                    >
-                      <img src="assets/icons/edit-pencil.svg" />
-                    </div>
-                    <div
-                      class="delete"
-                      *ngIf="!editIndexName && !config.default"
-                      ngbTooltip="{{ 'sa_delete' | translate }}"
-                      placement="top-center"
-                      [container]="'body'"
-                      (click)="
-                        $event.stopPropagation();
-                        checkExistInExperiment(config, 'index')
+                      *ngIf="
+                        selectedIndexConfig?._id === config._id &&
+                          editIndexName;
+                        else indexName
                       "
                     >
-                      <img src="assets/icons/delete.svg" />
+                      <input
+                        type="text"
+                        class="edit-name"
+                        name="editIndexName"
+                        [(ngModel)]="editIndexNameVal"
+                        id="editIndexNameID"
+                        (click)="$event.stopPropagation()"
+                        (keypress)="onKeypressIndexEvent($event, config)"
+                      />
+                    </span>
+                    <ng-template #indexName>
+                      <span
+                        class="config_name text-truncate"
+                        placement="top-center"
+                        [container]="'body'"
+                        ngbTooltip="{{
+                          config.name === 'Default'
+                            ? ('app_menu_Default_Index' | translate)
+                            : config.name
+                        }}"
+                        >{{
+                          config.name === 'Default'
+                            ? ('app_menu_Default_Index' | translate)
+                            : config.name
+                        }}</span
+                      >
+                    </ng-template>
+                    <div class="action-icons-data">
+                      <div
+                        class="clone"
+                        *ngIf="!editIndexName"
+                        (click)="
+                          $event.stopPropagation();
+                          openIndexModalPopup('clone', config);
+                          selectIndexConfigDrop.close()
+                        "
+                        ngbTooltip="{{ 'sa_clone' | translate }}"
+                        placement="top-center"
+                        [container]="'body'"
+                      >
+                        <img src="assets/icons/clone.svg" />
+                      </div>
+                      <div
+                        class="edit-black"
+                        *ngIf="!editIndexName && !config.default"
+                        (click)="
+                          $event.stopPropagation();
+                          editIndexConfig(config, 'edit')
+                        "
+                        ngbTooltip="{{ 'sa_edit' | translate }}"
+                        placement="top-center"
+                        [container]="'body'"
+                      >
+                        <img src="assets/icons/edit-pencil.svg" />
+                      </div>
+                      <div
+                        class="delete"
+                        *ngIf="!editIndexName && !config.default"
+                        ngbTooltip="{{ 'sa_delete' | translate }}"
+                        placement="top-center"
+                        [container]="'body'"
+                        (click)="
+                          $event.stopPropagation();
+                          checkExistInExperiment(config, 'index')
+                        "
+                      >
+                        <img src="assets/icons/delete.svg" />
+                      </div>
                     </div>
-                  </div>
-                </li>
+                  </li>
+                </ul>
               </perfect-scrollbar>
 
               <div
@@ -354,23 +347,8 @@
           {{ 'app_menu_Search_Configuration' | translate }}
         </div>
         <div class="search-config-elipse-block pr-0">
-          <div
-            class="title text-truncate"
-            title="{{
-              configObj[selectedConfig]
-                ? configObj[selectedConfig].name === 'Default'
-                  ? ('app_menu_Default_search' | translate)
-                  : configObj[selectedConfig].name
-                : 'Loading..'
-            }}"
-          >
-            {{
-              configObj[selectedConfig]
-                ? configObj[selectedConfig].name === 'Default'
-                  ? ('app_menu_Default_search' | translate)
-                  : configObj[selectedConfig].name
-                : 'Loading..'
-            }}
+          <div class="title text-truncate" title="{{ selectedConfig?.name }}">
+            {{ selectedConfig?.name }}
           </div>
           <div
             class="kr-sg-dropdowns kr_sg_dropdowns"
@@ -432,7 +410,7 @@
                     />
                     <span
                       *ngIf="
-                        selectedConfig === config._id && editName;
+                        selectedConfig._id === config._id && editName;
                         else name
                       "
                     >

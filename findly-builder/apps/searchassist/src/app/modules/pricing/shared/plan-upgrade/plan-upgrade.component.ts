@@ -115,7 +115,7 @@ export class PlanUpgradeComponent implements OnInit, OnDestroy {
     public localstore: LocalStoreService,
     public inlineManual: InlineManualService,
     public mixpanel: MixpanelServiceService
-  ) { }
+  ) {}
 
   @ViewChild('addOverageModel') addOverageModel: KRModalComponent;
   @ViewChild('changePlanModel') changePlanModel: KRModalComponent;
@@ -154,17 +154,20 @@ export class PlanUpgradeComponent implements OnInit, OnDestroy {
 
   //get plans api
   getAllPlans() {
-    const allPlans: any = this.appSelectionService?.pricingPlansData;
-    if (allPlans) {
-      this.featureTypes = allPlans?.featureTypes;
-      this.frequentFAQs = allPlans?.FAQS;
-      this.totalPlansData = allPlans?.plans;
-      this.planHoverText = allPlans?.hoverText;
-      this.totalPlansData.forEach((data) => {
-        const featureData = Object.values(data.featureAccess);
-        data = Object.assign(data, { featureData: featureData });
+    if (Object.entries(localStorage?.jStorage).length > 2) {
+      this.appSelectionService?.getAllPlans().subscribe((allPlans) => {
+        if (allPlans) {
+          this.featureTypes = allPlans?.featureTypes;
+          this.frequentFAQs = allPlans?.FAQS;
+          this.totalPlansData = allPlans?.plans;
+          this.planHoverText = allPlans?.hoverText;
+          this.totalPlansData.forEach((data) => {
+            const featureData = Object.values(data.featureAccess);
+            data = Object.assign(data, { featureData: featureData });
+          });
+          this.typeOfPlan();
+        }
       });
-      this.typeOfPlan();
     }
   }
 
@@ -260,7 +263,7 @@ export class PlanUpgradeComponent implements OnInit, OnDestroy {
         const currentSubscriptionPlan =
           this.appSelectionService.currentsubscriptionPlanDetails;
         this.selectedPlan = currentSubscriptionPlan?.subscription;
-        this.getAllPlans();
+        // this.getAllPlans();
         this.choosePlanModalPopRef = this.choosePlanModel.open();
       }
     } else if (type === 'payment_gateway') {
@@ -373,7 +376,10 @@ export class PlanUpgradeComponent implements OnInit, OnDestroy {
         this.selectedPaymentPage = 'payment_iframe';
         this.poling();
         const plan_duration = this.termPlan === 'month' ? 'Monthly' : 'Yearly';
-        this.mixpanel.postEvent('Plan Standard Proceed', { 'Plan Type': 'Standard plan', 'Plan Duration': plan_duration });
+        this.mixpanel.postEvent('Plan Standard Proceed', {
+          'Plan Type': 'Standard plan',
+          'Plan Duration': plan_duration,
+        });
       },
       (errRes) => {
         this.btnLoader = false;
@@ -444,7 +450,9 @@ export class PlanUpgradeComponent implements OnInit, OnDestroy {
           (this.selectedPlan?.billingUnit || '');
       }
       this.contactusModelPopRef = this.contactUsModel.open();
-      this.mixpanel.postEvent('Plan Chosen', { 'Plan Type': 'Enterprise plan' });
+      this.mixpanel.postEvent('Plan Chosen', {
+        'Plan Type': 'Enterprise plan',
+      });
     } else if (type === 'close') {
       this.enterpriseForm = {
         name: '',

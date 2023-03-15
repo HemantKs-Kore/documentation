@@ -10,13 +10,16 @@ import { ConfirmationDialogComponent } from '../../helpers/components/confirmati
 import { KRModalComponent } from '../../shared/kr-modal/kr-modal.component';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import * as _ from 'underscore';
-import { Subscription } from 'rxjs';
+import { Subscription, tap } from 'rxjs';
 import { PerfectScrollbarComponent } from 'ngx-perfect-scrollbar';
 import { NotificationService } from '@kore.apps/services/notification.service';
 import { WorkflowService } from '@kore.apps/services/workflow.service';
 import { ServiceInvokerService } from '@kore.apps/services/service-invoker.service';
 import { AppSelectionService } from '@kore.apps/services/app.selection.service';
 import { InlineManualService } from '@kore.apps/services/inline-manual.service';
+import { Store } from '@ngrx/store';
+import { selectAppIds } from '@kore.apps/store/app.selectors';
+import { StoreService } from '@kore.apps/store/store.service';
 declare const $: any;
 @Component({
   selector: 'app-facets',
@@ -30,7 +33,7 @@ export class FacetsComponent implements OnInit, OnDestroy {
   field_name: string;
   fieldAutoSuggestion: any = [];
   selectedApp;
-  serachIndexId;
+  searchIndexId;
   fieldDataType = 'number';
   filedTypeShow = false;
   selectedFieldId: any;
@@ -152,6 +155,7 @@ export class FacetsComponent implements OnInit, OnDestroy {
     { key: 'ascending', value: 'asc' },
     { key: 'descending', value: 'desc' },
   ];
+  sub: Subscription;
 
   constructor(
     public workflowService: WorkflowService,
@@ -159,21 +163,29 @@ export class FacetsComponent implements OnInit, OnDestroy {
     private notificationService: NotificationService,
     public dialog: MatDialog,
     private appSelectionService: AppSelectionService,
-    public inlineManual: InlineManualService
+    public inlineManual: InlineManualService,
+    private storeService: StoreService
   ) {}
   @ViewChild('facetModalPouup') facetModalPouup: KRModalComponent;
   @ViewChild('facetModalPopupNew') facetModalPopupNew: KRModalComponent;
   ngOnInit() {
-    this.selectedApp = this.workflowService.selectedApp();
-    this.serachIndexId = this.selectedApp?.searchIndexes[0]._id;
-    //this.indexPipelineId = this.selectedApp.searchIndexes[0].pipelineId;
-    this.loadfacets();
-    this.subscription = this.appSelectionService.queryConfigs.subscribe(
-      (res) => {
-        this.loadfacets();
-      }
-    );
-    // this.getFieldAutoComplete('');
+    this.initAppIds();
+  }
+
+  initAppIds() {
+    const idsSub = this.storeService.ids$
+      .pipe(
+        tap(({ searchIndexId, indexPipelineId, queryPipelineId }) => {
+          this.searchIndexId = searchIndexId;
+          this.indexPipelineId = indexPipelineId;
+          this.queryPipelineId = queryPipelineId;
+
+          this.loadfacets();
+        })
+      )
+      .subscribe();
+
+    this.sub?.add(idsSub);
   }
 
   imageLoad() {
@@ -188,16 +200,8 @@ export class FacetsComponent implements OnInit, OnDestroy {
   }
 
   loadfacets() {
-    this.indexPipelineId = this.workflowService.selectedIndexPipeline();
-    if (this.indexPipelineId) {
-      this.queryPipelineId = this.workflowService.selectedQueryPipeline()
-        ? this.workflowService.selectedQueryPipeline()._id
-        : this.selectedApp.searchIndexes[0].queryPipelineId;
-      if (this.queryPipelineId) {
-        this.getFacts();
-        this.getFieldAutoComplete('');
-      }
-    }
+    this.getFacts();
+    this.getFieldAutoComplete('');
   }
   getType(name) {
     if (typeof name === 'number') {
@@ -317,9 +321,9 @@ export class FacetsComponent implements OnInit, OnDestroy {
   saveSortedList() {
     const payload: any = [];
     const quaryparms: any = {
-      searchIndexID: this.serachIndexId,
+      searchIndexID: this.searchIndexId,
       queryPipelineId: this.queryPipelineId,
-      indexPipelineId: this.workflowService.selectedIndexPipeline() || '',
+      indexPipelineId: this.indexPipelineId || '',
     };
     this.facets.forEach((face) => {
       payload.push(face._id);
@@ -366,8 +370,8 @@ export class FacetsComponent implements OnInit, OnDestroy {
   }
   getRecordDetails(data) {
     const quaryparms: any = {
-        searchIndexID: this.serachIndexId,
-        indexPipelineId: this.workflowService.selectedIndexPipeline() || '',
+        searchIndexID: this.searchIndexId,
+        indexPipelineId: this.indexPipelineId || '',
         // offset: 0,
         // limit: 100
       },
@@ -426,8 +430,8 @@ export class FacetsComponent implements OnInit, OnDestroy {
       query = '';
     }
     const quaryparms: any = {
-      searchIndexID: this.serachIndexId,
-      indexPipelineId: this.workflowService.selectedIndexPipeline() || '',
+      searchIndexID: this.searchIndexId,
+      indexPipelineId: this.indexPipelineId || '',
       category: 'facets',
       query,
     };
@@ -487,7 +491,7 @@ export class FacetsComponent implements OnInit, OnDestroy {
   }
   getFieldData(fieldId) {
     const quaryparms: any = {
-      searchIndexID: this.serachIndexId,
+      searchIndexID: this.searchIndexId,
       fieldId,
     };
     this.service.invoke('get.getFieldById', quaryparms).subscribe(
@@ -511,8 +515,8 @@ export class FacetsComponent implements OnInit, OnDestroy {
   }
   getFacts(offset?) {
     const quaryparms: any = {
-      searchIndexID: this.serachIndexId,
-      indexPipelineId: this.workflowService.selectedIndexPipeline() || '',
+      searchIndexID: this.searchIndexId,
+      indexPipelineId: this.indexPipelineId || '',
       queryPipelineId: this.queryPipelineId,
       offset: offset || 0,
       limit: 100,
@@ -624,8 +628,8 @@ export class FacetsComponent implements OnInit, OnDestroy {
   }
   deleteBulkFacet(dialogRef) {
     const quaryparms: any = {
-      searchIndexID: this.serachIndexId,
-      indexPipelineId: this.workflowService.selectedIndexPipeline() || '',
+      searchIndexID: this.searchIndexId,
+      indexPipelineId: this.indexPipelineId || '',
       queryPipelineId: this.queryPipelineId,
     };
     const facets = Object.keys(this.selcectionObj.selectedItems);
@@ -659,8 +663,8 @@ export class FacetsComponent implements OnInit, OnDestroy {
   }
   deleteFacet(facet, dialogRef) {
     const quaryparms: any = {
-      searchIndexID: this.serachIndexId,
-      indexPipelineId: this.workflowService.selectedIndexPipeline() || '',
+      searchIndexID: this.searchIndexId,
+      indexPipelineId: this.indexPipelineId || '',
       facetId: facet._id,
       queryPipelineId: this.queryPipelineId,
     };
@@ -719,7 +723,7 @@ export class FacetsComponent implements OnInit, OnDestroy {
   }
   getAllFields() {
     const quaryparms: any = {
-      searchIndexID: this.serachIndexId,
+      searchIndexID: this.searchIndexId,
       indexPipelineId: this.indexPipelineId,
     };
     const serviceId = 'get.allFieldsData';
@@ -919,6 +923,7 @@ export class FacetsComponent implements OnInit, OnDestroy {
     }, 100);
   }
   ngOnDestroy() {
+    this.sub?.unsubscribe();
     if (this.subscription) {
       this.subscription.unsubscribe();
     }
@@ -1215,8 +1220,8 @@ export class FacetsComponent implements OnInit, OnDestroy {
     } else {
       if (this.validateAddEditFacet()) {
         let quaryparms: any = {
-          searchIndexID: this.serachIndexId,
-          indexPipelineId: this.workflowService.selectedIndexPipeline() || '',
+          searchIndexID: this.searchIndexId,
+          indexPipelineId: this.indexPipelineId || '',
           queryPipelineId: this.queryPipelineId,
         };
         const url = this.currentFacetObj?._id ? 'update.facet' : 'create.facet';
@@ -1291,8 +1296,8 @@ export class FacetsComponent implements OnInit, OnDestroy {
   //edit facet for status
   editFacet(data, event) {
     const quaryparms: any = {
-      searchIndexID: this.serachIndexId,
-      indexPipelineId: this.workflowService.selectedIndexPipeline() || '',
+      searchIndexID: this.searchIndexId,
+      indexPipelineId: this.indexPipelineId || '',
       facetId: data._id,
       queryPipelineId: this.queryPipelineId,
     };
@@ -1346,8 +1351,8 @@ export class FacetsComponent implements OnInit, OnDestroy {
   getFieldValues(id, type?) {
     this.fieldsData = [];
     const quaryparms: any = {
-      sidx: this.serachIndexId,
-      indexPipelineId: this.workflowService.selectedIndexPipeline() || '',
+      sidx: this.searchIndexId,
+      indexPipelineId: this.indexPipelineId || '',
       fieldId: id,
     };
     this.service.invoke('get.facetValues', quaryparms).subscribe(

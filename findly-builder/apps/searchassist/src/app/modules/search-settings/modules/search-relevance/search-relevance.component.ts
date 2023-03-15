@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Subscription } from 'rxjs';
+import { Subscription, tap } from 'rxjs';
 import { WorkflowService } from '@kore.apps/services/workflow.service';
 import { AppSelectionService } from '@kore.apps/services/app.selection.service';
 import { NotificationService } from '@kore.apps/services/notification.service';
@@ -7,6 +7,7 @@ import { ServiceInvokerService } from '@kore.apps/services/service-invoker.servi
 import { RangeSlider } from '@kore.apps/helpers/models/range-slider.model';
 import { Store } from '@ngrx/store';
 import { selectAppIds } from '@kore.apps/store/app.selectors';
+import { StoreService } from '@kore.apps/store/store.service';
 
 declare const $: any;
 @Component({
@@ -47,25 +48,28 @@ export class SearchRelevanceComponent implements OnInit, OnDestroy {
     private appSelectionService: AppSelectionService,
     private notificationService: NotificationService,
     private service: ServiceInvokerService,
-    private store: Store
+    private storeService: StoreService
   ) {}
   sliderOpen;
   disableCancle: any = true;
+
   ngOnInit(): void {
     this.initAppIds();
   }
+
   initAppIds() {
-    const idsSub = this.store
-      .select(selectAppIds)
-      .subscribe(
-        ({ streamId, searchIndexId, indexPipelineId, queryPipelineId }) => {
+    const idsSub = this.storeService.ids$
+      .pipe(
+        tap(({ streamId, searchIndexId, indexPipelineId, queryPipelineId }) => {
           this.streamId = streamId;
           this.searchIndexId = searchIndexId;
           this.indexPipelineId = indexPipelineId;
           this.queryPipelineId = queryPipelineId;
           this.prepareThreshold('menu');
-        }
-      );
+        })
+      )
+      .subscribe();
+
     this.sub?.add(idsSub);
   }
   //open topic guide

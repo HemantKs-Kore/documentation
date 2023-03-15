@@ -690,7 +690,7 @@
                     <ng-template #executed>
                       <div class="timestamp">
                         {{ 'contentSource_last_updated_on' | translate }}
-                        {{ source.lMod | dateFormatPipe : 'd MMMM yyyy' }}
+                        {{ source.lMod | dateFormatPipe : 'dd MMM yyyy' }}
                       </div>
                     </ng-template>
                     <div
@@ -971,7 +971,7 @@
                         alt="refresh-icon"
                       />
                       {{ 'contentSource_last_updated' | translate }}</span
-                    >{{ selectedSource?.lMod | dateFormatPipe : 'D.MM.YYYY' }}
+                    >{{ selectedSource?.lMod | dateFormatPipe : 'd.MM.yyyy' }}
                   </button>
                 </div>
                 <div
@@ -2616,7 +2616,7 @@
                             </div>
                             <div class="page-c-data">
                               {{
-                                page.createdOn | dateFormatPipe : 'd MMMM yyyy'
+                                page.createdOn | dateFormatPipe : 'dd MMMM yyyy'
                               }}
                             </div>
                           </a>
@@ -2754,7 +2754,7 @@
                                       <div class="info-text">
                                         {{
                                           selectedPage?.createdOn
-                                            | dateFormatPipe : 'd MMMM yyyy'
+                                            | dateFormatPipe : 'dd MMM yyyy'
                                         }}
                                       </div>
                                     </div>
@@ -3324,7 +3324,7 @@
         </div>
         <div class="title-desc-text">
           {{
-            selectedSource.createdOn | dateFormatPipe : 'd MMMM yyyy , hh:mm A'
+            selectedSource.createdOn | dateFormatPipe : 'd MMMM yyyy , hh:mm a'
           }}
         </div>
         <div class="title-text">

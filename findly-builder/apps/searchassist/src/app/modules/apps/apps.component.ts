@@ -17,7 +17,7 @@ import { AuthService } from '@kore.apps/services/auth.service';
 import { InlineManualService } from '@kore.apps/services/inline-manual.service';
 import { MixpanelServiceService } from '@kore.apps/services/mixpanel-service.service';
 import { Store } from '@ngrx/store';
-import { setAppId } from '@kore.apps/store/app.actions';
+import { resetAppIds, setAppId } from '@kore.apps/store/app.actions';
 import { AppsService } from './services/apps.service';
 import { combineLatest, Subscription } from 'rxjs';
 import { LazyLoadService, TranslationService } from '@kore.libs/shared/src';
@@ -291,8 +291,13 @@ export class AppsComponent implements OnInit, AfterViewInit, OnDestroy {
     } else if (this.steps == 'showSearchExperience') {
       this.steps = 'displayApp';
       this.progressBarFun(4, 4);
-      const experienceType = this.SearchExperianceType === 'top' ? 'Search bar' : 'Virtual assistant';
-      this.mixpanel.postEvent('Explore App Search experience selected', { "Explore search experience selected": experienceType })
+      const experienceType =
+        this.SearchExperianceType === 'top'
+          ? 'Search bar'
+          : 'Virtual assistant';
+      this.mixpanel.postEvent('Explore App Search experience selected', {
+        'Explore search experience selected': experienceType,
+      });
     } else if (this.steps == 'displayApp' && this.newApp.name) {
       this.appCreationAtOnboarding();
       //this.mixpanel.postEvent('Explore App named', {});
@@ -410,6 +415,7 @@ export class AppsComponent implements OnInit, AfterViewInit, OnDestroy {
     if (this.confirmApp == 'DELETE') {
       this.appsService.delete(this.slectedAppId).subscribe(
         (res) => {
+          this.store.dispatch(resetAppIds({ appId: this.slectedAppId }));
           if (res) {
             this.notificationService.notify('Deleted Successfully', 'success');
             this.closeConfirmApp();
@@ -774,7 +780,7 @@ export class AppsComponent implements OnInit, AfterViewInit, OnDestroy {
   }
   callStream() {
     this.service.invoke('get.credential').subscribe(
-      (res) => { },
+      (res) => {},
       (errRes) => {
         this.errorToaster(errRes, 'Error in creating app');
       }

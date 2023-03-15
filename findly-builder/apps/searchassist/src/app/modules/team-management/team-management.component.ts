@@ -16,7 +16,7 @@ import {
   MatAutocompleteSelectedEvent,
   MatAutocomplete,
 } from '@angular/material/autocomplete';
-import { Observable, Subscription } from 'rxjs';
+import { Observable, Subscription, combineLatest } from 'rxjs';
 import { debounceTime, map } from 'rxjs/operators';
 import { NotificationService } from '@kore.apps/services/notification.service';
 import { ServiceInvokerService } from '@kore.apps/services/service-invoker.service';
@@ -24,6 +24,13 @@ import { WorkflowService } from '@kore.apps/services/workflow.service';
 import { AppSelectionService } from '@kore.apps/services/app.selection.service';
 import { AuthService } from '@kore.apps/services/auth.service';
 import { TranslationService } from '@kore.libs/shared/src';
+import {
+  selectAppId,
+  selectIndexPipelineId,
+  selectQueryPipelineId,
+  selectSearchIndexId,
+} from '@kore.apps/store/app.selectors';
+import { Store } from '@ngrx/store';
 declare const $: any;
 @Component({
   selector: 'app-team-management',
@@ -53,6 +60,7 @@ export class TeamManagementComponent implements OnInit, OnDestroy {
   };
   dummyCount = 0;
   selectedField;
+  appId: any;
   queryPipelineId;
   subscription: Subscription;
   visible = true;
@@ -81,15 +89,14 @@ export class TeamManagementComponent implements OnInit, OnDestroy {
     public dialog: MatDialog,
     private appSelectionService: AppSelectionService,
     public authService: AuthService,
-    private translationService: TranslationService
+    private translationService: TranslationService,
+    private store: Store
   ) {
     // Load translations for this module
     this.translationService.loadModuleTranslations();
   }
   ngOnInit() {
-    this.selectedApp = this.workflowService.selectedApp();
-    this.serachIndexId = this.selectedApp.searchIndexes[0]._id;
-    this.indexPipelineId = this.selectedApp.searchIndexes[0].pipelineId;
+    this.initAppIds();
     this.getUserInfo();
     this.getRoleMembers();
     this.autocomplete = (text$: Observable<string>) =>
@@ -108,6 +115,19 @@ export class TeamManagementComponent implements OnInit, OnDestroy {
     this.resultFormatter = (result) =>
       result.personalInfo.firstName + ' (' + result.orgDomain + ')';
     this.inputFormatter = (result) => result.orgDomain;
+  }
+  initAppIds() {
+    this.subscription = combineLatest([
+      this.store.select(selectAppId),
+      this.store.select(selectIndexPipelineId),
+      this.store.select(selectSearchIndexId),
+      this.store.select(selectQueryPipelineId),
+    ]).subscribe(([appId, indexPipelineId, searchIndexId, queryPipelineId]) => {
+      this.queryPipelineId = queryPipelineId;
+      this.serachIndexId = searchIndexId;
+      this.indexPipelineId = indexPipelineId;
+      this.appId = appId;
+    });
   }
   checkUncheckTeam(team) {
     const selectedElements = $('.selectEachfacetInput:checkbox:checked');
@@ -310,7 +330,7 @@ export class TeamManagementComponent implements OnInit, OnDestroy {
   getRoleMembers() {
     const quaryparms: any = {
       id: this.authService.getUserId(),
-      streamId: this.selectedApp._id,
+      streamId: this.appId,
     };
     this.service.invoke('get.members', quaryparms).subscribe(
       (res) => {
@@ -330,7 +350,7 @@ export class TeamManagementComponent implements OnInit, OnDestroy {
     const Headers = { accountid: this.accountId };
     const quaryparms: any = {
       id: this.authService.getUserId(),
-      streamId: this.selectedApp._id,
+      streamId: this.appId,
       orgId: this.orgId,
     };
     this.service.invoke('get.roles', quaryparms, Headers).subscribe(
@@ -433,7 +453,7 @@ export class TeamManagementComponent implements OnInit, OnDestroy {
     const Headers = { accountid: this.accountId };
     const quaryparms: any = {
       userId: this.authService.getUserId(),
-      streamId: this.selectedApp._id,
+      streamId: this.appId,
     };
     this.service.invoke('put.members', quaryparms, payload, Headers).subscribe(
       (res) => {
@@ -481,7 +501,7 @@ export class TeamManagementComponent implements OnInit, OnDestroy {
   getAutoSuggestedEmails() {
     const quaryparms: any = {
       id: this.authService.getUserId(),
-      streamId: this.selectedApp._id,
+      streamId: this.appId,
       orgId: this.orgId,
     };
     this.service.invoke('get.autoSuggestEmails', quaryparms).subscribe(

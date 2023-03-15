@@ -428,34 +428,40 @@ export class PlanDetailsComponent implements OnInit, OnDestroy {
 
   //update plan and used queries data
   updateUsageDetails() {
-    const allPlans: any = this.appSelectionService?.pricingPlansData;
-    const currentUsageData = this.appSelectionService?.currentUsageData;
-    if (allPlans) {
-      const planName = this.currentSubscriptionPlan?.subscription?.planName;
-      const totalPlans = allPlans?.plans;
-      const billingUnit =
-        this.currentSubscriptionPlan?.subscription?.billing?.unit;
-      const planData = totalPlans?.filter((plan) =>
-        billingUnit
-          ? plan?.name === planName && billingUnit === plan?.billing?.unit
-          : plan?.name === planName
-      );
-      if (planData[0]?.featureAccess?.searchQueries?.displayOnBanner)
-        planData[0].featureAccess.searchQueries.displayOnBanner = false;
-      this.currentPlanDetails = planData;
-    }
-    if (currentUsageData) {
-      this.usageDetails.searchQueriesLimit = currentUsageData?.searchLimit;
-      this.usageDetails.searchQueriesUsed = currentUsageData?.searchCount;
-      this.usageDetails.searchPercentageUsed =
-        currentUsageData?.queryPercentageUsed;
-      this.usageDetails.overagePercentageUsed =
-        currentUsageData?.overagePercentageUsed;
-      this.usageDetails.overageSearchCount =
-        currentUsageData?.overageSearchCount;
-      this.usageDetails.overageSearchLimit =
-        currentUsageData?.overageSearchLimit;
-    }
+    const allPlansSub = this.appSelectionService
+      ?.getAllPlans()
+      .subscribe((allPlans) => {
+        const currentUsageData = this.appSelectionService?.currentUsageData;
+        if (allPlans) {
+          const planName = this.currentSubscriptionPlan?.subscription?.planName;
+          const totalPlans = allPlans?.plans;
+          const billingUnit =
+            this.currentSubscriptionPlan?.subscription?.billing?.unit;
+          const planData = totalPlans?.filter((plan) =>
+            billingUnit
+              ? plan?.name === planName && billingUnit === plan?.billing?.unit
+              : plan?.name === planName
+          );
+          if (planData[0]?.featureAccess?.searchQueries?.displayOnBanner)
+            planData[0].featureAccess.searchQueries.displayOnBanner = false;
+
+          this.currentPlanDetails = planData;
+        }
+        if (currentUsageData) {
+          this.usageDetails.searchQueriesLimit = currentUsageData?.searchLimit;
+          this.usageDetails.searchQueriesUsed = currentUsageData?.searchCount;
+          this.usageDetails.searchPercentageUsed =
+            currentUsageData?.queryPercentageUsed;
+          this.usageDetails.overagePercentageUsed =
+            currentUsageData?.overagePercentageUsed;
+          this.usageDetails.overageSearchCount =
+            currentUsageData?.overageSearchCount;
+          this.usageDetails.overageSearchLimit =
+            currentUsageData?.overageSearchLimit;
+        }
+      });
+
+    this.currentSubsciptionData?.add(allPlansSub);
   }
 
   //calling topic guide method using subject
