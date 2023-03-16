@@ -115,7 +115,7 @@ export class PlanUpgradeComponent implements OnInit, OnDestroy {
     public localstore: LocalStoreService,
     public inlineManual: InlineManualService,
     public mixpanel: MixpanelServiceService
-  ) {}
+  ) { }
 
   @ViewChild('addOverageModel') addOverageModel: KRModalComponent;
   @ViewChild('changePlanModel') changePlanModel: KRModalComponent;
@@ -444,6 +444,8 @@ export class PlanUpgradeComponent implements OnInit, OnDestroy {
           plan?.billingUnit && plan?.name !== 'Enterprise'
             ? `${plan?.name} Plan(${plan?.billingUnit})`
             : plan?.name + ' Plan';
+      }
+      if (this.selectedPlan) {
         this.enterpriseForm.currentPlan =
           this.selectedPlan?.planName +
           ' Plan: ' +

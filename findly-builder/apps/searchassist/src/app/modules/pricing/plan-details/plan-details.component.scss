@@ -509,17 +509,31 @@
                             position: absolute;
                             height: 100%;
                             width: 94%;
-                            top: 0;
+                            top: 6px;
                             display: flex;
                             align-items: center;
                             justify-content: center;
-                            background: rgba(239, 240, 241, 0.5);
+                            // background: rgba(239, 240, 241, 0.5);
                             margin-bottom: 10px;
                             padding-bottom: 10px;
                             font-weight: bold;
                             font-size: 12px;
                             line-height: 15px;
                             color: #202124;
+
+                            .no-data-found-text {
+                                padding: 10px;
+                                font-weight: 400;
+                                font-size: 12px;
+                                line-height: 15px;
+                                background: #EFF0F1;
+                                border-radius: 4px;
+                                gap: 10px;
+
+                                .si-warning::before {
+                                    color: #202124;
+                                }
+                            }
                         }
                     }
                     .chart-footer{

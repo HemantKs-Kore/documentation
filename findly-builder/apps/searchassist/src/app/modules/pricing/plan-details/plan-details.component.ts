@@ -122,12 +122,6 @@ export class PlanDetailsComponent implements OnInit, OnDestroy {
       streamId: this.selectedApp._id,
     };
     const payload = {
-      "type": "PricingActiveSubscription",
-      "group": "date",
-      "filters": {
-        "from": "2022-01-30T10:10:41.659Z",
-        "to": "2023-08-28T10:10:41.660Z"
-      }
     };
     this.service.invoke('post.usageMetrics', queryParam, payload).subscribe(
       (res) => {
@@ -291,6 +285,7 @@ export class PlanDetailsComponent implements OnInit, OnDestroy {
     let month = [], year = [], queriesData = [], overagesData = [];
     const monthsFull = { "01": "January", "02": "February", "03": "March", "04": "April", "05": "May", "06": "June", "07": "July", "08": "August", "09": "September", "10": "October", "11": "November", "12": "December" };
     const months = { "01": "Jan", "02": "Feb", "03": "Mar", "04": "Apr", "05": "May", "06": "Jun", "07": "Jul", "08": "Aug", "09": "Sep", "10": "Oct", "11": "Nov", "12": "Dec" };
+
     for (let item of this.usageMetricsData) {
       const start_date = item?.startDate?.split(' ');
       const end_date = item?.endDate?.split(' ');
@@ -303,12 +298,24 @@ export class PlanDetailsComponent implements OnInit, OnDestroy {
       const queriesCountFormat = this.numberFormat(item?.queriesCount);
       const overagesCountFormat = this.numberFormat(item?.overageQueriesCount);
       const total_value = this.numberFormat(item?.total);
+
       queriesData.push({ value: item?.queriesCount, total: total_value, search: queriesCountFormat, overage: overagesCountFormat, type: "Queries", month: monthTo });
-      overagesData.push({ value: item?.overageQueriesCount, total: total_value, search: queriesCountFormat, overage: overagesCountFormat, type: "Queries", month: monthTo });
+      overagesData.push({ value: item?.overageQueriesCount, total: total_value, search: queriesCountFormat, overage: overagesCountFormat, type: "Overages", month: monthTo });
     }
-    this.avgQueryData.queries = (queriesData.reduce((acc, obj) => (acc + obj?.value), 0) / queriesData.length).toFixed(0);
+
+    this.avgQueryData.queries = queriesData?.length > 0 ? (queriesData.reduce((acc, obj) => (acc + obj?.value), 0) / queriesData.length).toFixed(0) : 0;
     this.avgQueryData.overage = (overagesData.reduce((acc, obj) => (acc + obj?.value), 0) / overagesData.length).toFixed(0);
+    const total_queries = Number(this.avgQueryData.queries) + Number(this.avgQueryData.overage);
     this.isNoUsageMetricsData = this.usageMetricsData.every(item => item.total === 0);
+
+    if (this.isNoUsageMetricsData) {
+      month = ['Jan-Feb', 'Feb-Mar', 'Mar-Apr', 'Apr-May', 'May-jun', 'Jun-Jul'];
+      year = [2023, 2023, 2023, 2023, 2023, 2023];
+    }
+
+    // const currentUsageData = this.appSelectionService?.currentUsageData;
+    // const yAxisData = currentUsageData?.searchLimit + (currentUsageData?.overageSearchLimit || 0) * 50000;
+
     this.queryGraph = {
       tooltip: {
         trigger: 'item',
@@ -363,6 +370,8 @@ export class PlanDetailsComponent implements OnInit, OnDestroy {
       yAxis: [
         {
           type: 'value',
+          min: 0,
+          max: this.isNoUsageMetricsData && 5000 || total_queries,
           axisLabel: {
             formatter: (value) => {
               return `${this.numberFormat(value)}`

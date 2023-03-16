@@ -236,7 +236,6 @@
 }
 .si-close-red:before {
   content: "\e926";
-  color: #ef4444;
 }
 .si-graph-filter:before {
   content: "\e927";

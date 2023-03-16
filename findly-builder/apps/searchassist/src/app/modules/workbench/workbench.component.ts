@@ -2278,6 +2278,11 @@ export class WorkbenchComponent implements OnInit, OnDestroy, AfterViewInit {
           this.simulteObj.currentSimulateAnimi = -1;
           this.simulteObj.simulationInprogress = false;
           this.mixpanel.postEvent('Workbench simulation complete', {});
+          if (res?.simulate_errors?.status_code === 400) {
+            this.mixpanel.postEvent('Workbench simulation failed', {
+              'Stage Fail Type': this.selectedStage?.name,
+            });
+          }
         },
         (errRes) => {
           this.mixpanel.postEvent('Workbench simulation failed', {

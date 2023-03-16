@@ -842,17 +842,8 @@ export class SourcesComponent implements OnInit, AfterViewInit, OnDestroy {
       ['contentDoc', 'faqWeb', 'faqDoc'].includes(this.resourceIDToOpen) ||
       ['file', 'importfaq', ''].includes(selectedCrawlMethod.resourceType)
     ) {
-      const isFreePlan =
-        this.appSelectionService?.currentsubscriptionPlanDetails?.subscription
-          ?.planName === 'Free'
-          ? true
-          : false;
-      if (isFreePlan && selectedCrawlMethod.resourceType === 'file') {
-        this.plans?.openSelectedPopup('free_upgrade');
-      } else {
-        this.selectedSourceType = selectedCrawlMethod;
-        this.openAddSourceModal();
-      }
+      this.selectedSourceType = selectedCrawlMethod;
+      this.openAddSourceModal();
     }
 
     if (selectedCrawlMethod && selectedCrawlMethod.id === 'contentWeb') {

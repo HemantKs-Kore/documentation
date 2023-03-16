@@ -418,7 +418,9 @@
                     [options]="queryGraph"
                     style="height: 320px; opacity: 4"></div>
                     <div class="no-data-found-block" *ngIf="isNoUsageMetricsData">
-                      <span class="si-warning mr-1"></span>{{"plans_usage_no_data"|translate}}
+                      <div class="no-data-found-text">
+                        <span class="si-warning mr-1"></span>{{"plans_usage_no_data"|translate}}
+                      </div>
                     </div>
                   </div>
                 <div class="chart-footer">
