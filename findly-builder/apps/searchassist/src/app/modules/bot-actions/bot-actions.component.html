@@ -651,6 +651,34 @@
       </div>
       <div class="kr-sg-input-text">
         <label class="label-text label-text-bot-link">{{
+          'botAction_post_url' | translate
+        }}</label>
+        <div class="w-75 position-relative d-inline-block">
+          <input
+            type="text"
+            placeholder="{{ 'botAction_enter_post_url' | translate }}"
+            [(ngModel)]="configurationLink.postUrl"
+            name="postUrl"
+            class="input-text bot-link-input"
+            [ngClass]="{
+              'err-block': !configurationLink?.postUrl?.length && submitted
+            }"
+          />
+          <img
+            *ngIf="!configurationLink?.postUrl?.length && submitted"
+            id="fieldNameWarning"
+            src="assets/icons/warning_escalation.svg"
+            style="top: 56%; position: absolute; right: 1.5%; display: block"
+            height="12"
+            width="12"
+          />
+        </div>
+        <div class="copy-btn" (click)="copy(configurationLink.postUrl)">
+          <img src="assets/images/icons/copy.svg" />Copy
+        </div>
+      </div>
+      <div class="kr-sg-input-text">
+        <label class="label-text label-text-bot-link">{{
           'botAction_access_token' | translate
         }}</label>
         <div class="w-75 position-relative d-inline-block">
@@ -675,34 +703,6 @@
           />
         </div>
         <div class="copy-btn" (click)="copy(configurationLink.accessToken)">
-          <img src="assets/images/icons/copy.svg" />Copy
-        </div>
-      </div>
-      <div class="kr-sg-input-text">
-        <label class="label-text label-text-bot-link">{{
-          'botAction_post_url' | translate
-        }}</label>
-        <div class="w-75 position-relative d-inline-block">
-          <input
-            type="text"
-            placeholder="{{ 'botAction_enter_post_url' | translate }}"
-            [(ngModel)]="configurationLink.postUrl"
-            name="postUrl"
-            class="input-text bot-link-input"
-            [ngClass]="{
-              'err-block': !configurationLink?.postUrl?.length && submitted
-            }"
-          />
-          <img
-            *ngIf="!configurationLink?.postUrl?.length && submitted"
-            id="fieldNameWarning"
-            src="assets/icons/warning_escalation.svg"
-            style="top: 56%; position: absolute; right: 1.5%; display: block"
-            height="12"
-            width="12"
-          />
-        </div>
-        <div class="copy-btn" (click)="copy(configurationLink.postUrl)">
           <img src="assets/images/icons/copy.svg" />Copy
         </div>
       </div>
