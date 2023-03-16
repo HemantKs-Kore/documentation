@@ -1755,6 +1755,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
       setAppId({ appId: app._id, searchIndexId: app.searchIndexes[0]._id })
     );
     this.training = false;
+    this.headerService.closeSdk();
     this.appSelectionService.openApp(app);
     this.appSelectionService.tourConfigCancel.next({
       name: undefined,
@@ -1848,6 +1849,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
         };
         this.creatingInProgress = false;
         this.openApp(res, true);
+        this.headerService.closeSdk();
         // this.router.navigate(['/apps'], { skipLocationChange: true });
         // this.analyticsClick('apps', true)
       },
