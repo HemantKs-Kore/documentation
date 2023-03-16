@@ -215,7 +215,6 @@ export class SearchSdkComponent implements OnInit, OnDestroy {
   }
 
   initSearchSDK() {
-    this.$('body').append('<div class="start-search-icon-div"></div>');
     setTimeout(() => {
       this.$('.start-search-icon-div').click(() => {
         if (!this.$('.search-background-div:visible').length) {
@@ -243,7 +242,7 @@ export class SearchSdkComponent implements OnInit, OnDestroy {
         '<label class="kr-sg-toggle advancemode-checkbox" style="display:none;"><input type="checkbox" id="advanceModeSdk" checked><div class="slider"></div></label>'
       );
       this.$('.search-background-div').show();
-      // this.$('.start-search-icon-div').addClass('active');
+      this.$('body').addClass('sdk-activated');
       this.$('.search-background-div')
         .off('click')
         .on('click', (event) => {
@@ -266,7 +265,8 @@ export class SearchSdkComponent implements OnInit, OnDestroy {
       });
       this.$('.search-background-div').remove();
       this.$('.advancemode-checkbox').remove();
-      this.$('.start-search-icon-div').removeClass('active');
+      this.$('body').removeClass('sdk-activated');
+      this.$('#introText').hide();
       this.bridgeDataInsights = true;
       this.addNewResult = true;
       this.showInsightFull = false;
@@ -289,6 +289,8 @@ export class SearchSdkComponent implements OnInit, OnDestroy {
       }
       this.$('#test-btn-launch-sdk').addClass('active');
       this.$('#open-chat-window-no-clicks').css({ display: 'block' });
+      this.$('body').addClass('sdk-activated');
+      this.$('#introText').show();
       this.headerService.isSDKOpen = true;
       this.cdr.detach();
     } else {
@@ -298,6 +300,8 @@ export class SearchSdkComponent implements OnInit, OnDestroy {
       });
       this.$('.search-background-div').css('display', 'none');
       this.$('body').removeClass('sdk-body');
+      this.$('body').removeClass('sdk-activated');
+      this.$('#introText').hide();
       if (this.$('#show-all-results-container').length) {
         if (
           !this.$('#show-all-results-container').attr('isCached') ||
@@ -454,7 +458,6 @@ export class SearchSdkComponent implements OnInit, OnDestroy {
         .on('click', () => {
           this.showHideTopDownSearch(false);
         });
-      this.$('.start-search-icon-div').addClass('active');
       this.$('.search-container').addClass('search-container-adv');
       this.$('.search-container').addClass('add-new-result');
       this.initTopDownSearch();
@@ -465,7 +468,6 @@ export class SearchSdkComponent implements OnInit, OnDestroy {
       this.$('.top-down-search-background-div').remove();
       this.$('.close-top-down-search-outer').remove();
       this.$('body').removeClass('sdk-top-down-interface');
-      this.$('.start-search-icon-div').removeClass('active');
       this.bridgeDataInsights = true;
       this.addNewResult = true;
       this.showInsightFull = false;
