@@ -464,24 +464,16 @@ export class AppExperimentsComponent implements OnInit, OnDestroy {
       offset: 0,
       limit: 100,
     };
-    this.service.invoke('get.queryPipelines', quaryparms, header).subscribe(
-      (res) => {
-        this.queryPipeline[index] = res;
-      },
-      (errRes) => {
-        if (
-          errRes &&
-          errRes.error.errors &&
-          errRes.error.errors.length &&
-          errRes.error.errors[0] &&
-          errRes.error.errors[0].msg
-        ) {
-          this.notificationService.notify(errRes.error.errors[0].msg, 'error');
-        } else {
-          this.notificationService.notify('Failed ', 'error');
-        }
-      }
-    );
+    const queryPipelineSub = this.service
+      .invoke('get.queryPipelines', quaryparms, header)
+      .subscribe({
+        next: (res) => {
+          this.queryPipeline[index] = res;
+        },
+        error: this.handlePipelineError.bind(this),
+      });
+
+    this.sub?.add(queryPipelineSub);
   }
 
   getExperiments(
