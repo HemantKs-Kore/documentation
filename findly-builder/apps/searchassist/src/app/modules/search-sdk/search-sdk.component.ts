@@ -91,7 +91,6 @@ export class SearchSdkComponent implements OnInit, OnDestroy {
     private endpointservice: EndPointsService,
     private appSelectionService: AppSelectionService,
     // public dockService: DockStatusService,
-    // public inlineManual: InlineManualService,
     // public mixpanel: MixpanelServiceService,
     // private translate: TranslateService,
     private searchSdkService: SearchSdkService,

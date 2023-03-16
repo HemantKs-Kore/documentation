@@ -9,14 +9,21 @@ import { fadeInOutAnimation } from '../../helpers/animations/animations';
 import { Router } from '@angular/router';
 import { KRModalComponent } from '../../shared/kr-modal/kr-modal.component';
 import { UseronboardingJourneyComponent } from '../../helpers/components/useronboarding-journey/useronboarding-journey.component';
-import { catchError, EMPTY, filter, Subscription, switchMap, tap } from 'rxjs';
+import {
+  catchError,
+  EMPTY,
+  filter,
+  Subscription,
+  switchMap,
+  take,
+  tap,
+} from 'rxjs';
 import { SideBarService } from '@kore.apps/services/header.service';
 import { WorkflowService } from '@kore.apps/services/workflow.service';
 import { ServiceInvokerService } from '@kore.apps/services/service-invoker.service';
 import { NotificationService } from '@kore.apps/services/notification.service';
 import { AuthService } from '@kore.apps/services/auth.service';
 import { AppSelectionService } from '@kore.apps/services/app.selection.service';
-import { InlineManualService } from '@kore.apps/services/inline-manual.service';
 import {
   selectIndexPipelineId,
   selectIndexPipelines,
@@ -32,7 +39,7 @@ declare const $: any;
   styleUrls: ['./summary.component.scss'],
   animations: [fadeInOutAnimation],
 })
-export class SummaryComponent implements OnInit, AfterViewInit, OnDestroy {
+export class SummaryComponent implements OnInit, OnDestroy {
   sub: Subscription;
   math = Math;
   searchIndexId;
@@ -152,7 +159,6 @@ export class SummaryComponent implements OnInit, AfterViewInit, OnDestroy {
     private notificationService: NotificationService,
     private authService: AuthService,
     private router: Router,
-    public inlineManual: InlineManualService,
     public appSelectionService: AppSelectionService,
     private store: Store,
     private storeService: StoreService
@@ -179,7 +185,7 @@ export class SummaryComponent implements OnInit, AfterViewInit, OnDestroy {
         this.initialCall('changed');
         this.onboard?.initialCall();
         this.appSelectionService.getTourConfig();
-        this.getAllOverview();
+        // this.getAllOverview();
       });
     this.currentPlanSubscription =
       this.appSelectionService.currentSubscription.subscribe((res) => {
@@ -190,7 +196,7 @@ export class SummaryComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   initAppIds() {
-    const indexPipelineSub = this.storeService.ids$
+    this.sub = this.storeService.ids$
       .pipe(
         filter((res: any) => !!res.indexPipelineId),
         tap(({ streamId, searchIndexId, indexPipelineId }) => {
@@ -204,21 +210,19 @@ export class SummaryComponent implements OnInit, AfterViewInit, OnDestroy {
         })
       )
       .subscribe();
-
-    this.subscription?.add(indexPipelineSub);
   }
 
-  ngAfterViewInit() {
-    if (!this.inlineManual?.checkVisibility('APP_WALKTHROUGH')) {
-      // this.onboard.openOnBoardingModal(); //commenting this since we have new check list
-    }
-    setTimeout(() => {
-      if (!this.inlineManual?.checkVisibility('APP_WALKTHROUGH')) {
-        this.inlineManual?.openHelp('APP_WALKTHROUGH');
-        this.inlineManual?.visited('APP_WALKTHROUGH');
-      }
-    }, 1000);
-  }
+  // ngAfterViewInit() {
+  //   if (!this.inlineManual?.checkVisibility('APP_WALKTHROUGH')) {
+  //     // this.onboard.openOnBoardingModal(); //commenting this since we have new check list
+  //   }
+  //   setTimeout(() => {
+  //     if (!this.inlineManual?.checkVisibility('APP_WALKTHROUGH')) {
+  //       this.inlineManual?.openHelp('APP_WALKTHROUGH');
+  //       this.inlineManual?.visited('APP_WALKTHROUGH');
+  //     }
+  //   }, 1000);
+  // }
 
   handlePipelineError(errRes) {
     if (
@@ -235,7 +239,7 @@ export class SummaryComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   getIndexPipeline(status?) {
-    const indexPipelineSub = this.store
+    this.sub = this.store
       .select(selectIndexPipelines)
       .pipe(
         tap((indexPipelines: any[]) => {
@@ -250,8 +254,6 @@ export class SummaryComponent implements OnInit, AfterViewInit, OnDestroy {
       .subscribe({
         error: this.handlePipelineError.bind(this),
       });
-
-    this.sub?.add(indexPipelineSub);
   }
 
   //initial ngoninit method call
@@ -286,34 +288,38 @@ export class SummaryComponent implements OnInit, AfterViewInit, OnDestroy {
         to: today.toJSON(),
       },
     };
-    this.service.invoke('get.queries', quaryparms, payload, header).subscribe(
-      (res) => {
-        if (type == 'TotalUsersStats') {
-          this.totalUsersStats = res;
-        } else if (type == 'TotalSearchesStats') {
-          this.totalSearchesStats = res;
-          this.loading_skelton = false;
-        }
-      },
-      (errRes) => {
-        if (
-          errRes &&
-          errRes.error.errors &&
-          errRes.error.errors.length &&
-          errRes.error.errors[0] &&
-          errRes.error.errors[0].msg
-        ) {
-          if (errRes.error.errors[0].code != 'NoActiveSubscription') {
-            this.notificationService.notify(
-              errRes.error.errors[0].msg,
-              'error'
-            );
+    const queriesSub = this.service
+      .invoke('get.queries', quaryparms, payload, header)
+      .subscribe(
+        (res) => {
+          if (type == 'TotalUsersStats') {
+            this.totalUsersStats = res;
+          } else if (type == 'TotalSearchesStats') {
+            this.totalSearchesStats = res;
+            this.loading_skelton = false;
           }
-        } else {
-          this.notificationService.notify('Failed ', 'error');
+        },
+        (errRes) => {
+          if (
+            errRes &&
+            errRes.error.errors &&
+            errRes.error.errors.length &&
+            errRes.error.errors[0] &&
+            errRes.error.errors[0].msg
+          ) {
+            if (errRes.error.errors[0].code != 'NoActiveSubscription') {
+              this.notificationService.notify(
+                errRes.error.errors[0].msg,
+                'error'
+              );
+            }
+          } else {
+            this.notificationService.notify('Failed ', 'error');
+          }
         }
-      }
-    );
+      );
+
+    this.sub?.add(queriesSub);
   }
 
   getChannel() {
@@ -379,42 +385,49 @@ export class SummaryComponent implements OnInit, AfterViewInit, OnDestroy {
     const queryParams = {
       searchIndexId: this.searchIndexId,
     };
-    this.service.invoke('get.overview', queryParams).subscribe(
-      (res) => {
-        this.experiments = res.experiments.slice(0, 3);
-        this.indices = res.indices[0];
-        this.show_indices =
-          this.indices.botActions.tasks > 0 ||
-          this.indices?.connectors?.sources > 0 ||
-          this.indices.files > 0 ||
-          this.indices.structuredDataCount > 0 ||
-          this.indices.web.domains > 0 ||
-          this.indices.web.numOfDocs > 0 ||
-          this.indices.faqs.in_review > 0 ||
-          this.indices.faqs.draft > 0 ||
-          this.indices.faqs.approved > 0
-            ? true
-            : false;
-        if (status == undefined) {
-          const subscription_data =
-            this.appSelectionService?.currentsubscriptionPlanDetails;
-          this.currentPlan = subscription_data?.subscription;
+    const allOverviewSub = this.service
+      .invoke('get.overview', queryParams)
+      .subscribe(
+        (res) => {
+          this.experiments = res.experiments.slice(0, 3);
+          this.indices = res.indices[0];
+          this.show_indices =
+            this.indices.botActions.tasks > 0 ||
+            this.indices?.connectors?.sources > 0 ||
+            this.indices.files > 0 ||
+            this.indices.structuredDataCount > 0 ||
+            this.indices.web.domains > 0 ||
+            this.indices.web.numOfDocs > 0 ||
+            this.indices.faqs.in_review > 0 ||
+            this.indices.faqs.draft > 0 ||
+            this.indices.faqs.approved > 0
+              ? true
+              : false;
+          if (status == undefined) {
+            const subscription_data =
+              this.appSelectionService?.currentsubscriptionPlanDetails;
+            this.currentPlan = subscription_data?.subscription;
+          }
+        },
+        (errRes) => {
+          if (
+            errRes &&
+            errRes.error.errors &&
+            errRes.error.errors.length &&
+            errRes.error.errors[0] &&
+            errRes.error.errors[0].msg
+          ) {
+            this.notificationService.notify(
+              errRes.error.errors[0].msg,
+              'error'
+            );
+          } else {
+            this.notificationService.notify('Failed ', 'error');
+          }
         }
-      },
-      (errRes) => {
-        if (
-          errRes &&
-          errRes.error.errors &&
-          errRes.error.errors.length &&
-          errRes.error.errors[0] &&
-          errRes.error.errors[0].msg
-        ) {
-          this.notificationService.notify(errRes.error.errors[0].msg, 'error');
-        } else {
-          this.notificationService.notify('Failed ', 'error');
-        }
-      }
-    );
+      );
+
+    this.sub?.add(allOverviewSub);
   }
 
   userViewAll() {
@@ -486,7 +499,7 @@ export class SummaryComponent implements OnInit, AfterViewInit, OnDestroy {
       ? this.currentPlanSubscription.unsubscribe()
       : null;
     this.updateUsageData ? this.updateUsageData.unsubscribe() : false;
-
+    console.log('DISSTROYY', this.sub);
     this.sub?.unsubscribe();
   }
 }

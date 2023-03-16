@@ -6,7 +6,6 @@ import { ConfirmationDialogComponent } from '../../helpers/components/confirmati
 import { format } from 'date-fns';
 import { AppSelectionService } from '@kore.apps/services/app.selection.service';
 import { SideBarService } from '@kore.apps/services/header.service';
-import { InlineManualService } from '@kore.apps/services/inline-manual.service';
 import { NotificationService } from '@kore.apps/services/notification.service';
 import { WorkflowService } from '@kore.apps/services/workflow.service';
 import { ServiceInvokerService } from '@kore.apps/services/service-invoker.service';
@@ -163,7 +162,6 @@ export class ResultTemplatesComponent implements OnInit, OnDestroy {
     private appSelectionService: AppSelectionService,
     public dialog: MatDialog,
     public headerService: SideBarService,
-    public inlineManual: InlineManualService,
     public localstore: LocalStoreService,
     private storeService: StoreService,
     private store: Store

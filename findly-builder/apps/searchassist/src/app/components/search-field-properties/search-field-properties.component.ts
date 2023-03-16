@@ -18,7 +18,6 @@ import { of, interval, Subject, Subscription, combineLatest } from 'rxjs';
 import { startWith, tap } from 'rxjs/operators';
 import { AuthService } from '@kore.services/auth.service';
 import { AppSelectionService } from '@kore.services/app.selection.service';
-import { InlineManualService } from '@kore.services/inline-manual.service';
 import { PerfectScrollbarComponent } from 'ngx-perfect-scrollbar';
 import { Router, ActivatedRoute } from '@angular/router';
 import { MixpanelServiceService } from '@kore.services/mixpanel-service.service';
@@ -74,7 +73,6 @@ export class SearchFieldPropertiesComponent implements OnInit, OnDestroy {
     public dialog: MatDialog,
     public authService: AuthService,
     private appSelectionService: AppSelectionService,
-    public inlineManual: InlineManualService,
     public mixpanel: MixpanelServiceService,
     private storeService: StoreService
   ) {}

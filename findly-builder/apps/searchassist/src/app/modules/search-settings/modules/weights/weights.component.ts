@@ -14,7 +14,6 @@ import { WorkflowService } from '@kore.apps/services/workflow.service';
 import { ServiceInvokerService } from '@kore.apps/services/service-invoker.service';
 import { NotificationService } from '@kore.apps/services/notification.service';
 import { AppSelectionService } from '@kore.apps/services/app.selection.service';
-import { InlineManualService } from '@kore.apps/services/inline-manual.service';
 import { MixpanelServiceService } from '@kore.apps/services/mixpanel-service.service';
 import { ConfirmationDialogComponent } from '@kore.apps/helpers/components/confirmation-dialog/confirmation-dialog.component';
 import { RangeSlider } from '@kore.apps/helpers/models/range-slider.model';
@@ -70,7 +69,6 @@ export class WeightsComponent implements OnInit, OnDestroy {
     private service: ServiceInvokerService,
     private notificationService: NotificationService,
     private appSelectionService: AppSelectionService,
-    public inlineManual: InlineManualService,
     public mixpanel: MixpanelServiceService,
     private route: ActivatedRoute,
     private storeService: StoreService
@@ -110,10 +108,10 @@ export class WeightsComponent implements OnInit, OnDestroy {
   displayFields(isSelected = false, data = []) {
     this.weights = data;
     this.prepereWeights();
-    if (!this.inlineManual.checkVisibility('WEIGHTS')) {
-      this.inlineManual.openHelp('WEIGHTS');
-      this.inlineManual.visited('WEIGHTS');
-    }
+    // if (!this.inlineManual.checkVisibility('WEIGHTS')) {
+    //   this.inlineManual.openHelp('WEIGHTS');
+    //   this.inlineManual.visited('WEIGHTS');
+    // }
   }
 
   loadWeights() {

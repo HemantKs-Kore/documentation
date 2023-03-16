@@ -19,7 +19,6 @@ import { NotificationService } from '@kore.apps/services/notification.service';
 import { ServiceInvokerService } from '@kore.apps/services/service-invoker.service';
 import { WorkflowService } from '@kore.apps/services/workflow.service';
 import { AppSelectionService } from '@kore.apps/services/app.selection.service';
-import { InlineManualService } from '@kore.apps/services/inline-manual.service';
 import { MixpanelServiceService } from '@kore.apps/services/mixpanel-service.service';
 import { PlanUpgradeComponent } from '../pricing/shared/plan-upgrade/plan-upgrade.component';
 import { selectAppIds } from '@kore.apps/store/app.selectors';
@@ -213,7 +212,6 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
     private service: ServiceInvokerService,
     private notificationService: NotificationService,
     public dialog: MatDialog,
-    public inlineManual: InlineManualService,
     public mixpanel: MixpanelServiceService,
     private appSelectionService: AppSelectionService,
     private storeService: StoreService
@@ -250,10 +248,10 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
     this.loadingContent = false;
     this.loadingContent1 = true;
     this.loadImageText = true;
-    if (!this.inlineManual.checkVisibility('RULES')) {
-      this.inlineManual.openHelp('RULES');
-      this.inlineManual.visited('RULES');
-    }
+    // if (!this.inlineManual.checkVisibility('RULES')) {
+    //   this.inlineManual.openHelp('RULES');
+    //   this.inlineManual.visited('RULES');
+    // }
   }
   loadRules() {
     // if (this.indexPipelineId) {

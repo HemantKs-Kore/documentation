@@ -29,7 +29,6 @@ import { ServiceInvokerService } from '@kore.apps/services/service-invoker.servi
 import { WorkflowService } from '@kore.apps/services/workflow.service';
 import { AuthService } from '@kore.apps/services/auth.service';
 import { AppSelectionService } from '@kore.apps/services/app.selection.service';
-import { InlineManualService } from '@kore.apps/services/inline-manual.service';
 import { MixpanelServiceService } from '@kore.apps/services/mixpanel-service.service';
 import { TranslationService } from '@kore.libs/shared/src';
 import { Store } from '@ngrx/store';
@@ -128,8 +127,6 @@ export class FieldManagementComponent
     public dialog: MatDialog,
     public authService: AuthService,
     private appSelectionService: AppSelectionService,
-    public inlineManual: InlineManualService,
-    private router: Router,
     public mixpanel: MixpanelServiceService,
     private sanitizer: DomSanitizer,
     private translationService: TranslationService,
@@ -673,10 +670,10 @@ export class FieldManagementComponent
           this.totalRecord = res.totalCount || 0;
           this.loadingContent = false;
           if (this.filelds.length) {
-            if (!this.inlineManual.checkVisibility('FIEDS_TABLE')) {
-              this.inlineManual.openHelp('FIEDS_TABLE');
-              this.inlineManual.visited('FIEDS_TABLE');
-            }
+            // if (!this.inlineManual.checkVisibility('FIEDS_TABLE')) {
+            //   this.inlineManual.openHelp('FIEDS_TABLE');
+            //   this.inlineManual.visited('FIEDS_TABLE');
+            // }
             this.getDyanmicFilterData(searchValue);
             // this.defaultSort( this.sortedObject.type, this.sortedObject.position, this.sortedObject.value)
             // this.sortField( this.sortedObject.type, this.sortedObject.position, this.sortedObject.value)

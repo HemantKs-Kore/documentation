@@ -7,13 +7,9 @@ import * as _ from 'underscore';
 import { Observable, Subscription, tap } from 'rxjs';
 import { WorkflowService } from '@kore.apps/services/workflow.service';
 import { ServiceInvokerService } from '@kore.apps/services/service-invoker.service';
-import { AuthService } from '@kore.apps/services/auth.service';
 import { NotificationService } from '@kore.apps/services/notification.service';
 import { AppSelectionService } from '@kore.apps/services/app.selection.service';
-import { InlineManualService } from '@kore.apps/services/inline-manual.service';
-import { Store } from '@ngrx/store';
 import { ConfirmationDialogComponent } from '@kore.apps/helpers/components/confirmation-dialog/confirmation-dialog.component';
-import { selectAppIds } from '@kore.apps/store/app.selectors';
 import { TranslationService } from '@kore.libs/shared/src';
 import { StoreService } from '@kore.apps/store/store.service';
 declare const $: any;
@@ -106,7 +102,6 @@ export class SynonymsComponent implements OnInit, OnDestroy {
     private notificationService: NotificationService,
     public dialog: MatDialog,
     private appSelectionService: AppSelectionService,
-    public inlineManual: InlineManualService,
     private storeService: StoreService,
     private translationService: TranslationService
   ) {
@@ -145,10 +140,10 @@ export class SynonymsComponent implements OnInit, OnDestroy {
     this.loadingContent = false;
     this.loadingContent1 = true;
     this.loadImageText = true;
-    if (!this.inlineManual.checkVisibility('SYNONYMS')) {
-      this.inlineManual.openHelp('SYNONYMS');
-      this.inlineManual.visited('SYNONYMS');
-    }
+    // if (!this.inlineManual.checkVisibility('SYNONYMS')) {
+    //   this.inlineManual.openHelp('SYNONYMS');
+    //   this.inlineManual.visited('SYNONYMS');
+    // }
   }
   loadSynonyms() {
     if (this.indexPipelineId && this.queryPipelineId) {

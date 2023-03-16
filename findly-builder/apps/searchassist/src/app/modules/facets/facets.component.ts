@@ -16,7 +16,6 @@ import { NotificationService } from '@kore.apps/services/notification.service';
 import { WorkflowService } from '@kore.apps/services/workflow.service';
 import { ServiceInvokerService } from '@kore.apps/services/service-invoker.service';
 import { AppSelectionService } from '@kore.apps/services/app.selection.service';
-import { InlineManualService } from '@kore.apps/services/inline-manual.service';
 import { Store } from '@ngrx/store';
 import { selectAppIds } from '@kore.apps/store/app.selectors';
 import { StoreService } from '@kore.apps/store/store.service';
@@ -163,7 +162,6 @@ export class FacetsComponent implements OnInit, OnDestroy {
     private notificationService: NotificationService,
     public dialog: MatDialog,
     private appSelectionService: AppSelectionService,
-    public inlineManual: InlineManualService,
     private storeService: StoreService
   ) {}
   @ViewChild('facetModalPouup') facetModalPouup: KRModalComponent;
@@ -193,10 +191,10 @@ export class FacetsComponent implements OnInit, OnDestroy {
     this.loadingData = true;
     this.loadingContent1 = true;
     this.loadImageText = true;
-    if (!this.inlineManual.checkVisibility('FACETS')) {
-      this.inlineManual.openHelp('FACETS');
-      this.inlineManual.visited('FACETS');
-    }
+    // if (!this.inlineManual.checkVisibility('FACETS')) {
+    //   this.inlineManual.openHelp('FACETS');
+    //   this.inlineManual.visited('FACETS');
+    // }
   }
 
   loadfacets() {
@@ -552,10 +550,6 @@ export class FacetsComponent implements OnInit, OnDestroy {
           this.loadingData = false;
           // this.noItems = false
           this.emptySearchResults = false;
-          if (!this.inlineManual?.checkVisibility('FACETS_OVERVIEW')) {
-            this.inlineManual?.openHelp('FACETS_OVERVIEW');
-            this.inlineManual?.visited('FACETS_OVERVIEW');
-          }
         } else {
           this.emptySearchResults = true;
           this.loadingContent1 = true;

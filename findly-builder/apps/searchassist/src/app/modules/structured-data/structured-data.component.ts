@@ -8,7 +8,6 @@ import { debounceTime, map, tap } from 'rxjs/operators';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Observable, Subscription } from 'rxjs';
 import { SideBarService } from './../../services/header.service';
-import { InlineManualService } from '../../services/inline-manual.service';
 import { AppSelectionService } from './../../services/app.selection.service';
 import { PerfectScrollbarComponent } from 'ngx-perfect-scrollbar';
 import { SliderComponentComponent } from '../../shared/slider-component/slider-component.component';
@@ -151,7 +150,6 @@ export class StructuredDataComponent implements OnInit, OnDestroy {
     public headerService: SideBarService,
     private router: Router,
     public dialog: MatDialog,
-    public inlineManual: InlineManualService,
     private appSelectionService: AppSelectionService,
     private lazyLoadService: LazyLoadService,
     private translationService: TranslationService,
@@ -313,18 +311,8 @@ export class StructuredDataComponent implements OnInit, OnDestroy {
         if (this.structuredDataItemsList.length == 0) {
           this.noItems = true;
           this.enableSearchBlock = false;
-          // if(!this.inlineManual.checkVisibility('ADD_STRUCTURED_DATA_LANDING')){
-          //   this.inlineManual.openHelp('ADD_STRUCTURED_DATA_LANDING')
-          //   this.inlineManual.visited('ADD_STRUCTURED_DATA_LANDING')
-          // }
         } else {
           this.enableSearchBlock = true;
-          if (
-            !this.inlineManual.checkVisibility('STRUCTURED_DATA_WALKTHROUGH')
-          ) {
-            // this.inlineManual.openHelp('STRUCTURED_DATA_WALKTHROUGH')
-            // this.inlineManual.visited('STRUCTURED_DATA_WALKTHROUGH')
-          }
         }
       },
       (errRes) => {
@@ -482,12 +470,6 @@ export class StructuredDataComponent implements OnInit, OnDestroy {
     });
     // console.log("this.selectedSourceType", this.selectedSourceType);
     this.addStructuredDataModalPopRef = this.addStructuredDataModalPop.open();
-    if (this.selectedSourceType.id == 'contentStucturedDataImport') {
-      if (!this.inlineManual.checkVisibility('IMPORT_STRUCTURED_DATA')) {
-        // this.inlineManual.openHelp('IMPORT_STRUCTURED_DATA')
-        // this.inlineManual.visited('IMPORT_STRUCTURED_DATA')
-      }
-    }
   }
 
   cancleSourceAddition(event?) {

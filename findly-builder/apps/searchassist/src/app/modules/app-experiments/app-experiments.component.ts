@@ -7,7 +7,6 @@ import { ConfirmationDialogComponent } from '../../helpers/components/confirmati
 import { catchError, EMPTY, Subscription, tap } from 'rxjs';
 import { WorkflowService } from '@kore.apps/services/workflow.service';
 import { AppSelectionService } from '@kore.apps/services/app.selection.service';
-import { InlineManualService } from '@kore.apps/services/inline-manual.service';
 import { ServiceInvokerService } from '@kore.apps/services/service-invoker.service';
 import { NotificationService } from '@kore.apps/services/notification.service';
 import { MixpanelServiceService } from '@kore.apps/services/mixpanel-service.service';
@@ -109,7 +108,6 @@ export class AppExperimentsComponent implements OnInit, OnDestroy {
     private notificationService: NotificationService,
     public dialog: MatDialog,
     private appSelectionService: AppSelectionService,
-    public inlineManual: InlineManualService,
     public mixpanel: MixpanelServiceService,
     private translationService: TranslationService,
     private store: Store
@@ -124,15 +122,15 @@ export class AppExperimentsComponent implements OnInit, OnDestroy {
     this.getExperiments();
     this.setSliderDefaults();
     this.getIndexPipeline();
-    this.upgradeComplete();
+    // this.upgradeComplete();
   }
   //when ever upgrade done in experiment page event emitter will call
-  upgradeComplete() {
-    if (!this.inlineManual.checkVisibility('EXPERIMENTS')) {
-      this.inlineManual.openHelp('EXPERIMENTS');
-      this.inlineManual.visited('EXPERIMENTS');
-    }
-  }
+  // upgradeComplete() {
+  //   if (!this.inlineManual.checkVisibility('EXPERIMENTS')) {
+  //     this.inlineManual.openHelp('EXPERIMENTS');
+  //     this.inlineManual.visited('EXPERIMENTS');
+  //   }
+  // }
 
   imageLoaded() {
     this.loadingContent = false;
@@ -544,10 +542,10 @@ export class AppExperimentsComponent implements OnInit, OnDestroy {
           this.loadingContent = false;
           this.loadingContent1 = true;
           //this.inlineManual.getInlineSuggestionData();
-          if (!this.inlineManual.checkVisibility('EXPERIMENTS')) {
-            this.inlineManual.openHelp('EXPERIMENTS');
-            this.inlineManual.visited('EXPERIMENTS');
-          }
+          // if (!this.inlineManual.checkVisibility('EXPERIMENTS')) {
+          //   this.inlineManual.openHelp('EXPERIMENTS');
+          //   this.inlineManual.visited('EXPERIMENTS');
+          // }
         }
         this.getDyanmicFilterData();
       },

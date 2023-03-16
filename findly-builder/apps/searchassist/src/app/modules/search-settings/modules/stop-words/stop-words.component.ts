@@ -6,7 +6,6 @@ import { NotificationService } from '@kore.apps/services/notification.service';
 import { WorkflowService } from '@kore.apps/services/workflow.service';
 import { ServiceInvokerService } from '@kore.apps/services/service-invoker.service';
 import { AppSelectionService } from '@kore.apps/services/app.selection.service';
-import { InlineManualService } from '@kore.apps/services/inline-manual.service';
 import { ConfirmationDialogComponent } from '@kore.apps/helpers/components/confirmation-dialog/confirmation-dialog.component';
 import { StoreService } from '@kore.apps/store/store.service';
 declare const $: any;
@@ -54,7 +53,6 @@ export class StopWordsComponent implements OnInit, OnDestroy {
     private service: ServiceInvokerService,
     private notificationService: NotificationService,
     public dialog: MatDialog,
-    public inlineManual: InlineManualService,
     private appSelectionService: AppSelectionService,
     private storeService: StoreService
   ) {}
@@ -92,10 +90,10 @@ export class StopWordsComponent implements OnInit, OnDestroy {
     this.loadingContent = false;
     this.loadingContent1 = true;
     this.loadImageText = true;
-    if (!this.inlineManual.checkVisibility('STOP_WORDS')) {
-      this.inlineManual.openHelp('STOP_WORDS');
-      this.inlineManual.visited('STOP_WORDS');
-    }
+    // if (!this.inlineManual.checkVisibility('STOP_WORDS')) {
+    //   this.inlineManual.openHelp('STOP_WORDS');
+    //   this.inlineManual.visited('STOP_WORDS');
+    // }
   }
   loadStopwords() {
     if (this.indexPipelineId && this.queryPipelineId) {

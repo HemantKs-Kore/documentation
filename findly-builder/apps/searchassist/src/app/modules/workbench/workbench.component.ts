@@ -22,7 +22,6 @@ import { NotificationService } from '@kore.apps/services/notification.service';
 import { ServiceInvokerService } from '@kore.apps/services/service-invoker.service';
 import { AuthService } from '@kore.apps/services/auth.service';
 import { AppSelectionService } from '@kore.apps/services/app.selection.service';
-import { InlineManualService } from '@kore.apps/services/inline-manual.service';
 import { MixpanelServiceService } from '@kore.apps/services/mixpanel-service.service';
 import { PlanUpgradeComponent } from '../pricing/shared/plan-upgrade/plan-upgrade.component';
 import { LazyLoadService, TranslationService } from '@kore.libs/shared/src';
@@ -294,7 +293,6 @@ export class WorkbenchComponent implements OnInit, OnDestroy, AfterViewInit {
     public dialog: MatDialog,
     public authService: AuthService,
     private appSelectionService: AppSelectionService,
-    public inlineManual: InlineManualService,
     public mixpanel: MixpanelServiceService,
     private lazyLoadService: LazyLoadService,
     private translationService: TranslationService,
@@ -2626,10 +2624,10 @@ export class WorkbenchComponent implements OnInit, OnDestroy, AfterViewInit {
           this.selectStage(res.stages[0], 0);
         }
         this.loadingContent = false;
-        if (!this.inlineManual.checkVisibility('WORKBENCH')) {
-          this.inlineManual.openHelp('WORKBENCH');
-          this.inlineManual.visited('WORKBENCH');
-        }
+        // if (!this.inlineManual.checkVisibility('WORKBENCH')) {
+        //   this.inlineManual.openHelp('WORKBENCH');
+        //   this.inlineManual.visited('WORKBENCH');
+        // }
       },
       (errRes) => {
         this.loadingContent = false;
