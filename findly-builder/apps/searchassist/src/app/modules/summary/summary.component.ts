@@ -1,24 +1,9 @@
-import {
-  Component,
-  OnInit,
-  ViewChild,
-  OnDestroy,
-  AfterViewInit,
-} from '@angular/core';
+import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
 import { fadeInOutAnimation } from '../../helpers/animations/animations';
 import { Router } from '@angular/router';
 import { KRModalComponent } from '../../shared/kr-modal/kr-modal.component';
 import { UseronboardingJourneyComponent } from '../../helpers/components/useronboarding-journey/useronboarding-journey.component';
-import {
-  catchError,
-  EMPTY,
-  filter,
-  startWith,
-  Subscription,
-  switchMap,
-  take,
-  tap,
-} from 'rxjs';
+import { filter, Subscription, tap } from 'rxjs';
 import { SideBarService } from '@kore.apps/services/header.service';
 import { WorkflowService } from '@kore.apps/services/workflow.service';
 import { ServiceInvokerService } from '@kore.apps/services/service-invoker.service';
@@ -179,16 +164,7 @@ export class SummaryComponent implements OnInit, OnDestroy {
         }
       }
     );
-    // this.currentUsageSubscription =
-    //   this.appSelectionService.queryConfigs.subscribe((res) => {
-    //     const subscription_data =
-    //       this.appSelectionService?.currentsubscriptionPlanDetails;
-    //     this.currentPlan = subscription_data?.subscription;
-    //     // this.initialCall('changed');
-    //     this.onboard?.initialCall();
-    //     this.appSelectionService.getTourConfig();
-    //     // this.getAllOverview();
-    //   });
+
     this.currentPlanSubscription =
       this.appSelectionService.currentSubscription.subscribe((res) => {
         const subscription_data =
