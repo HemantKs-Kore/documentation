@@ -202,8 +202,6 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
   /* added on 17/01 */
   getAllgraphdetails(selectedindexpipeline) {
-    console.log('3');
-
     this.selecteddropId = selectedindexpipeline;
     this.getQueries('TotalUsersStats', selectedindexpipeline);
     this.getQueries('TotalSearchesStats', selectedindexpipeline);
@@ -248,12 +246,9 @@ export class DashboardComponent implements OnInit, OnDestroy {
     this.startDate = this.selected.startDate;
     this.endDate = this.selected.endDate;
     this.dateLimt('custom');
-    console.log('1');
     // this.callFlowJourneyData();
   }
   getDateRange(range, e?) {
-    console.log('2');
-
     this.defaultSelectedDay = range;
     if (range === -1) {
       if (!this.showDateRange || $('.md-drppicker').hasClass('hidden')) {
@@ -502,8 +497,6 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
       // end
     }
-
-    console.log('4');
 
     this.getQueries(
       type,
