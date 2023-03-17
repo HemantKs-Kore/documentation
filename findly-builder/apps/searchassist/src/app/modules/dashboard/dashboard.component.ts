@@ -14,6 +14,7 @@ import {
   EMPTY,
   filter,
   Subscription,
+  take,
   tap,
   withLatestFrom,
 } from 'rxjs';
@@ -143,6 +144,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
   initAppIds() {
     const idsSub = this.storeService.ids$
       .pipe(
+        take(1),
         tap(({ indexPipelineId, searchIndexId }) => {
           this.searchIndexId = searchIndexId;
           this.indexPipelineId = indexPipelineId;
@@ -280,19 +282,6 @@ export class DashboardComponent implements OnInit, OnDestroy {
   }
   dateLimt(type) {
     this.dateType = type;
-    /*passing the selectedindexpipeline to getQueries added on 17/01 */
-    const selectedindexpipeline = this.selecteddropId;
-    if (selectedindexpipeline) {
-      this.getQueries('TotalUsersStats', selectedindexpipeline);
-      this.getQueries('TotalSearchesStats', selectedindexpipeline);
-      this.getQueries('TopQuriesWithNoResults', selectedindexpipeline);
-      this.getQueries('MostSearchedQuries', selectedindexpipeline);
-      this.getQueries('QueriesWithNoClicks', selectedindexpipeline);
-      this.getQueries('SearchHistogram', selectedindexpipeline);
-      this.getQueries('TopSearchResults', selectedindexpipeline);
-      this.getQueries('MostClickedPositions', selectedindexpipeline);
-      this.getQueries('FeedbackStats', selectedindexpipeline);
-    }
   }
   getQueries(
     type,
@@ -371,69 +360,76 @@ export class DashboardComponent implements OnInit, OnDestroy {
         by: 'timestamp',
       };
     }
-    this.service.invoke('get.queries', quaryparms, payload, header).subscribe(
-      (res) => {
-        if (type == 'TopQuriesWithNoResults') {
-          this.topQuriesWithNoResults = res.response;
-          this.tsqNoRtotalRecord = res.response.length;
-          this.tsqNoRPtotalRecord = res.response.length;
-          if (!res.response.length) {
-            this.tsqNoRtotalRecord = 0;
-            this.tsqNoRlimitpage = 0;
-            this.tsqNoRrecordEnd = 0;
+    const queriesSub = this.service
+      .invoke('get.queries', quaryparms, payload, header)
+      .subscribe(
+        (res) => {
+          if (type == 'TopQuriesWithNoResults') {
+            this.topQuriesWithNoResults = res.response;
+            this.tsqNoRtotalRecord = res.response.length;
+            this.tsqNoRPtotalRecord = res.response.length;
+            if (!res.response.length) {
+              this.tsqNoRtotalRecord = 0;
+              this.tsqNoRlimitpage = 0;
+              this.tsqNoRrecordEnd = 0;
+            }
+            this.pagination(this.topQuriesWithNoResults, type);
+          } else if (type == 'MostSearchedQuries') {
+            this.mostSearchedQuries = res.result;
+            this.tsqtotalRecord = res.result.length;
+            this.tsqPtotalRecord = res.result.length;
+            if (!res.result.length) {
+              this.tsqtotalRecord = 0;
+              this.tsqlimitpage = 0;
+              this.tsqrecordEnd = 0;
+            }
+            this.pagination(this.mostSearchedQuries, type);
+          } else if (type == 'QueriesWithNoClicks') {
+            this.queriesWithNoClicks = res.result;
+            this.tsqNoCtotalRecord = res.result.length;
+            this.tsqNoCPtotalRecord = res.result.length;
+            if (!res.result.length) {
+              this.tsqNoCtotalRecord = 0;
+              this.tsqNoClimitpage = 0;
+              this.tsqNoCrecordEnd = 0;
+            }
+            this.pagination(this.queriesWithNoClicks, type);
+          } else if (type == 'SearchHistogram') {
+            this.searchHistogram = res.result;
+            this.summaryChart();
+          } else if (type == 'TopSearchResults') {
+            this.topSearchResults = res.result;
+          } else if (type == 'MostClickedPositions') {
+            this.mostClickedPositions = res.results;
+            this.mostClick();
+          } else if (type == 'FeedbackStats') {
+            this.feedbackStats = res || {};
+            this.feedback();
+          } else if (type == 'TotalUsersStats') {
+            this.totalUsersStats = res;
+          } else if (type == 'TotalSearchesStats') {
+            this.totalSearchesStats = res;
           }
-          this.pagination(this.topQuriesWithNoResults, type);
-        } else if (type == 'MostSearchedQuries') {
-          this.mostSearchedQuries = res.result;
-          this.tsqtotalRecord = res.result.length;
-          this.tsqPtotalRecord = res.result.length;
-          if (!res.result.length) {
-            this.tsqtotalRecord = 0;
-            this.tsqlimitpage = 0;
-            this.tsqrecordEnd = 0;
+        },
+        (errRes) => {
+          if (
+            errRes &&
+            errRes.error.errors &&
+            errRes.error.errors.length &&
+            errRes.error.errors[0] &&
+            errRes.error.errors[0].msg
+          ) {
+            this.notificationService.notify(
+              errRes.error.errors[0].msg,
+              'error'
+            );
+          } else {
+            this.notificationService.notify('Failed ', 'error');
           }
-          this.pagination(this.mostSearchedQuries, type);
-        } else if (type == 'QueriesWithNoClicks') {
-          this.queriesWithNoClicks = res.result;
-          this.tsqNoCtotalRecord = res.result.length;
-          this.tsqNoCPtotalRecord = res.result.length;
-          if (!res.result.length) {
-            this.tsqNoCtotalRecord = 0;
-            this.tsqNoClimitpage = 0;
-            this.tsqNoCrecordEnd = 0;
-          }
-          this.pagination(this.queriesWithNoClicks, type);
-        } else if (type == 'SearchHistogram') {
-          this.searchHistogram = res.result;
-          this.summaryChart();
-        } else if (type == 'TopSearchResults') {
-          this.topSearchResults = res.result;
-        } else if (type == 'MostClickedPositions') {
-          this.mostClickedPositions = res.results;
-          this.mostClick();
-        } else if (type == 'FeedbackStats') {
-          this.feedbackStats = res || {};
-          this.feedback();
-        } else if (type == 'TotalUsersStats') {
-          this.totalUsersStats = res;
-        } else if (type == 'TotalSearchesStats') {
-          this.totalSearchesStats = res;
         }
-      },
-      (errRes) => {
-        if (
-          errRes &&
-          errRes.error.errors &&
-          errRes.error.errors.length &&
-          errRes.error.errors[0] &&
-          errRes.error.errors[0].msg
-        ) {
-          this.notificationService.notify(errRes.error.errors[0].msg, 'error');
-        } else {
-          this.notificationService.notify('Failed ', 'error');
-        }
-      }
-    );
+      );
+
+    this.sub?.add(queriesSub);
   }
   sortAnalytics(type?, sortHeaderOption?, sortValue?, navigate?) {
     if (sortValue) {
@@ -501,6 +497,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
       // end
     }
+
     this.getQueries(
       type,
       this.selecteddropId,
@@ -1082,6 +1079,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
       ? this.searchConfigurationSubscription.unsubscribe()
       : false;
     this.appSubscription ? this.appSubscription.unsubscribe() : false;
+    this.sub?.unsubscribe();
   }
   // busyHours(){
   //   let hours = ["5 am","6 am","7 am","8 am","9 am","10 am","11 am","12 pm","1 pm","2 pm","3 pm","4 pm","5 pm"];

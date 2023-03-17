@@ -1,6 +1,6 @@
 import { Component, OnInit, Input, ViewChild, OnDestroy } from '@angular/core';
 import { KRModalComponent } from '../../../../shared/kr-modal/kr-modal.component';
-import { Subscription, tap } from 'rxjs';
+import { Subscription, take, tap } from 'rxjs';
 import {
   PerfectScrollbarComponent,
   PerfectScrollbarDirective,
@@ -78,6 +78,7 @@ export class HighlightingComponent implements OnInit, OnDestroy {
   initAppIds() {
     const idsSub = this.storeService.ids$
       .pipe(
+        take(1),
         tap(({ streamId, searchIndexId, indexPipelineId, queryPipelineId }) => {
           this.streamId = streamId;
           this.searchIndexId = searchIndexId;

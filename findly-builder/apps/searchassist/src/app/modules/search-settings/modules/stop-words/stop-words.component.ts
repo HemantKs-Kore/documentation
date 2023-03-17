@@ -1,12 +1,11 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import * as _ from 'underscore';
-import { Subscription, tap } from 'rxjs';
+import { Subscription, take, tap } from 'rxjs';
 import { NotificationService } from '@kore.apps/services/notification.service';
 import { WorkflowService } from '@kore.apps/services/workflow.service';
 import { ServiceInvokerService } from '@kore.apps/services/service-invoker.service';
 import { AppSelectionService } from '@kore.apps/services/app.selection.service';
-import { InlineManualService } from '@kore.apps/services/inline-manual.service';
 import { ConfirmationDialogComponent } from '@kore.apps/helpers/components/confirmation-dialog/confirmation-dialog.component';
 import { StoreService } from '@kore.apps/store/store.service';
 declare const $: any;
@@ -54,7 +53,6 @@ export class StopWordsComponent implements OnInit, OnDestroy {
     private service: ServiceInvokerService,
     private notificationService: NotificationService,
     public dialog: MatDialog,
-    public inlineManual: InlineManualService,
     private appSelectionService: AppSelectionService,
     private storeService: StoreService
   ) {}
@@ -73,6 +71,7 @@ export class StopWordsComponent implements OnInit, OnDestroy {
   initAppIds() {
     const idsSub = this.storeService.ids$
       .pipe(
+        take(1),
         tap(({ streamId, searchIndexId, indexPipelineId, queryPipelineId }) => {
           this.streamId = streamId;
           this.searchIndexId = searchIndexId;
@@ -92,10 +91,10 @@ export class StopWordsComponent implements OnInit, OnDestroy {
     this.loadingContent = false;
     this.loadingContent1 = true;
     this.loadImageText = true;
-    if (!this.inlineManual.checkVisibility('STOP_WORDS')) {
-      this.inlineManual.openHelp('STOP_WORDS');
-      this.inlineManual.visited('STOP_WORDS');
-    }
+    // if (!this.inlineManual.checkVisibility('STOP_WORDS')) {
+    //   this.inlineManual.openHelp('STOP_WORDS');
+    //   this.inlineManual.visited('STOP_WORDS');
+    // }
   }
   loadStopwords() {
     if (this.indexPipelineId && this.queryPipelineId) {
@@ -167,17 +166,21 @@ export class StopWordsComponent implements OnInit, OnDestroy {
       indexPipelineId: this.indexPipelineId,
       code: 'en',
     };
-    this.service.invoke('get.stopWordsList', quaryparms).subscribe(
-      (res) => {
-        this.loadingContent = false;
-        if (res?.stopwords) {
-          this.stopwordsList = res.stopwords;
+    const stopWordsListSub = this.service
+      .invoke('get.stopWordsList', quaryparms)
+      .subscribe(
+        (res) => {
+          this.loadingContent = false;
+          if (res?.stopwords) {
+            this.stopwordsList = res.stopwords;
+          }
+        },
+        (errRes) => {
+          this.errorToaster(errRes, 'Failed to get stop words');
         }
-      },
-      (errRes) => {
-        this.errorToaster(errRes, 'Failed to get stop words');
-      }
-    );
+      );
+
+    this.sub?.add(stopWordsListSub);
   }
   // VALIDATING NEWLY ADDED STOPWORD
   validateAddStopWord() {
@@ -426,17 +429,21 @@ export class StopWordsComponent implements OnInit, OnDestroy {
       queryPipelineId: this.queryPipelineId,
       indexPipelineId: this.indexPipelineId,
     };
-    this.service.invoke('get.queryPipeline', quaryparms).subscribe(
-      (res) => {
-        this.stopwordData = res?.settings.stopwords;
-      },
-      (errRes) => {
-        this.notificationService.notify(
-          'failed to get querypipeline details',
-          'error'
-        );
-      }
-    );
+    const queryPipelineSub = this.service
+      .invoke('get.queryPipeline', quaryparms)
+      .subscribe(
+        (res) => {
+          this.stopwordData = res?.settings.stopwords;
+        },
+        (errRes) => {
+          this.notificationService.notify(
+            'failed to get querypipeline details',
+            'error'
+          );
+        }
+      );
+
+    this.sub?.add(queryPipelineSub);
   }
   sildervaluechanged(event) {
     const quaryparms: any = {

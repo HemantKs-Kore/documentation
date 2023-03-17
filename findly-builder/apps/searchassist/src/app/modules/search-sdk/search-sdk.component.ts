@@ -15,7 +15,7 @@ import { AuthService } from '@kore.apps/services/auth.service';
 import { InsightsModule } from '../insights/insights.module';
 import { NgIf } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
-import { filter, tap } from 'rxjs/operators';
+import { filter, take, tap } from 'rxjs/operators';
 import {
   selectAppIds,
   selectSearchExperiance,
@@ -91,7 +91,6 @@ export class SearchSdkComponent implements OnInit, OnDestroy {
     private endpointservice: EndPointsService,
     private appSelectionService: AppSelectionService,
     // public dockService: DockStatusService,
-    // public inlineManual: InlineManualService,
     // public mixpanel: MixpanelServiceService,
     // private translate: TranslateService,
     private searchSdkService: SearchSdkService,
@@ -141,6 +140,7 @@ export class SearchSdkComponent implements OnInit, OnDestroy {
   initAppIds() {
     const idsSub = this.storeService.ids$
       .pipe(
+        take(1),
         tap(({ streamId, searchIndexId, indexPipelineId, queryPipelineId }) => {
           this.streamId = streamId;
           this.searchIndexId = searchIndexId;

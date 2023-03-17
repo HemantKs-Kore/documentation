@@ -1,12 +1,11 @@
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { KRModalComponent } from '../../shared/kr-modal/kr-modal.component';
-import { filter, Subscription, tap, withLatestFrom } from 'rxjs';
+import { filter, Subscription, take, tap, withLatestFrom } from 'rxjs';
 import { ConfirmationDialogComponent } from '../../helpers/components/confirmation-dialog/confirmation-dialog.component';
 import { format } from 'date-fns';
 import { AppSelectionService } from '@kore.apps/services/app.selection.service';
 import { SideBarService } from '@kore.apps/services/header.service';
-import { InlineManualService } from '@kore.apps/services/inline-manual.service';
 import { NotificationService } from '@kore.apps/services/notification.service';
 import { WorkflowService } from '@kore.apps/services/workflow.service';
 import { ServiceInvokerService } from '@kore.apps/services/service-invoker.service';
@@ -163,7 +162,6 @@ export class ResultTemplatesComponent implements OnInit, OnDestroy {
     private appSelectionService: AppSelectionService,
     public dialog: MatDialog,
     public headerService: SideBarService,
-    public inlineManual: InlineManualService,
     public localstore: LocalStoreService,
     private storeService: StoreService,
     private store: Store
@@ -179,6 +177,7 @@ export class ResultTemplatesComponent implements OnInit, OnDestroy {
   initAppIds() {
     const idsSub = this.storeService.ids$
       .pipe(
+        take(1),
         tap(({ streamId, searchIndexId, indexPipelineId, queryPipelineId }) => {
           this.streamId = streamId;
           this.searchIndexId = searchIndexId;
@@ -246,7 +245,7 @@ export class ResultTemplatesComponent implements OnInit, OnDestroy {
         searchKey: '',
       };
     }
-    this.service.invoke(url, quaryparms).subscribe(
+    const presentableFieldsSub = this.service.invoke(url, quaryparms).subscribe(
       (res) => {
         if (type == 'all') {
           // this.heading_fieldData = [...res];
@@ -288,6 +287,8 @@ export class ResultTemplatesComponent implements OnInit, OnDestroy {
         this.errorToaster(errRes, 'Failed to get fields');
       }
     );
+
+    this.subscription?.add(presentableFieldsSub);
   }
   /** Field Selection */
   filedSelect(type, field) {

@@ -56,7 +56,7 @@ export const rootReducer = createReducer(
     return state;
   }),
   on(resetIndexPipelineId, (state, { appId }) => {
-    if (appId === state.appId) {
+    if (appId !== state.appId) {
       return {
         ...state,
         indexPipelineId: null,
@@ -66,7 +66,13 @@ export const rootReducer = createReducer(
     return state;
   }),
   on(setAppId, (state, { appId, searchIndexId }) => {
-    return { ...state, appId, searchIndexId, searchExperienceConfig: null };
+    return {
+      ...state,
+      appId,
+      searchIndexId,
+      ...(appId !== state.appId && { indexPipelineId: null }),
+      searchExperienceConfig: null,
+    };
   }),
   on(setIndexPipelineId, (state, { indexPipelineId }) => {
     return { ...state, indexPipelineId };

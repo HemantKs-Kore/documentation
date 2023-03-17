@@ -13,7 +13,7 @@ import { WorkflowService } from '@kore.apps/services/workflow.service';
 import { selectAppIds } from '@kore.apps/store/app.selectors';
 import { StoreService } from '@kore.apps/store/store.service';
 import { Store } from '@ngrx/store';
-import { of, interval, Subject, Subscription, tap } from 'rxjs';
+import { of, interval, Subject, Subscription, tap, take } from 'rxjs';
 import { v4 } from 'uuid';
 @Component({
   selector: 'app-custom-configurations',
@@ -46,6 +46,7 @@ export class CustomConfigurationsComponent implements OnInit, OnDestroy {
   initAppIds() {
     const idsSub = this.storeService.ids$
       .pipe(
+        take(1),
         tap(({ streamId, searchIndexId, indexPipelineId, queryPipelineId }) => {
           this.streamId = streamId;
           this.searchIndexId = searchIndexId;
@@ -70,32 +71,36 @@ export class CustomConfigurationsComponent implements OnInit, OnDestroy {
       indexPipelineId: this.indexPipelineId,
     };
     this.isLoading = true;
-    this.service.invoke('get.queryPipeline', quaryparms).subscribe(
-      (res) => {
-        this.isLoading = false;
-        this.customConfig = res.settings.customConfiguration.values;
-        // this.customConfig = [
-        //   {
-        //     key: 'English', value: 'en',_id:'01'
-        //   },
-        //   {
-        //     key: 'Japanies', value: 'jp',_id:'02'
-        //   },
-        //   {
-        //     key: 'Chinies', value: 'cn',_id:'03'
-        //   },
-        //   {
-        //     key: 'Hindi', value: 'in',_id:'04'
-        //   }
-        // ]
-      },
-      (errRes) => {
-        this.notificationService.notify(
-          'failed to get querypipeline details',
-          'error'
-        );
-      }
-    );
+    const queryPipelineSub = this.service
+      .invoke('get.queryPipeline', quaryparms)
+      .subscribe(
+        (res) => {
+          this.isLoading = false;
+          this.customConfig = res.settings.customConfiguration.values;
+          // this.customConfig = [
+          //   {
+          //     key: 'English', value: 'en',_id:'01'
+          //   },
+          //   {
+          //     key: 'Japanies', value: 'jp',_id:'02'
+          //   },
+          //   {
+          //     key: 'Chinies', value: 'cn',_id:'03'
+          //   },
+          //   {
+          //     key: 'Hindi', value: 'in',_id:'04'
+          //   }
+          // ]
+        },
+        (errRes) => {
+          this.notificationService.notify(
+            'failed to get querypipeline details',
+            'error'
+          );
+        }
+      );
+
+    this.sub?.add(queryPipelineSub);
   }
   //**update query pipeline */
   sendData(configObj) {

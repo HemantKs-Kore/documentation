@@ -14,7 +14,7 @@ import { KRModalComponent } from '../../shared/kr-modal/kr-modal.component';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import * as _ from 'underscore';
 import { interval, Subscription } from 'rxjs';
-import { startWith, tap } from 'rxjs/operators';
+import { startWith, take, tap } from 'rxjs/operators';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
 import { FormControl } from '@angular/forms';
@@ -22,7 +22,6 @@ import { NotificationService } from '@kore.apps/services/notification.service';
 import { ServiceInvokerService } from '@kore.apps/services/service-invoker.service';
 import { AuthService } from '@kore.apps/services/auth.service';
 import { AppSelectionService } from '@kore.apps/services/app.selection.service';
-import { InlineManualService } from '@kore.apps/services/inline-manual.service';
 import { MixpanelServiceService } from '@kore.apps/services/mixpanel-service.service';
 import { PlanUpgradeComponent } from '../pricing/shared/plan-upgrade/plan-upgrade.component';
 import { LazyLoadService, TranslationService } from '@kore.libs/shared/src';
@@ -294,7 +293,6 @@ export class WorkbenchComponent implements OnInit, OnDestroy, AfterViewInit {
     public dialog: MatDialog,
     public authService: AuthService,
     private appSelectionService: AppSelectionService,
-    public inlineManual: InlineManualService,
     public mixpanel: MixpanelServiceService,
     private lazyLoadService: LazyLoadService,
     private translationService: TranslationService,
@@ -313,6 +311,7 @@ export class WorkbenchComponent implements OnInit, OnDestroy, AfterViewInit {
   initAppIds() {
     const idsSub = this.storeService.ids$
       .pipe(
+        take(1),
         tap(({ searchIndexId, indexPipelineId, queryPipelineId }) => {
           this.serachIndexId = searchIndexId;
           this.indexPipelineId = indexPipelineId;
@@ -2507,35 +2506,39 @@ export class WorkbenchComponent implements OnInit, OnDestroy, AfterViewInit {
     offset ? (quaryparms.offset = offset) : null;
     const serviceId = 'post.allField';
     // let serviceId ='get.allField';
-    this.service.invoke(serviceId, quaryparms, payload).subscribe(
-      (res) => {
-        // this.fields = res.fields || [];
-        if (res.hasMore) {
-          //this.fields.push(res.fields);
-          res.fields.forEach((element) => {
-            this.fields.push(element);
-          });
-          // this.fields = [...res.fields];
-          this.getFileds(this.fieldOffset);
-          this.fieldOffset = this.fieldOffset + 50;
-        } else {
-          if (!offset) {
-            this.fields = res.fields || [];
-          } else if (offset) {
+    const fieldsSub = this.service
+      .invoke(serviceId, quaryparms, payload)
+      .subscribe(
+        (res) => {
+          // this.fields = res.fields || [];
+          if (res.hasMore) {
+            //this.fields.push(res.fields);
             res.fields.forEach((element) => {
               this.fields.push(element);
             });
+            // this.fields = [...res.fields];
+            this.getFileds(this.fieldOffset);
+            this.fieldOffset = this.fieldOffset + 50;
+          } else {
+            if (!offset) {
+              this.fields = res.fields || [];
+            } else if (offset) {
+              res.fields.forEach((element) => {
+                this.fields.push(element);
+              });
+            }
+            this.getIndexPipline();
+            this.loadingFields = false;
+            this.fieldOffset = 50;
           }
-          this.getIndexPipline();
+        },
+        (errRes) => {
           this.loadingFields = false;
-          this.fieldOffset = 50;
+          this.errorToaster(errRes, 'Failed to get index  stages');
         }
-      },
-      (errRes) => {
-        this.loadingFields = false;
-        this.errorToaster(errRes, 'Failed to get index  stages');
-      }
-    );
+      );
+
+    this.sub?.add(fieldsSub);
   }
   deleteIndField(record, dialogRef) {
     const quaryparms: any = {
@@ -2636,10 +2639,10 @@ export class WorkbenchComponent implements OnInit, OnDestroy, AfterViewInit {
           this.selectStage(res.stages[0], 0);
         }
         this.loadingContent = false;
-        if (!this.inlineManual.checkVisibility('WORKBENCH')) {
-          this.inlineManual.openHelp('WORKBENCH');
-          this.inlineManual.visited('WORKBENCH');
-        }
+        // if (!this.inlineManual.checkVisibility('WORKBENCH')) {
+        //   this.inlineManual.openHelp('WORKBENCH');
+        //   this.inlineManual.visited('WORKBENCH');
+        // }
       },
       (errRes) => {
         this.loadingContent = false;

@@ -50,7 +50,7 @@ export class AppSelectionService {
   public resumingApp = false;
   public currentsubscriptionPlanDetails: any;
   public currentUsageData: any;
-  public inlineManualInfo: any = [];
+  // public inlineManualInfo: any = [];
   public env_dep_type = '';
   res_length = 0;
   getTourArray: any = {};
@@ -263,7 +263,7 @@ export class AppSelectionService {
       path: app?.disabled ? (isUpgrade ? '/pricing' : '/sources') : '/summary',
       disable: app?.disabled ? true : false,
     });
-    this.getInlineManualcall();
+    // this.getInlineManualcall();
     if (isDemo) {
       this.openSDKApp.next(undefined);
       this.routeChanged.next({
@@ -370,36 +370,36 @@ export class AppSelectionService {
       }
     );
   }
-  getInlineManualcall() {
-    const selectedApp = this.workflowService?.selectedApp();
-    const searchIndexId = selectedApp ? selectedApp.searchIndexes[0]?._id : '';
-    const quaryparms: any = {
-      searchIndexId: searchIndexId,
-    };
-    if (searchIndexId) {
-      this.service.invoke('get.inlineManual', quaryparms).subscribe(
-        (res) => {
-          this.inlineManualInfo = res.inlineManualInfo;
-        },
-        (errRes) => {
-          if (
-            errRes &&
-            errRes.error.errors &&
-            errRes.error.errors.length &&
-            errRes.error.errors[0] &&
-            errRes.error.errors[0].msg
-          ) {
-            this.notificationService.notify(
-              errRes.error.errors[0].msg,
-              'error'
-            );
-          } else {
-            this.notificationService.notify('Failed ', 'error');
-          }
-        }
-      );
-    }
-  }
+  // getInlineManualcall() {
+  //   const selectedApp = this.workflowService?.selectedApp();
+  //   const searchIndexId = selectedApp ? selectedApp.searchIndexes[0]?._id : '';
+  //   const quaryparms: any = {
+  //     searchIndexId: searchIndexId,
+  //   };
+  //   if (searchIndexId) {
+  //     this.service.invoke('get.inlineManual', quaryparms).subscribe(
+  //       (res) => {
+  //         this.inlineManualInfo = res.inlineManualInfo;
+  //       },
+  //       (errRes) => {
+  //         if (
+  //           errRes &&
+  //           errRes.error.errors &&
+  //           errRes.error.errors.length &&
+  //           errRes.error.errors[0] &&
+  //           errRes.error.errors[0].msg
+  //         ) {
+  //           this.notificationService.notify(
+  //             errRes.error.errors[0].msg,
+  //             'error'
+  //           );
+  //         } else {
+  //           this.notificationService.notify('Failed ', 'error');
+  //         }
+  //       }
+  //     );
+  //   }
+  // }
 
   errorToaster(errRes, message) {
     if (
@@ -422,7 +422,7 @@ export class AppSelectionService {
     const searchIndex = app.searchIndexes[0]?._id;
     this.workflowService?.selectedSearchIndex(searchIndex);
     //this.getQureryPipelineIds(queryPipeline);
-    await this.getIndexPipelineIds();
+    // await this.getIndexPipelineIds();
     this.headerService.updateSearchConfiguration();
   }
   getStreamData(app) {
