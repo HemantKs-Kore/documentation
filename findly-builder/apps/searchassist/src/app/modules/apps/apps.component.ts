@@ -14,7 +14,6 @@ import { NotificationService } from '@kore.apps/services/notification.service';
 import { SideBarService } from '@kore.apps/services/header.service';
 import { AppSelectionService } from '@kore.apps/services/app.selection.service';
 import { AuthService } from '@kore.apps/services/auth.service';
-import { InlineManualService } from '@kore.apps/services/inline-manual.service';
 import { MixpanelServiceService } from '@kore.apps/services/mixpanel-service.service';
 import { Store } from '@ngrx/store';
 import { resetAppIds, setAppId } from '@kore.apps/store/app.actions';
@@ -111,7 +110,6 @@ export class AppsComponent implements OnInit, AfterViewInit, OnDestroy {
     private headerService: SideBarService,
     private appSelectionService: AppSelectionService,
     public authService: AuthService,
-    public inlineManual: InlineManualService,
     private route: ActivatedRoute,
     public mixpanel: MixpanelServiceService,
     private store: Store,

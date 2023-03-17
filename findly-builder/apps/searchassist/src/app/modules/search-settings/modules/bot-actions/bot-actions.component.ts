@@ -5,7 +5,7 @@ import { ServiceInvokerService } from '@kore.apps/services/service-invoker.servi
 import { WorkflowService } from '@kore.apps/services/workflow.service';
 import { StoreService } from '@kore.apps/store/store.service';
 
-import { Subscription, tap } from 'rxjs';
+import { Subscription, take, tap } from 'rxjs';
 
 @Component({
   selector: 'app-bot-actions',
@@ -37,6 +37,7 @@ export class BotActionsComponent implements OnInit, OnDestroy {
   initAppIds() {
     const idsSub = this.storeService.ids$
       .pipe(
+        take(1),
         tap(({ streamId, searchIndexId, indexPipelineId, queryPipelineId }) => {
           this.streamId = streamId;
           this.searchIndexId = searchIndexId;
@@ -61,18 +62,22 @@ export class BotActionsComponent implements OnInit, OnDestroy {
       indexPipelineId: this.indexPipelineId,
     };
     this.isLoading = true;
-    this.service.invoke('get.queryPipeline', quaryparms).subscribe(
-      (res) => {
-        this.botactionsdata = res.settings.botActions;
-        this.isLoading = false;
-      },
-      (errRes) => {
-        this.notificationService.notify(
-          'failed to get querypipeline details',
-          'error'
-        );
-      }
-    );
+    const queryPipelineSub = this.service
+      .invoke('get.queryPipeline', quaryparms)
+      .subscribe(
+        (res) => {
+          this.botactionsdata = res.settings.botActions;
+          this.isLoading = false;
+        },
+        (errRes) => {
+          this.notificationService.notify(
+            'failed to get querypipeline details',
+            'error'
+          );
+        }
+      );
+
+    this.sub?.add(queryPipelineSub);
   }
 
   //** Change in the Slider state to call put Query Pipeline */

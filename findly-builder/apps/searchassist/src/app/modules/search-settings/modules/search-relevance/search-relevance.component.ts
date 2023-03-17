@@ -1,12 +1,15 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Subscription, tap } from 'rxjs';
+import { Subscription, take, tap } from 'rxjs';
 import { WorkflowService } from '@kore.apps/services/workflow.service';
 import { AppSelectionService } from '@kore.apps/services/app.selection.service';
 import { NotificationService } from '@kore.apps/services/notification.service';
 import { ServiceInvokerService } from '@kore.apps/services/service-invoker.service';
 import { RangeSlider } from '@kore.apps/helpers/models/range-slider.model';
 import { Store } from '@ngrx/store';
-import { selectAppIds } from '@kore.apps/store/app.selectors';
+import {
+  selectAppIds,
+  selectQueryPipelines,
+} from '@kore.apps/store/app.selectors';
 import { StoreService } from '@kore.apps/store/store.service';
 
 declare const $: any;
@@ -48,7 +51,8 @@ export class SearchRelevanceComponent implements OnInit, OnDestroy {
     private appSelectionService: AppSelectionService,
     private notificationService: NotificationService,
     private service: ServiceInvokerService,
-    private storeService: StoreService
+    private storeService: StoreService,
+    private store: Store
   ) {}
   sliderOpen;
   disableCancle: any = true;
@@ -60,6 +64,7 @@ export class SearchRelevanceComponent implements OnInit, OnDestroy {
   initAppIds() {
     const idsSub = this.storeService.ids$
       .pipe(
+        take(1),
         tap(({ streamId, searchIndexId, indexPipelineId, queryPipelineId }) => {
           this.streamId = streamId;
           this.searchIndexId = searchIndexId;
@@ -78,16 +83,12 @@ export class SearchRelevanceComponent implements OnInit, OnDestroy {
   }
   //** to fetch the threshold range slider value */
   prepareThreshold(comingFrom) {
-    const quaryparms: any = {
-      searchIndexID: this.searchIndexId,
-      queryPipelineId: this.queryPipelineId,
-      indexPipelineId: this.indexPipelineId,
-    };
     if (comingFrom == 'menu') {
       this.isLoading = true;
     }
-    this.service.invoke('get.queryPipeline', quaryparms).subscribe(
-      (res) => {
+
+    const queryPipelinesSub = this.store.select(selectQueryPipelines).subscribe(
+      (res: any) => {
         this.isLoading = false;
         this.searchrelevancedata = res.settings.searchRelevance;
         this.searchrelevanceToggle = res.settings.searchRelevance.enable;
@@ -119,6 +120,8 @@ export class SearchRelevanceComponent implements OnInit, OnDestroy {
         );
       }
     );
+
+    this.sub?.add(queryPipelinesSub);
   }
 
   getUpdateItem(type, event) {

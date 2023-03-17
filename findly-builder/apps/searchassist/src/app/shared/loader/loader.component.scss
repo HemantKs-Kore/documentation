@@ -20,7 +20,7 @@
   width: 100%;
   left: 0;
   height: 4px;
-  transform: scaleX(0.3);
+  // transform: scaleX(0.3);
   transform-origin: 0 0;
   will-change: transform;
   background-color: $hoverBlue; // 731DD8
@@ -31,9 +31,9 @@
   from {
     transform: scaleX(0);
   }
-  70% {
-    transform: scaleX(0.99);
-  }
+  // 70% {
+  //   transform: scaleX(0.99);
+  // }
   // 70% {
   //   width: 70%;
   // }

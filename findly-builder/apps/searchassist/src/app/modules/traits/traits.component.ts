@@ -8,10 +8,9 @@ import {
 } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import * as _ from 'underscore';
-import { combineLatest, Subscription } from 'rxjs';
+import { Subscription, take, tap } from 'rxjs';
 import { PerfectScrollbarComponent } from 'ngx-perfect-scrollbar';
 import { nanoid } from 'nanoid';
-import { Router, ActivatedRoute } from '@angular/router';
 import { KRModalComponent } from '../../shared/kr-modal/kr-modal.component';
 import { NotificationService } from '@kore.apps/services/notification.service';
 import { ServiceInvokerService } from '@kore.apps/services/service-invoker.service';
@@ -21,12 +20,7 @@ import { AppSelectionService } from '@kore.apps/services/app.selection.service';
 import { MixpanelServiceService } from '@kore.apps/services/mixpanel-service.service';
 import { ConfirmationDialogComponent } from '@kore.apps/helpers/components/confirmation-dialog/confirmation-dialog.component';
 import { TranslationService } from '@kore.libs/shared/src';
-import { Store } from '@ngrx/store';
-import {
-  selectIndexPipelineId,
-  selectQueryPipelineId,
-  selectSearchIndexId,
-} from '@kore.apps/store/app.selectors';
+import { StoreService } from '@kore.apps/store/store.service';
 
 declare const $: any;
 @Component({
@@ -121,7 +115,7 @@ export class TraitsComponent implements OnInit, OnDestroy {
     private appSelectionService: AppSelectionService,
     public mixpanel: MixpanelServiceService,
     private translationService: TranslationService,
-    private store: Store
+    private storeService: StoreService
   ) {
     // Load translations for this module
     this.translationService.loadModuleTranslations();
@@ -133,16 +127,28 @@ export class TraitsComponent implements OnInit, OnDestroy {
   }
 
   initAppIds() {
-    this.subscription = combineLatest([
-      this.store.select(selectIndexPipelineId),
-      this.store.select(selectSearchIndexId),
-      this.store.select(selectQueryPipelineId),
-    ]).subscribe(([indexPipelineId, searchIndexId, queryPipelineId]) => {
-      this.queryPipelineId = queryPipelineId;
-      this.serachIndexId = searchIndexId;
-      this.indexPipelineId = indexPipelineId;
-      this.loadFileds();
-    });
+    this.subscription = this.storeService.ids$
+      .pipe(
+        take(1),
+        tap(({ queryPipelineId, searchIndexId, indexPipelineId }) => {
+          this.queryPipelineId = queryPipelineId;
+          this.serachIndexId = searchIndexId;
+          this.indexPipelineId = indexPipelineId;
+          this.loadFileds();
+        })
+      )
+      .subscribe();
+
+    // this.subscription = combineLatest([
+    //   this.store.select(selectIndexPipelineId),
+    //   this.store.select(selectSearchIndexId),
+    //   this.store.select(selectQueryPipelineId),
+    // ]).subscribe(([indexPipelineId, searchIndexId, queryPipelineId]) => {
+    //   this.queryPipelineId = queryPipelineId;
+    //   this.serachIndexId = searchIndexId;
+    //   this.indexPipelineId = indexPipelineId;
+    //   this.loadFileds();
+    // });
   }
 
   isEmptyScreenLoading() {
@@ -193,7 +199,7 @@ export class TraitsComponent implements OnInit, OnDestroy {
     if (this.serachTraits === '') {
       quaryparms.search = this.serachTraits;
     }
-    this.service.invoke('get.traits', quaryparms).subscribe(
+    const traitsSub = this.service.invoke('get.traits', quaryparms).subscribe(
       (res) => {
         this.mixpanel.postEvent('Enter Traits', {});
         this.traits.traitGroups = res.traitGroups;
@@ -248,6 +254,8 @@ export class TraitsComponent implements OnInit, OnDestroy {
         this.loadingTraits = false;
       }
     );
+
+    this.subscription?.add(traitsSub);
   }
   trainBot() {
     const quaryparms: any = {

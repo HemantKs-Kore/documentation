@@ -10,7 +10,7 @@ import { WorkflowService } from '@kore.services/workflow.service';
 import { ServiceInvokerService } from '@kore.services/service-invoker.service';
 import { NotificationService } from '@kore.services/notification.service';
 import { AppSelectionService } from '@kore.services/app.selection.service';
-import { Subscription, tap } from 'rxjs';
+import { Subscription, take, tap } from 'rxjs';
 import { SideBarService } from './../../services/header.service';
 import { Store } from '@ngrx/store';
 import { selectAppIds } from '@kore.apps/store/app.selectors';
@@ -81,6 +81,7 @@ export class AddResultComponent implements OnInit, OnDestroy {
   initAppIds() {
     const idsSub = this.storeService.ids$
       .pipe(
+        take(1),
         tap(({ indexPipelineId, queryPipelineId }) => {
           this.indexPipelineId = indexPipelineId;
           this.queryPipelineId = queryPipelineId;
@@ -118,16 +119,20 @@ export class AddResultComponent implements OnInit, OnDestroy {
       indexPipelineId: this.indexPipelineId,
       query,
     };
-    this.service.invoke('get.getFieldAutocomplete', quaryparms).subscribe(
-      (res) => {
-        this.fieldData = res;
-        this.isResultTemplate = false;
-        this.getAllSettings();
-      },
-      (errRes) => {
-        this.notificationService.notify('Failed to get fields', 'error');
-      }
-    );
+    const getFieldAutocompleteSub = this.service
+      .invoke('get.getFieldAutocomplete', quaryparms)
+      .subscribe(
+        (res) => {
+          this.fieldData = res;
+          this.isResultTemplate = false;
+          this.getAllSettings();
+        },
+        (errRes) => {
+          this.notificationService.notify('Failed to get fields', 'error');
+        }
+      );
+
+    this.sub?.add(getFieldAutocompleteSub);
   }
 
   getAllSettings() {

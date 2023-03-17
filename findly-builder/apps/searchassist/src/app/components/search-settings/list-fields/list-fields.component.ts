@@ -13,7 +13,7 @@ import {
 } from 'ngx-perfect-scrollbar';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Subscription, tap } from 'rxjs';
+import { Subscription, take, tap } from 'rxjs';
 import { KRModalComponent } from '../../../shared/kr-modal/kr-modal.component';
 import { AppSelectionService } from '@kore.apps/services/app.selection.service';
 import { ServiceInvokerService } from '@kore.apps/services/service-invoker.service';
@@ -89,6 +89,7 @@ export class ListFieldsComponent implements OnInit, OnDestroy {
   initAppIds() {
     const idsSub = this.storeService.ids$
       .pipe(
+        take(1),
         tap(({ streamId, searchIndexId, indexPipelineId, queryPipelineId }) => {
           this.streamId = streamId;
           this.searchIndexId = searchIndexId;

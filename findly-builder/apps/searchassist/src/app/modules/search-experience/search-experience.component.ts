@@ -15,7 +15,6 @@ import { NgbDropdownMenu } from '@ng-bootstrap/ng-bootstrap';
 import { ServiceInvokerService } from '@kore.apps/services/service-invoker.service';
 import { SideBarService } from '@kore.apps/services/header.service';
 import { AppSelectionService } from '@kore.apps/services/app.selection.service';
-import { InlineManualService } from '@kore.apps/services/inline-manual.service';
 import { WorkflowService } from '@kore.apps/services/workflow.service';
 import { MixpanelServiceService } from '@kore.apps/services/mixpanel-service.service';
 import { AuthService } from '@kore.apps/services/auth.service';
@@ -149,7 +148,6 @@ export class SearchExperienceComponent implements OnInit, OnDestroy {
     private appSelectionService: AppSelectionService,
     public headerService: SideBarService,
     public localstore: LocalStoreService,
-    public inlineManual: InlineManualService,
     public mixpanel: MixpanelServiceService,
     private store: Store,
     private storeService: StoreService
@@ -776,10 +774,10 @@ export class SearchExperienceComponent implements OnInit, OnDestroy {
     this.color6 = this.searchObject.searchInteractionsConfig.welcomeMsgColor;
     this.color7 =
       this.searchObject.searchInteractionsConfig?.welcomeMsgFillColor;
-    if (!this.inlineManual.checkVisibility('SEARCH_INTERFACE')) {
-      this.inlineManual.openHelp('SEARCH_INTERFACE');
-      this.inlineManual.visited('SEARCH_INTERFACE');
-    }
+    // if (!this.inlineManual.checkVisibility('SEARCH_INTERFACE')) {
+    //   this.inlineManual.openHelp('SEARCH_INTERFACE');
+    //   this.inlineManual.visited('SEARCH_INTERFACE');
+    // }
   }
   //save color method
   saveColor(color) {
