@@ -1495,19 +1495,22 @@ export class WorkbenchComponent implements OnInit, OnDestroy, AfterViewInit {
         if (save === true) {
           this.saveConfig();
         } else {
-          this.simulate();
+          const warningmessage = 'Chosen stage will be applied on all documents since there are no conditions provided';
+          this.simulate(warningmessage);
         }
       } else if (this.selectedStage.type === 'exclude_document') {
         if (save === true) {
           this.saveConfig();
         } else {
-          this.simulate();
+          const warningmessage = 'Chosen stage will be applied on all documents since there are no conditions provided';
+          this.simulate(warningmessage);
         }
       } else if (this.selectedStage.type === 'snippet_extraction') {
         if (save === true) {
           this.saveConfig();
         } else {
-          this.simulate();
+          const warningmessage = 'Chosen stage will be applied on all documents since there are no conditions provided';
+          this.simulate(warningmessage);
         }
       } else if (this.selectedStage.type === 'field_mapping') {
         if (

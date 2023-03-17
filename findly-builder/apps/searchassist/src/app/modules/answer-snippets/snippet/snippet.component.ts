@@ -223,6 +223,7 @@ export class SnippetComponent implements OnInit, OnDestroy {
           this.openCloseConsentModal('close');
           if (this.openAIObj.isOpenAIFirst) this.getOpenAIKey();
           this.notificationService.notify('Open AI Key updated successfully', 'success');
+          this.cd.detectChanges();
         }
       },
       (errRes) => {

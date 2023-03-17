@@ -85,16 +85,7 @@ export class ConnectorsComponent implements OnInit {
   sessionData: any = {};
   connectorsData: any = [];
   availableConnectorsData: any = [];
-  configurationObj: any = {
-    name: '',
-    clientId: '',
-    clientSecret: '',
-    hostUrl: '',
-    hostDomainName: '',
-    username: '',
-    password: '',
-    tenantId: '',
-  };
+  configurationObj: any = new connectorsConfigObj();
   overViewData: any = { overview: [], coneten: [], jobs: [] };
   syncCount = { count: [], hours: 0, minutes: 0, days: 0 };
   showProtecedText: any = {
@@ -408,16 +399,7 @@ export class ConnectorsComponent implements OnInit {
       this.isPopupDelete = true;
       this.syncCount = { count: [], hours: 0, minutes: 0, days: 0 };
       this.overViewData = { overview: [], coneten: [], jobs: [] };
-      this.configurationObj = {
-        name: '',
-        clientId: '',
-        clientSecret: '',
-        hostUrl: '',
-        hostDomainName: '',
-        username: '',
-        password: '',
-        tenantId: '',
-      };
+      this.configurationObj = new connectorsConfigObj();
       this.addConnectorSteps = this.addConnectorSteps.map((item, index) => {
         if (index > 0) {
           return { ...item, isCompleted: false };
@@ -602,8 +584,7 @@ export class ConnectorsComponent implements OnInit {
   //call if authorize api was success
   goBacktoListPage() {
     this.openDeleteModel('close');
-    this.backToPage('cancel');
-    if (this.selectedContent !== 'edit') this.selectedContent = 'list';
+    if (this.selectedContent === 'add') this.backToPage('cancel');
   }
 
   //update connector
@@ -831,4 +812,15 @@ export class ConnectorsComponent implements OnInit {
   openUserMetaTagsSlider() {
     this.appSelectionService.topicGuideShow.next(undefined);
   }
+}
+
+class connectorsConfigObj {
+  name: '';
+  clientId: '';
+  clientSecret: '';
+  hostUrl: '';
+  hostDomainName: '';
+  username: '';
+  password: '';
+  tenantId: '';
 }

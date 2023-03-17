@@ -33,20 +33,17 @@
 
             <div class="count-graph-data">
               <div class="count-sec">
-                <div class="cont-up-down">
+                <div class="cont-up-down {{totalUsersStats?.percentageIncrease < 0&&'fail'}}">
                   <span
                     class="bg-type"
-                    [ngClass]="{
-                      fail: totalUsersStats?.percentageIncrease < 0
-                    }"
                   >
-                    <i class="si-sort-down"></i>
+                    <i class="{{totalUsersStats?.percentageIncrease>=0?'si-sort-up':'si-sort-down'}}"></i>
                   </span>
                   {{ math.abs(totalUsersStats?.percentageIncrease) }}%
                 </div>
                 <div class="count">{{ totalUsersStats?.totalUsers }}</div>
               </div>
-              <div class="graph-sec">
+              <div class="graph-sec" *ngIf="totalUsersStats?.percentageIncrease>0">
                 <img
                   src="assets/images/pricing-plan/landing-page/{{
                     totalUsersStats?.percentageIncrease >= 0
@@ -96,18 +93,17 @@
 
             <div class="count-graph-data">
               <div class="count-sec">
-                <div class="cont-up-down">
+                <div class="cont-up-down {{totalSearchesStats?.searchRate < 0&&'fail'}}">
                   <span
                     class="bg-type"
-                    [ngClass]="{ fail: totalSearchesStats?.searchRate < 0 }"
                   >
-                    <i class="si-sort-down"></i>
+                    <i class="{{totalSearchesStats?.searchRate>=0?'si-sort-up':'si-sort-down'}}"></i>
                   </span>
                   {{ math.abs(totalSearchesStats?.searchRate) }}%
                 </div>
                 <div class="count">{{ totalSearchesStats?.totalSearches }}</div>
               </div>
-              <div class="graph-sec">
+              <div class="graph-sec" *ngIf="totalSearchesStats?.searchRate>0">
                 <img
                   src="assets/images/pricing-plan/landing-page/{{
                     totalSearchesStats?.searchRate >= 0
@@ -157,14 +153,11 @@
 
             <div class="count-graph-data">
               <div class="count-sec">
-                <div class="cont-up-down">
+                <div class="cont-up-down {{totalSearchesStats?.increasedResultRate < 0&&'fail'}}">
                   <span
                     class="bg-type"
-                    [ngClass]="{
-                      fail: totalSearchesStats?.increasedResultRate < 0
-                    }"
                   >
-                    <i class="si-sort-down"></i>
+                    <i class="{{totalSearchesStats?.increasedResultRate>=0?'si-sort-up':'si-sort-down'}}"></i>
                   </span>
                   {{ 'overview_Result_rate' | translate }}:
                   {{ math.abs(totalSearchesStats?.increasedResultRate) }}%
@@ -177,7 +170,7 @@
                   }}
                 </div>
               </div>
-              <div class="graph-sec">
+              <div class="graph-sec" *ngIf="totalSearchesStats?.increasedResultRate>0">
                 <img
                   src="assets/images/pricing-plan/landing-page/{{
                     totalSearchesStats?.increasedResultRate >= 0
@@ -227,14 +220,11 @@
 
             <div class="count-graph-data">
               <div class="count-sec">
-                <div class="cont-up-down">
+                <div class="cont-up-down {{totalUsersStats?.percentageIncrease < 0&&'fail'}}">
                   <span
-                    class="bg-type"
-                    [ngClass]="{
-                      fail: totalUsersStats?.percentageIncrease < 0
-                    }"
+                    class="bg-type"                    
                   >
-                    <i class="si-sort-down"></i>
+                    <i class="{{totalUsersStats?.percentageIncrease>=0?'si-sort-up':'si-sort-down'}}"></i>
                   </span>
                   {{ 'overview_CTR' | translate }}:
                   {{ math.abs(totalSearchesStats?.ctr) }}%
