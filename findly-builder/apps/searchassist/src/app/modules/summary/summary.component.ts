@@ -13,6 +13,7 @@ import {
   catchError,
   EMPTY,
   filter,
+  startWith,
   Subscription,
   switchMap,
   take,
@@ -41,6 +42,7 @@ declare const $: any;
 })
 export class SummaryComponent implements OnInit, OnDestroy {
   sub: Subscription;
+  pipelineSub: Subscription;
   math = Math;
   searchIndexId;
   indices: any = [];
@@ -177,16 +179,16 @@ export class SummaryComponent implements OnInit, OnDestroy {
         }
       }
     );
-    this.currentUsageSubscription =
-      this.appSelectionService.queryConfigs.subscribe((res) => {
-        const subscription_data =
-          this.appSelectionService?.currentsubscriptionPlanDetails;
-        this.currentPlan = subscription_data?.subscription;
-        this.initialCall('changed');
-        this.onboard?.initialCall();
-        this.appSelectionService.getTourConfig();
-        // this.getAllOverview();
-      });
+    // this.currentUsageSubscription =
+    //   this.appSelectionService.queryConfigs.subscribe((res) => {
+    //     const subscription_data =
+    //       this.appSelectionService?.currentsubscriptionPlanDetails;
+    //     this.currentPlan = subscription_data?.subscription;
+    //     // this.initialCall('changed');
+    //     this.onboard?.initialCall();
+    //     this.appSelectionService.getTourConfig();
+    //     // this.getAllOverview();
+    //   });
     this.currentPlanSubscription =
       this.appSelectionService.currentSubscription.subscribe((res) => {
         const subscription_data =
@@ -196,7 +198,7 @@ export class SummaryComponent implements OnInit, OnDestroy {
   }
 
   initAppIds() {
-    this.sub = this.storeService.ids$
+    this.pipelineSub = this.storeService.ids$
       .pipe(
         filter((res: any) => !!res.indexPipelineId),
         tap(({ streamId, searchIndexId, indexPipelineId }) => {
@@ -204,25 +206,13 @@ export class SummaryComponent implements OnInit, OnDestroy {
           this.searchIndexId = searchIndexId;
           this.indexPipelineId = indexPipelineId;
 
-          this.initialCall();
+          this.initialCall('changed');
           this.getQueries('TotalUsersStats');
           this.getQueries('TotalSearchesStats');
         })
       )
       .subscribe();
   }
-
-  // ngAfterViewInit() {
-  //   if (!this.inlineManual?.checkVisibility('APP_WALKTHROUGH')) {
-  //     // this.onboard.openOnBoardingModal(); //commenting this since we have new check list
-  //   }
-  //   setTimeout(() => {
-  //     if (!this.inlineManual?.checkVisibility('APP_WALKTHROUGH')) {
-  //       this.inlineManual?.openHelp('APP_WALKTHROUGH');
-  //       this.inlineManual?.visited('APP_WALKTHROUGH');
-  //     }
-  //   }, 1000);
-  // }
 
   handlePipelineError(errRes) {
     if (
@@ -258,6 +248,12 @@ export class SummaryComponent implements OnInit, OnDestroy {
 
   //initial ngoninit method call
   initialCall(status?) {
+    const subscription_data =
+      this.appSelectionService?.currentsubscriptionPlanDetails;
+    this.currentPlan = subscription_data?.subscription;
+    this.onboard?.initialCall();
+    this.appSelectionService.getTourConfig();
+
     const toogleObj = {
       title: 'Summary',
       toShowWidgetNavigation: this.workflowService.showAppCreationHeader(),
@@ -267,6 +263,7 @@ export class SummaryComponent implements OnInit, OnDestroy {
     this.getAllOverview(status);
     this.getIndexPipeline(status);
   }
+
   getQueries(type) {
     //moved the below flag to ngOnInit to fix the NAN display issue for few sec in summary screen on 08/03
     //this.loading_skelton = true;
@@ -378,6 +375,17 @@ export class SummaryComponent implements OnInit, OnDestroy {
       }
     );
   }
+
+  getAllOverviewObs() {
+    if (!this.searchIndexId) {
+      return;
+    }
+    const queryParams = {
+      searchIndexId: this.searchIndexId,
+    };
+    return this.service.invoke('get.overview', queryParams);
+  }
+
   getAllOverview(status?) {
     if (!this.searchIndexId) {
       return;
@@ -386,7 +394,7 @@ export class SummaryComponent implements OnInit, OnDestroy {
       searchIndexId: this.searchIndexId,
     };
     const allOverviewSub = this.service
-      .invoke('get.overview', queryParams)
+      .invoke('get.overview', queryParams, null, { cache: 'cachable' })
       .subscribe(
         (res) => {
           this.experiments = res.experiments.slice(0, 3);
@@ -499,7 +507,7 @@ export class SummaryComponent implements OnInit, OnDestroy {
       ? this.currentPlanSubscription.unsubscribe()
       : null;
     this.updateUsageData ? this.updateUsageData.unsubscribe() : false;
-    console.log('DISSTROYY', this.sub);
+    this.pipelineSub?.unsubscribe();
     this.sub?.unsubscribe();
   }
 }

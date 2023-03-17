@@ -45,17 +45,17 @@ export class AppEffects {
     );
   });
 
-  resetAppIds$ = createEffect(
-    () => {
-      return this.actions$.pipe(
-        ofType(setAppId),
-        tap(({ appId }) => {
-          this.store.dispatch(resetIndexPipelineId({ appId }));
-        })
-      );
-    },
-    { dispatch: false }
-  );
+  // resetAppIds$ = createEffect(
+  //   () => {
+  //     return this.actions$.pipe(
+  //       ofType(setAppId),
+  //       tap(({ appId }) => {
+  //         this.store.dispatch(resetIndexPipelineId({ appId }));
+  //       })
+  //     );
+  //   },
+  //   { dispatch: false }
+  // );
 
   setQueryPipelineId$ = createEffect((): any => {
     return this.actions$.pipe(
