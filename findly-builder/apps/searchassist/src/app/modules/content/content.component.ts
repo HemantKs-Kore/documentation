@@ -31,7 +31,6 @@ import { WorkflowService } from '@kore.apps/services/workflow.service';
 import { AppSelectionService } from '@kore.apps/services/app.selection.service';
 import { AuthService } from '@kore.apps/services/auth.service';
 import { formatDistanceToNow, format } from 'date-fns';
-import { InlineManualService } from '@kore.apps/services/inline-manual.service';
 import { MixpanelServiceService } from '@kore.apps/services/mixpanel-service.service';
 import { OnboardingComponent } from '../onboarding/onboarding.component';
 import { PlanUpgradeComponent } from '../pricing/shared/plan-upgrade/plan-upgrade.component';
@@ -348,9 +347,7 @@ export class ContentComponent implements OnInit, OnDestroy {
     private service: ServiceInvokerService,
     private notificationService: NotificationService,
     private authService: AuthService,
-    private router: Router,
     public dialog: MatDialog,
-    public inlineManual: InlineManualService,
     public dockService: DockStatusService,
     private appSelectionService: AppSelectionService,
     public mixpanel: MixpanelServiceService,
@@ -744,10 +741,10 @@ export class ContentComponent implements OnInit, OnDestroy {
         if (res.sources.length > 0) {
           this.loadingContent = false;
           this.loadingData = false;
-          if (!this.inlineManual.checkVisibility('CONTENT_OVERVIEW')) {
-            this.inlineManual.openHelp('CONTENT_OVERVIEW');
-            this.inlineManual.visited('CONTENT_OVERVIEW');
-          }
+          // if (!this.inlineManual.checkVisibility('CONTENT_OVERVIEW')) {
+          //   this.inlineManual.openHelp('CONTENT_OVERVIEW');
+          //   this.inlineManual.visited('CONTENT_OVERVIEW');
+          // }
         } else {
           if (
             (searchValue === undefined && res?.sources?.length == 0) ||
@@ -756,14 +753,14 @@ export class ContentComponent implements OnInit, OnDestroy {
             this.loadingContent1 = true;
             this.loadingData = true;
           }
-          setTimeout(() => {
-            if (
-              !this.inlineManual.checkVisibility('ADD_CONTENT_FROM_LANDING')
-            ) {
-              this.inlineManual.openHelp('ADD_CONTENT_FROM_LANDING');
-              this.inlineManual.visited('ADD_CONTENT_FROM_LANDING');
-            }
-          }, 500);
+          // setTimeout(() => {
+          //   if (
+          //     !this.inlineManual.checkVisibility('ADD_CONTENT_FROM_LANDING')
+          //   ) {
+          //     this.inlineManual.openHelp('ADD_CONTENT_FROM_LANDING');
+          //     this.inlineManual.visited('ADD_CONTENT_FROM_LANDING');
+          //   }
+          // }, 500);
           // if(!this.inlineManual.checkVisibility('ADD_CONTENT_FROM_LANDING')){
           //   this.inlineManual.openHelp('ADD_CONTENT_FROM_LANDING')
           //   this.inlineManual.visited('ADD_CONTENT_FROM_LANDING')

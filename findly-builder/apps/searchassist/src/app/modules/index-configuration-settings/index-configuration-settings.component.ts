@@ -5,7 +5,7 @@ import { EMPTY, interval, Subscription } from 'rxjs';
 import { ConfirmationDialogComponent } from '../../helpers/components/confirmation-dialog/confirmation-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
 import { DockStatusService } from '../../services/dockstatusService/dock-status.service';
-import { catchError, startWith, tap } from 'rxjs/operators';
+import { catchError, startWith, take, tap } from 'rxjs/operators';
 import * as _ from 'underscore';
 import { ServiceInvokerService } from '@kore.apps/services/service-invoker.service';
 import { NotificationService } from '@kore.apps/services/notification.service';
@@ -77,6 +77,7 @@ export class IndexConfigurationSettingsComponent implements OnInit, OnDestroy {
   initAppIds() {
     const idsSub = this.storeService.ids$
       .pipe(
+        take(1),
         tap(({ streamId, searchIndexId, indexPipelineId }) => {
           this.streamId = streamId;
           this.searchIndexId = searchIndexId;

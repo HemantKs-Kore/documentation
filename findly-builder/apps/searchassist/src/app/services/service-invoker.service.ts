@@ -64,6 +64,7 @@ export class ServiceInvokerService {
     if (_url.endsWith('?')) {
       _url = _url.replace('?', '');
     }
+
     // _url += this.genRandQuery();
 
     if (_verb === HTTP_VERB_DELETE) {

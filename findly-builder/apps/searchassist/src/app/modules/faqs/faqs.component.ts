@@ -37,7 +37,6 @@ import { NotificationService } from '@kore.apps/services/notification.service';
 import { AuthService } from '@kore.apps/services/auth.service';
 import { AppSelectionService } from '@kore.apps/services/app.selection.service';
 import { MixpanelServiceService } from '@kore.apps/services/mixpanel-service.service';
-import { InlineManualService } from '@kore.apps/services/inline-manual.service';
 import { OnboardingComponent } from '../onboarding/onboarding.component';
 import { TranslationService } from '@kore.libs/shared/src';
 
@@ -209,10 +208,8 @@ export class FaqsComponent implements OnInit, AfterViewInit, OnDestroy {
     private router: Router,
     public dialog: MatDialog,
     // private dock: DockStatusService,
-    private convertMDtoHTML: ConvertMDtoHTML,
     // public dockService: DockStatusService,
     private headerService: SideBarService,
-    public inlineManual: InlineManualService,
     private appSelectionService: AppSelectionService,
     public mixpanel: MixpanelServiceService,
     @Inject('instance1') private faqServiceAlt: FaqsService,
@@ -1037,10 +1034,10 @@ export class FaqsComponent implements OnInit, AfterViewInit, OnDestroy {
         //   this.selectAll()
         // }, 1)
         // FAQ Overview
-        if (!this.inlineManual.checkVisibility('FAQ_OVERVIEW')) {
-          this.inlineManual.openHelp('FAQ_OVERVIEW');
-          this.inlineManual.visited('FAQ_OVERVIEW');
-        }
+        // if (!this.inlineManual.checkVisibility('FAQ_OVERVIEW')) {
+        //   this.inlineManual.openHelp('FAQ_OVERVIEW');
+        //   this.inlineManual.visited('FAQ_OVERVIEW');
+        // }
 
         this.editfaq = null;
         this.apiLoading = false;
@@ -1234,12 +1231,12 @@ export class FaqsComponent implements OnInit, AfterViewInit, OnDestroy {
           this.extractedFaqs = true;
         } else {
           this.loadingFaqs1 = true;
-          setTimeout(() => {
-            if (!this.inlineManual.checkVisibility('ADD_FAQ_FROM_LANDING')) {
-              this.inlineManual.openHelp('ADD_FAQ_FROM_LANDING');
-              this.inlineManual.visited('ADD_FAQ_FROM_LANDING');
-            }
-          }, 500);
+          // setTimeout(() => {
+          //   if (!this.inlineManual.checkVisibility('ADD_FAQ_FROM_LANDING')) {
+          //     this.inlineManual.openHelp('ADD_FAQ_FROM_LANDING');
+          //     this.inlineManual.visited('ADD_FAQ_FROM_LANDING');
+          //   }
+          // }, 500);
         }
         this.getDyanmicFilterData(searchValue, 'landingPage');
       },

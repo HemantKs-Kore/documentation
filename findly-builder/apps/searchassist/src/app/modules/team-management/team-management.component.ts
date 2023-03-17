@@ -17,7 +17,7 @@ import {
   MatAutocomplete,
 } from '@angular/material/autocomplete';
 import { Observable, Subscription, combineLatest } from 'rxjs';
-import { debounceTime, map } from 'rxjs/operators';
+import { debounceTime, map, take, tap } from 'rxjs/operators';
 import { NotificationService } from '@kore.apps/services/notification.service';
 import { ServiceInvokerService } from '@kore.apps/services/service-invoker.service';
 import { WorkflowService } from '@kore.apps/services/workflow.service';
@@ -31,6 +31,7 @@ import {
   selectSearchIndexId,
 } from '@kore.apps/store/app.selectors';
 import { Store } from '@ngrx/store';
+import { StoreService } from '@kore.apps/store/store.service';
 declare const $: any;
 @Component({
   selector: 'app-team-management',
@@ -90,7 +91,8 @@ export class TeamManagementComponent implements OnInit, OnDestroy {
     private appSelectionService: AppSelectionService,
     public authService: AuthService,
     private translationService: TranslationService,
-    private store: Store
+    private store: Store,
+    private storeService: StoreService
   ) {
     // Load translations for this module
     this.translationService.loadModuleTranslations();
@@ -116,19 +118,21 @@ export class TeamManagementComponent implements OnInit, OnDestroy {
       result.personalInfo.firstName + ' (' + result.orgDomain + ')';
     this.inputFormatter = (result) => result.orgDomain;
   }
+
   initAppIds() {
-    this.subscription = combineLatest([
-      this.store.select(selectAppId),
-      this.store.select(selectIndexPipelineId),
-      this.store.select(selectSearchIndexId),
-      this.store.select(selectQueryPipelineId),
-    ]).subscribe(([appId, indexPipelineId, searchIndexId, queryPipelineId]) => {
-      this.queryPipelineId = queryPipelineId;
-      this.serachIndexId = searchIndexId;
-      this.indexPipelineId = indexPipelineId;
-      this.appId = appId;
-    });
+    this.subscription = this.storeService.ids$
+      .pipe(
+        take(1),
+        tap(({ streamId, queryPipelineId, searchIndexId, indexPipelineId }) => {
+          this.queryPipelineId = queryPipelineId;
+          this.serachIndexId = searchIndexId;
+          this.indexPipelineId = indexPipelineId;
+          this.appId = streamId;
+        })
+      )
+      .subscribe();
   }
+
   checkUncheckTeam(team) {
     const selectedElements = $('.selectEachfacetInput:checkbox:checked');
     const allElements = $('.selectEachfacetInput');

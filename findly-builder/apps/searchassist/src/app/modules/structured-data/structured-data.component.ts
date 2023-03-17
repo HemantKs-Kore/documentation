@@ -4,11 +4,10 @@ import { NotificationService } from '../../services/notification.service';
 import { KRModalComponent } from '../../shared/kr-modal/kr-modal.component';
 import { MatDialog } from '@angular/material/dialog';
 import { ConfirmationDialogComponent } from '../../helpers/components/confirmation-dialog/confirmation-dialog.component';
-import { debounceTime, map, tap } from 'rxjs/operators';
+import { debounceTime, map, take, tap } from 'rxjs/operators';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Observable, Subscription } from 'rxjs';
 import { SideBarService } from './../../services/header.service';
-import { InlineManualService } from '../../services/inline-manual.service';
 import { AppSelectionService } from './../../services/app.selection.service';
 import { PerfectScrollbarComponent } from 'ngx-perfect-scrollbar';
 import { SliderComponentComponent } from '../../shared/slider-component/slider-component.component';
@@ -151,7 +150,6 @@ export class StructuredDataComponent implements OnInit, OnDestroy {
     public headerService: SideBarService,
     private router: Router,
     public dialog: MatDialog,
-    public inlineManual: InlineManualService,
     private appSelectionService: AppSelectionService,
     private lazyLoadService: LazyLoadService,
     private translationService: TranslationService,
@@ -176,6 +174,7 @@ export class StructuredDataComponent implements OnInit, OnDestroy {
   initAppIds() {
     const idsSub = this.storeService.ids$
       .pipe(
+        take(1),
         tap(({ queryPipelineId, searchIndexId, indexPipelineId }) => {
           this.searchIndexId = searchIndexId;
           this.indexPipelineId = indexPipelineId;
@@ -313,18 +312,8 @@ export class StructuredDataComponent implements OnInit, OnDestroy {
         if (this.structuredDataItemsList.length == 0) {
           this.noItems = true;
           this.enableSearchBlock = false;
-          // if(!this.inlineManual.checkVisibility('ADD_STRUCTURED_DATA_LANDING')){
-          //   this.inlineManual.openHelp('ADD_STRUCTURED_DATA_LANDING')
-          //   this.inlineManual.visited('ADD_STRUCTURED_DATA_LANDING')
-          // }
         } else {
           this.enableSearchBlock = true;
-          if (
-            !this.inlineManual.checkVisibility('STRUCTURED_DATA_WALKTHROUGH')
-          ) {
-            // this.inlineManual.openHelp('STRUCTURED_DATA_WALKTHROUGH')
-            // this.inlineManual.visited('STRUCTURED_DATA_WALKTHROUGH')
-          }
         }
       },
       (errRes) => {
@@ -482,12 +471,6 @@ export class StructuredDataComponent implements OnInit, OnDestroy {
     });
     // console.log("this.selectedSourceType", this.selectedSourceType);
     this.addStructuredDataModalPopRef = this.addStructuredDataModalPop.open();
-    if (this.selectedSourceType.id == 'contentStucturedDataImport') {
-      if (!this.inlineManual.checkVisibility('IMPORT_STRUCTURED_DATA')) {
-        // this.inlineManual.openHelp('IMPORT_STRUCTURED_DATA')
-        // this.inlineManual.visited('IMPORT_STRUCTURED_DATA')
-      }
-    }
   }
 
   cancleSourceAddition(event?) {
@@ -1537,30 +1520,34 @@ export class StructuredDataComponent implements OnInit, OnDestroy {
       interface: 'fullSearch',
     };
     this.isResultTemplateLoading = true;
-    this.service.invoke('get.settingsByInterface', quaryparms).subscribe(
-      (res) => {
-        this.isResultTemplateLoading = false;
-        if (res.groupSetting) {
-          res.groupSetting.conditions.forEach((element) => {
-            if (!this.isResultTemplate) {
-              if (element.fieldValue === 'data') {
-                if (element?.templateId?.length) {
-                  this.isResultTemplate = true;
-                } else {
-                  this.isResultTemplate = false;
+    const allSettingsSub = this.service
+      .invoke('get.settingsByInterface', quaryparms)
+      .subscribe(
+        (res) => {
+          this.isResultTemplateLoading = false;
+          if (res.groupSetting) {
+            res.groupSetting.conditions.forEach((element) => {
+              if (!this.isResultTemplate) {
+                if (element.fieldValue === 'data') {
+                  if (element?.templateId?.length) {
+                    this.isResultTemplate = true;
+                  } else {
+                    this.isResultTemplate = false;
+                  }
                 }
               }
-            }
-          });
+            });
+          }
+        },
+        (errRes) => {
+          this.notificationService.notify(
+            'Failed to fetch all Setting Informations',
+            'error'
+          );
         }
-      },
-      (errRes) => {
-        this.notificationService.notify(
-          'Failed to fetch all Setting Informations',
-          'error'
-        );
-      }
-    );
+      );
+
+    this.sub?.add(allSettingsSub);
   }
 
   navigateToSearchInterface() {
