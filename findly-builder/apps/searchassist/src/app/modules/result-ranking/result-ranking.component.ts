@@ -2,7 +2,7 @@ import { Component, NgZone, OnDestroy, OnInit } from '@angular/core';
 import { formatDistanceToNow } from 'date-fns';
 import { ConfirmationDialogComponent } from '../../helpers/components/confirmation-dialog/confirmation-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
-import { Subscription, filter, tap } from 'rxjs';
+import { Subscription, filter, tap, take } from 'rxjs';
 import { WorkflowService } from '@kore.apps/services/workflow.service';
 import { ServiceInvokerService } from '@kore.apps/services/service-invoker.service';
 import { NotificationService } from '@kore.apps/services/notification.service';
@@ -116,6 +116,7 @@ export class ResultRankingComponent implements OnInit, OnDestroy {
   initAppIds() {
     const idsSub = this.storeService.ids$
       .pipe(
+        take(1),
         tap(({ streamId, searchIndexId, indexPipelineId, queryPipelineId }) => {
           this.streamId = streamId;
           this.searchIndexId = searchIndexId;
@@ -168,7 +169,7 @@ export class ResultRankingComponent implements OnInit, OnDestroy {
       queryPipelineId: this.queryPipelineId,
       searchKey: '',
     };
-    this.service.invoke(url, quaryparms).subscribe(
+    const presentableFieldsSub = this.service.invoke(url, quaryparms).subscribe(
       (res) => {
         this.fieldData = res.data;
         this.getSettings('fullSearch');
@@ -177,6 +178,8 @@ export class ResultRankingComponent implements OnInit, OnDestroy {
         this.errorToaster(errRes, 'Failed to get fields');
       }
     );
+
+    this.sub?.add(presentableFieldsSub);
   }
   multiplyAction(value) {
     const count = value / 0.25;

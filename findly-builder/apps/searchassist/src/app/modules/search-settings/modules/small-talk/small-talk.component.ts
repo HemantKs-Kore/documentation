@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Subscription, tap } from 'rxjs';
+import { Subscription, take, tap } from 'rxjs';
 import { WorkflowService } from '@kore.apps/services/workflow.service';
 import { ServiceInvokerService } from '@kore.apps/services/service-invoker.service';
 import { AppSelectionService } from '@kore.apps/services/app.selection.service';
@@ -37,6 +37,7 @@ export class SmallTalkComponent implements OnInit, OnDestroy {
   initAppIds() {
     const idsSub = this.storeService.ids$
       .pipe(
+        take(1),
         tap(({ streamId, searchIndexId, indexPipelineId, queryPipelineId }) => {
           this.streamId = streamId;
           this.searchIndexId = searchIndexId;
@@ -59,17 +60,21 @@ export class SmallTalkComponent implements OnInit, OnDestroy {
       queryPipelineId: this.queryPipelineId,
       indexPipelineId: this.indexPipelineId,
     };
-    this.service.invoke('get.queryPipeline', quaryparms).subscribe(
-      (res) => {
-        this.smallTalkData = res?.settings.smallTalk.enable;
-      },
-      (errRes) => {
-        this.notificationService.notify(
-          'failed to get querypipeline details',
-          'error'
-        );
-      }
-    );
+    const queryPipelineSub = this.service
+      .invoke('get.queryPipeline', quaryparms)
+      .subscribe(
+        (res) => {
+          this.smallTalkData = res?.settings.smallTalk.enable;
+        },
+        (errRes) => {
+          this.notificationService.notify(
+            'failed to get querypipeline details',
+            'error'
+          );
+        }
+      );
+
+    this.sub?.add(queryPipelineSub);
   }
   sildervaluechanged(event) {
     const quaryparms: any = {

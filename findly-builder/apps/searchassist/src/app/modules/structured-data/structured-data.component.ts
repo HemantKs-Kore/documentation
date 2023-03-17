@@ -4,7 +4,7 @@ import { NotificationService } from '../../services/notification.service';
 import { KRModalComponent } from '../../shared/kr-modal/kr-modal.component';
 import { MatDialog } from '@angular/material/dialog';
 import { ConfirmationDialogComponent } from '../../helpers/components/confirmation-dialog/confirmation-dialog.component';
-import { debounceTime, map, tap } from 'rxjs/operators';
+import { debounceTime, map, take, tap } from 'rxjs/operators';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Observable, Subscription } from 'rxjs';
 import { SideBarService } from './../../services/header.service';
@@ -174,6 +174,7 @@ export class StructuredDataComponent implements OnInit, OnDestroy {
   initAppIds() {
     const idsSub = this.storeService.ids$
       .pipe(
+        take(1),
         tap(({ queryPipelineId, searchIndexId, indexPipelineId }) => {
           this.searchIndexId = searchIndexId;
           this.indexPipelineId = indexPipelineId;
@@ -1519,30 +1520,34 @@ export class StructuredDataComponent implements OnInit, OnDestroy {
       interface: 'fullSearch',
     };
     this.isResultTemplateLoading = true;
-    this.service.invoke('get.settingsByInterface', quaryparms).subscribe(
-      (res) => {
-        this.isResultTemplateLoading = false;
-        if (res.groupSetting) {
-          res.groupSetting.conditions.forEach((element) => {
-            if (!this.isResultTemplate) {
-              if (element.fieldValue === 'data') {
-                if (element?.templateId?.length) {
-                  this.isResultTemplate = true;
-                } else {
-                  this.isResultTemplate = false;
+    const allSettingsSub = this.service
+      .invoke('get.settingsByInterface', quaryparms)
+      .subscribe(
+        (res) => {
+          this.isResultTemplateLoading = false;
+          if (res.groupSetting) {
+            res.groupSetting.conditions.forEach((element) => {
+              if (!this.isResultTemplate) {
+                if (element.fieldValue === 'data') {
+                  if (element?.templateId?.length) {
+                    this.isResultTemplate = true;
+                  } else {
+                    this.isResultTemplate = false;
+                  }
                 }
               }
-            }
-          });
+            });
+          }
+        },
+        (errRes) => {
+          this.notificationService.notify(
+            'Failed to fetch all Setting Informations',
+            'error'
+          );
         }
-      },
-      (errRes) => {
-        this.notificationService.notify(
-          'Failed to fetch all Setting Informations',
-          'error'
-        );
-      }
-    );
+      );
+
+    this.sub?.add(allSettingsSub);
   }
 
   navigateToSearchInterface() {

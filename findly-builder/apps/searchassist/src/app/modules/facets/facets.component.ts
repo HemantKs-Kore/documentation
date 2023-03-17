@@ -10,7 +10,7 @@ import { ConfirmationDialogComponent } from '../../helpers/components/confirmati
 import { KRModalComponent } from '../../shared/kr-modal/kr-modal.component';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import * as _ from 'underscore';
-import { Subscription, tap } from 'rxjs';
+import { Subscription, take, tap } from 'rxjs';
 import { PerfectScrollbarComponent } from 'ngx-perfect-scrollbar';
 import { NotificationService } from '@kore.apps/services/notification.service';
 import { WorkflowService } from '@kore.apps/services/workflow.service';
@@ -173,6 +173,7 @@ export class FacetsComponent implements OnInit, OnDestroy {
   initAppIds() {
     const idsSub = this.storeService.ids$
       .pipe(
+        take(1),
         tap(({ searchIndexId, indexPipelineId, queryPipelineId }) => {
           this.searchIndexId = searchIndexId;
           this.indexPipelineId = indexPipelineId;
@@ -433,7 +434,7 @@ export class FacetsComponent implements OnInit, OnDestroy {
       category: 'facets',
       query,
     };
-    this.service
+    const getFieldAutocompleteIndicesSub = this.service
       .invoke('get.getFieldAutocompleteIndices', quaryparms)
       .subscribe(
         (res) => {
@@ -451,6 +452,8 @@ export class FacetsComponent implements OnInit, OnDestroy {
           this.errorToaster(errRes, 'Failed to get fields');
         }
       );
+
+    this.sub?.add(getFieldAutocompleteIndicesSub);
     if (!query) {
       this.fieldDataType = 'number';
       this.filedTypeShow = false;
@@ -519,53 +522,57 @@ export class FacetsComponent implements OnInit, OnDestroy {
       offset: offset || 0,
       limit: 100,
     };
-    this.service.invoke('get.allFacets', quaryparms).subscribe(
-      (res) => {
-        this.facets = [];
-        this.statusArr = [];
-        this.docTypeArr = [];
-        this.selectTypeArr = [];
-        this.facets = res || [];
-        //this.facets = this.defaultSortingAFacet(this.facets);
-        this.facets.forEach((element) => {
-          this.statusArr.push(element.active);
-          this.docTypeArr.push(element.type);
-          this.selectTypeArr.push(element.multiselect);
-        });
+    const allFacetsSub = this.service
+      .invoke('get.allFacets', quaryparms)
+      .subscribe(
+        (res) => {
+          this.facets = [];
+          this.statusArr = [];
+          this.docTypeArr = [];
+          this.selectTypeArr = [];
+          this.facets = res || [];
+          //this.facets = this.defaultSortingAFacet(this.facets);
+          this.facets.forEach((element) => {
+            this.statusArr.push(element.active);
+            this.docTypeArr.push(element.type);
+            this.selectTypeArr.push(element.multiselect);
+          });
 
-        this.statusArr = [...new Set(this.statusArr)];
-        this.docTypeArr = [...new Set(this.docTypeArr)];
-        this.selectTypeArr = [...new Set(this.selectTypeArr)];
-        this.loadingContent = false;
-        this.loadingData = false;
-        this.addRemovefacetFromSelection(null, null, true);
-        this.filterSystem = {
-          typefilter: 'all',
-          selectFilter: 'all',
-          statusFilter: 'all',
-        };
-        if (res.length > 0) {
+          this.statusArr = [...new Set(this.statusArr)];
+          this.docTypeArr = [...new Set(this.docTypeArr)];
+          this.selectTypeArr = [...new Set(this.selectTypeArr)];
           this.loadingContent = false;
-          this.loadingContent1 = true;
           this.loadingData = false;
-          // this.noItems = false
-          this.emptySearchResults = false;
-        } else {
-          this.emptySearchResults = true;
-          this.loadingContent1 = true;
-          this.loadingData = false;
-          // this.noItems = false
-          // if(!this.inlineManual.checkVisibility('FACETS')){
-          //   this.inlineManual.openHelp('FACETS')
-          //   this.inlineManual.visited('FACETS')
-          // }
+          this.addRemovefacetFromSelection(null, null, true);
+          this.filterSystem = {
+            typefilter: 'all',
+            selectFilter: 'all',
+            statusFilter: 'all',
+          };
+          if (res.length > 0) {
+            this.loadingContent = false;
+            this.loadingContent1 = true;
+            this.loadingData = false;
+            // this.noItems = false
+            this.emptySearchResults = false;
+          } else {
+            this.emptySearchResults = true;
+            this.loadingContent1 = true;
+            this.loadingData = false;
+            // this.noItems = false
+            // if(!this.inlineManual.checkVisibility('FACETS')){
+            //   this.inlineManual.openHelp('FACETS')
+            //   this.inlineManual.visited('FACETS')
+            // }
+          }
+        },
+        (errRes) => {
+          this.loadingContent = false;
+          this.errorToaster(errRes, 'Failed to get facets');
         }
-      },
-      (errRes) => {
-        this.loadingContent = false;
-        this.errorToaster(errRes, 'Failed to get facets');
-      }
-    );
+      );
+
+    this.sub?.add(allFacetsSub);
   }
   selectField(suggesition) {
     this.selectedField = suggesition;

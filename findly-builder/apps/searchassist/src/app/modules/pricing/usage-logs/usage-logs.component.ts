@@ -11,7 +11,7 @@ import { NotificationService } from '@kore.services/notification.service';
 import { MatDialog } from '@angular/material/dialog';
 import { AuthService } from '@kore.services/auth.service';
 import { AppSelectionService } from '@kore.services/app.selection.service';
-import { Subscription, tap } from 'rxjs';
+import { Subscription, take, tap } from 'rxjs';
 import { format } from 'date-fns';
 import { TranslationService } from '@kore.libs/shared/src';
 import { Store } from '@ngrx/store';
@@ -75,6 +75,7 @@ export class UsageLogsComponent implements OnInit, OnDestroy {
   initAppIds() {
     const idsSub = this.storeService.ids$
       .pipe(
+        take(1),
         tap(({ streamId, searchIndexId }) => {
           this.streamId = streamId;
           this.searchIndexId = searchIndexId;
@@ -147,21 +148,25 @@ export class UsageLogsComponent implements OnInit, OnDestroy {
     if (!this.usageLogs.length && !query) {
       this.loadingLogs = true;
     }
-    this.service.invoke(serviceId, quaryparms, payload).subscribe(
-      (res) => {
-        this.usageLogs = res.data || [];
-        this.totalRecord = res.total;
-        this.loadingLogs = false;
-        this.searchLoading = false;
-        this.loading = false;
-        this.cd.detectChanges();
-      },
-      (errRes) => {
-        this.loading = false;
-        this.searchLoading = false;
-        this.errorToaster(errRes, 'Failed to get usage logs');
-      }
-    );
+    const usageLogsSub = this.service
+      .invoke(serviceId, quaryparms, payload)
+      .subscribe(
+        (res) => {
+          this.usageLogs = res.data || [];
+          this.totalRecord = res.total;
+          this.loadingLogs = false;
+          this.searchLoading = false;
+          this.loading = false;
+          this.cd.detectChanges();
+        },
+        (errRes) => {
+          this.loading = false;
+          this.searchLoading = false;
+          this.errorToaster(errRes, 'Failed to get usage logs');
+        }
+      );
+
+    this.sub?.add(usageLogsSub);
   }
 
   errorToaster(errRes, message) {

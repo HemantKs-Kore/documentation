@@ -87,7 +87,8 @@ export class PlanDetailsComponent implements OnInit, OnDestroy {
   @ViewChild('datetimeTrigger') datetimeTrigger: ElementRef<HTMLElement>;
 
   async ngOnInit() {
-    await this.appSelectionService.getCurrentUsage();
+    // await this.appSelectionService.getCurrentUsage();
+    this.refreshAnalytics();
     this.currentSubscriptionPlan =
       this.appSelectionService?.currentsubscriptionPlanDetails;
     this.currentSubsciptionData =

@@ -15,7 +15,7 @@ import { KRModalComponent } from '../../shared/kr-modal/kr-modal.component';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import * as _ from 'underscore';
 import { of, interval, Subject, Subscription, combineLatest } from 'rxjs';
-import { startWith, tap } from 'rxjs/operators';
+import { startWith, take, tap } from 'rxjs/operators';
 import { AuthService } from '@kore.services/auth.service';
 import { AppSelectionService } from '@kore.services/app.selection.service';
 import { PerfectScrollbarComponent } from 'ngx-perfect-scrollbar';
@@ -84,6 +84,7 @@ export class SearchFieldPropertiesComponent implements OnInit, OnDestroy {
   initAppIds() {
     const idsSub = this.storeService.ids$
       .pipe(
+        take(1),
         tap(({ indexPipelineId, queryPipelineId }) => {
           this.indexPipelineId = indexPipelineId;
           this.queryPipelineId = queryPipelineId;
@@ -112,28 +113,32 @@ export class SearchFieldPropertiesComponent implements OnInit, OnDestroy {
       streamId: this.selectedApp._id,
       queryPipelineId: this.queryPipelineId,
     };
-    this.service.invoke('get.allsearchFields', quaryparms).subscribe(
-      (res) => {
-        this.searchFieldProperties = res.data;
-        this.searchFieldProperties.forEach((element, index) => {
-          const name = element.fieldName.replaceAll('_', '');
-          element.properties['slider'] = new RangeSlider(
-            0,
-            10,
-            1,
-            element.properties.weight,
-            name + index,
-            '',
-            false
-          );
-        });
-        this.totalRecord = res.totalCount;
-        this.enableIndex = this.defaultIndex;
-      },
-      (errRes) => {
-        this.notificationService.notify(errRes, 'error');
-      }
-    );
+    const allsearchFieldsSub = this.service
+      .invoke('get.allsearchFields', quaryparms)
+      .subscribe(
+        (res) => {
+          this.searchFieldProperties = res.data;
+          this.searchFieldProperties.forEach((element, index) => {
+            const name = element.fieldName.replaceAll('_', '');
+            element.properties['slider'] = new RangeSlider(
+              0,
+              10,
+              1,
+              element.properties.weight,
+              name + index,
+              '',
+              false
+            );
+          });
+          this.totalRecord = res.totalCount;
+          this.enableIndex = this.defaultIndex;
+        },
+        (errRes) => {
+          this.notificationService.notify(errRes, 'error');
+        }
+      );
+
+    this.sub?.add(allsearchFieldsSub);
   }
 
   /** Record Pagination's ( Child ) event captured here in SearchFiled ( Parent ) */
