@@ -1,44 +1,45 @@
 {
-  "$schema": "../../node_modules/@angular/service-worker/config/schema.json",
   "index": "/index.html",
   "assetGroups": [
     {
       "name": "app",
       "installMode": "prefetch",
-      "updateMode": "prefetch",
       "resources": {
         "files": [
           "/favicon.ico",
           "/index.html",
           "/manifest.webmanifest",
-          "/*.css",
-          "/*.js"
+          "/*.bundle.css",
+          "/*.bundle.js",
+          "/*.chunk.js"
         ]
       }
     },
     {
-      "name": "assets-eager",
-      "installMode": "prefetch",
+      "name": "assets",
+      "installMode": "lazy",
       "updateMode": "prefetch",
       "resources": {
         "files": [
-          "/assets/fonts/searchassist-icons/fonts/*",
-          "/Inter-Medium.8b51fdbf00838903.woff2",
-
-          "/assets/icons/carrot-down-comp.svg",
-          "/assets/icons/landing/create-app.png",
-          "/assets/images/logos/sa-logo.svg",
-          "/assets/icons/icon-144x144.png",
-          "!/assets/fonts/searchassist-icons/**"
+          "/assets/**",
+          "/*.(svg|cur|jpg|jpeg|png|apng|webp|avif|gif|otf|ttf|woff|woff2)"
         ]
       }
     }
   ],
-  "navigationUrls": [
-    "/**",
-    "!/**/*.*",
-    "!/**/*__*",
-    "!/**/*__*/**",
-    "!/**/AnimationStateDeclarationMetadata*"
+  "dataGroups": [
+    {
+      "name": "api",
+      "urls": [
+        "/searchassistapi/findly/versionInfo",
+        "/searchassistapi/findly/apps"
+      ],
+      "cacheConfig": {
+        "strategy": "performance",
+        "timeout": "10s",
+        "maxAge": "1d",
+        "maxSize": 100
+      }
+    }
   ]
 }
