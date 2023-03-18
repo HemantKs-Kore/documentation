@@ -17,6 +17,36 @@ export class LazyLoadService {
   //   ]);
   // }
 
+  addScript(scriptName: string) {
+    // Check if your file is in the cache
+    return caches
+      .match(scriptName)
+      .then((response) => {
+        // If the file is in the cache, serve it from there
+        if (response) {
+          return response.text();
+        }
+        // If the file is not in the cache, fetch it from the network and cache it
+        else {
+          return fetch(scriptName).then((response) => {
+            // Clone the response
+            const responseToCache = response.clone();
+
+            caches.open('sa-cache').then((cache) => {
+              cache.put(scriptName, responseToCache);
+            });
+            return response.text();
+          });
+        }
+      })
+      .then((scriptContent) => {
+        // Create a new script element and add it to the DOM
+        const scriptElement = document.createElement('script');
+        scriptElement.textContent = scriptContent;
+        document.body.appendChild(scriptElement);
+      });
+  }
+
   loadScript(url: string): Observable<any> {
     if (this._loadedLibraries[url]) {
       return this._loadedLibraries[url].asObservable();

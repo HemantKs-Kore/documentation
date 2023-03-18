@@ -30,6 +30,7 @@ declare const $: any;
 })
 export class AppsComponent implements OnInit, AfterViewInit, OnDestroy {
   sub: Subscription;
+  scriptsLoaded = false;
   authInfo: any;
   openJourney = false;
   saveInProgress = false;
@@ -202,7 +203,13 @@ export class AppsComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   loadScripts() {
-    this.lazyLoadService.loadScript('scripts.min.js').subscribe(() => {
+    const scriptsPromise = this.lazyLoadService.addScript('scripts.min.js');
+    if (this.scriptsLoaded) {
+      return;
+    }
+
+    return scriptsPromise.then(() => {
+      this.scriptsLoaded = true;
       // this.checkForNewUser();
       $('.krFindlyAppComponent').removeClass('appSelected');
       //const apps = this.workflowService.findlyApps();
