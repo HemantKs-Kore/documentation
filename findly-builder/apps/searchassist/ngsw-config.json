@@ -17,13 +17,19 @@
       }
     },
     {
-      "name": "assets",
-      "installMode": "lazy",
+      "name": "assets-eager",
+      "installMode": "prefetch",
       "updateMode": "prefetch",
       "resources": {
         "files": [
-          "/assets/**",
-          "/*.(svg|cur|jpg|jpeg|png|apng|webp|avif|gif|otf|ttf|woff|woff2)"
+          "/assets/fonts/searchassist-icons/fonts/*",
+          "/Inter-Medium.8b51fdbf00838903.woff2",
+
+          "/assets/icons/carrot-down-comp.svg",
+          "/assets/icons/landing/create-app.png",
+          "/assets/images/logos/sa-logo.svg",
+          "/assets/icons/icon-144x144.png",
+          "!/assets/fonts/searchassist-icons/**"
         ]
       }
     }
