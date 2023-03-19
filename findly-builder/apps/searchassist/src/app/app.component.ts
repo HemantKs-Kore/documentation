@@ -61,7 +61,7 @@ export class AppComponent implements OnInit, OnDestroy {
     this.onRouteEvents();
     this.handleLang();
     this.observeScreen();
-    this.handleServiceWorker();
+    // this.handleServiceWorker();
     // window.onbeforeunload = function onunload(event) {
     //   event.preventDefault();
     //   event.returnValue = '';
@@ -79,17 +79,17 @@ export class AppComponent implements OnInit, OnDestroy {
     //   });
   }
 
-  handleServiceWorker() {
-    // checks if update available
-    const swSub = this.swupdate.versionUpdates.pipe(first()).subscribe(() => {
-      // reload / refresh the browser
-      this.swupdate
-        .activateUpdate()
-        .then(() => this.document.location.reload());
-    });
+  // handleServiceWorker() {
+  //   // checks if update available
+  //   const swSub = this.swupdate.versionUpdates.pipe(first()).subscribe(() => {
+  //     // reload / refresh the browser
+  //     this.swupdate
+  //       .activateUpdate()
+  //       .then(() => this.document.location.reload());
+  //   });
 
-    this.sub?.add(swSub);
-  }
+  //   this.sub?.add(swSub);
+  // }
 
   confirmation(event, currentRoute) {
     setTimeout(() => {
