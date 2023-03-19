@@ -19,7 +19,7 @@ import { LazyLoadService } from '@kore.libs/shared/src';
 import { MainMenuComponent } from './modules/layout/mainmenu/mainmenu.component';
 import { TranslateService } from '@ngx-translate/core';
 import { Renderer2 } from '@angular/core';
-import { Subject } from 'rxjs';
+import { first, Subject } from 'rxjs';
 import { ConfirmationDialogComponent } from './helpers/components/confirmation-dialog/confirmation-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
 import { LocalStoreService } from '@kore.apps/services/localstore.service';
@@ -81,7 +81,7 @@ export class AppComponent implements OnInit, OnDestroy {
 
   handleServiceWorker() {
     // checks if update available
-    const swSub = this.swupdate.versionUpdates.subscribe(() => {
+    const swSub = this.swupdate.versionUpdates.pipe(first()).subscribe(() => {
       // reload / refresh the browser
       this.swupdate
         .activateUpdate()
