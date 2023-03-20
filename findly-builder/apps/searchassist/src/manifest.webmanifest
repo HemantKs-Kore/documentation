@@ -5,7 +5,7 @@
   "background_color": "#fafafa",
   "display": "standalone",
   "scope": "./home/",
-  "start_url": "./home/",
+  "start_url": "./",
   "icons": [
     {
       "src": "assets/icons/pwa/icon-72x72.png",
