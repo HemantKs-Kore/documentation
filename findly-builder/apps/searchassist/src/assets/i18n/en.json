@@ -3899,6 +3899,8 @@
   "answer_snippet_reference":"References:",
   "connectors_sync_stop": "Stop synchronize",
   "connectors_no_results": "No data found",
-  "answer_snippet_model_tooltip_text_delete":"The Snippet Workbench Stage is deleted. For snippet generation, please add the workbench stage"
+  "answer_snippet_model_tooltip_text_delete":"The Snippet Workbench Stage is deleted. For snippet generation, please add the workbench stage",
+  "connectors_hosturl_text":"Enter HostURL here",
+  "connectors_hostdomain_text":"Enter Domain Name here"
 
 }

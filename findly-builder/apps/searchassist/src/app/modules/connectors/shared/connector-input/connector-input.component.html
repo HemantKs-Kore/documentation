@@ -1,4 +1,5 @@
-<!-- <div class="kr-sg-input-text mb-3">
-  <div class="label-text">{{ 'connectors_hostURL' | translate}}<sup class="field-mandatory">*</sup></div>
-     <input type="text" placeholder="{{'connectors_Enter_Host_URL_here' | translate}}" class="input-text" />
-</div> -->
+<div class="kr-sg-input-text mb-3">
+  <div class="label-text">{{ properties?.name | translate}}<sup class="field-mandatory {{!properties?.isMandatory&&'d-none'}}">*</sup></div>
+     <input type="{{(isPasswordShow&&properties?.isPassword)?'password':'text'}}" placeholder="{{properties?.placeholder | translate}}" class="input-text" (change)="detectInputChanges($event)" value={{valueData}} />
+     <i class="{{isPasswordShow?'si-eye':'si-eyeshow'}}" *ngIf="properties?.isPassword" (click)="isPasswordShow=!isPasswordShow"></i>
+</div>

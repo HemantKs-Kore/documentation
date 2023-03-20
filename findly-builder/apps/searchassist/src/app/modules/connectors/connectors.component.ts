@@ -10,7 +10,7 @@ import { WorkflowService } from '@kore.apps/services/workflow.service';
 import { OnboardingComponent } from '../onboarding/onboarding.component';
 import { PlanUpgradeComponent } from '../pricing/shared/plan-upgrade/plan-upgrade.component';
 import { TranslationService } from '@kore.libs/shared/src';
-import { ConnectorsList } from './connectors.constants';
+import { ConnectorObject, ConnectorsList, ConnectorSteps, ConnectorTabs, JobStatusList } from './connectors.constants';
 declare const $: any;
 @Component({
   selector: 'app-connectors',
@@ -19,6 +19,11 @@ declare const $: any;
 })
 export class ConnectorsComponent implements OnInit {
   Connectors = ConnectorsList;
+  connectorsObject = ConnectorObject;
+  jobStatusList = JobStatusList;
+  addConnectorSteps = ConnectorSteps;
+  connectorTabs = ConnectorTabs;
+
   selectedContent = 'list';
   selectAddContent = 'instructions';
   selectedTab = 'overview';
@@ -30,15 +35,9 @@ export class ConnectorsComponent implements OnInit {
   sessionData: any = {};
   connectorsData: any = [];
   availableConnectorsData: any = [];
-  configurationObj: any = new connectorsConfigObj();
+  configurationObj: any = this.returnEmptyConfigObject();
   overViewData: any = { overview: [], coneten: [], jobs: [] };
   syncCount = { count: [], hours: 0, minutes: 0, days: 0 };
-  showProtecedText: any = {
-    isClientShow: false,
-    isSecretShow: false,
-    isPassword: false,
-    istenantIdShow: false,
-  };
   isEditable = false;
   checkConfigButton = true;
   isPopupDelete = true;
@@ -50,32 +49,12 @@ export class ConnectorsComponent implements OnInit {
   isloadingBtn = false;
   pageLoading = false;
   total_records: number;
-  onboardingOpened = false;
-  validation = false;
-  currentRouteData: any = '';
   contentInputSearch = '';
-  jobStatusList: Array<any> = [{ name: 'Success', status: 'success', color: 'green' }, { name: 'In Progress', status: 'inprogress', color: 'black' }, { name: 'Partial Success', status: 'partial_success', color: 'green' }, { name: 'Queued', status: 'queued', color: 'red' }, { name: 'Stopped', status: 'stopped', color: 'red' }];
-  addConnectorSteps: any = [
-    { name: 'instructions', isCompleted: true, display: 'Introduction' },
-    {
-      name: 'configurtion',
-      isCompleted: false,
-      display: 'Configuration & Authentication',
-    },
-  ];
-  connectorTabs: any = [
-    { name: 'Overview', type: 'overview' },
-    { name: 'Content', type: 'content' },
-    { name: 'Connection Settings', type: 'connectionSettings' },
-    { name: 'Configurations', type: 'configurations' },
-    { name: 'Jobs', type: 'jobs' },
-  ];
+
   @ViewChild('plans') plans: PlanUpgradeComponent;
   @ViewChild('deleteModel') deleteModel: KRModalComponent;
-  @ViewChild(OnboardingComponent, { static: true })
-  onBoardingComponent: OnboardingComponent;
-  @ViewChild(SliderComponentComponent)
-  sliderComponent: SliderComponentComponent;
+  @ViewChild(OnboardingComponent, { static: true }) onBoardingComponent: OnboardingComponent;
+  @ViewChild(SliderComponentComponent) sliderComponent: SliderComponentComponent;
 
   constructor(
     private notificationService: NotificationService,
@@ -92,16 +71,11 @@ export class ConnectorsComponent implements OnInit {
     this.selectedApp = this.workflowService.selectedApp();
     this.searchIndexId = this.selectedApp?.searchIndexes[0]._id;
     this.getConnectors();
-    if (sessionStorage.getItem('connector') !== null) {
-      const session_connector_data = sessionStorage.getItem('connector');
-      this.sessionData = JSON.parse(session_connector_data);
-      if (this.sessionData?.isRedirect) {
-        this.isPopupDelete = false;
-        this.isAuthorizeStatus = true;
-        this.openDeleteModel('open');
-        sessionStorage.clear();
-      }
-    }
+  }
+
+  //receive object data from connector Input Component
+  updateConnectorObject(obj) {
+    this.configurationObj[obj.type] = obj?.value;
   }
 
   //open delete model popup
@@ -141,12 +115,6 @@ export class ConnectorsComponent implements OnInit {
   //change edit tabs
   changeEditTabs(type) {
     this.selectedTab = type;
-    this.showProtecedText = {
-      isClientShow: false,
-      isSecretShow: false,
-      isPassword: false,
-      istenantIdShow: false,
-    };
   }
 
   //get connector list
@@ -179,20 +147,11 @@ export class ConnectorsComponent implements OnInit {
           this.availableConnectorsData = this.Connectors;
         }
         this.pageLoading = true;
-        this.validation = false;
       },
       (errRes) => {
         this.errorToaster(errRes, 'Failed to get Connectors');
       }
     );
-  }
-
-  //goto result template page
-  navigateToResultTemplate() {
-    this.appSelectionService.routeChanged.next({
-      name: 'pathchanged',
-      path: '/resultTemplate',
-    });
   }
 
   //remove spaces in url
@@ -294,12 +253,6 @@ export class ConnectorsComponent implements OnInit {
 
   //change page like list, add ,edit
   changeContent(page, data) {
-    this.showProtecedText = {
-      isClientShow: false,
-      isSecretShow: false,
-      isPassword: false,
-      istenantIdShow: false,
-    };
     this.selectedConnector = data;
     this.selectedContent = page;
     if (page === 'edit') {
@@ -344,7 +297,7 @@ export class ConnectorsComponent implements OnInit {
       this.isPopupDelete = true;
       this.syncCount = { count: [], hours: 0, minutes: 0, days: 0 };
       this.overViewData = { overview: [], coneten: [], jobs: [] };
-      this.configurationObj = new connectorsConfigObj();
+      this.configurationObj = this.returnEmptyConfigObject();
       this.addConnectorSteps = this.addConnectorSteps.map((item, index) => {
         if (index > 0) {
           return { ...item, isCompleted: false };
@@ -359,7 +312,8 @@ export class ConnectorsComponent implements OnInit {
       if (this.selectAddContent === 'instructions') {
         this.navigatePage();
       } else if (this.selectAddContent === 'configurtion') {
-        if (this.validationForConnetor()) {
+        // if (this.validationForConnetor()) {
+        if (this.validationConnector()) {
           if (this.isEditable || this.connectorId !== '') {
             this.updateConnector();
           } else {
@@ -367,6 +321,20 @@ export class ConnectorsComponent implements OnInit {
           }
         }
       }
+    }
+  }
+
+  //return config obj
+  returnEmptyConfigObject() {
+    return {
+      name: '',
+      clientId: '',
+      clientSecret: '',
+      hostUrl: '',
+      hostDomainName: '',
+      username: '',
+      password: '',
+      tenantId: ''
     }
   }
   //navaigate to next page based on selectAddContent
@@ -378,20 +346,6 @@ export class ConnectorsComponent implements OnInit {
   }
 
   //create connector validation
-  fieldsValidation() {
-    if (this.selectedConnector.type === 'confluenceServer') {
-      if (this.configurationObj.hostDomainName.length > 0) {
-        return true;
-      } else {
-        this.notificationService.notify(
-          'Domain name field is required',
-          'error'
-        );
-      }
-    } else {
-      return true;
-    }
-  }
   validationForConnetor() {
     if (
       this.configurationObj.name &&
@@ -430,11 +384,24 @@ export class ConnectorsComponent implements OnInit {
         return true
       }
     } else {
-      this.validation = true;
       this.notificationService.notify('Enter the Required Fields', 'error');
       return false;
     }
   }
+
+  //validation for connectors object
+  validationConnector() {
+    const array = [], configArray = [];
+    for (const item of this.connectorsObject) {
+      if (item?.connectors?.includes(this.selectedConnector.type)) array.push(item?.value);
+    }
+    for (const arr of array) {
+      if (this.configurationObj[arr].length > 0) configArray.push(true);
+    }
+    if (array.length !== configArray.length) this.notificationService.notify('Enter the Required Fields', 'error');
+    return (array.length === configArray.length) ? true : false;
+  }
+
   //save connectors create api
   createConnector() {
     const quaryparms: any = {
