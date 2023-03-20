@@ -28,8 +28,8 @@ export class SimulateComponent implements OnInit {
   showSummaryView = true;
   summaryViewObj: any = new SummaryViewObjSchema();
   private _array = Array;
-  isReadMore: Boolean = true;
-  isShowReadMore: Boolean = false;
+  isReadMore = true;
+  isShowReadMore = false;
   simulateService = {
     debounceSimulate: () => of({}).pipe(delay(400)),
   };
