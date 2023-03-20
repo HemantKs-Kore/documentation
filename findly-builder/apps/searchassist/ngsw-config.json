@@ -17,6 +17,13 @@
       }
     },
     {
+      "name": "app-eager",
+      "installMode": "prefetch",
+      "resources": {
+        "files": ["/*.css", "/*.js"]
+      }
+    },
+    {
       "name": "assets",
       "installMode": "lazy",
       "updateMode": "prefetch",
