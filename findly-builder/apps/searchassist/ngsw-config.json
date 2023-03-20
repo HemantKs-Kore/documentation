@@ -9,10 +9,7 @@
           "/favicon.ico",
           "/index.html",
           "/manifest.webmanifest",
-
-          "/*.bundle.css",
-          "/*.bundle.js",
-          "/*.chunk.js"
+          "/*.css"
         ]
       }
     },
@@ -20,7 +17,7 @@
       "name": "app-lazy",
       "installMode": "lazy",
       "resources": {
-        "files": ["/*.css", "/*.js"]
+        "files": ["/*.js"]
       }
     },
     {
