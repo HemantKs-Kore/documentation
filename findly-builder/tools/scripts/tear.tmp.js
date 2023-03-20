@@ -5,14 +5,22 @@ const distDir = 'dist/apps/searchassist/';
 const cssmin = require('cssmin');
 
 async function login(page) {
-  await page.goto('https://searchassist-qa.kore.ai/home/');
+  await page.goto('https://searchassist-app.kore.ai/home/');
   await page.type('[name=emailPhone]', 'hemant.ajax@gmail.com');
-  await page.click('.continueBtn');
 
-  await page.type('#sign_in_creds_pass', 'Hemant@2023');
+  await page.click('.continueBtn');
+  await page.waitForSelector('#sign_in_creds_pass');
+  await page.type('[name=pass]', 'Hemant@2023');
   await page.click('.btn-primary');
 
   await page.waitForNavigation();
+
+  // // Get the key from localStorage
+  // const keyValue = await page.evaluate(() => {
+  //   return localStorage.getItem('jStorage');
+  // });
+
+  // return keyValue;
 }
 
 function updateHtml(criticalCssStr) {
@@ -30,7 +38,11 @@ function updateHtml(criticalCssStr) {
 }
 
 (async () => {
-  const browser = await puppeteer.launch({ headless: false });
+  const browser = await puppeteer.launch({
+    headless: false,
+    timeout: 60000,
+    args: ['--disable-web-security'],
+  });
   const page = await browser.newPage();
 
   await login(page); // Call the login function
