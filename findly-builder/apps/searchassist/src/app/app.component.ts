@@ -1,6 +1,7 @@
 import {
   Component,
   ComponentRef,
+  Inject,
   OnDestroy,
   OnInit,
   ViewChild,
@@ -13,20 +14,20 @@ import {
   NavigationStart,
   Router,
 } from '@angular/router';
-import { AppSelectionService } from './services/app.selection.service';
 import { LoaderService } from './shared/loader/loader.service';
 import { LazyLoadService } from '@kore.libs/shared/src';
 import { MainMenuComponent } from './modules/layout/mainmenu/mainmenu.component';
 import { TranslateService } from '@ngx-translate/core';
 import { Renderer2 } from '@angular/core';
-import { fromEvent, Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
+import { first, Subject } from 'rxjs';
 import { ConfirmationDialogComponent } from './helpers/components/confirmation-dialog/confirmation-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
 import { LocalStoreService } from '@kore.apps/services/localstore.service';
 import { AppUrlsService } from './services/app.urls.service';
 import { BreakpointObserver, BreakpointState } from '@angular/cdk/layout';
 import { Subscription } from 'rxjs';
+import { SwUpdate } from '@angular/service-worker';
+import { DOCUMENT } from '@angular/common';
 
 const SMALL_WIDTH_BREAKPOINT = 1200;
 
@@ -47,18 +48,20 @@ export class AppComponent implements OnInit, OnDestroy {
   constructor(
     private router: Router,
     private loaderService: LoaderService,
-    private appSelectionService: AppSelectionService,
     private lazyLoadService: LazyLoadService,
     private translate: TranslateService,
     private renderer: Renderer2,
     public dialog: MatDialog,
     private localStoreDetails: LocalStoreService,
     private appUrlsService: AppUrlsService,
-    private breakpointObserver: BreakpointObserver
+    private breakpointObserver: BreakpointObserver,
+    private swupdate: SwUpdate,
+    @Inject(DOCUMENT) private readonly document: any
   ) {
     this.onRouteEvents();
     this.handleLang();
     this.observeScreen();
+    // this.handleServiceWorker();
     // window.onbeforeunload = function onunload(event) {
     //   event.preventDefault();
     //   event.returnValue = '';
@@ -75,6 +78,19 @@ export class AppComponent implements OnInit, OnDestroy {
     //     this.confirmation(event, currentRoute);
     //   });
   }
+
+  // handleServiceWorker() {
+  //   // checks if update available
+  //   const swSub = this.swupdate.versionUpdates.pipe(first()).subscribe(() => {
+  //     // reload / refresh the browser
+  //     this.swupdate
+  //       .activateUpdate()
+  //       .then(() => this.document.location.reload());
+  //   });
+
+  //   this.sub?.add(swSub);
+  // }
+
   confirmation(event, currentRoute) {
     setTimeout(() => {
       this.router.navigate([currentRoute], { skipLocationChange: true });

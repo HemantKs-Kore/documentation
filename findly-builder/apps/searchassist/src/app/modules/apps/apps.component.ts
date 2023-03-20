@@ -30,6 +30,7 @@ declare const $: any;
 })
 export class AppsComponent implements OnInit, AfterViewInit, OnDestroy {
   sub: Subscription;
+  scriptsLoaded = false;
   authInfo: any;
   openJourney = false;
   saveInProgress = false;
@@ -200,16 +201,27 @@ export class AppsComponent implements OnInit, AfterViewInit, OnDestroy {
     this.router.navigateByUrl(isUpgrade ? 'pricing' : 'summary', { skipLocationChange: true });
   }
 
+  onScriptsLoaded() {
+    // this.checkForNewUser();
+    $('.krFindlyAppComponent').removeClass('appSelected');
+    //const apps = this.workflowService.findlyApps();
+    //this.prepareApps(apps);
+    setTimeout(() => {
+      $('#serachInputBox').focus();
+    }, 100);
+    // this.buildCarousel();
+  }
+
   loadScripts() {
-    this.lazyLoadService.loadScript('scripts.min.js').subscribe(() => {
-      // this.checkForNewUser();
-      $('.krFindlyAppComponent').removeClass('appSelected');
-      //const apps = this.workflowService.findlyApps();
-      //this.prepareApps(apps);
-      setTimeout(() => {
-        $('#serachInputBox').focus();
-      }, 100);
-      // this.buildCarousel();
+    const scriptsPromise = this.lazyLoadService.addScript('scripts.min.js');
+    if (this.scriptsLoaded) {
+      this.onScriptsLoaded();
+      return;
+    }
+
+    return scriptsPromise.then(() => {
+      this.scriptsLoaded = true;
+      this.onScriptsLoaded();
     });
   }
 

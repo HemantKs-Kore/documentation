@@ -1,19 +1,26 @@
 {
-  "$schema": "../../node_modules/@angular/service-worker/config/schema.json",
   "index": "/index.html",
   "assetGroups": [
     {
       "name": "app",
       "installMode": "prefetch",
-      "updateMode": "prefetch",
       "resources": {
         "files": [
           "/favicon.ico",
           "/index.html",
           "/manifest.webmanifest",
-          "/*.css",
-          "/*.js"
+
+          "/*.bundle.css",
+          "/*.bundle.js",
+          "/*.chunk.js"
         ]
+      }
+    },
+    {
+      "name": "app-lazy",
+      "installMode": "lazy",
+      "resources": {
+        "files": ["/*.css", "/*.js"]
       }
     },
     {
@@ -28,11 +35,19 @@
       }
     }
   ],
-  "navigationUrls": [
-    "/**",
-    "!/**/*.*",
-    "!/**/*__*",
-    "!/**/*__*/**",
-    "!/**/AnimationStateDeclarationMetadata*"
+  "dataGroups": [
+    {
+      "name": "api",
+      "urls": [
+        "/searchassistapi/findly/versionInfo",
+        "/searchassistapi/findly/apps"
+      ],
+      "cacheConfig": {
+        "strategy": "performance",
+        "timeout": "10s",
+        "maxAge": "1d",
+        "maxSize": 100
+      }
+    }
   ]
 }

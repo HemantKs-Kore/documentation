@@ -334,13 +334,13 @@ app-mainmenu {
         i {
           position: relative;
           color: #202124;
-          &.si-data{
+          &.si-data {
             font-size: 12px;
           }
-          &.si-conectors{
+          &.si-conectors {
             font-size: 12px;
           }
-          &.si-doc-files{
+          &.si-doc-files {
             font-size: 12px;
           }
         }
@@ -383,8 +383,8 @@ app-mainmenu {
         .linkTitle {
           color: #0d6efd;
         }
-        .inlineIconBox{
-          i{
+        .inlineIconBox {
+          i {
             color: #0d6efd;
           }
         }
@@ -771,6 +771,7 @@ app-mainmenu {
 
   .sm-main-menu .sidebar-fixed.activeMenu {
     transform: translateX(0);
+    will-change: 'transform';
     z-index: 100;
   }
 }
