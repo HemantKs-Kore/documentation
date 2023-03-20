@@ -17,8 +17,8 @@
       }
     },
     {
-      "name": "app-eager",
-      "installMode": "prefetch",
+      "name": "app-lazy",
+      "installMode": "lazy",
       "resources": {
         "files": ["/*.css", "/*.js"]
       }
