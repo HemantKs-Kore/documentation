@@ -213,16 +213,19 @@ export class AppsComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   loadScripts() {
-    const scriptsPromise = this.lazyLoadService.addScript('scripts.min.js');
     if (this.scriptsLoaded) {
       this.onScriptsLoaded();
       return;
     }
 
-    return scriptsPromise.then(() => {
-      this.scriptsLoaded = true;
-      this.onScriptsLoaded();
-    });
+    const scriptsSub = this.lazyLoadService
+      .loadScript('scripts.min.js')
+      .subscribe(() => {
+        this.scriptsLoaded = true;
+        this.onScriptsLoaded();
+      });
+
+    this.sub?.add(scriptsSub);
   }
 
   openBoradingJourney() {
