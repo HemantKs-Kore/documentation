@@ -5,25 +5,14 @@
       "name": "app",
       "installMode": "prefetch",
       "resources": {
-        "files": [
-          "/favicon.ico",
-          "/index.html",
-          "/manifest.webmanifest",
-          "/*.css"
-        ]
+        "files": ["/favicon.ico", "/index.html", "/manifest.webmanifest"]
       }
     },
-    {
-      "name": "app-lazy",
-      "installMode": "lazy",
-      "resources": {
-        "files": ["/*.js"]
-      }
-    },
+
     {
       "name": "assets",
       "installMode": "lazy",
-      "updateMode": "prefetch",
+      "updateMode": "lazy",
       "resources": {
         "files": [
           "/assets/**",
