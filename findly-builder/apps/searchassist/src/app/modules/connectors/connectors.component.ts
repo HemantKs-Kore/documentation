@@ -19,7 +19,6 @@ declare const $: any;
 })
 export class ConnectorsComponent implements OnInit {
   Connectors = ConnectorsList;
-  componentType = 'Connectors';
   selectedContent = 'list';
   selectAddContent = 'instructions';
   selectedTab = 'overview';
