@@ -9,9 +9,8 @@
           "/favicon.ico",
           "/index.html",
           "/manifest.webmanifest",
-          "/*.bundle.css",
-          "/*.bundle.js",
-          "/*.chunk.js"
+          "/*.css",
+          "/*.js"
         ]
       }
     },
