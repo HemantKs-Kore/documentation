@@ -14,8 +14,7 @@
     }
   ],
   "compilerOptions": {
-    "target": "ES2022",
-    "useDefineForClassFields": false,
+    "target": "ES2020",
     "forceConsistentCasingInFileNames": true,
     "strict": true,
     "noImplicitOverride": true,
