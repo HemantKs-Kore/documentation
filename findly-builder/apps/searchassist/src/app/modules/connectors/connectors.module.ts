@@ -13,9 +13,10 @@ import { CommonModule } from '@angular/common';
 
 import { ConnectorsRoutingModule } from './connectors-routing.module';
 import { ConnectorsComponent } from './connectors.component';
+import { ConnectorInputComponent } from './shared/connector-input/connector-input.component';
 
 @NgModule({
-  declarations: [ConnectorsComponent],
+  declarations: [ConnectorsComponent, ConnectorInputComponent],
   imports: [
     CommonModule,
     ConnectorsRoutingModule,

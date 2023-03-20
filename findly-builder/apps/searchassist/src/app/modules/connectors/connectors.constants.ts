@@ -1,0 +1,56 @@
+export const ConnectorsList = [
+  {
+    connector_name: 'Confluence (Server)',
+    description: 'connectors_please_compleate_configuration',
+    type: 'confluenceServer',
+    image: 'assets/icons/connectors/confluence.png',
+    url: 'https://admin.atlassian.com/',
+    doc_url: 'https://developer.atlassian.com/',
+    tag: 'Wiki, Atlassian, Intranet',
+  },
+  {
+    connector_name: 'Confluence (Cloud)',
+    description: 'connectors_please_compleate_configuration',
+    type: 'confluenceCloud',
+    image: 'assets/icons/connectors/confluence.png',
+    url: 'https://admin.atlassian.com/',
+    doc_url: 'https://developer.atlassian.com/',
+    tag: 'Wiki, Atlassian, Intranet',
+  },
+  {
+    connector_name: 'Service Now',
+    description: 'connectors_please_compleate_configuration',
+    type: 'serviceNow',
+    image: 'assets/icons/connectors/servicenow.png',
+    url: 'https://www.servicenow.com/',
+    doc_url: 'https://developer.servicenow.com/dev.do',
+    tag: 'The world works with ServiceNow',
+  },
+  {
+    connector_name: 'Zendesk',
+    description: 'connectors_please_compleate_configuration',
+    type: 'zendesk',
+    image: 'assets/icons/connectors/zendesk.png',
+    url: 'https://www.zendesk.com/',
+    doc_url: 'https://developer.zendesk.com/documentation/',
+    tag: 'Engineering Awesome',
+  },
+  {
+    connector_name: 'SharePoint',
+    description: 'connectors_please_compleate_configuration',
+    type: 'sharepointOnline',
+    image: 'assets/icons/connectors/sharepoint.png',
+    url: 'https://microsoft.sharepoint.com/',
+    doc_url: 'https://learn.microsoft.com/en-us/sharepoint/dev/',
+    tag: 'Empowering teamwork',
+  },
+  {
+    connector_name: "Google Drive",
+    description: "connectors_please_compleate_configuration",
+    type: "googleDrive",
+    image: "assets/icons/connectors/drive-google.png",
+    url: "https://drive.google.com/drive/my-drive",
+    doc_url: "https://developers.google.com/drive",
+    tag: "keep everything. Share anything."
+  }
+]
