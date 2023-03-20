@@ -371,7 +371,7 @@ export class AppsComponent implements OnInit, AfterViewInit, OnDestroy {
     ) {
       this.appSelectionService?.openPlanOnboardingModal?.next(null);
     } else if (Object.entries(this.createdAppData).length > 0) {
-      this.inlineManual?.loadAppscue();
+      //this.inlineManual?.loadAppscue();
     }
 
   }
@@ -778,7 +778,7 @@ export class AppsComponent implements OnInit, AfterViewInit, OnDestroy {
   }
   callStream() {
     this.service.invoke('get.credential').subscribe(
-      (res) => {},
+      (res) => { },
       (errRes) => {
         this.errorToaster(errRes, 'Error in creating app');
       }
