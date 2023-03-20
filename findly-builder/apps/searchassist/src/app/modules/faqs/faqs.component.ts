@@ -214,7 +214,8 @@ export class FaqsComponent implements OnInit, AfterViewInit, OnDestroy {
     public mixpanel: MixpanelServiceService,
     @Inject('instance1') private faqServiceAlt: FaqsService,
     @Inject('instance2') private faqServiceFollow: FaqsService,
-    private translationService: TranslationService
+    private translationService: TranslationService,
+    private convertMDtoHTML: ConvertMDtoHTML
   ) {
     window.alert = function () {};
     this.translationService.loadModuleTranslations();
