@@ -29,7 +29,7 @@ export class AppSelectionService {
   indexList: any = [];
   configSelected: any = {};
   public queryConfigs = new Subject<any>();
-  public appSelectedConfigs = new Subject<any>();
+  // public appSelectedConfigs = new Subject<any>();
   public queryConfigSelected = new Subject<any>();
   public appSelected = new Subject<any>();
   public getTourConfigData = new Subject<any>();
@@ -73,44 +73,44 @@ export class AppSelectionService {
     }
     this.env_dep_type = environment?.deployment_type;
   }
-  public getIndexPipelineIds(setindex?): ReplaySubject<any> {
-    const payload = {
-      searchIndexId: this.workflowService.selectedSearchIndex(),
-    };
-    const appObserver = this.service.invoke('get.indexPipeline', payload);
-    const subject = new ReplaySubject(1);
-    subject.subscribe(
-      (res) => {
-        this.indexList = res || [];
-        if (this.indexList) {
-          //this.workflowService.getSettings(this.indexList[0].settings);
-          let indexPipeline: any = [];
-          if (setindex && setindex._id) {
-            indexPipeline = _.filter(res, (pipeLine) => {
-              return pipeLine._id === setindex._id;
-            });
-          }
-          if (indexPipeline && indexPipeline.length) {
-            this.selectIndexConfig(setindex);
-          } else if (this.indexList.length) {
-            const data = this.indexList.filter((ele) => ele.default === true);
-            this.selectIndexConfig(data[0]);
-          } else {
-            this.selectIndexConfig({});
-          }
-          this.appSelectedConfigs.next(res);
-          this.getQureryPipelineIds();
-        }
-      },
-      (errRes) => {
-        this.indexList = null;
-        if (errRes?.error?.errors[0]?.code === 'SubscriptionCooldownExpired')
-          this.getCurrentSubscriptionData();
-      }
-    );
-    appObserver.subscribe(subject);
-    return subject;
-  }
+  // public getIndexPipelineIds(setindex?): ReplaySubject<any> {
+  //   const payload = {
+  //     searchIndexId: this.workflowService.selectedSearchIndex(),
+  //   };
+  //   const appObserver = this.service.invoke('get.indexPipeline', payload);
+  //   const subject = new ReplaySubject(1);
+  //   subject.subscribe(
+  //     (res) => {
+  //       this.indexList = res || [];
+  //       if (this.indexList) {
+  //         //this.workflowService.getSettings(this.indexList[0].settings);
+  //         let indexPipeline: any = [];
+  //         if (setindex && setindex._id) {
+  //           indexPipeline = _.filter(res, (pipeLine) => {
+  //             return pipeLine._id === setindex._id;
+  //           });
+  //         }
+  //         if (indexPipeline && indexPipeline.length) {
+  //           this.selectIndexConfig(setindex);
+  //         } else if (this.indexList.length) {
+  //           const data = this.indexList.filter((ele) => ele.default === true);
+  //           this.selectIndexConfig(data[0]);
+  //         } else {
+  //           this.selectIndexConfig({});
+  //         }
+  //         this.appSelectedConfigs.next(res);
+  //         this.getQureryPipelineIds();
+  //       }
+  //     },
+  //     (errRes) => {
+  //       this.indexList = null;
+  //       if (errRes?.error?.errors[0]?.code === 'SubscriptionCooldownExpired')
+  //         this.getCurrentSubscriptionData();
+  //     }
+  //   );
+  //   appObserver.subscribe(subject);
+  //   return subject;
+  // }
   public getQureryPipelineIds(setPipline?): ReplaySubject<any> {
     const payload = {
       searchIndexId: this.workflowService.selectedSearchIndex(),
@@ -221,12 +221,12 @@ export class AppSelectionService {
       window.localStorage.removeItem('krPreviousState');
     }
   }
-  selectIndexConfig(config) {
-    if (config) {
-      this.workflowService.selectedIndexPipeline(config._id);
-      this.workflowService.getSettings(config.settings); // check For All Cases.
-    }
-  }
+  // selectIndexConfig(config) {
+  //   if (config) {
+  //     this.workflowService.selectedIndexPipeline(config._id);
+  //     this.workflowService.getSettings(config.settings); // check For All Cases.
+  //   }
+  // }
   selectQueryConfig(config) {
     this.res_length = this.queryList.length;
     this.configSelected = config;

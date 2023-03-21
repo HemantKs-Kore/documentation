@@ -574,7 +574,7 @@ export class MainMenuComponent implements OnInit, OnDestroy {
       //event.close();
     }
     //this.workflowService.selectedSearchIndex(indexConfigs._id)
-    this.appSelectionService.getIndexPipelineIds(indexConfigs);
+    // this.appSelectionService.getIndexPipelineIds(indexConfigs);
     this.selectedIndexConfig = indexConfigs;
     //this.reloadCurrentRoute()
   }
