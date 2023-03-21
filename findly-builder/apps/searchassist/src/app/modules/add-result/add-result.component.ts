@@ -94,24 +94,6 @@ export class AddResultComponent implements OnInit, OnDestroy {
     this.sub?.add(idsSub);
   }
 
-  // results() {
-  //   this.indexPipelineId = this.indexPipelineId;
-  //   this.queryPipelineId = this.workflowService.selectedQueryPipeline()
-  //     ? this.workflowService.selectedQueryPipeline()._id
-  //     : this.selectedApp.searchIndexes[0].queryPipelineId;
-  //   if (this.queryPipelineId) {
-  //     this.appDetails();
-  //     if (this.indexPipelineId) {
-  //       this.getFieldAutoComplete();
-  //     }
-  //   }
-  // }
-  // appDetails() {
-  //   this.selectedApp = this.workflowService.selectedApp();
-  //   this.serachIndexId = this.selectedApp.searchIndexes[0]._id;
-  //   this.queryPipelineId = this.workflowService.selectedQueryPipeline()._id;
-  // }
-
   getFieldAutoComplete() {
     const query: any = '';
     const quaryparms: any = {

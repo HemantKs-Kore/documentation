@@ -25,7 +25,11 @@ export class SnippetComponent implements OnInit, OnDestroy {
   configObj: ConfigObj = { searchIndexId: '', indexPipelineId: '', queryPipelineId: '', streamId: '' };
   selectedSnippetObj: any = { type: 'extractive_model' };
   openAIObj = new openAIObj();
-  sliderDefaultConfigs: sliderDefaultObj = { similarity_score: 60, snippet_title: 5, snippet_content: 3 };
+  sliderDefaultConfigs: sliderDefaultObj = {
+    similarity_score: 60,
+    snippet_title: 5,
+    snippet_content: 3,
+  };
   queryDataSubscription: Subscription;
   consentShareModelPopRef: any;
   @ViewChild(SliderComponentComponent) sliderComponent: SliderComponentComponent;
@@ -91,19 +95,24 @@ export class SnippetComponent implements OnInit, OnDestroy {
     const quaryparms: any = {
       streamId: this.configObj.streamId
     };
-    this.service.invoke('get.openAIKey', quaryparms).subscribe(
-      (res) => {
-        if (res) {
-          if (res?.name === 'openai') {
-            this.openAIObj.openAIKey = res?.appConfig?.apiKey;
-            this.openAIObj.isOpenAIFirst = res?.appConfig?.apiKey?.length === 0 ? true : false;
+    const openAIKeySub = this.service
+      .invoke('get.openAIKey', quaryparms)
+      .subscribe(
+        (res) => {
+          if (res) {
+            if (res?.name === 'openai') {
+              this.openAIObj.openAIKey = res?.appConfig?.apiKey;
+              this.openAIObj.isOpenAIFirst =
+                res?.appConfig?.apiKey?.length === 0 ? true : false;
+            }
           }
+        },
+        (errRes) => {
+          this.errorToaster(errRes, 'Get Answer snippet API Failed');
         }
-      },
-      (errRes) => {
-        this.errorToaster(errRes, 'Get Answer snippet API Failed');
-      }
-    );
+      );
+
+    this.sub?.add(openAIKeySub);
   }
 
   //reset to default for similarity / weights slider
@@ -111,13 +120,32 @@ export class SnippetComponent implements OnInit, OnDestroy {
     const Obj = { ...this.selectedSnippetObj };
     if (type === 'similarity') {
       Obj.similarityScore = this.sliderDefaultConfigs.similarity_score;
-      Obj.similarity_slider = new RangeSlider(0, 100, 1, Obj?.similarityScore, 'editSlider', '', true);
+      Obj.similarity_slider = new RangeSlider(
+        0,
+        100,
+        1,
+        Obj?.similarityScore,
+        'editSlider',
+        '',
+        true
+      );
     } else if (type === 'weight') {
       Obj.searchFields?.map((item, index) => {
-        const score = index === 0 ? this.sliderDefaultConfigs.snippet_title : this.sliderDefaultConfigs.snippet_content;
+        const score =
+          index === 0
+            ? this.sliderDefaultConfigs.snippet_title
+            : this.sliderDefaultConfigs.snippet_content;
         item.weight = score;
-        item.slider = new RangeSlider(0, 10, 1, score, 'editSlider' + index, '', true);
-      })
+        item.slider = new RangeSlider(
+          0,
+          10,
+          1,
+          score,
+          'editSlider' + index,
+          '',
+          true
+        );
+      });
     }
     this.selectedSnippetObj = Obj;
     this.enableDisableSnippet(Obj, true);
@@ -126,8 +154,9 @@ export class SnippetComponent implements OnInit, OnDestroy {
   ///eanble or disable snippet using checkbox event
   enableDisableSnippet(snippet, isSlider?) {
     let message = null;
-    if (!isSlider) message = `${snippet?.active ? 'Enabled' : 'Disabled'} successfully`;
-    this.snippetArray = this.snippetArray.map(item => {
+    if (!isSlider)
+      message = `${snippet?.active ? 'Enabled' : 'Disabled'} successfully`;
+    this.snippetArray = this.snippetArray.map((item) => {
       if (item?.type === snippet?.type) {
         item = snippet;
       }
@@ -141,7 +170,7 @@ export class SnippetComponent implements OnInit, OnDestroy {
     const quaryparms: any = {
       sidx: this.configObj.searchIndexId,
       indexPipelineId: this.configObj.indexPipelineId,
-      queryPipelineId: this.configObj.queryPipelineId
+      queryPipelineId: this.configObj.queryPipelineId,
     };
     const payload = { config: this.snippetArray };
     this.service.invoke('put.answerSnippets', quaryparms, payload).subscribe(
@@ -170,21 +199,37 @@ export class SnippetComponent implements OnInit, OnDestroy {
   //open simulate component using slider component
   openCloseSlider(type) {
     if (type === 'open') {
-      this.sliderComponent.openSlider("#simulateSlider", "width500");
+      this.sliderComponent.openSlider('#simulateSlider', 'width500');
     } else {
-      this.sliderComponent.closeSlider("#simulateSlider");
+      this.sliderComponent.closeSlider('#simulateSlider');
     }
   }
 
   //select particular snippet
   selectSnippet(type) {
     let Obj: any = {};
-    const Data = this.snippetArray?.filter(item => item?.type === type);
+    const Data = this.snippetArray?.filter((item) => item?.type === type);
     if (type === 'extractive_model') {
       Obj = { ...Data[0] };
-      Obj.similarity_slider = new RangeSlider(0, 100, 1, Obj?.similarityScore, 'editSlider', '', true);
+      Obj.similarity_slider = new RangeSlider(
+        0,
+        100,
+        1,
+        Obj?.similarityScore,
+        'editSlider',
+        '',
+        true
+      );
       Obj?.searchFields?.map((item, index) => {
-        item.slider = new RangeSlider(0, 10, 1, item?.weight, 'editSlider' + index, '', true);
+        item.slider = new RangeSlider(
+          0,
+          10,
+          1,
+          item?.weight,
+          'editSlider' + index,
+          '',
+          true
+        );
         return item;
       });
     } else if (type === 'generative_model') {
@@ -210,12 +255,12 @@ export class SnippetComponent implements OnInit, OnDestroy {
       streamId: this.configObj.streamId
     };
     const payload = {
-      "name": "openai",
-      "ssoType": "api_key",
-      "appConfig": {
-        "apiKey": this.openAIObj.openAIKey
-      }
-    }
+      name: 'openai',
+      ssoType: 'api_key',
+      appConfig: {
+        apiKey: this.openAIObj.openAIKey,
+      },
+    };
     this.service.invoke('post.openAIKey', quaryparms, payload).subscribe(
       (res) => {
         if (res) {
@@ -250,7 +295,9 @@ export class SnippetComponent implements OnInit, OnDestroy {
   //open or close consentShareModel popup
   openCloseConsentModal(type) {
     if (type === 'open') {
-      if (this.appSelectionService.validateInputTags(this.openAIObj.openAIKey)) {
+      if (
+        this.appSelectionService.validateInputTags(this.openAIObj.openAIKey)
+      ) {
         if (this.openAIObj.isOpenAIFirst) {
           this.consentShareModelPopRef = this.consentShareModel.open();
         } else {
@@ -259,25 +306,26 @@ export class SnippetComponent implements OnInit, OnDestroy {
       }
     } else if (type === 'close') {
       this.isLoading = false;
-      if (this.consentShareModelPopRef?.close) this.consentShareModelPopRef?.close();
+      if (this.consentShareModelPopRef?.close)
+        this.consentShareModelPopRef?.close();
     }
   }
 
   //goto workbench page
   gotoWorkBench() {
-    this.appSelectionService?.routeChanged?.next({ name: 'pathchanged', path: '/index' });
+    this.appSelectionService?.routeChanged?.next({
+      name: 'pathchanged',
+      path: '/index',
+    });
   }
-
 
   //Unmount / clear all subscriptions
   ngOnDestroy() {
+    this.sub?.unsubscribe();
     this.queryDataSubscription ? this.queryDataSubscription?.unsubscribe : null;
     this.sub?.unsubscribe();
   }
 }
-
-
-//pipeline id's interface Object
 interface ConfigObj {
   searchIndexId: string;
   indexPipelineId: string;

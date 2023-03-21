@@ -860,19 +860,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
     }
     this.router.navigate(['/'], { skipLocationChange: true });
   }
-  // loadHeader() {
-  //   this.indexPipelineId = this.indexPipelineId;
-  //   if (this.indexPipelineId) {
-  //     this.queryPipelineId = this.workflowService.selectedQueryPipeline()
-  //       ? this.workflowService.selectedQueryPipeline()._id
-  //       : this.selectedApp.searchIndexes[0].queryPipelineId;
-  //     if (this.queryPipelineId) {
-  //       // this.getcustomizeList(20,0);
-  //       this.selectedApp = this.workflowService.selectedApp();
-  //       this.searchIndexId = this.selectedApp.searchIndexes[0]._id;
-  //     }
-  //   }
-  // }
+
   metricsOption(menu) {
     this.analyticsClick(menu);
     this.goToRoute(menu);
