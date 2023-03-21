@@ -55,7 +55,7 @@ export class LocalStoreService {
   }
   public removeAuthInfo() {
     try {
-      window[this.storageType].setItem('jStorage', '{}');
+      window[this.storageType].setItem('jStorage', null);
       window[this.storageType].setItem('krPreviousState', '{}');
       window[this.storageType].setItem('selectedAccount', null);
       return true;

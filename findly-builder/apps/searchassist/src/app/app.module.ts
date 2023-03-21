@@ -42,7 +42,7 @@ export function createTranslateLoader(http: HttpClient) {
 export function appInitializer() {
   return () => {
     // check if the user is authenticated
-    const isAuthenticated = Object.keys(localStorage.jStorage || {})?.length;
+    const isAuthenticated = localStorage.jStorage;
     if (!isAuthenticated) {
       // redirect to the login page
       location.href = getLoginRedirectURL();
