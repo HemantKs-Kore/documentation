@@ -19,14 +19,14 @@ import { LazyLoadService } from '@kore.libs/shared/src';
 import { MainMenuComponent } from './modules/layout/mainmenu/mainmenu.component';
 import { TranslateService } from '@ngx-translate/core';
 import { Renderer2 } from '@angular/core';
-import { first, Subject } from 'rxjs';
+import { filter, first, Subject } from 'rxjs';
 import { ConfirmationDialogComponent } from './helpers/components/confirmation-dialog/confirmation-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
 import { LocalStoreService } from '@kore.apps/services/localstore.service';
 import { AppUrlsService } from './services/app.urls.service';
 import { BreakpointObserver, BreakpointState } from '@angular/cdk/layout';
 import { Subscription } from 'rxjs';
-import { SwUpdate } from '@angular/service-worker';
+import { SwUpdate, VersionReadyEvent } from '@angular/service-worker';
 import { DOCUMENT } from '@angular/common';
 
 const SMALL_WIDTH_BREAKPOINT = 1200;
@@ -55,13 +55,13 @@ export class AppComponent implements OnInit, OnDestroy {
     private localStoreDetails: LocalStoreService,
     private appUrlsService: AppUrlsService,
     private breakpointObserver: BreakpointObserver,
-    private swupdate: SwUpdate,
+    private swUpdate: SwUpdate,
     @Inject(DOCUMENT) private readonly document: any
   ) {
     this.onRouteEvents();
     this.handleLang();
     this.observeScreen();
-    // this.handleServiceWorker();
+    this.handleServiceWorker();
     // window.onbeforeunload = function onunload(event) {
     //   event.preventDefault();
     //   event.returnValue = '';
@@ -79,17 +79,21 @@ export class AppComponent implements OnInit, OnDestroy {
     //   });
   }
 
-  // handleServiceWorker() {
-  //   // checks if update available
-  //   const swSub = this.swupdate.versionUpdates.pipe(first()).subscribe(() => {
-  //     // reload / refresh the browser
-  //     this.swupdate
-  //       .activateUpdate()
-  //       .then(() => this.document.location.reload());
-  //   });
+  handleServiceWorker() {
+    // checks if update available
+    const swSub = this.swUpdate.versionUpdates
+      .pipe(
+        filter((evt): evt is VersionReadyEvent => evt.type === 'VERSION_READY')
+      )
+      .subscribe((evt) => {
+        // if (promptUser(evt)) {
+        // Reload the page to update to the latest version.
+        this.document.location.reload();
+        // }
+      });
 
-  //   this.sub?.add(swSub);
-  // }
+    this.sub?.add(swSub);
+  }
 
   confirmation(event, currentRoute) {
     setTimeout(() => {
