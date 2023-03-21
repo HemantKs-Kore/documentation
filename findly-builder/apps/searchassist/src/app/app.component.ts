@@ -67,16 +67,16 @@ export class AppComponent implements OnInit, OnDestroy {
     //   event.returnValue = '';
     // };
 
-    // history.pushState(null, '');
-    // fromEvent(window, 'popstate')
-    //   .pipe(takeUntil(this.unsubscriber))
-    //   .subscribe((event) => {
-    //     event.preventDefault();
-    //     event.returnValue = false;
-    //     history.pushState(null, '');
-    //     const currentRoute = this.router.routerState.snapshot.url;
-    //     this.confirmation(event, currentRoute);
-    //   });
+    history.pushState(null, '');
+    fromEvent(window, 'popstate')
+      .pipe(takeUntil(this.unsubscriber))
+      .subscribe((event) => {
+        event.preventDefault();
+        event.returnValue = false;
+        history.pushState(null, '');
+        const currentRoute = this.router.routerState.snapshot.url;
+        this.confirmation(event, currentRoute);
+      });
   }
 
   handleServiceWorker() {
