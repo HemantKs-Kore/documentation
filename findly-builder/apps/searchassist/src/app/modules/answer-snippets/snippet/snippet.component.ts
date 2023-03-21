@@ -43,6 +43,7 @@ export class SnippetComponent implements OnInit, OnDestroy {
   };
   queryDataSubscription: Subscription;
   consentShareModelPopRef: any;
+  streamId;
   searchIndexId;
   indexPipelineId;
   queryPipelineId;
@@ -67,7 +68,8 @@ export class SnippetComponent implements OnInit, OnDestroy {
   initAppIds() {
     const idsSub = this.storeService.ids$
       .pipe(
-        tap(({ searchIndexId, indexPipelineId, queryPipelineId }) => {
+        tap(({ streamId, searchIndexId, indexPipelineId, queryPipelineId }) => {
+          this.streamId = streamId;
           this.searchIndexId = searchIndexId;
           this.indexPipelineId = indexPipelineId;
           this.queryPipelineId = queryPipelineId;
@@ -117,7 +119,7 @@ export class SnippetComponent implements OnInit, OnDestroy {
   //get open AI key API method
   getOpenAIKey() {
     const quaryparms: any = {
-      streamId: this.selectedApp?._id,
+      streamId: this.streamId,
     };
     const openAIKeySub = this.service
       .invoke('get.openAIKey', quaryparms)
@@ -275,7 +277,7 @@ export class SnippetComponent implements OnInit, OnDestroy {
   saveOpenAIKey() {
     this.isLoading = true;
     const quaryparms: any = {
-      streamId: this.selectedApp?._id,
+      streamId: this.streamId,
     };
     const payload = {
       name: 'openai',
