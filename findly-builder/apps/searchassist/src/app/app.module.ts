@@ -32,24 +32,20 @@ import {
 import { AppsDataService } from './modules/apps/services/apps-data.service';
 import { MatDialogModule } from '@angular/material/dialog';
 import { AppsModule } from './modules/apps/apps.module';
-import { AuthService } from './services/auth.service';
-import { AppUrlsService } from './services/app.urls.service';
+import { getLoginRedirectURL } from '@kore.libs/shared/src';
 
 // AoT requires an exported function for factories
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
 }
 
-export function appInitializer(
-  authService: AuthService,
-  appUrlsService: AppUrlsService
-) {
+export function appInitializer() {
   return () => {
     // check if the user is authenticated
-    const isAuthenticated = authService.isAuthenticated();
+    const isAuthenticated = localStorage.jStorage;
     if (!isAuthenticated) {
       // redirect to the login page
-      location.href = appUrlsService.getLoginRedirectURL();
+      location.href = getLoginRedirectURL();
     }
     return isAuthenticated;
   };
@@ -113,7 +109,7 @@ export function appInitializer(
       provide: APP_INITIALIZER,
       useFactory: appInitializer,
       multi: true,
-      deps: [AuthService, AppUrlsService],
+      deps: [],
     },
   ],
   bootstrap: [AppComponent],
