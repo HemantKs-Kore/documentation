@@ -5,14 +5,8 @@
       "name": "app",
       "installMode": "prefetch",
       "resources": {
-        "files": ["/favicon.ico", "/index.html", "/manifest.webmanifest"]
-      }
-    },
-    {
-      "name": "assets-lazy",
-      "installMode": "lazy",
-      "resources": {
-        "files": ["/*.css", "/*.js"]
+        "files": ["/favicon.ico", "/index.html", "/manifest.webmanifest"],
+        "versionedFiles": ["/*.bundle.css", "/*.bundle.js", "/*.chunk.js"]
       }
     },
     {
@@ -41,5 +35,26 @@
         "maxSize": 100
       }
     }
-  ]
+  ],
+  "routing": {
+    "index": "/index.html",
+    "routes": {
+      "/": {
+        "match": "exact"
+      },
+      "/some-routes-group-prefix": {
+        "match": "prefix"
+      },
+      "/some-routes-group-prefix-no-files": {
+        "match": "prefix",
+        "onlyWithoutExtension": true
+      },
+      "/some/specific-route": {
+        "match": "exact"
+      },
+      "^/regex/.*/route$": {
+        "match": "regex"
+      }
+    }
+  }
 }
