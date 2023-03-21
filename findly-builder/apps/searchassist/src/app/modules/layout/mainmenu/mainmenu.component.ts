@@ -51,9 +51,9 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { SharedPipesModule } from '@kore.apps/helpers/filters/shared-pipes.module';
 import { PlanUpgradeModule } from '@kore.apps/modules/pricing/shared/plan-upgrade/plan-upgrade.module';
 import {
+  selectIndexConfig,
   selectIndexPipelineId,
   selectIndexPipelines,
-  selectQueryPipelineId,
   selectQueryPipelines,
   selectSearchIndexId,
 } from '@kore.apps/store/app.selectors';
@@ -611,6 +611,7 @@ export class MainMenuComponent implements OnInit, OnDestroy {
 
     this.initIndexPipeLines();
     this.initQueryPipeLines();
+    this.initIndexConfig();
     // this.appSelectionService.appSelectedConfigs.subscribe((res) => {
     //   this.indexConfigs = res;
     //   this.indexConfigs.forEach((element) => {
@@ -672,17 +673,25 @@ export class MainMenuComponent implements OnInit, OnDestroy {
     this.subscription?.add(indexPipelineSub);
   }
 
+  initIndexConfig() {
+    const indexSub = this.store.select(selectIndexConfig).subscribe((res) => {
+      this.selectedIndexConfig = res;
+    });
+
+    this.subscription?.add(indexSub);
+  }
+
   initIndexPipeLines() {
     this.subscription = this.store
       .select(selectIndexPipelines)
       .subscribe((res) => {
         this.indexConfigs = JSON.parse(JSON.stringify(res));
 
-        if (res.length > 0) {
-          this.selectedIndexConfig = this.indexConfigs.find(
-            (item) => item.default
-          );
-        }
+        // if (res.length > 0) {
+        //   this.selectedIndexConfig = this.indexConfigs.find(
+        //     (item) => item.default
+        //   );
+        // }
       });
   }
 
