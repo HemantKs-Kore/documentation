@@ -49,7 +49,7 @@ export function appInitializer(
     const isAuthenticated = authService.isAuthenticated();
     if (!isAuthenticated) {
       // redirect to the login page
-      appUrlsService.redirectToLogin();
+      location.href = appUrlsService.getLoginRedirectURL();
     }
     return isAuthenticated;
   };
