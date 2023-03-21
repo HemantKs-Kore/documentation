@@ -30,7 +30,6 @@ import { ServiceInvokerService } from '@kore.apps/services/service-invoker.servi
 import { WorkflowService } from '@kore.apps/services/workflow.service';
 import { AuthService } from '@kore.apps/services/auth.service';
 import { AppSelectionService } from '@kore.apps/services/app.selection.service';
-import { InlineManualService } from '@kore.apps/services/inline-manual.service';
 import { MixpanelServiceService } from '@kore.apps/services/mixpanel-service.service';
 import { RangySelectionService } from '@kore.apps/components/annotool/services/rangy-selection.service';
 import { PdfAnnotationComponent } from '@kore.apps/components/annotool/components/pdf-annotation/pdf-annotation.component';
@@ -342,11 +341,10 @@ export class SourcesComponent implements OnInit, AfterViewInit, OnDestroy {
     //private dock: DockStatusService,
     public dialog: MatDialog,
     private rangyService: RangySelectionService,
-    public inlineManual: InlineManualService,
     private appSelectionService: AppSelectionService,
     public dockService: DockStatusService,
     public mixpanel: MixpanelServiceService
-  ) { }
+  ) {}
   @ViewChild(SliderComponentComponent)
   sliderComponent: SliderComponentComponent;
   @ViewChild('statusModalPop') statusModalPop: KRModalComponent;
@@ -410,10 +408,6 @@ export class SourcesComponent implements OnInit, AfterViewInit, OnDestroy {
       }
     }
     this.checkAnnotationPolling();
-    if (!this.inlineManual.checkVisibility('SOURCES')) {
-      this.inlineManual.openHelp('SOURCES');
-      this.inlineManual.visited('SOURCES');
-    }
   }
   ngAfterViewInit() {
     setTimeout(() => {
@@ -442,13 +436,19 @@ export class SourcesComponent implements OnInit, AfterViewInit, OnDestroy {
       this.perfectScroll.directiveRef.update();
       this.perfectScroll.directiveRef.scrollToTop();
     }, 500);
-    if (this.selectedSourceType?.sourceType === 'content' && this.selectedSourceType?.resourceType === 'file') {
+    if (
+      this.selectedSourceType?.sourceType === 'content' &&
+      this.selectedSourceType?.resourceType === 'file'
+    ) {
       const currentRoute = this.router?.routerState?.snapshot?.url;
-      const isExecute = ['/content', '/sources'].includes(currentRoute) ? true : false;
+      const isExecute = ['/content', '/sources'].includes(currentRoute)
+        ? true
+        : false;
       if (isExecute) {
-        const eventName = currentRoute === '/content' ? 'Content' : 'Setup guide';
+        const eventName =
+          currentRoute === '/content' ? 'Content' : 'Setup guide';
         this.mixpanel.postEvent('Enter Upload Content File', {
-          'Extract file CTA': eventName
+          'Extract file CTA': eventName,
         });
       }
     }
@@ -821,10 +821,6 @@ export class SourcesComponent implements OnInit, AfterViewInit, OnDestroy {
     ) {
       this.selectedSourceType = selectedCrawlMethod;
       this.openAddStructuredData();
-      if (!this.inlineManual.checkVisibility('IMPORT_STRUCTURED_DATA')) {
-        this.inlineManual.openHelp('IMPORT_STRUCTURED_DATA');
-        this.inlineManual.visited('IMPORT_STRUCTURED_DATA');
-      }
     } else if (
       selectedCrawlMethod &&
       selectedCrawlMethod.resourceType === 'connectors'
@@ -853,48 +849,6 @@ export class SourcesComponent implements OnInit, AfterViewInit, OnDestroy {
       }
     }
 
-    if (selectedCrawlMethod && selectedCrawlMethod.id === 'contentWeb') {
-      if (!this.inlineManual.checkVisibility('CONTENT_SUB_TOPIC')) {
-        this.inlineManual.openHelp('CONTENT_SUB_TOPIC');
-        this.inlineManual.visited('CONTENT_SUB_TOPIC');
-      }
-    } else if (selectedCrawlMethod && selectedCrawlMethod.id === 'contentDoc') {
-      if (!this.inlineManual.checkVisibility('UPLOAD_FILE_SUB_TOPIC')) {
-        this.inlineManual.openHelp('UPLOAD_FILE_SUB_TOPIC');
-        this.inlineManual.visited('UPLOAD_FILE_SUB_TOPIC');
-      }
-    } else if (selectedCrawlMethod && selectedCrawlMethod.id === 'faqWeb') {
-      if (!this.inlineManual.checkVisibility('EXTRACT_FAQ_SUB_TOPIC')) {
-        this.inlineManual.openHelp('EXTRACT_FAQ_SUB_TOPIC');
-        this.inlineManual.visited('EXTRACT_FAQ_SUB_TOPIC');
-      }
-    } else if (selectedCrawlMethod && selectedCrawlMethod.id === 'faqDoc') {
-      if (!this.inlineManual.checkVisibility('IMPORT_FAQ_SUB_TOPIC')) {
-        this.inlineManual.openHelp('IMPORT_FAQ_SUB_TOPIC');
-        this.inlineManual.visited('IMPORT_FAQ_SUB_TOPIC');
-      }
-    } else if (selectedCrawlMethod && selectedCrawlMethod.id === 'manual') {
-      if (!this.inlineManual.checkVisibility('ADD_FAQ_MAUALY_SUB_TOPIC')) {
-        this.inlineManual.openHelp('ADD_FAQ_MAUALY_SUB_TOPIC');
-        this.inlineManual.visited('ADD_FAQ_MAUALY_SUB_TOPIC');
-      }
-    } else if (
-      selectedCrawlMethod &&
-      selectedCrawlMethod.id === 'contentStucturedDataImport'
-    ) {
-      if (!this.inlineManual.checkVisibility('IMPORT_STRUCTURED_DATA')) {
-        this.inlineManual.openHelp('IMPORT_STRUCTURED_DATA');
-        this.inlineManual.visited('IMPORT_STRUCTURED_DATA');
-      }
-    } else if (
-      selectedCrawlMethod &&
-      selectedCrawlMethod.id === 'contentStucturedDataAdd'
-    ) {
-      if (!this.inlineManual.checkVisibility('ADD_STRUCTURED_DATA_MANUALY')) {
-        this.inlineManual.openHelp('ADD_STRUCTURED_DATA_MANUALY');
-        this.inlineManual.visited('ADD_STRUCTURED_DATA_MANUALY');
-      }
-    }
     setTimeout(() => {
       $('#addSourceTitleInput').focus();
     }, 100);
@@ -1555,7 +1509,10 @@ export class SourcesComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   proceedSource() {
-    if (this.selectedSourceType.resourceType === 'file' && this.selectedSourceType.sourceType === 'content') {
+    if (
+      this.selectedSourceType.resourceType === 'file' &&
+      this.selectedSourceType.sourceType === 'content'
+    ) {
       this.mixpanel.postEvent('Content File extraction started', {});
     } else if (
       this.selectedSourceType.sourceType === 'faq' &&
@@ -1763,7 +1720,10 @@ export class SourcesComponent implements OnInit, AfterViewInit, OnDestroy {
               this.mixpanel.postEvent('FAQ-created', {});
               this.poling(res._id, 'scheduler');
             }
-            if (this.selectedSourceType?.resourceType === 'file' && this.selectedSourceType.sourceType === 'content') {
+            if (
+              this.selectedSourceType?.resourceType === 'file' &&
+              this.selectedSourceType.sourceType === 'content'
+            ) {
               this.mixpanel.postEvent('Content File extraction success', {});
             }
             if (
@@ -1832,7 +1792,7 @@ export class SourcesComponent implements OnInit, AfterViewInit, OnDestroy {
     }
   }
   //upgrade plan
-  upgrade() { }
+  upgrade() {}
   callWebCraller(crawler, searchIndex) {
     let payload = {};
     const resourceType = this.selectedSourceType?.resourceType;
@@ -1848,7 +1808,7 @@ export class SourcesComponent implements OnInit, AfterViewInit, OnDestroy {
     // console.log(payload);
 
     this.service.invoke('create.crawler', quaryparms, payload).subscribe(
-      (res) => { },
+      (res) => {},
       (errRes) => {
         if (
           errRes &&
@@ -2600,9 +2560,9 @@ export class SourcesComponent implements OnInit, AfterViewInit, OnDestroy {
       ) {
         channelType =
           this.configurationLink.webhookUrl.split('/')[
-          this.configurationLink.webhookUrl
-            .split('/')
-            .indexOf('hookInstance') + 1
+            this.configurationLink.webhookUrl
+              .split('/')
+              .indexOf('hookInstance') + 1
           ];
       }
       const payload = {

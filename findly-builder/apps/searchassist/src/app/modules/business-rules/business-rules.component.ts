@@ -11,7 +11,7 @@ import {
   MatAutocomplete,
   MatAutocompleteSelectedEvent,
 } from '@angular/material/autocomplete';
-import { Subscription, tap } from 'rxjs';
+import { Subscription, take, tap } from 'rxjs';
 import { PerfectScrollbarComponent } from 'ngx-perfect-scrollbar';
 import { DomSanitizer } from '@angular/platform-browser';
 import { EMPTY_SCREEN } from '../../modules/empty-screen/empty-screen.constants';
@@ -19,7 +19,6 @@ import { NotificationService } from '@kore.apps/services/notification.service';
 import { ServiceInvokerService } from '@kore.apps/services/service-invoker.service';
 import { WorkflowService } from '@kore.apps/services/workflow.service';
 import { AppSelectionService } from '@kore.apps/services/app.selection.service';
-import { InlineManualService } from '@kore.apps/services/inline-manual.service';
 import { MixpanelServiceService } from '@kore.apps/services/mixpanel-service.service';
 import { PlanUpgradeComponent } from '../pricing/shared/plan-upgrade/plan-upgrade.component';
 import { selectAppIds } from '@kore.apps/store/app.selectors';
@@ -213,7 +212,6 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
     private service: ServiceInvokerService,
     private notificationService: NotificationService,
     public dialog: MatDialog,
-    public inlineManual: InlineManualService,
     public mixpanel: MixpanelServiceService,
     private appSelectionService: AppSelectionService,
     private storeService: StoreService
@@ -221,18 +219,12 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.initAppIds();
-    // this.selectedApp = this.workflowService.selectedApp();
-    // this.searchIndexId = this.selectedApp.searchIndexes[0]._id;
-    // this.subscription = this.appSelectionService.queryConfigs.subscribe(
-    //   (res) => {
-    //     this.loadRules();
-    //   }
-    // );
   }
 
   initAppIds() {
     const idsSub = this.storeService.ids$
       .pipe(
+        take(1),
         tap(({ searchIndexId, indexPipelineId, queryPipelineId }) => {
           this.searchIndexId = searchIndexId;
           this.indexPipelineId = indexPipelineId;
@@ -250,23 +242,14 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
     this.loadingContent = false;
     this.loadingContent1 = true;
     this.loadImageText = true;
-    if (!this.inlineManual.checkVisibility('RULES')) {
-      this.inlineManual.openHelp('RULES');
-      this.inlineManual.visited('RULES');
-    }
   }
+
   loadRules() {
-    // if (this.indexPipelineId) {
-    //   this.queryPipelineId = this.workflowService.selectedQueryPipeline()
-    //     ? this.queryPipelineId
-    //     : this.selectedApp.searchIndexes[0].queryPipelineId;
-    //   if (this.queryPipelineId) {
     this.getDyanmicFilterData();
     this.getRules();
     this.getFields();
-    //   }
-    // }
   }
+
   searchByRule() {
     if (this.searchRules) {
       this.getRules(null, this.searchRules);
@@ -1214,36 +1197,40 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
       payload['isRuleActive'] = this.filterSystem.isRuleActiveFilter;
     }
     payload['ruleType'] = this.selcectionObj?.ruleType || 'contextual';
-    this.service.invoke(serviceId, quaryparms, payload).subscribe(
-      (res) => {
-        this.isSearchClear = false;
-        this.allRules = res.rules || [];
-        this.rules = this.allRules;
-        // this.selectRuleType(this.selcectionObj.ruleType);
-        if (payload['ruleType'] === 'nlp') {
-          this.getEntities();
-        }
-        this.beforeFilterRules = JSON.parse(JSON.stringify(this.rules));
-        if (this.rules.length > 0) {
+    const rulesSub = this.service
+      .invoke(serviceId, quaryparms, payload)
+      .subscribe(
+        (res) => {
+          this.isSearchClear = false;
+          this.allRules = res.rules || [];
+          this.rules = this.allRules;
+          // this.selectRuleType(this.selcectionObj.ruleType);
+          if (payload['ruleType'] === 'nlp') {
+            this.getEntities();
+          }
+          this.beforeFilterRules = JSON.parse(JSON.stringify(this.rules));
+          if (this.rules.length > 0) {
+            this.loadingContent = false;
+            this.loadingContent1 = false;
+          } else {
+            this.loadingContent1 = true;
+          }
+
+          this.totalRecord = res.totalCount || 0;
+          this.loadingContent = false;
+          this.isPaginating = false;
+          this.addRemoveRuleFromSelection(null, null, true);
+        },
+        (errRes) => {
           this.loadingContent = false;
           this.loadingContent1 = false;
-        } else {
-          this.loadingContent1 = true;
+          this.isSearchClear = false;
+          this.isPaginating = false;
+          this.errorToaster(errRes, 'Failed to get rules');
         }
+      );
 
-        this.totalRecord = res.totalCount || 0;
-        this.loadingContent = false;
-        this.isPaginating = false;
-        this.addRemoveRuleFromSelection(null, null, true);
-      },
-      (errRes) => {
-        this.loadingContent = false;
-        this.loadingContent1 = false;
-        this.isSearchClear = false;
-        this.isPaginating = false;
-        this.errorToaster(errRes, 'Failed to get rules');
-      }
-    );
+    this.sub?.add(rulesSub);
   }
   updateRule(rule) {
     this.submitted = true;

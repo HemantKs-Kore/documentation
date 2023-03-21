@@ -182,6 +182,7 @@ const routes: Routes = [
             (m) => m.SourcesModule
           ),
         resolve: [LazyScriptResolver],
+        data: { scriptName: 'rangy.min.js' },
       },
       {
         path: 'content',

@@ -1,10 +1,10 @@
 @font-face {
   font-family: 'searchassist-icons';
-  src:  url('fonts/searchassist-icons.eot?s8expj');
-  src:  url('fonts/searchassist-icons.eot?s8expj#iefix') format('embedded-opentype'),
-    url('fonts/searchassist-icons.ttf?s8expj') format('truetype'),
-    url('fonts/searchassist-icons.woff?s8expj') format('woff'),
-    url('fonts/searchassist-icons.svg?s8expj#searchassist-icons') format('svg');
+  src:  url('fonts/searchassist-icons.eot?un6fpr');
+  src:  url('fonts/searchassist-icons.eot?un6fpr#iefix') format('embedded-opentype'),
+    url('fonts/searchassist-icons.ttf?un6fpr') format('truetype'),
+    url('fonts/searchassist-icons.woff?un6fpr') format('woff'),
+    url('fonts/searchassist-icons.svg?un6fpr#searchassist-icons') format('svg');
   font-weight: normal;
   font-style: normal;
   font-display: block;
@@ -25,6 +25,81 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+.si-actions:before {
+  content: "\e97f";
+}
+.si-business-rules:before {
+  content: "\e980";
+}
+.si-calendar:before {
+  content: "\e981";
+}
+.si-channels:before {
+  content: "\e982";
+}
+.si-credentials:before {
+  content: "\e983";
+}
+.si-facets:before {
+  content: "\e984";
+}
+.si-faq-qns:before {
+  content: "\e985";
+}
+.si-file-upload:before {
+  content: "\e986";
+}
+.si-filter-sort:before {
+  content: "\e987";
+}
+.si-index-fields:before {
+  content: "\e988";
+}
+.si-internet-web:before {
+  content: "\e989";
+}
+.si-invoices:before {
+  content: "\e98a";
+}
+.si-results-ranking:before {
+  content: "\e98b";
+}
+.si-result-templates:before {
+  content: "\e98c";
+}
+.si-search-interface:before {
+  content: "\e98d";
+}
+.si-sources-index-list:before {
+  content: "\e98e";
+}
+.si-stop-words:before {
+  content: "\e98f";
+}
+.si-synonyms:before {
+  content: "\e990";
+}
+.si-teams:before {
+  content: "\e991";
+}
+.si-traits:before {
+  content: "\e992";
+}
+.si-usager-log:before {
+  content: "\e993";
+}
+.si-weights:before {
+  content: "\e994";
+}
+.si-work-bench:before {
+  content: "\e995";
+}
+.si-sortup:before {
+  content: "\e97e";
+}
+.si-sort:before {
+  content: "\e97d";
+}
 .si-clone-copy:before {
   content: "\e979";
 }
@@ -37,7 +112,6 @@
 .si-light-mode:before {
   content: "\e97c";
 }
-
 .si-sort-up:before {
   content: "\e977";
 }
@@ -73,12 +147,15 @@
 }
 .si-minus:before {
   content: "\e96a";
+  
 }
 .si-double-arrow-up:before {
   content: "\e96b";
+  
 }
 .si-double-arrow-down:before {
   content: "\e96c";
+  
 }
 .si-arrow-two-way:before {
   content: "\e96d";
@@ -103,12 +180,15 @@
 }
 .si-topic-guide:before {
   content: "\e962";
+  
 }
 .si-copy:before {
   content: "\e963";
+  
 }
 .si-recall:before {
   content: "\e964";
+  
 }
 .si-train-multi-intent:before {
   content: "\e961";
@@ -121,15 +201,18 @@
 }
 .si-time-estimate:before {
   content: "\e960";
+
 }
 .si-skelton-medium:before {
   content: "\e95d";
 }
 .si-pdf:before {
   content: "\e95c";
+  
 }
 .si-cart:before {
   content: "\e95b";
+  
 }
 .si-star-un-filled:before {
   content: "\e958";
@@ -142,6 +225,7 @@
 }
 .si-layout:before {
   content: "\e953";
+  
 }
 .si-list-view:before {
   content: "\e954";
@@ -157,12 +241,15 @@
 }
 .si-avg:before {
   content: "\e952";
+
 }
 .si-interuptions:before {
   content: "\e950";
+  
 }
 .si-checkround-up:before {
   content: "\e951";
+  
 }
 .si-loading .path1:before {
   content: "\e91d";
@@ -190,21 +277,27 @@
 }
 .si-re-fresh:before {
   content: "\e922";
+  
 }
 .si-link-file:before {
   content: "\e923";
+
 }
 .si-share:before {
   content: "\e924";
+
 }
 .si-maximize:before {
   content: "\e925";
+  
 }
 .si-close-red:before {
   content: "\e926";
+
 }
 .si-graph-filter:before {
   content: "\e927";
+
 }
 .si-file-help .path1:before {
   content: "\e928";
@@ -292,12 +385,15 @@
 }
 .si-ellipsis-horizontal:before {
   content: "\e938";
+
 }
 .si-green-check:before {
   content: "\e939";
+
 }
 .si-grow-up-arrow:before {
   content: "\e93a";
+  
 }
 .si-plan-crown .path1:before {
   content: "\e93b";
@@ -322,18 +418,22 @@
 }
 .si-check-document:before {
   content: "\e941";
+
 }
 .si-Internet:before {
   content: "\e942";
+
 }
 .si-tc-filter:before {
   content: "\e943";
+  
 }
 .si-grid-view:before {
   content: "\e944";
 }
 .si-re-cycle-square:before {
   content: "\e945";
+  
 }
 .si-progress-indicator .path1:before {
   content: "\e946";
@@ -397,21 +497,25 @@
 }
 .si-warning:before {
   content: "\e918";
+
 }
 .si-eyeshow:before {
   content: "\e917";
 }
 .si-external-horizantal:before {
   content: "\e916";
+  
 }
 .si-pencil-edit:before {
   content: "\e914";
 }
 .si-delete1:before {
   content: "\e915";
+
 }
 .si-instructions:before {
   content: "\e90a";
+  
 }
 .si-delete:before {
   content: "\e90b";
@@ -421,9 +525,11 @@
 }
 .si-info:before {
   content: "\e90d";
+  
 }
 .si-external-link:before {
   content: "\e90e";
+  
 }
 .si-lock:before {
   content: "\e90f";
@@ -439,24 +545,29 @@
 }
 .si-check:before {
   content: "\e909";
+  
 }
 .si-check-round:before {
   content: "\e908";
 }
 .si-help:before {
   content: "\e907";
+  
 }
 .si-externallink:before {
   content: "\e900";
+  
 }
 .si-faq:before {
   content: "\e901";
+  
 }
 .si-home:before {
   content: "\e902";
 }
 .si-list:before {
   content: "\e903";
+  
 }
 .si-search:before {
   content: "\e904";

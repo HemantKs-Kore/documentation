@@ -91,6 +91,7 @@ $excludeColor: var(--excludeColor);
       }
       .pdf-viewer {
         display: block;
+        height: calc(100vh - 200px);
       }
       .pdf-container {
         position: relative;
@@ -99,9 +100,7 @@ $excludeColor: var(--excludeColor);
       .pdf-perfect-scroll {
         height: calc(100vh - 200px);
       }
-      ngx-simplebar {
-        height: calc(100vh - 200px);
-      }
+
       .thumb-nails {
         height: 100vh;
         overflow: auto;

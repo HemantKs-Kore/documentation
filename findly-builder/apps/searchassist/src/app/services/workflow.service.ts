@@ -13,8 +13,6 @@ export class WorkflowService {
   selectedIndexPipelineId: any;
   selectedAppForEdit: any;
   selectedSearchIndexId: any;
-  selectedQueryPipelineObj: any;
-  appQueryPipelineIds: any = [];
   seedData$: BehaviorSubject<any> = new BehaviorSubject(null);
   mainMenuRouter$: BehaviorSubject<any> = new BehaviorSubject(null);
   disablePerfectScroll: boolean;
@@ -22,14 +20,14 @@ export class WorkflowService {
   topDownOrBottomUp = '';
   selectedJob_id = '';
   enableDisableSt;
-  supportedLanguages;
+  // supportedLanguages;
   constructor(private service: ServiceInvokerService) {}
-  getSettings(data?) {
-    if (data) {
-      this.supportedLanguages = data.language;
-    }
-    return this.supportedLanguages;
-  }
+  // getSettings(data?) {
+  //   if (data) {
+  //     this.supportedLanguages = data.language;
+  //   }
+  //   return this.supportedLanguages;
+  // }
   selectedJobId(id?) {
     if (id) {
       this.selectedJob_id = id;
@@ -94,20 +92,7 @@ export class WorkflowService {
     }
     return this.selectedSearchIndexId;
   }
-  appQueryPipelines(data?) {
-    if (data) {
-      this.appQueryPipelineIds = data;
-      return;
-    }
-    return this.appQueryPipelineIds || [];
-  }
-  selectedQueryPipeline(data?) {
-    if (data) {
-      this.selectedQueryPipelineObj = data;
-      return;
-    }
-    return this.selectedQueryPipelineObj || {};
-  }
+
   seedData(data?) {
     if (data) {
       this._seedData = data;

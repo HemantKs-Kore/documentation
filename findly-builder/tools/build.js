@@ -27,7 +27,7 @@ function minifyScript(sourcePath) {
     )
   ) {
     shell.echo(`${sourcePath} minification success`);
-    shell.exit(1);
+    // shell.exit(1);
   }
 }
 

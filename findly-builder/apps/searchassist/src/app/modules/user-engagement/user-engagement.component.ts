@@ -21,7 +21,8 @@ import {
   selectIndexPipelines,
   selectSearchIndexId,
 } from '@kore.apps/store/app.selectors';
-import { combineLatest, Subscription } from 'rxjs';
+import { combineLatest, Subscription, take, tap } from 'rxjs';
+import { StoreService } from '@kore.apps/store/store.service';
 declare const $: any;
 @Component({
   selector: 'app-user-engagement',
@@ -155,7 +156,8 @@ export class UserEngagementComponent
     private service: ServiceInvokerService,
     private notificationService: NotificationService,
     private appSelectionService: AppSelectionService,
-    private store: Store
+    private store: Store,
+    private storeService: StoreService
   ) {}
 
   ngOnInit(): void {
@@ -172,17 +174,17 @@ export class UserEngagementComponent
   }
 
   initAppIds() {
-    this.sub = combineLatest([
-      this.store.select(selectIndexPipelineId),
-      this.store.select(selectSearchIndexId),
-      // this.store.select(selectQueryPipelineId),
-    ]).subscribe(([indexPipelineId, searchIndexId]) => {
-      // this.queryPipelineId = queryPipelineId;
-      this.serachIndexId = searchIndexId;
-      this.indexPipelineId = indexPipelineId;
+    this.sub = this.storeService.ids$
+      .pipe(
+        take(1),
+        tap(({ searchIndexId, indexPipelineId }) => {
+          this.serachIndexId = searchIndexId;
+          this.indexPipelineId = indexPipelineId;
+        })
+      )
+      .subscribe();
 
-      this.getIndexPipeline();
-    });
+    this.getIndexPipeline();
   }
 
   getIndexPipeline() {

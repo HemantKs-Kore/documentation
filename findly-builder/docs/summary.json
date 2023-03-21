@@ -70,6 +70,10 @@
       {
         "title": "Perf step by step",
         "file": "perf/perf-step-by-step.md"
+      },
+      {
+        "title": "Improve CD",
+        "file": "perf/cd.md"
       }
     ]
   },

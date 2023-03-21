@@ -1,17 +1,16 @@
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { KRModalComponent } from '../../shared/kr-modal/kr-modal.component';
 import { PerfectScrollbarComponent } from 'ngx-perfect-scrollbar';
-import { EMPTY, interval, Subscription } from 'rxjs';
+import { interval, Subscription } from 'rxjs';
 import { ConfirmationDialogComponent } from '../../helpers/components/confirmation-dialog/confirmation-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
 import { DockStatusService } from '../../services/dockstatusService/dock-status.service';
-import { catchError, startWith, tap } from 'rxjs/operators';
+import { startWith, tap } from 'rxjs/operators';
 import * as _ from 'underscore';
 import { ServiceInvokerService } from '@kore.apps/services/service-invoker.service';
 import { NotificationService } from '@kore.apps/services/notification.service';
 import { AppSelectionService } from '@kore.apps/services/app.selection.service';
-import { WorkflowService } from '@kore.apps/services/workflow.service';
-import { selectIndexPipelines } from '@kore.apps/store/app.selectors';
+import { selectIndexConfig } from '@kore.apps/store/app.selectors';
 import { Store } from '@ngrx/store';
 import { StoreService } from '@kore.apps/store/store.service';
 import { updateIndexPipeline } from '@kore.apps/store/app.actions';
@@ -50,7 +49,6 @@ export class IndexConfigurationSettingsComponent implements OnInit, OnDestroy {
   @ViewChild('perfectScroll') perfectScroll: PerfectScrollbarComponent;
 
   constructor(
-    public workflowService: WorkflowService,
     private service: ServiceInvokerService,
     private notificationService: NotificationService,
     private appSelectionService: AppSelectionService,
@@ -62,21 +60,27 @@ export class IndexConfigurationSettingsComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.initAppIds();
+    this.initSupportedLanguage();
     this.getAvilableLanguages();
+    this.poling();
+  }
 
-    this.supportedLanguages = this.workflowService?.supportedLanguages?.values;
-    this.configurationsSubscription =
-      this.appSelectionService.queryConfigSelected.subscribe((res) => {
-        this.supportedLanguages =
-          this.workflowService?.supportedLanguages?.values;
+  initSupportedLanguage() {
+    const indexSub = this.store
+      .select(selectIndexConfig)
+      .subscribe((config) => {
+        this.supportedLanguages = JSON.parse(
+          JSON.stringify(config.settings.language.values)
+        );
       });
 
-    this.poling();
+    this.sub?.add(indexSub);
   }
 
   initAppIds() {
     const idsSub = this.storeService.ids$
       .pipe(
+        // take(1),
         tap(({ streamId, searchIndexId, indexPipelineId }) => {
           this.streamId = streamId;
           this.searchIndexId = searchIndexId;
@@ -197,7 +201,7 @@ export class IndexConfigurationSettingsComponent implements OnInit, OnDestroy {
         this.store.dispatch(
           updateIndexPipeline({ indexPipeline: res, isDefault: false })
         );
-        this.getIndexPipeline();
+        // this.getIndexPipeline();
         if (dialogRef && dialogRef.close) {
           dialogRef.close();
         }
@@ -331,24 +335,6 @@ export class IndexConfigurationSettingsComponent implements OnInit, OnDestroy {
     }
   }
 
-  getIndexPipeline() {
-    const langSub = this.store
-      .select(selectIndexPipelines)
-      .pipe(
-        tap((res) => {
-          res.forEach((element) => {
-            if (element._id == this.indexPipelineId) {
-              this.supportedLanguages = element.settings.language.values;
-              this.workflowService.getSettings(element.settings);
-            }
-          });
-        })
-      )
-      .subscribe({
-        error: this.handlePipelineError.bind(this),
-      });
-    this.sub?.add(langSub);
-  }
   poling() {
     this.isTrainStatusInprogress = true;
     if (this.pollingSubscriber) {

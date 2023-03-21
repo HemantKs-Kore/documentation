@@ -14,7 +14,6 @@ import { NotificationService } from '@kore.apps/services/notification.service';
 import { SideBarService } from '@kore.apps/services/header.service';
 import { AppSelectionService } from '@kore.apps/services/app.selection.service';
 import { AuthService } from '@kore.apps/services/auth.service';
-import { InlineManualService } from '@kore.apps/services/inline-manual.service';
 import { MixpanelServiceService } from '@kore.apps/services/mixpanel-service.service';
 import { Store } from '@ngrx/store';
 import { resetAppIds, setAppId } from '@kore.apps/store/app.actions';
@@ -31,6 +30,7 @@ declare const $: any;
 })
 export class AppsComponent implements OnInit, AfterViewInit, OnDestroy {
   sub: Subscription;
+  scriptsLoaded = false;
   authInfo: any;
   openJourney = false;
   saveInProgress = false;
@@ -111,7 +111,6 @@ export class AppsComponent implements OnInit, AfterViewInit, OnDestroy {
     private headerService: SideBarService,
     private appSelectionService: AppSelectionService,
     public authService: AuthService,
-    public inlineManual: InlineManualService,
     private route: ActivatedRoute,
     public mixpanel: MixpanelServiceService,
     private store: Store,
@@ -203,17 +202,31 @@ export class AppsComponent implements OnInit, AfterViewInit, OnDestroy {
     this.router.navigateByUrl('summary', { skipLocationChange: true });
   }
 
+  onScriptsLoaded() {
+    // this.checkForNewUser();
+    $('.krFindlyAppComponent').removeClass('appSelected');
+    //const apps = this.workflowService.findlyApps();
+    //this.prepareApps(apps);
+    setTimeout(() => {
+      $('#serachInputBox').focus();
+    }, 100);
+    // this.buildCarousel();
+  }
+
   loadScripts() {
-    this.lazyLoadService.loadScript('scripts.min.js').subscribe(() => {
-      // this.checkForNewUser();
-      $('.krFindlyAppComponent').removeClass('appSelected');
-      //const apps = this.workflowService.findlyApps();
-      //this.prepareApps(apps);
-      setTimeout(() => {
-        $('#serachInputBox').focus();
-      }, 100);
-      // this.buildCarousel();
-    });
+    if (this.scriptsLoaded) {
+      this.onScriptsLoaded();
+      return;
+    }
+
+    const scriptsSub = this.lazyLoadService
+      .loadScript('scripts.min.js')
+      .subscribe(() => {
+        this.scriptsLoaded = true;
+        this.onScriptsLoaded();
+      });
+
+    this.sub?.add(scriptsSub);
   }
 
   openBoradingJourney() {

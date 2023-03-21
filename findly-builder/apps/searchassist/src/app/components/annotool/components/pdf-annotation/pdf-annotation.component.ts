@@ -49,7 +49,7 @@ import {
   selectAppId,
   selectSearchIndexId,
 } from '@kore.apps/store/app.selectors';
-import { combineLatest, Subscription, tap, withLatestFrom } from 'rxjs';
+import { combineLatest, Subscription, take, tap, withLatestFrom } from 'rxjs';
 import { StoreService } from '@kore.apps/store/store.service';
 
 @Component({
@@ -173,6 +173,7 @@ export class PdfAnnotationComponent implements OnInit, OnDestroy {
   initAppIds() {
     const pipelineSub = this.storeService.ids$
       .pipe(
+        take(1),
         tap(({ streamId, searchIndexId }) => {
           this.appId = streamId;
           this.searchIndexId = searchIndexId;
@@ -722,7 +723,7 @@ export class PdfAnnotationComponent implements OnInit, OnDestroy {
   }
   // Check user guide info from api
   getSavedAnnotatedDataForStream() {
-    this.service
+    const userGuideSub = this.service
       .invoke('PdfAnno.get.userguide', { streamId: this.appId })
       .subscribe(
         (res: any) => {
@@ -748,6 +749,8 @@ export class PdfAnnotationComponent implements OnInit, OnDestroy {
           }
         }
       );
+
+    this.sub?.add(userGuideSub);
   }
   // extract pdf
   extractPDF() {

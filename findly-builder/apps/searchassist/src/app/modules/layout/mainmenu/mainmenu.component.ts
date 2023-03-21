@@ -26,6 +26,7 @@ import { DockStatusService } from '@kore.apps/services/dockstatusService/dock-st
 import { Store } from '@ngrx/store';
 import {
   addIndexPipeline,
+  addQueryPipeline,
   removeIndexPipeline,
   removeQueryPipeline,
   setIndexPipelineId,
@@ -51,9 +52,9 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { SharedPipesModule } from '@kore.apps/helpers/filters/shared-pipes.module';
 import { PlanUpgradeModule } from '@kore.apps/modules/pricing/shared/plan-upgrade/plan-upgrade.module';
 import {
+  selectIndexConfig,
   selectIndexPipelineId,
   selectIndexPipelines,
-  selectQueryPipelineId,
   selectQueryPipelines,
   selectSearchIndexId,
 } from '@kore.apps/store/app.selectors';
@@ -301,7 +302,7 @@ export class MainMenuComponent implements OnInit, OnDestroy {
         } else {
           this.notify.notify('Set to default successfully', 'success');
         }
-        this.appSelectionService.getQureryPipelineIds(config);
+        // this.appSelectionService.getQureryPipelineIds(config);
         if (config && config._id && action !== 'edit') {
           this.selectQueryPipelineId(config);
         }
@@ -452,10 +453,10 @@ export class MainMenuComponent implements OnInit, OnDestroy {
       };
       this.service
         .invoke('create.queryPipeline', queryParms, payload)
-        .pipe(switchMap(() => this.appSelectionService.getQureryPipelineIds()))
+        // .pipe(switchMap(() => this.appSelectionService.getQureryPipelineIds()))
         .subscribe(
           (res) => {
-            this.store.dispatch(setQueryPipelines({ queryPipelines: res }));
+            this.store.dispatch(addQueryPipeline({ queryPipeline: res }));
             if (res && res._id) {
               this.selectQueryPipelineId(res);
             }
@@ -508,7 +509,7 @@ export class MainMenuComponent implements OnInit, OnDestroy {
       this.editName = false;
       //event.close();
     }
-    this.appSelectionService.selectQueryConfig(queryConfigs);
+    // this.appSelectionService.selectQueryConfig(queryConfigs);
     this.selectedConfig = queryConfigs;
 
     // this.reloadCurrentRoute();
@@ -550,7 +551,7 @@ export class MainMenuComponent implements OnInit, OnDestroy {
             removeQueryPipeline({ queryPipelineId: indexConfigs._id })
           );
           // this.queryConfigs.splice(deleteIndex, 1);
-          this.appSelectionService.getQureryPipelineIds();
+          // this.appSelectionService.getQureryPipelineIds();
         }
         this.notify.notify('deleted successfully', 'success');
       },
@@ -574,7 +575,7 @@ export class MainMenuComponent implements OnInit, OnDestroy {
       //event.close();
     }
     //this.workflowService.selectedSearchIndex(indexConfigs._id)
-    this.appSelectionService.getIndexPipelineIds(indexConfigs);
+    // this.appSelectionService.getIndexPipelineIds(indexConfigs);
     this.selectedIndexConfig = indexConfigs;
     //this.reloadCurrentRoute()
   }
@@ -611,32 +612,7 @@ export class MainMenuComponent implements OnInit, OnDestroy {
 
     this.initIndexPipeLines();
     this.initQueryPipeLines();
-    // this.appSelectionService.appSelectedConfigs.subscribe((res) => {
-    //   this.indexConfigs = res;
-    //   this.indexConfigs.forEach((element) => {
-    //     this.indexConfigObj[element._id] = element;
-    //   });
-    //   if (res.length > 0)
-    //     this.selectedIndexConfig = this.indexPipelineId;
-    // });
-    // this.subscription = this.appSelectionService.queryConfigs.subscribe(
-    //   (res) => {
-    //     this.queryConfigs = res;
-    //     res.forEach((element) => {
-    //       this.configObj[element._id] = element;
-    //     });
-    //     this.selectedConfig = this.workflowService.selectedQueryPipeline()._id;
-    //     setTimeout(() => {
-    //       this.selectedApp = this.workflowService.selectedApp();
-    //       if (this.selectedApp?.searchIndexes?.length) {
-    //         this.searchIndexId = this.selectedApp?.searchIndexes[0]._id;
-    //       }
-    //     }, 1000);
-    //   }
-    // );
-    // if (this.selectedApp?.searchIndexes?.length) {
-    //   this.searchIndexId = this.selectedApp.searchIndexes[0]._id;
-    // }
+    this.initIndexConfig();
     this.updateUsageData = this.appSelectionService.updateUsageData.subscribe(
       (res) => {
         if (res == 'updatedUsage') {
@@ -672,17 +648,25 @@ export class MainMenuComponent implements OnInit, OnDestroy {
     this.subscription?.add(indexPipelineSub);
   }
 
+  initIndexConfig() {
+    const indexSub = this.store.select(selectIndexConfig).subscribe((res) => {
+      this.selectedIndexConfig = res;
+    });
+
+    this.subscription?.add(indexSub);
+  }
+
   initIndexPipeLines() {
     this.subscription = this.store
       .select(selectIndexPipelines)
       .subscribe((res) => {
         this.indexConfigs = JSON.parse(JSON.stringify(res));
 
-        if (res.length > 0) {
-          this.selectedIndexConfig = this.indexConfigs.find(
-            (item) => item.default
-          );
-        }
+        // if (res.length > 0) {
+        //   this.selectedIndexConfig = this.indexConfigs.find(
+        //     (item) => item.default
+        //   );
+        // }
       });
   }
 

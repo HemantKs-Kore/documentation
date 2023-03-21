@@ -1,11 +1,17 @@
-import { Component, OnInit, Output, Input, EventEmitter } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  Output,
+  Input,
+  EventEmitter,
+  OnDestroy,
+} from '@angular/core';
 import { WorkflowService } from '@kore.services/workflow.service';
-import { ServiceInvokerService } from '@kore.services/service-invoker.service';
-import { AppSelectionService } from '@kore.services/app.selection.service'; //imported on 17/01
-import { NotificationService } from '@kore.services/notification.service';
-import { Router } from '@angular/router';
 import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
+import { Subscription, take, tap } from 'rxjs';
+import { Store } from '@ngrx/store';
+import { selectSearchIndexId } from '@kore.apps/store/app.selectors';
 
 @Component({
   selector: 'app-analytics-dropdown',
@@ -14,9 +20,10 @@ import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
   styleUrls: ['./analytics-dropdown.component.scss'],
   imports: [NgbDropdownModule, PerfectScrollbarModule],
 })
-export class AnalyticsDropdownComponent implements OnInit {
-  selectedApp;
-  serachIndexId;
+export class AnalyticsDropdownComponent implements OnInit, OnDestroy {
+  sub: Subscription;
+  // selectedApp;
+  searchIndexId;
   indexConfigs: any = [];
   selectedIndexConfig: any;
   selecteddropname: any;
@@ -24,19 +31,10 @@ export class AnalyticsDropdownComponent implements OnInit {
   @Output() dropdownpipelineid = new EventEmitter();
   @Input() indexarray;
 
-  constructor(
-    public workflowService: WorkflowService,
-    private service: ServiceInvokerService,
-    private router: Router,
-    private appSelectionService: AppSelectionService, //added on 17/01
-    private notificationService: NotificationService
-  ) {}
+  constructor(public workflowService: WorkflowService, private store: Store) {}
 
   ngOnInit(): void {
-    this.selectedApp = this.workflowService.selectedApp();
-    this.indexConfigs = this.appSelectionService.appSelectedConfigs;
-    this.serachIndexId = this.selectedApp.searchIndexes[0]._id;
-    //this.getIndexPipeline();
+    this.initAppIds();
     this.indexConfigs = this.indexarray;
     this.indexConfigs.forEach((element, index) => {
       this.indexConfigObj[element._id] = element;
@@ -46,9 +44,27 @@ export class AnalyticsDropdownComponent implements OnInit {
     });
   }
 
+  initAppIds() {
+    const idsSub = this.store
+      .select(selectSearchIndexId)
+      .pipe(
+        take(1),
+        tap((searchIndexId) => {
+          this.searchIndexId = searchIndexId;
+        })
+      )
+      .subscribe();
+
+    this.sub?.add(idsSub);
+  }
+
   getDetails(config?) {
     this.selecteddropname = config.name;
     this.selectedIndexConfig = config._id;
     this.dropdownpipelineid.emit(this.selectedIndexConfig);
+  }
+
+  ngOnDestroy(): void {
+    this.sub?.unsubscribe();
   }
 }

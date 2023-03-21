@@ -860,19 +860,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
     }
     this.router.navigate(['/'], { skipLocationChange: true });
   }
-  // loadHeader() {
-  //   this.indexPipelineId = this.indexPipelineId;
-  //   if (this.indexPipelineId) {
-  //     this.queryPipelineId = this.workflowService.selectedQueryPipeline()
-  //       ? this.workflowService.selectedQueryPipeline()._id
-  //       : this.selectedApp.searchIndexes[0].queryPipelineId;
-  //     if (this.queryPipelineId) {
-  //       // this.getcustomizeList(20,0);
-  //       this.selectedApp = this.workflowService.selectedApp();
-  //       this.searchIndexId = this.selectedApp.searchIndexes[0]._id;
-  //     }
-  //   }
-  // }
+
   metricsOption(menu) {
     this.analyticsClick(menu);
     this.goToRoute(menu);
@@ -1755,6 +1743,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
       setAppId({ appId: app._id, searchIndexId: app.searchIndexes[0]._id })
     );
     this.training = false;
+    this.headerService.closeSdk();
     this.appSelectionService.openApp(app);
     this.appSelectionService.tourConfigCancel.next({
       name: undefined,
@@ -1837,7 +1826,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
       },
       defaultLanguage: 'en',
     };
-    this.service.invoke('create.app', {}, payload).subscribe(
+
+    this.appsService.add(payload).subscribe(
       (res) => {
         this.notificationService.notify('App created successfully', 'success');
         this.closeCreateApp();
@@ -1846,6 +1836,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
           description: '',
         };
         this.creatingInProgress = false;
+        this.headerService.closeSdk();
         this.openApp(res);
         // this.router.navigate(['/apps'], { skipLocationChange: true });
         // this.analyticsClick('apps', true)

@@ -2,12 +2,11 @@ import { Component, NgZone, OnDestroy, OnInit } from '@angular/core';
 import { formatDistanceToNow } from 'date-fns';
 import { ConfirmationDialogComponent } from '../../helpers/components/confirmation-dialog/confirmation-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
-import { Subscription, filter, tap } from 'rxjs';
+import { Subscription, filter, tap, take } from 'rxjs';
 import { WorkflowService } from '@kore.apps/services/workflow.service';
 import { ServiceInvokerService } from '@kore.apps/services/service-invoker.service';
 import { NotificationService } from '@kore.apps/services/notification.service';
 import { AppSelectionService } from '@kore.apps/services/app.selection.service';
-import { InlineManualService } from '@kore.apps/services/inline-manual.service';
 import { SideBarService } from '@kore.apps/services/header.service';
 import { TranslationService } from '@kore.libs/shared/src';
 import {
@@ -77,7 +76,6 @@ export class ResultRankingComponent implements OnInit, OnDestroy {
     public dialog: MatDialog,
     private notificationService: NotificationService,
     private appSelectionService: AppSelectionService,
-    public inlineManual: InlineManualService,
     private headerService: SideBarService,
     private zone: NgZone,
     private translationService: TranslationService,
@@ -118,6 +116,7 @@ export class ResultRankingComponent implements OnInit, OnDestroy {
   initAppIds() {
     const idsSub = this.storeService.ids$
       .pipe(
+        take(1),
         tap(({ streamId, searchIndexId, indexPipelineId, queryPipelineId }) => {
           this.streamId = streamId;
           this.searchIndexId = searchIndexId;
@@ -148,10 +147,10 @@ export class ResultRankingComponent implements OnInit, OnDestroy {
       this.loadingContent = false;
       this.loadingContent1 = true;
       this.loadImageText = true;
-      if (!this.inlineManual.checkVisibility('RESULT_RANKING')) {
-        this.inlineManual.openHelp('RESULT_RANKING');
-        this.inlineManual.visited('RESULT_RANKING');
-      }
+      // if (!this.inlineManual.checkVisibility('RESULT_RANKING')) {
+      //   this.inlineManual.openHelp('RESULT_RANKING');
+      //   this.inlineManual.visited('RESULT_RANKING');
+      // }
     }
   }
 
@@ -170,7 +169,7 @@ export class ResultRankingComponent implements OnInit, OnDestroy {
       queryPipelineId: this.queryPipelineId,
       searchKey: '',
     };
-    this.service.invoke(url, quaryparms).subscribe(
+    const presentableFieldsSub = this.service.invoke(url, quaryparms).subscribe(
       (res) => {
         this.fieldData = res.data;
         this.getSettings('fullSearch');
@@ -179,6 +178,8 @@ export class ResultRankingComponent implements OnInit, OnDestroy {
         this.errorToaster(errRes, 'Failed to get fields');
       }
     );
+
+    this.sub?.add(presentableFieldsSub);
   }
   multiplyAction(value) {
     const count = value / 0.25;

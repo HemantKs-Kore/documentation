@@ -11,7 +11,6 @@ import { ServiceInvokerService } from '@kore.apps/services/service-invoker.servi
 import { NotificationService } from '@kore.apps/services/notification.service';
 import { AuthService } from '@kore.apps/services/auth.service';
 import { AppSelectionService } from '@kore.apps/services/app.selection.service';
-import { InlineManualService } from '@kore.apps/services/inline-manual.service';
 import { OnboardingComponent } from '../onboarding/onboarding.component';
 import { TranslationService } from '@kore.libs/shared/src';
 declare const $: any;
@@ -104,8 +103,6 @@ export class BotActionsComponent implements OnInit {
     private notificationService: NotificationService,
     private authService: AuthService,
     private appSelectionService: AppSelectionService,
-    private router: Router,
-    public inlineManual: InlineManualService,
     public dialog: MatDialog,
     private translationService: TranslationService
   ) {
@@ -488,10 +485,10 @@ export class BotActionsComponent implements OnInit {
 
   openBotsModalElement() {
     this.botsModalRef = this.botsModalElement.open();
-    if (!this.inlineManual.checkVisibility('ACTION_SUB_TOPIC')) {
-      this.inlineManual.openHelp('ACTION_SUB_TOPIC');
-      this.inlineManual.visited('ACTION_SUB_TOPIC');
-    }
+    // if (!this.inlineManual.checkVisibility('ACTION_SUB_TOPIC')) {
+    //   this.inlineManual.openHelp('ACTION_SUB_TOPIC');
+    //   this.inlineManual.visited('ACTION_SUB_TOPIC');
+    // }
     setTimeout(() => {
       this.perfectScroll.directiveRef.update();
       this.perfectScroll.directiveRef.scrollToTop();
@@ -1619,6 +1616,15 @@ export class BotActionsComponent implements OnInit {
       };
       this.service.invoke('put.configLinkbot', queryParams, payload).subscribe(
         (res) => {
+          if (
+            res.hasOwnProperty('validationStatus') &&
+            !res['validationStatus']
+          ) {
+            let errorMsg = 'Invalid details are entered';
+            if (res['error']) errorMsg = res['error'];
+            this.notificationService.notify(errorMsg, 'error');
+            return;
+          }
           this.allBotArray = [];
           res.configuredBots.forEach((element) => {
             const obj = {
