@@ -242,23 +242,14 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
     this.loadingContent = false;
     this.loadingContent1 = true;
     this.loadImageText = true;
-    // if (!this.inlineManual.checkVisibility('RULES')) {
-    //   this.inlineManual.openHelp('RULES');
-    //   this.inlineManual.visited('RULES');
-    // }
   }
+
   loadRules() {
-    // if (this.indexPipelineId) {
-    //   this.queryPipelineId = this.workflowService.selectedQueryPipeline()
-    //     ? this.queryPipelineId
-    //     : this.selectedApp.searchIndexes[0].queryPipelineId;
-    //   if (this.queryPipelineId) {
     this.getDyanmicFilterData();
     this.getRules();
     this.getFields();
-    //   }
-    // }
   }
+
   searchByRule() {
     if (this.searchRules) {
       this.getRules(null, this.searchRules);

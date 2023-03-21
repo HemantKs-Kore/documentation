@@ -62,17 +62,6 @@ export class SnippetComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.initAppIds();
-    // this.getQueryConfigData();
-    this.queryDataSubscription =
-      this.appSelectionService.queryConfigSelected.subscribe((res) => {
-        // this.getQueryConfigData();
-        this.getAnswerSnippets();
-        this.getOpenAIKey();
-      });
-    if (this.indexPipelineId && this.queryPipelineId) {
-      this.getAnswerSnippets();
-      this.getOpenAIKey();
-    }
   }
 
   initAppIds() {
@@ -83,6 +72,9 @@ export class SnippetComponent implements OnInit, OnDestroy {
           this.indexPipelineId = indexPipelineId;
           this.queryPipelineId = queryPipelineId;
           this.configObj = { searchIndexId, indexPipelineId, queryPipelineId };
+
+          this.getAnswerSnippets();
+          this.getOpenAIKey();
         })
       )
       .subscribe();
@@ -97,25 +89,29 @@ export class SnippetComponent implements OnInit, OnDestroy {
       indexPipelineId: this.indexPipelineId,
       queryPipelineId: this.queryPipelineId,
     };
-    this.service.invoke('get.answerSnippets', quaryparms).subscribe(
-      (res) => {
-        if (res) {
-          this.snippetArray = res?.config;
-          this.selectSnippet(this.snippetArray[0].type);
-          const ExtractedData = res?.config?.filter(
-            (item) => item.type === 'extractive_model'
-          );
-          this.isWorkbenchSnippetDisabled =
-            ExtractedData[0]?.active && !ExtractedData[0]?.workBenchStageFound
-              ? true
-              : false;
-          this.cd.detectChanges();
+    const answerSnippetsSub = this.service
+      .invoke('get.answerSnippets', quaryparms)
+      .subscribe(
+        (res) => {
+          if (res) {
+            this.snippetArray = res?.config;
+            this.selectSnippet(this.snippetArray[0].type);
+            const ExtractedData = res?.config?.filter(
+              (item) => item.type === 'extractive_model'
+            );
+            this.isWorkbenchSnippetDisabled =
+              ExtractedData[0]?.active && !ExtractedData[0]?.workBenchStageFound
+                ? true
+                : false;
+            this.cd.detectChanges();
+          }
+        },
+        (errRes) => {
+          this.errorToaster(errRes, 'Get Answer snippet API Failed');
         }
-      },
-      (errRes) => {
-        this.errorToaster(errRes, 'Get Answer snippet API Failed');
-      }
-    );
+      );
+
+    this.sub?.add(answerSnippetsSub);
   }
 
   //get open AI key API method
@@ -123,20 +119,24 @@ export class SnippetComponent implements OnInit, OnDestroy {
     const quaryparms: any = {
       streamId: this.selectedApp?._id,
     };
-    this.service.invoke('get.openAIKey', quaryparms).subscribe(
-      (res) => {
-        if (res) {
-          if (res?.name === 'openai') {
-            this.openAIObj.openAIKey = res?.appConfig?.apiKey;
-            this.openAIObj.isOpenAIFirst =
-              res?.appConfig?.apiKey?.length === 0 ? true : false;
+    const openAIKeySub = this.service
+      .invoke('get.openAIKey', quaryparms)
+      .subscribe(
+        (res) => {
+          if (res) {
+            if (res?.name === 'openai') {
+              this.openAIObj.openAIKey = res?.appConfig?.apiKey;
+              this.openAIObj.isOpenAIFirst =
+                res?.appConfig?.apiKey?.length === 0 ? true : false;
+            }
           }
+        },
+        (errRes) => {
+          this.errorToaster(errRes, 'Get Answer snippet API Failed');
         }
-      },
-      (errRes) => {
-        this.errorToaster(errRes, 'Get Answer snippet API Failed');
-      }
-    );
+      );
+
+    this.sub?.add(openAIKeySub);
   }
 
   //reset to default for similarity / weights slider
