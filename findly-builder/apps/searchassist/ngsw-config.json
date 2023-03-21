@@ -12,7 +12,7 @@
       "name": "assets-lazy",
       "installMode": "lazy",
       "resources": {
-        "files": ["/**/*.css", "/**/*.js"]
+        "files": ["/*.css", "/*.js"]
       }
     },
     {
