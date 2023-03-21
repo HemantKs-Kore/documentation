@@ -10,7 +10,6 @@ import * as _ from 'underscore';
 import { ServiceInvokerService } from '@kore.apps/services/service-invoker.service';
 import { NotificationService } from '@kore.apps/services/notification.service';
 import { AppSelectionService } from '@kore.apps/services/app.selection.service';
-import { WorkflowService } from '@kore.apps/services/workflow.service';
 import { selectIndexConfig } from '@kore.apps/store/app.selectors';
 import { Store } from '@ngrx/store';
 import { StoreService } from '@kore.apps/store/store.service';
@@ -50,7 +49,6 @@ export class IndexConfigurationSettingsComponent implements OnInit, OnDestroy {
   @ViewChild('perfectScroll') perfectScroll: PerfectScrollbarComponent;
 
   constructor(
-    public workflowService: WorkflowService,
     private service: ServiceInvokerService,
     private notificationService: NotificationService,
     private appSelectionService: AppSelectionService,
@@ -64,14 +62,6 @@ export class IndexConfigurationSettingsComponent implements OnInit, OnDestroy {
     this.initAppIds();
     this.initSupportedLanguage();
     this.getAvilableLanguages();
-
-    // this.supportedLanguages = this.workflowService?.supportedLanguages?.values;
-    // this.configurationsSubscription =
-    //   this.appSelectionService.queryConfigSelected.subscribe((res) => {
-    //     this.supportedLanguages =
-    //       this.workflowService?.supportedLanguages?.values;
-    //   });
-
     this.poling();
   }
 
@@ -345,24 +335,6 @@ export class IndexConfigurationSettingsComponent implements OnInit, OnDestroy {
     }
   }
 
-  // getIndexPipeline() {
-  //   const langSub = this.store
-  //     .select(selectIndexPipelines)
-  //     .pipe(
-  //       tap((res) => {
-  //         res.forEach((element) => {
-  //           if (element._id == this.indexPipelineId) {
-  //             this.supportedLanguages = element.settings.language.values;
-  //             this.workflowService.getSettings(element.settings);
-  //           }
-  //         });
-  //       })
-  //     )
-  //     .subscribe({
-  //       error: this.handlePipelineError.bind(this),
-  //     });
-  //   this.sub?.add(langSub);
-  // }
   poling() {
     this.isTrainStatusInprogress = true;
     if (this.pollingSubscriber) {
