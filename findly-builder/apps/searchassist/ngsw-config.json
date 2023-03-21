@@ -5,8 +5,13 @@
       "name": "app",
       "installMode": "prefetch",
       "resources": {
-        "files": ["/favicon.ico", "/index.html", "/manifest.webmanifest"],
-        "versionedFiles": ["/*.bundle.css", "/*.bundle.js", "/*.chunk.js"]
+        "files": [
+          "/favicon.ico",
+          "/index.html",
+          "/manifest.webmanifest",
+          "/*.css",
+          "/*.js"
+        ]
       }
     },
     {
@@ -36,25 +41,5 @@
       }
     }
   ],
-  "routing": {
-    "index": "/index.html",
-    "routes": {
-      "/": {
-        "match": "exact"
-      },
-      "/some-routes-group-prefix": {
-        "match": "prefix"
-      },
-      "/some-routes-group-prefix-no-files": {
-        "match": "prefix",
-        "onlyWithoutExtension": true
-      },
-      "/some/specific-route": {
-        "match": "exact"
-      },
-      "^/regex/.*/route$": {
-        "match": "regex"
-      }
-    }
-  }
+  "navigationUrls": ["/**", "!/**/*.*", "!/**/*__*", "!/**/*__*/**"]
 }
