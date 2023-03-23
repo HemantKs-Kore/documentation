@@ -1,12 +1,5 @@
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
-import {
-  Component,
-  ChangeDetectionStrategy,
-  OnInit,
-  ViewChild,
-  OnDestroy,
-  ChangeDetectorRef,
-} from '@angular/core';
+import { Component, ChangeDetectionStrategy, OnInit, ViewChild, OnDestroy, ChangeDetectorRef } from '@angular/core';
 import { StoreService } from '@kore.apps/store/store.service';
 import { AppSelectionService } from '@kore.services/app.selection.service';
 import { NotificationService } from '@kore.services/notification.service';
@@ -25,15 +18,11 @@ import { SliderComponentComponent } from '../../../shared/slider-component/slide
 export class SnippetComponent implements OnInit, OnDestroy {
   sub: Subscription;
   isEyeOpen = false;
-  selectedApp: any;
   isLoading = false;
   snippetArray: Array<any> = [];
   isWorkbenchSnippetDisabled = false;
-  configObj: ConfigObj = {
-    searchIndexId: '',
-    indexPipelineId: '',
-    queryPipelineId: '',
-  };
+  isWorkbenchDeleted = true;
+  configObj: ConfigObj = { searchIndexId: '', indexPipelineId: '', queryPipelineId: '', streamId: '' };
   selectedSnippetObj: any = { type: 'extractive_model' };
   openAIObj = new openAIObj();
   sliderDefaultConfigs: sliderDefaultObj = {
@@ -43,22 +32,10 @@ export class SnippetComponent implements OnInit, OnDestroy {
   };
   queryDataSubscription: Subscription;
   consentShareModelPopRef: any;
-  searchIndexId;
-  indexPipelineId;
-  queryPipelineId;
-
-  @ViewChild(SliderComponentComponent)
-  sliderComponent: SliderComponentComponent;
+  @ViewChild(SliderComponentComponent) sliderComponent: SliderComponentComponent;
   @ViewChild('consentShareModel') consentShareModel: KRModalComponent;
 
-  constructor(
-    private notificationService: NotificationService,
-    private service: ServiceInvokerService,
-    public workflowService: WorkflowService,
-    private appSelectionService: AppSelectionService,
-    private cd: ChangeDetectorRef,
-    private storeService: StoreService
-  ) {}
+  constructor(private notificationService: NotificationService, private service: ServiceInvokerService, public workflowService: WorkflowService, private appSelectionService: AppSelectionService, private cd: ChangeDetectorRef, private storeService: StoreService) { }
 
   ngOnInit(): void {
     this.initAppIds();
@@ -67,12 +44,11 @@ export class SnippetComponent implements OnInit, OnDestroy {
   initAppIds() {
     const idsSub = this.storeService.ids$
       .pipe(
-        tap(({ searchIndexId, indexPipelineId, queryPipelineId }) => {
-          this.searchIndexId = searchIndexId;
-          this.indexPipelineId = indexPipelineId;
-          this.queryPipelineId = queryPipelineId;
-          this.configObj = { searchIndexId, indexPipelineId, queryPipelineId };
-
+        tap(({ streamId, searchIndexId, indexPipelineId, queryPipelineId }) => {
+          this.configObj.streamId = streamId;
+          this.configObj.searchIndexId = searchIndexId;
+          this.configObj.indexPipelineId = indexPipelineId;
+          this.configObj.queryPipelineId = queryPipelineId;
           this.getAnswerSnippets();
           this.getOpenAIKey();
         })
@@ -85,39 +61,39 @@ export class SnippetComponent implements OnInit, OnDestroy {
   //get Answer snippet Data API method
   getAnswerSnippets() {
     const quaryparms: any = {
-      sidx: this.searchIndexId,
-      indexPipelineId: this.indexPipelineId,
-      queryPipelineId: this.queryPipelineId,
+      sidx: this.configObj.searchIndexId,
+      indexPipelineId: this.configObj.indexPipelineId,
+      queryPipelineId: this.configObj.queryPipelineId
     };
-    const answerSnippetsSub = this.service
-      .invoke('get.answerSnippets', quaryparms)
-      .subscribe(
-        (res) => {
-          if (res) {
-            this.snippetArray = res?.config;
-            this.selectSnippet(this.snippetArray[0].type);
-            const ExtractedData = res?.config?.filter(
-              (item) => item.type === 'extractive_model'
-            );
-            this.isWorkbenchSnippetDisabled =
-              ExtractedData[0]?.active && !ExtractedData[0]?.workBenchStageFound
-                ? true
-                : false;
-            this.cd.detectChanges();
-          }
-        },
-        (errRes) => {
-          this.errorToaster(errRes, 'Get Answer snippet API Failed');
+    this.service.invoke('get.answerSnippets', quaryparms).subscribe(
+      (res) => {
+        if (res) {
+          this.snippetArray = res?.config;
+          this.selectSnippet(this.snippetArray[0].type);
+          this.showHideWarningIcon(res?.config)
+          this.cd.detectChanges();
         }
-      );
+      },
+      (errRes) => {
+        this.errorToaster(errRes, 'Get Answer snippet API Failed');
+      }
+    );
+  }
 
-    this.sub?.add(answerSnippetsSub);
+  //show /hide warning icon for extractive model
+  showHideWarningIcon(data) {
+    const ExtractedData = data?.filter(item => item.type === 'extractive_model');
+    const isWorkBenchStageFound = ExtractedData[0]?.workBenchStageFound;
+    const isWorkBenchStageEnabled = ExtractedData[0]?.workBenchStageEnabled;
+    const stageFound = ((isWorkBenchStageFound && isWorkBenchStageEnabled)) ? false : ((!isWorkBenchStageFound && !isWorkBenchStageEnabled) || (isWorkBenchStageFound && !isWorkBenchStageEnabled)) ? true : false;
+    this.isWorkbenchSnippetDisabled = (ExtractedData[0]?.active) ? stageFound : false;
+    this.isWorkbenchDeleted = ExtractedData[0]?.active && (!ExtractedData[0]?.workBenchStageFound && !ExtractedData[0]?.workBenchStageEnabled) ? true : false;
   }
 
   //get open AI key API method
   getOpenAIKey() {
     const quaryparms: any = {
-      streamId: this.selectedApp?._id,
+      streamId: this.configObj.streamId
     };
     const openAIKeySub = this.service
       .invoke('get.openAIKey', quaryparms)
@@ -192,9 +168,9 @@ export class SnippetComponent implements OnInit, OnDestroy {
   //update or save answer snippet API
   updateAnswerSnippet(message?) {
     const quaryparms: any = {
-      sidx: this.searchIndexId,
-      indexPipelineId: this.indexPipelineId,
-      queryPipelineId: this.queryPipelineId,
+      sidx: this.configObj.searchIndexId,
+      indexPipelineId: this.configObj.indexPipelineId,
+      queryPipelineId: this.configObj.queryPipelineId,
     };
     const payload = { config: this.snippetArray };
     this.service.invoke('put.answerSnippets', quaryparms, payload).subscribe(
@@ -202,6 +178,7 @@ export class SnippetComponent implements OnInit, OnDestroy {
         if (res) {
           const msg = message || 'Updated successfully';
           this.notificationService.notify(msg, 'success');
+          this.showHideWarningIcon(res?.config);
         }
       },
       (errRes) => {
@@ -275,7 +252,7 @@ export class SnippetComponent implements OnInit, OnDestroy {
   saveOpenAIKey() {
     this.isLoading = true;
     const quaryparms: any = {
-      streamId: this.selectedApp?._id,
+      streamId: this.configObj.streamId
     };
     const payload = {
       name: 'openai',
@@ -290,10 +267,8 @@ export class SnippetComponent implements OnInit, OnDestroy {
           this.isLoading = false;
           this.openCloseConsentModal('close');
           if (this.openAIObj.isOpenAIFirst) this.getOpenAIKey();
-          this.notificationService.notify(
-            'Open AI Key updated successfully',
-            'success'
-          );
+          this.notificationService.notify('Open AI Key updated successfully', 'success');
+          this.cd.detectChanges();
         }
       },
       (errRes) => {
@@ -348,12 +323,14 @@ export class SnippetComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     this.sub?.unsubscribe();
     this.queryDataSubscription ? this.queryDataSubscription?.unsubscribe : null;
+    this.sub?.unsubscribe();
   }
 }
 interface ConfigObj {
   searchIndexId: string;
   indexPipelineId: string;
   queryPipelineId: string;
+  streamId: string;
 }
 interface sliderDefaultObj {
   similarity_score: number;

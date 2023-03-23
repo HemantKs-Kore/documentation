@@ -10,6 +10,7 @@ import { WorkflowService } from '@kore.apps/services/workflow.service';
 import { OnboardingComponent } from '../onboarding/onboarding.component';
 import { PlanUpgradeComponent } from '../pricing/shared/plan-upgrade/plan-upgrade.component';
 import { TranslationService } from '@kore.libs/shared/src';
+import { ConnectorObject, ConnectorsList, ConnectorSteps, ConnectorTabs, JobStatusList } from './connectors.constants';
 declare const $: any;
 @Component({
   selector: 'app-connectors',
@@ -17,63 +18,12 @@ declare const $: any;
   styleUrls: ['./connectors.component.scss'],
 })
 export class ConnectorsComponent implements OnInit {
-  Connectors = [
-    {
-      connector_name: 'Confluence (Server)',
-      description: 'connectors_please_compleate_configuration',
-      type: 'confluenceServer',
-      image: 'assets/icons/connectors/confluence.png',
-      url: 'https://admin.atlassian.com/',
-      doc_url: 'https://developer.atlassian.com/',
-      tag: 'Wiki, Atlassian, Intranet',
-    },
-    {
-      connector_name: 'Confluence (Cloud)',
-      description: 'connectors_please_compleate_configuration',
-      type: 'confluenceCloud',
-      image: 'assets/icons/connectors/confluence.png',
-      url: 'https://admin.atlassian.com/',
-      doc_url: 'https://developer.atlassian.com/',
-      tag: 'Wiki, Atlassian, Intranet',
-    },
-    {
-      connector_name: 'Service Now',
-      description: 'connectors_please_compleate_configuration',
-      type: 'serviceNow',
-      image: 'assets/icons/connectors/servicenow.png',
-      url: 'https://www.servicenow.com/',
-      doc_url: 'https://developer.servicenow.com/dev.do',
-      tag: 'The world works with ServiceNow',
-    },
-    {
-      connector_name: 'Zendesk',
-      description: 'connectors_please_compleate_configuration',
-      type: 'zendesk',
-      image: 'assets/icons/connectors/zendesk.png',
-      url: 'https://www.zendesk.com/',
-      doc_url: 'https://developer.zendesk.com/documentation/',
-      tag: 'Engineering Awesome',
-    },
-    {
-      connector_name: 'SharePoint',
-      description: 'connectors_please_compleate_configuration',
-      type: 'sharepointOnline',
-      image: 'assets/icons/connectors/sharepoint.png',
-      url: 'https://microsoft.sharepoint.com/',
-      doc_url: 'https://learn.microsoft.com/en-us/sharepoint/dev/',
-      tag: 'Empowering teamwork',
-    },
-    {
-      connector_name: "Google Drive",
-      description: "connectors_please_compleate_configuration",
-      type: "googleDrive",
-      image: "assets/icons/connectors/drive-google.png",
-      url: "https://drive.google.com/drive/my-drive",
-      doc_url: "https://developers.google.com/drive",
-      tag: "keep everything. Share anything."
-    },
-  ];
-  componentType = 'Connectors';
+  Connectors = ConnectorsList;
+  connectorsObject = ConnectorObject;
+  jobStatusList = JobStatusList;
+  addConnectorSteps = ConnectorSteps;
+  connectorTabs = ConnectorTabs;
+
   selectedContent = 'list';
   selectAddContent = 'instructions';
   selectedTab = 'overview';
@@ -85,59 +35,26 @@ export class ConnectorsComponent implements OnInit {
   sessionData: any = {};
   connectorsData: any = [];
   availableConnectorsData: any = [];
-  configurationObj: any = {
-    name: '',
-    clientId: '',
-    clientSecret: '',
-    hostUrl: '',
-    hostDomainName: '',
-    username: '',
-    password: '',
-    tenantId: '',
-  };
+  configurationObj: any = this.returnEmptyConfigObject();
   overViewData: any = { overview: [], coneten: [], jobs: [] };
   syncCount = { count: [], hours: 0, minutes: 0, days: 0 };
-  showProtecedText: any = {
-    isClientShow: false,
-    isSecretShow: false,
-    isPassword: false,
-    istenantIdShow: false,
-  };
   isEditable = false;
   checkConfigButton = true;
   isPopupDelete = true;
   isAuthorizeStatus = false;
   isSyncLoading = true;
+  isSyncLoadingMouseOver = false;
   searchField = '';
   isShowSearch = false;
   isloadingBtn = false;
   pageLoading = false;
   total_records: number;
-  onboardingOpened = false;
-  validation = false;
-  currentRouteData: any = '';
   contentInputSearch = '';
-  addConnectorSteps: any = [
-    { name: 'instructions', isCompleted: true, display: 'Introduction' },
-    {
-      name: 'configurtion',
-      isCompleted: false,
-      display: 'Configuration & Authentication',
-    },
-  ];
-  connectorTabs: any = [
-    { name: 'Overview', type: 'overview' },
-    { name: 'Content', type: 'content' },
-    { name: 'Connection Settings', type: 'connectionSettings' },
-    { name: 'Configurations', type: 'configurations' },
-    { name: 'Jobs', type: 'jobs' },
-  ];
+
   @ViewChild('plans') plans: PlanUpgradeComponent;
   @ViewChild('deleteModel') deleteModel: KRModalComponent;
-  @ViewChild(OnboardingComponent, { static: true })
-  onBoardingComponent: OnboardingComponent;
-  @ViewChild(SliderComponentComponent)
-  sliderComponent: SliderComponentComponent;
+  @ViewChild(OnboardingComponent, { static: true }) onBoardingComponent: OnboardingComponent;
+  @ViewChild(SliderComponentComponent) sliderComponent: SliderComponentComponent;
 
   constructor(
     private notificationService: NotificationService,
@@ -154,16 +71,11 @@ export class ConnectorsComponent implements OnInit {
     this.selectedApp = this.workflowService.selectedApp();
     this.searchIndexId = this.selectedApp?.searchIndexes[0]._id;
     this.getConnectors();
-    if (sessionStorage.getItem('connector') !== null) {
-      const session_connector_data = sessionStorage.getItem('connector');
-      this.sessionData = JSON.parse(session_connector_data);
-      if (this.sessionData?.isRedirect) {
-        this.isPopupDelete = false;
-        this.isAuthorizeStatus = true;
-        this.openDeleteModel('open');
-        sessionStorage.clear();
-      }
-    }
+  }
+
+  //receive object data from connector Input Component
+  updateConnectorObject(obj) {
+    this.configurationObj[obj.type] = obj?.value;
   }
 
   //open delete model popup
@@ -203,12 +115,6 @@ export class ConnectorsComponent implements OnInit {
   //change edit tabs
   changeEditTabs(type) {
     this.selectedTab = type;
-    this.showProtecedText = {
-      isClientShow: false,
-      isSecretShow: false,
-      isPassword: false,
-      istenantIdShow: false,
-    };
   }
 
   //get connector list
@@ -241,20 +147,11 @@ export class ConnectorsComponent implements OnInit {
           this.availableConnectorsData = this.Connectors;
         }
         this.pageLoading = true;
-        this.validation = false;
       },
       (errRes) => {
         this.errorToaster(errRes, 'Failed to get Connectors');
       }
     );
-  }
-
-  //goto result template page
-  navigateToResultTemplate() {
-    this.appSelectionService.routeChanged.next({
-      name: 'pathchanged',
-      path: '/resultTemplate',
-    });
   }
 
   //remove spaces in url
@@ -356,12 +253,6 @@ export class ConnectorsComponent implements OnInit {
 
   //change page like list, add ,edit
   changeContent(page, data) {
-    this.showProtecedText = {
-      isClientShow: false,
-      isSecretShow: false,
-      isPassword: false,
-      istenantIdShow: false,
-    };
     this.selectedConnector = data;
     this.selectedContent = page;
     if (page === 'edit') {
@@ -372,12 +263,12 @@ export class ConnectorsComponent implements OnInit {
       this.appSelectionService
         .connectorSyncJobStatus(this.searchIndexId, this.connectorId)
         .then((res: any) => {
-          this.overViewData.jobs = res;
+          this.overViewData.jobs = this.modifyJobStatusNames(res);
           if (res && res[0]?.status !== 'INPROGRESS') {
             this.isSyncLoading = false;
           } else if (res && res[0]?.status === 'INPROGRESS') {
             this.checkJobStatus();
-            this.isSyncLoading = true;
+            this.isSyncLoading = false;
           }
         });
     }
@@ -405,16 +296,8 @@ export class ConnectorsComponent implements OnInit {
       this.isAuthorizeStatus = false;
       this.isPopupDelete = true;
       this.syncCount = { count: [], hours: 0, minutes: 0, days: 0 };
-      this.configurationObj = {
-        name: '',
-        clientId: '',
-        clientSecret: '',
-        hostUrl: '',
-        hostDomainName: '',
-        username: '',
-        password: '',
-        tenantId: '',
-      };
+      this.overViewData = { overview: [], coneten: [], jobs: [] };
+      this.configurationObj = this.returnEmptyConfigObject();
       this.addConnectorSteps = this.addConnectorSteps.map((item, index) => {
         if (index > 0) {
           return { ...item, isCompleted: false };
@@ -429,7 +312,8 @@ export class ConnectorsComponent implements OnInit {
       if (this.selectAddContent === 'instructions') {
         this.navigatePage();
       } else if (this.selectAddContent === 'configurtion') {
-        if (this.validationForConnetor()) {
+        // if (this.validationForConnetor()) {
+        if (this.validationConnector()) {
           if (this.isEditable || this.connectorId !== '') {
             this.updateConnector();
           } else {
@@ -437,6 +321,20 @@ export class ConnectorsComponent implements OnInit {
           }
         }
       }
+    }
+  }
+
+  //return config obj
+  returnEmptyConfigObject() {
+    return {
+      name: '',
+      clientId: '',
+      clientSecret: '',
+      hostUrl: '',
+      hostDomainName: '',
+      username: '',
+      password: '',
+      tenantId: ''
     }
   }
   //navaigate to next page based on selectAddContent
@@ -448,20 +346,6 @@ export class ConnectorsComponent implements OnInit {
   }
 
   //create connector validation
-  fieldsValidation() {
-    if (this.selectedConnector.type === 'confluenceServer') {
-      if (this.configurationObj.hostDomainName.length > 0) {
-        return true;
-      } else {
-        this.notificationService.notify(
-          'Domain name field is required',
-          'error'
-        );
-      }
-    } else {
-      return true;
-    }
-  }
   validationForConnetor() {
     if (
       this.configurationObj.name &&
@@ -496,15 +380,28 @@ export class ConnectorsComponent implements OnInit {
           return true;
         }
       }
-      else if (['googleDrive'].includes(this.selectedConnector.type)){
-         return true
+      else if (['googleDrive'].includes(this.selectedConnector.type)) {
+        return true
       }
     } else {
-      this.validation = true;
       this.notificationService.notify('Enter the Required Fields', 'error');
       return false;
     }
   }
+
+  //validation for connectors object
+  validationConnector() {
+    const array = [], configArray = [];
+    for (const item of this.connectorsObject) {
+      if (item?.connectors?.includes(this.selectedConnector.type)) array.push(item?.value);
+    }
+    for (const arr of array) {
+      if (this.configurationObj[arr].length > 0) configArray.push(true);
+    }
+    if (array.length !== configArray.length) this.notificationService.notify('Enter the Required Fields', 'error');
+    return (array.length === configArray.length) ? true : false;
+  }
+
   //save connectors create api
   createConnector() {
     const quaryparms: any = {
@@ -529,7 +426,7 @@ export class ConnectorsComponent implements OnInit {
     if (this.selectedConnector.type === 'sharepointOnline') {
       payload.authDetails.tenantId = this.configurationObj.tenantId;
     }
-    if (['zendesk', 'sharepointOnline','googleDrive'].includes(this.selectedConnector.type)) {
+    if (['zendesk', 'sharepointOnline', 'googleDrive'].includes(this.selectedConnector.type)) {
       delete payload.configuration.hostDomainName;
     }
     this.service.invoke('post.connector', quaryparms, payload).subscribe(
@@ -566,7 +463,7 @@ export class ConnectorsComponent implements OnInit {
           if (res) {
             this.isloadingBtn = false;
             if (
-              ['confluenceCloud', 'zendesk', 'sharepointOnline','googleDrive'].includes(
+              ['confluenceCloud', 'zendesk', 'sharepointOnline', 'googleDrive'].includes(
                 data?.type
               )
             ) {
@@ -599,8 +496,7 @@ export class ConnectorsComponent implements OnInit {
   //call if authorize api was success
   goBacktoListPage() {
     this.openDeleteModel('close');
-    this.backToPage('cancel');
-    if (this.selectedContent !== 'edit') this.selectedContent = 'list';
+    if (this.selectedContent === 'add') this.backToPage('cancel');
   }
 
   //update connector
@@ -610,12 +506,10 @@ export class ConnectorsComponent implements OnInit {
       height: 'auto',
       panelClass: 'delete-popup',
       data: {
-        newTitle: `${
-          data?.isActive ? 'Enable' : 'Disable'
-        } the connected source?`,
-        body: `This can be ${
-          data?.isActive ? 'enabled' : 'disabled'
-        } any point of time, configuration will remain intact.`,
+        newTitle: `${data?.isActive ? 'Enable' : 'Disable'
+          } the connected source?`,
+        body: `This can be ${data?.isActive ? 'enabled' : 'disabled'
+          } any point of time, configuration will remain intact.`,
         buttons: [
           { key: 'yes', label: 'Proceed', type: 'danger' },
           { key: 'no', label: 'Cancel' },
@@ -665,11 +559,11 @@ export class ConnectorsComponent implements OnInit {
     if (this.selectedConnector.type === 'sharepointOnline') {
       payload.authDetails.tenantId = this.configurationObj.tenantId;
     }
-    if (['zendesk','sharepointOnline','googleDrive'].includes(this.selectedConnector.type)) {
-      delete  payload.configuration.hostDomainName
+    if (['zendesk', 'sharepointOnline', 'googleDrive'].includes(this.selectedConnector.type)) {
+      delete payload.configuration.hostDomainName
     }
-    if (['zendesk','sharepointOnline','googleDrive'].includes(this.selectedConnector.type)) {
-      delete payload.configuration.hostDomainName;   
+    if (['zendesk', 'sharepointOnline', 'googleDrive'].includes(this.selectedConnector.type)) {
+      delete payload.configuration.hostDomainName;
     }
     this.service.invoke('put.connector', quaryparms, payload).subscribe(
       (res) => {
@@ -700,20 +594,21 @@ export class ConnectorsComponent implements OnInit {
         },
       },
     };
-    this.service.invoke('put.connector', quaryparms, payload).subscribe(
-      (res) => {
-        if (res) {
-          this.getConnectors();
-          this.notificationService.notify(
-            'Connector Updated Successfully',
-            'success'
-          );
+    this.service.invoke('put.connector', quaryparms, payload)
+      .subscribe(
+        (res) => {
+          if (res) {
+            this.getConnectors();
+            this.notificationService.notify(
+              'Connector Updated Successfully',
+              'success'
+            );
+          }
+        },
+        (errRes) => {
+          this.errorToaster(errRes, 'Connectors API Failed');
         }
-      },
-      (errRes) => {
-        this.errorToaster(errRes, 'Connectors API Failed');
-      }
-    );
+      );
   }
 
   //delete connector
@@ -763,6 +658,36 @@ export class ConnectorsComponent implements OnInit {
     );
   }
 
+  //mouse over /out to call this method
+  syncMouseOver(type) {
+    if (this.isSyncLoading && type === 'over') {
+      this.isSyncLoadingMouseOver = true;
+    }
+    if (type === 'out') {
+      this.isSyncLoadingMouseOver = false;
+    }
+  }
+
+  //stop synchronize content for connectors
+  stopSynchronizeConnector() {
+    const quaryparms: any = {
+      searchIndexId: this.searchIndexId,
+      connectorId: this.connectorId,
+    };
+    const payload = {};
+    this.service.invoke('put.stopSyncConnector', quaryparms, payload)
+      .subscribe(
+        (res) => {
+          if (res) {
+            this.notificationService.notify('Synchronize Stopped Successfully', 'success');
+          }
+        },
+        (errRes) => {
+          this.errorToaster(errRes, 'Connectors API Failed');
+        }
+      );
+  }
+
   //call jobs api wrt status
   checkJobStatus() {
     const jobInterval = setInterval(() => {
@@ -770,7 +695,7 @@ export class ConnectorsComponent implements OnInit {
         this.appSelectionService
           .connectorSyncJobStatus(this.searchIndexId, this.connectorId)
           .then((res: any) => {
-            this.overViewData.jobs = res;
+            this.overViewData.jobs = this.modifyJobStatusNames(res);
             if (res && res[0]?.status !== 'INPROGRESS') {
               clearInterval(jobInterval);
               this.isSyncLoading = false;
@@ -784,7 +709,30 @@ export class ConnectorsComponent implements OnInit {
     }, 3000);
   }
 
+  //modify job status names
+  modifyJobStatusNames(res) {
+    let Data = [];
+    if (res?.length > 0) {
+      Data = res?.map(item => {
+        const status_name = this.jobStatusList.filter(job => job.status === item?.status?.toLowerCase());
+        return { ...item, status_name: status_name[0].name, color: status_name[0].color };
+      });
+    }
+    return Data;
+  }
+
   openUserMetaTagsSlider() {
     this.appSelectionService.topicGuideShow.next(undefined);
   }
+}
+
+class connectorsConfigObj {
+  name: '';
+  clientId: '';
+  clientSecret: '';
+  hostUrl: '';
+  hostDomainName: '';
+  username: '';
+  password: '';
+  tenantId: '';
 }

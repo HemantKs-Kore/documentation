@@ -81,6 +81,7 @@ export class UsageLogsComponent implements OnInit, OnDestroy {
           this.searchIndexId = searchIndexId;
 
           this.getUsageLogs();
+          this.getDyanmicFilterData();
         })
       )
       .subscribe();
@@ -299,7 +300,7 @@ export class UsageLogsComponent implements OnInit, OnDestroy {
         window.open(hrefURL, '_self');
         this.service
           .invoke('put.dockStatus', params, payload)
-          .subscribe((res) => {});
+          .subscribe((res) => { });
       },
       (err) => {
         console.log(err);

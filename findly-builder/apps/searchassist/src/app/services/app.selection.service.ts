@@ -247,9 +247,9 @@ export class AppSelectionService {
         const overagePercentage =
           (res?.overage?.used / res?.overage?.slugUnit) * 100;
         this.currentUsageData = {
-          queryPercentageUsed: queryPercentage,
-          searchCount: res.searchQueries.used,
-          searchLimit: res.searchQueries.limit,
+          queryPercentageUsed: queryPercentage === 'NaN' ? null : queryPercentage,
+          searchCount: res?.searchQueries?.used,
+          searchLimit: res?.searchQueries?.limit,
           overagePercentageUsed: overagePercentage,
           overageSearchCount: res?.overage?.used,
           overageSearchLimit: res?.overage?.slugUnit,

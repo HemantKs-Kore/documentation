@@ -5,4 +5,7 @@
   "prettier.useEditorConfig": false,
   "prettier.useTabs": false,
   "prettier.configPath": ".prettierrc",
+  "[html]": {
+    "editor.defaultFormatter": "mohd-akram.vscode-html-format"
+  },
 }

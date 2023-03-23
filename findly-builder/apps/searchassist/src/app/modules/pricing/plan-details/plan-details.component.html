@@ -1,5 +1,5 @@
 <!---loading spinner-->
-<div class="mainLoadingSpinner" *ngIf="pageLoading">
+<div class="mainLoadingSpinner" *ngIf="isUsageMetricsLoading">
   <mat-spinner diameter="18" strokeWidth="2"></mat-spinner>
   <span class="please-wait-message">{{ 'sa_please_wait' | translate }}</span>
 </div>
@@ -7,8 +7,7 @@
 <!---show current plan and usage-->
 <div
   class="pricing-container-wrapper"
-  *ngIf="currentSubscriptionPlan?.subscription"
->
+  *ngIf="currentSubscriptionPlan?.subscription">
   <div class="title-header d-flex align-items-center justify-content-between">
     <div>
       {{ 'plan_plan_head' | translate }}
@@ -18,35 +17,30 @@
         [container]="'body'"
         ngbTooltip="{{ 'sa_topic_guide' | translate }}"
         placement="right-center"
-        (click)="openUserMetaTagsSlider()"
-      >
+        (click)="openUserMetaTagsSlider()">
         <i class="si-topic-guide-1"></i>
       </span>
     </div>
     <div class="btns-block">
       <button
         class="kr-sg-button-primary btn_lg mr-2"
-        *ngIf="
-          currentSubscriptionPlan?.subscription?.changesScheduledFor ===
-          'cancel'
-        "
-        (click)="revertCancelModal('open')"
-      >
-        <i class="si-re-fresh mr-2"></i
-        >{{ 'plan_revert_cancellation_btn' | translate }}
+        *ngIf="currentSubscriptionPlan?.subscription?.changesScheduledFor
+        ==='cancel'"
+        (click)="revertCancelModal('open')">
+        <i class="si-re-fresh mr-2"></i>{{ 'plan_revert_cancellation_btn' |
+        translate }}
       </button>
       <button
         class="kr-sg-button-primary btn_lg"
         [ngClass]="{
-          'd-none':
-            [planNames.unlimited, planNames.enterprise].includes(
-              currentSubscriptionPlan?.subscription?.planName | lowercase
-            ) ||
-            currentSubscriptionPlan?.subscription?.changesScheduledFor ===
-              'cancel'
+        'd-none':
+        [planNames.unlimited, planNames.enterprise].includes(
+        currentSubscriptionPlan?.subscription?.planName | lowercase
+        ) ||
+        currentSubscriptionPlan?.subscription?.changesScheduledFor
+        ==='cancel'
         }"
-        (click)="selectModal('choose_plan')"
-      >
+        (click)="selectModal('choose_plan')">
         <i class="si-publish si-icon"></i>{{ 'plan_upgrade_plan' | translate }}
       </button>
     </div>
@@ -55,12 +49,11 @@
     class="info-note proInfo row m-0"
     *ngIf="bannerObj?.show"
     [ngClass]="{
-      proInfoSuccess: bannerObj.type === 'success',
-      proInfoError: bannerObj.type === 'failed',
-      proInfoInfo: bannerObj.type === 'downgrade',
-      downGradeAlert: bannerObj.type === 'downgrade'
-    }"
-  >
+    proInfoSuccess: bannerObj.type === 'success',
+    proInfoError: bannerObj.type === 'failed',
+    proInfoInfo: bannerObj.type === 'downgrade',
+    downGradeAlert: bannerObj.type === 'downgrade'
+    }">
     <div class="col-10 d-flex align-items-center p-0">
       <span class="info-proTip-icon">
         <i class="si-check-round" *ngIf="bannerObj?.type === 'success'"></i>
@@ -73,12 +66,10 @@
       <span
         class="cancel-request"
         *ngIf="bannerObj.type === 'downgrade'"
-        (click)="revertCancelModal('open')"
-        >{{ 'plan_cancel_request' | translate }}</span
-      >
-      <span class="info-proTip-close" (click)="clearBanner()"
-        ><i class="si-close"></i
-      ></span>
+        (click)="revertCancelModal('open')">{{ 'plan_cancel_request' | translate
+        }}</span>
+      <span class="info-proTip-close" (click)="clearBanner()"><i
+          class="si-close"></i></span>
     </div>
   </div>
   <perfect-scrollbar class="pricing-scroll">
@@ -94,15 +85,14 @@
               <div class="tile-plan-details">
                 <div class="plan-type">
                   {{
-                    (currentSubscriptionPlan?.subscription?.planName
-                      | lowercase) === planNames.free
-                      ? ('plan_standard' | translate | uppercase)
-                      : (currentSubscriptionPlan?.subscription?.planName
-                        | uppercase)
+                  (currentSubscriptionPlan?.subscription?.planName
+                  | lowercase) === planNames.free
+                  ? ('plan_standard' | translate | uppercase)
+                  : (currentSubscriptionPlan?.subscription?.planName
+                  | uppercase)
                   }}
                   {{ 'plan_plan_caps' | translate }}
-                  <span
-                    ><img
+                  <span><img
                       class="plan-type-exter-img"
                       src="assets/images/pricing-plan/new-plan-pricing-img/external-arrow-round.svg"
                       data-toggle="modal"
@@ -111,49 +101,43 @@
                       [container]="'body'"
                       [ngbTooltip]="'plan_plan_head' | translate"
                       placement="top"
-                  /></span>
+                      /></span>
                 </div>
                 <div
                   class="plan-price"
                   *ngIf="
-                    (currentSubscriptionPlan?.subscription?.planName
-                      | lowercase) !== planNames.free
-                  "
-                >
-                  <span class="plan-crown-img"
-                    ><img
-                      src="assets/images/pricing-plan/plan-crown.svg" /></span
-                  >{{
-                    (currentSubscriptionPlan?.subscription?.planName
-                      | lowercase) === planNames.standard
-                      ? '$' +
-                        currentSubscriptionPlan?.subscription?.planAmount +
-                        ' /'
-                      : ('plan_custom' | translate)
+                  (currentSubscriptionPlan?.subscription?.planName
+                  | lowercase) !== planNames.free
+                  ">
+                  <span class="plan-crown-img"><img
+                      src="assets/images/pricing-plan/plan-crown.svg" /></span>{{
+                  (currentSubscriptionPlan?.subscription?.planName
+                  | lowercase) === planNames.standard
+                  ? '$' +
+                  currentSubscriptionPlan?.subscription?.planAmount +
+                  ' /'
+                  : ('plan_custom' | translate)
                   }}
                   <span
                     class="plan-duration ml-1"
                     *ngIf="
-                      [planNames.standard].includes(
-                        currentSubscriptionPlan?.subscription?.planName
-                          | lowercase
-                      )
-                    "
-                    >{{
-                      'plan_' +
-                        currentSubscriptionPlan?.subscription?.billing?.unit +
-                        '_cap' | translate
-                    }}</span
-                  >
+                    [planNames.standard].includes(
+                    currentSubscriptionPlan?.subscription?.planName
+                    | lowercase
+                    )
+                    ">{{
+                    'plan_' +
+                    currentSubscriptionPlan?.subscription?.billing?.unit +
+                    '_cap' | translate
+                    }}</span>
                 </div>
                 <!-- free trial paln btn block -->
                 <div
                   class="plan-price"
                   *ngIf="
-                    (currentSubscriptionPlan?.subscription?.planName
-                      | lowercase) === planNames.free
-                  "
-                >
+                  (currentSubscriptionPlan?.subscription?.planName
+                  | lowercase) === planNames.free
+                  ">
                   <div class="tag-label">
                     {{ 'plan_free_trail' | translate }}
                   </div>
@@ -162,43 +146,32 @@
                 <div
                   class="plan-options"
                   [ngClass]="{
-                    'd-none':
-                      (currentSubscriptionPlan?.subscription?.planName
-                        | lowercase) === planNames.unlimited
-                  }"
-                >
+                  'd-none':
+                  (currentSubscriptionPlan?.subscription?.planName
+                  | lowercase) === planNames.unlimited
+                  }">
                   <div class="plan-change">
                     <button
                       class="kr-sg-button-ghost btn_md"
                       (click)="selectModal('choose_plan')"
-                      *ngIf="
-                        currentSubscriptionPlan?.subscription
-                          ?.changesScheduledFor === 'none'
-                      "
-                    >
-                      <span class="upgrade-plan-span"
-                        ><i class="si-publish"></i
-                      ></span>
+                      *ngIf="['none','upgrade'].includes(currentSubscriptionPlan?.subscription?.changesScheduledFor)">
+                      <span class="upgrade-plan-span"><i class="si-publish"></i></span>
                       {{
-                        ((currentSubscriptionPlan?.subscription?.planName
-                          | lowercase) === planNames.enterprise
-                          ? 'plan_modify'
-                          : 'upgrade_plan'
-                        ) | translate
+                      ((currentSubscriptionPlan?.subscription?.planName
+                      | lowercase) === planNames.enterprise
+                      ? 'plan_modify'
+                      : 'upgrade_plan'
+                      ) | translate
                       }}
                       <span><i class="si-carrotup angle-right-icon"></i></span>
                     </button>
                     <button
                       class="kr-sg-button-ghost btn_md"
                       (click)="revertCancelModal('open')"
-                      *ngIf="
-                        currentSubscriptionPlan?.subscription
-                          ?.changesScheduledFor === 'cancel'
-                      "
-                    >
-                      <span class="upgrade-plan-span"
-                        ><i class="si-re-fresh"></i
-                      ></span>
+                      *ngIf="(currentSubscriptionPlan?.subscription?.changesScheduledFor
+                      ===
+                      'cancel')">
+                      <span class="upgrade-plan-span"><i class="si-re-fresh"></i></span>
                       {{ 'plan_revert_cancel_order' | translate }}
                       <span><i class="si-carrotup angle-right-icon"></i></span>
                     </button>
@@ -208,44 +181,42 @@
               <div
                 class="tile-plan-status"
                 [ngClass]="{
-                  'plan-status-active':
-                    currentSubscriptionPlan?.subscription
-                      ?.changesScheduledFor === 'none' &&
-                    (currentSubscriptionPlan?.subscription?.planName
-                      | lowercase) !== planNames.free,
-                  'plan-status-cancel':
-                    currentSubscriptionPlan?.subscription
-                      ?.changesScheduledFor === 'cancel',
-                  'and-free-trial':
-                    (currentSubscriptionPlan?.subscription?.planName
-                      | lowercase) === planNames.free
-                }"
-              >
+                'plan-status-active':
+                (currentSubscriptionPlan?.subscription
+                ?.changesScheduledFor === 'none' &&
+                (currentSubscriptionPlan?.subscription?.planName
+                | lowercase) !== planNames.free),
+                'plan-status-cancel':
+                currentSubscriptionPlan?.subscription
+                ?.changesScheduledFor ===
+                'cancel',
+                'and-free-trial':
+                (currentSubscriptionPlan?.subscription?.planName
+                | lowercase) === planNames.free
+                }">
                 <!--Active//cancel subscription buttons-->
                 <div
                   class="plan-subscription"
                   *ngIf="
-                    ['none', 'cancel'].includes(
-                      currentSubscriptionPlan?.subscription?.changesScheduledFor
-                    )
-                  "
-                >
-                  <span class="plan-current-status"></span
-                  >{{ 'plan_active' | translate }}
+                  ['none', 'cancel', 'upgrade'].includes(
+                  currentSubscriptionPlan?.subscription?.changesScheduledFor
+                  )
+                  ">
+                  <span class="plan-current-status"></span>{{ 'plan_active' |
+                  translate }}
                 </div>
                 <div
                   class="plan-subscription-duration {{
-                    ['unlimited'].includes(
-                      currentSubscriptionPlan?.subscription?.planName
-                        | lowercase
-                    ) && 'd-none'
+                  ['unlimited'].includes(
+                  currentSubscriptionPlan?.subscription?.planName
+                  | lowercase
+                  ) && 'd-none'
                   }}"
                   *ngIf="
-                    ['none', 'cancel'].includes(
-                      currentSubscriptionPlan?.subscription?.changesScheduledFor
-                    )
-                  "
-                >
+                  ['none', 'cancel', 'upgrade'].includes(
+                  currentSubscriptionPlan?.subscription?.changesScheduledFor
+                  )
+                  ">
                   {{
                     (currentSubscriptionPlan?.subscription?.planName
                       | lowercase) === planNames.free
@@ -266,30 +237,26 @@
                 <!--downgrade buttons-->
                 <ng-container
                   *ngIf="
-                    currentSubscriptionPlan?.subscription
-                      ?.changesScheduledFor === 'downgrade'
-                  "
-                >
+                  currentSubscriptionPlan?.subscription
+                  ?.changesScheduledFor === 'downgrade'
+                  ">
                   <div
-                    class="d-flex justify-content-between align-items-center"
-                  >
+                    class="d-flex justify-content-between align-items-center">
                     <div
                       class="plan-downgrade"
                       *ngIf="
-                        currentSubscriptionPlan?.subscription
-                          ?.changesScheduledFor === 'downgrade'
-                      "
-                    >
-                      <span class="plan-current-status"></span
-                      >{{ 'plan_downgraded' | translate }}
+                      currentSubscriptionPlan?.subscription
+                      ?.changesScheduledFor === 'downgrade'
+                      ">
+                      <span class="plan-current-status"></span>{{
+                      'plan_downgraded' | translate }}
                     </div>
                     <div
                       class="plan-downgrade-duration"
                       *ngIf="
-                        currentSubscriptionPlan?.subscription
-                          ?.changesScheduledFor === 'downgrade'
-                      "
-                    >
+                      currentSubscriptionPlan?.subscription
+                      ?.changesScheduledFor === 'downgrade'
+                      ">
                       {{ 'plan_billing_cycle' | translate }}
                       {{ currentSubscriptionPlan?.subscription?.endDate }}
                     </div>
@@ -297,13 +264,12 @@
                   <div
                     class="plan-downgrade-cancel"
                     *ngIf="
-                      ['downgrade'].includes(
-                        currentSubscriptionPlan?.subscription
-                          ?.changesScheduledFor
-                      )
+                    ['downgrade'].includes(
+                    currentSubscriptionPlan?.subscription
+                    ?.changesScheduledFor
+                    )
                     "
-                    (click)="revertCancelModal('open')"
-                  >
+                    (click)="revertCancelModal('open')">
                     {{ 'plan_cancel_request' | translate }}
                   </div>
                 </ng-container>
@@ -323,440 +289,435 @@
                   </div>
                   <div
                     class="plan-progress-bar-count"
-                    *ngIf="usageDetails?.searchQueriesLimit"
-                  >
+                    *ngIf="usageDetails?.searchQueriesUsed">
                     {{ usageDetails?.searchQueriesUsed | valueFormat }}
-                    <span class="total-count"
-                      >/
-                      {{ usageDetails?.searchQueriesLimit | valueFormat }}</span
-                    >
+                    <span class="total-count" *ngIf="usageDetails?.searchQueriesLimit">/ {{
+                      usageDetails?.searchQueriesLimit | valueFormat }}</span>
                   </div>
                 </div>
-                <div class="plan-progress-bar">
+                  <div class="plan-progress-bar" *ngIf="usageDetails?.searchQueriesLimit">
                   <ngb-progressbar
                     class="mt-3"
                     height="6px"
                     [type]="
-                      usageDetails?.searchPercentageUsed > 80
-                        ? 'danger'
-                        : usageDetails?.searchPercentageUsed > 50 &&
-                          usageDetails?.searchPercentageUsed <= 80
-                        ? 'warning'
-                        : 'primary'
-                    "
-                    [value]="usageDetails?.searchQueriesUsed"
-                    [max]="usageDetails?.searchQueriesLimit"
-                  ></ngb-progressbar>
+                    usageDetails?.searchPercentageUsed> 80
+                    ? 'danger'
+                    : usageDetails?.searchPercentageUsed > 50 &&
+                    usageDetails?.searchPercentageUsed <= 80
+                      ? 'warning'
+                      : 'primary'
+                      "
+                      [value]="usageDetails?.searchQueriesUsed"
+                      [max]="usageDetails?.searchQueriesLimit"></ngb-progressbar>
+                  </div>
                 </div>
               </div>
-            </div>
 
-            <div
-              class="tile-plan-utilization plan-current-usage"
-              *ngIf="currentSubscriptionPlan?.overage"
-            >
-              <div class="plan-current-and-overage">
-                <div class="plan-current-usage">
-                  {{ 'plan_overage' | translate }}
-                </div>
-                <div class="dropdown kr-sg-overflow-menu plan_overage_menu">
-                  <div
-                    class="dropdown-toggle"
-                    id="menu1"
-                    data-toggle="dropdown"
-                  >
-                    <span class="si-overflow-menu overage-menu"></span>
+              <div
+                class="tile-plan-utilization plan-current-usage"
+                *ngIf="currentSubscriptionPlan?.overage">
+                <div class="plan-current-and-overage">
+                  <div class="plan-current-usage">
+                    {{ 'plan_overage' | translate }}
                   </div>
-                  <ul class="dropdown-menu" role="menu" aria-labelledby="menu1">
-                    <li (click)="selectModal('add_overage')">
-                      <a>{{
-                        (currentSubscriptionPlan?.overage?.isRecurring
+                  <div class="dropdown kr-sg-overflow-menu plan_overage_menu">
+                    <div
+                      class="dropdown-toggle"
+                      id="menu1"
+                      data-toggle="dropdown">
+                      <span class="si-overflow-menu overage-menu"></span>
+                    </div>
+                    <ul class="dropdown-menu" role="menu"
+                      aria-labelledby="menu1">
+                      <li (click)="selectModal('add_overage')">
+                        <a>{{
+                          (currentSubscriptionPlan?.overage?.isRecurring
                           ? 'plan_opt_out'
                           : 'plan_opt_in'
-                        ) | translate
-                      }}</a>
-                    </li>
-                  </ul>
-                </div>
-              </div>
-              <div class="plan-progress-bar-block">
-                <div class="plan-progress-bar-header-block">
-                  <div class="plan-progress-bar-header">
-                    {{ 'plan_queries' | translate }}
-                  </div>
-                  <div
-                    class="plan-progress-bar-count"
-                    *ngIf="usageDetails?.overageSearchLimit"
-                  >
-                    {{ usageDetails?.overageSearchCount | valueFormat }}
-                    <span class="total-count"
-                      >/
-                      {{ usageDetails?.overageSearchLimit | valueFormat }}</span
-                    >
+                          ) | translate
+                          }}</a>
+                      </li>
+                    </ul>
                   </div>
                 </div>
-                <div class="plan-progress-bar">
-                  <ngb-progressbar
-                    class="mt-3"
-                    height="6px"
-                    [type]="
-                      usageDetails?.overagePercentageUsed > 80
-                        ? 'danger'
-                        : usageDetails?.overagePercentageUsed > 50 &&
-                          usageDetails?.overagePercentageUsed <= 80
+                <div class="plan-progress-bar-block">
+                  <div class="plan-progress-bar-header-block">
+                    <div class="plan-progress-bar-header">
+                      {{ 'plan_queries' | translate }}
+                    </div>
+                    <div
+                      class="plan-progress-bar-count"
+                      *ngIf="usageDetails?.overageSearchLimit">
+                      {{ usageDetails?.overageSearchCount | valueFormat}}
+                      <span class="total-count">/ {{
+                        usageDetails?.overageSearchLimit | valueFormat }}</span>
+                    </div>
+                  </div>
+                  <div class="plan-progress-bar">
+                    <ngb-progressbar
+                      class="mt-3"
+                      height="6px"
+                      [type]="
+                      usageDetails?.overagePercentageUsed> 80
+                      ? 'danger'
+                      : usageDetails?.overagePercentageUsed > 50 &&
+                      usageDetails?.overagePercentageUsed <= 80
                         ? 'warning'
                         : 'primary'
-                    "
-                    [value]="usageDetails?.overagePercentageUsed"
-                    [max]="usageDetails?.overageSearchLimit"
-                  ></ngb-progressbar>
+                        "
+                        [value]="usageDetails?.overagePercentageUsed"
+                        [max]="usageDetails?.overageSearchLimit"></ngb-progressbar>
+                    </div>
+                  </div>
+                </div>
+
+                <button
+                  class="btn btn-add-overage"
+                  *ngIf="
+                  (currentSubscriptionPlan?.subscription?.planName
+                  | lowercase) === planNames.standard &&
+                  currentSubscriptionPlan?.overage === undefined
+                  "
+                  (click)="selectModal('add_overage')"
+                  [disabled]="
+                  currentSubscriptionPlan?.subscription?.changesScheduledFor ===
+                  'cancel'
+                  ">
+                  <span class="pr-2"><i class="si-grow-up-arrow"></i></span>{{
+                  'plan_add_overage' | translate }}
+                </button>
+                <div
+                  class="link-btn-redirection"
+                  *ngIf="
+                  (currentSubscriptionPlan?.subscription?.planName
+                  | lowercase) === planNames.standard &&
+                  currentSubscriptionPlan?.subscription?.changesScheduledFor ===
+                  'none'
+                  "
+                  (click)="cancelSubscriptionModal('open')">
+                  {{ 'plan_cancel_subscription' | translate }}
                 </div>
               </div>
             </div>
-
-            <button
-              class="btn btn-add-overage"
-              *ngIf="
-                (currentSubscriptionPlan?.subscription?.planName
-                  | lowercase) === planNames.standard &&
-                currentSubscriptionPlan?.overage === undefined
-              "
-              (click)="selectModal('add_overage')"
-              [disabled]="
-                currentSubscriptionPlan?.subscription?.changesScheduledFor ===
-                'cancel'
-              "
-            >
-              <span class="pr-2"><i class="si-grow-up-arrow"></i></span
-              >{{ 'plan_add_overage' | translate }}
-            </button>
-            <div
-              class="link-btn-redirection"
-              *ngIf="
-                (currentSubscriptionPlan?.subscription?.planName
-                  | lowercase) === planNames.standard &&
-                currentSubscriptionPlan?.subscription?.changesScheduledFor ===
-                  'none'
-              "
-              (click)="cancelSubscriptionModal('open')"
-            >
-              {{ 'plan_cancel_subscription' | translate }}
+            <div class="col-8 tile-right">
+              <div class="tile-header">
+                <span class="pr-1"><i class="si-graph-lines"></i></span>
+                {{ 'plan_usage_metrics' | translate
+                }}<span
+                  class="si-recall ml-2 cursor-pointer"
+                  tooltipClass="tooltip-global-"
+                  [container]="'body'"
+                  ngbTooltip="{{ 'plan_refresh' | translate }}"
+                  placement="top"
+                  (click)="refreshAnalytics()"></span>
+              </div>
+              <div class="tile-chart-legends-block" *ngIf="!isUsageMetricsLoading">
+                <div class="tile-chart">                
+                  <div
+                    echarts
+                    [options]="queryGraph"
+                    style="height: 320px; opacity: 4"></div>
+                    <div class="no-data-found-block" *ngIf="isNoUsageMetricsData">
+                      <div class="no-data-found-text">
+                        <span class="si-warning mr-1"></span>{{"plans_usage_no_data"|translate}}
+                      </div>
+                    </div>
+                  </div>
+                <div class="chart-footer">
+                  <div class="legend-text">{{"plans_legend"|translate}}</div>
+                  <div class="legend-type left-border">
+                    <div class="search-queries-color"></div>
+                    <div class="search-queries-text">{{"plans_search_queries_text"|translate}}</div>
+                  </div>
+                  <div class="legend-type right-border">
+                    <div class="search-queries-avg"><span class="si-graph-filter"></span>{{"plans_search_queries_avg"|translate}}</div>
+                    <div class="search-queries-count">{{avgQueryData.queries}} / {{"plans_search_queries_month"|translate}}</div>
+                  </div>
+                  <ng-container *ngIf="avgQueryData.overage>0">
+                    <div class="legend-type">
+                      <div class="overages-color"></div>
+                      <div class="search-queries-text">{{"plans_overages_text"|translate}}</div>
+                    </div>
+                    <div class="search-queries-avg"><span class="si-graph-filter"></span>{{"plans_search_queries_avg"|translate}}</div>
+                    <div class="search-queries-count">{{avgQueryData.overage}} / {{"plans_search_queries_month"|translate}}</div>
+                  </ng-container>
+               </div>
+              </div>
             </div>
           </div>
         </div>
-        <div class="col-8 tile-right">
-          <div class="tile-header">
-            <span class="pr-1"><i class="si-graph-lines"></i></span>
-            {{ 'plan_usage_metrics' | translate
-            }}<span
-              class="si-recall ml-2 cursor-pointer"
-              tooltipClass="tooltip-global-"
-              [container]="'body'"
-              ngbTooltip="{{ 'plan_refresh' | translate }}"
-              placement="top"
-              (click)="refreshAnalytics()"
-            ></span>
-          </div>
-          <div class="tile-chart">
-            <div class="title">
-              {{ 'plan_query_usage_analytics' | translate }}
-            </div>
-            <div
-              echarts
-              [options]="queryGraph"
-              style="height: 320px; opacity: 4"
-            ></div>
-          </div>
+      </perfect-scrollbar>
+    </div>
+
+    <!--cancel subscription modal-->
+    <kr-modal
+      modalType="center"
+      modalClass="modal_popups_ cancel_subscription_new"
+      #cancelSubscriptionModel>
+      <div class="modal-header">
+        <div class="title">{{ 'plan_cancel_subscription' | translate }}</div>
+        <div class="close_icon" (click)="cancelSubscriptionModal('close')">
+          <img src="assets/icons/modal-close.svg" />
         </div>
       </div>
-    </div>
-  </perfect-scrollbar>
-</div>
-
-<!--cancel subscription modal-->
-<kr-modal
-  modalType="center"
-  modalClass="modal_popups_ cancel_subscription_new"
-  #cancelSubscriptionModel
->
-  <div class="modal-header">
-    <div class="title">{{ 'plan_cancel_subscription' | translate }}</div>
-    <div class="close_icon" (click)="cancelSubscriptionModal('close')">
-      <img src="assets/icons/modal-close.svg" />
-    </div>
-  </div>
-  <perfect-scrollbar>
-    <div class="modal-body">
-      <div class="row col-12 m-0 cancel-subscription-block">
-        <div class="col-6">
-          <div class="order-img">
-            <img
-              src="assets/images/pricing-plan/new-plan-pricing-img/cancel-subscription.png"
-              class="order-stage-img"
-            />
-          </div>
-        </div>
-        <div class="col-6">
-          <section class="cancel-subscription-section">
-            <div class="terms-list-block">
-              <div
-                class="terms-list"
-                *ngFor="
-                  let termList of [
+      <perfect-scrollbar>
+        <div class="modal-body">
+          <div class="row col-12 m-0 cancel-subscription-block">
+            <div class="col-6">
+              <div class="order-img">
+                <img
+                  src="assets/images/pricing-plan/new-plan-pricing-img/cancel-subscription.png"
+                  class="order-stage-img"
+                  />
+              </div>
+            </div>
+            <div class="col-6">
+              <section class="cancel-subscription-section">
+                <div class="terms-list-block">
+                  <div
+                    class="terms-list"
+                    *ngFor="
+                    let termList of [
                     'plan_your_subscription_is_valid_till_info',
                     'plan_post_billing_cycle_your_app_info',
                     'plan_access_to_your_app_for_15_more_days'
-                  ];
-                  let i = index
-                "
-              >
-                <div class="check-icon"><i class="si-check"></i></div>
-                <div>
-                  {{ termList | translate
-                  }}{{
-                    i === 0 &&
+                    ];
+                    let i= index
+                    ">
+                    <div class="check-icon"><i class="si-check"></i></div>
+                    <div>
+                      {{ termList | translate
+                      }}{{
+                      i === 0 &&
                       (currentSubscriptionPlan?.subscription?.endDate
-                        | date : 'dd MMM yyyy')
-                  }}.
+                      | date : 'dd MMM yyyy')
+                      }}.
+                    </div>
+                  </div>
                 </div>
-              </div>
-            </div>
-            <div class="reason-header">
-              {{ 'plan_what_is_the_reason_to_cancel' | translate }}
-            </div>
-
-            <div class="reason-check-list">
-              <div class="group-checkbox">
-                <div
-                  class="kr-sg-checkbox d-block"
-                  *ngFor="let data of cancellationCheckboxText; let i = index"
-                >
-                  <input
-                    [id]="i"
-                    class="checkbox-custom cancel-checkbox"
-                    type="checkbox"
-                    [(ngModel)]="data.selected"
-                  />
-                  <label [for]="i" class="checkbox-custom-label">{{
-                    data?.name
-                  }}</label>
+                <div class="reason-header">
+                  {{ 'plan_what_is_the_reason_to_cancel' | translate }}
                 </div>
-              </div>
-            </div>
 
-            <div class="reason-comment">
-              <div class="kr-sg-input-text-area">
-                <div class="label-text">{{ 'plan_comments' | translate }}</div>
-                <textarea
-                  placeholder="{{ 'plan_start_typing_here' | translate }}"
-                  id="cancel_comment_text"
-                  class="input-text"
-                ></textarea>
-              </div>
+                <div class="reason-check-list">
+                  <div class="group-checkbox">
+                    <div
+                      class="kr-sg-checkbox d-block"
+                      *ngFor="let data of cancellationCheckboxText; let i=
+                      index">
+                      <input
+                        [id]="i"
+                        class="checkbox-custom cancel-checkbox"
+                        type="checkbox"
+                        [(ngModel)]="data.selected"
+                        />
+                      <label [for]="i" class="checkbox-custom-label">{{
+                        data?.name
+                        }}</label>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="reason-comment">
+                  <div class="kr-sg-input-text-area">
+                    <div class="label-text">{{ 'plan_comments' | translate }}</div>
+                    <textarea
+                      placeholder="{{ 'plan_start_typing_here' | translate }}"
+                      id="cancel_comment_text"
+                      class="input-text"></textarea>
+                  </div>
+                </div>
+              </section>
             </div>
-          </section>
+          </div>
+        </div>
+      </perfect-scrollbar>
+      <div class="modal-footer text-right">
+        <button
+          class="kr-sg-button-primary btn_lg"
+          (click)="cancelSubscription()"
+          [disabled]="btnLoader">
+          <span class="loader-spin-inside-btn" *ngIf="btnLoader"></span>{{
+          'plan_done' | translate }}
+        </button>
+      </div>
+    </kr-modal>
+
+    <!--Revert cancellation modal-->
+    <kr-modal
+      modalType="center"
+      modalClass="modal_popups_ revert-cancellation-popup"
+      #revertCancelModel>
+      <div class="modal-header">
+        <div class="title">
+          {{ 'plan_are_you_sure_you_want_to_revert' | translate }}
+        </div>
+        <div class="close_icon" (click)="revertCancelModal('close')">
+          <img src="assets/icons/modal-close.svg" />
         </div>
       </div>
-    </div>
-  </perfect-scrollbar>
-  <div class="modal-footer text-right">
-    <button
-      class="kr-sg-button-primary btn_lg"
-      (click)="cancelSubscription()"
-      [disabled]="btnLoader"
-    >
-      <span class="loader-spin-inside-btn" *ngIf="btnLoader"></span
-      >{{ 'plan_done' | translate }}
-    </button>
-  </div>
-</kr-modal>
-
-<!--Revert cancellation modal-->
-<kr-modal
-  modalType="center"
-  modalClass="modal_popups_ revert-cancellation-popup"
-  #revertCancelModel
->
-  <div class="modal-header">
-    <div class="title">
-      {{ 'plan_are_you_sure_you_want_to_revert' | translate }}
-    </div>
-    <div class="close_icon" (click)="revertCancelModal('close')">
-      <img src="assets/icons/modal-close.svg" />
-    </div>
-  </div>
-  <div class="modal-body">
-    <div class="desc-text-info">
-      {{ 'plan_your_cancellation_will_be_reverted_info' | translate }}
-    </div>
-  </div>
-  <div class="modal-footer text-right">
-    <button
-      class="kr-sg-button-primary btn_lg"
-      (click)="renewSubscription()"
-      [disabled]="btnLoader"
-    >
-      <span class="loader-spin-inside-btn" *ngIf="btnLoader"></span>Revert
-      Cancellation
-    </button>
-    <button
-      class="kr-sg-button-secondary btn_lg"
-      (click)="revertCancelModal('close')"
-    >
-      {{ 'plan_cancel' | translate }}
-    </button>
-  </div>
-</kr-modal>
-
-<!-- View plan Modal -->
-<div class="modal fade" id="viewPlanModal">
-  <div class="modal-dialog single-plan">
-    <div class="modal-content">
-      <!-- Modal body -->
       <div class="modal-body">
-        <div class="plan-tile-block" *ngFor="let plan of currentPlanDetails">
-          <div class="plan-type-block">
-            <div class="plan-img">
-              <img
-                src="assets/images/pricing-plan/new-plan-pricing-img/pricing-plan-{{
-                  (plan?.name | lowercase) === planNames.free
+        <div class="desc-text-info">
+          {{ 'plan_your_cancellation_will_be_reverted_info' | translate }}
+        </div>
+      </div>
+      <div class="modal-footer text-right">
+        <button
+          class="kr-sg-button-primary btn_lg"
+          (click)="renewSubscription()"
+          [disabled]="btnLoader">
+          <span class="loader-spin-inside-btn" *ngIf="btnLoader"></span>Revert
+          Cancellation
+        </button>
+        <button
+          class="kr-sg-button-secondary btn_lg"
+          (click)="revertCancelModal('close')">
+          {{ 'plan_cancel' | translate }}
+        </button>
+      </div>
+    </kr-modal>
+
+    <!-- View plan Modal -->
+    <div class="modal fade" id="viewPlanModal">
+      <div class="modal-dialog single-plan">
+        <div class="modal-content">
+          <!-- Modal body -->
+          <div class="modal-body">
+            <div class="plan-tile-block" *ngFor="let plan of
+              currentPlanDetails">
+              <div class="plan-type-block">
+                <div class="plan-img">
+                  <img
+                    src="assets/images/pricing-plan/new-plan-pricing-img/pricing-plan-{{
+                    (plan?.name | lowercase) === planNames.free
                     ? planNames.standard
                     : (plan?.name | lowercase)
-                }}.svg"
-              />
-            </div>
-            <div class="plan-details">
-              <div class="plan-type">
-                <div class="plan-name">
-                  {{
-                    (plan?.name | lowercase) === planNames.free
+                    }}.svg"
+                    />
+                </div>
+                <div class="plan-details">
+                  <div class="plan-type">
+                    <div class="plan-name">
+                      {{
+                      (plan?.name | lowercase) === planNames.free
                       ? ('plan_standard' | translate)
                       : plan?.name
-                  }}
-                </div>
-                <div class="plan-current-status">
-                  {{
-                    ((currentSubscriptionPlan?.subscription?.planName
+                      }}
+                    </div>
+                    <div class="plan-current-status">
+                      {{
+                      ((currentSubscriptionPlan?.subscription?.planName
                       | lowercase) === planNames.free
                       ? 'plan_free_trail'
                       : 'plan_current_plan'
-                    ) | translate
-                  }}
-                </div>
-              </div>
-              <div class="plan-cost-details">
-                <div class="plan-cost">
-                  {{
-                    currentSubscriptionPlan?.subscription?.planAmount >= 0
-                      ? '$' + currentSubscriptionPlan?.subscription?.planAmount
-                      : ('plans_custom_plans' | translate)
-                  }}
-                  <span
-                    class="plan-duration-type"
-                    *ngIf="currentSubscriptionPlan?.subscription?.billing?.unit"
-                    >{{
-                      '/ ' +
-                        currentSubscriptionPlan?.subscription?.billing?.unit
-                    }}</span
-                  >
-                  <span
-                    class="plan-duration-type"
-                    *ngIf="(plan?.name | lowercase) === planNames.free"
-                    >{{
-                      currentSubscriptionPlan?.subscription?.expiryDays +
-                        ' ' +
-                        ('plan_days_left' | translate)
-                    }}</span
-                  >
-                </div>
-              </div>
-            </div>
-            <span class="plan-close" data-dismiss="modal"
-              ><i class="si-close"></i
-            ></span>
-          </div>
-          <div class="plan-tag-line">
-            <div>{{ plan?.description }}</div>
-          </div>
-          <div
-            class="plan-upgrade-block"
-            [ngClass]="{
-              'd-none': [planNames.unlimited, planNames.enterprise].includes(
-                currentSubscriptionPlan?.subscription?.planName | lowercase
-              )
-            }"
-          >
-            <button class="btn" (click)="selectModal('choose_plan')">
-              {{ 'plan_upgrade_plan' | translate }}
-            </button>
-          </div>
-          <div class="plan-features-block">
-            <perfect-scrollbar class="paln-overflow-scroll">
-              <div
-                class="plan-feature-desc"
-                [ngClass]="{
-                  'font-weight-bold': ['standard', 'free'].includes(
-                    plan?.name | lowercase
-                  )
-                }"
-              >
-                <span class="icon-si"><i class="si-green-check"></i></span>
-                {{ plan?.featureAccess?.searchQueries?.displayText }}
-              </div>
-              <div class="plan-sub-features">
-                <div class="plan-sub-feature-hding">
-                  {{ 'plan_feaure_includes' | translate }}
-                </div>
-                <ng-container *ngFor="let feature of plan?.featureData">
-                  <div
-                    class="plan-feature-desc"
-                    *ngIf="feature?.displayOnBanner && feature?.displayText"
-                  >
-                    <div class="d-flex align-items-start">
-                      <div class="icon-si"><i class="si-green-check"></i></div>
-                      <div>{{ feature?.displayText }}</div>
+                      ) | translate
+                      }}
                     </div>
                   </div>
-                </ng-container>
-                <div class="plan-sub-feature-hding">
-                  <strong>{{
-                    ((plan?.name | lowercase) === planNames.free
-                      ? 'plans_self_service_support'
-                      : 'plan_support'
-                    ) | translate
-                  }}</strong>
+                  <div class="plan-cost-details">
+                    <div class="plan-cost">
+                      {{
+                      currentSubscriptionPlan?.subscription?.planAmount >= 0
+                      ? '$' + currentSubscriptionPlan?.subscription?.planAmount
+                      : ('plans_custom_plans' | translate)
+                      }}
+                      <span
+                        class="plan-duration-type"
+                        *ngIf="currentSubscriptionPlan?.subscription?.billing?.unit">{{
+                        '/ ' +
+                        currentSubscriptionPlan?.subscription?.billing?.unit
+                        }}</span>
+                      <span
+                        class="plan-duration-type"
+                        *ngIf="(plan?.name | lowercase) === planNames.free">{{
+                        currentSubscriptionPlan?.subscription?.expiryDays +
+                        ' ' +
+                        ('plan_days_left' | translate)
+                        }}</span>
+                    </div>
+                  </div>
                 </div>
-                <div
-                  class="plan-feature-desc {{
-                    (plan?.name | lowercase) !== planNames.free && 'd-none'
-                  }}"
-                  *ngFor="
-                    let kore of [
+                <span class="plan-close" data-dismiss="modal"><i
+                    class="si-close"></i></span>
+              </div>
+              <div class="plan-tag-line">
+                <div>{{ plan?.description }}</div>
+              </div>
+              <div
+                class="plan-upgrade-block"
+                [ngClass]="{
+                'd-none': [planNames.unlimited, planNames.enterprise].includes(
+                currentSubscriptionPlan?.subscription?.planName | lowercase
+                )
+                }">
+                <button class="btn" (click)="selectModal('choose_plan')">
+                  {{ 'plan_upgrade_plan' | translate }}
+                </button>
+              </div>
+              <div class="plan-features-block">
+                <perfect-scrollbar class="paln-overflow-scroll">
+                  <div
+                    class="plan-feature-desc"
+                    [ngClass]="{
+                    'font-weight-bold': ['standard', 'free'].includes(
+                    plan?.name | lowercase
+                    )
+                    }">
+                    <span class="icon-si"><i class="si-green-check"></i></span>
+                    {{ plan?.featureAccess?.searchQueries?.displayText }}
+                  </div>
+                  <div class="plan-sub-features">
+                    <div class="plan-sub-feature-hding">
+                      {{ 'plan_feaure_includes' | translate }}
+                    </div>
+                    <ng-container *ngFor="let feature of plan?.featureData">
+                      <div
+                        class="plan-feature-desc"
+                        *ngIf="feature?.displayOnBanner &&
+                        feature?.displayText">
+                        <div class="d-flex align-items-start">
+                          <div class="icon-si"><i class="si-green-check"></i></div>
+                          <div>{{ feature?.displayText }}</div>
+                        </div>
+                      </div>
+                    </ng-container>
+                    <div class="plan-sub-feature-hding">
+                      <strong>{{
+                        ((plan?.name | lowercase) === planNames.free
+                        ? 'plans_self_service_support'
+                        : 'plan_support'
+                        ) | translate
+                        }}</strong>
+                    </div>
+                    <div
+                      class="plan-feature-desc {{
+                      (plan?.name | lowercase) !== planNames.free && 'd-none'
+                      }}"
+                      *ngFor="
+                      let kore of [
                       'plan_koreAi_community',
                       'plan_koreAi_academay'
-                    ]
-                  "
-                >
-                  <span class="icon-si"><i class="si-green-check"></i></span
-                  >{{ kore | translate }}
-                </div>
-                <div
-                  class="plan-feature-desc"
-                  *ngIf="(plan?.name | lowercase) !== planNames.free"
-                >
-                  <span class="icon-si"><i class="si-green-check"></i></span
-                  >{{ plan?.name }}
-                  {{ 'plan_support_upgrade_option' | translate }}
-                </div>
+                      ]
+                      ">
+                      <span class="icon-si"><i class="si-green-check"></i></span>{{
+                      kore | translate }}
+                    </div>
+                    <div
+                      class="plan-feature-desc"
+                      *ngIf="(plan?.name | lowercase) !== planNames.free">
+                      <span class="icon-si"><i class="si-green-check"></i></span>{{
+                      plan?.name }}
+                      {{ 'plan_support_upgrade_option' | translate }}
+                    </div>
+                  </div>
+                </perfect-scrollbar>
               </div>
-            </perfect-scrollbar>
+            </div>
           </div>
+          <!-- Modal body -->
         </div>
       </div>
-      <!-- Modal body -->
     </div>
-  </div>
-</div>
 
-<!---plan-upgrade child component-->
-<app-plan-upgrade #plans (updateBanner)="showBanner($event)"></app-plan-upgrade>
+    <!---plan-upgrade child component-->
+    <app-plan-upgrade #plans (updateBanner)="showBanner($event)"></app-plan-upgrade>

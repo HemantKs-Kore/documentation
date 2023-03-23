@@ -3741,10 +3741,6 @@ app-slider-component {
 // }
 
 .pricing-hover-tooltip {
-  background: #f8f9fa;
-  box-shadow: 0px 1px 2px #bdc1c6;
-  border-radius: 4px;
-  padding: 10px;
   font-family: 'Inter' !important;
   &::before {
     content: '';
@@ -3766,6 +3762,21 @@ app-slider-component {
       font-size: 12px;
       line-height: 15px;
       color: #3c4043;
+      padding: 0 4px;
+    }
+    .overages-bar {
+      border-left: 4px solid #FF784B;
+      margin-right: 5px
+    }
+    .queries-bar {
+      border-left: 4px solid #7027E5;
+      margin-right: 5px;
+    }
+    .info-text {
+      font-weight: 400;
+      font-size: 10px;
+      line-height: 12px;
+      color: #5D6066;
       padding: 0 4px;
     }
     .title {

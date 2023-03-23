@@ -148,19 +148,22 @@
                             line-height: 15px;
                         
                             .bg-type{
-                                // width: 18px;
-                                // height: 18px;
-                                // background: #28A745;
                                 border-radius: 100%;
                                 display: flex;
                                 align-items: center;
                                 justify-content: center;
                                 margin-right: 5px;  
-                                &.fail{
-                                    // background: #DD3646;
-                                }                              
+                            }                            
+
+                            .si-sort-down::before {
+                                color: red;
                             }
-                        }                        
+                        }                 
+                        
+                        .fail{
+                            color: red !important;
+                        }  
+                        
                     }
                     .graph-sec{
                         padding: 10px 0 0 10px;

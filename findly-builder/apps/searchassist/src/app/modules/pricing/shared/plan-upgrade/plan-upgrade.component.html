@@ -3,8 +3,7 @@
   modalType="center"
   modalClass="modal_popups_ kr-full"
   tabindex="-1"
-  #choosePlanModel
->
+  #choosePlanModel>
   <perfect-scrollbar>
     <div class="modal-body">
       <div class="pricing-paln-change-modal">
@@ -25,23 +24,22 @@
             class="plan-tile-block"
             *ngFor="let plan of filterPlansData; trackBy: trackByPlans"
             [ngClass]="{
-              'plan-tile-active':
-                plan?.name === selectedPlan?.planName &&
-                selectedPlan?.billing?.unit === plan?.billing?.unit
-            }"
-          >
+            'plan-tile-active':
+            plan?.name === selectedPlan?.planName &&
+            selectedPlan?.billing?.unit === plan?.billing?.unit
+            }">
             <div class="plan-type-block">
               <div class="plan-img">
                 <img
                   ngSrc="assets/images/pricing-plan/new-plan-pricing-img/pricing-plan-{{
-                    plan?.name | lowercase
+                  plan?.name | lowercase
                   }}.svg"
                   alt="pricing-plan-{{ plan?.name | lowercase }}"
                   title="pricing-plan-{{ plan?.name | lowercase }}"
                   class="plan-type-img"
                   width="80"
                   height="80"
-                />
+                  />
               </div>
               <div class="plan-details">
                 <div class="plan-type">
@@ -50,25 +48,24 @@
                 <div class="plan-cost-details">
                   <div class="plan-cost">
                     {{
-                      (plan?.planAmount && '$' + plan?.planAmount) ||
-                        ('plans_custom_plans' | translate)
+                    (plan?.planAmount && '$' + plan?.planAmount) ||
+                    ('plans_custom_plans' | translate)
                     }}
                     <span class="plan-duration-type">{{
                       (plan?.billing?.unit &&
-                        '/ ' +
-                          ('plan_' + plan?.billing?.unit + '_cap'
-                            | translate)) ||
-                        ''
-                    }}</span>
+                      '/ ' +
+                      ('plan_' + plan?.billing?.unit + '_cap'
+                      | translate)) ||
+                      ''
+                      }}</span>
                   </div>
                 </div>
               </div>
               <div
                 class="plan-duration-switcher {{
-                  ![planNames.standard].includes(plan?.name | lowercase) &&
-                    'd-none'
-                }}"
-              >
+                ![planNames.standard].includes(plan?.name | lowercase) &&
+                'd-none'
+                }}">
                 <div class="pricing-paln-types">
                   <div
                     class="pricing-paln-tab"
@@ -78,15 +75,12 @@
                     placement="bottom"
                     [ngbTooltip]="type === 'year' ? '16% OFF Yearly' : ''"
                     [container]="'body'"
-                    tooltipClass="metrics_tooltips metrics_tooltips_green m-0"
-                  >
+                    tooltipClass="metrics_tooltips metrics_tooltips_green m-0">
                     {{ 'plan_' + type | translate }}
                   </div>
                 </div>
               </div>
-              <span class="plan-close" data-dismiss="modal"
-                ><i class="si-close"></i
-              ></span>
+              <span class="plan-close" data-dismiss="modal"><i class="si-close"></i></span>
             </div>
             <div class="plan-tag-line">
               <div>{{ plan?.description }}</div>
@@ -96,78 +90,64 @@
                 <button
                   class="btn"
                   [ngClass]="{
-                    'current-paln':
-                      plan?.name === selectedPlan?.planName &&
-                      selectedPlan?.billing?.unit === plan?.billing?.unit
+                  'current-paln':
+                  plan?.name === selectedPlan?.planName &&
+                  selectedPlan?.billing?.unit === plan?.billing?.unit
                   }"
-                  *ngIf="
-                    (plan?.name | lowercase) === planNames.standard &&
-                    termPlan === 'month'
-                  "
+                  *ngIf="(plan?.name | lowercase) === planNames.standard"
                   (click)="
-                    plan?.name === selectedPlan?.planName
-                      ? null
-                      : selectedPlan?.planName === 'Enterprise'
-                      ? contactusModel('open', plan)
-                      : [
-                          openSelectedPopup('payment_gateway'),
-                          (orderConfirmData = plan)
-                        ]
-                  "
-                >
+                  (plan?.name ===
+                  selectedPlan?.planName&&selectedPlan?.billing?.unit ===
+                  plan?.billing?.unit)
+                  ? null
+                  : (selectedPlan?.planName ===
+                  'Enterprise'||selectedPlan?.billing?.unit==='year')
+                  ? contactusModel('open', plan)
+                  : [
+                  openSelectedPopup('payment_gateway'),
+                  (orderConfirmData= plan)
+                  ]
+                  " [disabled]="selectedPlan?.changesScheduledFor==='upgrade'">
                   {{
-                    (plan?.name === selectedPlan?.planName
-                      ? 'invoices_current_plan'
-                      : selectedPlan?.planName === 'Enterprise'
-                      ? 'plan_talk_to_us'
-                      : 'plan_choose_plan'
-                    ) | translate
+                  ((plan?.name ===
+                  selectedPlan?.planName&&selectedPlan?.billing?.unit ===
+                  plan?.billing?.unit)
+                  ? 'invoices_current_plan'
+                  : (selectedPlan?.planName ===
+                  'Enterprise'||selectedPlan?.billing?.unit==='year')
+                  ? 'plan_talk_to_us'
+                  : 'plan_choose_plan'
+                  ) | translate
                   }}
                 </button>
                 <button
                   class="btn"
                   [ngClass]="{
-                    'current-paln':
-                      plan?.name === selectedPlan?.planName &&
-                      selectedPlan?.billing?.unit === plan?.billing?.unit
+                  'current-paln': plan?.name === selectedPlan?.planName
                   }"
                   *ngIf="
-                    (plan?.name | lowercase) === planNames.standard &&
-                    termPlan === 'year'
-                  "
-                  (click)="contactusModel('open', plan)"
-                >
-                  {{ 'plan_talk_to_us' | translate }}
-                </button>
-                <button
-                  class="btn"
-                  [ngClass]="{
-                    'current-paln': plan?.name === selectedPlan?.planName
-                  }"
-                  *ngIf="
-                    [planNames.unlimited, planNames.enterprise].includes(
-                      plan?.name | lowercase
-                    )
+                  [planNames.unlimited, planNames.enterprise].includes(
+                  plan?.name | lowercase
+                  )
                   "
                   (click)="
-                    plan?.name === selectedPlan?.planName
-                      ? null
-                      : contactusModel('open', plan)
+                  plan?.name === selectedPlan?.planName
+                  ? null
+                  : contactusModel('open', plan)
                   "
                   placement="left"
                   [ngbTooltip]="
-                    plan?.name !== selectedPlan?.planName
-                      ? ('plan_contact_us_change' | translate)
-                      : ''
+                  plan?.name !== selectedPlan?.planName
+                  ? ('plan_contact_us_change' | translate)
+                  : ''
                   "
                   [container]="'body'"
-                  tooltipClass="metrics_tooltips m-0"
-                >
+                  tooltipClass="metrics_tooltips m-0">
                   {{
-                    (plan?.name === selectedPlan?.planName
-                      ? 'invoices_current_plan'
-                      : 'plan_talk_to_us'
-                    ) | translate
+                  (plan?.name === selectedPlan?.planName
+                  ? 'invoices_current_plan'
+                  : 'plan_talk_to_us'
+                  ) | translate
                   }}
                 </button>
               </div>
@@ -176,12 +156,11 @@
               <div
                 class="plan-feature-desc"
                 [ngClass]="{
-                  'font-weight-bold': [
-                    planNames.standard,
-                    planNames.free
-                  ].includes(plan?.name | lowercase)
-                }"
-              >
+                'font-weight-bold': [
+                planNames.standard,
+                planNames.free
+                ].includes(plan?.name | lowercase)
+                }">
                 <span class="icon-si"><i class="si-green-check"></i></span>
                 {{ plan?.featureAccess?.searchQueries?.displayText }}
               </div>
@@ -189,20 +168,18 @@
                 <div
                   class="plan-sub-feature-hding color-green"
                   *ngIf="
-                    [planNames.enterprise, planNames.unlimited].includes(
-                      plan?.name | lowercase
-                    )
-                  "
-                >
+                  [planNames.enterprise, planNames.unlimited].includes(
+                  plan?.name | lowercase
+                  )
+                  ">
                   {{ 'plan_everything' | translate
-                  }}<strong>{{ 'plan_standard' | translate }}</strong
-                  >{{ 'plan_plus' | translate }}
+                  }}<strong>{{ 'plan_standard' | translate }}</strong>{{
+                  'plan_plus' | translate }}
                 </div>
                 <ng-container *ngFor="let feature of plan?.featureData">
                   <div
                     class="plan-feature-desc"
-                    *ngIf="feature?.displayOnBanner"
-                  >
+                    *ngIf="feature?.displayOnBanner">
                     <span class="icon-si"><i class="si-green-check"></i></span>
                     {{ feature?.displayText }}
                   </div>
@@ -212,33 +189,30 @@
                 </div>
                 <div
                   class="plan-feature-desc {{
-                    (plan?.name | lowercase) !== planNames.standard && 'd-none'
-                  }}"
-                >
-                  <span class="icon-si"><i class="si-green-check"></i></span
-                  >{{ plan?.name }} {{ 'plan_koreAi_support' | translate }}
+                  (plan?.name | lowercase) !== planNames.standard && 'd-none'
+                  }}">
+                  <span class="icon-si"><i class="si-green-check"></i></span>{{
+                  plan?.name }} {{ 'plan_koreAi_support' | translate }}
                 </div>
                 <div
                   class="plan-feature-desc {{
-                    (plan?.name | lowercase) !== planNames.standard && 'd-none'
+                  (plan?.name | lowercase) !== planNames.standard && 'd-none'
                   }}"
                   *ngFor="
-                    let koreAi of [
-                      'plan_koreAi_community',
-                      'plan_koreAi_academay'
-                    ]
-                  "
-                >
-                  <span class="icon-si"><i class="si-green-check"></i></span
-                  >{{ koreAi | translate }}
+                  let koreAi of [
+                  'plan_koreAi_community',
+                  'plan_koreAi_academay'
+                  ]
+                  ">
+                  <span class="icon-si"><i class="si-green-check"></i></span>{{
+                  koreAi | translate }}
                 </div>
                 <div
                   class="plan-feature-desc {{
-                    (plan?.name | lowercase) === planNames.standard && 'd-none'
-                  }}"
-                >
-                  <span class="icon-si"><i class="si-green-check"></i></span
-                  >{{ plan?.name }}
+                  (plan?.name | lowercase) === planNames.standard && 'd-none'
+                  }}">
+                  <span class="icon-si"><i class="si-green-check"></i></span>{{
+                  plan?.name }}
                   {{ 'plan_support_upgrade_option' | translate }}
                 </div>
               </div>
@@ -249,14 +223,13 @@
         <!-- free trial plan banner first time start from here -->
         <div
           class="free-trial-plan-block"
-          *ngIf="(selectedPlan?.planName | lowercase) === planNames.free"
-        >
+          *ngIf="(selectedPlan?.planName | lowercase) === planNames.free">
           <div class="free-trial-banner">
             <img
               class="free-trial-plan-banner"
               src="assets/images/pricing-plan/new-plan-pricing-img/free-trial-plan-banner.svg"
               alt="free-trial-plan-banner"
-            />
+              />
           </div>
           <div class="free-trial-banner-content">
             <div class="free-trial-banner-header">
@@ -267,15 +240,14 @@
                 <li
                   class="free-trial-banner-ul-li"
                   *ngFor="
-                    let trail of [
-                      'plan_index_profile',
-                      'plan_data_retention',
-                      'plan_active_app',
-                      'plan_mandatory_attribution',
-                      'plan_data_retention_post_expiry'
-                    ]
-                  "
-                >
+                  let trail of [
+                  'plan_index_profile',
+                  'plan_data_retention',
+                  'plan_active_app',
+                  'plan_mandatory_attribution',
+                  'plan_data_retention_post_expiry'
+                  ]
+                  ">
                   {{ trail | translate }}
                 </li>
               </ul>
@@ -309,10 +281,9 @@
               <div
                 class="row plan-table-body border-btm pad-10-0"
                 *ngFor="
-                  let plan of listPlanFeaturesData && listPlanFeaturesData[0]
+                let plan of listPlanFeaturesData && listPlanFeaturesData[0]
                 "
-                [ngClass]="{ 'd-none': feature !== plan[1]?.featureType }"
-              >
+                [ngClass]="{ 'd-none': feature !== plan[1]?.featureType }">
                 <div class="col col-lg-3">
                   <div>
                     <span
@@ -320,88 +291,78 @@
                       placement="right"
                       [ngbTooltip]="plan[2]?.hoverText"
                       [container]="'body'"
-                      tooltipClass="tooltip-global-"
-                      >{{ plan[1].desc }}</span
-                    >
+                      tooltipClass="tooltip-global-">{{ plan[1].desc }}</span>
                   </div>
                 </div>
                 <div class="col col-lg-3">
                   <div
                     *ngIf="
-                      plan[1]?.fullDisplayText &&
-                      plan[1]?.fullDisplayText !== '-' &&
-                      _array?.isArray(plan[1]?.fullDisplayText)
-                    "
-                  >
+                    plan[1]?.fullDisplayText &&
+                    plan[1]?.fullDisplayText !== '-' &&
+                    _array?.isArray(plan[1]?.fullDisplayText)
+                    ">
                     <ul *ngFor="let plan1 of plan[1]?.fullDisplayText">
                       <li>{{ plan1 }}</li>
                     </ul>
                   </div>
                   <div
                     *ngIf="
-                      plan[1]?.fullDisplayText &&
-                      plan[1]?.fullDisplayText !== '-' &&
-                      plan[1]?.fullDisplayText !== 'full' &&
-                      !_array?.isArray(plan[1]?.fullDisplayText)
-                    "
-                  >
+                    plan[1]?.fullDisplayText &&
+                    plan[1]?.fullDisplayText !== '-' &&
+                    plan[1]?.fullDisplayText !== 'full' &&
+                    !_array?.isArray(plan[1]?.fullDisplayText)
+                    ">
                     <span>{{ plan[1]?.fullDisplayText }}</span>
                   </div>
                   <div
                     *ngIf="
-                      ((plan[1]?.fullDisplayText === undefined ||
-                        plan[1]?.fullDisplayText === '-') &&
-                        plan[1]?.access === 'full') ||
-                      plan[1]?.fullDisplayText === 'full'
-                    "
-                  >
+                    ((plan[1]?.fullDisplayText === undefined ||
+                    plan[1]?.fullDisplayText === '-') &&
+                    plan[1]?.access === 'full') ||
+                    plan[1]?.fullDisplayText === 'full'
+                    ">
                     <span><i class="si-green-check"></i></span>
                   </div>
                   <div
                     *ngIf="
-                      (plan[1]?.fullDisplayText === undefined ||
-                        plan[1]?.fullDisplayText === '-') &&
-                      plan[1]?.access === 'none'
-                    "
-                  >
+                    (plan[1]?.fullDisplayText === undefined ||
+                    plan[1]?.fullDisplayText === '-') &&
+                    plan[1]?.access === 'none'
+                    ">
                     <span><i class="si-close-red"></i></span>
                   </div>
                 </div>
                 <div class="col col-lg-3">
                   <div
                     *ngIf="
-                      plan[2]?.fullDisplayText &&
-                      _array?.isArray(plan[2]?.fullDisplayText)
-                    "
-                  >
+                    plan[2]?.fullDisplayText &&
+                    _array?.isArray(plan[2]?.fullDisplayText)
+                    ">
                     <ul *ngFor="let plan2 of plan[2]?.fullDisplayText">
                       <li>{{ plan2 }}</li>
                     </ul>
                   </div>
                   <div
                     *ngIf="
-                      plan[2]?.fullDisplayText &&
-                      !_array?.isArray(plan[2]?.fullDisplayText)
-                    "
-                  >
+                    plan[2]?.fullDisplayText &&
+                    !_array?.isArray(plan[2]?.fullDisplayText)
+                    ">
                     <span>{{ plan[2]?.fullDisplayText }}</span>
                   </div>
                   <div
                     *ngIf="
-                      (plan[2]?.fullDisplayText === undefined ||
-                        plan[2]?.fullDisplayText === '-') &&
-                      plan[2]?.access === 'full'
-                    "
-                  >
+                    (plan[2]?.fullDisplayText === undefined ||
+                    plan[2]?.fullDisplayText === '-') &&
+                    plan[2]?.access === 'full'
+                    ">
                     <span><i class="si-green-check"></i></span>
                   </div>
                   <div
                     *ngIf="
-                      (plan[2]?.fullDisplayText === undefined ||
-                        plan[2]?.fullDisplayText === '-') &&
-                      plan[2]?.access === 'none'
-                    "
-                  >
+                    (plan[2]?.fullDisplayText === undefined ||
+                    plan[2]?.fullDisplayText === '-') &&
+                    plan[2]?.access === 'none'
+                    ">
                     <span><i class="si-close-red"></i></span>
                   </div>
                 </div>
@@ -421,17 +382,15 @@
             <div class="faq-list-acc-section">
               <div
                 class="p-pricing-faq-tile"
-                *ngFor="let faq of frequentFAQs; let i = index"
-              >
+                *ngFor="let faq of frequentFAQs; let i= index">
                 <div class="p-pricing-accordian-faq">
                   <a
                     [href]="'#collap' + i"
                     data-toggle="collapse"
-                    class="p-pricing-accordian-faq-header collapsed"
-                  >
+                    class="p-pricing-accordian-faq-header collapsed">
                     <div
-                      class="d-flex justify-content-between align-items-center p-pricing-accordian-faq-py"
-                    >
+                      class="d-flex justify-content-between align-items-center
+                      p-pricing-accordian-faq-py">
                       <div class="ng-binding">{{ faq?.question }}</div>
                     </div>
                     <i class="si si-carrotup icon-chev-angle"></i>
@@ -454,15 +413,14 @@
 <kr-modal
   modalType="center"
   modalClass="modal_popups_ payment_gateway"
-  #paymentGatewayModel
->
+  #paymentGatewayModel>
   <div class="modal-header">
     <div class="title">
       {{
-        (selectedPaymentPage === 'payment_confirm'
-          ? 'plan_order_confirmation'
-          : 'plan_payment_details'
-        ) | translate
+      (selectedPaymentPage === 'payment_confirm'
+      ? 'plan_order_confirmation'
+      : 'plan_payment_details'
+      ) | translate
       }}
     </div>
     <div class="close_icon" (click)="closeSelectedPopup('payment_gateway')">
@@ -475,8 +433,7 @@
         <!-- payment mode hold start from here -->
         <div
           class="row col-12 m-0 align-items-center payment-status-block"
-          *ngSwitchCase="'!payment_confirm'"
-        >
+          *ngSwitchCase="'!payment_confirm'">
           <div class="col-12">
             <div class="payment-success-route">
               <div class="rotaion-img">
@@ -511,8 +468,7 @@
         <!-- order confirmation start from here -->
         <div
           class="row col-12 m-0 align-items-center payment-status-block"
-          *ngSwitchCase="'payment_confirm'"
-        >
+          *ngSwitchCase="'payment_confirm'">
           <div class="col-6">
             <div class="order-img">
               <img
@@ -520,7 +476,7 @@
                 class="order-stage-img"
                 width="456"
                 height="304"
-              />
+                />
             </div>
           </div>
           <div class="col-6">
@@ -566,10 +522,9 @@
                   *ngFor="let type of ['month', 'year']"
                   (click)="typeOfPlan(type); choosePlanType(type)"
                   [ngClass]="{
-                    'order-option-selected': type === termPlan,
-                    disabled: type === 'year'
-                  }"
-                >
+                  'order-option-selected': type === termPlan,
+                  disabled: type === selectedPlan?.billing?.unit
+                  }">
                   {{ 'plan_' + type | translate }}
                 </div>
               </div>
@@ -581,8 +536,7 @@
         <div
           class="row col-12 m-0 h-100"
           id="i_frame_page"
-          *ngSwitchCase="'payment_iframe'"
-        >
+          *ngSwitchCase="'payment_iframe'">
           <div class="payment-loader w-100" *ngIf="showLoader">
             <img src="assets/images/logoIcon.png" class="loaderLogoImage" />
           </div>
@@ -593,21 +547,19 @@
             frameborder="0"
             [src]="urlSafe"
             (load)="showHideSpinner()"
-            allowfullscreen
-          ></iframe>
+            allowfullscreen></iframe>
         </div>
 
         <!-- payment mode success screen start here -->
         <div
           class="row col-12 m-0 align-items-center payment-status-block"
-          *ngSwitchCase="'payment_success'"
-        >
+          *ngSwitchCase="'payment_success'">
           <div class="col-6">
             <div class="order-img">
               <img
                 src="assets/images/pricing-plan/new-plan-pricing-img/payment-successful.png"
                 class="order-stage-img"
-              />
+                />
             </div>
           </div>
           <div class="col-6">
@@ -615,7 +567,7 @@
               <div class="payment-status-img">
                 <img
                   src="assets/images/pricing-plan/plan-order/payment-confirm-success.svg"
-                />
+                  />
               </div>
               <div class="payment-status-header">
                 {{ 'plan_yay_payment_successful' | translate }}
@@ -631,12 +583,10 @@
               <div class="payment-status-btn">
                 <button
                   class="kr-sg-button-secondary btn_lg payment-download-invoice"
-                  (click)="downloadInvoice()"
-                >
+                  (click)="downloadInvoice()">
                   {{ 'plan_downloadinvoice' | translate }}
-                  <span class="px-2"
-                    ><i class="si si-download-file primaryColor"></i
-                  ></span>
+                  <span class="px-2"><i class="si si-download-file
+                      primaryColor"></i></span>
                 </button>
               </div>
             </div>
@@ -646,14 +596,13 @@
         <!-- payment mode failure screen start here -->
         <div
           class="row col-12 m-0 align-items-center payment-status-block"
-          *ngSwitchCase="'payment_fail'"
-        >
+          *ngSwitchCase="'payment_fail'">
           <div class="col-6">
             <div class="order-img">
               <img
                 src="assets/images/pricing-plan/new-plan-pricing-img/payment-failed.png"
                 class="order-stage-img"
-              />
+                />
             </div>
           </div>
           <div class="col-6">
@@ -661,27 +610,17 @@
               <div class="payment-status-img">
                 <img
                   src="assets/images/pricing-plan/plan-order/payment-confirm-fail.svg"
-                />
+                  />
               </div>
               <div class="payment-status-header">
                 {{ 'plan_payment_failed2' | translate }}
               </div>
-              <div class="payment-status-desc">
-                {{ orderConfirmData?.overage?.ingestDocs?.limit | valueFormat }}
-                {{ 'plan_documents_added_and' | translate }}
-                {{
-                  orderConfirmData?.overage?.searchQueries?.limit | valueFormat
-                }}
-                {{ 'plan_queries_add_per' | translate }}
-                {{ orderConfirmData?.billing?.unit }}
-              </div>
-              <div class="payment-status-expire">Something Went Wrong</div>
+              <div class="payment-status-expire">{{"plan_something_went_wrong"|translate}}</div>
               <div class="payment-status-btn">
-                <button class="kr-sg-button-secondary btn_lg">
-                  {{ 'plan_something_went_wrong' | translate }}
-                  <span class="px-2"
-                    ><i class="si si-re-fresh primaryColor"></i
-                  ></span>
+                <button class="kr-sg-button-secondary btn_lg"
+                  (click)="openPaymentGateway()">
+                  {{ 'plans_retry_payment' | translate }}
+                  <span class="px-2"><i class="si si-re-fresh primaryColor"></i></span>
                 </button>
               </div>
             </div>
@@ -691,14 +630,13 @@
         <!-- payment mode hold screen start here -->
         <div
           class="row col-12 m-0 align-items-center payment-status-block"
-          *ngSwitchCase="'payment_hold'"
-        >
+          *ngSwitchCase="'payment_hold'">
           <div class="col-6">
             <div class="order-img">
               <img
                 src="assets/images/pricing-plan/new-plan-pricing-img/payment-on-hold.svg"
                 class="order-stage-img"
-              />
+                />
             </div>
           </div>
           <div class="col-6">
@@ -706,7 +644,7 @@
               <div class="payment-status-img">
                 <img
                   src="assets/images/pricing-plan/plan-order/payment-confirm-hold.svg"
-                />
+                  />
               </div>
               <div class="payment-status-header">
                 {{ 'plan_payment_on_hold' | translate }}
@@ -725,37 +663,32 @@
       class="kr-sg-button-primary btn_lg"
       (click)="openPaymentGateway()"
       *ngIf="selectedPaymentPage === 'payment_confirm'"
-      [disabled]="btnLoader"
-    >
-      <span class="loader-spin-inside-btn" *ngIf="btnLoader"></span
-      >{{ 'plan_proceed' | translate }}
+      [disabled]="btnLoader">
+      <span class="loader-spin-inside-btn" *ngIf="btnLoader"></span>{{
+      'plan_proceed' | translate }}
     </button>
     <button
       class="kr-sg-button-ghost btn_lg"
       (click)="closeSelectedPopup('payment_gateway')"
-      *ngIf="['payment_iframe'].includes(selectedPaymentPage)"
-    >
+      *ngIf="['payment_iframe'].includes(selectedPaymentPage)">
       {{ 'plan_cancel_payment' | translate }}
     </button>
     <button
       class="kr-sg-button-ghost btn_lg"
       (click)="closeSelectedPopup('payment_gateway')"
-      *ngIf="['payment_confirm'].includes(selectedPaymentPage)"
-    >
+      *ngIf="['payment_confirm'].includes(selectedPaymentPage)">
       {{ 'plan_no_thanks' | translate }}
     </button>
     <button
       class="kr-sg-button-primary btn_lg"
       (click)="closeSelectedPopup('payment_gateway')"
-      *ngIf="['payment_success'].includes(selectedPaymentPage)"
-    >
+      *ngIf="['payment_success'].includes(selectedPaymentPage)">
       {{ 'plan_done' | translate }}
     </button>
     <button
       class="kr-sg-button-ghost btn_lg"
       (click)="closeSelectedPopup('payment_gateway')"
-      *ngIf="['payment_fail', 'payment_hold'].includes(selectedPaymentPage)"
-    >
+      *ngIf="['payment_fail', 'payment_hold'].includes(selectedPaymentPage)">
       {{ 'plan_close' | translate }}
     </button>
   </div>
@@ -765,15 +698,14 @@
 <kr-modal
   modalType="center"
   modalClass="modal_popups_ overage_modal"
-  #addOverageModel
->
+  #addOverageModel>
   <div class="modal-header">
     <div class="title">
       {{
-        (overagesObject.isOpted
-          ? 'plan_overage_heading_out'
-          : 'plan_overage_heading_in'
-        ) | translate
+      (overagesObject.isOpted
+      ? 'plan_overage_heading_out'
+      : 'plan_overage_heading_in'
+      ) | translate
       }}
     </div>
     <div class="close_icon" (click)="overageModal('close')">
@@ -790,7 +722,7 @@
               width="400"
               height="400"
               class="order-stage-img"
-            />
+              />
           </div>
         </div>
         <div class="col-7">
@@ -807,10 +739,10 @@
                       class="checkbox-custom"
                       type="checkbox"
                       [(ngModel)]="overagesObject.isCheckboxEnabled"
-                    />
+                      />
                     <label for="checkbox-1" class="checkbox-custom-label">{{
                       'plan_queries_overage' | translate
-                    }}</label>
+                      }}</label>
                   </div>
                 </div>
                 <div class="quantity-deatils">
@@ -824,25 +756,23 @@
                 </div>
                 <div class="note-desc">
                   {{
-                    (overagesObject.isOpted
-                      ? 'plans_overages_opt_out'
-                      : 'plan_opt_in_overages_text'
-                    ) | translate
+                  (overagesObject.isOpted
+                  ? 'plans_overages_opt_out'
+                  : 'plan_opt_in_overages_text'
+                  ) | translate
                   }}
                 </div>
               </div>
               <div
                 class="info-link-bot-notification current-billing-notification"
-                *ngIf="overagesObject.isOpted"
-              >
+                *ngIf="overagesObject.isOpted">
                 <div class="link-bot-warning"><i class="si-warning"></i></div>
                 <div class="title-text">
                   {{ 'plan_current_billing_cycle' | translate }}
                 </div>
                 <div
                   class="link-bot-close"
-                  (click)="overageModal('close_notification')"
-                >
+                  (click)="overageModal('close_notification')">
                   <i class="si-close"></i>
                 </div>
               </div>
@@ -857,8 +787,7 @@
               <div class="compare-plans-link">
                 <div
                   class="compare-plans-link-btn"
-                  (click)="openSelectedPopup('choose_plan')"
-                >
+                  (click)="openSelectedPopup('choose_plan')">
                   {{ 'plan_compare_all_plans' | translate }}
                 </div>
               </div>
@@ -872,15 +801,13 @@
     <button
       class="kr-sg-button-primary btn_lg"
       (click)="buyOverage()"
-      [disabled]="btnLoader || !overagesObject.isCheckboxEnabled"
-    >
-      <span class="loader-spin-inside-btn" *ngIf="btnLoader"></span
-      >{{ 'plan_proceed' | translate }}
+      [disabled]="btnLoader || !overagesObject.isCheckboxEnabled">
+      <span class="loader-spin-inside-btn" *ngIf="btnLoader"></span>{{
+      'plan_proceed' | translate }}
     </button>
     <button
       class="kr-sg-button-secondary btn_lg"
-      (click)="overageModal('close')"
-    >
+      (click)="overageModal('close')">
       {{ 'plan_no_thanks' | translate }}
     </button>
   </div>
@@ -890,8 +817,7 @@
 <kr-modal
   modalType="above-modal-drop"
   modalClass="modal_popups_ order-confirmation excess-modal-data"
-  #changePlanModel
->
+  #changePlanModel>
   <perfect-scrollbar>
     <div class="modal-body">
       <div class="desc-text-info">
@@ -907,8 +833,7 @@
         </div>
         <div
           class="excess-table-body col-12 row"
-          *ngFor="let feature of featuresExceededUsage"
-        >
+          *ngFor="let feature of featuresExceededUsage">
           <div class="excess-type col-4">{{ feature?.name }}</div>
           <div class="excess-name col-4">{{ feature?.used }}</div>
           <div class="excess-type col-4">{{ feature?.targetLimit }}</div>
@@ -919,8 +844,7 @@
   <div class="modal-footer text-right">
     <button
       class="kr-sg-button-primary btn_lg"
-      (click)="openExcessDataPopup('close')"
-    >
+      (click)="openExcessDataPopup('close')">
       {{ 'plan_okay' | translate }}
     </button>
   </div>
@@ -930,15 +854,13 @@
 <kr-modal
   modalType="above-modal-drop"
   modalClass="modal_popups_ contact-us-modal_"
-  #contactUsModel
->
+  #contactUsModel>
   <div class="right-sec-form">
     <div class="modal-header">
       <div class="modal-hding">{{ 'plan_please_tell_us' | translate }}</div>
       <div
         class="close_icon"
-        (click)="contactusModel('close'); validations = false"
-      >
+        (click)="contactusModel('close'); validations= false">
         <span class="close-icon-span"><i class="si-close"></i></span>
       </div>
     </div>
@@ -961,7 +883,7 @@
             autocomplete="off"
             [(ngModel)]="enterpriseForm.name"
             [ngClass]="{ error: validations && !enterpriseForm.name }"
-          />
+            />
         </div>
         <div class="kr-sg-input-text mb-3">
           <div class="label-text">
@@ -974,7 +896,7 @@
             autocomplete="off"
             [(ngModel)]="enterpriseForm.email"
             [ngClass]="{ error: validations && !enterpriseForm.email }"
-          />
+            />
         </div>
         <div class="kr-sg-input-text mb-3">
           <div class="label-text">{{ 'plan_contact_number' | translate }}</div>
@@ -984,7 +906,7 @@
             class="input-text"
             autocomplete="off"
             [(ngModel)]="enterpriseForm.phone"
-          />
+            />
         </div>
         <div class="kr-sg-input-text mb-3">
           <div class="label-text">{{ 'plan_company_name' | translate }}</div>
@@ -994,7 +916,7 @@
             class="input-text"
             autocomplete="off"
             [(ngModel)]="enterpriseForm.company"
-          />
+            />
         </div>
         <!-- Country-->
         <div class="label-text mb-1">
@@ -1009,19 +931,17 @@
               data-toggle="dropdown"
               [ngClass]="{ error: validations && !enterpriseForm.country }"
               ngbDropdownToggle
-              (click)="clearcontent()"
-            >
+              (click)="clearcontent()">
               {{
-                enterpriseForm.country
-                  ? enterpriseForm.country
-                  : 'Choose Country'
+              enterpriseForm.country
+              ? enterpriseForm.country
+              : 'Choose Country'
               }}
             </button>
             <ul
               class="dropdown-menu content-menu faq-filter-add col-12 mw-100"
               style="overflow-y: hidden"
-              ngbDropdownMenu
-            >
+              ngbDropdownMenu>
               <li class="search-box">
                 <input
                   id="searchBoxId"
@@ -1031,21 +951,20 @@
                   placeholder="{{ 'sa_search' | translate }}"
                   class="seach-input"
                   autofocus
-                />
+                  />
               </li>
               <perfect-scrollbar class="scroll-search-field h-178">
                 <ng-container>
                   <li
                     ngbDropdownItem
                     *ngFor="
-                      let country of countriesList
-                        | filter : [search_country, 'name']
+                    let country of countriesList
+                    | filter : [search_country, 'name']
                     "
-                    (click)="enterpriseForm.country = country.name"
+                    (click)="enterpriseForm.country= country.name"
                     [ngClass]="{
-                      highlight: enterpriseForm.country === country.name
-                    }"
-                  >
+                    highlight: enterpriseForm.country === country.name
+                    }">
                     {{ country.name }}
                   </li>
                 </ng-container>
@@ -1060,25 +979,22 @@
             placeholder="{{ 'plan_optional' | translate }}"
             class="input-text"
             autocomplete="off"
-            [(ngModel)]="enterpriseForm.message"
-          ></textarea>
+            [(ngModel)]="enterpriseForm.message"></textarea>
         </div>
       </div>
     </perfect-scrollbar>
     <div class="text-right talk-to-us-footer">
       <button
         class="kr-sg-button-secondary backbtn btn_lg mr-2"
-        (click)="contactusModel('close'); validations = false"
-      >
+        (click)="contactusModel('close'); validations= false">
         {{ 'sa_cancel' | translate }}
       </button>
       <button
         class="kr-sg-button-primary btn_lg"
         (click)="submitEnterpriseRequest()"
-        [disabled]="btnLoader"
-      >
-        <span class="loader-spin-inside-btn" *ngIf="btnLoader"></span
-        >{{ 'plan_submit_request' | translate }}
+        [disabled]="btnLoader||(enterpriseForm.country.length===0||enterpriseForm.name.length===0||enterpriseForm.email.length===0)">
+        <span class="loader-spin-inside-btn" *ngIf="btnLoader"></span>{{
+        'plan_submit_request' | translate }}
       </button>
     </div>
   </div>
@@ -1088,8 +1004,7 @@
 <kr-modal
   modalType="above-modal-drop"
   modalClass="modal_popups_ revert-cancellation-popup above-modal-drop-class"
-  #confirmUpgradeModel
->
+  #confirmUpgradeModel>
   <div class="modal-header">
     <div class="title">
       {{ 'plan_are_you_sure_you_want_to_continue' | translate }}
@@ -1105,15 +1020,13 @@
     <button
       class="kr-sg-button-primary btn_lg"
       (click)="downgradePlan()"
-      [disabled]="btnLoader"
-    >
-      <span class="loader-spin-inside-btn" *ngIf="btnLoader"></span
-      >{{ 'plan_submit' | translate }}
+      [disabled]="btnLoader">
+      <span class="loader-spin-inside-btn" *ngIf="btnLoader"></span>{{
+      'plan_submit' | translate }}
     </button>
     <button
       class="kr-sg-button-secondary btn_lg"
-      (click)="closeConfirmUpgradeModal('close')"
-    >
+      (click)="closeConfirmUpgradeModal('close')">
       {{ 'sa_cancel' | translate }}
     </button>
   </div>
@@ -1122,15 +1035,15 @@
 <!--Upgrade modal wrt free Plan-->
 <kr-modal
   modalType="above-modal-drop"
-  modalClass="modal_popups_ revert-cancellation-popup above-modal-drop-class upgrade-now-plan-modal-popup"
-  #freePlanUpgradeModel
->
+  modalClass="modal_popups_ revert-cancellation-popup above-modal-drop-class
+  upgrade-now-plan-modal-popup"
+  #freePlanUpgradeModel>
   <div class="user-avthar-power">
     <img
       ngSrc="assets/images\pricing-plan\full-power-plan/fully-upgrade-plan-power.svg"
       width="193"
       height="193"
-    />
+      />
   </div>
   <div class="modalbody p-0">
     <div class="modal-close" (click)="closeSelectedPopup('free_upgrade')">
@@ -1141,7 +1054,7 @@
         ngSrc="assets/images/pricing-plan/full-power-plan/fully-upgrade-plan-bg.svg"
         width="377"
         height="172"
-      />
+        />
     </div>
     <div class="upgrade-now-plan">
       <div class="u-n-p-header">{{ 'plan_unlock_full_power' | translate }}</div>
@@ -1154,13 +1067,12 @@
         <div
           class="plan-feature-desc"
           *ngFor="
-            let planFeature of [
-              'plan_access_all_connectors',
-              'plan_training_ui',
-              'plan_delivery_ai'
-            ]
-          "
-        >
+          let planFeature of [
+          'plan_access_all_connectors',
+          'plan_training_ui',
+          'plan_delivery_ai'
+          ]
+          ">
           <span class="icon-si"><i class="si-green-check"></i></span>
           {{ planFeature | translate }}
         </div>
@@ -1182,14 +1094,12 @@
 <kr-modal
   modalType="above-modal-drop"
   modalClass="modal_popups_ onboarding-Journy-Model"
-  #onboardingJournyModel
->
+  #onboardingJournyModel>
   <div class="main-block">
     <div class="left-section">
       <div
         class="close-pop-up"
-        (click)="closeSelectedPopup('onboardingJourny')"
-      >
+        (click)="closeSelectedPopup('onboardingJourny')">
         <i class="si-close"></i>
       </div>
       <div class="left-content-block">
@@ -1198,14 +1108,14 @@
             ngSrc="assets/images/pricing-plan/new-plan-pricing-img/search-assist-app-logo.svg"
             width="56"
             height="56"
-          />
+            />
         </div>
         <div class="brand-header-logo">
           <img
             ngSrc="assets/images/pricing-plan/new-plan-pricing-img/search-assist-logo-text.svg"
             width="157"
             height="20"
-          />
+            />
         </div>
         <div class="brand-trial-plan">
           {{ 'plan_welcome_to_30days_text' | translate }}
@@ -1216,15 +1126,14 @@
         <div class="brand-trial-plan-btn">
           <button
             class="kr-sg-button-primary btn_md"
-            (click)="closeSelectedPopup('onboardingJourny')"
-          >
+            (click)="closeSelectedPopup('onboardingJourny')">
             {{ 'plan_lets_explore' | translate }}
           </button>
         </div>
         <div class="brand-trial-plan-footer-text">
           <span class="hyper-text" (click)="exploreButton()">{{
             'plan_contact_us' | translate
-          }}</span>
+            }}</span>
           {{ 'plan_custom_enterprise_plan' | translate }}
         </div>
       </div>
@@ -1236,7 +1145,7 @@
         class="onboarding-journy-banner"
         width="411"
         height="450"
-      />
+        />
     </div>
   </div>
 </kr-modal>

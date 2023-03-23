@@ -1,6 +1,3 @@
-<app-useronboarding-journey
-  [componentType]="componentType"
-></app-useronboarding-journey>
 <div class="mainLoadingSpinner" *ngIf="!pageLoading">
   <mat-spinner diameter="18" strokeWidth="2"></mat-spinner>
   <span class="please-wait-message">{{ 'sa_please_wait' | translate }}</span>
@@ -346,241 +343,12 @@
                                 | translate
                             }}
                           </div>
-                          <div class="kr-sg-input-text mb-3">
-                            <div class="label-text">
-                              {{ 'connectors_name' | translate
-                              }}<sup class="field-mandatory">*</sup>
-                            </div>
-                            <input
-                              type="text"
-                              placeholder="{{
-                                'connectors_enter_name_here' | translate
-                              }}"
-                              class="input-text"
-                              [(ngModel)]="configurationObj.name"
-                              [ngClass]="{
-                                error: !configurationObj.name && validation
-                              }"
-                            />
-                          </div>
-                          <div class="kr-sg-input-text mb-3">
-                            <div class="label-text">
-                              {{ 'connectors_clientid' | translate
-                              }}<sup class="field-mandatory">*</sup>
-                            </div>
-                            <input
-                              [type]="
-                                showProtecedText.isClientShow
-                                  ? 'text'
-                                  : 'password'
-                              "
-                              placeholder="{{
-                                'connectors_paste_client_ID_here' | translate
-                              }}"
-                              class="input-text"
-                              [(ngModel)]="configurationObj.clientId"
-                              [ngClass]="{
-                                '!error':
-                                  !configurationObj.clientId && validation
-                              }"
-                            />
-                            <i
-                              class="si-eye"
-                              *ngIf="!showProtecedText.isClientShow"
-                              (click)="
-                                showProtecedText.isClientShow =
-                                  !showProtecedText.isClientShow
-                              "
-                            ></i>
-                            <i
-                              class="si-eyeshow"
-                              *ngIf="showProtecedText.isClientShow"
-                              (click)="
-                                showProtecedText.isClientShow =
-                                  !showProtecedText.isClientShow
-                              "
-                            ></i>
-                          </div>
-                          <div class="kr-sg-input-text mb-3">
-                            <div class="label-text">
-                              {{ 'connectors_clientsecretId' | translate
-                              }}<sup class="field-mandatory">*</sup>
-                            </div>
-                            <input
-                              [type]="
-                                showProtecedText.isSecretShow
-                                  ? 'text'
-                                  : 'password'
-                              "
-                              placeholder="{{
-                                'connectors_Paste_Secret_ID_here' | translate
-                              }}"
-                              class="input-text"
-                              [(ngModel)]="configurationObj.clientSecret"
-                              [ngClass]="{
-                                error:
-                                  !configurationObj.clientSecret && validation
-                              }"
-                            />
-                            <i
-                              class="si-eye"
-                              *ngIf="!showProtecedText.isSecretShow"
-                              (click)="
-                                showProtecedText.isSecretShow =
-                                  !showProtecedText.isSecretShow
-                              "
-                            ></i>
-                            <i
-                              class="si-eyeshow"
-                              *ngIf="showProtecedText.isSecretShow"
-                              (click)="
-                                showProtecedText.isSecretShow =
-                                  !showProtecedText.isSecretShow
-                              "
-                            ></i>
-                          </div>
-                          <div
-                            class="kr-sg-input-text mb-3"
-                            *ngIf="!['sharepointOnline','googleDrive'].includes(this.selectedConnector.type)"
-                          >
-                            <div class="label-text">
-                              {{ 'connectors_hostURL' | translate
-                              }}<sup class="field-mandatory">*</sup>
-                            </div>
-                            <input
-                              type="text"
-                              placeholder="{{
-                                'connectors_Enter_Host_URL_here' | translate
-                              }}"
-                              class="input-text"
-                              [(ngModel)]="configurationObj.hostUrl"
-                              [ngClass]="{
-                                error: !configurationObj.hostUrl && validation
-                              }"
-                            />
-                          </div>
-                          <div
-                            class="kr-sg-input-text mb-3"
-                            *ngIf="['sharepointOnline'].includes(this.selectedConnector.type)"
-                          >
-                            <div class="label-text">
-                              {{ 'connectors_tenant_id' | translate
-                              }}<sup class="field-mandatory">*</sup>
-                            </div>
-                            <input
-                              type="text"
-                              placeholder="{{
-                                'connectors_enter_tenant_id' | translate
-                              }}"
-                              class="input-text"
-                              [type]="
-                                showProtecedText.istenantIdShow
-                                  ? 'text'
-                                  : 'password'
-                              "
-                              [(ngModel)]="configurationObj.tenantId"
-                              [ngClass]="{
-                                error: !configurationObj.tenantId && validation
-                              }"
-                            />
-                            <i
-                              class="si-eye"
-                              *ngIf="!showProtecedText.istenantIdShow"
-                              (click)="
-                                showProtecedText.istenantIdShow =
-                                  !showProtecedText.istenantIdShow
-                              "
-                            ></i>
-                            <i
-                              class="si-eyeshow"
-                              *ngIf="showProtecedText.istenantIdShow"
-                              (click)="
-                                showProtecedText.istenantIdShow =
-                                  !showProtecedText.istenantIdShow
-                              "
-                            ></i>
-                          </div>
-                          <div
-                            class="kr-sg-input-text mb-3"
-                            *ngIf="!['serviceNow','zendesk','sharepointOnline','googleDrive'].includes(this.selectedConnector.type)"
-                          >
-                            <div class="label-text">
-                              {{ 'connectors_host_domain_name' | translate
-                              }}<sup class="field-mandatory">*</sup>
-                            </div>
-                            <input
-                              type="text"
-                              placeholder="{{
-                                'connectors_Enter_Host_URL_here' | translate
-                              }}"
-                              class="input-text"
-                              [(ngModel)]="configurationObj.hostDomainName"
-                              [ngClass]="{
-                                error:
-                                  !configurationObj.hostDomainName && validation
-                              }"
-                            />
-                          </div>
-                          <ng-container
-                            *ngIf="['serviceNow'].includes(this.selectedConnector.type)"
-                          >
-                            <div class="kr-sg-input-text mb-3">
-                              <div class="label-text">
-                                {{ 'connectors_username' | translate
-                                }}<sup class="field-mandatory">*</sup>
-                              </div>
-                              <input
-                                type="text"
-                                placeholder="{{
-                                  'connectors_Enter_username_here' | translate
-                                }}"
-                                class="input-text"
-                                [(ngModel)]="configurationObj.username"
-                                [ngClass]="{
-                                  error:
-                                    !configurationObj.username && validation
-                                }"
-                              />
-                            </div>
-                            <div class="kr-sg-input-text">
-                              <div class="label-text">
-                                {{ 'connectors_password' | translate
-                                }}<sup class="field-mandatory">*</sup>
-                              </div>
-                              <input
-                                [type]="
-                                  showProtecedText.isPassword
-                                    ? 'text'
-                                    : 'password'
-                                "
-                                placeholder="{{
-                                  'connectors_enter_password_here' | translate
-                                }}"
-                                class="input-text"
-                                [(ngModel)]="configurationObj.password"
-                                [ngClass]="{
-                                  error:
-                                    !configurationObj.password && validation
-                                }"
-                              />
-                              <i
-                                class="si-eye"
-                                *ngIf="!showProtecedText.isPassword"
-                                (click)="
-                                  showProtecedText.isPassword =
-                                    !showProtecedText.isPassword
-                                "
-                              ></i>
-                              <i
-                                class="si-eyeshow"
-                                *ngIf="showProtecedText.isPassword"
-                                (click)="
-                                  showProtecedText.isPassword =
-                                    !showProtecedText.isPassword
-                                "
-                              ></i>
-                            </div>
+
+                          <!-- Connector input component -->
+                          <ng-container *ngFor="let obj of connectorsObject">
+                            <app-connector-input *ngIf="obj?.connectors?.includes(selectedConnector?.type)" [properties]="obj" (inputChanges)="updateConnectorObject($event)"></app-connector-input>
                           </ng-container>
+
                         </div>
                       </div>
                     </div>
@@ -619,7 +387,7 @@
               <div class="left-btn">
                 <button
                   class="kr-sg-button-secondary btn_lg"
-                  (click)="backToPage('back'); validation = false"
+                  (click)="backToPage('back')"
                   *ngIf="selectAddContent !== 'instructions'"
                 >
                   {{ 'connectors_back_button' | translate }}
@@ -628,7 +396,7 @@
               <div class="right-btn">
                 <button
                   class="kr-sg-button-secondary btn_lg"
-                  (click)="backToPage('cancel'); validation = false"
+                  (click)="backToPage('cancel')"
                 >
                   {{ 'connectors_cancel_button' | translate }}
                 </button>
@@ -643,12 +411,6 @@
                   class="kr-sg-button-primary btn_lg"
                   *ngIf="selectAddContent === 'configurtion'"
                   (click)="backToPage('submit')"
-                  [disabled]="
-                    !(
-                      configurationObj?.clientId?.length &&
-                      configurationObj?.clientSecret?.length
-                    )
-                  "
                 >
                   {{ 'connectors_save_configuration' | translate }}
                 </button>
@@ -671,7 +433,7 @@
           <div class="back-to-block">
             <div
               class="back-to-page"
-              (click)="backToPage('cancel'); validation = false"
+              (click)="backToPage('cancel')"
             >
               <i class="si-carrotup"></i>
             </div>
@@ -750,6 +512,7 @@
                             </div>
                           </div>
                         </ng-container>
+                        <div class="no-content-data" *ngIf="overViewData?.overview?.length===0">{{"connectors_no_results"|translate}}</div>
                       </perfect-scrollbar>
                     </div>
                     <div class="source-data">
@@ -761,21 +524,21 @@
                           <button
                             class="kr-sg-button-primary btn_lg"
                             [ngStyle]="{
-                              background: isSyncLoading ? '#85B7FE' : '#0D6EFD'
+                              background: (isSyncLoading&&!isSyncLoadingMouseOver) ? '#85B7FE' : '#0D6EFD'
                             }"
-                            (click)="
-                              isSyncLoading ? null : ingestConnector(true)
-                            "
+                            (click)="isSyncLoading ? isSyncLoadingMouseOver?stopSynchronizeConnector():null : ingestConnector(true)"
+                            (mouseover)="syncMouseOver('over')"
+                            (mouseout)="syncMouseOver('out')"
                           >
                             <span
                               class="loader-spin-inside-btn"
-                              *ngIf="isSyncLoading"
-                            ></span
-                            >{{
-                              isSyncLoading
-                                ? ('connectors_sync_progress' | translate)
-                                : ('connectors_synchronize_content_now'
-                                  | translate)
+                              *ngIf="isSyncLoading&&!isSyncLoadingMouseOver"
+                            ></span>
+                            <span class="si-close font-size-12" *ngIf="isSyncLoading&&isSyncLoadingMouseOver"></span>
+                            {{
+                              (isSyncLoading
+                                ? isSyncLoadingMouseOver?'connectors_sync_stop':'connectors_sync_progress'
+                                : 'connectors_synchronize_content_now')| translate
                             }}
                           </button>
                         </div>
@@ -809,232 +572,12 @@
                       }}</span>
                     </div>
                     <div class="connection-settings-form">
-                      <div class="kr-sg-input-text mb-3">
-                        <div class="label-text">
-                          {{ 'connectors_name' | translate
-                          }}<sup class="field-mandatory">*</sup>
-                        </div>
-                        <input
-                          class="input-text"
-                          placeholder="{{
-                            'connectors_enter_name_here' | translate
-                          }}"
-                          type="text"
-                          [(ngModel)]="configurationObj.name"
-                          [ngClass]="{
-                            error: !configurationObj.name && validation
-                          }"
-                        />
-                        <!-- <i class="si-eye"></i> -->
-                      </div>
-                      <div class="kr-sg-input-text mb-3">
-                        <div class="label-text">
-                          {{ 'connectors_clientid' | translate
-                          }}<sup class="field-mandatory">*</sup>
-                        </div>
-                        <input
-                          class="input-text"
-                          placeholder="{{
-                            'connectors_paste_client_ID_here' | translate
-                          }}"
-                          [type]="
-                            showProtecedText.isClientShow ? 'text' : 'password'
-                          "
-                          [(ngModel)]="configurationObj.clientId"
-                          [ngClass]="{
-                            error: !configurationObj.clientId && validation
-                          }"
-                        />
-                        <i
-                          class="si-eye"
-                          *ngIf="!showProtecedText.isClientShow"
-                          (click)="
-                            showProtecedText.isClientShow =
-                              !showProtecedText.isClientShow
-                          "
-                        ></i>
-                        <i
-                          class="si-eyeshow"
-                          *ngIf="showProtecedText.isClientShow"
-                          (click)="
-                            showProtecedText.isClientShow =
-                              !showProtecedText.isClientShow
-                          "
-                        ></i>
-                      </div>
-                      <div class="kr-sg-input-text mb-3">
-                        <div class="label-text">
-                          {{ 'connectors_clientsecretId' | translate
-                          }}<sup class="field-mandatory">*</sup>
-                        </div>
-                        <input
-                          class="input-text"
-                          placeholder="{{
-                            'connectors_Paste_Secret_ID_here' | translate
-                          }}"
-                          [type]="
-                            showProtecedText.isSecretShow ? 'text' : 'password'
-                          "
-                          [(ngModel)]="configurationObj.clientSecret"
-                          [ngClass]="{
-                            error: !configurationObj.clientSecret && validation
-                          }"
-                        />
-                        <i
-                          class="si-eye"
-                          *ngIf="!showProtecedText.isSecretShow"
-                          (click)="
-                            showProtecedText.isSecretShow =
-                              !showProtecedText.isSecretShow
-                          "
-                        ></i>
-                        <i
-                          class="si-eyeshow"
-                          *ngIf="showProtecedText.isSecretShow"
-                          (click)="
-                            showProtecedText.isSecretShow =
-                              !showProtecedText.isSecretShow
-                          "
-                        ></i>
-                      </div>
-                      <div
-                        class="kr-sg-input-text mb-3"
-                        *ngIf="!['sharepointOnline','googleDrive'].includes(this.selectedConnector.type)"
-                      >
-                        <div class="label-text">
-                          {{ 'connectors_hostURL' | translate
-                          }}<sup class="field-mandatory">*</sup>
-                        </div>
-                        <input
-                          type="text"
-                          placeholder="{{
-                            'connectors_Enter_Host_URL_here' | translate
-                          }}"
-                          class="input-text"
-                          [(ngModel)]="configurationObj.hostUrl"
-                          [ngClass]="{
-                            error: !configurationObj.hostUrl && validation
-                          }"
-                        />
-                      </div>
-                      <div
-                        class="kr-sg-input-text mb-3"
-                        *ngIf="!['serviceNow','zendesk','sharepointOnline','googleDrive'].includes(this.selectedConnector.type)"
-                      >
-                        <div class="label-text">
-                          {{ 'connectors_host_domain_name' | translate
-                          }}<sup class="field-mandatory">*</sup>
-                        </div>
-                        <input
-                          type="text"
-                          placeholder="{{
-                            'connectors_enter_host_domainname_here' | translate
-                          }}"
-                          class="input-text"
-                          [(ngModel)]="configurationObj.hostDomainName"
-                          [ngClass]="{
-                            error:
-                              !configurationObj.hostDomainName && validation
-                          }"
-                        />
-                      </div>
-                      <div
-                        class="kr-sg-input-text mb-3"
-                        *ngIf="['sharepointOnline'].includes(this.selectedConnector.type)"
-                      >
-                        <div class="label-text">
-                          {{ 'connectors_tenant_id' | translate
-                          }}<sup class="field-mandatory">*</sup>
-                        </div>
-                        <input
-                          type="text"
-                          placeholder="{{
-                            'connectors_enter_tenant_id' | translate
-                          }}"
-                          class="input-text"
-                          [type]="
-                            showProtecedText.istenantIdShow
-                              ? 'text'
-                              : 'password'
-                          "
-                          [(ngModel)]="configurationObj.tenantId"
-                          [ngClass]="{
-                            error: !configurationObj.tenantId && validation
-                          }"
-                        />
-                        <i
-                          class="si-eye"
-                          *ngIf="!showProtecedText.istenantIdShow"
-                          (click)="
-                            showProtecedText.istenantIdShow =
-                              !showProtecedText.istenantIdShow
-                          "
-                        ></i>
-                        <i
-                          class="si-eyeshow"
-                          *ngIf="showProtecedText.istenantIdShow"
-                          (click)="
-                            showProtecedText.istenantIdShow =
-                              !showProtecedText.istenantIdShow
-                          "
-                        ></i>
-                      </div>
-                      <ng-container
-                        *ngIf="['serviceNow'].includes(this.selectedConnector.type)"
-                      >
-                        <div class="kr-sg-input-text mb-3">
-                          <div class="label-text">
-                            {{ 'connectors_username' | translate
-                            }}<sup class="field-mandatory">*</sup>
-                          </div>
-                          <input
-                            type="text"
-                            placeholder="{{
-                              'connectors_Enter_username_here' | translate
-                            }}"
-                            class="input-text"
-                            [(ngModel)]="configurationObj.username"
-                            [ngClass]="{
-                              error: !configurationObj.username && validation
-                            }"
-                          />
-                        </div>
-                        <div class="kr-sg-input-text mb-3">
-                          <div class="label-text">
-                            {{ 'connectors_password' | translate
-                            }}<sup class="field-mandatory">*</sup>
-                          </div>
-                          <input
-                            [type]="
-                              showProtecedText.isPassword ? 'text' : 'password'
-                            "
-                            placeholder="{{
-                              'connectors_enter_password_here' | translate
-                            }}"
-                            class="input-text"
-                            [(ngModel)]="configurationObj.password"
-                            [ngClass]="{
-                              error: !configurationObj.password && validation
-                            }"
-                          />
-                          <i
-                            class="si-eye"
-                            *ngIf="!showProtecedText.isPassword"
-                            (click)="
-                              showProtecedText.isPassword =
-                                !showProtecedText.isPassword
-                            "
-                          ></i>
-                          <i
-                            class="si-eyeshow"
-                            *ngIf="showProtecedText.isPassword"
-                            (click)="
-                              showProtecedText.isPassword =
-                                !showProtecedText.isPassword
-                            "
-                          ></i>
-                        </div>
+
+                       <!-- Connector input component -->
+                       <ng-container *ngFor="let obj of connectorsObject">
+                        <app-connector-input *ngIf="obj?.connectors?.includes(selectedConnector?.type)" [properties]="obj" [valueData]="configurationObj[obj?.value]" (inputChanges)="updateConnectorObject($event)"></app-connector-input>
                       </ng-container>
+
                     </div>
                   </div>
                 </perfect-scrollbar>
@@ -1465,15 +1008,10 @@
                             <div
                               class="col-2"
                               [ngStyle]="{
-                                color:
-                                  job?.status === 'SUCCESS'
-                                    ? 'green'
-                                    : job?.status === 'INPROGRESS'
-                                    ? 'black'
-                                    : 'red'
+                                'color':job?.color
                               }"
                             >
-                              {{ job?.status | titlecase }}
+                              {{ job?.status_name | titlecase }}
                             </div>
                             <div class="col-3">
                               {{ job?.startedAt | date : 'd/M/yyyy, h:mm:s a' }}

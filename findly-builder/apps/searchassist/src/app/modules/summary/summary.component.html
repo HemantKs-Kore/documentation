@@ -33,20 +33,17 @@
 
             <div class="count-graph-data">
               <div class="count-sec">
-                <div class="cont-up-down">
+                <div class="cont-up-down {{totalUsersStats?.percentageIncrease < 0&&'fail'}}">
                   <span
                     class="bg-type"
-                    [ngClass]="{
-                      fail: totalUsersStats?.percentageIncrease < 0
-                    }"
                   >
-                    <i class="si-sort-down"></i>
+                    <i class="{{totalUsersStats?.percentageIncrease>=0?'si-sort-up':'si-sort-down'}}"></i>
                   </span>
                   {{ math.abs(totalUsersStats?.percentageIncrease) }}%
                 </div>
                 <div class="count">{{ totalUsersStats?.totalUsers }}</div>
               </div>
-              <div class="graph-sec">
+              <div class="graph-sec" *ngIf="totalUsersStats?.percentageIncrease>0">
                 <img
                   src="assets/images/pricing-plan/landing-page/{{
                     totalUsersStats?.percentageIncrease >= 0
@@ -96,18 +93,17 @@
 
             <div class="count-graph-data">
               <div class="count-sec">
-                <div class="cont-up-down">
+                <div class="cont-up-down {{totalSearchesStats?.searchRate < 0&&'fail'}}">
                   <span
                     class="bg-type"
-                    [ngClass]="{ fail: totalSearchesStats?.searchRate < 0 }"
                   >
-                    <i class="si-sort-down"></i>
+                    <i class="{{totalSearchesStats?.searchRate>=0?'si-sort-up':'si-sort-down'}}"></i>
                   </span>
                   {{ math.abs(totalSearchesStats?.searchRate) }}%
                 </div>
                 <div class="count">{{ totalSearchesStats?.totalSearches }}</div>
               </div>
-              <div class="graph-sec">
+              <div class="graph-sec" *ngIf="totalSearchesStats?.searchRate>0">
                 <img
                   src="assets/images/pricing-plan/landing-page/{{
                     totalSearchesStats?.searchRate >= 0
@@ -157,14 +153,11 @@
 
             <div class="count-graph-data">
               <div class="count-sec">
-                <div class="cont-up-down">
+                <div class="cont-up-down {{totalSearchesStats?.increasedResultRate < 0&&'fail'}}">
                   <span
                     class="bg-type"
-                    [ngClass]="{
-                      fail: totalSearchesStats?.increasedResultRate < 0
-                    }"
                   >
-                    <i class="si-sort-down"></i>
+                    <i class="{{totalSearchesStats?.increasedResultRate>=0?'si-sort-up':'si-sort-down'}}"></i>
                   </span>
                   {{ 'overview_Result_rate' | translate }}:
                   {{ math.abs(totalSearchesStats?.increasedResultRate) }}%
@@ -177,7 +170,7 @@
                   }}
                 </div>
               </div>
-              <div class="graph-sec">
+              <div class="graph-sec" *ngIf="totalSearchesStats?.increasedResultRate>0">
                 <img
                   src="assets/images/pricing-plan/landing-page/{{
                     totalSearchesStats?.increasedResultRate >= 0
@@ -227,14 +220,11 @@
 
             <div class="count-graph-data">
               <div class="count-sec">
-                <div class="cont-up-down">
+                <div class="cont-up-down {{totalUsersStats?.percentageIncrease < 0&&'fail'}}">
                   <span
-                    class="bg-type"
-                    [ngClass]="{
-                      fail: totalUsersStats?.percentageIncrease < 0
-                    }"
+                    class="bg-type"                    
                   >
-                    <i class="si-sort-down"></i>
+                    <i class="{{totalUsersStats?.percentageIncrease>=0?'si-sort-up':'si-sort-down'}}"></i>
                   </span>
                   {{ 'overview_CTR' | translate }}:
                   {{ math.abs(totalSearchesStats?.ctr) }}%
@@ -509,9 +499,7 @@
             <div class="queries-documents">
               <div class="query-type w-100">
                 <div class="range-data">
-                  <div
-                    class="d-flex align-items-center justify-content-between"
-                  >
+                  <div class="d-flex align-items-center justify-content-between">
                     <div class="title-query">
                       <img src="assets/icons/overview/question.svg" />{{
                         'overview_query_limit' | translate
@@ -519,23 +507,22 @@
                     </div>
                     <div
                       class="count-type d-flex align-items-center"
-                      *ngIf="usageDetails?.searchLimit"
                     >
                       <div class="range-count">
                         <span>{{ usageDetails?.searchCount }}</span
-                        ><span class="range-count-out">{{
+                        ><span class="range-count-out" *ngIf="usageDetails?.searchLimit">{{
                           'overview_Out_of' | translate
                         }}</span
-                        ><span>{{
+                        ><span *ngIf="usageDetails?.searchLimit">{{
                           usageDetails?.searchLimit | valueFormat
                         }}</span>
                       </div>
-                      <div class="range-percent">
+                      <div class="range-percent" *ngIf="usageDetails?.queryPercentageUsed">
                         {{ usageDetails?.queryPercentageUsed }}%
                       </div>
                     </div>
                   </div>
-                  <div style="margin-top: 6px">
+                  <div style="margin-top: 6px" *ngIf="usageDetails?.searchLimit">
                     <ngb-progressbar
                       height="6px"
                       [type]="
@@ -547,7 +534,7 @@
                           : 'primary'
                       "
                       [value]="usageDetails?.queryPercentageUsed"
-                      max="100"
+                      [max]="usageDetails?.searchLimit"
                     ></ngb-progressbar>
                   </div>
                 </div>

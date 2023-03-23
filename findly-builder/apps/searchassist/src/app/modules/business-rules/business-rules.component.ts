@@ -215,7 +215,7 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
     public mixpanel: MixpanelServiceService,
     private appSelectionService: AppSelectionService,
     private storeService: StoreService
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.initAppIds();
@@ -1723,7 +1723,7 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
           (item) => item._id === total_entities[i].entityId
         );
         const applyColor = this.entityDefaultColors.filter(
-          (item) => item.type === entity[0].entityType
+          (item) => item.type === entity[0]?.entityType
         );
         const entityName =
           entity[0].entityName.charAt(0).toUpperCase() +
@@ -1893,23 +1893,6 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
     this.filterSystem.isRuleActiveFilter = 'all';
     this.skip = 0;
     this.getRules();
-    // this.rules = this.allRules?.filter(item => {
-    //   if (type === 'contextual') {
-    //     return (item?.ruleType === type || item?.ruleType === null)
-    //   } else {
-    //     return item?.ruleType === type
-    //   }
-
-    // });
-
-    // this.beforeFilterRules = JSON.parse(JSON.stringify(this.rules));
-    // if (this.rules.length > 0) {
-    //   this.loadingContent = false;
-    //   this.loadingContent1 = false;
-    // }
-    // else {
-    //   this.loadingContent1 = true;
-    // }
   }
 
   //delete annotator using index
@@ -1945,7 +1928,7 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
               const entityName = res?.entities?.filter(
                 (ent) => ent._id === entity.entityId
               );
-              if (!chips.includes(entityName[0].entityName)) {
+              if (entityName?.length > 0 && !chips.includes(entityName[0].entityName)) {
                 chips.push(entityName[0].entityName);
               }
             }
@@ -2059,8 +2042,8 @@ export class BusinessRulesComponent implements OnInit, OnDestroy {
     const isExist =
       this.nlpAnnotatorObj.Legends.length > 0
         ? this.nlpAnnotatorObj.Legends.some(
-            (item) => item.name === entity?.entityName
-          )
+          (item) => item.name === entity?.entityName
+        )
         : false;
     return isExist;
   }

@@ -57,7 +57,7 @@
                         </div>
                          
                         <!-- Paragraph / list snippet code -->
-                        <ng-container *ngIf="['paragraph_snippet','list_snippet'].includes(answer.type)">
+                        <ng-container *ngIf="['paragraph_snippet','list_snippet','list_element_snippet'].includes(answer.type)">
                         <div class="ans-evaluvation-title text-title-truncate" [title]="answer?.snippet_title" [innerHTML]="convertMDtoHTML?.helpers?.convertMDtoHTML(answer?.snippet_title)"></div>
                         <div class="ans-evaluvation-desc {{(answer?.isNoAnswer||answer?.snippet_content?.length===0)&&'d-none'}}" *ngIf="_array?.isArray(answer?.snippet_content) else contentTemp">
                              <div *ngFor="let snippetContent of answer?.snippet_content;let i=index;">
@@ -65,7 +65,8 @@
                              </div>
                         </div>
                          <ng-template #contentTemp>
-                            <div class="ans-evaluvation-desc {{(answer?.isNoAnswer||answer?.snippet_content?.length===0)&&'d-none'}}" [innerHTML]="convertMDtoHTML?.helpers?.convertMDtoHTML(answer?.snippet_content)"></div>
+                            <div #readMoreText class="ans-evaluvation-desc {{(answer?.isNoAnswer||answer?.snippet_content?.length===0)&&'d-none'}}" [innerHTML]="convertMDtoHTML?.helpers?.convertMDtoHTML(answer?.snippet_content)"></div>
+                            <span class="read-more" *ngIf="isShowReadMore&&answer?.snippet_type==='extractive_model'" (click)="showLessMore()">{{(isReadMore?"answer_snippet_read_more":"answer_snippet_read_less")|translate}}</span>
                          </ng-template>
                        
                         <div class="ans-source" *ngIf="answer?.source">

@@ -102,7 +102,6 @@ export class MainMenuComponent implements OnInit, OnDestroy {
   selectedIndexConfig: any = {};
   subscription: Subscription;
   indexSub: Subscription;
-  routeChanged: Subscription;
   queryConfigsSubscription: Subscription;
   editName = false;
   editNameVal = '';
@@ -608,6 +607,7 @@ export class MainMenuComponent implements OnInit, OnDestroy {
       this.appSelectionService.currentSubscription.subscribe((res) => {
         this.currentSubscriptionPlan = res;
         this.getSubscriptionData();
+        this.isRouteDisabled = res?.appDisabled;
       });
 
     this.initIndexPipeLines();
@@ -617,13 +617,6 @@ export class MainMenuComponent implements OnInit, OnDestroy {
       (res) => {
         if (res == 'updatedUsage') {
           this.usageDetails = this.appSelectionService?.currentUsageData;
-        }
-      }
-    );
-    this.routeChanged = this.appSelectionService.routeChanged.subscribe(
-      (res) => {
-        if (res.name != undefined) {
-          this.isRouteDisabled = res?.disable;
         }
       }
     );
@@ -872,7 +865,6 @@ export class MainMenuComponent implements OnInit, OnDestroy {
       ? this.currentSubsciptionData.unsubscribe()
       : false;
     this.updateUsageData ? this.updateUsageData.unsubscribe() : false;
-    this.routeChanged ? this.routeChanged.unsubscribe() : null;
     this.queryConfigsSubscription
       ? this.queryConfigsSubscription.unsubscribe()
       : false;

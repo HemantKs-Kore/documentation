@@ -1,11 +1,9 @@
 import {
   Component,
-  ChangeDetectionStrategy,
   OnInit,
   ViewChild,
   OnDestroy,
-  ElementRef,
-  ChangeDetectorRef,
+  ElementRef
 } from '@angular/core';
 import { KRModalComponent } from '../../../shared/kr-modal/kr-modal.component';
 import { MatDialog } from '@angular/material/dialog';
@@ -23,8 +21,7 @@ import { MixpanelServiceService } from '@kore.apps/services/mixpanel-service.ser
 @Component({
   selector: 'app-plan-details',
   templateUrl: './plan-details.component.html',
-  styleUrls: ['./plan-details.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  styleUrls: ['./plan-details.component.scss']
 })
 export class PlanDetailsComponent implements OnInit, OnDestroy {
   queryGraph: any;
@@ -50,7 +47,6 @@ export class PlanDetailsComponent implements OnInit, OnDestroy {
   ];
   cancellationCheckboxText: any = this.cancellationCheckboxObj;
   termPlan = 'Monthly';
-  pageLoading = true;
   btnLoader = false;
   bannerObj = { msg: '', show: false, type: '' };
   currentSubscriptionPlan: any = {};
@@ -61,11 +57,12 @@ export class PlanDetailsComponent implements OnInit, OnDestroy {
   currentSubsciptionData: Subscription;
   updateUsageData: Subscription;
   usageDetails: any = {};
-  monthRange = 'Jan - June';
-  isyAxisDocumentdata = true;
-  isyAxisQuerydata = true;
   planNames: object = plansName;
   currentPlanDetails: Array<object> = [];
+  isNoUsageMetricsData: boolean = false;
+  usageMetricsData: Array<any> = [];
+  isUsageMetricsLoading: Boolean = true;
+  avgQueryData: any = { queries: 0, overages: 0 };
 
   constructor(
     public workflowService: WorkflowService,
@@ -74,9 +71,8 @@ export class PlanDetailsComponent implements OnInit, OnDestroy {
     private notificationService: NotificationService,
     private appSelectionService: AppSelectionService,
     public localstore: LocalStoreService,
-    private cd: ChangeDetectorRef,
-    public mixpanel: MixpanelServiceService
-  ) {}
+    public mixpanel: MixpanelServiceService,
+  ) { }
 
   @ViewChild('cancelSubscriptionModel')
   cancelSubscriptionModel: KRModalComponent;
@@ -87,15 +83,12 @@ export class PlanDetailsComponent implements OnInit, OnDestroy {
   @ViewChild('datetimeTrigger') datetimeTrigger: ElementRef<HTMLElement>;
 
   async ngOnInit() {
-    // await this.appSelectionService.getCurrentUsage();
-    this.refreshAnalytics();
+    await this.appSelectionService.getCurrentSubscriptionData();
     this.currentSubscriptionPlan =
       this.appSelectionService?.currentsubscriptionPlanDetails;
     this.currentSubsciptionData =
       this.appSelectionService.currentSubscription.subscribe((res) => {
         this.currentSubscriptionPlan = res;
-        this.cd.detectChanges();
-        this.getSubscriptionData();
       });
     this.updateUsageData = this.appSelectionService.updateUsageData.subscribe(
       (res) => {
@@ -123,10 +116,31 @@ export class PlanDetailsComponent implements OnInit, OnDestroy {
     }
   }
 
+  //get usage metrics data from API
+  getUsageMetricsData() {
+    const queryParam = {
+      streamId: this.selectedApp._id,
+    };
+    const payload = {
+    };
+    this.service.invoke('post.usageMetrics', queryParam, payload).subscribe(
+      (res) => {
+        if (res) {
+          this.usageMetricsData = res?.searchData;
+          this.pricingChart();
+        }
+      },
+      (errRes) => {
+        this.isUsageMetricsLoading = false;
+        this.errorToaster(errRes, 'failed to get usage metrics data');
+      }
+    );
+  }
+
   //getsubscription data
   getSubscriptionData() {
+    this.getUsageMetricsData();
     this.updateUsageDetails();
-    this.pricingChart();
   }
 
   //show or hide banner
@@ -235,7 +249,7 @@ export class PlanDetailsComponent implements OnInit, OnDestroy {
     const emailId = userInfo?.currentAccount?.userInfo?.emailId;
     const currentPlanName =
       this.currentSubscriptionPlan?.subscription?.billing?.unit &&
-      this.currentSubscriptionPlan?.subscription?.planName !== 'Enterprise'
+        this.currentSubscriptionPlan?.subscription?.planName !== 'Enterprise'
         ? `${this.currentSubscriptionPlan?.subscription?.planName} Plan(${this.currentSubscriptionPlan?.subscription?.billing?.unit})`
         : this.currentSubscriptionPlan?.subscription?.planName + ' Plan';
     const payload = {
@@ -268,59 +282,72 @@ export class PlanDetailsComponent implements OnInit, OnDestroy {
 
   //Grap data
   pricingChart() {
-    let xAxisQueryData = [];
-    const years = [];
-    const yAxisQueryData = [];
-    let barQueColor = '#7027E5';
-    if (
-      this.currentSubscriptionPlan &&
-      this.currentSubscriptionPlan.analytics &&
-      this.currentSubscriptionPlan.analytics.search
-    ) {
-      this.currentSubscriptionPlan.analytics.search.forEach((element) => {
-        xAxisQueryData.push(element.month);
-        yAxisQueryData.push(element.total);
-        years.push(2023);
-      });
+    let month = [], year = [], queriesData = [], overagesData = [];
+    const monthsFull = { "01": "January", "02": "February", "03": "March", "04": "April", "05": "May", "06": "June", "07": "July", "08": "August", "09": "September", "10": "October", "11": "November", "12": "December" };
+    const months = { "01": "Jan", "02": "Feb", "03": "Mar", "04": "Apr", "05": "May", "06": "Jun", "07": "Jul", "08": "Aug", "09": "Sep", "10": "Oct", "11": "Nov", "12": "Dec" };
+
+    for (let item of this.usageMetricsData) {
+      const start_date = item?.startDate?.split(' ');
+      const end_date = item?.endDate?.split(' ');
+      let startDate = start_date[0]?.split('-');
+      let endDate = end_date[0]?.split('-');
+      const monthRange = months[startDate[1]] + '-' + months[endDate[1]];
+      year.push(startDate[0]);
+      month.push(monthRange);
+      const monthTo = startDate[2] + ' ' + monthsFull[startDate[1]] + ' to ' + endDate[2] + ' ' + monthsFull[endDate[1]];
+      const queriesCountFormat = this.numberFormat(item?.queriesCount);
+      const overagesCountFormat = this.numberFormat(item?.overageQueriesCount);
+      const total_value = this.numberFormat(item?.total);
+
+      queriesData.push({ value: item?.queriesCount, total: total_value, search: queriesCountFormat, overage: overagesCountFormat, type: "Queries", month: monthTo });
+      overagesData.push({ value: item?.overageQueriesCount, total: total_value, search: queriesCountFormat, overage: overagesCountFormat, type: "Overages", month: monthTo });
     }
-    if (xAxisQueryData.length == 0) {
-      xAxisQueryData = ['Jan', 'Feb', 'Apr', 'May', 'Jun'];
+
+    this.avgQueryData.queries = queriesData?.length > 0 ? (queriesData.reduce((acc, obj) => (acc + obj?.value), 0) / queriesData.length).toFixed(0) : 0;
+    this.avgQueryData.overage = (overagesData.reduce((acc, obj) => (acc + obj?.value), 0) / overagesData.length).toFixed(0);
+    const total_queries = Number(this.avgQueryData.queries) + Number(this.avgQueryData.overage);
+    this.isNoUsageMetricsData = this.usageMetricsData.every(item => item.total === 0);
+
+    if (this.isNoUsageMetricsData) {
+      month = ['Jan-Feb', 'Feb-Mar', 'Mar-Apr', 'Apr-May', 'May-jun', 'Jun-Jul'];
+      year = [2023, 2023, 2023, 2023, 2023, 2023];
     }
-    if (Math.max(...yAxisQueryData) == 0 || yAxisQueryData.length == 0) {
-      this.isyAxisQuerydata = false;
-      barQueColor = '#EFF0F1';
-    } else {
-      this.isyAxisQuerydata = true;
-      barQueColor = '#7027E5';
-    }
-    xAxisQueryData.length
-      ? (this.monthRange =
-          xAxisQueryData[0] + ' - ' + xAxisQueryData[xAxisQueryData.length - 1])
-      : (this.monthRange = 'Jan - June');
+
+    // const currentUsageData = this.appSelectionService?.currentUsageData;
+    // const yAxisData = currentUsageData?.searchLimit + (currentUsageData?.overageSearchLimit || 0) * 50000;
+
     this.queryGraph = {
       tooltip: {
         trigger: 'item',
         axisPointer: {
-          type: 'none',
+          type: 'none'
         },
-        formatter: `<div class="pricing-hover-tooltip">
+        formatter: (param) => {
+          return `<div class="pricing-hover-tooltip">
         <div class="row-data-info">
           <i class="si-interuptions"></i>
-          <span class="count-text">{c0}</span>
-          <span class="title">{a0}</span>
+          <span class="count-text">${param?.data?.search} ${param?.data?.type}</span>
         </div>
-      </div>`,
+        <div class="row-data-info">
+          <span class="info-text"><span class="queries-bar"></span> ${param?.data?.total} Queries</span>
+          <span class="info-text ${param?.data?.overage === 0 && 'd-none'}"><span class="overages-bar"></span> ${param?.data?.overage} Overages</span>
+        </div>
+        <div class="row-data-info">
+          <span class="info-text">${param?.data?.month}</span>
+        </div>
+      </div>`
+        }
       },
       grid: {
         left: '3%',
         right: '4%',
         bottom: '3%',
-        containLabel: true,
+        containLabel: true
       },
       xAxis: [
         {
           type: 'category',
-          data: xAxisQueryData,
+          data: month,
           axisLine: {
             show: false,
           },
@@ -337,27 +364,53 @@ export class PlanDetailsComponent implements OnInit, OnDestroy {
           axisTick: {
             show: false,
           },
-          data: years,
-        },
+          data: year,
+        }
       ],
-      yAxis: {
-        type: 'value',
-        boundaryGap: [0, 0.01],
-      },
+      yAxis: [
+        {
+          type: 'value',
+          min: 0,
+          max: this.isNoUsageMetricsData && 5000 || total_queries,
+          axisLabel: {
+            formatter: (value) => {
+              return `${this.numberFormat(value)}`
+            }
+          }
+        }
+      ],
       series: [
         {
           name: 'Queries',
           type: 'bar',
-          data: yAxisQueryData,
+          stack: 'Ad',
+          data: queriesData,
           barWidth: 10,
-          barCategoryGap: '10%',
           itemStyle: { normal: { color: '#B893F2' } },
-          emphasis: { itemStyle: { color: '#7027E5' } },
+          emphasis: { itemStyle: { color: '#7027E5' } }
         },
-      ],
-    };
+        {
+          name: 'Overages',
+          type: 'bar',
+          stack: 'Ad',
+          itemStyle: { normal: { color: '#FF784B' } },
+          emphasis: { itemStyle: { color: '#FF784B' } },
+          data: overagesData,
+          barWidth: 10
+        }
+      ]
+    }
+    this.isUsageMetricsLoading = false;
+  }
 
-    this.cd.detectChanges();
+  //convert to number format
+  numberFormat(num) {
+    const suffixes = ['K', 'M', 'G', 'T', 'P', 'E'];
+    if (num < 1000) {
+      return num;
+    }
+    const exp = Math.floor(Math.log(num) / Math.log(1000));
+    return (num / Math.pow(1000, exp)) + suffixes[exp - 1];
   }
 
   //renew | revert cancel subscription
@@ -427,6 +480,7 @@ export class PlanDetailsComponent implements OnInit, OnDestroy {
 
   //whenever we refresh we should fetch analytics data
   refreshAnalytics() {
+    this.isUsageMetricsLoading = true;
     this.appSelectionService?.getCurrentSubscriptionData();
   }
 

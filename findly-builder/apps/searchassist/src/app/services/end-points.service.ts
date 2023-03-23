@@ -610,11 +610,13 @@ export class EndPointsService {
       method: 'post',
     };
     this.serviceList['put.indexPipeline'] = {
-      endpoint:
-        this.API_SERVER_URL +
-        '/findly/:searchIndexID/indexPipeline/:indexPipelineId?deleteSnippetExtractionStage=:deleteSnippetExtractionStage',
-      method: 'put',
-    };
+      endpoint: this.API_SERVER_URL + '/findly/:searchIndexID/indexPipeline/:indexPipelineId',
+      method: 'put'
+    }
+    this.serviceList['put.indexPipelineSnippetDelete'] = {
+      endpoint: this.API_SERVER_URL + '/findly/:searchIndexID/indexPipeline/:indexPipelineId?deleteSnippetExtractionStage=:deleteSnippetExtractionStage',
+      method: 'put'
+    }
     this.serviceList['post.reindex'] = {
       endpoint:
         this.API_SERVER_URL +
@@ -1496,11 +1498,11 @@ export class EndPointsService {
         '/findly/streams/:streamId/subscription/usageLog/export',
       method: 'post',
     };
-    this.serviceList['put.buyOverage'] = {
+    this.serviceList['post.buyOverage'] = {
       endpoint:
         this.API_SERVER_URL +
-        '/findly/streams/:streamId/subscription/:subscriptionId/overage',
-      method: 'put',
+        '/findly/streams/:streamId/overage',
+      method: 'post',
     };
     this.serviceList['put.cancelSubscribtion'] = {
       endpoint:
@@ -1532,6 +1534,12 @@ export class EndPointsService {
       endpoint:
         this.API_SERVER_URL +
         '/findly/streams/:streamId/subscription/cancel/downgrade',
+      method: 'post',
+    };
+    this.serviceList['post.usageMetrics'] = {
+      endpoint:
+        this.API_SERVER_URL +
+        '/findly/streams/:streamId/subscription/usage/metrics',
       method: 'post',
     };
     // Filters API
@@ -1642,6 +1650,13 @@ export class EndPointsService {
         '/findly/:sidx/connectors/:fcon/jobs?limit=:limit',
       method: 'get',
     };
+    this.serviceList['put.stopSyncConnector'] = {
+      endpoint:
+        this.API_SERVER_URL +
+        '/findly/:searchIndexId/connectors/:connectorId/stop-content-sync',
+      method: 'put',
+    };
+
     this.serviceList['get.checkNewUser'] = {
       endpoint: this.API_SERVER_URL + '/findly/account?accountId=:accountId',
       method: 'get',

@@ -118,6 +118,7 @@ export class SourcesComponent implements OnInit, AfterViewInit, OnDestroy {
   importFaqInprogress = false;
   selectedLinkBotConfig: any;
   schedulerOpen = false;
+  isCrawlAccordianExpand = false;
   @Input() inputClass: string;
   @Input() resourceIDToOpen: any;
   @Output() saveEvent = new EventEmitter();
@@ -460,6 +461,7 @@ export class SourcesComponent implements OnInit, AfterViewInit, OnDestroy {
     }
   }
   openAddContentModal() {
+    this.isCrawlAccordianExpand = false;
     this.addSourceModalPopDummyRef = this.addSourceModalPopDummy.open();
   }
 
@@ -836,17 +838,8 @@ export class SourcesComponent implements OnInit, AfterViewInit, OnDestroy {
       ['contentDoc', 'faqWeb', 'faqDoc'].includes(this.resourceIDToOpen) ||
       ['file', 'importfaq', ''].includes(selectedCrawlMethod.resourceType)
     ) {
-      const isFreePlan =
-        this.appSelectionService?.currentsubscriptionPlanDetails?.subscription
-          ?.planName === 'Free'
-          ? true
-          : false;
-      if (isFreePlan && selectedCrawlMethod.resourceType === 'file') {
-        this.plans?.openSelectedPopup('free_upgrade');
-      } else {
-        this.selectedSourceType = selectedCrawlMethod;
-        this.openAddSourceModal();
-      }
+      this.selectedSourceType = selectedCrawlMethod;
+      this.openAddSourceModal();
     }
 
     setTimeout(() => {
@@ -1714,7 +1707,8 @@ export class SourcesComponent implements OnInit, AfterViewInit, OnDestroy {
                 validation: res.validations,
                 isURLValid: res?.isURLValid,
               };
-              this.mixpanel.postEvent('Content Crawl web domain added', {});
+              const eventMsg = res?.recentStatus === "failed" ? 'Content Crawl web domain failed' : 'Content Crawl web domain added';
+              this.mixpanel.postEvent(eventMsg, {});
             }
             if (this.selectedSourceType?.sourceType === 'faq') {
               this.mixpanel.postEvent('FAQ-created', {});

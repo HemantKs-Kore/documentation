@@ -191,7 +191,6 @@ export class AppsComponent implements OnInit, AfterViewInit, OnDestroy {
     this.store.dispatch(
       setAppId({ appId: app?._id, searchIndexId: app?.searchIndexes[0]?._id })
     );
-    // $('#test-btn-launch-sdk').attr('disabled', 'disabled').button('refresh');
     this.appSelectionService.tourConfigCancel.next({
       name: undefined,
       status: 'pending',
@@ -199,7 +198,7 @@ export class AppsComponent implements OnInit, AfterViewInit, OnDestroy {
     const isDemo = this.appType == 'sampleData' ? true : false;
     this.appSelectionService.openApp(app, isDemo, isUpgrade);
     this.workflowService.selectedIndexPipelineId = '';
-    this.router.navigateByUrl('summary', { skipLocationChange: true });
+    this.router.navigateByUrl(isUpgrade ? 'pricing' : 'summary', { skipLocationChange: true });
   }
 
   onScriptsLoaded() {
@@ -384,8 +383,12 @@ export class AppsComponent implements OnInit, AfterViewInit, OnDestroy {
     if (
       Object.entries(this.createdAppData).length > 0 &&
       this.createdAppData?.planName === 'Free'
-    )
+    ) {
       this.appSelectionService?.openPlanOnboardingModal?.next(null);
+    } else if (Object.entries(this.createdAppData).length > 0) {
+      //this.inlineManual?.loadAppscue();
+    }
+
   }
   openCreateApp() {
     this.createAppPopRef = this.createAppPop.open();
@@ -438,8 +441,6 @@ export class AppsComponent implements OnInit, AfterViewInit, OnDestroy {
             if (!this.apps.length) {
               this.emptyApp = true;
               this.showBoarding = true;
-
-              // this.appsService.clearCache();
             }
           }
         },
@@ -792,7 +793,7 @@ export class AppsComponent implements OnInit, AfterViewInit, OnDestroy {
   }
   callStream() {
     this.service.invoke('get.credential').subscribe(
-      (res) => {},
+      (res) => { },
       (errRes) => {
         this.errorToaster(errRes, 'Error in creating app');
       }

@@ -3878,9 +3878,29 @@
   "searchexperience_live_search_results": "Live Search Results",
 
   "answer_snippet_goto_workbench": "Go to Workbench",
+  "answer_snippet_read_more":"Read more",
+  "answer_snippet_read_less":"Read less",
   "plans_overages_opt_out": "Opting out of overages may affect the search results when your standard plan’s query limits are exhausted. Overages will continue to apply till the end of the current billing cycle.",
+  "plans_retry_payment": "Retry Payment",
+
+  "plans_search_queries_text": "Search Queries",
+  "plans_search_queries_avg": "Avg.",
+  "plans_search_queries_month": "Mo",
+  "plans_overages_text": "Overages",
+  "plans_legend": "LEGEND",
+  "plans_usage_no_data": "No Data Available",
+
+  "usageLog_liveSearch": "Live Search",
+
+  "contentSource_partial_success":"Partial Success",
+
   "sa_clone": "Clone",
 
   "answer_snippet_reference":"References:",
-  "usageLog_liveSearch": "Live Search"
+  "connectors_sync_stop": "Stop synchronize",
+  "connectors_no_results": "No data found",
+  "answer_snippet_model_tooltip_text_delete":"The Snippet Workbench Stage is deleted. For snippet generation, please add the workbench stage",
+  "connectors_hosturl_text":"Enter HostURL here",
+  "connectors_hostdomain_text":"Enter Domain Name here"
+
 }
