@@ -40,15 +40,23 @@ export function createTranslateLoader(http: HttpClient) {
 }
 
 export function appInitializer() {
-  return () => {
-    // check if the user is authenticated
-    const isAuthenticated = localStorage.jStorage;
-    if (!isAuthenticated) {
-      // redirect to the login page
-      location.href = getLoginRedirectURL();
-    }
-    return isAuthenticated;
-  };
+  const isAuthenticated = localStorage.jStorage;
+  if (!isAuthenticated) {
+    // redirect to the login page
+    return window.location.protocol + '//' + window.location.host + '/accounts';
+  }
+  return isAuthenticated;
+  // return () => {
+  //   // check if the user is authenticated
+  //   const isAuthenticated = localStorage.jStorage;
+  //   if (!isAuthenticated) {
+  //     // redirect to the login page
+  //     return (
+  //       window.location.protocol + '//' + window.location.host + '/accounts'
+  //     );
+  //   }
+  //   return isAuthenticated;
+  // };
 }
 
 @NgModule({
