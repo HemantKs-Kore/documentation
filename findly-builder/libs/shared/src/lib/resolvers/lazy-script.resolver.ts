@@ -5,6 +5,7 @@ import {
   RouterStateSnapshot,
   ActivatedRouteSnapshot,
 } from '@angular/router';
+import { Observable } from 'rxjs';
 import { LazyLoadService } from '../services/lazy-load.service';
 
 @Injectable({
@@ -12,7 +13,7 @@ import { LazyLoadService } from '../services/lazy-load.service';
 })
 export class LazyScriptResolver implements Resolve<boolean> {
   constructor(public lazyLoadService: LazyLoadService) {}
-  resolve(route: ActivatedRouteSnapshot): Promise<any> {
-    return this.lazyLoadService.addScript(route.data['scriptName']);
+  resolve(route: ActivatedRouteSnapshot): Observable<any> {
+    return this.lazyLoadService.loadScript(route.data['scriptName']);
   }
 }

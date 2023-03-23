@@ -28,7 +28,8 @@ import { BreakpointObserver, BreakpointState } from '@angular/cdk/layout';
 import { Subscription } from 'rxjs';
 import { SwUpdate, VersionReadyEvent } from '@angular/service-worker';
 import { DOCUMENT } from '@angular/common';
-
+import { fromEvent } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 const SMALL_WIDTH_BREAKPOINT = 1200;
 
 @Component({
