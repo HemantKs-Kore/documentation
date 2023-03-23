@@ -40,6 +40,7 @@ export function createTranslateLoader(http: HttpClient) {
 }
 
 export function appInitializer() {
+  debugger;
   return () => {
     // check if the user is authenticated
     const isAuthenticated = localStorage.jStorage;
@@ -96,6 +97,12 @@ export function appInitializer() {
     }),
   ],
   providers: [
+    {
+      provide: APP_INITIALIZER,
+      useFactory: appInitializer,
+      multi: true,
+      deps: [],
+    },
     globalProviders,
     {
       provide: MAT_FORM_FIELD_DEFAULT_OPTIONS,
@@ -105,12 +112,6 @@ export function appInitializer() {
     AppDataResolver,
     MatSnackBar,
     AppsDataService,
-    {
-      provide: APP_INITIALIZER,
-      useFactory: appInitializer,
-      multi: true,
-      deps: [],
-    },
   ],
   bootstrap: [AppComponent],
 })
