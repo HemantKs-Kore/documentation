@@ -15,10 +15,10 @@ declare global {
 //   environment.API_SERVER_URL =
 //     window.location.protocol + '//' + window.location.host;
 // }
-// if (environment.production) {
-//   enableProdMode();
-//   window.console.log = () => {};
-// }
+if (environment.production) {
+  enableProdMode();
+  window.console.log = () => {};
+}
 
 window.appConfig = environment;
 platformBrowserDynamic()

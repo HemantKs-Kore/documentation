@@ -40,7 +40,6 @@ export function createTranslateLoader(http: HttpClient) {
 }
 
 export function appInitializer() {
-  debugger;
   return () => {
     // check if the user is authenticated
     const isAuthenticated = localStorage.jStorage;
