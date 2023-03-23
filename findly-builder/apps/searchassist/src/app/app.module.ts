@@ -41,13 +41,16 @@ export function createTranslateLoader(http: HttpClient) {
 
 export function appInitializer() {
   return () => {
-    // check if the user is authenticated
-    const isAuthenticated = localStorage.jStorage;
-    if (!isAuthenticated) {
-      // redirect to the login page
-      location.href = getLoginRedirectURL();
-    }
-    return isAuthenticated;
+    return new Promise((resolve, reject) => {
+      const isAuthenticated = localStorage.jStorage;
+      if (!isAuthenticated) {
+        // redirect to the login page
+        location.href = getLoginRedirectURL();
+        reject();
+      }
+
+      resolve(isAuthenticated);
+    });
   };
 }
 
