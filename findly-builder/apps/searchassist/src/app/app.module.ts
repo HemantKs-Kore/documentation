@@ -43,7 +43,10 @@ export function appInitializer() {
   const isAuthenticated = localStorage.jStorage;
   if (!isAuthenticated) {
     // redirect to the login page
-    return window.location.protocol + '//' + window.location.host + '/accounts';
+
+    location.href =
+      window.location.protocol + '//' + window.location.host + '/accounts';
+    return;
   }
   return isAuthenticated;
   // return () => {
@@ -51,9 +54,9 @@ export function appInitializer() {
   //   const isAuthenticated = localStorage.jStorage;
   //   if (!isAuthenticated) {
   //     // redirect to the login page
-  //     return (
-  //       window.location.protocol + '//' + window.location.host + '/accounts'
-  //     );
+
+  //     location.href = window.location.protocol + '//' + window.location.host + '/accounts';
+  //     return;
   //   }
   //   return isAuthenticated;
   // };
