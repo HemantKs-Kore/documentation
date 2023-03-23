@@ -1654,6 +1654,10 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
 
   extractAssociatedisplayname(empmail, i?) {
+    if (!empmail) {
+      return;
+    }
+
     const splitor = empmail.includes('.');
     let fullName;
     if (splitor) {
