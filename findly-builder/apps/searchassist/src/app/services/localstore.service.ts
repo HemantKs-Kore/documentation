@@ -55,9 +55,11 @@ export class LocalStoreService {
   }
   public removeAuthInfo() {
     try {
-      window[this.storageType].setItem('jStorage', '{}');
-      window[this.storageType].setItem('krPreviousState', '{}');
-      window[this.storageType].setItem('selectedAccount', null);
+      // window[this.storageType].setItem('jStorage', null);
+      window[this.storageType].removeItem('jStorage');
+      window[this.storageType].removeItem('selectedAccount');
+      // window[this.storageType].setItem('krPreviousState', '{}');
+      // window[this.storageType].setItem('selectedAccount', null);
       return true;
     } catch (error) {
       return false;

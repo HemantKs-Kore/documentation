@@ -274,7 +274,14 @@
                           {{ exp.end | date : 'mediumDate' }}
                         </div>
                       </div>
-                      <div class="right-sec" *ngIf="exp.state !== 'completed'">
+                      <div
+                        class="right-sec"
+                        *ngIf="
+                          !(
+                            exp.state === 'completed' || exp.state === 'stopped'
+                          )
+                        "
+                      >
                         <div class="hours">
                           {{ exp.total_days }}
                           {{ 'experiments_more' | translate }}

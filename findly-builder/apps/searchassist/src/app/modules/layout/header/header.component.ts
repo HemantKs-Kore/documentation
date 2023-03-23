@@ -1646,14 +1646,18 @@ export class HeaderComponent implements OnInit, OnDestroy {
     for (let i = 0; i < this.associatedAccounts.length; i++) {
       // this.extractAssociatedisplayname(this.associatedAccounts[i].userFullName,i)
       this.extractAssociatedisplayname(
-        this.associatedAccounts[i].accountName,
+        this.associatedAccounts[i]?.accountName,
         i
       );
     }
-    this.extractAssociatedisplayname(this.selectAccountDetails.accountName);
+    this.extractAssociatedisplayname(this.selectAccountDetails?.accountName);
   }
 
   extractAssociatedisplayname(empmail, i?) {
+    if (!empmail) {
+      return;
+    }
+
     const splitor = empmail.includes('.');
     let fullName;
     if (splitor) {
@@ -2212,7 +2216,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
         for (let i = 0; i < this.associatedAccounts.length; i++) {
           this.extractAssociatedisplayname(
-            this.associatedAccounts[i].accountName,
+            this.associatedAccounts[i]?.accountName,
             i
           );
         }
