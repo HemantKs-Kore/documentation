@@ -190,6 +190,8 @@ const routes: Routes = [
           import('./modules/content/content.module').then(
             (m) => m.ContentModule
           ),
+        resolve: [LazyScriptResolver],
+        data: { scriptName: 'rangy.min.js' },
       },
       {
         path: 'faqs',
