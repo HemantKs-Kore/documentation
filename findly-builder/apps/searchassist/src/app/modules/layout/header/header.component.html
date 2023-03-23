@@ -59,7 +59,7 @@
             [ngClass]="{ active: menuItems?.sources?.includes(mainMenu),'disable_btn':isRouteDisabled }"
             skipLocationChange
             routerLinkActive="active"
-            (click)="goToRoute('/sources'); closeUserMetaTagsSlider()"
+            (click)="goToRoute('/content'); closeUserMetaTagsSlider()"
           >
             <span>{{ 'header_sources' | translate }}</span>
           </div>
