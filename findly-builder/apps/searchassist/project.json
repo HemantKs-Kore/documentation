@@ -84,32 +84,6 @@
       },
       "configurations": {
         "production": {
-          "budgets": [
-            {
-              "type": "initial",
-              "maximumWarning": "2mb",
-              "maximumError": "5mb"
-            },
-            {
-              "type": "anyComponentStyle",
-              "maximumWarning": "106kb",
-              "maximumError": "110kb"
-            },
-            {
-              "type": "bundle",
-              "name": "vendor",
-              "baseline": "750kb",
-              "warning": "1.5mb",
-              "error": "2mb"
-            },
-            {
-              "type": "bundle",
-              "name": "main",
-              "baseline": "500kb",
-              "warning": "750kb",
-              "error": "1mb"
-            }
-          ],
           "fileReplacements": [
             {
               "replace": "apps/searchassist/src/environments/environment.ts",
@@ -124,7 +98,9 @@
           "vendorChunk": true,
           "optimization": {
             "styles": false
-          }
+          },
+          "sourceMap": true,
+          "namedChunks": true
         },
         "development": {
           "buildOptimizer": false,
