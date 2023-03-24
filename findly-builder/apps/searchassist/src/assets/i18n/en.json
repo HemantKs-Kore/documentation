@@ -1,4 +1,9 @@
 {
+  "TITLE_SHARED": "You have no shared apps yet!",
+  "DESC_SHARED": "Apps shared with you to collaborate will be shown here",
+  "TITLE_NOAPP": "You have no apps yet!",
+  "DESC_NOAPP": "Apps created by you will be shown here",
+  "DESC_SEARCH": "We couldn’t find the app you are looking for",
   "NO_SEARCH_RESULTS_FOUND": "No search results found",
   "deleteToConfirm": "Please type the phrase 'DELETE' to confirm",
   "Hi": "Hi, ",
@@ -3878,8 +3883,8 @@
   "searchexperience_live_search_results": "Live Search Results",
 
   "answer_snippet_goto_workbench": "Go to Workbench",
-  "answer_snippet_read_more":"Read more",
-  "answer_snippet_read_less":"Read less",
+  "answer_snippet_read_more": "Read more",
+  "answer_snippet_read_less": "Read less",
   "plans_overages_opt_out": "Opting out of overages may affect the search results when your standard plan’s query limits are exhausted. Overages will continue to apply till the end of the current billing cycle.",
   "plans_retry_payment": "Retry Payment",
 
@@ -3892,15 +3897,14 @@
 
   "usageLog_liveSearch": "Live Search",
 
-  "contentSource_partial_success":"Partial Success",
+  "contentSource_partial_success": "Partial Success",
 
   "sa_clone": "Clone",
 
-  "answer_snippet_reference":"References:",
+  "answer_snippet_reference": "References:",
   "connectors_sync_stop": "Stop synchronize",
   "connectors_no_results": "No data found",
-  "answer_snippet_model_tooltip_text_delete":"The Snippet Workbench Stage is deleted. For snippet generation, please add the workbench stage",
-  "connectors_hosturl_text":"Enter HostURL here",
-  "connectors_hostdomain_text":"Enter Domain Name here"
-
+  "answer_snippet_model_tooltip_text_delete": "The Snippet Workbench Stage is deleted. For snippet generation, please add the workbench stage",
+  "connectors_hosturl_text": "Enter HostURL here",
+  "connectors_hostdomain_text": "Enter Domain Name here"
 }

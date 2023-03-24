@@ -6,6 +6,6 @@
   "prettier.useTabs": false,
   "prettier.configPath": ".prettierrc",
   "[html]": {
-    "editor.defaultFormatter": "mohd-akram.vscode-html-format"
-  },
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  }
 }

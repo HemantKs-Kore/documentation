@@ -36,6 +36,10 @@
     "file": "using-pipeline.md"
   },
   {
+    "title": "Using Intersction Observer",
+    "file": "intersection-observer.md"
+  },
+  {
     "title": "Build & Deploy",
     "file": "build-and-deploy.md"
   },

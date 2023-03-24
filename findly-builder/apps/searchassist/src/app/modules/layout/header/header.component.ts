@@ -2226,6 +2226,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
       }
     );
   }
+
   getUserInfo() {
     const quaryparms: any = {
       id: this.authService.getUserId(),

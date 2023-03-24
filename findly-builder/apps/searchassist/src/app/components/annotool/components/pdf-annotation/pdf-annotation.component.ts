@@ -2,7 +2,6 @@
 import {
   Component,
   OnInit,
-  OnChanges,
   ViewEncapsulation,
   ViewChild,
   HostListener,
@@ -44,12 +43,7 @@ import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 // import { SimplebarAngularModule } from 'simplebar-angular';
 import { TranslateModule } from '@ngx-translate/core';
-import { Store } from '@ngrx/store';
-import {
-  selectAppId,
-  selectSearchIndexId,
-} from '@kore.apps/store/app.selectors';
-import { combineLatest, Subscription, take, tap, withLatestFrom } from 'rxjs';
+import { Subscription, take, tap } from 'rxjs';
 import { StoreService } from '@kore.apps/store/store.service';
 
 @Component({

@@ -7,6 +7,7 @@ import { RouterModule } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 import { SafePipe } from '@kore.apps/shared/pipes/safe.pipe';
 import { SharedPipesModule } from '@kore.apps/helpers/filters/shared-pipes.module';
+import { IntersectionObserverDirectiveModule } from '@kore.libs/shared/src';
 
 @NgModule({
   declarations: [OnboardingComponent],
@@ -19,6 +20,7 @@ import { SharedPipesModule } from '@kore.apps/helpers/filters/shared-pipes.modul
     SafePipe,
     SharedPipesModule,
     NgOptimizedImage,
+    IntersectionObserverDirectiveModule,
   ],
   providers: [SafePipe],
   exports: [OnboardingComponent],
