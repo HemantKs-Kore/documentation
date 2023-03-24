@@ -411,7 +411,9 @@
                   class="kr-sg-button-primary btn_lg"
                   *ngIf="selectAddContent === 'configurtion'"
                   (click)="backToPage('submit')"
+                  [disabled]="isloadingBtn"
                 >
+                <span class="loader-spin-inside-btn ml-1" *ngIf="isloadingBtn"></span>
                   {{ 'connectors_save_configuration' | translate }}
                 </button>
                 <button
@@ -1050,13 +1052,13 @@
               (click)="
                 selectedTab === 'configurations'
                   ? updateSyncFrequency()
-                  : validationForConnetor()
+                  : validationConnector()
                   ? updateConnector()
                   : null
               "
               [disabled]="isloadingBtn"
             >
-              <span class="spin-loader-button mr-2"></span>
+              <span class="loader-spin-inside-btn ml-1" *ngIf="isloadingBtn"></span>
               {{
                 selectedTab === 'configurations' ? 'Save Changes' : 'Connect'
               }}

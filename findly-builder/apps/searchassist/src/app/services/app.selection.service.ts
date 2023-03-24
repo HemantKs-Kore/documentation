@@ -86,7 +86,7 @@ export class AppSelectionService {
         this.redirectToLogin();
       }
       // eslint-disable-next-line no-empty
-    } catch (e) {}
+    } catch (e) { }
     return previOusState;
   }
   private redirectToLogin() {
@@ -409,7 +409,7 @@ export class AppSelectionService {
   validateInputTags(text) {
     const isMatch = text?.match(/([\<])([^\>]{1,})*([\>])/i);
     if (isMatch !== null)
-      this.notificationService.notify('Tags are not allowed', 'error');
+      this.notificationService.notify('HTML Tags are not allowed in textbox', 'error');
     return isMatch === null ? true : false;
   }
 }
