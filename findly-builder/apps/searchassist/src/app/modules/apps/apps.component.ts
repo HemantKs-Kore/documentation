@@ -115,14 +115,10 @@ export class AppsComponent implements OnInit, AfterViewInit, OnDestroy {
     public mixpanel: MixpanelServiceService,
     private store: Store,
     private lazyLoadService: LazyLoadService,
-    private appsService: AppsService,
-    private translationService: TranslationService
+    private appsService: AppsService
   ) {
     this.authInfo = localstore.getAuthInfo();
     this.userId = this.authService.getUserId();
-
-    // Load translations for this module
-    this.translationService.loadModuleTranslations('apps');
   }
 
   ngOnInit() {
@@ -198,7 +194,9 @@ export class AppsComponent implements OnInit, AfterViewInit, OnDestroy {
     const isDemo = this.appType == 'sampleData' ? true : false;
     this.appSelectionService.openApp(app, isDemo, isUpgrade);
     this.workflowService.selectedIndexPipelineId = '';
-    this.router.navigateByUrl(isUpgrade ? 'pricing' : 'summary', { skipLocationChange: true });
+    this.router.navigateByUrl(isUpgrade ? 'pricing' : 'summary', {
+      skipLocationChange: true,
+    });
   }
 
   onScriptsLoaded() {
@@ -388,7 +386,6 @@ export class AppsComponent implements OnInit, AfterViewInit, OnDestroy {
     } else if (Object.entries(this.createdAppData).length > 0) {
       //this.inlineManual?.loadAppscue();
     }
-
   }
   openCreateApp() {
     this.createAppPopRef = this.createAppPop.open();
@@ -793,7 +790,7 @@ export class AppsComponent implements OnInit, AfterViewInit, OnDestroy {
   }
   callStream() {
     this.service.invoke('get.credential').subscribe(
-      (res) => { },
+      (res) => {},
       (errRes) => {
         this.errorToaster(errRes, 'Error in creating app');
       }
