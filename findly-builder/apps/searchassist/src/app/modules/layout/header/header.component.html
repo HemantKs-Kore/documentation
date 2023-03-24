@@ -39,111 +39,129 @@
         <div
           class="headerTabsContainer collapse navbar-collapse"
           id="navbarToggler"
+          appIntersectionObserver
+          [intersectionDebounce]="0"
+          (visibilityChange)="onVisibilityChanged('subnav', $event)"
+          [ngSwitch]="visibilityStatus['subnav']"
           #navbarToggler
         >
-          <div
-            class="headerMenuTab"
-            [ngClass]="{
-              active: mainMenu === '/summary',
-              disable_btn: isRouteDisabled
-            }"
-            skipLocationChange
-            routerLinkActive="active"
-            (click)="goToRoute('/summary'); closeUserMetaTagsSlider()"
-          >
-            <span>{{ 'header_overview' | translate }}</span>
-            <span routerLink="/summary" class="d-none"></span>
-          </div>
-          <div
-            class="headerMenuTab"
-            [ngClass]="{ active: menuItems?.sources?.includes(mainMenu),'disable_btn':isRouteDisabled }"
-            skipLocationChange
-            routerLinkActive="active"
-            (click)="goToRoute('/content'); closeUserMetaTagsSlider()"
-          >
-            <span>{{ 'header_sources' | translate }}</span>
-          </div>
-          <div
-            class="headerMenuTab"
-            id="sourceTab"
-            [ngClass]="{
-              active: menuItems?.indices?.includes(mainMenu),
-              disable_btn: isRouteDisabled
-            }"
-            skipLocationChange
-            routerLinkActive="active"
-            (click)="
-              goToRoute('/FieldManagementComponent'); closeUserMetaTagsSlider()
-            "
-          >
-            <span>{{ 'header_indices' | translate }}</span>
-          </div>
-          <div
-            class="kr-sg-dropdowns headerMenuTab"
-            [ngClass]="{
-              active: menuItems?.anlytics?.includes(mainMenu),
-              disable_btn: isRouteDisabled
-            }"
-          >
-            <div class="dropdown dropdown-open">
-              <button
-                class="dropdown-toggle dropdown-input cust-repeat-type"
-                data-toggle="dropdown"
-                (click)="closeUserMetaTagsSlider()"
-                [ngClass]="{ disable_btn: isRouteDisabled }"
-              >
-                {{ 'header_analytics' | translate }}
-              </button>
-              <ul class="dropdown-menu content-menu content-width">
-                <li
-                  class="experment-link"
-                  (click)="goToRoute('/experiments')"
-                  id="experimentsTab"
-                  [ngClass]="{ active: mainMenu === '/experiments' }"
-                >
-                  <a>{{ 'header_experiments' | translate }}</a>
-                </li>
-                <li
-                  (click)="goToRoute('/dashboard')"
-                  id="dashboardTab"
-                  [ngClass]="{ active: mainMenu === '/dashboard' }"
-                >
-                  <a>{{ 'header_dashboard' | translate }}</a>
-                </li>
-                <li
-                  (click)="goToRoute('/userEngagement')"
-                  [ngClass]="{ active: mainMenu === '/userEngagement' }"
-                >
-                  <a>{{ 'header_userEngagement' | translate }}</a>
-                </li>
-                <li
-                  (click)="goToRoute('/searchInsights')"
-                  [ngClass]="{ active: mainMenu === '/searchInsights' }"
-                >
-                  <a>{{ 'header_searchInsights' | translate }}</a>
-                </li>
-                <li
-                  (click)="goToRoute('/resultInsights')"
-                  [ngClass]="{ active: mainMenu === '/resultInsights' }"
-                >
-                  <a>{{ 'header_resultInsights' | translate }}</a>
-                </li>
-              </ul>
+          <ng-container *ngSwitchCase="intersectionStatus.Visible">
+            <div
+              class="headerMenuTab"
+              [ngClass]="{
+                active: mainMenu === '/summary',
+                disable_btn: isRouteDisabled
+              }"
+              skipLocationChange
+              routerLinkActive="active"
+              (click)="goToRoute('/summary'); closeUserMetaTagsSlider()"
+            >
+              <span>{{ 'header_overview' | translate }}</span>
+              <span routerLink="/summary" class="d-none"></span>
             </div>
-          </div>
-          <div
-            class="headerMenuTab"
-            id="channelsTab"
-            [ngClass]="{ active: menuItems?.manage?.includes(mainMenu) }"
-            skipLocationChange
-            routerLinkActive="active"
-            (click)="goToRoute('/generalSettings'); closeUserMetaTagsSlider()"
-          >
-            <span>{{ 'header_manage' | translate }}</span>
-          </div>
+            <div
+              class="headerMenuTab"
+              [ngClass]="{
+                active: menuItems?.sources?.includes(mainMenu),
+                disable_btn: isRouteDisabled
+              }"
+              skipLocationChange
+              routerLinkActive="active"
+              (click)="goToRoute('/content'); closeUserMetaTagsSlider()"
+            >
+              <span>{{ 'header_sources' | translate }}</span>
+            </div>
+            <div
+              class="headerMenuTab"
+              id="sourceTab"
+              [ngClass]="{
+                active: menuItems?.indices?.includes(mainMenu),
+                disable_btn: isRouteDisabled
+              }"
+              skipLocationChange
+              routerLinkActive="active"
+              (click)="
+                goToRoute('/FieldManagementComponent');
+                closeUserMetaTagsSlider()
+              "
+            >
+              <span>{{ 'header_indices' | translate }}</span>
+            </div>
+            <div
+              class="kr-sg-dropdowns headerMenuTab"
+              [ngClass]="{
+                active: menuItems?.anlytics?.includes(mainMenu),
+                disable_btn: isRouteDisabled
+              }"
+            >
+              <div class="dropdown dropdown-open">
+                <button
+                  class="dropdown-toggle dropdown-input cust-repeat-type"
+                  data-toggle="dropdown"
+                  (click)="closeUserMetaTagsSlider()"
+                  [ngClass]="{ disable_btn: isRouteDisabled }"
+                >
+                  {{ 'header_analytics' | translate }}
+                </button>
+                <ul class="dropdown-menu content-menu content-width">
+                  <li
+                    class="experment-link"
+                    (click)="goToRoute('/experiments')"
+                    id="experimentsTab"
+                    [ngClass]="{ active: mainMenu === '/experiments' }"
+                  >
+                    <a>{{ 'header_experiments' | translate }}</a>
+                  </li>
+                  <li
+                    (click)="goToRoute('/dashboard')"
+                    id="dashboardTab"
+                    [ngClass]="{ active: mainMenu === '/dashboard' }"
+                  >
+                    <a>{{ 'header_dashboard' | translate }}</a>
+                  </li>
+                  <li
+                    (click)="goToRoute('/userEngagement')"
+                    [ngClass]="{ active: mainMenu === '/userEngagement' }"
+                  >
+                    <a>{{ 'header_userEngagement' | translate }}</a>
+                  </li>
+                  <li
+                    (click)="goToRoute('/searchInsights')"
+                    [ngClass]="{ active: mainMenu === '/searchInsights' }"
+                  >
+                    <a>{{ 'header_searchInsights' | translate }}</a>
+                  </li>
+                  <li
+                    (click)="goToRoute('/resultInsights')"
+                    [ngClass]="{ active: mainMenu === '/resultInsights' }"
+                  >
+                    <a>{{ 'header_resultInsights' | translate }}</a>
+                  </li>
+                </ul>
+              </div>
+            </div>
+            <div
+              class="headerMenuTab"
+              id="channelsTab"
+              [ngClass]="{ active: menuItems?.manage?.includes(mainMenu) }"
+              skipLocationChange
+              routerLinkActive="active"
+              (click)="goToRoute('/generalSettings'); closeUserMetaTagsSlider()"
+            >
+              <span>{{ 'header_manage' | translate }}</span>
+            </div>
+          </ng-container>
+
+          <ng-container *ngSwitchCase="intersectionStatus.Pending">
+            <ng-container>Loading...</ng-container>
+          </ng-container>
         </div>
       </div>
       <ul
+        appIntersectionObserver
+        [intersectionDebounce]="0"
+        (visibilityChange)="onVisibilityChanged('subaside', $event)"
+        [ngSwitch]="visibilityStatus['subaside']"
         class="navbar-nav nav-flex-icons align-items-center right-menu-content flex-row justify-content-end header-right-btns"
       >
         <ng-template #rt let-r="result" let-t="term">
@@ -153,503 +171,523 @@
             [term]="t"
           ></ngb-highlight>
         </ng-template>
-        <li
-          class="nav-item app-dropdown {{ isRouteDisabled && 'disable_btn' }}"
-        >
-          <div
-            class="kr-sg-dropdowns new-line-btn"
-            ngbDropdown
-            #myDrop="ngbDropdown"
-            [placement]="'bottom-center'"
+
+        <ng-container *ngSwitchCase="intersectionStatus.Visible">
+          <li
+            class="nav-item app-dropdown {{ isRouteDisabled && 'disable_btn' }}"
           >
-            <div class="dropdown dropdown-open">
-              <button
-                class="dropdown-toggle dropdown-input text-truncate"
-                [ngbTooltip]="appName"
-                tooltipClass="train-icon-tooltip"
-                container="body"
-                id="dropdownBasic1"
-                ngbDropdownToggle
-                (click)="getAllApps()"
-                [ngClass]="{ disable_btn: isRouteDisabled }"
-              >
-                {{ appName }}
-              </button>
-              <ul class="dropdown-menu content-menu" ngbDropdownMenu>
-                <div class="search-assist-apps">
-                  <div class="main-title">
-                    {{ 'header_searchAssistApps' | translate }}
-                  </div>
-                  <div class="apps-block">
-                    <div class="title-secondary">
-                      {{ 'header_recentApps' | translate }}
+            <div
+              class="kr-sg-dropdowns new-line-btn"
+              ngbDropdown
+              #myDrop="ngbDropdown"
+              [placement]="'bottom-center'"
+            >
+              <div class="dropdown dropdown-open">
+                <button
+                  class="dropdown-toggle dropdown-input text-truncate"
+                  [ngbTooltip]="appName"
+                  tooltipClass="train-icon-tooltip"
+                  container="body"
+                  id="dropdownBasic1"
+                  ngbDropdownToggle
+                  (click)="getAllApps()"
+                  [ngClass]="{ disable_btn: isRouteDisabled }"
+                >
+                  {{ appName }}
+                </button>
+                <ul class="dropdown-menu content-menu" ngbDropdownMenu>
+                  <div class="search-assist-apps">
+                    <div class="main-title">
+                      {{ 'header_searchAssistApps' | translate }}
                     </div>
-                    <div
-                      class="app-name-block"
-                      *ngFor="let app of recentApps"
-                      (click)="
-                        app.disabled ? null : [myDrop.close(), openApp(app,false)]
-                      "
-                      [ngStyle]="
-                        app.disabled && { opacity: '0.4', cursor: 'default' }
-                      "
-                      placement="top-center"
-                      [ngbTooltip]="app.disableReason"
-                      [container]="'body'"
-                      tooltipClass="metrics_tooltips m-0"
-                    >
-                      <div class="app-name">{{ app.name }}</div>
-                      <div class="shared-name d-none">
-                        {{
-                          app.createdBy === userId
-                            ? 'My App'
-                            : 'Shared by
-                                                ' + app.userDetails.fullName
-                        }}
+                    <div class="apps-block">
+                      <div class="title-secondary">
+                        {{ 'header_recentApps' | translate }}
+                      </div>
+                      <div
+                        class="app-name-block"
+                        *ngFor="let app of recentApps"
+                        (click)="
+                          app.disabled
+                            ? null
+                            : [myDrop.close(), openApp(app, false)]
+                        "
+                        [ngStyle]="
+                          app.disabled && {
+                            opacity: '0.4',
+                            cursor: 'default'
+                          }
+                        "
+                        placement="top-center"
+                        [ngbTooltip]="app.disableReason"
+                        [container]="'body'"
+                        tooltipClass="metrics_tooltips m-0"
+                      >
+                        <div class="app-name">{{ app.name }}</div>
+                        <div class="shared-name d-none">
+                          {{
+                            app.createdBy === userId
+                              ? 'My App'
+                              : 'Shared by
+                                              ' + app.userDetails.fullName
+                          }}
+                        </div>
                       </div>
                     </div>
+                    <div class="view-app-apps" (click)="openRoute('/')">
+                      {{ 'header_viewAllApps' | translate }}
+                    </div>
+                    <div class="create-new-app" (click)="openCreateApp()">
+                      {{ 'header_createNewApp' | translate }}
+                    </div>
                   </div>
-                  <div class="view-app-apps" (click)="openRoute('/')">
-                    {{ 'header_viewAllApps' | translate }}
-                  </div>
-                  <div class="create-new-app" (click)="openCreateApp()">
-                    {{ 'header_createNewApp' | translate }}
-                  </div>
-                </div>
-              </ul>
+                </ul>
+              </div>
             </div>
-          </div>
-        </li>        
+          </li>
 
-        <li class="nav-item test-button {{ isRouteDisabled && 'disable_btn' }}">
-          <button
-            placement="bottom"
-            triggers="hover"
-            #testButtonTooltip="ngbTooltip"
-            ngbTooltip="{{ 'header_previewAndCustomize' | translate }}"
-            container="body"
-            tooltipClass="test-icon-tooltip"
-            class="kr-sg-button-secondary btn_lg rr-tour-test-btn"
-            id="test-btn-launch-sdk"
-            (click)="openOrCloseSearchSDK()"
-            [disabled]="enablePreview$ | async"
+          <li
+            class="nav-item test-button {{ isRouteDisabled && 'disable_btn' }}"
           >
-            <span class="pr-1 align-middle">
-              <i class="si-play-button"></i>
-              <span class="ml-1 d-none d-xl-inline-block">{{
-                'header_preview' | translate
-              }}</span>
-            </span>
-          </button>
-        </li>
-        <!-- New Code wrt to Stop Traing -->
-        <li
-          class="nav-item new-train-btn {{ isRouteDisabled && 'disable_btn' }}"
-          [ngbTooltip]="
-            training
-              ? ('header_stop_traing' | translate)
-              : ('header_train_your_app' | translate)
-          "
-        >
-          <button
-            (mouseenter)="displayStopTrain()"
-            (mouseleave)="displayStopTrainLeave()"
-            (click)="isRouteDisabled ? null : train()"
-            class="kr-sg-button-secondary btn_lg"
-            [ngClass]="{ 'show-close': showClose && training }"
+            <button
+              placement="bottom"
+              triggers="hover"
+              #testButtonTooltip="ngbTooltip"
+              ngbTooltip="{{ 'header_previewAndCustomize' | translate }}"
+              container="body"
+              tooltipClass="test-icon-tooltip"
+              class="kr-sg-button-secondary btn_lg rr-tour-test-btn"
+              id="test-btn-launch-sdk"
+              (click)="openOrCloseSearchSDK()"
+              [disabled]="enablePreview$ | async"
+            >
+              <span class="pr-1 align-middle">
+                <i class="si-play-button"></i>
+                <span class="ml-1 d-none d-xl-inline-block">{{
+                  'header_preview' | translate
+                }}</span>
+              </span>
+            </button>
+          </li>
+          <!-- New Code wrt to Stop Traing -->
+          <li
+            class="nav-item new-train-btn {{
+              isRouteDisabled && 'disable_btn'
+            }}"
+            [ngbTooltip]="
+              training
+                ? ('header_stop_traing' | translate)
+                : ('header_train_your_app' | translate)
+            "
           >
-            <span class="align-middle train-btn-icons">
-              <span *ngIf="!training">
-                <i class="si-train-multi-intent"></i>
+            <button
+              (mouseenter)="displayStopTrain()"
+              (mouseleave)="displayStopTrainLeave()"
+              (click)="isRouteDisabled ? null : train()"
+              class="kr-sg-button-secondary btn_lg"
+              [ngClass]="{ 'show-close': showClose && training }"
+            >
+              <span class="align-middle train-btn-icons">
+                <span *ngIf="!training">
+                  <i class="si-train-multi-intent"></i>
+                </span>
+                <span
+                  class="training-pending-icon"
+                  *ngIf="training && !showClose"
+                >
+                  <i class="si-recall"></i>
+                </span>
+                <span *ngIf="showClose && training">
+                  <i class="si-close icon-close"></i>
+                </span>
               </span>
-              <span
-                class="training-pending-icon"
-                *ngIf="training && !showClose"
-              >
-                <i class="si-recall"></i>
+              <span class="pl-1 d-none d-xl-inline-block">
+                {{
+                  training && !showClose
+                    ? ('header_train' | translate)
+                    : training && showClose
+                    ? ('header_stop_train' | translate)
+                    : ('header_train' | translate)
+                }}
               </span>
-              <span *ngIf="showClose && training">
-                <i class="si-close icon-close"></i>
-              </span>
-            </span>
-            <span class="pl-1 d-none d-xl-inline-block">
-              {{
-                training && !showClose
-                  ? ('header_train' | translate)
-                  : training && showClose
-                  ? ('header_stop_train' | translate)
-                  : ('header_train' | translate)
-              }}
-            </span>
-          </button>
-        </li>
+            </button>
+          </li>
 
-        <li
-          class="nav-item search-block show-search1 {{
-            isRouteDisabled && 'disable_btn'
-          }}"
-        >
-          <div
-            class="search_icon"
-            [ngClass]="{ 'active-search-top': showSearch }"
+          <li
+            class="nav-item search-block show-search1 {{
+              isRouteDisabled && 'disable_btn'
+            }}"
           >
-            <img
-              ngSrc="assets/icons/sidemenu/search.svg"
-              width="16"
-              height="16"
-              (click)="isRouteDisabled ? null : focusinSearch()"
-              (mouseover)="activeSearch = true"
-              (mouseout)="activeSearch = false"
-            />
-          </div>
-          <div class="global-searc-container" *ngIf="showSearch">
-            <div class="kr-sg-input-search">
-              <input
-                type="text"
-                class="input-search"
-                id="globalSearch"
-                searchImgSrc="assets/icons/search.svg"
-                placeholder="{{ 'header_search' | translate }}"
-                [ngClass]="{ 'pl-2': searchText }"
-                (keyup.enter)="triggerRoute(searchText)"
-                autocomplete="off"
-                [(ngModel)]="searchText"
-                [ngbTypeahead]="search"
-                [resultTemplate]="rt"
-                [inputFormatter]="formatter"
-                (mouseover)="
-                  searchImgSrc = searchFocusIn
-                    ? 'assets/icons/search_gray.svg'
-                    : 'assets/icons/search_gray_dark.svg'
-                "
-                (mouseout)="
-                  searchFocusIn = false;
-                  searchImgSrc = 'assets/icons/search_gray.svg'
-                "
-                (focus)="
-                  searchFocusIn = true;
-                  searchImgSrc = 'assets/icons/search_gray.svg'
-                "
-                autofocus
-              />
+            <div
+              class="search_icon"
+              [ngClass]="{ 'active-search-top': showSearch }"
+            >
               <img
-                [src]="searchImgSrc"
-                width="14"
-                height="14"
-                class="search-icon"
-                *ngIf="!searchText"
-              />
-              <img
-                class="close-icon"
-                ngSrc="assets/icons/close_icon.svg"
-                width="10"
-                height="10"
-                [ngClass]="{ 'pr-22': searchText }"
-                (click)="focusoutSearch()"
-                placement="top-center"
-                container="body"
-                ngbTooltip="{{ 'header_cancel' | translate }}"
-                tooltipClass="ngb_tooltip_custom_class sampleJson"
+                ngSrc="assets/icons/sidemenu/search.svg"
+                width="16"
+                height="16"
+                (click)="isRouteDisabled ? null : focusinSearch()"
+                (mouseover)="activeSearch = true"
+                (mouseout)="activeSearch = false"
               />
             </div>
-          </div>
-        </li>
-        <li
-          class="nav-item notification-block {{
-            isRouteDisabled && 'disable_btn'
-          }}"
-        >
-          <div class="kr-sg-dropdowns" ngbDropdown>
-            <div class="dropdown dropdown-open">
-              <button
-                class="dropdown-toggle dropdown-input notification"
-                id="dropdownBasic1"
-                ngbDropdownToggle
-                (mouseup)="notificationIconClick(); checkJObStatus(dockersList)"
-              >
-                <img
-                  ngSrc="assets/icons/sidemenu/notification.svg"
-                  width="16"
-                  height="16"
+            <div class="global-searc-container" *ngIf="showSearch">
+              <div class="kr-sg-input-search">
+                <input
+                  type="text"
+                  class="input-search"
+                  id="globalSearch"
+                  searchImgSrc="assets/icons/search.svg"
+                  placeholder="{{ 'header_search' | translate }}"
+                  [ngClass]="{ 'pl-2': searchText }"
+                  (keyup.enter)="triggerRoute(searchText)"
+                  autocomplete="off"
+                  [(ngModel)]="searchText"
+                  [ngbTypeahead]="search"
+                  [resultTemplate]="rt"
+                  [inputFormatter]="formatter"
+                  (mouseover)="
+                    searchImgSrc = searchFocusIn
+                      ? 'assets/icons/search_gray.svg'
+                      : 'assets/icons/search_gray_dark.svg'
+                  "
+                  (mouseout)="
+                    searchFocusIn = false;
+                    searchImgSrc = 'assets/icons/search_gray.svg'
+                  "
+                  (focus)="
+                    searchFocusIn = true;
+                    searchImgSrc = 'assets/icons/search_gray.svg'
+                  "
+                  autofocus
                 />
-                <sup *ngIf="isAnyRecordFailed" class="red-notification"></sup>
-                <sup
-                  *ngIf="isAnyRecordCompleted"
-                  class="completed-notification"
-                ></sup>
                 <img
-                  ngSrc="assets/icons/notification-ring.svg"
-                  width="16"
-                  height="16"
-                  class="inProgress notification-icon"
-                  *ngIf="isAnyRecordInprogress"
-                  placement="top"
+                  [src]="searchImgSrc"
+                  width="14"
+                  height="14"
+                  class="search-icon"
+                  *ngIf="!searchText"
+                />
+                <img
+                  class="close-icon"
+                  ngSrc="assets/icons/close_icon.svg"
+                  width="10"
+                  height="10"
+                  [ngClass]="{ 'pr-22': searchText }"
+                  (click)="focusoutSearch()"
+                  placement="top-center"
                   container="body"
+                  ngbTooltip="{{ 'header_cancel' | translate }}"
+                  tooltipClass="ngb_tooltip_custom_class sampleJson"
                 />
-              </button>
-              <ul
-                class="dropdown-menu content-menu notification-dropdown"
-                ngbDropdownMenu
-                id="notification-dropdown"
-              >
-                <div class="notification-dropdown-status">
-                  <ul class="nav nav-tabs" role="tablist">
-                    <li class="nav-item">
-                      <a
-                        class="nav-link active"
-                        data-toggle="tab"
-                        href="#statusupdates"
-                        >{{ 'header_statusUpdates' | translate }}
-                        <sup
-                          *ngIf="isAnyRecordFailed"
-                          class="red-notification"
-                        ></sup>
-                        <sup
-                          *ngIf="isAnyRecordCompleted"
-                          class="completed-notification"
-                        ></sup>
-                      </a>
-                    </li>
-                    <!-- <li class="nav-item">
-                                          <a class="nav-link disabled" data-toggle="tab" href="#activities">Activities</a>
-                                        </li> -->
-                  </ul>
-                  <div class="tab-content">
-                    <div id="statusupdates" class="tab-pane active">
-                      <div class="statusDocker">
-                        <div class="statusDockerBody">
-                          <perfect-scrollbar
-                            class="perfect-scroll-modal-body docker"
-                          >
-                            <div
-                              class="docker-list"
-                              *ngIf="!statusDockerLoading"
+              </div>
+            </div>
+          </li>
+          <li
+            class="nav-item notification-block {{
+              isRouteDisabled && 'disable_btn'
+            }}"
+          >
+            <div class="kr-sg-dropdowns" ngbDropdown>
+              <div class="dropdown dropdown-open">
+                <button
+                  class="dropdown-toggle dropdown-input notification"
+                  id="dropdownBasic1"
+                  ngbDropdownToggle
+                  (mouseup)="
+                    notificationIconClick(); checkJObStatus(dockersList)
+                  "
+                >
+                  <img
+                    ngSrc="assets/icons/sidemenu/notification.svg"
+                    width="16"
+                    height="16"
+                  />
+                  <sup *ngIf="isAnyRecordFailed" class="red-notification"></sup>
+                  <sup
+                    *ngIf="isAnyRecordCompleted"
+                    class="completed-notification"
+                  ></sup>
+                  <img
+                    ngSrc="assets/icons/notification-ring.svg"
+                    width="16"
+                    height="16"
+                    class="inProgress notification-icon"
+                    *ngIf="isAnyRecordInprogress"
+                    placement="top"
+                    container="body"
+                  />
+                </button>
+                <ul
+                  class="dropdown-menu content-menu notification-dropdown"
+                  ngbDropdownMenu
+                  id="notification-dropdown"
+                >
+                  <div class="notification-dropdown-status">
+                    <ul class="nav nav-tabs" role="tablist">
+                      <li class="nav-item">
+                        <a
+                          class="nav-link active"
+                          data-toggle="tab"
+                          href="#statusupdates"
+                          >{{ 'header_statusUpdates' | translate }}
+                          <sup
+                            *ngIf="isAnyRecordFailed"
+                            class="red-notification"
+                          ></sup>
+                          <sup
+                            *ngIf="isAnyRecordCompleted"
+                            class="completed-notification"
+                          ></sup>
+                        </a>
+                      </li>
+                      <!-- <li class="nav-item">
+                                        <a class="nav-link disabled" data-toggle="tab" href="#activities">Activities</a>
+                                      </li> -->
+                    </ul>
+                    <div class="tab-content">
+                      <div id="statusupdates" class="tab-pane active">
+                        <div class="statusDocker">
+                          <div class="statusDockerBody">
+                            <perfect-scrollbar
+                              class="perfect-scroll-modal-body docker"
                             >
                               <div
-                                class="row ml-0 mr-0 col-12 row-content"
-                                *ngFor="
-                                  let task of dockersList;
-                                  let index = index
-                                "
-                                [class.docUnRead]="
-                                  checkRecordInDocs('unread', task)
-                                "
+                                class="docker-list"
+                                *ngIf="!statusDockerLoading"
                               >
-                                <div class="col-9 pl-0 task_content">
-                                  <!-- made changes on 24/02 as per new api contract in response we no longer get the name,its changed to title added updated code on 221 line*/ -->
-                                  <!-- <div class="heading text-truncate"
-                                                                    [class.external_link]="(task.jobType === 'web' || task.jobType === 'faq' || task.jobType === 'STRUCTURED_DATA_INGESTION' || task.jobType === 'file' || task.jobType === 'FINDLY_FAQS_IMPORT')"
-                                                                    (click)="(task.jobType === 'web' || task.jobType === 'faq' || task.jobType === 'STRUCTURED_DATA_INGESTION' || task.jobType === 'file' || task.jobType === 'FINDLY_FAQS_IMPORT') && navigateTo(task)"
-                                                                    [title]="task.name">{{task.name}}</div> -->
-                                  <div
-                                    class="heading text-truncate"
-                                    [class.external_link]="
-                                      task.jobType === 'web' ||
-                                      task.jobType === 'faq' ||
-                                      task.jobType ===
-                                        'STRUCTURED_DATA_INGESTION' ||
-                                      task.jobType === 'file' ||
-                                      task.jobType === 'FINDLY_FAQS_IMPORT'
-                                    "
-                                    (click)="
-                                      (task.jobType === 'web' ||
+                                <div
+                                  class="row ml-0 mr-0 col-12 row-content"
+                                  *ngFor="
+                                    let task of dockersList;
+                                    let index = index
+                                  "
+                                  [class.docUnRead]="
+                                    checkRecordInDocs('unread', task)
+                                  "
+                                >
+                                  <div class="col-9 pl-0 task_content">
+                                    <!-- made changes on 24/02 as per new api contract in response we no longer get the name,its changed to title added updated code on 221 line*/ -->
+                                    <!-- <div class="heading text-truncate"
+                                                                  [class.external_link]="(task.jobType === 'web' || task.jobType === 'faq' || task.jobType === 'STRUCTURED_DATA_INGESTION' || task.jobType === 'file' || task.jobType === 'FINDLY_FAQS_IMPORT')"
+                                                                  (click)="(task.jobType === 'web' || task.jobType === 'faq' || task.jobType === 'STRUCTURED_DATA_INGESTION' || task.jobType === 'file' || task.jobType === 'FINDLY_FAQS_IMPORT') && navigateTo(task)"
+                                                                  [title]="task.name">{{task.name}}</div> -->
+                                    <div
+                                      class="heading text-truncate"
+                                      [class.external_link]="
+                                        task.jobType === 'web' ||
                                         task.jobType === 'faq' ||
                                         task.jobType ===
                                           'STRUCTURED_DATA_INGESTION' ||
                                         task.jobType === 'file' ||
-                                        task.jobType ===
-                                          'FINDLY_FAQS_IMPORT') &&
-                                        navigateTo(task)
-                                    "
-                                    [title]="task.name"
-                                  >
-                                    {{ task.title }}
+                                        task.jobType === 'FINDLY_FAQS_IMPORT'
+                                      "
+                                      (click)="
+                                        (task.jobType === 'web' ||
+                                          task.jobType === 'faq' ||
+                                          task.jobType ===
+                                            'STRUCTURED_DATA_INGESTION' ||
+                                          task.jobType === 'file' ||
+                                          task.jobType ===
+                                            'FINDLY_FAQS_IMPORT') &&
+                                          navigateTo(task)
+                                      "
+                                      [title]="task.name"
+                                    >
+                                      {{ task.title }}
+                                    </div>
+                                    <div
+                                      class="desc"
+                                      *ngIf="getStatusView(task.status)"
+                                    >
+                                      {{ task.status | titlecase }}
+                                      <span
+                                        class="tooltip-data"
+                                        ngbTooltip="{{ task.createdOn }}"
+                                        tooltipClass="date-tooltip"
+                                        placement="right-center"
+                                        [container]="'body'"
+                                        ><img
+                                          ngSrc="
+                                        assets/icons/docker/clock.svg
+                                      "
+                                          width="13"
+                                          height="13"
+                                      /></span>
+                                    </div>
+                                    <div
+                                      class="desc"
+                                      *ngIf="!getStatusView(task.status)"
+                                    >
+                                      {{ getStatusView(task.status, 'other') }}
+                                      <span
+                                        class="tooltip-data"
+                                        ngbTooltip="{{ task.createdOn }}"
+                                        tooltipClass="date-tooltip"
+                                        placement="right-center"
+                                        [container]="'body'"
+                                        ><img
+                                          ngSrc="
+                                        assets/icons/docker/clock.svg
+                                      "
+                                          width="13"
+                                          height="13"
+                                      /></span>
+                                    </div>
                                   </div>
                                   <div
-                                    class="desc"
-                                    *ngIf="getStatusView(task.status)"
+                                    class="col-3 d-flex p-0 align-items-center justify-content-end"
                                   >
-                                    {{ task.status | titlecase }}
-                                    <span
-                                      class="tooltip-data"
-                                      ngbTooltip="{{ task.createdOn }}"
-                                      tooltipClass="date-tooltip"
-                                      placement="right-center"
-                                      [container]="'body'"
-                                      ><img
-                                        ngSrc="
-                                          assets/icons/docker/clock.svg
+                                    <div class="img-block">
+                                      <img
+                                        ngSrc="assets/icons/docker/info.svg"
+                                        width="16"
+                                        height="16"
+                                        *ngIf="
+                                          task.status === 'FAILURE' ||
+                                          task.status === 'failure' ||
+                                          task.status === 'FAILED' ||
+                                          task.status === 'failed'
                                         "
-                                        width="13"
-                                        height="13"
-                                    /></span>
-                                  </div>
-                                  <div
-                                    class="desc"
-                                    *ngIf="!getStatusView(task.status)"
-                                  >
-                                    {{ getStatusView(task.status, 'other') }}
-                                    <span
-                                      class="tooltip-data"
-                                      ngbTooltip="{{ task.createdOn }}"
-                                      tooltipClass="date-tooltip"
-                                      placement="right-center"
-                                      [container]="'body'"
-                                      ><img
-                                        ngSrc="
-                                          assets/icons/docker/clock.svg
+                                        [ngbTooltip]="task?.message"
+                                        placement="top-center"
+                                        [container]="'body'"
+                                        tooltipClass="dashboard-custom-tooltips"
+                                      />
+
+                                      <img
+                                        src="assets/icons/docker/info.svg"
+                                        width="16"
+                                        height="16"
+                                        *ngIf="
+                                          task.jobType === 'TRAINING' &&
+                                          task.status === 'HALTED'
                                         "
-                                        width="13"
-                                        height="13"
-                                    /></span>
+                                        [ngbTooltip]="task?.message"
+                                        placement="top-center"
+                                        [container]="'body'"
+                                        tooltipClass="dashboard-custom-tooltips"
+                                      />
+
+                                      <img
+                                        ngSrc="assets/icons/docker/return.svg"
+                                        width="16"
+                                        height="16"
+                                        *ngIf="
+                                          task.jobType === '!TRAINING' &&
+                                          (task.status === 'HALTED' ||
+                                            task.status === 'halted')
+                                        "
+                                        (click)="recrawl(task)"
+                                      />
+
+                                      <img
+                                        ngSrc="assets/icons/docker/check.svg"
+                                        width="14"
+                                        height="14"
+                                        *ngIf="
+                                          task.status === 'SUCCESS' ||
+                                          task.status === 'success'
+                                        "
+                                      />
+                                    </div>
+                                    <div class="status-blcok">
+                                      <img
+                                        ngSrc="assets/icons/ringLoading.svg"
+                                        width="16"
+                                        height="16"
+                                        class="inProgress"
+                                        *ngIf="
+                                          task.status === 'IN_PROGRESS' ||
+                                          task.status === 'INPROGRESS' ||
+                                          task.status === 'running' ||
+                                          task.status === 'validation' ||
+                                          task.status === 'QUEUED' ||
+                                          task.status === 'CONFIGURED'
+                                        "
+                                        placement="top"
+                                        container="body"
+                                      />
+                                      <img
+                                        [ngSrc]="
+                                          'assets/icons/docker/close.svg'
+                                        "
+                                        width="10"
+                                        height="10"
+                                        (click)="removeRecord(task, index)"
+                                        *ngIf="
+                                          task.status !== 'IN_PROGRESS' &&
+                                          task.status !== 'INPROGRESS' &&
+                                          task.status !== 'running' &&
+                                          task.status !== 'validation' &&
+                                          task.status !== 'QUEUED'
+                                        "
+                                      />
+                                    </div>
                                   </div>
                                 </div>
                                 <div
-                                  class="col-3 d-flex p-0 align-items-center justify-content-end"
+                                  *ngIf="!dockersList.length"
+                                  class="recordsEmpty"
                                 >
-                                  <div class="img-block">
-                                    <img
-                                      ngSrc="assets/icons/docker/info.svg"
-                                      width="16"
-                                      height="16"
-                                      *ngIf="
-                                        task.status === 'FAILURE' ||
-                                        task.status === 'failure' ||
-                                        task.status === 'FAILED' ||
-                                        task.status === 'failed'
-                                      "
-                                      [ngbTooltip]="task?.message"
-                                      placement="top-center"
-                                      [container]="'body'"
-                                      tooltipClass="dashboard-custom-tooltips"
-                                    />
-
-                                    <img
-                                      src="assets/icons/docker/info.svg"
-                                      width="16"
-                                      height="16"
-                                      *ngIf="
-                                        task.jobType === 'TRAINING' &&
-                                        task.status === 'HALTED'
-                                      "
-                                      [ngbTooltip]="task?.message"
-                                      placement="top-center"
-                                      [container]="'body'"
-                                      tooltipClass="dashboard-custom-tooltips"
-                                    />
-
-                                    <img
-                                      ngSrc="assets/icons/docker/return.svg"
-                                      width="16"
-                                      height="16"
-                                      *ngIf="
-                                        task.jobType === '!TRAINING' &&
-                                        (task.status === 'HALTED' ||
-                                          task.status === 'halted')
-                                      "
-                                      (click)="recrawl(task)"
-                                    />
-
-                                    <img
-                                      ngSrc="assets/icons/docker/check.svg"
-                                      width="14"
-                                      height="14"
-                                      *ngIf="
-                                        task.status === 'SUCCESS' ||
-                                        task.status === 'success'
-                                      "
-                                    />
-                                  </div>
-                                  <div class="status-blcok">
-                                    <img
-                                      ngSrc="assets/icons/ringLoading.svg"
-                                      width="16"
-                                      height="16"
-                                      class="inProgress"
-                                      *ngIf="
-                                        task.status === 'IN_PROGRESS' ||
-                                        task.status === 'INPROGRESS' ||
-                                        task.status === 'running' ||
-                                        task.status === 'validation' ||
-                                        task.status === 'QUEUED' ||
-                                        task.status === 'CONFIGURED'
-                                      "
-                                      placement="top"
-                                      container="body"
-                                    />
-                                    <img
-                                      [ngSrc]="'assets/icons/docker/close.svg'"
-                                      width="10"
-                                      height="10"
-                                      (click)="removeRecord(task, index)"
-                                      *ngIf="
-                                        task.status !== 'IN_PROGRESS' &&
-                                        task.status !== 'INPROGRESS' &&
-                                        task.status !== 'running' &&
-                                        task.status !== 'validation' &&
-                                        task.status !== 'QUEUED'
-                                      "
-                                    />
-                                  </div>
+                                  {{ 'header_emptyStatusRecords' | translate }}
                                 </div>
                               </div>
                               <div
-                                *ngIf="!dockersList.length"
-                                class="recordsEmpty"
+                                class="statusDockerLoadingSpinner row m-0"
+                                *ngIf="statusDockerLoading"
                               >
-                                {{ 'header_emptyStatusRecords' | translate }}
+                                <mat-spinner
+                                  diameter="18"
+                                  strokeWidth="2"
+                                ></mat-spinner>
+                                <span class="please-wait-message ml-3">{{
+                                  'please_wait' | translate
+                                }}</span>
                               </div>
-                            </div>
+                            </perfect-scrollbar>
                             <div
-                              class="statusDockerLoadingSpinner row m-0"
-                              *ngIf="statusDockerLoading"
+                              class="clear_icon text-right"
+                              [class.disabled]="
+                                disableClearAll || !dockersList.length
+                              "
+                              (click)="clearAllRecords()"
                             >
-                              <mat-spinner
-                                diameter="18"
-                                strokeWidth="2"
-                              ></mat-spinner>
-                              <span class="please-wait-message ml-3">{{
-                                'please_wait' | translate
-                              }}</span>
+                              {{ 'clear_all' | translate }}
                             </div>
-                          </perfect-scrollbar>
-                          <div
-                            class="clear_icon text-right"
-                            [class.disabled]="
-                              disableClearAll || !dockersList.length
-                            "
-                            (click)="clearAllRecords()"
-                          >
-                            {{ 'clear_all' | translate }}
                           </div>
                         </div>
                       </div>
-                    </div>
-                    <div id="activities" class="tab-pane fade">
-                      <h3>{{ 'header_activities' | translate }}</h3>
+                      <div id="activities" class="tab-pane fade">
+                        <h3>{{ 'header_activities' | translate }}</h3>
+                      </div>
                     </div>
                   </div>
-                </div>
-              </ul>
+                </ul>
+              </div>
             </div>
-          </div>
-        </li>
+          </li>
 
-        <li
-          class="nav-item help-icon {{ isRouteDisabled && 'disable_btn' }}"
-          [container]="'body'"
-          ngbTooltip="{{ 'header_help' | translate }}"
-          tooltipClass="train-icon-tooltip"
-          (click)="openUserMetaTagsSlider()"
-          [ngClass]="{
-            'd-none':
-              router.url === '/apps' ||
-              router.url === '/' ||
-              router.url === '/**'
-          }"
-        >
-          <i class="si-help"></i>
-        </li>
+          <li
+            class="nav-item help-icon {{ isRouteDisabled && 'disable_btn' }}"
+            [container]="'body'"
+            ngbTooltip="{{ 'header_help' | translate }}"
+            tooltipClass="train-icon-tooltip"
+            (click)="openUserMetaTagsSlider()"
+            [ngClass]="{
+              'd-none':
+                router.url === '/apps' ||
+                router.url === '/' ||
+                router.url === '/**'
+            }"
+          >
+            <i class="si-help"></i>
+          </li>
+        </ng-container>
+
+        <ng-container *ngSwitchCase="intersectionStatus.Pending">
+          <li class="nav-item workspace-data">Loading...</li>
+        </ng-container>
 
         <li class="nav-item workspace-data">
           <div class="kr-sg-dropdowns workspace-dropdwon" ngbDropdown>
