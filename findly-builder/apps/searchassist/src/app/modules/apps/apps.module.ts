@@ -10,6 +10,7 @@ import { FormsModule } from '@angular/forms';
 import { EmptyScreenModule } from '../empty-screen/empty-screen.module';
 import { SharedPipesModule } from '@kore.apps/helpers/filters/shared-pipes.module';
 import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
+import { IntersectionObserverDirectiveModule } from '@kore.libs/shared/src';
 // import {
 //   EntityDataService,
 //   EntityDefinitionService,
@@ -47,6 +48,7 @@ import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
     EmptyScreenModule,
     NgOptimizedImage,
     NgbTooltipModule,
+    IntersectionObserverDirectiveModule,
   ],
   // providers: [AppsDataService],
 })

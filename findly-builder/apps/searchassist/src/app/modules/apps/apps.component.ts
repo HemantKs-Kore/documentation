@@ -20,6 +20,7 @@ import { resetAppIds, setAppId } from '@kore.apps/store/app.actions';
 import { AppsService } from './services/apps.service';
 import { combineLatest, Subscription } from 'rxjs';
 import { LazyLoadService, TranslationService } from '@kore.libs/shared/src';
+import { IntersectionStatus } from '@kore.libs/shared/src/lib/directives/intersection-observer/from-intersection-observer';
 declare const $: any;
 
 @Component({
@@ -29,6 +30,8 @@ declare const $: any;
   styleUrls: ['./apps.component.scss'],
 })
 export class AppsComponent implements OnInit, AfterViewInit, OnDestroy {
+  visibilityStatus: { [key: string]: IntersectionStatus } = {};
+  intersectionStatus = IntersectionStatus;
   sub: Subscription;
   scriptsLoaded = false;
   authInfo: any;
@@ -875,5 +878,9 @@ export class AppsComponent implements OnInit, AfterViewInit, OnDestroy {
         ? `FREE TRAIL: ${days} Days Remaining`
         : `${item?.planName?.toUpperCase()} PLAN: Renews in ${days} Days`;
     return text;
+  }
+
+  onVisibilityChanged(index: string, status: IntersectionStatus) {
+    this.visibilityStatus[index] = status;
   }
 }
