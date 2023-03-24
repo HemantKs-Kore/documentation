@@ -21,6 +21,7 @@ export function appInitializer() {
         const redirectUrl = marketURL();
         if (redirectUrl) {
           location.href = redirectUrl;
+          reject(null);
         }
         reject('Not Authenticated');
       }
