@@ -22,7 +22,7 @@ export function appInitializer() {
         if (redirectUrl) {
           location.href = redirectUrl;
         }
-        reject(null);
+        reject('Not Authenticated');
       }
 
       resolve(isAuthenticated);

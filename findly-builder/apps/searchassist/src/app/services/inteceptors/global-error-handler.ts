@@ -23,14 +23,14 @@ export class GlobalErrorHandler extends ErrorHandler {
       //stackTrace = errorService.getServerErrorStackTrace(error);
     } else {
       // Client Error
-      message = error && errorService.getClientErrorMessage(error);
+      message = errorService.getClientErrorMessage(error);
     }
 
     // Always log errors
     // logger.logError(message, stackTrace);
 
     // Let's not supress console error as it helps dev a lot
-    if (error && !message.includes('retrieving PDF')) {
+    if (!message.includes('retrieving PDF')) {
       // Notify Error
       notifier.notify(message, 'error');
       super.handleError(error);
