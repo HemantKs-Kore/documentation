@@ -9,6 +9,7 @@ import { ParentBridgeService } from '@kore.apps/services/parent-bridge.service';
 import { NotificationService } from '@kore.apps/services/notification.service';
 import { ServiceInvokerService } from '@kore.apps/services/service-invoker.service';
 import { TranslateService } from '@ngx-translate/core';
+import { IntersectionStatus } from '@kore.libs/shared/src/lib/directives/intersection-observer/from-intersection-observer';
 declare const $: any;
 
 @Component({
@@ -22,6 +23,8 @@ export class OnboardingComponent implements OnInit {
   @Output() openSDK = new EventEmitter();
   @Input() currentRouteData: any;
   @Input() displyStatusBar: any;
+  visibilityStatus: { [key: string]: IntersectionStatus } = {};
+  intersectionStatus = IntersectionStatus;
   tourConfigData: any = [];
   onBoardingModalPopRef: any;
   element: any;
@@ -1160,5 +1163,9 @@ export class OnboardingComponent implements OnInit {
     if (url.length > 0) {
       window.open(url, '_blank');
     }
+  }
+
+  onVisibilityChanged(index: string, status: IntersectionStatus) {
+    this.visibilityStatus[index] = status;
   }
 }
