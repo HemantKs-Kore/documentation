@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, isDevMode } from '@angular/core';
 import { environment } from '../../environments/environment';
 @Injectable({
   providedIn: 'root',
@@ -14,7 +14,7 @@ export class EndPointsService {
 
   constructor() {
     if (environment.production) {
-      this.SERVER_URL = location.port
+      this.SERVER_URL = isDevMode()
         ? environment.API_SERVER_URL
         : window.location.protocol + '//' + window.location.host;
       this.API_SERVER_URL = this.SERVER_URL + this.API_URL_PREFIX; //+ this.API_VERSION_PREFIX;
@@ -610,13 +610,17 @@ export class EndPointsService {
       method: 'post',
     };
     this.serviceList['put.indexPipeline'] = {
-      endpoint: this.API_SERVER_URL + '/findly/:searchIndexID/indexPipeline/:indexPipelineId',
-      method: 'put'
-    }
+      endpoint:
+        this.API_SERVER_URL +
+        '/findly/:searchIndexID/indexPipeline/:indexPipelineId',
+      method: 'put',
+    };
     this.serviceList['put.indexPipelineSnippetDelete'] = {
-      endpoint: this.API_SERVER_URL + '/findly/:searchIndexID/indexPipeline/:indexPipelineId?deleteSnippetExtractionStage=:deleteSnippetExtractionStage',
-      method: 'put'
-    }
+      endpoint:
+        this.API_SERVER_URL +
+        '/findly/:searchIndexID/indexPipeline/:indexPipelineId?deleteSnippetExtractionStage=:deleteSnippetExtractionStage',
+      method: 'put',
+    };
     this.serviceList['post.reindex'] = {
       endpoint:
         this.API_SERVER_URL +
@@ -1499,9 +1503,7 @@ export class EndPointsService {
       method: 'post',
     };
     this.serviceList['post.buyOverage'] = {
-      endpoint:
-        this.API_SERVER_URL +
-        '/findly/streams/:streamId/overage',
+      endpoint: this.API_SERVER_URL + '/findly/streams/:streamId/overage',
       method: 'post',
     };
     this.serviceList['put.cancelSubscribtion'] = {
