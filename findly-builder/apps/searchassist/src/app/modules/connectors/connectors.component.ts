@@ -312,11 +312,11 @@ export class ConnectorsComponent implements OnInit {
       if (this.selectAddContent === 'instructions') {
         this.navigatePage();
       } else if (this.selectAddContent === 'configurtion') {
-        // if (this.validationForConnetor()) {
         if (this.validationConnector()) {
           if (this.isEditable || this.connectorId !== '') {
             this.updateConnector();
           } else {
+            this.isloadingBtn = true;
             this.createConnector();
           }
         }
@@ -345,50 +345,6 @@ export class ConnectorsComponent implements OnInit {
         : 'instructions';
   }
 
-  //create connector validation
-  validationForConnetor() {
-    if (
-      this.configurationObj.name &&
-      this.configurationObj.clientId &&
-      this.configurationObj.clientId
-    ) {
-      if (
-        ['confluenceServer', 'confluenceCloud'].includes(
-          this.selectedConnector.type
-        )
-      ) {
-        if (
-          this.configurationObj.hostUrl &&
-          this.configurationObj.hostDomainName
-        ) {
-          return true;
-        }
-      } else if (['serviceNow'].includes(this.selectedConnector.type)) {
-        if (
-          this.configurationObj.hostUrl &&
-          this.configurationObj.name &&
-          this.configurationObj.password
-        ) {
-          return true;
-        }
-      } else if (['zendesk'].includes(this.selectedConnector.type)) {
-        if (this.configurationObj.hostUrl) {
-          return true;
-        }
-      } else if (['sharepointOnline'].includes(this.selectedConnector.type)) {
-        if (this.configurationObj.tenantId) {
-          return true;
-        }
-      }
-      else if (['googleDrive'].includes(this.selectedConnector.type)) {
-        return true
-      }
-    } else {
-      this.notificationService.notify('Enter the Required Fields', 'error');
-      return false;
-    }
-  }
-
   //validation for connectors object
   validationConnector() {
     const array = [], configArray = [];
@@ -396,39 +352,25 @@ export class ConnectorsComponent implements OnInit {
       if (item?.connectors?.includes(this.selectedConnector.type)) array.push(item?.value);
     }
     for (const arr of array) {
-      if (this.configurationObj[arr].length > 0) configArray.push(true);
+      const value = this.configurationObj[arr];
+      if (value.length > 0) {
+        if (this.appSelectionService?.validateInputTags(value)) {
+          configArray.push(true);
+        } else {
+          return;
+        }
+      }
     }
     if (array.length !== configArray.length) this.notificationService.notify('Enter the Required Fields', 'error');
     return (array.length === configArray.length) ? true : false;
   }
 
   //save connectors create api
-  createConnector() {
+  async createConnector() {
     const quaryparms: any = {
       sidx: this.searchIndexId,
     };
-    const payload: any = {
-      name: this.configurationObj.name,
-      type: this.selectedConnector?.type,
-      authDetails: {
-        clientId: this.configurationObj.clientId,
-        clientSecret: this.configurationObj.clientSecret,
-      },
-      configuration: {
-        hostUrl: this.configurationObj.hostUrl,
-        hostDomainName: this.configurationObj.hostDomainName,
-      },
-    };
-    if (this.selectedConnector.type === 'serviceNow') {
-      payload.authDetails.username = this.configurationObj.username;
-      payload.authDetails.password = this.configurationObj.password;
-    }
-    if (this.selectedConnector.type === 'sharepointOnline') {
-      payload.authDetails.tenantId = this.configurationObj.tenantId;
-    }
-    if (['zendesk', 'sharepointOnline', 'googleDrive'].includes(this.selectedConnector.type)) {
-      delete payload.configuration.hostDomainName;
-    }
+    const payload = await this.generateConnectorPayload();
     this.service.invoke('post.connector', quaryparms, payload).subscribe(
       (res) => {
         if (res) {
@@ -440,6 +382,28 @@ export class ConnectorsComponent implements OnInit {
         this.errorToaster(errRes, 'Failed to get Connectors');
       }
     );
+  }
+
+  //generate payload for create / update  connectors
+  async generateConnectorPayload() {
+    const payload: any = {
+      name: this.configurationObj.name,
+      type: this.selectedConnector?.type,
+      authDetails: {
+        clientId: this.configurationObj.clientId,
+        clientSecret: this.configurationObj.clientSecret,
+        username: this.configurationObj.username,
+        password: this.configurationObj.password,
+        tenantId: this.configurationObj.tenantId
+      },
+      configuration: {
+        hostUrl: this.configurationObj.hostUrl,
+        hostDomainName: this.configurationObj.hostDomainName,
+      },
+    };
+    await Object.keys(payload?.authDetails).forEach((item) => ["", null, undefined].includes(payload?.authDetails[item]) && delete payload?.authDetails[item]);
+    await Object.keys(payload?.configuration).forEach((item) => ["", null, undefined].includes(payload?.configuration[item]) && delete payload?.configuration[item]);
+    return payload;
   }
 
   //authorize created connector
@@ -534,37 +498,14 @@ export class ConnectorsComponent implements OnInit {
   }
 
   //update connector method
-  updateConnector(data?, checked?, dialog?) {
+  async updateConnector(dialog?) {
     this.isloadingBtn = true;
-    const Obj = data ? data : this.configurationObj;
     const quaryparms: any = {
       sidx: this.searchIndexId,
       fcon: this.connectorId,
     };
-    const payload: any = {
-      name: Obj?.name,
-      authDetails: {
-        clientId: Obj?.clientId,
-        clientSecret: Obj?.clientSecret,
-      },
-      configuration: {
-        hostUrl: Obj?.hostUrl,
-        hostDomainName: Obj?.hostDomainName,
-      },
-    };
-    if (this.selectedConnector.type === 'serviceNow') {
-      payload.authDetails.username = this.configurationObj.username;
-      payload.authDetails.password = this.configurationObj.password;
-    }
-    if (this.selectedConnector.type === 'sharepointOnline') {
-      payload.authDetails.tenantId = this.configurationObj.tenantId;
-    }
-    if (['zendesk', 'sharepointOnline', 'googleDrive'].includes(this.selectedConnector.type)) {
-      delete payload.configuration.hostDomainName
-    }
-    if (['zendesk', 'sharepointOnline', 'googleDrive'].includes(this.selectedConnector.type)) {
-      delete payload.configuration.hostDomainName;
-    }
+    const payload = await this.generateConnectorPayload();
+    delete payload?.type;
     this.service.invoke('put.connector', quaryparms, payload).subscribe(
       (res) => {
         if (res) {
@@ -660,12 +601,7 @@ export class ConnectorsComponent implements OnInit {
 
   //mouse over /out to call this method
   syncMouseOver(type) {
-    if (this.isSyncLoading && type === 'over') {
-      this.isSyncLoadingMouseOver = true;
-    }
-    if (type === 'out') {
-      this.isSyncLoadingMouseOver = false;
-    }
+    this.isSyncLoadingMouseOver = (this.isSyncLoading && type === 'over') ? true : false;
   }
 
   //stop synchronize content for connectors
@@ -724,15 +660,4 @@ export class ConnectorsComponent implements OnInit {
   openUserMetaTagsSlider() {
     this.appSelectionService.topicGuideShow.next(undefined);
   }
-}
-
-class connectorsConfigObj {
-  name: '';
-  clientId: '';
-  clientSecret: '';
-  hostUrl: '';
-  hostDomainName: '';
-  username: '';
-  password: '';
-  tenantId: '';
 }
