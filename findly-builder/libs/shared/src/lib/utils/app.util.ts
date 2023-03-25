@@ -1,7 +1,7 @@
+import { isDevMode } from '@angular/core';
+
 function marketURL() {
-  return location.hostname !== 'localhost'
-    ? window.location.protocol + '//' + window.location.host + '/accounts'
-    : null;
+  return window.location.protocol + '//' + window.location.host + '/accounts';
 }
 
 // export function getLoginRedirectURL() {
@@ -17,13 +17,13 @@ export function appInitializer() {
     return new Promise((resolve, reject) => {
       const isAuthenticated = localStorage['jStorage'];
       if (!isAuthenticated) {
-        // redirect to the login page
-        const redirectUrl = marketURL();
-        if (redirectUrl) {
-          location.href = redirectUrl;
+        if (isDevMode()) {
+          reject('Not Authenticated');
+        } else {
+          // redirect to the login page
+          location.href = marketURL();
           reject(null);
         }
-        reject('Not Authenticated');
       }
 
       resolve(isAuthenticated);
