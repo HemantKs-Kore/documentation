@@ -149,7 +149,7 @@ export class SummaryComponent implements OnInit, OnDestroy {
     public appSelectionService: AppSelectionService,
     private store: Store,
     private storeService: StoreService
-  ) { }
+  ) {}
 
   async ngOnInit() {
     this.initAppIds();
@@ -377,14 +377,14 @@ export class SummaryComponent implements OnInit, OnDestroy {
           this.indices = res.indices[0];
           this.show_indices =
             this.indices.botActions.tasks > 0 ||
-              this.indices?.connectors?.sources > 0 ||
-              this.indices.files > 0 ||
-              this.indices.structuredDataCount > 0 ||
-              this.indices.web.domains > 0 ||
-              this.indices.web.numOfDocs > 0 ||
-              this.indices.faqs.in_review > 0 ||
-              this.indices.faqs.draft > 0 ||
-              this.indices.faqs.approved > 0
+            this.indices?.connectors?.sources > 0 ||
+            this.indices.files > 0 ||
+            this.indices.structuredDataCount > 0 ||
+            this.indices.web.domains > 0 ||
+            this.indices.web.numOfDocs > 0 ||
+            this.indices.faqs.in_review > 0 ||
+            this.indices.faqs.draft > 0 ||
+            this.indices.faqs.approved > 0
               ? true
               : false;
           if (status == undefined) {

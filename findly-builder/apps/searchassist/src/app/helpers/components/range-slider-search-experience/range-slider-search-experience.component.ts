@@ -7,6 +7,7 @@ import {
   Output,
   EventEmitter,
 } from '@angular/core';
+import { LazyLoadService } from '@kore.libs/shared/src';
 declare const $: any;
 @Component({
   selector: 'app-range-slider-search-experience',
@@ -22,7 +23,13 @@ export class RangeSliderSearchExperienceComponent
   @Output() valueEvent = new EventEmitter();
   sliderUpdatedVal: number;
   sliderRet: any;
-  constructor() {}
+  constructor(private lazyLoadService: LazyLoadService) {
+    this.lazyLoadStyles();
+  }
+
+  lazyLoadStyles() {
+    this.lazyLoadService.loadStyle('vendor.min.css');
+  }
 
   ngAfterViewInit() {
     this.sliderRet = this.registerSlider(

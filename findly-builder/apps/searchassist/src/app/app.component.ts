@@ -163,13 +163,7 @@ export class AppComponent implements OnInit, OnDestroy {
     }
   }
 
-  ngOnInit() {
-    this.lazyLoadStyles();
-  }
-
-  lazyLoadStyles() {
-    this.lazyLoadService.loadStyle('vendor.min.css');
-  }
+  ngOnInit() {}
 
   onRouteEvents() {
     const routerEventSub = this.router.events.subscribe((event: any) => {
