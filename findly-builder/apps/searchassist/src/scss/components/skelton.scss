@@ -1,0 +1,26 @@
+.sa-center {
+  display: grid;
+}
+
+.sa-line,
+.sa-block {
+  background: #eee;
+  background: linear-gradient(110deg, #ececec 8%, #f5f5f5 18%, #ececec 33%);
+  border-radius: 2px;
+  background-size: 200% 100%;
+  animation: 1.5s shine linear infinite;
+}
+
+.sa-line {
+  height: 15px;
+}
+
+.sa-block {
+  height: 90px;
+}
+
+@keyframes shine {
+  to {
+    background-position-x: -200%;
+  }
+}
