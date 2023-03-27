@@ -1,9 +1,11 @@
 {
+  "$schema": "../../node_modules/@angular/service-worker/config/schema.json",
   "index": "/index.html",
   "assetGroups": [
     {
       "name": "app",
       "installMode": "prefetch",
+      "updateMode": "prefetch",
       "resources": {
         "files": [
           "/favicon.ico",
@@ -17,7 +19,7 @@
     {
       "name": "assets",
       "installMode": "lazy",
-      "updateMode": "lazy",
+      "updateMode": "prefetch",
       "resources": {
         "files": [
           "/assets/**",
@@ -25,21 +27,5 @@
         ]
       }
     }
-  ],
-  "dataGroups": [
-    {
-      "name": "api",
-      "urls": [
-        "/searchassistapi/findly/versionInfo",
-        "/searchassistapi/findly/apps"
-      ],
-      "cacheConfig": {
-        "strategy": "performance",
-        "timeout": "10s",
-        "maxAge": "1d",
-        "maxSize": 100
-      }
-    }
-  ],
-  "navigationUrls": ["/**", "!/**/*.*", "!/**/*__*", "!/**/*__*/**"]
+  ]
 }
