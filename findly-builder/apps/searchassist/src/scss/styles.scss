@@ -3765,18 +3765,18 @@ app-slider-component {
       padding: 0 4px;
     }
     .overages-bar {
-      border-left: 4px solid #FF784B;
-      margin-right: 5px
+      border-left: 4px solid #ff784b;
+      margin-right: 5px;
     }
     .queries-bar {
-      border-left: 4px solid #7027E5;
+      border-left: 4px solid #7027e5;
       margin-right: 5px;
     }
     .info-text {
       font-weight: 400;
       font-size: 10px;
       line-height: 12px;
-      color: #5D6066;
+      color: #5d6066;
       padding: 0 4px;
     }
     .title {
@@ -3833,4 +3833,10 @@ button:disabled:hover {
 app-pdf-annotation {
   display: block;
   overflow: hidden;
+}
+
+.is-loading {
+  pointer-events: none;
+  cursor: not-allowed;
+  opacity: 0.6;
 }

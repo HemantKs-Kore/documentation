@@ -75,7 +75,11 @@
                       >{{ 'sa_search' | translate }}</span
                     >
                   </div>
-                  <div class="add_feild" (click)="openCreateApp()">
+                  <div
+                    class="add_feild"
+                    (click)="openCreateApp()"
+                    [class.is-loading]="(loader$ | async).show"
+                  >
                     <i class="si-add-plus mr-2"></i
                     >{{ 'home_add_application' | translate }}
                   </div>

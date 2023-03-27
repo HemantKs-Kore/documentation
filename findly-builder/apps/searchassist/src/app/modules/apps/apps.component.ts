@@ -18,9 +18,11 @@ import { MixpanelServiceService } from '@kore.apps/services/mixpanel-service.ser
 import { Store } from '@ngrx/store';
 import { resetAppIds, setAppId } from '@kore.apps/store/app.actions';
 import { AppsService } from './services/apps.service';
-import { combineLatest, Subscription } from 'rxjs';
+import { combineLatest, Observable, Subscription } from 'rxjs';
 import { LazyLoadService, TranslationService } from '@kore.libs/shared/src';
 import { IntersectionStatus } from '@kore.libs/shared/src/lib/directives/intersection-observer/from-intersection-observer';
+import { LoaderService } from '@kore.apps/shared/loader/loader.service';
+import { LoaderState } from '@kore.apps/shared/loader/loader.interface';
 declare const $: any;
 
 @Component({
@@ -101,6 +103,7 @@ export class AppsComponent implements OnInit, AfterViewInit, OnDestroy {
   order = false;
   filteredApps = [];
   app_type: string;
+  loader$: Observable<LoaderState>;
   @ViewChild('createAppPop') createAppPop: KRModalComponent;
   @ViewChild('createBoardingJourney') createBoardingJourney: KRModalComponent;
   @ViewChild('confirmatiomAppPop') confirmatiomAppPop: KRModalComponent;
@@ -118,10 +121,12 @@ export class AppsComponent implements OnInit, AfterViewInit, OnDestroy {
     public mixpanel: MixpanelServiceService,
     private store: Store,
     private lazyLoadService: LazyLoadService,
-    private appsService: AppsService
+    private appsService: AppsService,
+    private loaderService: LoaderService
   ) {
     this.authInfo = localstore.getAuthInfo();
     this.userId = this.authService.getUserId();
+    this.loader$ = this.loaderService.loaderState;
   }
 
   ngOnInit() {
