@@ -156,7 +156,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   updateHeaderMainMenuSubscription: Subscription;
   topicGuideShowSubscription: Subscription;
   currentSubsciptionData: Subscription;
-  accountIdRef = '';
+  // accountIdRef = '';
   @Output() showMenu = new EventEmitter();
   @Output() settingMenu = new EventEmitter();
   @Output() showSourceMenu = new EventEmitter();
@@ -391,7 +391,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
   ngOnInit() {
     this.initAppIds();
-    this.getUserInfo();
+    // this.getUserInfo();
     this.checkroute();
     this.getAllApps();
     this.initControlList();
@@ -2227,14 +2227,14 @@ export class HeaderComponent implements OnInit, OnDestroy {
     );
   }
 
-  getUserInfo() {
-    const quaryparms: any = {
-      id: this.authService.getUserId(),
-    };
-    this.service.invoke('get.userinfo', quaryparms).subscribe((res) => {
-      this.accountIdRef = res[0]?.accountId;
-    });
-  }
+  // getUserInfo() {
+  //   const quaryparms: any = {
+  //     id: this.authService.getUserId(),
+  //   };
+  //   this.service.invoke('get.userinfo', quaryparms).subscribe((res) => {
+  //     this.accountIdRef = res[0]?.accountId;
+  //   });
+  // }
   hideparentTooltip(event) {
     event.stopImmediatePropagation();
     event.preventDefault();
