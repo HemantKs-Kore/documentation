@@ -80,20 +80,26 @@ export class AppComponent implements OnInit, OnDestroy {
     //   });
   }
 
+  refreshSwCache() {
+    this.document.location.reload();
+  }
+
   handleServiceWorker() {
     // checks if update available
     const swSub = this.swUpdate.versionUpdates
       .pipe(
         filter((evt): evt is VersionReadyEvent => evt.type === 'VERSION_READY')
       )
-      .subscribe((evt) => {
-        // if (promptUser(evt)) {
-        // Reload the page to update to the latest version.
-        this.document.location.reload();
-        // }
+      .subscribe(() => {
+        this.refreshSwCache();
       });
 
+    const unrecoverableSub = this.swUpdate.unrecoverable.subscribe(() => {
+      this.refreshSwCache();
+    });
+
     this.sub?.add(swSub);
+    this.sub?.add(unrecoverableSub);
   }
 
   confirmation(event, currentRoute) {
