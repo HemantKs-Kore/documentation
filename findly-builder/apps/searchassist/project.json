@@ -125,7 +125,10 @@
             }
           ],
           "outputHashing": "all",
-          "vendorChunk": true
+          "vendorChunk": true,
+          "optimization": {
+            "styles": false
+          }
         },
         "development": {
           "buildOptimizer": false,
