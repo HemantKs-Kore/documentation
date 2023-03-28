@@ -1206,13 +1206,15 @@
                 (blur)="inputChanged('enterName')"
                 (change)="inputChanged('enterName')"
               />
-              <img
+
+              <i class="si-warning"></i>
+              <!-- <img
                 id="infoWarning"
                 ngSrc="assets/icons/warning_escalation.svg"
                 style="display: none"
                 height="12"
                 width="14"
-              />
+              /> -->
             </div>
             <div class="kr-sg-input-text">
               <div class="label-text">{{ 'home_description' | translate }}</div>
@@ -1364,12 +1366,8 @@
             (!confirmApp && submitted) || (confirmApp !== 'DELETE' && submitted)
           "
         >
-          <img
-            style="padding-right: 4px; height: 12px"
-            ngSrc="assets/icons/warning_escalation.svg"
-            width="12"
-            height="14"
-          />{{ 'home_please_type_delete' | translate }}
+          <i class="si-warning mr-1"></i
+          >{{ 'home_please_type_delete' | translate }}
         </div>
       </div>
       <div class="info-desc">
