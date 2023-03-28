@@ -29,7 +29,11 @@
           "apps/searchassist/src/manifest.webmanifest"
         ],
         "styles": [
-          "apps/searchassist/src/scss/styles.scss",
+          {
+            "input": "apps/searchassist/src/scss/styles.scss",
+            "bundleName": "styles.min",
+            "inject": false
+          },
           {
             "input": "scss/themes/dark.scss",
             "bundleName": "dark-theme",
