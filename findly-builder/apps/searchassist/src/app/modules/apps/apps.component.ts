@@ -216,6 +216,7 @@ export class AppsComponent implements OnInit, AfterViewInit, OnDestroy {
       $('#serachInputBox').focus();
     }, 100);
     // this.buildCarousel();
+    this.mixpanel.init();
   }
 
   loadScripts() {
