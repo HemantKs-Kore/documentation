@@ -6,12 +6,8 @@
       "installMode": "prefetch",
       "updateMode": "prefetch",
       "resources": {
-        "files": [
-          "/favicon.ico",
-          "/index.html",
-          "/manifest.webmanifest",
-          "/*.css"
-        ]
+        "files": ["/favicon.ico", "/index.html", "/manifest.webmanifest"],
+        "versionedFiles": ["/*.bundle.css", "/*.bundle.js", "/*.chunk.js"]
       }
     },
     {
