@@ -27,6 +27,7 @@ export class AuthService {
     public mixpanel: MixpanelServiceService
   ) {
     this.authInfo = localstore.getAuthInfo();
+    this.mixpanel.init();
     if (environment && environment.USE_SESSION_STORE) {
       this.storageType = 'sessionStorage';
     }
